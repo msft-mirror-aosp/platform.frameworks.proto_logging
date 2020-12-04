@@ -2791,4 +2791,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     TRANSCODE_SETTINGS = 1855;
+
+    // OPEN: Settings > Security & screen lock -> Encryption & credentials > Certificate management app
+    // CATEGORY: SETTINGS
+    // OS: S
+    CREDENTIAL_MANAGEMENT_APP = 1856;
 }
