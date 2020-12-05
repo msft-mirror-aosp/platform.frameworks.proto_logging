@@ -625,6 +625,7 @@ message Atom {
         DataCallSession data_call_session = 10089 [(module) = "telephony"];
         CellularServiceState cellular_service_state = 10090 [(module) = "telephony"];
         CellularDataServiceSwitch cellular_data_service_switch = 10091 [(module) = "telephony"];
+        SystemMemory system_memory = 10092 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -8738,6 +8739,34 @@ message ProcessSystemIonHeapSize {
     optional int32 max_size_in_kilobytes = 5;
 }
 
+/*
+ * Logs system-wide (primarily kernel) memory stats. Primarily sourced from
+ * /proc/meminfo
+ *
+ * Pulled from StatsCompanionService.
+ */
+message SystemMemory {
+    // /proc/meminfo SUnreclaim
+    optional int32 unreclaimable_slab_kb = 1;
+
+    // /proc/meminfo VmallocUsed
+    optional int32 vmalloc_used_kb = 2;
+
+    // /proc/meminfo PageTables
+    optional int32 page_tables_kb = 3;
+
+    // /proc/meminfo KernelStack
+    optional int32 kernel_stack_kb = 4;
+
+    // Total unreclaimable ion
+    optional int32 total_ion_kb = 5;
+
+    // Measures for the amount of memory we could not account for.
+    // Essentially points to kernel allocations (as all userspace allocs are
+    // already tracked).
+    optional int32 unaccounted_kb = 6;
+}
+
 /**
  * Push network stack events.
  *
@@ -12172,7 +12201,8 @@ message HdmiCecMessageReported {
  */
 message AutoRotateReported {
     enum Orientation {
-        UNKNOWN = 1;
+        UNKNOWN = 0;
+        DEPRECATED = 1;
         ROTATION_0 = 2;
         ROTATION_90 = 3;
         ROTATION_180 = 4;
