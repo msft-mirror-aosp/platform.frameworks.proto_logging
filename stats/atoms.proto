@@ -5369,6 +5369,7 @@ message UIActionLatencyReported {
         ACTION_TURN_ON_SCREEN = 6;
         ACTION_ROTATE_SCREEN = 7;
         ACTION_FACE_WAKE_AND_UNLOCK = 8;
+        ACTION_START_RECENTS_ANIMATION = 9;
     }
 
     optional ActionType action = 1;
@@ -5623,8 +5624,8 @@ message CpuTimePerUid {
  * Pulls Cpu Time Per Uid per frequency.
  * Note that uids are transformed to reduce the number of uploaded entries. Shared GIDs are
  * combined under single uid LAST_SHARED_APPLICATION_GID. Individual isolated uids are excluded
- * because they are recycled and removed from the underlying data source. Uids for apps are
- * normalized to their app id.
+ * because they are recycled and removed from the underlying data source. All uids are normalized
+ * to their base uids.
  */
 message CpuTimePerUidFreq {
     optional int32 uid = 1 [(is_uid) = true];
