@@ -8225,6 +8225,10 @@ message MediametricsCodecReported {
     optional int64 media_apex_version = 4;
 
     optional android.stats.mediametrics.CodecData codec_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer.
+    // This field is the same as that in MediametricsPlaybackReported for the same playback.
+    optional string playback_id = 6;
 }
 
 /**
