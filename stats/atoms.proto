@@ -521,7 +521,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10095
+    // Next: 10096
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -629,6 +629,7 @@ message Atom {
         SystemMemory system_memory = 10092 [(module) = "framework"];
         ImsRegistrationTermination ims_registration_termination = 10093 [(module) = "telephony"];
         ImsRegistrationStats ims_registration_stats = 10094 [(module) = "telephony"];
+        CpuTimePerClusterFreq cpu_time_per_cluster_freq = 10095 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5612,6 +5613,17 @@ message OnDevicePowerMeasurement {
 message CpuTimePerFreq {
     optional uint32 cluster = 1;
     optional uint32 freq_index = 2;
+    optional uint64 time_millis = 3;
+}
+
+/**
+ * Pulls Cpu time per cluster per frequency.
+ * This is tracked by the time_in_state eBPF program.
+ */
+message CpuTimePerClusterFreq {
+    optional uint32 cluster = 1;
+    optional uint32 freq_khz = 2;
+    // Time spent at this frequency excluding sleep since tracking started.
     optional uint64 time_millis = 3;
 }
 
