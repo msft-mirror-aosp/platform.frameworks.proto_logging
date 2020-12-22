@@ -521,7 +521,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10096
+    // Next: 10097
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -630,6 +630,7 @@ message Atom {
         ImsRegistrationTermination ims_registration_termination = 10093 [(module) = "telephony"];
         ImsRegistrationStats ims_registration_stats = 10094 [(module) = "telephony"];
         CpuTimePerClusterFreq cpu_time_per_cluster_freq = 10095 [(module) = "framework"];
+        CpuCyclesPerUidCluster cpu_cycles_per_uid_cluster = 10096 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5635,6 +5636,24 @@ message CpuTimePerUid {
     optional int32 uid = 1 [(is_uid) = true];
     optional uint64 user_time_micros = 2;
     optional uint64 sys_time_micros = 3;
+}
+
+/**
+ * Pulls Cpu Cycles Per Uid Per Cluster.
+ * Note that uids are transformed to reduce the number of uploaded entries. Shared GIDs are
+ * combined under single uid LAST_SHARED_APPLICATION_GID. Individual isolated uids are excluded
+ * because they are recycled and removed from the underlying data source. All uids are normalized
+ * to their base uids.
+ */
+message CpuCyclesPerUidCluster {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 cluster = 2;
+    // Megacycles, i.e. millions of cycles.
+    optional int64 mcycles = 3;
+    // Time excluding sleep since tracking started.
+    optional int64 time_millis = 4;
+    // Power estimate: time * average power for frequency / 1000.
+    optional int64 power_profile_estimate = 5;
 }
 
 /**
