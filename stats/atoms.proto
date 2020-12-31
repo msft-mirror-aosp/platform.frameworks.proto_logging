@@ -11341,7 +11341,7 @@ message DataCallSession {
     optional bool is_esim = 3;
 
     // Data profile of this call (for what purpose this call was made)
-    optional android.telephony.DataProfileEnum profile = 4;
+    optional android.telephony.DataProfileEnum profile = 4 [deprecated = true];
 
     // APN type bitmask of the APN used:
     // @ApnType in frameworks/base/telephony/java/android/telephony/Annotation.java.
