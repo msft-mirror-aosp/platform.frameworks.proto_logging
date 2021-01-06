@@ -515,6 +515,7 @@ message Atom {
         TifTuneStateChanged tif_tune_changed = 327 [(module) = "framework"];
         AutoRotateReported auto_rotate_reported = 328 [(module) = "framework"];
         PerfettoTrigger perfetto_trigger = 329 [(module) = "perfetto"];
+        TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -716,6 +717,33 @@ message ThermalThrottlingStateChanged {
     optional State state = 2;
 
     optional float temperature = 3;
+}
+
+/**
+ * Track transcoding service usage
+ * Logged from:
+ *   packages/providers/MediaProvider/src/com/android/providers/media/TranscodeHelper.java
+ * Next Tag: 6
+ */
+message TranscodingData {
+    enum AccessType {
+        HEVC_WRITE = 1;
+        READ_DIRECT = 2;
+        READ_CACHE = 3;
+        READ_TRANSCODE = 4;
+    }
+
+    enum Result {
+        SUCCESS = 0;
+        FAIL = 1;
+        UNDEFINED = 2;
+    }
+
+    optional string requestor_package = 1;
+    optional AccessType access_type = 2;
+    optional int64 file_size_bytes = 3;
+    optional Result transcode_result = 4;
+    optional int64 transcode_duration_millis = 5;
 }
 
 /**
