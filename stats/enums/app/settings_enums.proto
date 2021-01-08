@@ -2801,4 +2801,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     RESET_EUICC = 1857;
+
+    // OPEN: Settings > Accessibility -> Text and display
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_TEXT_AND_DISPLAY = 1858;
 }
