@@ -2806,4 +2806,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     ACCESSIBILITY_TEXT_AND_DISPLAY = 1858;
+
+    // OPEN: Settings > Emergency settings
+    // CATEGORY: SETTINGS
+    // OS: S
+   EMERGENCY_SETTINGS = 1859;
 }
