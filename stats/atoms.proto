@@ -8545,7 +8545,7 @@ message MediametricsDrmManagerReported {
 }
 
 /**
- * State of a dangerous permission requested by a package
+ * State of a all permission requested by a all package
  * Pulled from: StatsCompanionService
 */
 message DangerousPermissionState {
@@ -8563,6 +8563,9 @@ message DangerousPermissionState {
 
     // Permission flags as per android.content.pm.PermissionFlags
     optional int32 permission_flags = 5;
+
+    // Permission protection flags as per android.content.pm.PermissionInfo.ProtectionFlags
+    optional int32 protection_flags = 6;
 }
 
 /**
@@ -10434,7 +10437,7 @@ message VmsClientStats {
 }
 
 /**
- * State of a dangerous permission requested by a package - sampled
+ * State of a all permission requested by a package - sampled
  * Pulled from: StatsCompanionService.java with data obtained from PackageManager API
 */
 message DangerousPermissionStateSampled {
@@ -10449,6 +10452,9 @@ message DangerousPermissionStateSampled {
 
     // Permission flags as per android.content.pm.PermissionFlags
     optional int32 permission_flags = 4;
+
+    // Permission protection flags as per android.content.pm.PermissionInfo.ProtectionFlags
+    optional int32 protection_flags = 5;
 }
 
 /**
