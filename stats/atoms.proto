@@ -8817,8 +8817,8 @@ message ProcessSystemIonHeapSize {
 }
 
 /*
- * Logs system-wide (primarily kernel) memory stats. Primarily sourced from
- * /proc/meminfo
+ * Logs system-wide (primarily kernel) memory stats. Sourced from
+ * /proc/meminfo unless explicitly stated otherwise.
  *
  * Pulled from StatsCompanionService.
  */
@@ -8835,13 +8835,20 @@ message SystemMemory {
     // /proc/meminfo KernelStack
     optional int32 kernel_stack_kb = 4;
 
-    // Total unreclaimable ion
+    // Total unreclaimable ion.
+    // Reported from os.Debug.getIonHeapsSizeKb (R+)
     optional int32 total_ion_kb = 5;
 
     // Measures for the amount of memory we could not account for.
     // Essentially points to kernel allocations (as all userspace allocs are
     // already tracked).
+    // Device-specific.
     optional int32 unaccounted_kb = 6;
+
+    // GPU kernel driver allocations.
+    // Can overlap with ion memory.
+    // Reported from os.Debug.getGpuTotalUsageKb (S+)
+    optional int32 gpu_total_usage_kb = 7;
 }
 
 /**

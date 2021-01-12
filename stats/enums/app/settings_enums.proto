@@ -2811,4 +2811,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
    EMERGENCY_SETTINGS = 1859;
+
+    // OPEN: Settings -> Apps -> APP -> Extra App Info
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_EXTRA_APP_INFO = 1860;
 }
