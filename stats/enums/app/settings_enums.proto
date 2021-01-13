@@ -2816,4 +2816,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SETTINGS_EXTRA_APP_INFO = 1860;
+
+    // OPEN: Settings > Accessibility -> Tap assistance
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_TAP_ASSISTANCE = 1861;
 }

@@ -516,6 +516,7 @@ message Atom {
         AutoRotateReported auto_rotate_reported = 328 [(module) = "framework"];
         PerfettoTrigger perfetto_trigger = 329 [(module) = "perfetto"];
         TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
+        ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -533,7 +534,6 @@ message Atom {
         BluetoothBytesTransfer bluetooth_bytes_transfer = 10006 [(module) = "framework"];
         KernelWakelock kernel_wakelock = 10004 [(module) = "framework"];
         SubsystemSleepState subsystem_sleep_state = 10005 [(module) = "statsdtest"];
-        CpuTimePerFreq cpu_time_per_freq = 10008 [(module) = "framework"];
         CpuTimePerUid cpu_time_per_uid = 10009 [(module) = "framework", (module) = "statsdtest"];
         CpuTimePerUidFreq cpu_time_per_uid_freq =
                 10010 [(module) = "framework", (module) = "statsd"];
@@ -638,7 +638,7 @@ message Atom {
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
-    reserved 10036;
+    reserved 10008, 10036;
 }
 
 /**
@@ -5630,19 +5630,6 @@ message OnDevicePowerMeasurement {
 
     // Accumulated energy used via the rail since device boot in uWs.
     optional uint64 energy_microwatt_secs = 4;
-}
-
-/**
- * Pulls Cpu time per frequency.
- * Pulls the time the cpu spend on the frequency index. Frequency index
- * starts from highest to lowest. The value should be monotonically
- * increasing since boot. However, if there is a cpu
- * hotplug event, the value would be reset as well.
- */
-message CpuTimePerFreq {
-    optional uint32 cluster = 1;
-    optional uint32 freq_index = 2;
-    optional uint64 time_millis = 3;
 }
 
 /**
@@ -12644,6 +12631,7 @@ message TextClassifierApiUsageReported {
     }
     optional ResultType result_type = 2;
     optional int64 latency_millis = 3;
+    optional string session_id = 4;
 }
 
 /**
@@ -13015,4 +13003,69 @@ message WifiPnoScanReported {
     }
 
     optional State state = 1;
+}
+
+/**
+ * Logs when the entitlement configuration of an IMS service is queried/updated.
+ *
+ * Logged from: ImsServiceEntitlement app
+ */
+message ImsServiceEntitlementUpdated {
+    // The purpose of entitlement query/update
+    enum Purpose {
+        UNKNOWN_PURPOSE = 0;
+
+        // Initial service activation in foreground
+        ACTIVATION = 1;
+
+        // Updating service configuration in foreground
+        UPDATE = 2;
+
+        // Background polling for querying service entitlement
+        POLLING = 3;
+    }
+
+    // The IMS services
+    enum ServiceType {
+        UNKNOWN_SERVICE = 0;
+        VOWIFI = 1;
+        VOLTE = 2;
+        SMSOIP = 3;
+    }
+
+    // The result of activation
+    enum AppResult {
+        UNKNOWN_RESULT = 0;
+        ENABLED = 1;
+        DISABLED = 2;
+        INCOMPATIBLE = 3;
+        PROVISIONING = 4;
+        SUCCESSFUL = 5;
+        FAILED = 6;
+        CANCELED = 7;
+        TIMEOUT = 8;
+        UNEXPECTED_RESULT = 9;
+    }
+
+    // The Android carrier ID for the carrier providing the IMS service.
+    // This may not be the actual carrier of the device, e.g. a MVNO
+    // may use the IMS service of its MNO.
+    optional int64 carrier_id = 1;
+
+    // The Android carrier ID of the actual carrier.
+    // E.g. a MVNO may use its MNO's IMS service. In this case,
+    // actual_carrier_id is the MVNO and carrier_id is the MNO.
+    optional int64 actual_carrier_id = 2;
+
+    // The purpose of this query/update.
+    optional Purpose purpose = 3;
+
+    // Which IMS service's entitlement status were queried/updated.
+    optional ServiceType service_type = 4;
+
+    // Result of this query/update.
+    optional AppResult app_result = 5;
+
+    // How long (in milliseconds) this query/update took.
+    optional int64 duration_millis = 6;
 }
