@@ -2821,4 +2821,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     ACCESSIBILITY_TAP_ASSISTANCE = 1861;
+
+    // OPEN: Settings > Accessibility -> System controls
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_SYSTEM_CONTROLS = 1862;
 }
