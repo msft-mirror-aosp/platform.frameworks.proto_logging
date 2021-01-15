@@ -11418,6 +11418,11 @@ message DataCallSession {
 
     // Whether the data call is still connected when the atom is collected.
     optional bool ongoing = 18;
+
+    // Band at the end of the data call. Value 0 is used if the band is unknown.
+    // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
+    // on the RAT at the end of the data call.
+    optional int32 band_at_end = 19;
 }
 
 /**
@@ -11445,6 +11450,12 @@ message DataStallRecoveryReported {
 
     // Whether the device is in multi-SIM mode
     optional bool is_multi_sim = 6;
+
+    // Band used when the stall/recovery took place.
+    // Value 0 is used if the band is unknown.
+    // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
+    // on the RAT used at the time.
+    optional int32 band = 7;
 }
 
 /**
