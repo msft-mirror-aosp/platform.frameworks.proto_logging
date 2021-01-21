@@ -2826,4 +2826,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     ACCESSIBILITY_SYSTEM_CONTROLS = 1862;
+
+    // OPEN: Settings > Accessibility -> Audio adjustment
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_AUDIO_ADJUSTMENT = 1863;
 }

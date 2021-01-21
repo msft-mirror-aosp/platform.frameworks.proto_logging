@@ -9461,6 +9461,10 @@ message AppPermissionFragmentActionReported {
         ALLOW_FOREGROUND = 5;
         // Same is Deny button but shown in while in use dialog
         DENY_FOREGROUND = 6;
+        // Switch button set to ON for location accuracy
+        GRANT_FINE_LOCATION = 7;
+        // Switch button set to OFF for location accuracy
+        REVOKE_FINE_LOCATION = 8;
     }
 
     // Button pressed in the dialog
