@@ -518,6 +518,7 @@ message Atom {
         TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
         ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
         ArtDatumReported art_datum_reported = 332 [(module) = "art"];
+        DeviceRotated device_rotated = 333 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -12605,6 +12606,32 @@ message AutoRotateReported {
     optional Orientation recommended_orientation = 3;
     // Time taken to calculate the rotation recommendation.
     optional int64 recommendation_process_duration_millis = 4;
+}
+
+/**
+ * Logs when sensors only autorotate is triggered. This does not necessarily cause the screen to
+ * rotate due to reasons such as autorotate is disabled or the app does not support screen rotation.
+ * Even in those cases, logging will happen because sensor trigger has happened.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/policy/WindowOrientationListener.java
+ */
+
+message DeviceRotated {
+  // Timestamp of the detected device rotation in millis. We log the timestamp
+  // explicitly since data logging will follow the event logging and all these
+  // will be joined with other logs such as rotation button clicked.
+  optional int64 timestamp_millis = 1;
+
+  // Detected orientation
+  enum Orientation {
+    UNKNOWN = 0; // undefined during start up
+    ROTATION_0 = 1; // portrait up
+    ROTATION_90 = 2; // landscape on left
+    ROTATION_180 = 3; // portrait down
+    ROTATION_270 = 4; // landscape on right
+  }
+  optional Orientation proposed_orientation = 2;
 }
 
 /**
