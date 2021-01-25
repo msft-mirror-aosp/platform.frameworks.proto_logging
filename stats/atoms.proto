@@ -516,6 +516,9 @@ message Atom {
         AutoRotateReported auto_rotate_reported = 328 [(module) = "framework"];
         PerfettoTrigger perfetto_trigger = 329 [(module) = "perfetto"];
         TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
+        ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
+        ArtDatumReported art_datum_reported = 332 [(module) = "art"];
+        DeviceRotated device_rotated = 333 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -533,7 +536,6 @@ message Atom {
         BluetoothBytesTransfer bluetooth_bytes_transfer = 10006 [(module) = "framework"];
         KernelWakelock kernel_wakelock = 10004 [(module) = "framework"];
         SubsystemSleepState subsystem_sleep_state = 10005 [(module) = "statsdtest"];
-        CpuTimePerFreq cpu_time_per_freq = 10008 [(module) = "framework"];
         CpuTimePerUid cpu_time_per_uid = 10009 [(module) = "framework", (module) = "statsdtest"];
         CpuTimePerUidFreq cpu_time_per_uid_freq =
                 10010 [(module) = "framework", (module) = "statsd"];
@@ -638,7 +640,7 @@ message Atom {
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
-    reserved 10036;
+    reserved 10008, 10036;
 }
 
 /**
@@ -5370,6 +5372,14 @@ message UIInteractionFrameInfoReported {
         SHADE_NOTIFICATION_ADD = 15;
         SHADE_NOTIFICATION_REMOVE = 16;
         SHADE_APP_LAUNCH = 17;
+        LOCKSCREEN_PASSWORD_APPEAR = 18;
+        LOCKSCREEN_PATTERN_APPEAR = 19;
+        LOCKSCREEN_PIN_APPEAR = 20;
+        LOCKSCREEN_PASSWORD_DISAPPEAR = 21;
+        LOCKSCREEN_PATTERN_DISAPPEAR = 22;
+        LOCKSCREEN_PIN_DISAPPEAR = 23;
+        LOCKSCREEN_TRANSITION_FROM_AOD = 24;
+        LOCKSCREEN_TRANSITION_TO_AOD = 25;
     }
 
     optional InteractionType interaction_type = 1;
@@ -5630,19 +5640,6 @@ message OnDevicePowerMeasurement {
 
     // Accumulated energy used via the rail since device boot in uWs.
     optional uint64 energy_microwatt_secs = 4;
-}
-
-/**
- * Pulls Cpu time per frequency.
- * Pulls the time the cpu spend on the frequency index. Frequency index
- * starts from highest to lowest. The value should be monotonically
- * increasing since boot. However, if there is a cpu
- * hotplug event, the value would be reset as well.
- */
-message CpuTimePerFreq {
-    optional uint32 cluster = 1;
-    optional uint32 freq_index = 2;
-    optional uint64 time_millis = 3;
 }
 
 /**
@@ -8817,8 +8814,8 @@ message ProcessSystemIonHeapSize {
 }
 
 /*
- * Logs system-wide (primarily kernel) memory stats. Primarily sourced from
- * /proc/meminfo
+ * Logs system-wide (primarily kernel) memory stats. Sourced from
+ * /proc/meminfo unless explicitly stated otherwise.
  *
  * Pulled from StatsCompanionService.
  */
@@ -8835,13 +8832,20 @@ message SystemMemory {
     // /proc/meminfo KernelStack
     optional int32 kernel_stack_kb = 4;
 
-    // Total unreclaimable ion
+    // Total unreclaimable ion.
+    // Reported from os.Debug.getIonHeapsSizeKb (R+)
     optional int32 total_ion_kb = 5;
 
     // Measures for the amount of memory we could not account for.
     // Essentially points to kernel allocations (as all userspace allocs are
     // already tracked).
+    // Device-specific.
     optional int32 unaccounted_kb = 6;
+
+    // GPU kernel driver allocations.
+    // Can overlap with ion memory.
+    // Reported from os.Debug.getGpuTotalUsageKb (S+)
+    optional int32 gpu_total_usage_kb = 7;
 }
 
 /**
@@ -9467,6 +9471,10 @@ message AppPermissionFragmentActionReported {
         ALLOW_FOREGROUND = 5;
         // Same is Deny button but shown in while in use dialog
         DENY_FOREGROUND = 6;
+        // Switch button set to ON for location accuracy
+        GRANT_FINE_LOCATION = 7;
+        // Switch button set to OFF for location accuracy
+        REVOKE_FINE_LOCATION = 8;
     }
 
     // Button pressed in the dialog
@@ -11424,6 +11432,11 @@ message DataCallSession {
 
     // Whether the data call is still connected when the atom is collected.
     optional bool ongoing = 18;
+
+    // Band at the end of the data call. Value 0 is used if the band is unknown.
+    // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
+    // on the RAT at the end of the data call.
+    optional int32 band_at_end = 19;
 }
 
 /**
@@ -11451,6 +11464,12 @@ message DataStallRecoveryReported {
 
     // Whether the device is in multi-SIM mode
     optional bool is_multi_sim = 6;
+
+    // Band used when the stall/recovery took place.
+    // Value 0 is used if the band is unknown.
+    // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
+    // on the RAT used at the time.
+    optional int32 band = 7;
 }
 
 /**
@@ -12598,6 +12617,32 @@ message AutoRotateReported {
 }
 
 /**
+ * Logs when sensors only autorotate is triggered. This does not necessarily cause the screen to
+ * rotate due to reasons such as autorotate is disabled or the app does not support screen rotation.
+ * Even in those cases, logging will happen because sensor trigger has happened.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/policy/WindowOrientationListener.java
+ */
+
+message DeviceRotated {
+  // Timestamp of the detected device rotation in millis. We log the timestamp
+  // explicitly since data logging will follow the event logging and all these
+  // will be joined with other logs such as rotation button clicked.
+  optional int64 timestamp_millis = 1;
+
+  // Detected orientation
+  enum Orientation {
+    UNKNOWN = 0; // undefined during start up
+    ROTATION_0 = 1; // portrait up
+    ROTATION_90 = 2; // landscape on left
+    ROTATION_180 = 3; // portrait down
+    ROTATION_270 = 4; // landscape on right
+  }
+  optional Orientation proposed_orientation = 2;
+}
+
+/**
   * Pushes TLS handshake counters from Conscrypt.
   * Pulled from:
   *   external/conscrypt/common/src/main/java/org/conscrypt/ConscryptEngineSocket.java
@@ -12637,6 +12682,7 @@ message TextClassifierApiUsageReported {
     }
     optional ResultType result_type = 2;
     optional int64 latency_millis = 3;
+    optional string session_id = 4;
 }
 
 /**
@@ -13008,4 +13054,146 @@ message WifiPnoScanReported {
     }
 
     optional State state = 1;
+}
+
+/**
+ * Logs when the entitlement configuration of an IMS service is queried/updated.
+ *
+ * Logged from: ImsServiceEntitlement app
+ */
+message ImsServiceEntitlementUpdated {
+    // The purpose of entitlement query/update
+    enum Purpose {
+        UNKNOWN_PURPOSE = 0;
+
+        // Initial service activation in foreground
+        ACTIVATION = 1;
+
+        // Updating service configuration in foreground
+        UPDATE = 2;
+
+        // Background polling for querying service entitlement
+        POLLING = 3;
+    }
+
+    // The IMS services
+    enum ServiceType {
+        UNKNOWN_SERVICE = 0;
+        VOWIFI = 1;
+        VOLTE = 2;
+        SMSOIP = 3;
+    }
+
+    // The result of activation
+    enum AppResult {
+        UNKNOWN_RESULT = 0;
+        ENABLED = 1;
+        DISABLED = 2;
+        INCOMPATIBLE = 3;
+        PROVISIONING = 4;
+        SUCCESSFUL = 5;
+        FAILED = 6;
+        CANCELED = 7;
+        TIMEOUT = 8;
+        UNEXPECTED_RESULT = 9;
+    }
+
+    // The Android carrier ID for the carrier providing the IMS service.
+    // This may not be the actual carrier of the device, e.g. a MVNO
+    // may use the IMS service of its MNO.
+    optional int64 carrier_id = 1;
+
+    // The Android carrier ID of the actual carrier.
+    // E.g. a MVNO may use its MNO's IMS service. In this case,
+    // actual_carrier_id is the MVNO and carrier_id is the MNO.
+    optional int64 actual_carrier_id = 2;
+
+    // The purpose of this query/update.
+    optional Purpose purpose = 3;
+
+    // Which IMS service's entitlement status were queried/updated.
+    optional ServiceType service_type = 4;
+
+    // Result of this query/update.
+    optional AppResult app_result = 5;
+
+    // How long (in milliseconds) this query/update took.
+    optional int64 duration_millis = 6;
+}
+
+// Indicates which compile filter was used for the package being loaded in an ART session.
+enum ArtCompileFilter {
+    ART_COMPILATION_FILTER_ERROR = 1;
+    ART_COMPILATION_FILTER_UNKNOWN = 2;
+    ART_COMPILATION_FILTER_ASSUMED_VERIFIED = 3;
+    ART_COMPILATION_FILTER_EXTRACT = 4;
+    ART_COMPILATION_FILTER_VERIFY = 5;
+    ART_COMPILATION_FILTER_QUICKEN = 6;
+    ART_COMPILATION_FILTER_SPACE_PROFILE = 7;
+    ART_COMPILATION_FILTER_SPACE = 8;
+    ART_COMPILATION_FILTER_SPEED_PROFILE = 9;
+    ART_COMPILATION_FILTER_SPEED = 10;
+    ART_COMPILATION_FILTER_EVERYTHING_PROFILE = 11;
+    ART_COMPILATION_FILTER_EVERYTHING = 12;
+    ART_COMPILATION_FILTER_FAKE_RUN_FROM_APK = 13;
+    ART_COMPILATION_FILTER_FAKE_RUN_FROM_APK_FALLBACK = 14;
+    ART_COMPILATION_FILTER_FAKE_RUN_FROM_VDEX_FALLBACK = 15;
+}
+
+enum ArtCompilationReason {
+    ART_COMPILATION_REASON_ERROR = 1;
+    ART_COMPILATION_REASON_UNKNOWN = 2;
+    ART_COMPILATION_REASON_FIRST_BOOT = 3;
+    ART_COMPILATION_REASON_BOOT = 4;
+    ART_COMPILATION_REASON_INSTALL = 5;
+    ART_COMPILATION_REASON_BG_DEXOPT = 6;
+    ART_COMPILATION_REASON_AB_OTA = 7;
+    ART_COMPILATION_REASON_INACTIVE = 8;
+    ART_COMPILATION_REASON_SHARED = 9;
+    ART_COMPILATION_REASON_INSTALL_WITH_DEX_METADATA = 10;
+}
+
+// Indicates which kind of measurement ART is reporting.
+enum ArtDatumId {
+    ART_DATUM_GC_MUTATOR_PAUSE_TIME = 1;
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_TIME = 2;
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_COUNT = 3;
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_TIME = 4;
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_COUNT = 5;
+    ART_DATUM_JIT_METHOD_COMPILE_TIME = 6;
+    ART_DATUM_AOT_COMPILE_TIME = 7;
+    ART_DATUM_CLASS_VERIFICATION_TIME = 8;
+    ART_DATUM_CLASS_LOADING_TIME = 9;
+}
+
+// Indicates what class of thread the reported values apply to.
+enum ArtThreadType {
+    ART_THREAD_MAIN = 1;
+    ART_THREAD_BACKGROUND = 2;
+}
+
+message ArtDatumReported {
+    // The session ID is used to correlate this report with others from the same ART instance.
+    optional int64 session_id = 1;
+
+    // The UID of the app that ART is running on behalf of.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // What compiler filter the APK or DEX file was compiled with.
+    optional ArtCompileFilter compile_filter = 3;
+
+    // Why the package was compiled the way it was.
+    optional ArtCompilationReason compilation_reason = 4;
+
+    // The number of milliseconds since the ART runtime instance was started.
+    optional int64 timestamp_millis = 5;
+
+    // What kind of thread (UI or background) this metric corresponds to.
+    optional ArtThreadType thread_type = 6;
+
+    // Which counter this is that is being reported.
+    optional ArtDatumId kind = 7;
+
+    // The value of the counter.
+    optional int64 value = 8;
 }

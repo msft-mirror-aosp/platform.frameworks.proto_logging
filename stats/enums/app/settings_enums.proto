@@ -2811,4 +2811,24 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
    EMERGENCY_SETTINGS = 1859;
+
+    // OPEN: Settings -> Apps -> APP -> Extra App Info
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_EXTRA_APP_INFO = 1860;
+
+    // OPEN: Settings > Accessibility -> Tap assistance
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_TAP_ASSISTANCE = 1861;
+
+    // OPEN: Settings > Accessibility -> System controls
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_SYSTEM_CONTROLS = 1862;
+
+    // OPEN: Settings > Accessibility -> Audio adjustment
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_AUDIO_ADJUSTMENT = 1863;
 }
