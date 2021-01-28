@@ -730,6 +730,7 @@ message ThermalThrottlingStateChanged {
 message TranscodingData {
     // Reason that leads to the type of access.
     enum AccessReason {
+        UNKNOWN = 0;
         SYSTEM_DEFAULT = 1; // Default option
         SYSTEM_CONFIG = 2;  // Server-side/on-device config
         APP_MANIFEST = 3;  // media_capabilites.xml
