@@ -535,7 +535,7 @@ message Atom {
                 10003 [(module) = "framework", (truncate_timestamp) = true];
         BluetoothBytesTransfer bluetooth_bytes_transfer = 10006 [(module) = "framework"];
         KernelWakelock kernel_wakelock = 10004 [(module) = "framework"];
-        SubsystemSleepState subsystem_sleep_state = 10005 [(module) = "statsdtest"];
+        SubsystemSleepState subsystem_sleep_state = 10005 [(module) = "framework", (module) = "statsdtest"];
         CpuTimePerUid cpu_time_per_uid = 10009 [(module) = "framework", (module) = "statsdtest"];
         CpuTimePerUidFreq cpu_time_per_uid_freq =
                 10010 [(module) = "framework", (module) = "statsd"];
@@ -566,7 +566,7 @@ message Atom {
         ProcStatsPkgProc proc_stats_pkg_proc = 10034 [(module) = "framework"];
         ProcessCpuTime process_cpu_time = 10035 [(module) = "framework"];
         CpuTimePerThreadFreq cpu_time_per_thread_freq = 10037 [(module) = "framework"];
-        OnDevicePowerMeasurement on_device_power_measurement = 10038;
+        OnDevicePowerMeasurement on_device_power_measurement = 10038 [(module) = "framework"];
         DeviceCalculatedPowerUse device_calculated_power_use = 10039 [(module) = "framework"];
         DeviceCalculatedPowerBlameUid device_calculated_power_blame_uid =
                 10040 [(module) = "framework"];
@@ -5395,6 +5395,11 @@ message UIInteractionFrameInfoReported {
         LOCKSCREEN_PIN_DISAPPEAR = 23;
         LOCKSCREEN_TRANSITION_FROM_AOD = 24;
         LOCKSCREEN_TRANSITION_TO_AOD = 25;
+        LAUNCHER_OPEN_ALL_APPS = 26;
+        LAUNCHER_ALL_APPS_SCROLL = 27;
+        QSB_OPEN_SEARCH = 28;
+        IME_OPEN = 29;
+        QSB_UPDATE_SEARCH = 30;
     }
 
     optional InteractionType interaction_type = 1;
@@ -5612,15 +5617,9 @@ message KernelWakelock {
 }
 
 /**
- * Pulls low power state information. If power.stats HAL is not available, this
- * includes platform and subsystem sleep state information,
- * PowerStatePlatformSleepState, PowerStateVoter or PowerStateSubsystemSleepState
- * as defined in:
- *   hardware/interfaces/power/1.0/types.hal
- *   hardware/interfaces/power/1.1/types.hal
- * If power.stats HAL is available, this includes PowerEntityStateResidencyResult
- * as defined in:
- *   hardware/interfaces/power/stats/1.0/types.hal
+ * Pulls power state information.
+ * Pulled from:
+ *   frameworks/base/services/core/java/com/android/server/powerstats/StatsPullAtomCallbackImpl.java
  */
 message SubsystemSleepState {
     // Subsystem name
@@ -5638,9 +5637,8 @@ message SubsystemSleepState {
 
 /**
  * Pulls on-device power measurement information.
- * Data defined by hardware/interfaces/power/stats/1.0/types.hal.
  * Pulled from:
- *   frameworks/base/cmds/statsd/src/external/PowerStatsPuller.cpp
+ *   frameworks/base/services/core/java/com/android/server/powerstats/StatsPullAtomCallbackImpl.java
  */
 message OnDevicePowerMeasurement {
     // Name of the subsystem (to which the rail belongs).
