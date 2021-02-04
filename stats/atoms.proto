@@ -5397,9 +5397,6 @@ message UIInteractionFrameInfoReported {
         LOCKSCREEN_TRANSITION_TO_AOD = 25;
         LAUNCHER_OPEN_ALL_APPS = 26;
         LAUNCHER_ALL_APPS_SCROLL = 27;
-        QSB_OPEN_SEARCH = 28;
-        IME_OPEN = 29;
-        QSB_UPDATE_SEARCH = 30;
     }
 
     optional InteractionType interaction_type = 1;
