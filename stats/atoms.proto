@@ -520,6 +520,8 @@ message Atom {
         ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
         ArtDatumReported art_datum_reported = 332 [(module) = "art"];
         DeviceRotated device_rotated = 333 [(module) = "framework"];
+        SimSpecificSettingsRestored sim_specific_settings_restored = 334
+            [(module) = "telephony"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -13261,4 +13263,21 @@ message ArtDatumReported {
 
     // The value of the counter.
     optional int64 value = 8;
+}
+
+/**
+ * Logged when a SIM-specific settings restore was attempted.
+ *
+ * Logged from:
+ *    packages/providers/TelephonyProvider/src/com/android/providers/telephony/TelephonyProvider.java
+ */
+message SimSpecificSettingsRestored {
+    optional android.telephony.SimSpecfifcSettingsRestoreResult result = 1;
+
+    // Indicates which restore flow was followed.
+    optional android.telephony.SimSpecificSettingsRestoreCase restored_from_suw = 2;
+
+    // Indicates which criteria was used to match the inserted SIM to backed up
+    // SIM. Only relevant when result is SUCCESS
+    optional android.telephony.SimSpecificSettingsRestoreMatchingCriteria matching_criteria = 3;
 }
