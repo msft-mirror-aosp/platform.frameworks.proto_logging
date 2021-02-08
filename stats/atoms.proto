@@ -11272,4 +11272,5 @@ message TextClassifierApiUsageReported {
     }
     optional ResultType result_type = 2;
     optional int64 latency_millis = 3;
+    optional string session_id = 4;
 }
