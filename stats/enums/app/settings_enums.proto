@@ -799,6 +799,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     SETTINGS_COLUMBUS_GESTURE_TRAINING_FINISHED = 1750;
+
+    // ACTION: Settings > Display > Auto-rotate screen > Enable Face Detection
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_CAMERA_ROTATE_TOGGLE = 1751;
 }
 
 /**
@@ -2846,4 +2851,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     ACCESSIBILITY_TURN_SCREEN_DARKER = 1866;
+
+    // OPEN: Settings > Display > Auto-rotate screen
+    // CATEGORY: SETTINGS
+    // OS: S
+    DISPLAY_AUTO_ROTATE_SETTINGS = 1867;
 }

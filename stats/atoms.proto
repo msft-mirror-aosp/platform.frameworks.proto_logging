@@ -522,6 +522,7 @@ message Atom {
         DeviceRotated device_rotated = 333 [(module) = "framework"];
         SimSpecificSettingsRestored sim_specific_settings_restored = 334
             [(module) = "telephony"];
+        PinStorageEvent pin_storage_event = 336 [(module) = "telephony"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -11586,6 +11587,31 @@ message ImsRegistrationStats {
     optional int32 video_available_seconds = 10;
     optional int32 ut_capable_seconds = 11;
     optional int32 ut_available_seconds = 12;
+}
+
+/*
+ * Logs information related to PIN storage and automatic PIN operations.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/uicc/PinStorage.java
+ */
+message PinStorageEvent {
+    // The type of event.
+    enum Event {
+        UNKNOWN = 0;
+        // The PIN was verified automatically successfully.
+        PIN_VERIFICATION_SUCCESS = 1;
+        // The PIN was verified automatically unsuccessfully.
+        PIN_VERIFICATION_FAILURE = 2;
+        // The PIN was cached, but discarded after reboot.
+        CACHED_PIN_DISCARDED = 3;
+        // The PIN was stored to be used after OTA reboot.
+        PIN_STORED_FOR_VERIFICATION = 4;
+    }
+    optional Event event = 1;
+
+    // Number of PINs stored or discarded.
+    optional int32 number_of_pins = 2;
 }
 
 /**
