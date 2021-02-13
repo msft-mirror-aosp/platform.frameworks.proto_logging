@@ -9447,6 +9447,13 @@ message GrantPermissionsActivityButtonActions {
 
     // id which identifies single session of user interacting with permission controller
     optional int64 session_id = 6;
+
+    // Target SDK of the package
+    optional int32 target_sdk = 7;
+
+    // Selected precision of the location permission - bit flags indicate which
+    // locations were chosen
+    optional int32 selected_precision = 8;
 }
 
 /**
