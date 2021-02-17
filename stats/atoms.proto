@@ -11529,6 +11529,12 @@ message DataStallRecoveryReported {
     // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
     // on the RAT used at the time.
     optional int32 band = 7;
+
+    // Whether the data stall is recovered.
+    optional bool recovered = 8;
+
+    // The elapsed time between start of the data stall and result of current action.
+    optional int32 duration_millis = 9;
 }
 
 /**
