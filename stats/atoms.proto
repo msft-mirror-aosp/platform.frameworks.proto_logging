@@ -8929,6 +8929,16 @@ message SystemMemory {
     // Can overlap with ion memory.
     // Reported from os.Debug.getGpuTotalUsageKb (S+)
     optional int32 gpu_total_usage_kb = 7;
+
+    // GPU kernel driver private allocations.
+    // Does not overlap with ion memory
+    // Computed as total usage - Debug.getGpuDmaBufUsageKb()
+    // Only available on supported kernel versions (5.4+)
+    optional int32 gpu_private_usage_kb = 8;
+
+    // Total DMABUF memory allocations
+    // Reported from os.Debug.getDmabufTotalExportedKb (S+)
+    optional int32 dmabuf_total_exported_kb = 9;
 }
 
 /**
