@@ -523,8 +523,14 @@ message Atom {
         SimSpecificSettingsRestored sim_specific_settings_restored = 334
             [(module) = "telephony"];
         PinStorageEvent pin_storage_event = 336 [(module) = "telephony"];
+        FaceDownReported face_down_reported = 337 [(module) = "framework"];
         BluetoothHALCrashReasonReported bluetooth_hal_crash_reason_reported =
             338 [(module) = "bluetooth"];
+        RebootEscrowPreparationReported reboot_escrow_preparation_reported =
+            339 [(module) = "framework"];
+        RebootEscrowLskfCaptureReported reboot_escrow_lskf_capture_reported =
+            340 [(module) = "framework"];
+        RebootEscrowRebootReported reboot_escrow_reboot_reported = 341 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -746,6 +752,14 @@ message TranscodingData {
         APP_EXTRA = 5;   // ApplicationMediaCapabilities API in open()
     }
 
+    // Causes that leads to the failure of transcode.
+    enum FailureCause {
+        CAUSE_UNKNOWN = 0;
+        TRANSCODING_SERVICE_ERROR = 1;     // Error from transcoding service.
+        TRANSCODING_CLIENT_TIMEOUT = 2;    // Timeout from MediaProvider.
+        TRANSCODING_SESSOION_CANCELED = 3; // MediaProvider cancels the transcode.
+    }
+
     enum AccessType {
         HEVC_WRITE = 1;
         READ_DIRECT = 2;
@@ -769,6 +783,10 @@ message TranscodingData {
     optional int64 file_duration_millis = 6; // The duration of the video file.
     optional int64 file_framerate_fps = 7; // The framerate of the video file.
     optional AccessReason access_reason = 8;
+    optional int64 width = 9;
+    optional int64 height = 10;
+    optional bool hit_anr = 11;
+    optional FailureCause failure_cause = 12;   // This field is valid only when fails.
 }
 
 /**
@@ -9992,6 +10010,76 @@ message UpdateEngineSuccessfulUpdateReported {
 }
 
 /**
+ * Reported when a client requests to prepare for resume on reboot.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/recoverysystem/RecoverySystemService.java
+ */
+message RebootEscrowPreparationReported {
+  enum Result {
+    ROR_NEED_PREPARATION = 0;
+    ROR_SKIP_PREPARATION_AND_NOTIFY = 1;
+    ROR_SKIP_PREPARATION_NOT_NOTIFY = 2;
+  }
+
+  // The uid of the client who requests ror.
+  optional int32 requesting_uid = 1 [(is_uid) = true];
+
+  optional Result result = 2;
+
+  // The number of clients who has requested ror, including the current caller.
+  optional int32 requested_client_count = 3;
+}
+
+/**
+ * Reported when the lock screen knowledge factor is captured, while there are clients of
+ * resume on reboot to notify.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/recoverysystem/RecoverySystemService.java
+ */
+message RebootEscrowLskfCaptureReported {
+  // The uid of the client to notify about the Lskf capture.
+  optional int32 uid_to_notify = 1 [(is_uid) = true];
+
+  // The total number of clients who have requested ror.
+  optional int32 requested_client_count = 2;
+
+  // The duration between RoR request - current LSKF capture event.
+  optional int32 duration_ror_requested_to_lskf_captured_seconds = 3;
+}
+
+/* Reported when a client (e.g. gmscore) requests to reboot with Resume on Reboot.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/recoverysystem/RecoverySystemService.java
+ */
+message RebootEscrowRebootReported {
+  optional int32 error_code = 1;
+
+  // The uid of clients who requested the reboot
+  optional int32 request_uid = 2;
+
+  // All clients that have prepared for RoR before this reboot
+  optional int32 prepared_clients_count = 3;
+
+  // The RoR request count for the client who requests reboot.
+  optional int32 request_count = 4;
+
+  // Whether the reboot request assumes a slot switch on a/b devices.
+  optional bool slot_switch = 5;
+
+  // True if the DeviceConfig shows the device is using server based RoR.
+  optional bool server_based = 6;
+
+  // The duration between last LSKF captured - reboot requests
+  optional int32 duration_lskf_captured_to_reboot_seconds = 7;
+
+  // The count of LSKF captured since preparation
+  optional int32 lskf_captured_counts = 8;
+}
+
+/**
  * Reported when the RebootEscrow HAL has attempted to recover the escrowed
  * key to indicate whether it was successful or not.
  *
@@ -9999,7 +10087,34 @@ message UpdateEngineSuccessfulUpdateReported {
  *   frameworks/base/services/core/java/com/android/server/locksettings/RebootEscrowManager.java
  */
 message RebootEscrowRecoveryReported {
+    // Type of the resume on reboot backend provider.
+    enum ServiceType {
+        UNKNOWN = 0;
+        HAL = 1;
+        SERVER_BASED = 2;
+    }
+
+    // Whether the vbmeta digest of the current slot matches a precomputed value before reboot.
+    enum VbmetaDigestStatus {
+        MATCH_EXPECTED_SLOT = 0;
+        MATCH_FALLBACK_SLOT = 1;
+        MISMATCH = 2;
+    }
+
     optional bool successful = 1;
+    // The error code for escrow data recovery failure
+    optional int32 error_code = 2;
+
+    optional ServiceType type = 3;
+
+    // Number of retries to unwrap the escrow key asynchronously.
+    optional int32 get_escrow_key_retry_count = 4;
+
+    // The duration between storing of reboot escrow key ->
+    // use of reboot escrow key to unlock CE after reboot
+    optional int32 duration_escrow_key_storage_to_unlock_seconds = 5;
+
+    optional VbmetaDigestStatus vbmeta_digest_status = 6;
 }
 
 /**
@@ -11684,6 +11799,40 @@ message PinStorageEvent {
 
     // Number of PINs stored or discarded.
     optional int32 number_of_pins = 2;
+}
+
+/**
+ * Logs flip to screen off events.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/server/power/FaceDownDetector.java
+ */
+message FaceDownReported {
+    enum Response{
+        UNKNOWN = 1;
+        // The phone was flipped before the screen turns off.
+        UNFLIP = 2;
+        // User interacts with the screen after a face down is detected.
+        USER_INTERACTION = 3;
+        // A flip leads to screen turning off. This is the expected outcome.
+        SCREEN_OFF = 4;
+    }
+
+    // Logs the action that occurs from a flip event, whether by user or system
+    // action.
+    optional Response face_down_response = 1;
+
+    // After a flip is detected, how long until a system or user action occurs.
+    optional int64 millis_since_flip = 2;
+
+    // Difference between the flip time and when the timeout would otherwise
+    // occur.
+    optional int64 millis_until_normal_timeout = 3;
+
+    // How quickly the user turns the screen back on after a flip event.
+    // A low value may indicate a false negative. Logged only when Response is
+    // SCREEN_OFF.
+    optional int64 millis_until_next_screen_on = 4;
 }
 
 /**
