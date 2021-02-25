@@ -8497,6 +8497,11 @@ message MediametricsAudiorecordReported {
     optional int64 media_apex_version = 4;
 
     optional android.stats.mediametrics.AudioRecordData audiorecord_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Android S
+    // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
+    // An empty string means no session id is set.
+    optional string log_session_id = 6;
 }
 
 /**
@@ -8527,6 +8532,11 @@ message MediametricsAudiotrackReported {
     optional int64 media_apex_version = 4;
 
     optional android.stats.mediametrics.AudioTrackData audiotrack_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Android S
+    // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
+    // An empty string means no session id is set.
+    optional string log_session_id = 6;
 }
 
 /**
@@ -12457,6 +12467,11 @@ message MediametricsAudioRecordDeviceUsageReported {
     // The audio source for AudioRecord.
     // An enumeration from system/media/audio/include/system/audio-base.h audio_source_t
     optional string source = 12;
+
+    // Android S
+    // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
+    // An empty string means no session id is set.
+    optional string log_session_id = 13;
 }
 
 /**
@@ -12597,6 +12612,11 @@ message MediametricsAudioTrackDeviceUsageReported {
     // Only "static" is supported for R.
     // See lookup<TRACK_TRAITS>() in frameworks/av/services/mediametrics/AudioTypes.cpp
     optional string traits = 19;
+
+    // Android S
+    // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
+    // An empty string means no session id is set.
+    optional string log_session_id = 20;
 }
 
 /**

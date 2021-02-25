@@ -804,6 +804,9 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_CAMERA_ROTATE_TOGGLE = 1751;
+
+    // ACTION: Allow or deny an app to set alarms and reminders
+    ACTION_ALARMS_AND_REMINDERS_TOGGLE = 1752;
 }
 
 /**
@@ -1221,7 +1224,7 @@ enum PageId {
     // OPEN: Settings > Location > Scanning
     // CATEGORY: SETTINGS
     // OS: 6.0
-    LOCATION_SCANNING = 131;
+    LOCATION_SCANNING = 131 [deprecated = true];
 
     // OPEN: Settings > Sound & notification > App notifications
     // CATEGORY: SETTINGS
@@ -2856,4 +2859,14 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     DISPLAY_AUTO_ROTATE_SETTINGS = 1867;
+
+    // OPEN: Settings > Location > Location Services
+    // CATEGORY: SETTINGS
+    // OS: S
+    LOCATION_SERVICES = 1868;
+
+    // OPEN: Settings > Apps > Gear > Special Access > Alarms and Reminders
+    // CATEGORY: SETTINGS
+    // OS: S
+    ALARMS_AND_REMINDERS = 1869;
 }
