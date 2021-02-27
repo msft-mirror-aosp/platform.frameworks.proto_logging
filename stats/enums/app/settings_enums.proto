@@ -2869,4 +2869,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     ALARMS_AND_REMINDERS = 1869;
+
+    // OPEN: Settings > Accessibility -> Accessibility shortcuts -> Accessibility button
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACCESSIBILITY_BUTTON_SETTINGS = 1870;
 }
