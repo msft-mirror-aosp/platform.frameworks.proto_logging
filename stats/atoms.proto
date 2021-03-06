@@ -531,6 +531,7 @@ message Atom {
         RebootEscrowLskfCaptureReported reboot_escrow_lskf_capture_reported =
             340 [(module) = "framework"];
         RebootEscrowRebootReported reboot_escrow_reboot_reported = 341 [(module) = "framework"];
+        MediametricsAAudioStreamReported mediametrics_aaudiostream_reported = 343;
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -5784,6 +5785,9 @@ message CpuCyclesPerThreadGroupCluster {
 
         // All system server threads.
         SYSTEM_SERVER = 2;
+
+        // All surface flinger threads.
+        SURFACE_FLINGER = 3;
     }
     optional ThreadGroup thread_group = 1;
 
@@ -13489,6 +13493,12 @@ enum ArtCompilationReason {
     ART_COMPILATION_REASON_INACTIVE = 8;
     ART_COMPILATION_REASON_SHARED = 9;
     ART_COMPILATION_REASON_INSTALL_WITH_DEX_METADATA = 10;
+    ART_COMPILATION_REASON_POST_BOOT = 11;
+    ART_COMPILATION_REASON_INSTALL_FAST = 12;
+    ART_COMPILATION_REASON_INSTALL_BULK = 13;
+    ART_COMPILATION_REASON_INSTALL_BULK_SECONDARY = 14;
+    ART_COMPILATION_REASON_INSTALL_BULK_DOWNGRADED = 15;
+    ART_COMPILATION_REASON_INSTALL_BULK_SECONDARY_DOWNGRADED = 16;
 }
 
 // Indicates which kind of measurement ART is reporting.
@@ -13524,6 +13534,8 @@ enum ArtDexMetadataType {
     PROFILE = 1;
     VDEX = 2;
     PROFILE_AND_VDEX = 3;
+    NONE_DEX_METADATA = 4;
+    ERROR_DEX_METADATA = 5;
 }
 
 message ArtDatumReported {
@@ -13570,4 +13582,108 @@ message SimSpecificSettingsRestored {
     // Indicates which criteria was used to match the inserted SIM to backed up
     // SIM. Only relevant when result is SUCCESS
     optional android.telephony.SimSpecificSettingsRestoreMatchingCriteria matching_criteria = 3;
+}
+
+/**
+ * Log audio device types that are used for input/output.
+ * Next Tag: 2
+ */
+message AudioDevice {
+    // See audio_devices_t in system/media/audio/include/system/audio-hal-enums.h
+    repeated int32 type = 1;
+}
+
+/**
+ * Track information about AAudio Stream
+ * Logged from
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsAAudioStreamReported {
+    // The caller name of the aaudio stream
+    // See lookup<CALLER_NAME>() in frameworks/av/services/mediametrics/AudioTypes.cpp
+    enum CallerName {
+        CALLER_NAME_UNKNOWN = 0;
+        CALLER_NAME_AAUDIO = 1;
+        CALLER_NAME_JAVA = 2;
+        CALLER_NAME_MEDIA = 3;
+        CALLER_NAME_OPENSLES = 4;
+        CALLER_NAME_RTP = 5;
+        CALLER_NAME_SOUND_POOL = 6;
+        CALLER_NAME_TONE_GENERATOR = 7;
+    }
+    optional CallerName caller_name = 1;
+
+    // The implementation of aaudio.
+    enum CallerPath {
+        CALLER_PATH_UNKNOWN = 0;
+        CALLER_PATH_LEGACY = 1;
+        CALLER_PATH_MMAP = 2;
+    }
+    optional CallerPath path = 2;
+
+    // The direction of the stream.
+    // See aaudio_direction_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
+    enum Direction {
+        // The direction is unknown.
+        DIRECTION_UNKNOWN = -1;
+        // Audio data will travel out of the device.
+        DIRECTION_OUTPUT = 0;
+        // Audio data will travel into the device.
+        DIRECTION_INPUT = 1;
+    }
+    optional Direction direction = 3;
+
+    // The amount read or written in one shot by the Mixer or DSP.
+    optional int32 frames_per_burst = 4;
+    // The number of frames that the buffer is used.
+    optional int32 buffer_size = 5;
+    // The allocated number of frames for the buffer.
+    optional int32 buffer_capacity = 6;
+    // The channel count of the aaudio stream.
+    optional int32 channel_count = 7;
+    // Total frames transferred (written or read)
+    optional int64 total_frames_transferred = 8;
+
+    // The performance mode.
+    // See aaudio_performance_mode_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
+    enum PerformanceMode {
+        // The performance mode is unknown.
+        PERFORMANCE_MODE_UNKNOWN = -1;
+        // No particular performance mode needs. Default.
+        PERFORMANCE_MODE_NONE = 10;
+        // Extending battery life is more important than low latency.
+        PERFORMANCE_MODE_POWER_SAVING = 11;
+        // Reducing latency is more important than battery life.
+        PERFORMANCE_MODE_LOW_LATENCY = 12;
+    }
+    // The performance mode requested by the applications.
+    optional PerformanceMode perf_mode_requested = 9;
+    // The actual performance mode used by aaudio.
+    optional PerformanceMode perf_mode_actual = 10;
+
+    // The mode requested for sharing the device
+    // See aaudio_sharing_mode_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
+    enum SharingMode {
+        // The sharing mode is unknown
+        SHARING_MODE_UNKNOWN = -1;
+        // This will be the only stream using a particular source or sink.
+        SHARING_MODE_EXCLUSIVE = 0;
+        // Multiple application will be mixed by the AAudio server.
+        SHARING_MODE_SHARED = 1;
+    }
+    optional SharingMode sharing = 11;
+
+    // Approximate number of glitches.
+    // Underrun on output stream. Overrun on input stream.
+    optional int32 xrun_count = 12;
+    // Devices that are used by the aaudio stream.
+    optional AudioDevice types = 13 [(log_mode) = MODE_BYTES];
+
+    // Format request by the applications
+    optional int32 format_app = 14;
+    // Format processed by the framework
+    optional int32 format_device = 15;
+
+    // Android S metric log session id, a Base64Url encoded string representing a 128-bit integer.
+    optional string log_session_id = 16;
 }

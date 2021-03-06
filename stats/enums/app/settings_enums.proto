@@ -801,12 +801,64 @@ enum Action {
     SETTINGS_COLUMBUS_GESTURE_TRAINING_FINISHED = 1750;
 
     // ACTION: Settings > Display > Auto-rotate screen > Enable Face Detection
+    //  SUBTYPE: 0 is off, 1 is on
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_CAMERA_ROTATE_TOGGLE = 1751;
 
     // ACTION: Allow or deny an app to set alarms and reminders
     ACTION_ALARMS_AND_REMINDERS_TOGGLE = 1752;
+
+    // ACTION: Settings > Display > Auto-rotate screen > Use Auto-Rotate
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_ROTATE_ROTATE_MASTER_TOGGLE = 1753;
+
+    // ACTION: Settings > Display > Screen timeout > Timeout
+    //  SUBTYPE: new timeout in millis
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_SCREEN_TIMEOUT_CHANGED = 1754;
+
+    // ACTION: Settings > Display > Screen timeout > Screen attention
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_SCREEN_ATTENTION_CHANGED = 1755;
+
+    // ACTION: Settings > System > Gestures > Back tap > Open app
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_COLUMBUS_ACTION_OPEN_APP = 1756;
+
+    // ACTION: Settings > System > Gestures > Back tap > Open app (Gear icon) > Any
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_COLUMBUS_SELECT_APP = 1757;
+
+    // OPEN: Columbus Gesture training action in Settings
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_COLUMBUS_GESTURE_TRAINING_ACTION = 1758;
+
+    // OPEN: Columbus Gesture training app selection in Settings
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_COLUMBUS_GESTURE_TRAINING_APP = 1759;
+
+    // ACTION: Settings > System > Gestures > Back tap > Open app (Gear icon) > Any app (Gear icon) > Any
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_COLUMBUS_SELECT_APP_SHORTCUT = 1760;
+
+    // ACTION: Mobile network settings > Advanced > Allow 2G > Toggle on/off
+    // Note: Can be re-enabled via carrier-initiated update to
+    // CarrierConfigManager.
+    // VALUE: 1 for 2G enabled, 0 for disabled
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_2G_ENABLED = 1761;
 }
 
 /**
@@ -2398,6 +2450,7 @@ enum PageId {
 
     // OPEN: Settings > Display > Adaptive sleep
     // OS: Q
+    // Note: Replaced in Android S+ with SCREEN_TIMEOUT
     SETTINGS_ADAPTIVE_SLEEP = 1628;
 
     // OPEN: Settings > System > Aware
@@ -2874,4 +2927,14 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     ACCESSIBILITY_BUTTON_SETTINGS = 1870;
+
+    // OPEN: Settings > System > Gestures > Back tap > Open app (Gear icon)
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_COLUMBUS_APP_SELECT = 1871;
+
+    // OPEN: Settings > System > Gestures > Back tap > Open app (Gear icon) > Any app (Gear icon)
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_COLUMBUS_APP_SHORTCUT_SELECT = 1872;
 }
