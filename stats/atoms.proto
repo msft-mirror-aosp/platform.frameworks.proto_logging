@@ -11004,10 +11004,10 @@ message TifTuneStateChanged {
     // The id of this TV Input, only unique to a given TV Input Service.
     // This is specifically NOT android.media.tv.TvInputInfo.getId()
     // which is a string that contains the package name of its TvInputService.
-    optional int32 inputId = 5  [(state_field_option).primary_field = true];
+    optional int32 input_id = 5  [(state_field_option).primary_field = true];
     // The HDMI port id
     // Only valid when type == HDMI
-    optional int32 hdmiPort = 6  [(state_field_option).primary_field = true];
+    optional int32 hdmi_port = 6  [(state_field_option).primary_field = true];
 }
 
 /**
