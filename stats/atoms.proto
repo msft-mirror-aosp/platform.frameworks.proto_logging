@@ -532,6 +532,8 @@ message Atom {
             340 [(module) = "framework"];
         RebootEscrowRebootReported reboot_escrow_reboot_reported = 341 [(module) = "framework"];
         MediametricsAAudioStreamReported mediametrics_aaudiostream_reported = 343;
+        MediaTranscodingSessionEnded media_transcoding_session_ended = 344
+            [(module) = "media"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -13686,4 +13688,70 @@ message MediametricsAAudioStreamReported {
 
     // Android S metric log session id, a Base64Url encoded string representing a 128-bit integer.
     optional string log_session_id = 16;
+}
+
+/**
+ * Logs media transcoding session ended events.
+ *
+ * Logged from:
+ *   frameworks/av/media/libmediatranscoding/TranscoderWrapper.cpp
+ */
+message MediaTranscodingSessionEnded {
+
+    enum Reason {
+        UNKNOWN = 0;       // Unused.
+        FINISHED = 1;      // Transcoding session finished successfully.
+        ERROR = 2;         // Transcoding session returned error while running.
+        PAUSED = 3;        // Transcoding session was paused, potentially failed.
+        CANCELLED = 4;     // Transcoding session was cancelled.
+        START_FAILED = 5;  // Transcoding session failed to start.
+        RESUME_FAILED = 6; // Transcoding session failed to resume.
+        CREATE_FAILED = 7; // Transcoder instance failed to crate.
+        CONFIG_SRC_FAILED = 8;    // Configure source failed.
+        CONFIG_DST_FAILED = 9;    // Configure destination failed.
+        CONFIG_TRACK_FAILED = 10; // Configure track failed.
+        OPEN_SRC_FD_FAILED = 11;  // Open source fd failed.
+        OPEN_DST_FD_FAILED = 12;  // Open destination fd failed.
+        NO_TRACKS = 13;  // No tracks in source file.
+    }
+
+    // Reason for logging the atom.
+    optional Reason reason = 1;
+
+    // UID of client connecting to media transcoding service.
+    optional int32 calling_uid = 2 [(is_uid) = true];
+
+    // Transcode session status flag (media_status_t).
+    optional int32 transcode_status = 3;
+
+    // Transcode speed as framerate, if status is success.
+    optional int32 transcode_fps = 4;
+
+    // Source video dimensions.
+    optional int32 src_width = 5;
+    optional int32 src_height = 6;
+
+    // Source video codec information.
+    optional string src_codec_type = 7;
+    optional int32 src_profile = 8;
+    optional int32 src_level = 9;
+
+    // Source video framerate.
+    optional int32 src_fps = 10;
+
+    // Source video duration.
+    optional int32 src_duration_millis = 11;
+
+    // Whether source video is HDR.
+    optional bool src_is_hdr = 12;
+
+    // Destination video dimensions.
+    optional int32 dst_width = 13;
+    optional int32 dst_height = 14;
+
+    // Destination video codec information.
+    optional string dst_codec_type = 15;
+
+    // Whether destination video is HDR.
+    optional bool dst_is_hdr = 16;
 }
