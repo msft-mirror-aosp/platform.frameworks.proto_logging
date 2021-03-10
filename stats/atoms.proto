@@ -10131,6 +10131,9 @@ message RebootEscrowRecoveryReported {
     optional int32 duration_escrow_key_storage_to_unlock_seconds = 5;
 
     optional VbmetaDigestStatus vbmeta_digest_status = 6;
+
+    // The duration between boot complete -> CE unlock
+    optional int32 duration_boot_complete_to_unlock_seconds = 7;
 }
 
 /**
