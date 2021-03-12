@@ -33,3 +33,11 @@ enum ServiceStatus {
   ENABLED = 1;
   DISABLED = 2;
 }
+
+// The magnification mode.
+enum MagnificationMode {
+  MAGNIFICATION_UNKNOWN_MODE = 0;
+  MAGNIFICATION_FULL_SCREEN = 1;
+  MAGNIFICATION_WINDOW = 2;
+  MAGNIFICATION_ALL = 3;
+}
