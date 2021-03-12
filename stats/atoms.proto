@@ -534,6 +534,12 @@ message Atom {
         MediametricsAAudioStreamReported mediametrics_aaudiostream_reported = 343;
         MediaTranscodingSessionEnded media_transcoding_session_ended = 344
             [(module) = "media"];
+        MagnificationUsageReported magnification_usage_reported =
+            345 [(module) = "framework"];
+        MagnificationModeWithImeOnReported magnification_mode_with_ime_on_reported =
+            346 [(module) = "framework"];
+        AppSearchCallStatsReported app_search_call_stats_reported = 347 [(module) = "framework"];
+        AppSearchPutDocumentStatsReported app_search_put_document_stats_reported = 348 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -742,7 +748,7 @@ message ThermalThrottlingStateChanged {
  * Track transcoding service usage
  * Logged from:
  *   packages/providers/MediaProvider/src/com/android/providers/media/TranscodeHelper.java
- * Next Tag: 6
+ * Next Tag: 14
  */
 message TranscodingData {
     // Reason that leads to the type of access.
@@ -790,6 +796,7 @@ message TranscodingData {
     optional int64 height = 10;
     optional bool hit_anr = 11;
     optional FailureCause failure_cause = 12;   // This field is valid only when fails.
+    optional int64 transcoding_service_error_code = 13; // Error code from transcoding service.
 }
 
 /**
@@ -10096,6 +10103,104 @@ message RebootEscrowRebootReported {
 }
 
 /**
+ * Logs stats for AppSearch function calls
+ */
+message AppSearchCallStatsReported {
+    // The sampling ratio for this specific type of stats
+    // For example, sampling_ratio=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_ratio = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_ratio * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch
+    optional int32 database = 4;
+
+    // The status code for the call or internal state.
+    // Needs to be sync with code in google3/third_party/icing/proto/status.proto
+    optional int32 status_code = 5;
+
+    // Overall time used for the end-to-end function call in AppSearch
+    optional int32 total_latency_millis = 6;
+
+    // Type of the function call value is in sync with
+    // frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/external/localstorage/stats/CallStats.java
+    optional int32 call_type = 7;
+
+    // Estimated binder latency (estimated as single-trip time * 2)
+    optional int32 estimated_binder_latency_millis = 8;
+
+    // Number of operations succeeded for batch operations.
+    optional int32 num_operations_succeeded = 9;
+
+    // Number of operations failed for batch operations.
+    optional int32 num_operations_failed = 10;
+}
+
+/**
+ * Logs detailed stats for putting a single document in AppSearch
+ */
+message AppSearchPutDocumentStatsReported {
+    // The sampling ratio for this specific type of stats
+    // For example, sampling_ratio=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_ratio = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_ratio * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch
+    optional int32 database = 4;
+
+    // Needs to be sync with code in google3/third_party/icing/proto/status.proto
+    optional int32 status_code = 5;
+
+    // Overall time used for a put_document
+    optional int32 total_latency_millis = 6;
+
+    // Time used to generate a document proto from a Bundle.
+    optional int32 generate_document_proto_latency_millis = 7;
+
+    // Time used to rewrite types and namespaces in the document.
+    optional int32 rewrite_document_types_latency_millis = 8;
+
+    // Overall time used for the native function call.
+    optional int32 native_latency_millis = 9;
+
+    // Time used to store the document.
+    optional int32 native_document_store_latency_millis = 10;
+
+    // Time used to index the document. It doesn't include the time to
+    // merge indices.
+    optional int32 native_index_latency_millis = 11;
+
+    // Time used to merge the indices.
+    optional int32 native_index_merge_latency_millis = 12;
+
+    // Document size in bytes.
+    optional int32 native_document_size_bytes = 13;
+
+    // Number of tokens added to the index.
+    optional int32 native_num_tokens_indexed = 14;
+
+    // Whether the max number of tokens exceeded.
+    optional bool native_exceeded_max_num_tokens = 15;
+}
+
+/**
  * Reported when the RebootEscrow HAL has attempted to recover the escrowed
  * key to indicate whether it was successful or not.
  *
@@ -13757,4 +13862,32 @@ message MediaTranscodingSessionEnded {
 
     // Whether destination video is HDR.
     optional bool dst_is_hdr = 16;
+}
+
+/**
+ * Logs the magnification activated mode and its duration of the usage
+ * when the magnification is disabled.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ */
+message MagnificationUsageReported {
+    // The definition of the magnification mode.
+    // From frameworks/base/core/proto/android/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.MagnificationMode activated_mode = 1;
+
+    // The duration of this magnification mode activation in milliseconds
+    optional int64 duration_millis = 2;
+}
+
+/**
+ * Logs the magnification activated mode when IME dialog shows on the screen.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ */
+message MagnificationModeWithImeOnReported {
+    // The definition of the magnification mode.
+    // From frameworks/base/core/proto/android/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.MagnificationMode activated_mode = 1;
 }
