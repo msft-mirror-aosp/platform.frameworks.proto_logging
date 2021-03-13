@@ -540,6 +540,7 @@ message Atom {
             346 [(module) = "framework"];
         AppSearchCallStatsReported app_search_call_stats_reported = 347 [(module) = "framework"];
         AppSearchPutDocumentStatsReported app_search_put_document_stats_reported = 348 [(module) = "framework"];
+        DeviceControlChanged device_control_changed = 349 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -657,6 +658,7 @@ message Atom {
         CpuCyclesPerUidCluster cpu_cycles_per_uid_cluster = 10096 [(module) = "framework"];
         DeviceRotatedData device_rotated_data = 10097 [(module) = "framework"];
         CpuCyclesPerThreadGroupCluster cpu_cycles_per_thread_group_cluster = 10098 [(module) = "framework"];
+        MediaDrmActivityInfo media_drm_activity_info = 10099;
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -3743,7 +3745,11 @@ message AppCrashOccurred {
 
     optional android.server.ErrorSource error_source = 8;
 
-    optional bool is_package_loading = 9;
+    optional bool is_incremental = 9;
+
+    optional float loading_progress = 10;
+
+    optional int64 millis_since_oldest_pending_read = 11;
 }
 
 /**
@@ -3806,7 +3812,11 @@ message ANROccurred {
 
     optional string package_name = 8;
 
-    optional bool is_package_loading = 9;
+    optional bool is_incremental = 9;
+
+    optional float loading_progress = 10;
+
+    optional int64 millis_since_oldest_pending_read = 11;
 }
 
 /**
@@ -8576,6 +8586,9 @@ message MediametricsMediadrmReported {
  * Logged from
  *   vendor/widevine/libwvdrmengine/cdm/metrics
  *   frameworks/av/services/mediaanalytics/statsd_drm.cpp
+ *
+ * TODO b/182382094 -remove after migrated mediadrm metrics
+ * reporting to statsd.
  */
 message MediametricsDrmWidevineReported {
     optional int64 timestamp_nanos = 1;
@@ -9475,6 +9488,9 @@ message LocationManagerApiUsageReported {
     // Activity Importance of API caller.
     // Categorized to 3 types that are interesting from location's perspective.
     optional android.stats.location.ActivityImportance activiy_importance = 12;
+
+    // Attribution tag passed to this API.
+    optional string attribution_tag = 13;
 }
 
 /**
@@ -13890,4 +13906,153 @@ message MagnificationModeWithImeOnReported {
     // The definition of the magnification mode.
     // From frameworks/base/core/proto/android/stats/accessibility/accessibility_enums.proto.
     optional android.stats.accessibility.MagnificationMode activated_mode = 1;
+}
+
+/*
+ * Reports a device controls user interaction
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/controls/ControlsMetricsLoggerImpl.kt
+ */
+message DeviceControlChanged {
+    // The event_id
+    optional int32 event_id = 1;
+    // An identifier to tie together multiple logs relating to the same controls session
+    optional int32 instance_id = 2;
+    // The type of device the user has interacted with (android.service.controls.DeviceTypes)
+    optional int32 device_type = 3;
+    // The service app uid.
+    optional int32 uid = 4 [(is_uid) = true];
+    // Is the device locked while the action started
+    optional bool is_locked = 5;
+}
+
+/**
+ * This metric is collected at the end of playback
+ * as a pulled atom.
+ *
+ *   DrmHal::cleanup() {
+ *     // ...
+ *     reportFrameworkMetrics(reportPluginMetrics());
+ *     // ...
+ *   }
+ * This proto should be kept in-sync with
+ * frameworks/av/drm/libmediadrm/protos/metrics.proto.
+ */
+message DrmFrameworkMetrics {
+
+    // Attributes are associated with a recorded value. E.g. A counter may
+    // represent a count of an operation returning a specific error code. The
+    // error code will be an attribute.
+    message Attributes {
+        // Reserved for compatibility with logging proto.
+        reserved 2 to 13;
+
+        // A general purpose error code where 0 means OK.
+        optional int32 error_code = 1;
+
+        // Defined at ::android::hardware::drm::V1_0::KeyStatusType;
+        optional uint32 key_status_type = 14;
+
+        // Defined at ::android::hardware::drm::V1_0::EventType;
+        optional uint32 event_type = 15;
+    }
+
+    // The Counter message is used to store a count value with an associated
+    // Attribute.
+    message Counter {
+        optional uint64 count = 1;
+        // Represents the attributes associated with this counter instance.
+        optional Attributes attributes = 2;
+    }
+
+    // The DistributionMetric is meant to capture the moments of a normally
+    // distributed (or approximately normal) value.
+    message DistributionMetric {
+        optional float min = 1;
+        optional float max = 2;
+        optional float mean = 3;
+        optional double variance = 4;
+        optional uint64 operation_count = 5;
+
+        // Represents the attributes associated with this distribution metric
+        // instance.
+        optional Attributes attributes = 6;
+    }
+
+    message SessionLifetime {
+        // Start time of the session in milliseconds since epoch.
+        optional uint64 start_time_millis = 1;
+        // End time of the session in milliseconds since epoch.
+        optional uint64 end_time_millis = 2;
+    }
+
+    // The count of open session operations. Each instance has a specific error
+    // code associated with it.
+    repeated Counter open_session_counter = 1;
+
+    // The count of close session operations. Each instance has a specific error
+    // code associated with it.
+    repeated Counter close_session_counter = 2;
+
+    // Count and execution time of getKeyRequest calls.
+    repeated DistributionMetric get_key_request_time_us = 3;
+
+    // Count and execution time of provideKeyResponse calls.
+    repeated DistributionMetric provide_key_response_time_us = 4;
+
+    // Count of getProvisionRequest calls.
+    repeated Counter get_provisioning_request_counter = 5;
+
+    // Count of provideProvisionResponse calls.
+    repeated Counter provide_provisioning_response_counter = 6;
+
+    // Count of key status events broken out by status type.
+    repeated Counter key_status_change_counter = 7;
+
+    // Count of events broken out by event type
+    repeated Counter event_callback_counter = 8;
+
+    // Count getPropertyByteArray calls to retrieve the device unique id.
+    repeated Counter get_device_unique_id_counter = 9;
+
+    message SessionLifetimeEntry {
+        optional string session_id = 1;
+        optional SessionLifetime session_lifetime = 2;
+    }
+    // Session ids to lifetime (start and end time) map.
+    // Session ids are strings of hex-encoded byte arrays.
+    // This field is equivalent to the map<string, SessionLifetime>
+    // field in frameworks/av/drm/libmediadrm/protos/metrics.proto.
+    repeated SessionLifetimeEntry session_lifetimes = 10;
+}
+
+/**
+ * The metric is collected at the end of playback
+ * as a pulled atom MediaDrmActivityInfo.
+ *
+ * The framework_metrics is defined in
+ * frameworks/av/drm/libmediadrm/protos/metrics.proto.
+ *
+ * The format of vendor_metrics is  MediaDrm plugin dependent.
+ *
+ *   DrmHal::cleanup() {
+ *     // ...
+ *     reportFrameworkMetrics(reportPluginMetrics());
+ *     // ...
+ *   }
+ *
+ * This pulled atom is then collected in
+ * frameworks/av/services/mediametrics/MediaMetricsService.cpp.
+ */
+message MediaDrmActivityInfo {
+    optional string package_name = 1;
+    optional int64 package_version_code = 2;
+
+    // vendor+description tell about which DRM plugin is in use on this device
+    optional string vendor = 3;
+    optional string description = 4;
+
+    optional DrmFrameworkMetrics framework_metrics = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional bytes vendor_metrics = 6 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
