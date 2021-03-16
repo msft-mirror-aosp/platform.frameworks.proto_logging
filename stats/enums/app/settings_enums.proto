@@ -2937,4 +2937,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SETTINGS_COLUMBUS_APP_SHORTCUT_SELECT = 1872;
+
+    // OPEN: OPEN: Settings > Accessibility -> Edit shortcut dialog -> Customize accessibility button
+    // CATEGORY: SETTINGS
+    // OS: S
+    SWITCH_SHORTCUT_DIALOG_ACCESSIBILITY_BUTTON_SETTINGS = 1873;
 }
