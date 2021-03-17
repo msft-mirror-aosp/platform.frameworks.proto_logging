@@ -547,7 +547,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10099
+    // Next: 10100
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
