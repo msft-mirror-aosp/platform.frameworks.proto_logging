@@ -350,6 +350,21 @@ enum ItemId {
     // Dolby TrueHD (toggle)
     DISPLAY_SOUND_ADVANCED_SOUNDS_DTHD = 0x15390000;
 
+    // TvSettings > Display & Sound > Match content frame rate
+    DISPLAY_SOUND_MATCH_CONTENT_FRAMERATE = 0x15500000;
+
+    // TvSettings > Display & Sound > Match content frame rate >
+    // Seamless (toggle)
+    DISPLAY_SOUND_MATCH_CONTENT_FRAMERATE_SEAMLESS = 0x15510000;
+
+    // TvSettings > Display & Sound > Match content frame rate >
+    // Non-seamless (toggle)
+    DISPLAY_SOUND_MATCH_CONTENT_FRAMERATE_NON_SEAMLESS = 0x15520000;
+
+    // TvSettings > Display & Sound > Match content frame rate >
+    // Never (toggle)
+    DISPLAY_SOUND_MATCH_CONTENT_FRAMERATE_NEVER = 0x15530000;
+
     // TvSettings > Apps
     APPS = 0x16000000;
 
