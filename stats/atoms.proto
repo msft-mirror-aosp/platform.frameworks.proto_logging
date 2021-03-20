@@ -544,6 +544,10 @@ message Atom {
         DeviceStateChanged device_state_changed = 350 [(module) = "framework"];
         InputDeviceRegistered inputdevice_registered = 351 [(module) = "framework"];
         SmartSpaceCardReported smartspace_card_reported = 352 [(module) = "sysui"];
+        AuthPromptAuthenticateInvoked auth_prompt_authenticate_invoked = 353 [(module) = "framework"];
+        AuthManagerCanAuthenticateInvoked auth_manager_can_authenticate_invoked = 354 [(module) = "framework"];
+        AuthEnrollActionInvoked auth_enroll_action_invoked = 355 [(module) = "framework"];
+        AuthDeprecatedAPIUsed auth_deprecated_api_used = 356 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -4535,6 +4539,8 @@ message BiometricAcquired {
     optional int32 acquire_info_vendor = 7;
     // Dictates if this message should trigger additional debugging.
     optional bool debug = 8;
+    // The ID of the biometric sensor associated with this action.
+    optional int32 sensor_id = 9;
 }
 
 /**
@@ -4573,6 +4579,8 @@ message BiometricAuthenticated {
     optional int64 latency_millis = 7;
     // Dictates if this message should trigger additional debugging.
     optional bool debug = 8;
+    // The ID of the biometric sensor associated with this action.
+    optional int32 sensor_id = 9;
 }
 
 /**
@@ -4602,6 +4610,8 @@ message BiometricErrorOccurred {
     optional bool debug = 8;
     // Time spent during the authentication attempt.
     optional int64 latency_millis = 9;
+    // The ID of the biometric sensor associated with this action.
+    optional int32 sensor_id = 10;
 }
 
 /**
@@ -4616,6 +4626,8 @@ message BiometricSystemHealthIssueDetected {
     optional android.hardware.biometrics.IssueEnum issue = 2;
     // Dictates if this message should trigger additional debugging.
     optional bool debug = 3;
+    // The ID of the biometric sensor associated with this action.
+    optional int32 sensor_id = 4;
 }
 
 /**
@@ -4633,7 +4645,93 @@ message BiometricEnrolled {
     optional int64 latency_millis = 3;
     // Whether or not the enrollment was successful.
     optional bool success = 4;
+    // The ID of the biometric sensor associated with this action.
+    optional int32 sensor_id = 5;
 }
+
+/*
+ * Logs when one of the BiometricPrompt#authenticate() method variants is called.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/biometrics
+ *
+ */
+ message AuthPromptAuthenticateInvoked {
+    // Whether an explicit CryptoObject was passed to the biometric prompt.
+    optional bool is_crypto = 1;
+    // The value passed to setConfirmationRequired(boolean), or true if not set.
+    optional bool is_confirmation_required = 2;
+    // The value passed to setDeviceCredentialAllowed(boolean), or false if not set.
+    optional bool is_credential_allowed = 3;
+    // Whether a value was passed to setAllowedAuthenticators(int).
+    optional bool is_allowed_authenticators_set = 4;
+    // The value passed to setAllowedAuthenticators(int), if any.
+    optional int32 allowed_authenticators = 5;
+}
+
+/*
+ * Logs when one of the BiometricPrompt#canAuthenticate() method variants is called.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/biometrics
+ *
+ */
+message AuthManagerCanAuthenticateInvoked {
+    // Whether a bit field of allowed authenticator types was provided as an argument.
+    optional bool is_allowed_authenticators_set = 1;
+    // The bit field of allowed authenticator types provided, if any.
+    optional int32 allowed_authenticators = 2;
+    // The authentication status code that was returned.
+    optional int32 result_code = 3;
+}
+
+/*
+ * Logs when Biometric enrollment is requested via the ACTION_BIOMETRIC_ENROLL intent action.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/biometrics
+ *
+ */
+message AuthEnrollActionInvoked {
+    // Whether a Class 3 (strong) biometric was previously enrolled on this device.
+    optional bool is_strong_biometric_enrolled = 1;
+    // Whether a Class 2 (weak) biometric was previously enrolled on this device.
+    optional bool is_weak_biometric_enrolled = 2;
+    // Whether a PIN/pattern/password was previously enrolled on this device.
+    optional bool is_device_credential_enrolled = 3;
+    // Whether a bit field of allowed authenticator types was provided as an extra.
+    optional bool is_allowed_authenticators_set = 4;
+    // The bit field of allowed authenticator types provided, if any.
+    optional int32 allowed_authenticators = 5;
+}
+
+/*
+ * Logs when an application uses a deprecated biometric or authentication API feature.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/biometrics
+ */
+ message AuthDeprecatedAPIUsed {
+    enum APIEnum {
+        API_UNKNOWN = 0;
+        // android.hardware.fingerprint.FingerprintManager#authenticate(CryptoObject,
+        // CancellationSignal, int, AuthenticationCallback, Handler)
+        API_FINGERPRINT_MANAGER_AUTHENTICATE = 1;
+        // android.hardware.fingerprint.FingerprintManager#hasEnrolledFingerprints()
+        API_FINGERPRINT_MANAGER_HAS_ENROLLED_FINGERPRINTS = 2;
+        // android.hardware.fingerprint.FingerprintManager#isHardwareDetected()
+        API_FINGERPRINT_MANAGER_IS_HARDWARE_DETECTED = 3;
+        // android.hardware.biometrics.BiometricManager#canAuthenticate()
+        API_BIOMETRIC_MANAGER_CAN_AUTHENTICATE = 4;
+    }
+
+     // The deprecated API feature that was used.
+     optional APIEnum deprecated_api = 1;
+     // The UID of the application that used the deprecated API.
+     optional int32 app_uid = 2;
+     // The target SDK version (API level) of the application that used the deprecated API.
+     optional int32 target_sdk = 3;
+ }
 
 /*
  * Logs when a flag flip update occurrs. Used for mainline modules that update via flag flips.
