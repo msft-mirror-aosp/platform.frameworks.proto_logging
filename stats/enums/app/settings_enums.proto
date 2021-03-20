@@ -859,6 +859,12 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_2G_ENABLED = 1761;
+
+    // ACTION: Allow or deny an app to manage media files
+    // SUBTYPE: 0 is deny, 1 is allow
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_MEDIA_MANAGEMENT_APPS_TOGGLE = 1762;
 }
 
 /**
@@ -2942,4 +2948,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SWITCH_SHORTCUT_DIALOG_ACCESSIBILITY_BUTTON_SETTINGS = 1873;
+
+    // OPEN: Settings > Apps > Gear > Special app access > Media management apps
+    // CATEGORY: SETTINGS
+    // OS: S
+    MEDIA_MANAGEMENT_APPS = 1874;
 }
