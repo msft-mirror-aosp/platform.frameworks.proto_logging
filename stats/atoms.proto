@@ -42,7 +42,6 @@ import "frameworks/proto_logging/stats/enums/server/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/location/enums.proto";
 import "frameworks/proto_logging/stats/enums/service/enums.proto";
 import "frameworks/proto_logging/stats/enums/service/procstats_enum.proto";
-import "frameworks/proto_logging/stats/enums/stats/camera/camera.proto";
 import "frameworks/proto_logging/stats/enums/stats/connectivity/network_stack.proto";
 import "frameworks/proto_logging/stats/enums/stats/connectivity/tethering.proto";
 import "frameworks/proto_logging/stats/enums/stats/dnsresolver/dns_resolver.proto";
@@ -666,6 +665,7 @@ message Atom {
         CpuCyclesPerThreadGroupCluster cpu_cycles_per_thread_group_cluster = 10098 [(module) = "framework"];
         MediaDrmActivityInfo media_drm_activity_info = 10099;
         OemManagedBytesTransfer oem_managed_bytes_transfer = 10100 [(module) = "framework"];
+        GnssPowerStats gnss_power_stats = 10101 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5688,6 +5688,7 @@ message UIActionLatencyReported {
         ACTION_ROTATE_SCREEN = 7;
         ACTION_FACE_WAKE_AND_UNLOCK = 8;
         ACTION_START_RECENTS_ANIMATION = 9;
+        ACTION_ROTATE_SCREEN_CAMERA_CHECK = 10;
     }
 
     optional ActionType action = 1;
@@ -10743,6 +10744,45 @@ message DisplayJankReported {
     optional int32 present_deadlines_missed = 2;
 }
 
+message CameraStreamProto {
+    // The stream width (in pixels)
+    optional int32 width = 1;
+    // The stream height (in pixels)
+    optional int32 height = 2;
+    // The format of the stream
+    optional int32 format = 3;
+    // The dataspace of the stream
+    optional int32 data_space = 4;
+    // The usage flag of the stream
+    optional int64 usage = 5;
+
+    // The number of requests for this stream
+    optional int64 request_count = 6;
+    // The number of buffer error for this stream
+    optional int64 error_count = 7;
+    // The capture latency of first request for this stream
+    optional int32 first_capture_latency_millis = 8;
+
+    // The maximum number of hal buffers
+    optional int32 max_hal_buffers = 9;
+    // The maximum number of app buffers
+    optional int32 max_app_buffers = 10;
+
+    // Type of stream histogram
+    // 1: Capture latency: bin size in milliseconds
+    enum HistogramType {
+        UNKNOWN = 0;
+        CAPTURE_LATENCY = 1;
+    }
+    optional HistogramType histogram_type = 11;
+    // The boundary values between histogram bins
+    // Expected number of fields: 9
+    repeated float histogram_bins = 12;
+    // The frame counts for each histogram bins
+    // Expected number of fields: 10
+    repeated int64 histogram_counts = 13;
+}
+
 /**
  * Information about camera facing and API level usage.
  * Logged from:
@@ -10808,16 +10848,11 @@ message CameraActionEvent {
     // If action is SESSION: Stream states
     // Else: stream_count = 0
     optional int32 stream_count = 14;
-    optional android.stats.camera.CameraStreamProto stream_1 = 15
-    [(android.os.statsd.log_mode) = MODE_BYTES];
-    optional android.stats.camera.CameraStreamProto stream_2 = 16
-    [(android.os.statsd.log_mode) = MODE_BYTES];
-    optional android.stats.camera.CameraStreamProto stream_3 = 17
-    [(android.os.statsd.log_mode) = MODE_BYTES];
-    optional android.stats.camera.CameraStreamProto stream_4 = 18
-    [(android.os.statsd.log_mode) = MODE_BYTES];
-    optional android.stats.camera.CameraStreamProto stream_5 = 19
-    [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional CameraStreamProto stream_1 = 15 [(log_mode) = MODE_BYTES];
+    optional CameraStreamProto stream_2 = 16 [(log_mode) = MODE_BYTES];
+    optional CameraStreamProto stream_3 = 17 [(log_mode) = MODE_BYTES];
+    optional CameraStreamProto stream_4 = 18 [(log_mode) = MODE_BYTES];
+    optional CameraStreamProto stream_5 = 19 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -12232,6 +12267,76 @@ message GnssStats {
 }
 
 /**
+ * Logs power usage data from GNSS subsystem.
+ *
+ * Logged from:
+ *   /frameworks/base/location/java/com/android/internal/location/gnssmetrics/GnssMetrics.java
+ */
+message GnssPowerStats {
+    // Relative precision of the alignment of the reported power stats measurement.
+    optional int64 elapsed_realtime_uncertainty_nanos = 1;
+
+    // Total GNSS energy consumption in micro-joules (or micro Watt-seconds).
+    optional int64 total_energy_micro_joule = 2;
+
+    // Total energy consumption in micro-joules (or micro Watt-seconds) for which the GNSS engine is
+    // tracking signals of a single frequency band.
+    optional int64 singleband_tracking_mode_energy_micro_joule = 3;
+
+    // Total energy consumption in micro-joules (or micro Watt-seconds) for which the GNSS engine is
+    // tracking signals of multiple frequency bands.
+    optional int64 multiband_tracking_mode_energy_micro_joule = 4;
+
+    // Total energy consumption in micro-joules (or micro Watt-seconds) for which the GNSS engine is
+    // acquiring signals of a single frequency band.
+    optional int64 singleband_acquisition_mode_energy_micro_joule = 5;
+
+    // Total energy consumption in micro-joules (or micro Watt-seconds) for which the GNSS engine is
+    // acquiring signals of multiple frequency bands.
+    optional int64 multiband_acquisition_mode_energy_micro_joule = 6;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 0)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_0 = 7;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 1)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_1 = 8;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 2)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_2 = 9;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 3)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_3 = 10;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 4)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_4 = 11;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 5)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_5 = 12;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 6)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_6 = 13;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 7)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_7 = 14;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 8)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_8 = 15;
+
+    // Total energy consumption in micro-joules (microWatt-seconds) for which the GNSS engine is
+    // operating in each of the vendor-specific power modes. (Index 9)
+    optional int64 vendor_specific_power_modes_energy_micro_joule_9 = 16;
+}
+
+/**
  * Logs when an app is moved to a different standby bucket.
  *
  * Logged from:
@@ -13259,21 +13364,33 @@ message AutoRotateReported {
 }
 
 /**
- * Logs when sensors only autorotate is triggered. This does not necessarily cause the screen to
- * rotate due to reasons such as autorotate is disabled or the app does not support screen rotation.
- * Even in those cases, logging will happen because sensor trigger has happened.
+ * Logs when sensors only autorotate is triggered. Associated event can be a rotation preindication,
+ * actual event or a "data ready to be pulled" indication. More info: go/autorotate-logging.
  *
  * Logged from:
- *   frameworks/base/services/core/java/com/android/server/policy/WindowOrientationListener.java
+ *    platform/vendor/unbundled_google/packages/SystemUIGoogle/src/com/google/android/systemui/autorotate/DataLogger.java
  */
 
 message DeviceRotated {
-  // Timestamp of the detected device rotation in millis. We log the timestamp
-  // explicitly since data logging will follow the event logging and all these
+  // Timestamp of the event in millis. We log the timestamp explicitly since
+  // data logging will follow the event logging and all these
   // will be joined with other logs such as rotation button clicked.
   optional int64 timestamp_millis = 1;
   // Device orientation
   optional android.stats.wm.Orientation proposed_orientation = 2;
+
+  enum RotationEventType{
+    UNKNOWN = 0;
+    // An early indication of device might be rotated.
+    PREINDICATION = 1;
+    // Device rotation is detected.
+    ACTUAL_EVENT = 2;
+    // Device rotated and the data associated with it is ready to be pulled.
+    // This happens after the ACTUAL_EVENT since some data after the event is
+    // also useful.
+    DATA_READY = 3;
+  }
+  optional RotationEventType rotation_event_type = 3;
 }
 
 /**
@@ -13281,7 +13398,7 @@ message DeviceRotated {
  * configured to be conditioned on the {@code DeviceRotated} atom.
  *
  * Logged from:
- *   frameworks/base/services/core/java/com/android/server/policy/WindowOrientationListener.java
+ *     platform/vendor/unbundled_google/packages/SystemUIGoogle/src/com/google/android/systemui/autorotate/DataLogger.java
  */
 message DeviceRotatedData {
   // All the sensor data and timestamps used to calculate the orientation
@@ -13498,44 +13615,47 @@ message ProcessStat {
 /*
  * pushes Media playback information.
  * Logged from
- *   (WIP) frameworks/av/services/mediaanalytics/playback_statsd.cpp
+ *  frameworks/base/services/core/java/com/android/server/media/metrics/
+ *      MediaMetricsManagerService.java
  */
 message MediametricsPlaybackReported {
     optional int32 uid = 1 [(is_uid) = true];
 
-    //  Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
+    // Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
     optional string playback_id = 2;
-    //  The total length of the media in milliseconds. 0 for live contents.
+    // The total length of the media in milliseconds. 0 for live contents.
     optional int64 media_duration_millis = 3;
-    //  Network, device, or mixed.
+    // Network, device, or mixed.
     optional android.stats.mediametrics.StreamSourceType stream_source = 4;
-    //  Stream type. DASH, HLS, etc
+    // Stream type. DASH, HLS, etc
     optional android.stats.mediametrics.StreamType stream_type = 5;
-    //  Live, VOD, others
+    // Live, VOD, others
     optional android.stats.mediametrics.PlaybackType playback_type = 6;
-    //  DRM type
+    // DRM type
     optional android.stats.mediametrics.DrmType drm_type = 7;
-    //  Main, AD, others
+    // Main, AD, others
     optional android.stats.mediametrics.ContentType content_type = 8;
-    //  Player name. E.g. ExoPlayer
+    // Player name. E.g. ExoPlayer
     optional string player_name = 9;
-    //  Player version. E.g. 1.10.3e
+    // Player version. E.g. 1.10.3e
     optional string player_version = 10;
-    //  Player related experiment IDs
+    // Player related experiment IDs
     optional Experiments experiment_ids = 11 [(log_mode) = MODE_BYTES];
-    //  Number of frames played. Dropped frames included. -1 means unknown.
+    // Number of frames played. Dropped frames included. -1 means unknown.
     optional int32 video_frames_played = 12;
-    //  Number of frames dropped. -1 means unknown.
+    // Number of frames dropped. -1 means unknown.
     optional int32 video_frames_dropped = 13;
-    //  Number of audio underruns. -1 means unknown.
+    // Number of audio underruns. -1 means unknown.
     optional int32 audio_underrun_count = 14;
-    //  Total number of bytes read from the network
+    // Total number of bytes read from the network
     optional int64 network_bytes_read = 15;
-    //  Total number of bytes read from on-device sources
+    // Total number of bytes read from on-device sources
     optional int64 local_bytes_read = 16;
-    //  Total transfer spent reading from the network in ms.
+    // Total transfer spent reading from the network in ms.
     // For parallel requests, the overlapping time intervals are counted only once.
     optional int64 network_transfer_duration_millis = 17;
+    // A session ID generated from DRM to distinguish different DRM sessions.
+    optional string drm_session_id = 18;
 }
 
 message MediaNetworkInfoChanged {
@@ -13607,6 +13727,8 @@ message MediaPlaybackTrackChanged {
     optional int32 width = 14;
     //  The height of the video in pixels.
     optional int32 height = 15;
+    //  Video frame rate in frames per second.
+    optional float video_frame_rate = 16;
 }
 
 message Experiments {
