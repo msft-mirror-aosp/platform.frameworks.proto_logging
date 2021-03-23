@@ -865,6 +865,21 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_MEDIA_MANAGEMENT_APPS_TOGGLE = 1762;
+
+    // ACTION: Settings > User > Confirm exit guest mode dialog > Delete
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_USER_GUEST_EXIT_CONFIRMED = 1763;
+
+    // ACTION: Settings > User > Add guest
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_USER_GUEST_ADD = 1764;
+
+    // ACTION: Settings > User > Guest > Switch to Guest
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_SWITCH_TO_GUEST = 1765;
 }
 
 /**
