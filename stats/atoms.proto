@@ -547,12 +547,17 @@ message Atom {
         AuthManagerCanAuthenticateInvoked auth_manager_can_authenticate_invoked = 354 [(module) = "framework"];
         AuthEnrollActionInvoked auth_enroll_action_invoked = 355 [(module) = "framework"];
         AuthDeprecatedAPIUsed auth_deprecated_api_used = 356 [(module) = "framework"];
+        UnattendedRebootOccurred unattended_reboot_occurred = 357 [(module) = "scheduling"];
+        LongRebootBlockingReported long_reboot_blocking_reported = 358 [(module) = "scheduling"];
+        LocationTimeZoneProviderStateChanged location_time_zone_provider_state_changed =
+            359 [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10101
+    // Next: 10103
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -666,6 +671,7 @@ message Atom {
         MediaDrmActivityInfo media_drm_activity_info = 10099;
         OemManagedBytesTransfer oem_managed_bytes_transfer = 10100 [(module) = "framework"];
         GnssPowerStats gnss_power_stats = 10101 [(module) = "framework"];
+        TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -11289,6 +11295,7 @@ message CellBroadcastMessageFiltered {
         DUPLICATE_MESSAGE = 1;
         GEOFENCED_MESSAGE = 2;
         AREA_INFO_MESSAGE = 3;
+        DISABLED_BY_OEM = 4;
     }
 
     // GSM, CDMA, CDMA-SCP
@@ -14204,6 +14211,64 @@ message MediaTranscodingSessionEnded {
     optional bool dst_is_hdr = 16;
 }
 
+/** Logs information about an unattended reboot that took place. This is logged
+ *  after the next boot, when the device is first unlocked.
+ *
+ * Logged from:
+ *   packages/modules/Scheduling/service/java/com/android/server/RebootReadinessLogger.java
+ */
+message UnattendedRebootOccurred {
+
+    // Time between the reboot readiness state checks starting, and the device
+    // becoming reboot-ready.
+    optional int64 time_until_reboot_ready_millis= 1;
+
+    // Time taken for the device to be unlocked (i.e. for the keyguard to be
+    // gone) after an unattended reboot took place.
+    optional int64 time_until_first_unlock_millis = 2;
+
+    // Number of times the reboot was blocked by the device being interactive.
+    optional int32 times_blocked_by_interactivity = 3;
+
+    // Number of times the reboot was blocked by a callback registered by a
+    // subsystem or a privileged app.
+    optional int32 times_blocked_by_subsystems = 4;
+
+    // Number of times the reboot was blocked by background app activity.
+    optional int32 times_blocked_by_app_activity = 5;
+}
+
+
+/**
+ * Logs information about an app uid or registered system component that has
+ * been blocking the device from being reboot-ready for a long time.
+ *
+ * Logged from:
+ *   packages/modules/Scheduling/service/java/com/android/server/RebootReadinessLogger.java
+ */
+message LongRebootBlockingReported {
+
+    enum RebootBlockReason {
+        SYSTEM_COMPONENT = 1;
+        APP_UID = 2;
+    }
+
+    // The reason why the reboot has been blocked. This is either a system
+    // component that has registered a callback, or an app UID running in the
+    // background.
+    optional RebootBlockReason reboot_block_reason = 1;
+
+    // Only one of the following two fields should be set, depending on the
+    // RebootBlockReason.
+
+    // The name supplied by a system component when it registered a callback
+    // to block the reboot.
+    optional string component_name = 2;
+
+    // The uid of an app that is running in the background.
+    optional int32 uid = 3;
+}
+
 /**
  * Logs the magnification activated mode and its duration of the usage
  * when the magnification is disabled.
@@ -14390,4 +14455,115 @@ message MediaDrmActivityInfo {
 message DeviceStateChanged {
     optional int64 new_device_state = 1;
     optional bool boot_state = 2;
+}
+
+/*
+ * An obfuscated, canonical form time zone suggestion for metrics use.
+ *
+ * The suggestion's time zone IDs (which relate to location) are obfuscated by
+ * mapping them to an ordinal. When the ordinal is assigned consistently across
+ * several objects (i.e. so the same time zone ID is always mapped to the same
+ * ordinal), this allows comparisons between those objects. For example, we can
+ * answer "did these two suggestions agree?", "does the suggestion match the
+ * device's current time zone?", without leaking knowledge of location. Ordinals
+ * are also significantly more compact than full IANA TZDB IDs, albeit highly
+ * unstable and of limited use.
+ */
+message MetricsTimeZoneSuggestion {
+    enum Type {
+        CERTAIN = 1;
+        UNCERTAIN = 2;
+    }
+    optional Type type = 1;
+
+    // The ordinals for time zone(s) in the suggestion. Always empty for
+    // UNCERTAIN, and can be empty for CERTAIN, for example when the device is in
+    // a disputed area / on an ocean.
+    repeated int32 time_zone_ordinals = 2;
+}
+
+/*
+ * Logs a snapshot of time zone detector state.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/stats/pull/StatsPullAtomService.java
+ */
+message TimeZoneDetectorState {
+
+    // True if telephony-based time zone detection is supported on the device.
+    optional bool telephony_supported = 1;
+
+    // True if geo-based time zone detection is supported on the device.
+    optional bool geo_supported = 2;
+
+    // The current user's master location setting value.
+    optional bool location_enabled = 3;
+
+    // The current user's auto time zone detection enabled setting value.
+    optional bool auto_detection_setting = 4;
+
+    // The current user's geo detection enabled setting.
+    optional bool geo_detection_setting = 5;
+
+    enum DetectionMode {
+        MANUAL = 1;
+        TELEPHONY = 2;
+        GEO = 3;
+    }
+
+    // The functional / behavioral state for how time zones are currently determined on the device.
+    // Avoids needing to duplicate the logic used.
+    optional DetectionMode detection_mode = 6;
+
+    // The device's current time zone ordinal (see MetricsTimeZoneSuggestion).
+    optional int32 device_time_zone_ordinal = 7;
+
+    // The latest suggestion received from the user, e.g. via SettingsUI (non-persistent).
+    optional MetricsTimeZoneSuggestion latest_manual_suggestion = 8
+            [(log_mode) = MODE_BYTES];
+
+    // The latest telephony-derived suggestion (non-persistent).
+    optional MetricsTimeZoneSuggestion latest_telephony_suggestion = 9
+            [(log_mode) = MODE_BYTES];
+
+    // The latest geo-derived suggestion (non-persistent).
+    optional MetricsTimeZoneSuggestion latest_geo_suggestion = 10
+            [(log_mode) = MODE_BYTES];
+}
+
+/*
+ * Logs information about an individual location time zone provider's state.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/location/timezone/ControllerImpl.java
+ */
+message LocationTimeZoneProviderStateChanged {
+    // The index of the provider (primary = 0, secondary = 1)
+    optional int32 provider_index = 1;
+
+    enum State {
+        // A placeholder for unknown values.
+        UNKNOWN = 0;
+
+        // The provider is initializing.
+        INITIALIZING = 1;
+
+        // The provider is certain of the time zone.
+        CERTAIN = 2;
+
+        // The provider is uncertain of the time zone.
+        UNCERTAIN = 3;
+
+        // The provider has been stopped.
+        STOPPED = 4;
+
+        // The provider has failed.
+        PERM_FAILED = 5;
+
+        // The provider has been destroyed.
+        DESTROYED = 6;
+    }
+
+    // The state of the provider.
+    optional State state = 2;
 }
