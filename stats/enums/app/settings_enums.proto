@@ -2968,4 +2968,14 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     MEDIA_MANAGEMENT_APPS = 1874;
+
+    // OPEN: Settings > Storage > Dialog for emptying trash files
+    // CATEGORY: SETTINGS
+    // OS: S
+    DIALOG_EMPTY_TRASH = 1875;
+
+    // OPEN: Settings > System > Date and time
+    // CATEGORY: SETTINGS
+    // OS: S
+    DIALOG_DATE_TIME_ENABLE_GEOTZ_WITH_DISABLED_LOCATION = 1876;
 }
