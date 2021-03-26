@@ -84,4 +84,6 @@ enum WidgetType {
     WIDGET_TYPE_CUSTOM_UNSELECTABLE_TEXTVIEW = 8;
     // Notification
     WIDGET_TYPE_NOTIFICATION = 9;
+    // ClipBoard
+    WIDGET_TYPE_CLIPBOARD = 10;
 }
