@@ -300,6 +300,34 @@ enum ItemId {
     // Allow game mode (toggle)
     DISPLAY_SOUND_ADVANCED_DISPLAY_GAME_MODE = 0x15110000;
 
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION = 0x15120000;
+
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection > Auto
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION_AUTO = 0x15121000;
+
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection > Manual
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION_MANUAL = 0x15122000;
+
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection > Dolby Vision
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION_DOLBY_VISION = 0x15123000;
+
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection > HDR 10
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION_HDR10 = 0x15124000;
+
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection > HLG
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION_HLG = 0x15125000;
+
+    // TvSettings > Display & Sound > Advanced display settings >
+    // Format Selection > HDR10+
+    DISPLAY_SOUND_ADVANCED_DISPLAY_FORMAT_SELECTION_HDR10_PLUS = 0x15126000;
+
     // TvSettings > Display & Sound > System sounds (toggle)
     DISPLAY_SOUND_SYSTEM_SOUNDS = 0x15200000;
 
