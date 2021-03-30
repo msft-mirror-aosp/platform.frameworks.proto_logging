@@ -1388,6 +1388,11 @@ message ScheduledJobStateChanged {
     optional bool has_idle_constraint = 12;
     optional bool has_connectivity_constraint = 13;
     optional bool has_content_trigger_constraint = 14;
+
+    // True if the app has requested this run as an expedited job.
+    optional bool is_requested_expedited_job = 15;
+    // True if the job is running as an expedited job. Only valid for STARTED and FINISHED states.
+    optional bool is_running_as_expedited_job = 16;
 }
 
 /**
@@ -14241,6 +14246,12 @@ enum ArtDatumId {
     ART_DATUM_DEX2OAT_VERIFY_DEX_FILE_TIME = 13;
     ART_DATUM_DEX2OAT_FAST_VERIFY_TIME = 14;
     ART_DATUM_DEX2OAT_RESOLVE_METHODS_AND_FIELDS_TIME = 15;
+
+    ART_DATUM_CLASS_VERIFICATION_COUNT = 16;
+    ART_DATUM_GC_TOTAL_BYTES_ALLOCATED = 17;
+    ART_DATUM_GC_TOTAL_METADATA_SIZE = 18;
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT = 19;
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT = 20;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -14257,6 +14268,24 @@ enum ArtDexMetadataType {
   ART_DEX_METADATA_TYPE_PROFILE_AND_VDEX = 3;
   ART_DEX_METADATA_TYPE_NONE = 4;
   ART_DEX_METADATA_TYPE_ERROR = 5;
+}
+
+// Indicates the type of the apk.
+enum ArtApkType {
+    ART_APK_TYPE_UNKNOWN = 0;
+    ART_APK_TYPE_BASE = 1;
+    ART_APK_TYPE_SPLIT = 2;
+}
+
+// Indicates the ISA.
+enum ArtIsa {
+    ART_ISA_UNKNOWN = 0;
+    ART_ISA_ARM = 1;
+    ART_ISA_ARM64 = 2;
+    ART_ISA_X86 = 3;
+    ART_ISA_X86_64 = 4;
+    ART_ISA_MIPS = 5;
+    ART_ISA_MIPS64 = 6;
 }
 
 message ArtDatumReported {
@@ -14286,6 +14315,12 @@ message ArtDatumReported {
 
     // The type of dex metadata
     optional ArtDexMetadataType dex_metadata_type = 9;
+
+    // The type of the APK file.
+    optional ArtApkType apk_type = 10;
+
+    // The ISA of the device.
+    optional ArtIsa isa = 11;
 }
 
 /**
