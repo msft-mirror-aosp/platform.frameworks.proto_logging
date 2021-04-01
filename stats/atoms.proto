@@ -555,12 +555,15 @@ message Atom {
         Keystore2KeyOperationEventReported keystore2_key_operation_event_reported = 361;
         Keystore2CrashEventReported keystore2_crash_event_reported = 362;
         RkpErrorReported rkp_error_reported = 363;
+        TimeoutAutoExtendedReported timeout_auto_extended_reported = 364
+            [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10103
+    // Next: 10106
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -677,6 +680,7 @@ message Atom {
         TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
         Keystore2StorageStats keystore2_storage_stats = 10103;
         RkpPoolStats rkp_pool_stats = 10104;
+        ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -9214,6 +9218,38 @@ message SystemMemory {
     optional int32 dmabuf_total_exported_kb = 9;
 }
 
+/*
+ * Log dmabuf memory retained by userspace processes.
+ * Pulled from StatsPullAtomService.
+ */
+ message ProcessDmabufMemory {
+  // The uid if available. -1 means not available.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // The process name (from ActivityManager).
+  optional string process_name = 2;
+
+  // OOM adj score.
+  optional int32 oom_adj_score = 3;
+
+  // Size of dmabufs retained by the process. The buffers are either mapped,
+  // retained via an fd, or both.
+  // Only available on supported kernel versions (5.4+). When unavailable, set
+  // to -1.
+  optional int32 retained_dmabuf_kb = 4;
+
+  // Number of buffers retained by the process (mapped / fd).
+  // Only available on supported kernel versions (5.4+). When unavailable, set
+  // to -1.
+  optional int32 retained_dmabuf_count = 5;
+
+  // Size of dmabufs mapped to the process address space.
+  optional int32 mapped_dmabuf_kb = 6;
+
+  // Number of dmabufs mapped to the process address space.
+  optional int32 mapped_dmabuf_count = 7;
+}
+
 /**
  * Push network stack events.
  *
@@ -10265,6 +10301,13 @@ message UpdateEngineSuccessfulUpdateReported {
 
     // The number of reboot of the device during a successful update.
     optional int32 reboot_count = 7;
+
+    // Whether on device verity computation is enabled
+    optional bool fec_enabled = 8;
+
+    // Whether on device hash tree computation is enabled
+    optional bool hash_tree_enabled = 9;
+
 }
 
 /**
@@ -12231,6 +12274,28 @@ message FaceDownReported {
     // A low value may indicate a false negative. Logged only when Response is
     // SCREEN_OFF.
     optional int64 millis_until_next_screen_on = 4;
+}
+
+/**
+ * Logs timeout extended events which occur from consecutive undims.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/server/power/ScreenUndimDetector.java
+ */
+message TimeoutAutoExtendedReported {
+    enum Outcome {
+        UNKNOWN = 0;
+        POWER_BUTTON = 1;
+        TIMEOUT = 2;
+    }
+
+    // Logs the action that occurs after timeout is extended from undim.
+    optional Outcome outcome = 1;
+    // Time from timeout extension to the outcome.
+    optional int64 time_to_outcome_millis = 2;
+    // Time of first interaction after undim if an interaction occurs.
+    // -1 if no interaction occurs before screen turns off.
+    optional int64 time_to_first_interaction_millis = 3;
 }
 
 /**
@@ -14253,6 +14318,7 @@ enum ArtDatumId {
     ART_DATUM_GC_TOTAL_METADATA_SIZE = 18;
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT = 19;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT = 20;
+    ART_DATUM_JIT_METHOD_COMPILE_COUNT = 21;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -14781,6 +14847,7 @@ message DeviceStateChanged {
  */
 message MetricsTimeZoneSuggestion {
     enum Type {
+        UNKNOWN = 0;
         CERTAIN = 1;
         UNCERTAIN = 2;
     }
@@ -14816,6 +14883,7 @@ message TimeZoneDetectorState {
     optional bool geo_detection_setting = 5;
 
     enum DetectionMode {
+        UNKNOWN = 0;
         MANUAL = 1;
         TELEPHONY = 2;
         GEO = 3;

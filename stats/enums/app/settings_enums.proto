@@ -2978,4 +2978,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     DIALOG_DATE_TIME_ENABLE_GEOTZ_WITH_DISABLED_LOCATION = 1876;
+
+    // OPEN: Settings > Sound > Work profile sounds
+    // CATEGORY: SETTINGS
+    // OS: S
+    WORK_PROFILE_SOUNDS = 1877;
 }
