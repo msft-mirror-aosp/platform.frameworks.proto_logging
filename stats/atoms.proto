@@ -557,6 +557,7 @@ message Atom {
         Keystore2KeyOperationEventReported keystore2_key_operation_event_reported = 361;
         Keystore2CrashEventReported keystore2_crash_event_reported = 362;
         RkpErrorReported rkp_error_reported = 363;
+        FdtrackEventOccurred fdtrack_event_occurred = 364 [(module) = "framework"];
         TimeoutAutoExtendedReported timeout_auto_extended_reported = 365
             [(module) = "framework"];
 
@@ -15029,4 +15030,23 @@ message LocationTimeZoneProviderStateChanged {
 
     // The state of the provider.
     optional State state = 2;
+}
+
+/*
+ * Reports fdtrack state change.
+ *
+ * Logged from:
+ *   frameworks/base/services/java/com/android/server/SystemServer.java
+ */
+message FdtrackEventOccurred {
+    enum FdtrackEventType {
+      DISABLED = 1;
+      ENABLED = 2;
+
+      // Aborting because we're above the abort threshold.
+      ABORTING = 3;
+    }
+
+    optional FdtrackEventType event = 1;
+    optional int32 fd_count = 2;
 }
