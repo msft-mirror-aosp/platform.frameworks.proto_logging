@@ -62,6 +62,7 @@ import "frameworks/proto_logging/stats/enums/stats/sysui/notification_enums.prot
 import "frameworks/proto_logging/stats/enums/stats/tls/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/tv/tif_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/wm/enums.proto";
+import "frameworks/proto_logging/stats/enums/system/security/keystore2/enums.proto";
 import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
@@ -530,6 +531,7 @@ message Atom {
         RebootEscrowLskfCaptureReported reboot_escrow_lskf_capture_reported =
             340 [(module) = "framework"];
         RebootEscrowRebootReported reboot_escrow_reboot_reported = 341 [(module) = "framework"];
+        BinderLatencyReported binder_latency_reported = 342 [(module) = "framework"];
         MediametricsAAudioStreamReported mediametrics_aaudiostream_reported = 343;
         MediaTranscodingSessionEnded media_transcoding_session_ended = 344
             [(module) = "media"];
@@ -555,12 +557,16 @@ message Atom {
         Keystore2KeyOperationEventReported keystore2_key_operation_event_reported = 361;
         Keystore2CrashEventReported keystore2_crash_event_reported = 362;
         RkpErrorReported rkp_error_reported = 363;
+        FdtrackEventOccurred fdtrack_event_occurred = 364 [(module) = "framework"];
+        TimeoutAutoExtendedReported timeout_auto_extended_reported = 365
+            [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10103
+    // Next: 10106
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -677,6 +683,7 @@ message Atom {
         TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
         Keystore2StorageStats keystore2_storage_stats = 10103;
         RkpPoolStats rkp_pool_stats = 10104;
+        ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -9214,6 +9221,38 @@ message SystemMemory {
     optional int32 dmabuf_total_exported_kb = 9;
 }
 
+/*
+ * Log dmabuf memory retained by userspace processes.
+ * Pulled from StatsPullAtomService.
+ */
+ message ProcessDmabufMemory {
+  // The uid if available. -1 means not available.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // The process name (from ActivityManager).
+  optional string process_name = 2;
+
+  // OOM adj score.
+  optional int32 oom_adj_score = 3;
+
+  // Size of dmabufs retained by the process. The buffers are either mapped,
+  // retained via an fd, or both.
+  // Only available on supported kernel versions (5.4+). When unavailable, set
+  // to -1.
+  optional int32 retained_dmabuf_kb = 4;
+
+  // Number of buffers retained by the process (mapped / fd).
+  // Only available on supported kernel versions (5.4+). When unavailable, set
+  // to -1.
+  optional int32 retained_dmabuf_count = 5;
+
+  // Size of dmabufs mapped to the process address space.
+  optional int32 mapped_dmabuf_kb = 6;
+
+  // Number of dmabufs mapped to the process address space.
+  optional int32 mapped_dmabuf_count = 7;
+}
+
 /**
  * Push network stack events.
  *
@@ -10265,6 +10304,13 @@ message UpdateEngineSuccessfulUpdateReported {
 
     // The number of reboot of the device during a successful update.
     optional int32 reboot_count = 7;
+
+    // Whether on device verity computation is enabled
+    optional bool fec_enabled = 8;
+
+    // Whether on device hash tree computation is enabled
+    optional bool hash_tree_enabled = 9;
+
 }
 
 /**
@@ -12234,6 +12280,28 @@ message FaceDownReported {
 }
 
 /**
+ * Logs timeout extended events which occur from consecutive undims.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/server/power/ScreenUndimDetector.java
+ */
+message TimeoutAutoExtendedReported {
+    enum Outcome {
+        UNKNOWN = 0;
+        POWER_BUTTON = 1;
+        TIMEOUT = 2;
+    }
+
+    // Logs the action that occurs after timeout is extended from undim.
+    optional Outcome outcome = 1;
+    // Time from timeout extension to the outcome.
+    optional int64 time_to_outcome_millis = 2;
+    // Time of first interaction after undim if an interaction occurs.
+    // -1 if no interaction occurs before screen turns off.
+    optional int64 time_to_first_interaction_millis = 3;
+}
+
+/**
  * Logs gnss stats from location service provider
  *
  * Pulled from:
@@ -13338,6 +13406,9 @@ message Keystore2KeyCreationEventReported {
 
     // Indicates whether key attestation requested in creation
     optional bool attestation_requested = 12;
+
+    // Security level of the Keymint instance which creates the key.
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 13;
 }
 
 /**
@@ -13418,6 +13489,9 @@ message Keystore2KeyOperationEventReported {
 
     // Indicates whether the key was upgraded during the operation
     optional bool key_upgraded = 7;
+
+    // Security level of the Keymint instance which performs the operation.
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 8;
 }
 
 /**
@@ -14253,6 +14327,7 @@ enum ArtDatumId {
     ART_DATUM_GC_TOTAL_METADATA_SIZE = 18;
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT = 19;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT = 20;
+    ART_DATUM_JIT_METHOD_COMPILE_COUNT = 21;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -14342,6 +14417,83 @@ message SimSpecificSettingsRestored {
 }
 
 /**
+ * The latency of Binder calls broken down by calling API and method name.
+ * This is different from BinderCalls as it collects a histogram of the
+ * latencies (to get more detailed data) not just the count, sum, and maximum.
+ *
+ * Logged from:
+ * frameworks/base/core/java/com/android/internal/os/BinderLatencyObserver.java
+ */
+message BinderLatencyReported {
+    enum ProcessSource {
+        UNKNOWN_PROCESS_SOURCE = 0;
+        SYSTEM_SERVER = 1;
+        TELEPHONY = 2;
+    }
+
+    message Dims {
+        enum ServiceClassName {
+            UNKNOWN_CLASS = 0;
+        }
+        enum ServiceMethodName {
+            UNKNOWN_METHOD = 0;
+        }
+
+        // Required.
+        optional ProcessSource process_source = 1;
+
+        // The class name of the API making the call to Binder. Enum value
+        // is preferred as uses much less data to store.
+        // This field does not contain PII.
+        oneof service_class {
+            ServiceClassName service_class_name_as_enum = 2;
+            string service_class_name = 3;
+        }
+
+        // Method name of the API call. It can also be a transaction code if we
+        // cannot resolve it to a name. See Binder#getTransactionName. Enum value
+        // is preferred as uses much less data to store.
+        // This field does not contain PII.
+        oneof service_method {
+            ServiceMethodName service_method_name_as_enum = 4;
+            string service_method_name = 5;
+        }
+    }
+
+    message ApiStats {
+        // required.
+        optional Dims dims = 1;
+
+        // Indicates the first bucket that had any data. Allows omitting any empty
+        // buckets at the start of the bucket list and thus save on data size.
+        optional int32 first_bucket_index = 2;
+        // Stores the count of samples for each bucket. The number of buckets and
+        // their sizes are controlled server side with a flag.
+        repeated int32 buckets = 3;
+    }
+
+    message RepeatedApiStats {
+        repeated ApiStats api_stats = 1;
+    }
+
+    // The binder latency data broken down by the dimensions specified above.
+    // The message wrapper is used for the repeated field as top level repeated
+    // fields are not allowed.
+    // MODE_BYTES is used as nested messages are not allowed otherwise.
+    // Required.
+    optional RepeatedApiStats repeated_api_stats = 1 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // The fraction of samples that are recorded in the histogram.
+    // Required.
+    optional float sampling_rate = 2;
+
+    // Indicates how many shards the APIs are divided in - e.g. for 3 every
+    // 3rd API will be included in the data for this shard.
+    // Required.
+    optional int32 sharding_modulo = 3;
+}
+
+/**
  * Log audio device types that are used for input/output.
  * Next Tag: 2
  */
@@ -14356,56 +14508,46 @@ message AudioDevice {
  *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
  */
 message MediametricsAAudioStreamReported {
-    // The caller name of the aaudio stream
-    // See lookup<CALLER_NAME>() in frameworks/av/services/mediametrics/AudioTypes.cpp
-    enum CallerName {
-        CALLER_NAME_UNKNOWN = 0;
-        CALLER_NAME_AAUDIO = 1;
-        CALLER_NAME_JAVA = 2;
-        CALLER_NAME_MEDIA = 3;
-        CALLER_NAME_OPENSLES = 4;
-        CALLER_NAME_RTP = 5;
-        CALLER_NAME_SOUND_POOL = 6;
-        CALLER_NAME_TONE_GENERATOR = 7;
-    }
-    optional CallerName caller_name = 1;
-
     // The implementation of aaudio.
     enum CallerPath {
         CALLER_PATH_UNKNOWN = 0;
         CALLER_PATH_LEGACY = 1;
         CALLER_PATH_MMAP = 2;
     }
-    optional CallerPath path = 2;
+    optional CallerPath path = 1;
 
     // The direction of the stream.
     // See aaudio_direction_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
+    // The Direction values are different from aaudio_direction_t to avoid having 0 at the first
+    // value since first value will be used as default value.
+    // See lookup<AAUDIO_DIRECTION> in frameworks/av/services/mediametrics/AudioTypes.cpp
+    // for conversion from aaudio_direction_t to Direction.
     enum Direction {
         // The direction is unknown.
-        DIRECTION_UNKNOWN = -1;
+        DIRECTION_UNKNOWN = 0;
         // Audio data will travel out of the device.
-        DIRECTION_OUTPUT = 0;
+        DIRECTION_OUTPUT = 1;
         // Audio data will travel into the device.
-        DIRECTION_INPUT = 1;
+        DIRECTION_INPUT = 2;
     }
-    optional Direction direction = 3;
+    optional Direction direction = 2;
 
     // The amount read or written in one shot by the Mixer or DSP.
-    optional int32 frames_per_burst = 4;
+    optional int32 frames_per_burst = 3;
     // The number of frames that the buffer is used.
-    optional int32 buffer_size = 5;
+    optional int32 buffer_size = 4;
     // The allocated number of frames for the buffer.
-    optional int32 buffer_capacity = 6;
+    optional int32 buffer_capacity = 5;
     // The channel count of the aaudio stream.
-    optional int32 channel_count = 7;
+    optional int32 channel_count = 6;
     // Total frames transferred (written or read)
-    optional int64 total_frames_transferred = 8;
+    optional int64 total_frames_transferred = 7;
 
     // The performance mode.
     // See aaudio_performance_mode_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
     enum PerformanceMode {
         // The performance mode is unknown.
-        PERFORMANCE_MODE_UNKNOWN = -1;
+        PERFORMANCE_MODE_UNKNOWN = 0;
         // No particular performance mode needs. Default.
         PERFORMANCE_MODE_NONE = 10;
         // Extending battery life is more important than low latency.
@@ -14414,35 +14556,54 @@ message MediametricsAAudioStreamReported {
         PERFORMANCE_MODE_LOW_LATENCY = 12;
     }
     // The performance mode requested by the applications.
-    optional PerformanceMode perf_mode_requested = 9;
+    optional PerformanceMode perf_mode_requested = 8;
     // The actual performance mode used by aaudio.
-    optional PerformanceMode perf_mode_actual = 10;
+    optional PerformanceMode perf_mode_actual = 9;
 
     // The mode requested for sharing the device
     // See aaudio_sharing_mode_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
+    // The SharingMode values are different from aaudio_direction_t to avoid having 0 at the first
+    // value since first value will be used as default value.
+    // See lookup<AAUDIO_SHARING_MODE> in frameworks/av/services/mediametrics/AudioTypes.cpp
+    // for conversion from aaudio_sharing_mode_t to SharingMode.
     enum SharingMode {
         // The sharing mode is unknown
-        SHARING_MODE_UNKNOWN = -1;
+        SHARING_MODE_UNKNOWN = 0;
         // This will be the only stream using a particular source or sink.
-        SHARING_MODE_EXCLUSIVE = 0;
+        SHARING_MODE_EXCLUSIVE = 1;
         // Multiple application will be mixed by the AAudio server.
-        SHARING_MODE_SHARED = 1;
+        SHARING_MODE_SHARED = 2;
     }
-    optional SharingMode sharing = 11;
+    optional SharingMode sharing = 10;
 
     // Approximate number of glitches.
     // Underrun on output stream. Overrun on input stream.
-    optional int32 xrun_count = 12;
+    optional int32 xrun_count = 11;
     // Devices that are used by the aaudio stream.
-    optional AudioDevice types = 13 [(log_mode) = MODE_BYTES];
+    optional AudioDevice types = 12 [(log_mode) = MODE_BYTES];
 
     // Format request by the applications
-    optional int32 format_app = 14;
+    optional int32 format_app = 13;
     // Format processed by the framework
-    optional int32 format_device = 15;
+    optional int32 format_device = 14;
 
     // Android S metric log session id, a Base64Url encoded string representing a 128-bit integer.
-    optional string log_session_id = 16;
+    optional string log_session_id = 15;
+
+    // The sample rate of the aaudio stream.
+    optional int32 sample_rate = 16;
+
+    // The content type of the aaudio stream.
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h audio_content_type_t
+    enum ContentType {
+        CONTENT_TYPE_UNKNOWN = 0;
+        CONTENT_TYPE_SPEECH = 1;
+        CONTENT_TYPE_MUSIC = 2;
+        CONTENT_TYPE_MOVIE = 3;
+        CONTENT_TYPE_SONIFICATION = 4;
+        CONTENT_TYPE_INVALID = -1;
+    }
+    optional ContentType content_type = 17;
 }
 
 /**
@@ -14772,6 +14933,7 @@ message DeviceStateChanged {
  */
 message MetricsTimeZoneSuggestion {
     enum Type {
+        UNKNOWN = 0;
         CERTAIN = 1;
         UNCERTAIN = 2;
     }
@@ -14807,6 +14969,7 @@ message TimeZoneDetectorState {
     optional bool geo_detection_setting = 5;
 
     enum DetectionMode {
+        UNKNOWN = 0;
         MANUAL = 1;
         TELEPHONY = 2;
         GEO = 3;
@@ -14867,4 +15030,23 @@ message LocationTimeZoneProviderStateChanged {
 
     // The state of the provider.
     optional State state = 2;
+}
+
+/*
+ * Reports fdtrack state change.
+ *
+ * Logged from:
+ *   frameworks/base/services/java/com/android/server/SystemServer.java
+ */
+message FdtrackEventOccurred {
+    enum FdtrackEventType {
+      DISABLED = 1;
+      ENABLED = 2;
+
+      // Aborting because we're above the abort threshold.
+      ABORTING = 3;
+    }
+
+    optional FdtrackEventType event = 1;
+    optional int32 fd_count = 2;
 }
