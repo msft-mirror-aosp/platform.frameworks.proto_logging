@@ -4173,12 +4173,33 @@ message ForegroundServiceStateChanged {
     enum State {
         ENTER = 1;
         EXIT = 2;
+        DENIED = 3;
     }
     optional State state = 3;
 
     // Whether the fgs is allowed while-in-use permissions, i.e. is considered 'in-use' to the user.
     // (If the fgs was started while the app wasn't TOP it usually will be denied these permissions)
     optional bool allow_while_in_use_permission = 4;
+    // the reason why FGS is allowed or denied to start. The reason code is defined as
+    // PowerExemptionManager#ReasonCode.
+    optional int32 fgs_start_reason_code = 5;
+    // FGS service's targetSdkVersion.
+    optional int32 target_sdk_version = 6;
+    // uid of the app that start/bind this service.
+    optional int32 calling_uid = 7;
+    // targetSdkVersion of the app that start/bind this service.
+    optional int32 caller_target_sdk_version = 8;
+    // uid of the app that set the temp-allowlist, INVALID_UID (-1) if not in any
+    // temp-allowlist.
+    optional int32 temp_allow_list_calling_uid = 9;
+    // FGS notification was deferred.
+    optional bool fgs_notification_deferred = 10;
+    // FGS notification was shown before the FGS finishes, or it wasn't deferred in the first place.
+    optional bool fgs_notification_shown = 11;
+    // The duration from state ENTER to state EXIT. Only meaningful when the state is EXIT.
+    optional int32 fgs_duration_ms = 12;
+    // Number of times startForeground() is called on this service.
+    optional int32 fgs_start_count = 13;
 }
 
 /**
@@ -5726,6 +5747,7 @@ message UIActionLatencyReported {
         ACTION_FACE_WAKE_AND_UNLOCK = 8;
         ACTION_START_RECENTS_ANIMATION = 9;
         ACTION_ROTATE_SCREEN_CAMERA_CHECK = 10;
+        ACTION_ROTATE_SCREEN_SENSOR = 11;
     }
 
     optional ActionType action = 1;
