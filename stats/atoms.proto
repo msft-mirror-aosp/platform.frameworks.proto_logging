@@ -4050,6 +4050,9 @@ message AppStartOccurred {
     // The time from the startup source to the beginning of handling the startup event.
     // -1 means not available.
     optional int32 source_event_delay_millis = 17;
+
+    // Whether the app is hibernating when it started
+    optional bool is_hibernating = 18;
 }
 
 message AppStartCanceled {
