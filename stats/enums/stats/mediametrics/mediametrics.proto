@@ -127,41 +127,6 @@ message AudioTrackData {
 }
 
 /**
- * Track Media Codec usage
- * Logged from:
- *   frameworks/av/media/libstagefright/MediaCodec.cpp
- *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
- * Next Tag: 26
- */
-message CodecData {
-    optional string codec = 1;
-    optional string mime = 2;
-    optional string mode = 3;
-    optional int32 encoder = 4;
-    optional int32 secure = 5;
-    optional int32 width = 6;
-    optional int32 height = 7;
-    optional int32 rotation = 8;
-    optional int32 crypto = 9;
-    optional int32 profile = 10;
-    optional int32 level = 11;
-    optional int32 max_width = 12;
-    optional int32 max_height = 13;
-    optional int32 error_code = 14;
-    optional string error_state = 15;
-    optional int64 latency_max = 16;
-    optional int64 latency_min = 17;
-    optional int64 latency_avg = 18;
-    optional int64 latency_count = 19;
-    optional int64 latency_unknown = 20;
-    optional int32 queue_input_buffer_error = 21;
-    optional int32 queue_secure_input_buffer_error = 22;
-    optional string bitrate_mode = 23;
-    optional int32 bitrate = 24;
-    optional int64 lifetime_millis = 25;
-}
-
-/**
  * Track Media Extractor (pulling video/audio streams out of containers) usage
  * Logged from:
  *   frameworks/av/media/libstagefright/RemoteMediaExtractor.cpp

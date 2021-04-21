@@ -69,6 +69,7 @@ import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/otaupdate/updateengine_enums.proto";
+import "frameworks/proto_logging/stats/message/mediametrics_message.proto";
 
 /**
  * The primary atom class. This message defines all of the available
@@ -8669,7 +8670,7 @@ message MediametricsCodecReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.CodecData codec_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.CodecData codec_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer.
     // This field is the same as that in MediametricsPlaybackReported for the same playback.
@@ -10401,7 +10402,7 @@ message RebootEscrowRebootReported {
   optional int32 error_code = 1;
 
   // The uid of clients who requested the reboot
-  optional int32 request_uid = 2;
+  optional int32 request_uid = 2 [(is_uid) = true];
 
   // All clients that have prepared for RoR before this reboot
   optional int32 prepared_clients_count = 3;
