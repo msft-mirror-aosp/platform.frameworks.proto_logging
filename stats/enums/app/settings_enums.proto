@@ -2983,4 +2983,14 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     WORK_PROFILE_SOUNDS = 1877;
+
+    // OPEN: Settings > Security > Face and fingerprint unlock
+    // CATEGORY: SETTINGS
+    // OS: S
+    COMBINED_BIOMETRIC = 1878;
+
+    // OPEN: Settings > Security > Face and fingerprint unlock for profile
+    // CATEGORY: SETTINGS
+    // OS: S
+    COMBINED_BIOMETRIC_PROFILE = 1879;
 }

@@ -69,6 +69,7 @@ import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/otaupdate/updateengine_enums.proto";
+import "frameworks/proto_logging/stats/message/mediametrics_message.proto";
 
 /**
  * The primary atom class. This message defines all of the available
@@ -420,7 +421,8 @@ message Atom {
         SnapshotMergeReported snapshot_merge_reported = 255;
         ForegroundServiceAppOpSessionEnded foreground_service_app_op_session_ended =
             256  [(module) = "framework"];
-        DisplayJankReported display_jank_reported = 257;
+        // DisplayJankReported was deprecated in Android 12+
+        DisplayJankReported display_jank_reported = 257 [deprecated = true];
         AppStandbyBucketChanged app_standby_bucket_changed = 258 [(module) = "framework"];
         SharesheetStarted sharesheet_started = 259 [(module) = "framework"];
         RankingSelected ranking_selected = 260 [(module) = "framework", (module) = "sysui"];
@@ -560,6 +562,7 @@ message Atom {
         FdtrackEventOccurred fdtrack_event_occurred = 364 [(module) = "framework"];
         TimeoutAutoExtendedReported timeout_auto_extended_reported = 365
             [(module) = "framework"];
+        OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -3489,7 +3492,7 @@ message LauncherUIChanged {
 message SmartSpaceCardReported {
     // Different SmartSpace cards.
     enum CardType {
-        DEFAULT_CARD = 0;
+        UNKNOWN_CARD = 0;
         COMMUTE = 1;
         CALENDAR = 2;
         FLIGHT = 3;
@@ -3497,17 +3500,16 @@ message SmartSpaceCardReported {
         WEATHER_ALERT = 5;
         AT_A_STORE_SHOPPING_LIST = 6;
         AT_A_STORE_LOYALTY_CARD = 7;
-        HEADPHONE = 8;
-        TIMER = 9;
-        STOPWATCH = 10;
-        FITNESS_ACTIVITY = 11;
-        UPCOMING_REMINDER = 12;
-        UPCOMING_BEDTIME = 13;
-        TIME_TO_LEAVE = 14;
-        PACKAGE_DELIVERY = 15;
-        SPORT = 16;
-        STOCK = 17;
-        TIPS = 18;
+        HEADPHONE_RESUME_MEDIA = 8;
+        HEADPHONE_MEDIA_RECOMMENDATIONS = 9;
+        TIMER = 10;
+        STOPWATCH = 11;
+        FITNESS_ACTIVITY = 12;
+        UPCOMING_REMINDER = 13;
+        UPCOMING_BEDTIME = 14;
+        TIME_TO_LEAVE = 15;
+        PACKAGE_DELIVERED = 16;
+        TIPS = 17;
     }
 
     // The surface that SmartSpace card is shown.
@@ -4048,6 +4050,9 @@ message AppStartOccurred {
     // The time from the startup source to the beginning of handling the startup event.
     // -1 means not available.
     optional int32 source_event_delay_millis = 17;
+
+    // Whether the app is hibernating when it started
+    optional bool is_hibernating = 18;
 }
 
 message AppStartCanceled {
@@ -4171,12 +4176,33 @@ message ForegroundServiceStateChanged {
     enum State {
         ENTER = 1;
         EXIT = 2;
+        DENIED = 3;
     }
     optional State state = 3;
 
     // Whether the fgs is allowed while-in-use permissions, i.e. is considered 'in-use' to the user.
     // (If the fgs was started while the app wasn't TOP it usually will be denied these permissions)
     optional bool allow_while_in_use_permission = 4;
+    // the reason why FGS is allowed or denied to start. The reason code is defined as
+    // PowerExemptionManager#ReasonCode.
+    optional int32 fgs_start_reason_code = 5;
+    // FGS service's targetSdkVersion.
+    optional int32 target_sdk_version = 6;
+    // uid of the app that start/bind this service.
+    optional int32 calling_uid = 7;
+    // targetSdkVersion of the app that start/bind this service.
+    optional int32 caller_target_sdk_version = 8;
+    // uid of the app that set the temp-allowlist, INVALID_UID (-1) if not in any
+    // temp-allowlist.
+    optional int32 temp_allow_list_calling_uid = 9;
+    // FGS notification was deferred.
+    optional bool fgs_notification_deferred = 10;
+    // FGS notification was shown before the FGS finishes, or it wasn't deferred in the first place.
+    optional bool fgs_notification_shown = 11;
+    // The duration from state ENTER to state EXIT. Only meaningful when the state is EXIT.
+    optional int32 fgs_duration_ms = 12;
+    // Number of times startForeground() is called on this service.
+    optional int32 fgs_start_count = 13;
 }
 
 /**
@@ -5724,6 +5750,7 @@ message UIActionLatencyReported {
         ACTION_FACE_WAKE_AND_UNLOCK = 8;
         ACTION_START_RECENTS_ANIMATION = 9;
         ACTION_ROTATE_SCREEN_CAMERA_CHECK = 10;
+        ACTION_ROTATE_SCREEN_SENSOR = 11;
     }
 
     optional ActionType action = 1;
@@ -8642,7 +8669,7 @@ message MediametricsCodecReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.CodecData codec_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.CodecData codec_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer.
     // This field is the same as that in MediametricsPlaybackReported for the same playback.
@@ -10374,7 +10401,7 @@ message RebootEscrowRebootReported {
   optional int32 error_code = 1;
 
   // The uid of clients who requested the reboot
-  optional int32 request_uid = 2;
+  optional int32 request_uid = 2 [(is_uid) = true];
 
   // All clients that have prepared for RoR before this reboot
   optional int32 prepared_clients_count = 3;
@@ -10537,6 +10564,9 @@ message RebootEscrowRecoveryReported {
 /**
  * Global display pipeline metrics reported by SurfaceFlinger.
  * Metrics exist beginning in Android 11.
+ * There is a copy of this proto in timestats_atoms.proto in SurfaceFlinger.
+ * That proto must be updated if this atom is updated.
+ *
  * Pulled from:
  *    frameworks/native/services/surfaceflinger/TimeStats/TimeStats.cpp
  */
@@ -10651,6 +10681,9 @@ message SurfaceflingerStatsGlobalInfo {
  * Per-layer display pipeline metrics reported by SurfaceFlinger.
  * Metrics exist beginning in Android 11.
  * The number of layers uploaded may be restricted due to size limitations.
+ * There is a copy of this proto in timestats_atoms.proto in SurfaceFlinger.
+ * That proto must be updated if this atom is updated.
+ *
  * Pulled from:
  *    frameworks/native/services/surfaceflinger/TimeStats/TimeStats.cpp
  */
@@ -13540,6 +13573,9 @@ message Keystore2StorageStats {
     optional Storage storage_type = 1;
     // Storage size in bytes
     optional int64 size = 2;
+    // Unused space, in bytes. The total storage size may be larger, indicating
+    // inefficiencies in the packing of data in the database.
+    optional int64 unused_size = 3;
 }
 
 /**
@@ -13549,6 +13585,7 @@ message Keystore2StorageStats {
 message RkpErrorReported {
 
     enum RkpErrorEvent {
+        RKP_ERROR_UNSPECIFIED = 0;
         // The key pool is out of keys.
         OUT_OF_KEYS = 1;
         // Falling back to factory provisioned keys during hybrid mode.
@@ -13983,8 +14020,9 @@ message ProcessStat {
 message MediametricsPlaybackReported {
     optional int32 uid = 1 [(is_uid) = true];
 
-    // Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
-    optional string playback_id = 2;
+    // Randomly generated log session ID. A Base64 encoded hex string representing a
+    // 128-bit integer.
+    optional string log_session_id = 2;
     // The total length of the media in milliseconds. 0 for live contents.
     optional int64 media_duration_millis = 3;
     // Network, device, or mixed.
@@ -14021,8 +14059,9 @@ message MediametricsPlaybackReported {
 }
 
 message MediaNetworkInfoChanged {
-    //  Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
-    optional string playback_id = 1;
+    // Randomly generated log session ID. A Base64 encoded hex string representing a
+    // 128-bit integer.
+    optional string log_session_id = 1;
     //  New network type
     optional android.stats.mediametrics.NetworkType type = 2;
     //  Network Start time, relative to playback creation time in millisecond.
@@ -14031,8 +14070,9 @@ message MediaNetworkInfoChanged {
 }
 
 message MediaPlaybackStateChanged {
-    //  Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
-    optional string playback_id = 1;
+    // Randomly generated log session ID. A Base64 encoded hex string representing a
+    // 128-bit integer.
+    optional string log_session_id = 1;
     //  New playback state
     optional android.stats.mediametrics.PlaybackState playback_state = 2;
     //  State change time, relative to playback creation time in millisecond.
@@ -14041,8 +14081,9 @@ message MediaPlaybackStateChanged {
 }
 
 message MediaPlaybackErrorReported {
-    //  Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
-    optional string playback_id = 1;
+    // Randomly generated log session ID. A Base64 encoded hex string representing a
+    // 128-bit integer.
+    optional string log_session_id = 1;
     //  A shortened call stack of the error
     optional string exception_stack = 2;
     //  Error code
@@ -14055,8 +14096,9 @@ message MediaPlaybackErrorReported {
 }
 
 message MediaPlaybackTrackChanged {
-    //  Randomly generated playback ID. A Base64 encoded hex string representing a 128-bit integer
-    optional string playback_id = 1;
+    // Randomly generated log session ID. A Base64 encoded hex string representing a
+    // 128-bit integer.
+    optional string log_session_id = 1;
     //  The track is on or off after the change
     optional android.stats.mediametrics.TrackState state = 2;
     //  The reason of the track change
@@ -14437,13 +14479,13 @@ message SimSpecificSettingsRestored {
  * frameworks/base/core/java/com/android/internal/os/BinderLatencyObserver.java
  */
 message BinderLatencyReported {
-    enum ProcessSource {
-        UNKNOWN_PROCESS_SOURCE = 0;
-        SYSTEM_SERVER = 1;
-        TELEPHONY = 2;
-    }
-
     message Dims {
+        enum ProcessSource {
+            UNKNOWN_PROCESS_SOURCE = 0;
+            SYSTEM_SERVER = 1;
+            TELEPHONY = 2;
+            BLUETOOTH = 3;
+        }
         enum ServiceClassName {
             UNKNOWN_CLASS = 0;
         }
@@ -14503,6 +14545,19 @@ message BinderLatencyReported {
     // 3rd API will be included in the data for this shard.
     // Required.
     optional int32 sharding_modulo = 3;
+
+    // Params for histogram buckets.
+    // The number of buckets the histogram should have.
+    optional int32 bucket_count = 4;
+
+    // The size (upper bound) of the first bucket (used to avoid creating an
+    // excessive amount of small buckets). E.g. for first_bucket_size of 5, the
+    // first bucket will be [0, 5) and the second will be [5, 5 * scaleFactor).
+    optional int32 first_bucket_size = 5;
+
+    // The rate in which each consecutive bucket increases (before rounding).
+    // Implemented in: com.android.internal.os.BinderLatencyBuckets.
+    optional float scale_factor = 6;
 }
 
 /**
@@ -15062,3 +15117,98 @@ message FdtrackEventOccurred {
     optional FdtrackEventType event = 1;
     optional int32 fd_count = 2;
 }
+
+/*
+ * Logs information about on-device refresh of ART AOT artifacts for boot classpath extensions
+ * and system_server.
+ *
+ * Logged from:
+ *   art/odrefresh/odrefresh.cc
+ */
+message OdrefreshReported {
+    optional int64 art_apex_version = 1;
+
+    enum Trigger {
+        // A placeholder for unknown values.
+        TRIGGER_UNKNOWN = 0;
+
+        // ART apex version has changed since time artifacts were generated.
+        TRIGGER_APEX_VERSION_MISMATCH = 1;
+
+        // Dex files on the boot classpath or system_server classpath have changed.
+        TRIGGER_DEX_FILES_CHANGED = 2;
+
+        // Missing artifacts.
+        TRIGGER_MISSING_ARTIFACTS = 3;
+    }
+
+    optional Trigger trigger = 2;
+
+    enum Stage {
+        // A placeholder for unknown values.
+        STAGE_UNKNOWN = 0;
+
+        // Checking stage.
+        STAGE_CHECK = 10;
+
+        // Preparation for compilation.
+        STAGE_PREPARATION = 20;
+
+        // Compilation of primary boot classpath extensions.
+        STAGE_PRIMARY_BOOT_CLASSPATH = 30;
+
+        // Compilation of secondary boot classpath extensions.
+        STAGE_SECONDARY_BOOT_CLASSPATH = 40;
+
+        // Compilation of system_server classpath.
+        STAGE_SYSTEM_SERVER_CLASSPATH = 50;
+
+        // All stages completed.
+        STAGE_COMPLETE = 60;
+    }
+
+    optional Stage stage_reached = 3;
+
+    enum Status {
+        // A placeholder for unknown values.
+        STATUS_UNKNOWN = 0;
+
+        // OK, no problems encountered.
+        STATUS_OK = 1;
+
+        // Insufficient space.
+        STATUS_NO_SPACE = 2;
+
+        // Storage operation failed.
+        STATUS_IO_ERROR = 3;
+
+        // Dex2oat reported an error.
+        STATUS_DEX2OAT_ERROR = 4;
+
+        // Time limit exceeded.
+        STATUS_TIME_LIMIT_EXCEEDED = 5;
+
+        // Failure creating staging area.
+        STATUS_STAGING_FAILED = 6;
+
+        // Installation of artifacts failed.
+        STATUS_INSTALL_FAILED = 7;
+    }
+
+    optional Status status = 4;
+
+    // Compilation time iof primary boot classpath extensions.
+    optional int32 primary_bcp_compilation_seconds = 5;
+
+    // Compilation time of secondary boot classpath extensions.
+    optional int32 secondary_bcp_compilation_seconds = 6;
+
+    // Compilation time of system_server classpath.
+    optional int32 system_server_compilation_seconds = 7;
+
+    // Cache space at start of update.
+    optional int32 cache_space_free_start_mib = 8;
+
+    // Cache space at end of update.
+    optional int32 cache_space_free_end_mib = 9;
+};
