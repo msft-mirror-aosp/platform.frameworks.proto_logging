@@ -3492,7 +3492,7 @@ message LauncherUIChanged {
 message SmartSpaceCardReported {
     // Different SmartSpace cards.
     enum CardType {
-        DEFAULT_CARD = 0;
+        UNKNOWN_CARD = 0;
         COMMUTE = 1;
         CALENDAR = 2;
         FLIGHT = 3;
@@ -3500,17 +3500,16 @@ message SmartSpaceCardReported {
         WEATHER_ALERT = 5;
         AT_A_STORE_SHOPPING_LIST = 6;
         AT_A_STORE_LOYALTY_CARD = 7;
-        HEADPHONE = 8;
-        TIMER = 9;
-        STOPWATCH = 10;
-        FITNESS_ACTIVITY = 11;
-        UPCOMING_REMINDER = 12;
-        UPCOMING_BEDTIME = 13;
-        TIME_TO_LEAVE = 14;
-        PACKAGE_DELIVERY = 15;
-        SPORT = 16;
-        STOCK = 17;
-        TIPS = 18;
+        HEADPHONE_RESUME_MEDIA = 8;
+        HEADPHONE_MEDIA_RECOMMENDATIONS = 9;
+        TIMER = 10;
+        STOPWATCH = 11;
+        FITNESS_ACTIVITY = 12;
+        UPCOMING_REMINDER = 13;
+        UPCOMING_BEDTIME = 14;
+        TIME_TO_LEAVE = 15;
+        PACKAGE_DELIVERED = 16;
+        TIPS = 17;
     }
 
     // The surface that SmartSpace card is shown.
@@ -10565,6 +10564,9 @@ message RebootEscrowRecoveryReported {
 /**
  * Global display pipeline metrics reported by SurfaceFlinger.
  * Metrics exist beginning in Android 11.
+ * There is a copy of this proto in timestats_atoms.proto in SurfaceFlinger.
+ * That proto must be updated if this atom is updated.
+ *
  * Pulled from:
  *    frameworks/native/services/surfaceflinger/TimeStats/TimeStats.cpp
  */
@@ -10679,6 +10681,9 @@ message SurfaceflingerStatsGlobalInfo {
  * Per-layer display pipeline metrics reported by SurfaceFlinger.
  * Metrics exist beginning in Android 11.
  * The number of layers uploaded may be restricted due to size limitations.
+ * There is a copy of this proto in timestats_atoms.proto in SurfaceFlinger.
+ * That proto must be updated if this atom is updated.
+ *
  * Pulled from:
  *    frameworks/native/services/surfaceflinger/TimeStats/TimeStats.cpp
  */
@@ -13568,6 +13573,9 @@ message Keystore2StorageStats {
     optional Storage storage_type = 1;
     // Storage size in bytes
     optional int64 size = 2;
+    // Unused space, in bytes. The total storage size may be larger, indicating
+    // inefficiencies in the packing of data in the database.
+    optional int64 unused_size = 3;
 }
 
 /**
@@ -13577,6 +13585,7 @@ message Keystore2StorageStats {
 message RkpErrorReported {
 
     enum RkpErrorEvent {
+        RKP_ERROR_UNSPECIFIED = 0;
         // The key pool is out of keys.
         OUT_OF_KEYS = 1;
         // Falling back to factory provisioned keys during hybrid mode.
