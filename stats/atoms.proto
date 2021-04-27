@@ -3851,6 +3851,45 @@ message AppCrashOccurred {
     optional float loading_progress = 10;
 
     optional int64 millis_since_oldest_pending_read = 11;
+
+    // Status code to represent the health of the file system backing storage, as defined in
+    // frameworks/base/core/java/android/os/incremental/IStorageHealthListener.aidl.
+    // Value -1 if the app is not installed on Incremental
+    optional int32 storage_health_code = 12;
+
+    // Status code to represent the status of data loader, as defined in
+    // frameworks/base/core/java/android/content/pm/IDataLoaderStatusListener.aidl.
+    // Value -1 if the app is not installed on Incremental
+    optional int32 data_loader_status_code = 13;
+
+    // Whether read logs collection is enabled
+    optional bool read_logs_enabled = 14;
+
+    // Duration since last attempt to bind data loader. 0 means did not attempt to bind.
+    // -1 means the app is not installed on Incremental.
+    optional int64 millis_since_last_data_loader_bind = 15;
+
+    // Delay for retrying to bind data loader. If not bound, it shows how soon it will be bound.
+    optional int64 data_loader_bind_delay_millis = 16;
+
+    // Total count of delayed reads, as reported by Incremental File System.
+    optional int32 total_delayed_reads = 17;
+
+    // Total count of failed reads (timeout or hash errors) as reported by Incremental File System.
+    optional int32 total_failed_reads = 18;
+
+    // UID of the process that tried to read a page from the app but failed.
+    // This shows whether the read was initiated by the system, the app itself, or some other apps.
+    // -1 means there was no read error or the app is not installed on Incremental.
+    optional int32 last_read_error_uid = 19;
+
+    // Duration since that last read failure.
+    // -1 means there was no read error or the app is not installed on Incremental.
+    optional int64 last_read_error_millis_since = 20;
+
+    // Error code of last read failure. ETIME (value=62) for timeout, EBADMSG (value=74) for hash
+    // and other positive values for other errors. -1 means app is not installed on Incremental.
+    optional int32 last_read_error_code = 21;
 }
 
 /**
@@ -3918,6 +3957,45 @@ message ANROccurred {
     optional float loading_progress = 10;
 
     optional int64 millis_since_oldest_pending_read = 11;
+
+    // Status code to represent the health of the file system backing storage, as defined in
+    // frameworks/base/core/java/android/os/incremental/IStorageHealthListener.aidl.
+    // Value -1 if the app is not installed on Incremental
+    optional int32 storage_health_code = 12;
+
+    // Status code to represent the status of data loader, as defined in
+    // frameworks/base/core/java/android/content/pm/IDataLoaderStatusListener.aidl.
+    // Value -1 if the app is not installed on Incremental
+    optional int32 data_loader_status_code = 13;
+
+    // Whether read logs collection is enabled
+    optional bool read_logs_enabled = 14;
+
+    // Duration since last attempt to bind data loader. 0 means did not attempt to bind.
+    // -1 means the app is not installed on Incremental.
+    optional int64 millis_since_last_data_loader_bind = 15;
+
+    // Delay for retrying to bind data loader. If not bound, it shows how soon it will be bound.
+    optional int64 data_loader_bind_delay_millis = 16;
+
+    // Total count of delayed reads, as reported by Incremental File System.
+    optional int32 total_delayed_reads = 17;
+
+    // Total count of failed reads (timeout or hash errors) as reported by Incremental File System.
+    optional int32 total_failed_reads = 18;
+
+    // UID of the process that tried to read a page from the app but failed.
+    // This shows whether the read was initiated by the system, the app itself, or some other apps.
+    // -1 means there was no read error or the app is not installed on Incremental.
+    optional int32 last_read_error_uid = 19;
+
+    // Duration since that last read failure.
+    // -1 means there was no read error or the app is not installed on Incremental.
+    optional int64 last_read_error_millis_since = 20;
+
+    // Error code of last read failure. ETIME (value=62) for timeout, EBADMSG (value=74) for hash
+    // and other positive values for other errors. -1 means app is not installed on Incremental.
+    optional int32 last_read_error_code = 21;
 }
 
 /**
