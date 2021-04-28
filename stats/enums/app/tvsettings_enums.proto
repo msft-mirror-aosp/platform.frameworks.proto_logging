@@ -368,6 +368,12 @@ enum ItemId {
     // TvSettings > Display & Sound > Advanced sound settings > DTS (toggle)
     DISPLAY_SOUND_ADVANCED_SOUNDS_DTS = 0x15360000;
 
+    // TvSettings > Display & Sound > Advanced sound settings > DTS-UHD (toggle)
+    DISPLAY_SOUND_ADVANCED_SOUNDS_DTSUHD = 0x15361000;
+
+    // TvSettings > Display & Sound > Advanced sound settings > DRA (toggle)
+    DISPLAY_SOUND_ADVANCED_SOUNDS_DRA = 0x15362000;
+
     // TvSettings > Display & Sound > Advanced sound settings > DTS-HD (toggle)
     DISPLAY_SOUND_ADVANCED_SOUNDS_DTSHD = 0x15370000;
 
