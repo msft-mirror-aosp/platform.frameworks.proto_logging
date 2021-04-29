@@ -566,6 +566,9 @@ message Atom {
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
         IoOveruseStatsReported io_overuse_stats_reported = 369 [(module) = "carwatchdogd"];
+        UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
+        AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "framework"];
+        AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -691,6 +694,7 @@ message Atom {
         RkpPoolStats rkp_pool_stats = 10104;
         ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
         PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
+        UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1356,6 +1360,8 @@ message DeferredJobStatsReported {
  *
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/am/BatteryStatsService.java
+ *
+ * Next tag: 18
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -1370,10 +1376,16 @@ message ScheduledJobStateChanged {
     }
     optional State state = 3;
 
-    // The reason a job has stopped.
+    // The internal reason a job has stopped.
     // This is only applicable when the state is FINISHED.
-    // The default value is STOP_REASON_UNKNOWN.
-    optional android.app.job.StopReasonEnum stop_reason = 4;
+    // The default value is INTERNAL_STOP_REASON_UNKNOWN.
+    optional android.app.job.InternalStopReasonEnum internal_stop_reason = 4;
+
+    // The publicly returned reason onStopJob() was called.
+    // This is only applicable when the state is FINISHED, but may be undefined if
+    // JobService.onStopJob() was never called for the job.
+    // The default value is STOP_REASON_UNDEFINED.
+    optional android.app.job.StopReasonEnum public_stop_reason = 17;
 
     // The standby bucket of the app that scheduled the job. These match the framework constants
     // defined in JobSchedulerService.java with the addition of UNKNOWN using -1, as ACTIVE is
@@ -5627,6 +5639,28 @@ message SnapshotMergeReported {
         CANCELLED = 7;
     };
 
+    // Status codes correspond to specific failure conditions in
+    // system/core/fs_mgr/libsnapshot/android/snapshot/snapshot.cpp
+    //
+    // Keep in sync with
+    // system/core/fs_mgr/libsnapshot/android/snapshot/snapshot.proto
+    enum MergeFailureCode {
+        OK = 0;
+        READ_STATUS = 1;
+        GET_TABLE_INFO = 2;
+        UNKNOWN_TABLE = 3;
+        GET_TABLE_PARAMS = 4;
+        ACTIVATE_NEW_TABLE = 5;
+        ACQUIRE_LOCK = 6;
+        LIST_SNAPSHOTS = 7;
+        WRITE_STATUS = 8;
+        UNKNOWN_TARGET_TYPE = 9;
+        QUERY_SNAPSHOT_STATUS = 10;
+        EXPECTED_MERGE_TARGET = 11;
+        UNMERGED_SECTORS_AFTER_COMPLETION = 12;
+        UNEXPECTED_MERGE_STATE = 13;
+    };
+
     // Status of the update after the merge attempts.
     optional UpdateState final_state = 1;
 
@@ -5665,6 +5699,8 @@ message SnapshotMergeReported {
 
     // Time from sys.boot_completed to merge start, in milliseconds.
     optional int32 boot_complete_to_merge_start_time_millis = 11;
+
+    optional MergeFailureCode merge_failure_code = 12;
 }
 
 /**
@@ -10519,7 +10555,7 @@ message AppSearchCallStatsReported {
 
     // # of previous skipped sample for this specific type of stats
     // For WestWorld we can't push atoms too closely, so some samples might be skipped
-    // In order to extrapolate the counts, we need to save the number and add it back
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_ratio * (num_skipped_sample + 1)) as est_count
     optional int32 num_skipped_sample = 2;
@@ -10531,10 +10567,12 @@ message AppSearchCallStatsReported {
     optional int32 database = 4;
 
     // The status code for the call or internal state.
-    // Needs to be sync with code in google3/third_party/icing/proto/status.proto
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
-    // Overall time used for the end-to-end function call in AppSearch
+    // Overall time used for the end-to-end function call in AppSearch.
+    // It doesn't include binder latency
     optional int32 total_latency_millis = 6;
 
     // Type of the function call value is in sync with
@@ -10561,7 +10599,7 @@ message AppSearchPutDocumentStatsReported {
 
     // # of previous skipped sample for this specific type of stats
     // For WestWorld we can't push atoms too closely, so some samples might be skipped
-    // In order to extrapolate the counts, we need to save the number and add it back
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_ratio * (num_skipped_sample + 1)) as est_count
     optional int32 num_skipped_sample = 2;
@@ -10572,7 +10610,8 @@ message AppSearchPutDocumentStatsReported {
     // Hash of the database name within AppSearch
     optional int32 database = 4;
 
-    // Needs to be sync with code in google3/third_party/icing/proto/status.proto
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
     // Overall time used for a put_document
@@ -10605,6 +10644,164 @@ message AppSearchPutDocumentStatsReported {
 
     // Whether the max number of tokens exceeded.
     optional bool native_exceeded_max_num_tokens = 15;
+}
+
+/**
+ * Logs detailed stats for AppSearch Initialize
+ */
+message AppSearchInitializeStatsReported {
+    // The sampling ratio for this specific type of stats
+    // For example, sampling_ratio=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_ratio = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_ratio * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Initialize status code
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
+    optional int32 status_code = 4;
+
+    // Overall time used for initialization, not including binder latency.
+    optional int32 total_latency_millis = 5;
+
+    // Whether the initialize() detects desyncs.
+    // Desync happens if we lose the visibility doc.
+    optional bool has_desync = 6;
+
+    // Time used to read and process the schema and namespaces.
+    optional int32 prepare_schema_and_namespaces_latency_millis = 7;
+
+    // Time used to read and process the visibility file.
+    optional int32 prepare_visibility_file_latency_millis = 8;
+
+    // Overall time used for the native function call.
+    optional int32 native_latency_millis = 9;
+
+    // Needs to be sync with RecoveryCause in google3/third_party/icing/proto/logging.proto
+    optional int32 native_document_store_recovery_cause = 10;
+
+    // Needs to be sync with RecoveryCause in google3/third_party/icing/proto/logging.proto
+    optional int32 native_index_restoration_cause = 11;
+
+    // Needs to be sync with RecoveryCause in google3/third_party/icing/proto/logging.proto
+    optional int32 native_schema_store_recovery_cause = 12;
+
+    // Time used to recover the document store.
+    optional int32 native_document_store_recovery_latency_millis = 13;
+
+    // Time used to restore the index.
+    optional int32 native_index_restoration_latency_millis = 14;
+
+    // Time used to recover the schema store.
+    optional int32 native_schema_store_recovery_latency_millis = 15;
+
+    // Needs to be sync with DocumentStoreDataStatus in google3/third_party/icing/proto/logging.proto
+    optional int32 native_document_store_data_status = 16;
+
+    // Number of documents currently in document store. Those may
+    // include alive, deleted, and expired documents.
+    optional int32 native_num_documents = 17;
+
+    // Number of schema types currently in the schema store.
+    optional int32 native_num_schema_types = 18;
+}
+
+/**
+ * Logs detailed stats for querying in AppSearch
+ */
+message AppSearchQueryStatsReported {
+    // The sampling ratio for this specific type of stats
+    // For example, sampling_ratio=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_ratio = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_ratio * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch
+    optional int32 database = 4;
+
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
+    optional int32 status_code = 5;
+
+    // Overall time used for query including estimated binder latency
+    optional int32 total_latency_millis = 6;
+
+    // Time used to rewrite the search spec.
+    optional int32 rewrite_search_spec_latency_millis = 7;
+
+    // Time used to rewrite the search results.
+    optional int32 rewrite_search_result_latency_millis = 8;
+
+    // Whether it is a global query.
+    // Needs to be sync with QueryStats#VisibilityScope in
+    // frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/external/localstorage/stats/QueryStats.java
+    optional int32 visibility_scope = 9;
+
+    // Overall time used for the native function call.
+    optional int32 native_latency_millis = 10;
+
+    // Number of terms in the query string.
+    optional int32 native_num_terms = 11;
+
+    // Length of the query string.
+    optional int32 native_query_length = 12;
+
+    // Number of namespaces filtered.
+    optional int32 native_num_namespaces_filtered = 13;
+
+    // Number of schema types filtered.
+    optional int32 native_num_schema_types_filtered = 14;
+
+    // The requested number of results in one page.
+    optional int32 native_requested_page_size = 15;
+
+    // The actual number of results returned in the current page.
+    optional int32 native_num_results_returned_current_page = 16;
+
+    // Whether the function call is querying the first page. If it's
+    // not, Icing will fetch the results from cache so that some steps
+    // may be skipped.
+    optional bool native_is_first_page = 17;
+
+    // Time used to parse the query, including 2 parts: tokenizing and
+    // transforming tokens into an iterator tree.
+    optional int32 native_parse_query_latency_millis = 18;
+
+    // Strategy of scoring and ranking.
+    // Needs to be sync with RankingStrategy.Code in google3/third_party/icing/proto/scoring.proto
+    optional int32 native_ranking_strategy = 19;
+
+    // Number of documents scored.
+    optional int32 native_num_documents_scored = 20;
+
+    // Time used to score the raw results.
+    optional int32 native_scoring_latency_millis = 21;
+
+    // Time used to rank the scored results.
+    optional int32 native_ranking_latency_millis = 22;
+
+    // Time used to fetch the document protos. Note that it includes the
+    // time to snippet if "native_num_results_with_snippets" is NOT zero.
+    optional int32 native_document_retrieval_latency_millis = 23;
+
+    // How many snippets are calculated.
+    optional int32 native_num_results_with_snippets = 24;
 }
 
 /**
@@ -15373,3 +15570,35 @@ message OdrefreshReported {
     // Cache space at end of update.
     optional int32 cache_space_free_end_mib = 9;
 };
+
+/*
+ * Logged when a package's user-level hibernation state changes.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/apphibernation/AppHibernationService.java
+ */
+ message UserLevelHibernationStateChanged {
+    // Name of the package that had its hibernation state change.
+    optional string package_name = 1;
+
+    // Android user id to which this event belongs. This can only be 0, 10, 11 and so on.
+    optional int32 user_id = 2;
+
+    // New hibernation state. True if hibernating, false otherwise
+    optional bool is_hibernating = 3;
+
+    // Time spent in the other state in millis
+    optional int64 time_in_last_state_millis = 4;
+}
+
+/*
+ * Pull atom for the number of hibernated packages on the device for the given user.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/apphibernation/AppHibernationService.java
+ */
+message UserLevelHibernatedApps {
+    // Total number of apps hibernated for the user
+    optional int32 hibernated_app_count = 1;
+
+    // Android user id of the queried user which can only be 0, 10, 11 and so on.
+    optional int32 user_id = 2;
+}
