@@ -23,7 +23,7 @@ package android.stats.mediametrics_message;
  * Logged from:
  *   frameworks/av/media/libstagefright/MediaCodec.cpp
  *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
- * Next Tag: 45
+ * Next Tag: 46
  */
 message CodecData {
   optional string codec = 1;
@@ -70,4 +70,5 @@ message CodecData {
   optional int32 video_qp_p_max = 42;
   optional int32 video_qp_b_min = 43;
   optional int32 video_qp_b_max = 44;
+  optional int32 original_bitrate = 45;
 }
