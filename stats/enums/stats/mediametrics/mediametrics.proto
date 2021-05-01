@@ -131,7 +131,7 @@ message AudioTrackData {
  * Logged from:
  *   frameworks/av/media/libstagefright/RemoteMediaExtractor.cpp
  *   frameworks/av/services/mediaanalytics/statsd_extractor.cpp
- * Next Tag: 5
+ * Next Tag: 6
  */
 message ExtractorData {
     optional string format = 1;
@@ -148,6 +148,7 @@ message ExtractorData {
     }
 
     optional EntryPoint entry_point = 4 [default = UNSET];
+    optional string log_session_id = 5;
 }
 
 /**
