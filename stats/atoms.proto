@@ -11395,6 +11395,12 @@ message PerfettoTrigger {
 
         PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3;
         PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4;
+
+        PERFETTO_TRACED_LIMIT_PROBABILITY = 5;
+        PERFETTO_TRACED_LIMIT_MAX_PER_24_H = 6;
+
+        PERFETTO_PROBES_PRODUCER_TRIGGER = 7;
+        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8;
     }
 
     // The event which fired.
@@ -14973,6 +14979,9 @@ message MediametricsAAudioStreamReported {
         CONTENT_TYPE_INVALID = -1;
     }
     optional ContentType content_type = 17;
+
+    // The mode of sharing the device requested by the client.
+    optional SharingMode sharing_requested = 18;
 }
 
 /**
