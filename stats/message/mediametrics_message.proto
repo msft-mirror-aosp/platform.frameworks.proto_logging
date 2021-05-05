@@ -72,3 +72,35 @@ message CodecData {
   optional int32 video_qp_b_max = 44;
   optional int32 original_bitrate = 45;
 }
+
+/**
+ * Track information about recordings (e.g. camcorder)
+ * Logged from
+ *   frameworks/av/media/libmediaplayerservice/StagefrightRecorder.cpp
+ *   frameworks/av/services/mediaanalytics/if_statsd.cpp
+ * Next Tag: 23
+ */
+message RecorderData {
+    optional string audio_mime = 1;
+    optional string video_mime = 2;
+    optional int32 video_profile = 3;
+    optional int32 video_level = 4;
+    optional int32 width = 5;
+    optional int32 height = 6;
+    optional int32 rotation = 7;
+    optional int32 framerate = 8;
+    optional int32 capture_fps = 9;
+    optional double capture_fps_enable = 10;
+    optional int64 duration_millis = 11;
+    optional int64 paused_millis = 12;
+    optional int32 paused_count = 13;
+    optional int32 audio_bitrate = 14;
+    optional int32 audio_channels = 15;
+    optional int32 audio_samplerate = 16;
+    optional int32 movie_timescale = 17;
+    optional int32 audio_timescale = 18;
+    optional int32 video_timescale = 19;
+    optional int32 video_bitrate = 20;
+    optional int32 iframe_interval = 21;
+    optional string log_session_id = 22;
+}
