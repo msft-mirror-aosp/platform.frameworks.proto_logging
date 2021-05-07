@@ -131,7 +131,7 @@ message AudioTrackData {
  * Logged from:
  *   frameworks/av/media/libstagefright/RemoteMediaExtractor.cpp
  *   frameworks/av/services/mediaanalytics/statsd_extractor.cpp
- * Next Tag: 5
+ * Next Tag: 6
  */
 message ExtractorData {
     optional string format = 1;
@@ -148,6 +148,7 @@ message ExtractorData {
     }
 
     optional EntryPoint entry_point = 4 [default = UNSET];
+    optional string log_session_id = 5;
 }
 
 /**
@@ -181,37 +182,6 @@ message NuPlayerData {
     optional int32 rebuffers = 18;
     optional int32 rebuffer_at_exit = 19;
     optional int64 frames_dropped_startup = 20;
-}
-
-/**
- * Track information about recordings (e.g. camcorder)
- * Logged from
- *   frameworks/av/media/libmediaplayerservice/StagefrightRecorder.cpp
- *   frameworks/av/services/mediaanalytics/if_statsd.cpp
- * Next Tag: 22
- */
-message RecorderData {
-    optional string audio_mime = 1;
-    optional string video_mime = 2;
-    optional int32 video_profile = 3;
-    optional int32 video_level = 4;
-    optional int32 width = 5;
-    optional int32 height = 6;
-    optional int32 rotation = 7;
-    optional int32 framerate = 8;
-    optional int32 capture_fps = 9;
-    optional double capture_fps_enable = 10;
-    optional int64 duration_millis = 11;
-    optional int64 paused_millis = 12;
-    optional int32 paused_count = 13;
-    optional int32 audio_bitrate = 14;
-    optional int32 audio_channels = 15;
-    optional int32 audio_samplerate = 16;
-    optional int32 movie_timescale = 17;
-    optional int32 audio_timescale = 18;
-    optional int32 video_timescale = 19;
-    optional int32 video_bitrate = 20;
-    optional int32 iframe_interval = 21;
 }
 
 enum StreamType {
