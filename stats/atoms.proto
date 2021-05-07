@@ -698,6 +698,7 @@ message Atom {
         UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
         LauncherLayoutSnapshot launcher_layout_snapshot = 10108
             [(module) = "sysui"];
+        GlobalHibernatedApps global_hibernated_apps = 10109 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -15784,4 +15785,15 @@ message UserLevelHibernatedApps {
 
     // Android user id of the queried user which can only be 0, 10, 11 and so on.
     optional int32 user_id = 2;
+}
+
+/**
+ * Pull atom for total number of globally hibernated packages on the device and the storage savings
+ * from these apps being hibernated.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/apphibernation/AppHibernationService.java
+ */
+ message GlobalHibernatedApps {
+    // Total number of apps in global hibernation
+    optional int32 hibernated_app_count = 1;
 }
