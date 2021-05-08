@@ -15293,7 +15293,7 @@ message MediaDrmActivityInfo {
  *     frameworks/base/services/core/java/com/android/server/devicestate/DeviceStateManagerService.java
  */
 message DeviceStateChanged {
-    optional int64 new_device_state = 1
+    optional int32 new_device_state = 1
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
     optional bool boot_state = 2;
 }
@@ -15463,6 +15463,7 @@ message AlarmScheduled {
         CHANGE_DISABLED = 3;
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
+    optional bool is_rtc = 8;
 }
 
 /**
@@ -15484,6 +15485,7 @@ message PendingAlarmInfo {
     optional int32 num_indefinite_future = 10;
     optional int32 num_repeating = 11;
     optional int32 num_alarm_clock = 12;
+    optional int32 num_rtc = 13;
 }
 
 /*
