@@ -569,6 +569,7 @@ message Atom {
         UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
         AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "framework"];
         AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "framework"];
+        AppProcessDied app_process_died = 373 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15624,4 +15625,32 @@ message UserLevelHibernatedApps {
  message GlobalHibernatedApps {
     // Total number of apps in global hibernation
     optional int32 hibernated_app_count = 1;
+}
+
+/*
+ * Report the event of app process kills.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/AppExitInfoTracker.java
+ */
+message AppProcessDied {
+    // Uid of the package of the dying process
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Name of the dying process, it'll be omitted if the process name and package name are the same
+    optional string process_name = 2;
+
+    // The reason code of why the process dies
+    optional android.app.AppExitReasonCode reason = 3;
+
+    // The supplemental reason code of why the process dies
+    optional android.app.AppExitSubReasonCode sub_reason = 4;
+
+    // The importance of the process when it dies
+    optional android.app.Importance importance = 5;
+
+    // The last known PSS (in kB) of the process before it dies, could be 0.
+    optional int32 pss = 6;
+
+    // The last known RSS (in kB) of the process before it dies, could be 0.
+    optional int32 rss = 7;
 }
