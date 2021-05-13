@@ -15776,9 +15776,6 @@ message OdrefreshReported {
 
     // New hibernation state. True if hibernating, false otherwise
     optional bool is_hibernating = 3;
-
-    // Time spent in the other state in millis
-    optional int64 time_in_last_state_millis = 4;
 }
 
 /*
