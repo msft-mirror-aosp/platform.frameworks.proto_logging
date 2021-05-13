@@ -12976,6 +12976,7 @@ message UserLifecycleJourneyReported {
         FULL_RESTRICTED = 5;
         PROFILE_MANAGED = 6;
         SYSTEM_HEADLESS = 7;
+        PROFILE_CLONE = 8;
     }
     optional UserType user_type = 5;
     // What are the flags attached to the target user
@@ -15602,9 +15603,6 @@ message OdrefreshReported {
 
     // New hibernation state. True if hibernating, false otherwise
     optional bool is_hibernating = 3;
-
-    // Time spent in the other state in millis
-    optional int64 time_in_last_state_millis = 4;
 }
 
 /*
