@@ -13017,6 +13017,8 @@ message PackageInstallerV2Reported {
     optional int32 return_code  = 4;
     // Total size of the APKs installed for this package
     optional int64 apks_size_bytes = 5;
+    // UID of the package. -1 if the installation failed.
+    optional int32 uid = 6 [(is_uid) = true];
 }
 
 /**
@@ -13094,6 +13096,7 @@ message UserLifecycleJourneyReported {
         FULL_RESTRICTED = 5;
         PROFILE_MANAGED = 6;
         SYSTEM_HEADLESS = 7;
+        PROFILE_CLONE = 8;
     }
     optional UserType user_type = 5;
     // What are the flags attached to the target user
