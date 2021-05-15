@@ -880,6 +880,31 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_SWITCH_TO_GUEST = 1765;
+
+    // ACTION: Settings > Battery Usage > Click time slot
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_USAGE_TIME_SLOT = 1766;
+
+    // ACTION: Settings > Battery Usage > Click show all
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_USAGE_SHOW_ALL = 1767;
+
+    // ACTION: Settings > Battery Usage > Click app item
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_USAGE_APP_ITEM = 1768;
+
+    // ACTION: Settings > Battery Usage > Click system item
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_USAGE_SYSTEM_ITEM = 1769;
+
+    // ACTION: Settings > Battery Usage > Click expand item
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_USAGE_EXPAND_ITEM = 1770;
 }
 
 /**
@@ -2993,4 +3018,24 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     COMBINED_BIOMETRIC_PROFILE = 1879;
+
+    // OPEN: Settings > Battery > Battery Usage
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_BATTERY_USAGE = 1880;
+
+    // OPEN: Settings > Battery > Battery Saver
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_BATTERY_SAVER = 1881;
+
+    // OPEN: Settings > Battery > Adaptive Preferences
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_BATTERY_ADAPTIVE_PREFERENCES = 1882;
+
+    // OPEN: Settings > Battery > Battery Share
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_BATTERY_SHARE = 1883;
 }

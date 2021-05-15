@@ -571,6 +571,8 @@ message Atom {
         AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "framework"];
         AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "framework"];
         AppProcessDied app_process_died = 373 [(module) = "framework"];
+        NetworkIpReachabilityMonitorReported network_ip_reachability_monitor_reported =
+            374 [(module) = "network_stack"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -8194,6 +8196,22 @@ message NetworkStackQuirkReported {
 }
 
 /**
+ * Logs Neighbor Unreachability Detection event
+ * Logged from:
+ * packages/modules/NetworkStack/src/com/android/networkstack/metrics/NetworkIpReachabilityMonitorMetrics.java
+ */
+message NetworkIpReachabilityMonitorReported {
+    // Neighbor Unreachability Detection event.
+    optional android.stats.connectivity.NudEventType event_type = 1;
+
+    // NUD probe based on IPv4 ARP or IPv6 ND packet.
+    optional android.stats.connectivity.IpType ip_type = 2;
+
+    // NUD neighbor type, default gateway, DNS server or both.
+    optional android.stats.connectivity.NudNeighborType neighbor_type = 3;
+}
+
+/**
  * Logs when a data stall event occurs.
  *
  * Log from:
@@ -11979,6 +11997,15 @@ message ContactsProviderStatusReported {
         // UPDATE and DELETE includes update/delete and the ones triggered by applyBatch.
         UPDATE = 3;
         DELETE = 4;
+        CALL = 5;
+    }
+
+    // Method called for ApiType.CALL
+    enum MethodCall {
+        UNKNOWN_METHOD = 0;
+        ADD_SIM_ACCOUNTS = 1;
+        REMOVE_SIM_ACCOUNTS = 2;
+        GET_SIM_ACCOUNTS = 3;
     }
 
     enum ResultType {
@@ -12009,6 +12036,8 @@ message ContactsProviderStatusReported {
     optional int32 result_count = 5;
     optional int64 latency_micros = 6;
     optional TaskType task_type = 7;
+    // Set when api_type == CALL
+    optional MethodCall method_called = 8;
 }
 
 /**
