@@ -3048,4 +3048,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SECURITY_ADVANCED = 1885;
+
+    // OPEN: Settings > Apps > Game settings
+    // CATEGORY: SETTINGS
+    // OS: S
+    GAME_SETTINGS = 1886;
 }
