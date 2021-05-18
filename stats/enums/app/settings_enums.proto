@@ -905,6 +905,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_BATTERY_USAGE_EXPAND_ITEM = 1770;
+
+    // ACTION: Settings > Battery settings > Battery tip > Battery defender
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_TIP_BATTERY_DEFENDER = 1771;
+
+    // ACTION: Settings > Battery settings > Battery tip > Defender tip
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_DEFENDER_TIP = 1772;
 }
 
 /**
