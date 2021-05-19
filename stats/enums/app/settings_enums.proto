@@ -3038,4 +3038,19 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     OPEN_BATTERY_SHARE = 1883;
+
+    // OPEN: Settings > Security (if using alternative security settings)
+    // CATEGORY: SETTINGS
+    // OS: S
+    SECURITY_ALTERNATIVE = 1884;
+
+    // OPEN: Settings > Security > Advanced Settings (if using overflow fragment)
+    // CATEGORY: SETTINGS
+    // OS: S
+    SECURITY_ADVANCED = 1885;
+
+    // OPEN: Settings > Security > Warnings (if using alternative security settings).
+    // CATEGORY: SETTINGS
+    // OS: S
+    SECURITY_WARNINGS = 1887;
 }
