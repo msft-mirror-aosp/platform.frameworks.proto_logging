@@ -4202,6 +4202,15 @@ message AppStartOccurred {
 
     // Whether the app is hibernating when it started
     optional bool is_hibernating = 18;
+
+    // Whether the app is installed on Incremental File System.
+    optional bool is_incremental = 19;
+
+    // Whether the app is still being streamed.
+    optional bool is_loading = 20;
+
+    // The hash value of the activity name.
+    optional int32 activity_name_hash = 21;
 }
 
 message AppStartCanceled {
@@ -4266,6 +4275,15 @@ message AppStartFullyDrawn {
     // The time from the startup source to the beginning of handling the startup event.
     // -1 means not available.
     optional int32 source_event_delay_millis = 10;
+
+    // Whether the app is installed on Incremental File System.
+    optional bool is_incremental = 11;
+
+    // Whether the app is still being streamed.
+    optional bool is_loading = 12;
+
+    // The hash value of the activity name.
+    optional int32 activity_name_hash = 13;
 }
 
 /**
