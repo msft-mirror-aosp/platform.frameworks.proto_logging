@@ -905,6 +905,56 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_BATTERY_USAGE_EXPAND_ITEM = 1770;
+
+    // ACTION: Settings > Battery settings > Battery tip > Battery defender
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_TIP_BATTERY_DEFENDER = 1771;
+
+    // ACTION: Settings > Battery settings > Battery tip > Defender tip
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_BATTERY_DEFENDER_TIP = 1772;
+
+    // Action: Settings > Apps > AppInfo > Open
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_INFO_OPEN = 1773;
+
+    // Action: Settings > Apps > AppInfo > Disable
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_INFO_DISABLE = 1774;
+
+    // Action: Settings > Apps > AppInfo > Force Stop
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_INFO_FORCE_STOP = 1775;
+
+    // Action: Settings > Apps > AppInfo > Battery > Unrestricted
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_BATTERY_USAGE_UNRESTRICTED = 1776;
+
+    // Action: Settings > Apps > AppInfo > Battery > Optimized
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_BATTERY_USAGE_OPTIMIZED = 1777;
+
+    // Action: Settings > Apps > AppInfo > Battery > Restricted
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_BATTERY_USAGE_RESTRICTED = 1778;
+
+    // Action: Settings > Apps > AppInfo > Battery > Learn More
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_BATTERY_LEARN_MORE = 1779;
+
+    // Action: Settings > Battery > Restricted Apps > Unchecked
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_APP_RESTRICTED_LIST_UNCHECKED = 1780;
 }
 
 /**
@@ -3049,8 +3099,28 @@ enum PageId {
     // OS: S
     SECURITY_ADVANCED = 1885;
 
+    // OPEN: Settings > Apps > Game settings
+    // CATEGORY: SETTINGS
+    // OS: S
+    GAME_SETTINGS = 1886;
+
     // OPEN: Settings > Security > Warnings (if using alternative security settings).
     // CATEGORY: SETTINGS
     // OS: S
     SECURITY_WARNINGS = 1887;
+
+    // OPEN: Settings > Battery > Battery Percentage
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_BATTERY_PERCENTAGE = 1888;
+
+    // OPEN: Settings > Apps > AppInfo > Battery
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_APP_BATTERY_USAGE = 1889;
+
+    // OPEN: Settings > Battery > Restricted Apps
+    // CATEGORY: SETTINGS
+    // OS: S
+    OPEN_APP_RESTRICTED_LIST = 1890;
 }
