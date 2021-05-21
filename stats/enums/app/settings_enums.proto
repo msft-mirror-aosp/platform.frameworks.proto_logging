@@ -955,6 +955,21 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_APP_RESTRICTED_LIST_UNCHECKED = 1780;
+
+    // Action: Settings > Adaptive Preferences > Adaptive Charging
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_ADAPTIVE_CHARGING_TOGGLE = 1781;
+
+    // Action: Settings > Battery Share > toggle
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_REVERSE_CHARGING_TOGGLE = 1782;
+
+    // Action: Settings > Battery Share > threshold
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_REVERSE_CHARGING_THRESHOLD = 1783;
 }
 
 /**
