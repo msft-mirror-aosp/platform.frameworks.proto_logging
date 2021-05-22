@@ -573,6 +573,7 @@ message Atom {
         NetworkIpReachabilityMonitorReported network_ip_reachability_monitor_reported =
             374 [(module) = "network_stack"];
         SlowInputEventReported slow_input_event_reported = 375 [(module) = "input"];
+        ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -4073,6 +4074,16 @@ message ANROccurred {
     // Error code of last read failure. ETIME (value=62) for timeout, EBADMSG (value=74) for hash
     // and other positive values for other errors. -1 means app is not installed on Incremental.
     optional int32 last_read_error_code = 21;
+}
+
+/**
+ * Logs immediately after an app ANR (App Not Responding) occurs. In contrast, ANROccurred (the
+ * atom above) logs some time (not necessarily immediately) after the ANR is detected.
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/am/AppErrors.java
+ */
+message ANROccurredProcessingStarted {
+  optional string process_name = 1;
 }
 
 /**
