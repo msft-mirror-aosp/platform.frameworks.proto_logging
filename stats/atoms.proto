@@ -9012,7 +9012,7 @@ message MediametricsExtractorReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.ExtractorData extractor_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.ExtractorData extractor_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
 /**
@@ -9097,7 +9097,7 @@ message MediametricsAudiopolicyReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.AudioPolicyData audiopolicy_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.AudioPolicyData audiopolicy_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
 /**
@@ -9112,7 +9112,7 @@ message MediametricsAudiorecordReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.AudioRecordData audiorecord_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.AudioRecordData audiorecord_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // Android S
     // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
@@ -9132,7 +9132,7 @@ message MediametricsAudiothreadReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.AudioThreadData audiothread_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.AudioThreadData audiothread_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
 /**
@@ -9147,7 +9147,7 @@ message MediametricsAudiotrackReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.AudioTrackData audiotrack_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.AudioTrackData audiotrack_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // Android S
     // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
@@ -9219,7 +9219,7 @@ message MediametricsNuPlayerReported {
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
 
-    optional android.stats.mediametrics.NuPlayerData nuplayer_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional android.stats.mediametrics_message.NuPlayerData nuplayer_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
 /**
