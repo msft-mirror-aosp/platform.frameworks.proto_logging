@@ -580,7 +580,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10106
+    // Next: 10115
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -709,6 +709,7 @@ message Atom {
         BatteryUsageStatsSinceResetUsingPowerProfileModel
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
+        InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -15951,4 +15952,10 @@ message InputEventLatencySketch {
     // End: the frame was presented on the display
     optional bytes end_to_end_100micros_move_sketch = 14 [(android.os.statsd.log_mode) = MODE_BYTES];
     // -------------------------- MOVE event sketches ------ END -----------------------------------
+}
+
+
+// Each pull creates multiple atoms. One for each incremental package.
+message InstalledIncrementalPackage {
+    optional int32 uid = 1 [(is_uid) = true];
 }

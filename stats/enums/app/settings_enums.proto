@@ -3138,4 +3138,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     OPEN_APP_RESTRICTED_LIST = 1890;
+
+    // OPEN: Settings > Security > Warning > Dismiss
+    // CATEGORY: SETTINGS
+    // OS: S
+    SECURITY_CONFIRMATION_DIALOG = 1891;
 }
