@@ -580,7 +580,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10106
+    // Next: 10115
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -709,6 +709,7 @@ message Atom {
         BatteryUsageStatsSinceResetUsingPowerProfileModel
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
+        InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -11496,7 +11497,7 @@ message PerfettoUploaded {
     // TODO(lalitm): many of the atoms below should be renamed to have a
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This will be done after the server side is ready for this change.
-    // Next id: 47.
+    // Next id: 48.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -11544,6 +11545,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_OOM = 34;
         PERFETTO_TRACED_ENABLE_TRACING_UNKNOWN_ERROR = 35;
         PERFETTO_TRACED_START_TRACING_INVALID_SESSION_STATE = 36;
+        PERFETTO_TRACED_ENABLE_TRACING_INVALID_FILTER = 47;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -14905,11 +14907,11 @@ enum ArtDatumId {
 
     // Metrics IDs for dex2oat.
     ART_DATUM_DEX2OAT_RESULT_CODE = 10;
-    ART_DATUM_DEX2OAT_DEX_CODE_BYTES = 11;
-    ART_DATUM_DEX2OAT_TOTAL_TIME = 12;
-    ART_DATUM_DEX2OAT_VERIFY_DEX_FILE_TIME = 13;
-    ART_DATUM_DEX2OAT_FAST_VERIFY_TIME = 14;
-    ART_DATUM_DEX2OAT_RESOLVE_METHODS_AND_FIELDS_TIME = 15;
+    ART_DATUM_DEX2OAT_DEX_CODE_COUNTER_BYTES = 11;
+    ART_DATUM_DEX2OAT_TOTAL_TIME_COUNTER_MILLIS = 12;
+    ART_DATUM_DEX2OAT_VERIFY_DEX_FILE_TIME_COUNTER_MILLIS = 13;
+    ART_DATUM_DEX2OAT_FAST_VERIFY_TIME_COUNTER_MILLIS = 14;
+    ART_DATUM_DEX2OAT_RESOLVE_METHODS_AND_FIELDS_TIME_COUNTER_MILLIS = 15;
 
     ART_DATUM_CLASS_VERIFICATION_COUNT = 16;
     ART_DATUM_GC_TOTAL_BYTES_ALLOCATED = 17;
@@ -15951,4 +15953,10 @@ message InputEventLatencySketch {
     // End: the frame was presented on the display
     optional bytes end_to_end_100micros_move_sketch = 14 [(android.os.statsd.log_mode) = MODE_BYTES];
     // -------------------------- MOVE event sketches ------ END -----------------------------------
+}
+
+
+// Each pull creates multiple atoms. One for each incremental package.
+message InstalledIncrementalPackage {
+    optional int32 uid = 1 [(is_uid) = true];
 }
