@@ -710,6 +710,7 @@ message Atom {
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
+        TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -12386,6 +12387,22 @@ message SupportedRadioAccessFamily {
     // A bitmask of supported radio technologies.
     // See android.telephony.TelephonyManager.NetworkTypeBitMask.
     optional int64 network_type_bitmask = 1;
+}
+
+/**
+ * Pulls information about network requests.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message TelephonyNetworkRequests {
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // Number of times the enterprise capability was requested.
+    optional int32 enterprise_request_count = 2;
+    // Number of times the enterprise capability was released.
+    optional int32 enterprise_release_count = 3;
 }
 
 /**
