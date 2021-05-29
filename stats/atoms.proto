@@ -713,6 +713,7 @@ message Atom {
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
+        TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -11613,7 +11614,7 @@ message PerfettoUploaded {
     // TODO(lalitm): many of the atoms below should be renamed to have a
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This will be done after the server side is ready for this change.
-    // Next id: 47.
+    // Next id: 48.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -11661,6 +11662,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_OOM = 34;
         PERFETTO_TRACED_ENABLE_TRACING_UNKNOWN_ERROR = 35;
         PERFETTO_TRACED_START_TRACING_INVALID_SESSION_STATE = 36;
+        PERFETTO_TRACED_ENABLE_TRACING_INVALID_FILTER = 47;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -12501,6 +12503,22 @@ message SupportedRadioAccessFamily {
     // A bitmask of supported radio technologies.
     // See android.telephony.TelephonyManager.NetworkTypeBitMask.
     optional int64 network_type_bitmask = 1;
+}
+
+/**
+ * Pulls information about network requests.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message TelephonyNetworkRequests {
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // Number of times the enterprise capability was requested.
+    optional int32 enterprise_request_count = 2;
+    // Number of times the enterprise capability was released.
+    optional int32 enterprise_release_count = 3;
 }
 
 /**
@@ -15077,11 +15095,11 @@ enum ArtDatumId {
 
     // Metrics IDs for dex2oat.
     ART_DATUM_DEX2OAT_RESULT_CODE = 10;
-    ART_DATUM_DEX2OAT_DEX_CODE_BYTES = 11;
-    ART_DATUM_DEX2OAT_TOTAL_TIME = 12;
-    ART_DATUM_DEX2OAT_VERIFY_DEX_FILE_TIME = 13;
-    ART_DATUM_DEX2OAT_FAST_VERIFY_TIME = 14;
-    ART_DATUM_DEX2OAT_RESOLVE_METHODS_AND_FIELDS_TIME = 15;
+    ART_DATUM_DEX2OAT_DEX_CODE_COUNTER_BYTES = 11;
+    ART_DATUM_DEX2OAT_TOTAL_TIME_COUNTER_MILLIS = 12;
+    ART_DATUM_DEX2OAT_VERIFY_DEX_FILE_TIME_COUNTER_MILLIS = 13;
+    ART_DATUM_DEX2OAT_FAST_VERIFY_TIME_COUNTER_MILLIS = 14;
+    ART_DATUM_DEX2OAT_RESOLVE_METHODS_AND_FIELDS_TIME_COUNTER_MILLIS = 15;
 
     ART_DATUM_CLASS_VERIFICATION_COUNT = 16;
     ART_DATUM_GC_TOTAL_BYTES_ALLOCATED = 17;
