@@ -4441,6 +4441,8 @@ message ForegroundServiceStateChanged {
     optional int32 fgs_duration_ms = 12;
     // Number of times startForeground() is called on this service.
     optional int32 fgs_start_count = 13;
+    // SHA-1 hashed short_name combined with ANDROID_ID.
+    optional int32 short_name_hash = 14;
 }
 
 /**
