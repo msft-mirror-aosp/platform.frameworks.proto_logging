@@ -6011,7 +6011,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 7
+ * Next Tag: 31
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6045,6 +6045,7 @@ message UIInteractionFrameInfoReported {
         LAUNCHER_ALL_APPS_SCROLL = 27;
         LAUNCHER_APP_LAUNCH_FROM_WIDGET = 28;
         SETTINGS_PAGE_SCROLL = 29;
+        LOCKSCREEN_UNLOCK_ANIMATION = 30;
     }
 
     optional InteractionType interaction_type = 1;
@@ -6085,6 +6086,7 @@ message UIActionLatencyReported {
         ACTION_START_RECENTS_ANIMATION = 9;
         ACTION_ROTATE_SCREEN_CAMERA_CHECK = 10;
         ACTION_ROTATE_SCREEN_SENSOR = 11;
+        ACTION_LOCKSCREEN_UNLOCK = 12;
     }
 
     optional ActionType action = 1;
