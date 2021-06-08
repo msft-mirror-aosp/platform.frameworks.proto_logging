@@ -3970,6 +3970,9 @@ message AppCrashOccurred {
     // Error code of last read failure. ETIME (value=62) for timeout, EBADMSG (value=74) for hash
     // and other positive values for other errors. -1 means app is not installed on Incremental.
     optional int32 last_read_error_code = 21;
+
+    // Total duration of delayed reads in milliseconds
+    optional int64 total_delayed_reads_duration_millis = 22;
 }
 
 /**
@@ -4076,6 +4079,9 @@ message ANROccurred {
     // Error code of last read failure. ETIME (value=62) for timeout, EBADMSG (value=74) for hash
     // and other positive values for other errors. -1 means app is not installed on Incremental.
     optional int32 last_read_error_code = 21;
+
+    // Total duration of delayed reads in milliseconds
+    optional int64 total_delayed_reads_duration_millis = 22;
 }
 
 /**
