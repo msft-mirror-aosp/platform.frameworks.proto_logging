@@ -11256,6 +11256,7 @@ message SurfaceflingerStatsLayerInfo {
     // jank statistics.
     optional int32 render_rate_bucket = 23;
 
+    // Game modes are used only for integrating with GameManager.
     enum GameMode {
          GAME_MODE_UNSPECIFIED = 0;
          GAME_MODE_UNSUPPORTED = 1;
@@ -11266,8 +11267,7 @@ message SurfaceflingerStatsLayerInfo {
 
     // Game mode that the layer was running at. Used to track user engagement
     // in different modes. The modes are defined in GameManager.java
-    // Game modes are used only for integrating with GameManager. All non-game
-    // layers will have this field set to UNSUPPORTED.
+    // All non-game layers will have this field set to UNSUPPORTED.
     // Introduced in Android 12
     // This is intended to be used as a dimension in collecting per-game mode
     // fps and frame related metrics.
