@@ -425,6 +425,18 @@ enum AppExitSubReasonCode {
      * its uid state is idle; this would be set only when the reason is {@link #REASON_OTHER}.
      */
     SUBREASON_CACHED_IDLE_FORCED_APP_STANDBY = 18;
+
+    /**
+     * The process was killed because it fails to freeze/unfreeze binder
+     * or query binder frozen info while being frozen.
+     */
+    SUBREASON_FREEZER_BINDER_IOCTL = 19;
+
+    /**
+     * The process was killed because it receives sync binder transactions
+     * while being frozen.
+     */
+    SUBREASON_FREEZER_BINDER_TRANSACTION = 20;
 }
 
 /**
