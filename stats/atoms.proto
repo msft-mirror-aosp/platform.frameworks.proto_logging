@@ -655,7 +655,7 @@ message Atom {
         NotificationRemoteViews notification_remote_views = 10066 [(module) = "framework"];
         DangerousPermissionStateSampled dangerous_permission_state_sampled =
                 10067 [(module) = "framework"];
-        GraphicsStats graphics_stats = 10068;
+        GraphicsStats graphics_stats = 10068 [(module) = "hwui"];
         RuntimeAppOpAccess runtime_app_op_access = 10069 [(module) = "framework"];
         IonHeapSize ion_heap_size = 10070 [(module) = "framework"];
         PackageNotificationPreferences package_notification_preferences =
