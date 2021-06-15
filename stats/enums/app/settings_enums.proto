@@ -970,6 +970,17 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_REVERSE_CHARGING_THRESHOLD = 1783;
+
+    // FIELD: Custom type for how battery saver is scheduled when enabled.
+    // See BatterySaverScheduledType.
+    // CATEGORY: SETTINGS
+    // OS: S
+    FIELD_BATTERY_SAVER_SCHEDULE_TYPE = 1784;
+
+    // FIELD: Custom type for the %age battery saver is triggered.
+    // CATEGORY: SETTINGS
+    // OS: S
+    FIELD_BATTERY_SAVER_PERCENTAGE_VALUE = 1785;
 }
 
 /**
@@ -3143,4 +3154,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SECURITY_CONFIRMATION_DIALOG = 1891;
+}
+
+// Battery Saver schedule types.
+enum BatterySaverScheduleType {
+    BATTERY_SAVER_SCHEDULE_TYPE_UNKNOWN = 0;
+    BATTERY_SAVER_SCHEDULE_TYPE_NO_SCHEDULE = 1;
+    BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_ROUTINE = 2;
+    BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_PERCENTAGE = 3;
 }
