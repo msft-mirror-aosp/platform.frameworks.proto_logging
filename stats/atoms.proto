@@ -4885,6 +4885,8 @@ message BiometricAuthenticated {
     optional bool debug = 8;
     // The ID of the biometric sensor associated with this action.
     optional int32 sensor_id = 9;
+    // The ambient light lux when authenticated.
+    optional float ambient_light_lux = 10;
 }
 
 /**
@@ -4951,6 +4953,8 @@ message BiometricEnrolled {
     optional bool success = 4;
     // The ID of the biometric sensor associated with this action.
     optional int32 sensor_id = 5;
+    // The ambient light lux when the user enrolled.
+    optional float ambient_light_lux = 6;
 }
 
 /*
