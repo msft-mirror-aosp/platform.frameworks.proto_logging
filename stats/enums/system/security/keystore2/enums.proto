@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2021 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,16 @@
  */
 
 syntax = "proto2";
-package android.stats.accessibility;
-option java_multiple_files = true;
 
-// The entry point of the accessibility shortcut.
-enum ShortcutType {
-  UNKNOWN_TYPE = 0;
-  A11Y_BUTTON = 1;
-  VOLUME_KEY = 2;
-  TRIPLE_TAP = 3;
-  A11Y_BUTTON_LONG_PRESS = 4;
-}
+package android.system.security.keystore2;
 
-// The service status code.
-enum ServiceStatus {
-  UNKNOWN = 0;
-  ENABLED = 1;
-  DISABLED = 2;
-}
+// Logging constants re-used by multiple atoms related to keystore2
 
-// The magnification mode.
-enum MagnificationMode {
-  MAGNIFICATION_UNKNOWN_MODE = 0;
-  MAGNIFICATION_FULL_SCREEN = 1;
-  MAGNIFICATION_WINDOW = 2;
-  MAGNIFICATION_ALL = 3;
+enum SecurityLevelEnum {
+    // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
+    SECURITY_LEVEL_UNSPECIFIED = 0;
+    SECURITY_LEVEL_SOFTWARE = 1;
+    SECURITY_LEVEL_TRUSTED_ENVIRONMENT = 2;
+    SECURITY_LEVEL_STRONGBOX = 3;
+    SECURITY_LEVEL_KEYSTORE = 4;
 }
