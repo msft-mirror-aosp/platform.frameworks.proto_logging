@@ -582,7 +582,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10117
+    // Next: 10118
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -716,6 +716,7 @@ message Atom {
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
         TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
         AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
+        VmStat vmstat = 10117 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -16384,8 +16385,15 @@ message InputEventLatencySketch {
     // -------------------------- MOVE event sketches ------ END -----------------------------------
 }
 
-
 // Each pull creates multiple atoms. One for each incremental package.
 message InstalledIncrementalPackage {
     optional int32 uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Memory management statistics pulled atom based on /proc/vmstat.
+ * Logged from StatsPullAtomService.
+ */
+message VmStat {
+    optional int32 oom_kill_count = 1;
 }
