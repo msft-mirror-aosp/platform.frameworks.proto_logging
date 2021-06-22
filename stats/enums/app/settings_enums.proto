@@ -3154,6 +3154,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SECURITY_CONFIRMATION_DIALOG = 1891;
+
+    // OPEN: Settings > Security > Face and fingerprint unlock (if consent is required)
+    // CATEGORY: SETTINGS
+    // OS: S
+    FINGERPRINT_PARENTAL_CONSENT = 1892;
+
+    // OPEN: Settings > Security > Face and fingerprint unlock (if consent is required)
+    // CATEGORY: SETTINGS
+    // OS: S
+    FACE_PARENTAL_CONSENT = 1893;
+
+    // OPEN: Settings > Security > Face and fingerprint unlock (when consent process ends)
+    // CATEGORY: SETTINGS
+    // OS: S
+    BIOMETRIC_CONSENT_PARENT_TO_CHILD = 1894;
 }
 
 // Battery Saver schedule types.
