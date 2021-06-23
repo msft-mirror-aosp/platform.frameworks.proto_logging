@@ -575,6 +575,7 @@ message Atom {
         SlowInputEventReported slow_input_event_reported = 375 [(module) = "input"];
         ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
         AppSearchRemoveStatsReported app_search_remove_stats_reported = 377 [(module) = "appsearch"];
+        MediaCodecReported media_codec_reported = 378 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -9010,7 +9011,10 @@ message ProcessStartTime {
 }
 
 /**
- * Track Media Codec usage
+ * Track Media Codec usage (nested proto version)
+ *   This atom is being deprecated in favor of MediaCodecReported which has a
+ *   flattened CodecData to enable field filtering. The data is identical
+ *   except MediaCodecReported also has the playback_duration field.
  * Logged from:
  *   frameworks/av/media/libstagefright/MediaCodec.cpp
  *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
@@ -9022,6 +9026,84 @@ message MediametricsCodecReported {
     optional int64 media_apex_version = 4;
 
     optional android.stats.mediametrics_message.CodecData codec_data = 5 [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+/**
+ * Track Media Codec usage
+ *   This atom is the new version of MediametricsCodecReported and has a
+ *   flattened CodecData to enable field filtering. The data is identical
+ *   except for the addition of the playback_duration field.
+ * Logged from:
+ *   frameworks/av/media/libstagefright/MediaCodec.cpp
+ *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
+ */
+message MediaCodecReported {
+    optional int64 timestamp_nanos = 1;
+    // The inclusion of package name in a metric should be carefully analyzed to
+    // determine if it is absolutely necessary for system health. It is strongly
+    // discouraged to collect the package name along with other metrics (e.g.
+    // playback duration).
+    optional string package_name = 2;
+    optional int64 package_version_code = 3;
+    optional int64 media_apex_version = 4;
+    optional string codec = 5;
+    optional string mime = 6;
+    optional string mode = 7;
+    optional int32 encoder = 8;
+    optional int32 secure = 9;
+    optional int32 width = 10;
+    optional int32 height = 11;
+    optional int32 rotation = 12;
+    optional int32 crypto = 13;
+    optional int32 profile = 14;
+    optional int32 level = 15;
+    optional int32 max_width = 16;
+    optional int32 max_height = 17;
+    optional int32 error_code = 18;
+    optional string error_state = 19;
+    optional int64 latency_max = 20;
+    optional int64 latency_min = 21;
+    optional int64 latency_avg = 22;
+    optional int64 latency_count = 23;
+    optional int64 latency_unknown = 24;
+    optional int32 queue_input_buffer_error = 25;
+    optional int32 queue_secure_input_buffer_error = 26;
+    optional string bitrate_mode = 27;
+    optional int32 bitrate = 28;
+    optional int64 lifetime_millis = 29;
+    optional int64 playback_duration_seconds = 30;
+    optional string log_session_id = 31;
+    optional int32 channel_count = 32;
+    optional int32 sample_rate = 33;
+    optional int64 video_encode_bytes = 34;
+    optional int64 video_encode_frames = 35;
+    optional int64 video_input_bytes = 36;
+    optional int64 video_input_frames = 37;
+    optional int64 video_encode_duration_us = 38;
+    optional int32 color_format = 39;
+    optional float frame_rate = 40;
+    optional float capture_rate = 41;
+    optional float operating_rate = 42;
+    optional int32 priority = 43;
+    optional int32 video_qp_i_min = 44;
+    optional int32 video_qp_i_max = 45;
+    optional int32 video_qp_p_min = 46;
+    optional int32 video_qp_p_max = 47;
+    optional int32 video_qp_b_min = 48;
+    optional int32 video_qp_b_max = 49;
+    optional int32 original_bitrate = 50;
+    optional int32 shaping_enhanced = 51;
+    optional int32 original_video_qp_i_min = 52;
+    optional int32 original_video_qp_i_max = 53;
+    optional int32 original_video_qp_p_min = 54;
+    optional int32 original_video_qp_p_max = 55;
+    optional int32 original_video_qp_b_min = 56;
+    optional int32 original_video_qp_b_max = 57;
+    // !!! WARNING
+    // Keep synchronized with MediametricsCodecReported.CodecData in
+    // mediametrics_message.proto.
+    // Also keep AStatsEvent serialization synchronized in statsd_codec.cpp
+    // !!! WARNING
 }
 
 /**
