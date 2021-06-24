@@ -713,6 +713,7 @@ message Atom {
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
         TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
+        AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
         VmStat vmstat = 10117 [(module) = "framework"];
     }
 
@@ -11162,6 +11163,145 @@ message AppSearchQueryStatsReported {
     optional int32 native_num_documents_deleted = 9;
 }
 
+// Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
+// Next tag: 15
+message AppSearchDocumentStorageInfo {
+    // Total number of alive documents.
+    optional int32 num_alive_documents = 1;
+
+    // Total number of deleted documents.
+    optional int32 num_deleted_documents = 2;
+
+    // Total number of expired documents.
+    optional int32 num_expired_documents = 3;
+
+    // Total size of the document store in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 document_store_size_bytes = 4;
+
+    // Total size of the ground truth in bytes. The ground truth may
+    // include deleted or expired documents. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 document_log_size_bytes = 5;
+
+    // Size of the key mapper in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 key_mapper_size_bytes = 6;
+
+    // Size of the document id mapper in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 document_id_mapper_size_bytes = 7;
+
+    // Size of the score cache in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 score_cache_size_bytes = 8;
+
+    // Size of the filter cache in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 filter_cache_size_bytes = 9;
+
+    // Size of the corpus mapper in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 corpus_mapper_size_bytes = 10;
+
+    // Size of the corpus score cache in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 corpus_score_cache_size_bytes = 11;
+
+    // Size of the namespace id mapper in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 namespace_id_mapper_size_bytes = 12;
+
+    // Number of namespaces seen from the current documents.
+    optional int32 num_namespaces = 13;
+
+    // Storage information of each namespace is not included due to that it has string field.
+
+    reserved 14;
+}
+
+// Reports information in external/icing/proto/icing/proto/storage.proto#SchemaStoreStorageInfoProto
+// Next tag: 5
+message AppSearchSchemaStoreStorageInfo {
+    // Size of the schema store in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 schema_store_size_bytes = 1;
+
+    // Total number of schema types.
+    optional int32 num_schema_types = 2;
+
+    // Total number of all sections across all types
+    optional int32 num_total_sections = 3;
+
+    // Total number of types at the current section limit.
+    optional int32 num_schema_types_sections_exhausted = 4;
+}
+
+// Reports information in external/icing/proto/icing/proto/storage.proto#IndexStorageInfoProto
+// Next tag: 9
+message AppSearchIndexStorageInfo {
+    // Total size of the index in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 index_size_bytes = 1;
+
+    // Size of the lite index lexicon in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 lite_index_lexicon_size_bytes = 2;
+
+    // Size of the lite index hit buffer in bytes. Will be set to -1 if an IO
+    // error is encountered while calculating this field.
+    optional int64 lite_index_hit_buffer_size_bytes = 3;
+
+    // Size of the main index lexicon in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 main_index_lexicon_size_bytes = 4;
+
+    // Size of the main index storage in bytes. Will be set to -1 if an IO error
+    // is encountered while calculating this field.
+    optional int64 main_index_storage_size_bytes = 5;
+
+    // Size of one main index block in bytes.
+    optional int64 main_index_block_size_bytes = 6;
+
+    // Number of main index blocks.
+    optional int32 num_blocks = 7;
+
+    // Percentage of the main index blocks that are free, assuming
+    // allocated blocks are fully used.
+    optional float min_free_fraction = 8;
+}
+
+/**
+ * Pulls information about storage information per user from AppSearch
+ *
+ * Pulled from:
+ *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 6
+ */
+message AppSearchStorageInfo {
+    // The associated user (for multi-user feature). Defined in android/os/UserHandle.java
+    // This is mainly used as a dimension for the metric, but it can also tell us if
+    // the StorageInfo is for a primary user or secondary user.
+    optional int32 user = 1;
+
+    // Total size of Icing’s storage in bytes. Will be set to -1 if an IO error is
+    // encountered while calculating this field.
+    optional int64 total_storage_size_bytes = 2;
+
+    // Storage information of the document store.
+    optional AppSearchDocumentStorageInfo document_storage_info = 3
+        [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Storage information of the schema store.
+    optional AppSearchSchemaStoreStorageInfo schema_store_storage_info = 4
+        [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Storage information of the index.
+    optional AppSearchIndexStorageInfo index_storage_info = 5
+        [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
 /**
  * Reported when the RebootEscrow HAL has attempted to recover the escrowed
  * key to indicate whether it was successful or not.
@@ -16044,6 +16184,9 @@ message UserLevelHibernatedApps {
 message GlobalHibernatedApps {
     // Total number of apps in global hibernation
     optional int32 hibernated_app_count = 1;
+
+    // Cumulative storage savings from apps being hibernated
+    optional int64 storage_saved_mb = 2;
 }
 
 /*
