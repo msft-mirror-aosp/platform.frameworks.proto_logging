@@ -576,6 +576,8 @@ message Atom {
         ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
         AppSearchRemoveStatsReported app_search_remove_stats_reported = 377 [(module) = "appsearch"];
         MediaCodecReported media_codec_reported = 378 [(module) = "framework"];
+        PermissionUsageFragmentInteraction permission_usage_fragment_interaction = 379 [(module) = "permissioncontroller"];
+        PermissionDetailsInteraction permission_details_interaction = 380 [(module) = "permissioncontroller"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16307,4 +16309,51 @@ message InstalledIncrementalPackage {
  */
 message VmStat {
     optional int32 oom_kill_count = 1;
+}
+
+/**
+* Log that the user has interacted with an app on the permission usage
+* fragment.
+* Logged from permission/debug/PermissionUsageV2Frament.kt
+*/
+message PermissionUsageFragmentInteraction {
+    // id which identifies single session of user interacting with permission hub
+    optional int64 session_id = 1;
+
+    enum Action {
+        UNDEFINED = 0;
+        OPEN = 1;
+        LOCATION_ACCESS_TIMELINE_VIEWED = 2;
+        CAMERA_ACCESS_TIMELINE_VIEWED = 3;
+        MICROPHONE_ACCESS_TIMELINE_VIEWED = 4;
+        SHOW_SYSTEM_CLICKED = 5;
+        SEE_OTHER_PERMISSIONS_CLICKED = 6;
+    }
+
+    // The action the user took to interact with the fragment
+    optional Action action = 2;
+}
+
+/**
+* Log that the user has clicked on .
+* Logged from permission/debug/PermissionDetailsFragment.kt
+*/
+message PermissionDetailsInteraction {
+    // id which identifies single session of user interacting with permission details fragment.
+    optional int64 session_id = 1;
+
+    // The name of a permission group whose details are viewed.
+    optional string permission_group_name = 2;
+
+    enum Action {
+        UNDEFINED = 0;
+        SHOW_SYSTEM_CLICKED = 1;
+        INFO_ICON_CLICKED = 2;
+    }
+
+    // Package name for which the info icon was clicked.
+    optional string package_name = 3;
+
+    // The action the user took to interact with the fragment
+    optional Action action = 4;
 }
