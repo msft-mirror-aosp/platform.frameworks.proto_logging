@@ -577,6 +577,8 @@ message Atom {
         ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
         AppSearchRemoveStatsReported app_search_remove_stats_reported = 377 [(module) = "appsearch"];
         MediaCodecReported media_codec_reported = 378 [(module) = "framework"];
+        PermissionUsageFragmentInteraction permission_usage_fragment_interaction = 379 [(module) = "permissioncontroller"];
+        PermissionDetailsInteraction permission_details_interaction = 380 [(module) = "permissioncontroller"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -698,8 +700,8 @@ message Atom {
         OemManagedBytesTransfer oem_managed_bytes_transfer = 10100 [(module) = "framework"];
         GnssPowerStats gnss_power_stats = 10101 [(module) = "framework"];
         TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
-        Keystore2StorageStats keystore2_storage_stats = 10103;
-        RkpPoolStats rkp_pool_stats = 10104;
+        Keystore2StorageStats keystore2_storage_stats = 10103 [(module) = "framework"];
+        RkpPoolStats rkp_pool_stats = 10104 [(module) = "framework"];
         ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
         PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
         UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
@@ -718,6 +720,20 @@ message Atom {
         TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
         AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
         VmStat vmstat = 10117 [(module) = "framework"];
+        Keystore2KeyCreationWithGeneralInfo keystore2_key_creation_with_general_info =
+                10118 [(module) = "framework"];
+        Keystore2KeyCreationWithAuthInfo keystore2_key_creation_with_auth_info =
+                10119 [(module) = "framework"];
+        Keystore2KeyCreationWithPurposeAndModesInfo
+                keystore2_key_creation_with_purpose_and_modes_info = 10120 [(module) = "framework"];
+        Keystore2AtomWithOverflow keystore2_atom_with_overflow = 10121 [(module) = "framework"];
+        Keystore2KeyOperationWithPurposeAndModesInfo
+                keystore2_key_operation_with_purpose_and_modes_info =
+                        10122 [(module) = "framework"];
+        Keystore2KeyOperationWithGeneralInfo keystore2_key_operation_with_general_info =
+                10123 [(module) = "framework"];
+        RkpErrorStats rkp_error_stats = 10124 [(module) = "framework"];
+        Keystore2CrashStats keystore2_crash_stats = 10125 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -14516,6 +14532,243 @@ message Keystore2KeyOperationEventReported {
 message Keystore2CrashEventReported {}
 
 /**
+ * Logs: key creation events with Algorithm, Origin, Error and Attestation info.
+ * Logged from: system/security/keystore2/metrics.rs
+ */
+message Keystore2KeyCreationWithGeneralInfo {
+
+    // Algorithm associated with the key
+    optional android.system.security.keystore2.Algorithm algorithm = 1;
+
+    // Size of the key, based on the algorithm used.
+    optional int32 key_size = 2;
+
+    enum EcCurve {
+        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
+        EC_CURVE_UNSPECIFIED = 0;
+        P_224 = 1;
+        P_256 = 2;
+        P_384 = 3;
+        P_521 = 4;
+    };
+    // Which ec curve was selected if elliptic curve cryptography is in use
+    optional EcCurve ec_curve = 3;
+
+    enum KeyOrigin {
+        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
+        ORIGIN_UNSPECIFIED = 0;
+        // Generated in keymaster.  Should not exist outside the TEE.
+        GENERATED = 1;
+        // Derived inside keymaster.  Likely exists off-device.
+        DERIVED = 2;
+        // Imported into keymaster.  Existed as cleartext in Android.
+        IMPORTED = 3;
+        // Previously used for another purpose that is now obsolete.
+        RESERVED = 4;
+        // Securely imported into Keymaster.
+        SECURELY_IMPORTED = 5;
+    };
+    // Logs whether the key was generated, imported, securely imported, or derived.
+    optional KeyOrigin key_origin = 4;
+
+    /**
+     * Response code (system/hardware/interfaces/keystore2/aidl/../ResponseCode.aidl)
+     * or
+     * error code (hardware/interfaces/security/keymint/aidl/../ErrorCode.aidl)
+     */
+    optional int32 error_code = 5;
+
+    // Indicates whether key attestation is requested in creation
+    optional bool attestation_requested = 6;
+
+    // Count of a particular combination of field values of this atom
+    optional int32 count = 7;
+}
+
+/**
+ * Logs: key creation events with authentication info.
+ * Logged from: system/security/keystore2/metrics.rs
+ */
+message Keystore2KeyCreationWithAuthInfo {
+
+    enum HardwareAuthenticatorType {
+        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
+        AUTH_TYPE_UNSPECIFIED = 0;
+        NONE = 1;
+        PASSWORD = 2;
+        FINGERPRINT = 3;
+        ANY = 5;
+    };
+    /**
+     * What auth types does this key require? If none,
+     * then no auth required.
+     */
+    optional HardwareAuthenticatorType user_auth_type = 1;
+
+    /**
+     * If user authentication is required, is the requirement time based? If it
+     * is time based then this field indicates the base 10 logarithm of time out in seconds.
+     * Logarithm is taken in order to reduce the cardinaltiy.
+     */
+    optional int32 log_auth_timeout_seconds = 2;
+
+    // Security level of the Keymint instance which creates the key.
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 3;
+
+    // Count of a particular combination of field values of this atom
+    optional int32 count = 4;
+}
+
+/**
+ * Logs: key creation events with purpose and modes info.
+ * Logged from: system/security/keystore2/metrics.rs
+ */
+message Keystore2KeyCreationWithPurposeAndModesInfo {
+    // Algorithm associated with the key
+    optional android.system.security.keystore2.Algorithm algorithm = 1;
+
+	/**
+     * Track which purpose is being used.
+     * Bitmap composition is given by KeyPurposeBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 purpose_bitmap = 2;
+
+    /**
+     * Track which padding mode is being used.
+     * Bitmap composition is given by PaddingModeBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 padding_mode_bitmap = 3;
+
+    /**
+     * Track which digest is being used.
+     * Bitmap composition is given by DigestBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 digest_bitmap = 4;
+
+    /**
+     * Track which block mode is being used.
+     * Bitmap composition is given by BlockModeBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 block_mode_bitmap = 5;
+
+    // Count of a particular combination of field values of this atom
+    optional int32 count = 6;
+}
+
+/**
+ * Logs the atom id of the atoms associated with key creation/operation events, that have reached
+ * the maximum storage limit allocated for different atom objects of that atom,
+ * in keystore in-memory store.
+ *
+ * Size of the storage bucket for each atom is limited considering their expected cardinaltity.
+ * This limit may exceed if the dimensions of the atoms take a large number of unexpected
+ * combinations. This atom is used to track such cases.
+ */
+message Keystore2AtomWithOverflow {
+
+    // Atom id as defined in atoms.proto
+    optional int32 atom_id = 1;
+
+    // Count of the objects of this atom type that have overflowed.
+    optional int32 count = 2;
+}
+
+/**
+ * Logs: key operations events with purpose and modes info.
+ * Logged from: system/security/keystore2/metrics.rs
+ */
+message Keystore2KeyOperationWithPurposeAndModesInfo {
+
+    enum KeyPurpose {
+        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
+        KEY_PURPOSE_UNSPECIFIED = 0;
+
+        // Usable with RSA, 3DES and AES keys.
+        ENCRYPT = 1;
+
+        // Usable with RSA, 3DES and AES keys.
+        DECRYPT = 2;
+
+        // Usable with RSA, EC and HMAC keys.
+        SIGN = 3;
+
+        // Usable with RSA, EC and HMAC keys.
+        VERIFY = 4;
+
+        // 5 is reserved
+        // Usable with RSA keys.
+        WRAP_KEY = 6;
+
+        // Key Agreement, usable with EC keys.
+        AGREE_KEY = 7;
+
+        // Usable as an attestation signing key.
+        ATTEST_KEY = 8;
+    }
+    // Purpose of the key operation
+    optional KeyPurpose purpose = 1;
+
+    /**
+     * Track which padding mode is being used.
+     * Bitmap composition is given by PaddingModeBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 padding_mode_bitmap = 2;
+
+    /**
+     * Track which digest is being used.
+     * Bitmap composition is given by DigestBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 digest_bitmap = 3;
+
+    /**
+     * Track which block mode is being used.
+     * Bitmap composition is given by BlockModeBitPosition enum
+     * defined in system/security/keystore2/metrics.rs.
+     */
+    optional int32 block_mode_bitmap = 4;
+
+    // Count of a particular combination of field values of this atom
+    optional int32 count = 5;
+}
+
+/**
+ * Logs key operations events with outcome, error_code, security level and whether the key is
+ * upgraded during the operation.
+ * Logged from: system/security/keystore2/metrics.rs
+ */
+message Keystore2KeyOperationWithGeneralInfo {
+
+    enum Outcome {
+        OUTCOME_UNSPECIFIED = 0;
+        DROPPED = 1;
+        SUCCESS = 2;
+        ABORT = 3;
+        PRUNED = 4;
+        ERROR = 5;
+    }
+    // Outcome of the operation
+    optional Outcome outcome = 1;
+
+    // Response code or error code in case of error outcome
+    optional int32 error_code = 2;
+
+    // Indicates whether the key was upgraded during the operation
+    optional bool key_upgraded = 3;
+
+    // Security level of the Keymint instance which performs the operation.
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 4;
+
+    // Count of a particular combination of field values of this atom
+    optional int32 count = 5;
+}
+
+/**
  * Logs: Keystore 2 storage statistics.
  * Logged from: system/security/keystore2
  */
@@ -14566,12 +14819,50 @@ message RkpErrorReported {
 }
 
 /**
+ * Logs Remote Key Provisioning (RKP) related error events.
+ * Logged from: system/security/keystore2
+ */
+message RkpErrorStats {
+
+    enum RkpError {
+        RKP_ERROR_UNSPECIFIED = 0;
+        // The key pool is out of keys.
+        OUT_OF_KEYS = 1;
+        // Falling back to factory provisioned keys during hybrid mode.
+        FALL_BACK_DURING_HYBRID = 2;
+    }
+    // Type of the error event
+    optional RkpError rkp_error = 1;
+
+    // Count of a particular error occurred.
+    optional int32 count = 2;
+}
+
+/**
  * Logs: Count of keys in the key pool related to
  * Remote Key Provisioning (RKP).
  * Logged from: system/security/keystore2
  */
 message RkpPoolStats {
-    optional int32 count_of_keys = 1;
+    enum PoolStatus {
+        EXPIRING = 1;
+        UNASSIGNED = 2;
+        ATTESTED = 3;
+        TOTAL = 4;
+    }
+    // State of the attestation key pool, for which the count of keys is reported.
+    optional PoolStatus pool_status = 1;
+
+    // Count of keys in the particular status
+    optional int32 count_of_keys = 2;
+}
+
+/**
+ * Logs: Number of keystore2 crashes per-boot cycle.
+ * Logged from: system/security/keystore2
+ */
+message Keystore2CrashStats {
+    optional int32 count_of_crash_events = 1;
 }
 
 // Blob Committer stats
@@ -15410,7 +15701,7 @@ enum ArtCompilationReason {
 // Note: Histograms are not yet reported by statsd.
 enum ArtDatumId {
     ART_DATUM_INVALID = 0;
-    ART_DATUM_GC_MUTATOR_PAUSE_TIME_COUNTER_MICROS = 1;
+    ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS = 1;
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_TIME_HISTO_MILLIS = 2;
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_COUNT = 3;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_TIME_HISTO_MILLIS = 4;
@@ -15430,12 +15721,16 @@ enum ArtDatumId {
 
     ART_DATUM_CLASS_VERIFICATION_COUNT = 16;
     ART_DATUM_GC_TOTAL_BYTES_ALLOCATED = 17;
-    ART_DATUM_GC_TOTAL_METADATA_SIZE_BYTES = 18;
+    ART_DATUM_GC_TOTAL_COLLECTION_TIME_MS = 18;
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_HISTO_MB_PER_SEC = 19;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_HISTO_MB_PER_SEC = 20;
     ART_DATUM_JIT_METHOD_COMPILE_COUNT = 21;
     ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_HISTO_MB_PER_SEC = 22;
     ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_HISTO_MB_PER_SEC = 23;
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC = 24;
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC = 25;
+    ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 26;
+    ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 27;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -16487,4 +16782,51 @@ message InstalledIncrementalPackage {
  */
 message VmStat {
     optional int32 oom_kill_count = 1;
+}
+
+/**
+* Log that the user has interacted with an app on the permission usage
+* fragment.
+* Logged from permission/debug/PermissionUsageV2Frament.kt
+*/
+message PermissionUsageFragmentInteraction {
+    // id which identifies single session of user interacting with permission hub
+    optional int64 session_id = 1;
+
+    enum Action {
+        UNDEFINED = 0;
+        OPEN = 1;
+        LOCATION_ACCESS_TIMELINE_VIEWED = 2;
+        CAMERA_ACCESS_TIMELINE_VIEWED = 3;
+        MICROPHONE_ACCESS_TIMELINE_VIEWED = 4;
+        SHOW_SYSTEM_CLICKED = 5;
+        SEE_OTHER_PERMISSIONS_CLICKED = 6;
+    }
+
+    // The action the user took to interact with the fragment
+    optional Action action = 2;
+}
+
+/**
+* Log that the user has clicked on .
+* Logged from permission/debug/PermissionDetailsFragment.kt
+*/
+message PermissionDetailsInteraction {
+    // id which identifies single session of user interacting with permission details fragment.
+    optional int64 session_id = 1;
+
+    // The name of a permission group whose details are viewed.
+    optional string permission_group_name = 2;
+
+    enum Action {
+        UNDEFINED = 0;
+        SHOW_SYSTEM_CLICKED = 1;
+        INFO_ICON_CLICKED = 2;
+    }
+
+    // Package name for which the info icon was clicked.
+    optional string package_name = 3;
+
+    // The action the user took to interact with the fragment
+    optional Action action = 4;
 }
