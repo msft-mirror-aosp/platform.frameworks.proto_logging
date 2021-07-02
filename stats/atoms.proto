@@ -3540,6 +3540,9 @@ message LauncherUIChanged {
 
     // e.g., number of contents inside a container (e.g., icons inside a folder)
     optional int32 cardinality = 24;
+
+    // Used to store features of the target (e.g. widget is reconfigurable, etc)
+    optional int32 features = 25;
 }
 
 message SmartSpaceCardReported {
@@ -3634,6 +3637,9 @@ message LauncherStaticLayout {
     // e.g., (x, y) span of the widget inside homescreen grid system
     optional int32 span_x = 17 [default = 1];
     optional int32 span_y = 18 [default = 1];
+
+    // Used to store features of the target (e.g. widget is reconfigurable, etc)
+    optional int32 features = 19;
 }
 
 /**
@@ -14609,22 +14615,39 @@ message RkpErrorStats {
 }
 
 /**
- * Logs: Count of keys in the key pool related to
+ * Logs: Status of the attestation key pool related to
  * Remote Key Provisioning (RKP).
  * Logged from: system/security/keystore2
  */
 message RkpPoolStats {
-    enum PoolStatus {
-        EXPIRING = 1;
-        UNASSIGNED = 2;
-        ATTESTED = 3;
-        TOTAL = 4;
-    }
-    // State of the attestation key pool, for which the count of keys is reported.
-    optional PoolStatus pool_status = 1;
+    /**
+     * Security level of the Keymint instance associated with the
+     * attestation pool status.
+     */
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 1;
 
-    // Count of keys in the particular status
-    optional int32 count_of_keys = 2;
+    /**
+     * The number of signed attestation certificate chains which are
+     * expired.
+     */
+    optional int32 expiring = 2;
+
+    /**
+     * The number of signed attestation certificate chains which have
+     * not yet been assigned to an app.
+     */
+    optional int32 unassigned = 3;
+
+    /**
+     * The number of signed attestation keys.
+     */
+    optional int32 attested = 4;
+
+    /**
+     * The total number of attestation keys.
+     */
+    optional int32 total = 5;
+
 }
 
 /**
@@ -15476,7 +15499,7 @@ enum ArtDatumId {
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_COUNT = 3;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_TIME_HISTO_MILLIS = 4;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_COUNT = 5;
-    ART_DATUM_JIT_METHOD_COMPILE_TIME_HISTO_MICROS = 6;
+    ART_DATUM_JIT_METHOD_COMPILE_TIME_MICROS = 6;
     ART_DATUM_AOT_COMPILE_TIME = 7;
     ART_DATUM_CLASS_VERIFICATION_TIME_COUNTER_MICROS = 8;
     ART_DATUM_CLASS_LOADING_TIME_COUNTER_MICROS = 9;
@@ -15491,7 +15514,7 @@ enum ArtDatumId {
 
     ART_DATUM_CLASS_VERIFICATION_COUNT = 16;
     ART_DATUM_GC_TOTAL_BYTES_ALLOCATED = 17;
-    ART_DATUM_GC_TOTAL_COLLECTION_TIME_MS = 18;
+    ART_DATUM_GC_TOTAL_METADATA_SIZE_BYTES = 18 [deprecated=true];
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_HISTO_MB_PER_SEC = 19;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_HISTO_MB_PER_SEC = 20;
     ART_DATUM_JIT_METHOD_COMPILE_COUNT = 21;
@@ -15501,6 +15524,7 @@ enum ArtDatumId {
     ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC = 25;
     ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 26;
     ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 27;
+    ART_DATUM_GC_TOTAL_COLLECTION_TIME_MS = 28;
 }
 
 // Indicates what class of thread the reported values apply to.
