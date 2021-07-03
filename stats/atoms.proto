@@ -508,11 +508,11 @@ message Atom {
         TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
         TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
         KilledAppStatsReported killed_app_stats_reported = 319 [(module) = "carwatchdogd"];
-        MediametricsPlaybackReported mediametrics_playback_reported = 320;
-        MediaNetworkInfoChanged media_network_info_changed = 321;
-        MediaPlaybackStateChanged media_playback_state_changed = 322;
-        MediaPlaybackErrorReported media_playback_error_reported = 323;
-        MediaPlaybackTrackChanged media_playback_track_changed = 324;
+        MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
+        MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
+        MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
+        MediaPlaybackErrorReported media_playback_error_reported = 323 [(module) = "media_metrics"];
+        MediaPlaybackTrackChanged media_playback_track_changed = 324 [(module) = "media_metrics"];
         WifiScanReported wifi_scan_reported = 325 [(module) = "wifi"];
         WifiPnoScanReported wifi_pno_scan_reported = 326  [(module) = "wifi"];
         TifTuneStateChanged tif_tune_changed = 327 [(module) = "framework"];
@@ -5829,6 +5829,12 @@ message SnapshotMergeReported {
     optional int32 boot_complete_to_merge_start_time_millis = 11;
 
     optional MergeFailureCode merge_failure_code = 12;
+
+    // Build fingerprint at the time the OTA was downloaded.
+    optional string source_build_fingerprint = 13;
+
+    // Build fingerprint at the time the merge was initiated.
+    optional string target_build_fingerprint = 14;
 }
 
 /**
@@ -14493,22 +14499,39 @@ message RkpErrorStats {
 }
 
 /**
- * Logs: Count of keys in the key pool related to
+ * Logs: Status of the attestation key pool related to
  * Remote Key Provisioning (RKP).
  * Logged from: system/security/keystore2
  */
 message RkpPoolStats {
-    enum PoolStatus {
-        EXPIRING = 1;
-        UNASSIGNED = 2;
-        ATTESTED = 3;
-        TOTAL = 4;
-    }
-    // State of the attestation key pool, for which the count of keys is reported.
-    optional PoolStatus pool_status = 1;
+    /**
+     * Security level of the Keymint instance associated with the
+     * attestation pool status.
+     */
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 1;
 
-    // Count of keys in the particular status
-    optional int32 count_of_keys = 2;
+    /**
+     * The number of signed attestation certificate chains which are
+     * expired.
+     */
+    optional int32 expiring = 2;
+
+    /**
+     * The number of signed attestation certificate chains which have
+     * not yet been assigned to an app.
+     */
+    optional int32 unassigned = 3;
+
+    /**
+     * The number of signed attestation keys.
+     */
+    optional int32 attested = 4;
+
+    /**
+     * The total number of attestation keys.
+     */
+    optional int32 total = 5;
+
 }
 
 /**
@@ -15714,6 +15737,9 @@ message UnattendedRebootOccurred {
 
     // Number of times the reboot was blocked by background app activity.
     optional int32 times_blocked_by_app_activity = 5;
+
+    // Time until next user interaction with the device.
+    optional int64 time_until_next_interaction_ms = 6;
 }
 
 
