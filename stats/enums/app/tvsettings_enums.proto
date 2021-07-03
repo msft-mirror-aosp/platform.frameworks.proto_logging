@@ -520,6 +520,9 @@ enum ItemId {
     // TvSettings > Apps > Special app access > Picture-in-picture
     APPS_SPECIAL_APP_ACCESS_PICTURE_IN_PICTURE = 0x16360000;
 
+    // TvSettings > Apps > Special app access > Alarms & Reminders
+    APPS_SPECIAL_APP_ACCESS_ALARMS_AND_REMINDERS = 0x16370000;
+
     // TvSettings > Apps > Security & restrictions
     APPS_SECURITY_RESTRICTIONS = 0x16400000;
 
