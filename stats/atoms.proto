@@ -5829,6 +5829,12 @@ message SnapshotMergeReported {
     optional int32 boot_complete_to_merge_start_time_millis = 11;
 
     optional MergeFailureCode merge_failure_code = 12;
+
+    // Build fingerprint at the time the OTA was downloaded.
+    optional string source_build_fingerprint = 13;
+
+    // Build fingerprint at the time the merge was initiated.
+    optional string target_build_fingerprint = 14;
 }
 
 /**
