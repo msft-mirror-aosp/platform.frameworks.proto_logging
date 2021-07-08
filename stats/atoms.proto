@@ -508,11 +508,11 @@ message Atom {
         TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
         TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
         KilledAppStatsReported killed_app_stats_reported = 319 [(module) = "carwatchdogd"];
-        MediametricsPlaybackReported mediametrics_playback_reported = 320;
-        MediaNetworkInfoChanged media_network_info_changed = 321;
-        MediaPlaybackStateChanged media_playback_state_changed = 322;
-        MediaPlaybackErrorReported media_playback_error_reported = 323;
-        MediaPlaybackTrackChanged media_playback_track_changed = 324;
+        MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
+        MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
+        MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
+        MediaPlaybackErrorReported media_playback_error_reported = 323 [(module) = "media_metrics"];
+        MediaPlaybackTrackChanged media_playback_track_changed = 324 [(module) = "media_metrics"];
         WifiScanReported wifi_scan_reported = 325 [(module) = "wifi"];
         WifiPnoScanReported wifi_pno_scan_reported = 326  [(module) = "wifi"];
         TifTuneStateChanged tif_tune_changed = 327 [(module) = "framework"];
@@ -576,6 +576,8 @@ message Atom {
         MediaCodecReported media_codec_reported = 378 [(module) = "framework"];
         PermissionUsageFragmentInteraction permission_usage_fragment_interaction = 379 [(module) = "permissioncontroller"];
         PermissionDetailsInteraction permission_details_interaction = 380 [(module) = "permissioncontroller"];
+        PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381 [(module) = "framework"];
+        PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -5830,6 +5832,12 @@ message SnapshotMergeReported {
     optional int32 boot_complete_to_merge_start_time_millis = 11;
 
     optional MergeFailureCode merge_failure_code = 12;
+
+    // Build fingerprint at the time the OTA was downloaded.
+    optional string source_build_fingerprint = 13;
+
+    // Build fingerprint at the time the merge was initiated.
+    optional string target_build_fingerprint = 14;
 }
 
 /**
@@ -14494,22 +14502,39 @@ message RkpErrorStats {
 }
 
 /**
- * Logs: Count of keys in the key pool related to
+ * Logs: Status of the attestation key pool related to
  * Remote Key Provisioning (RKP).
  * Logged from: system/security/keystore2
  */
 message RkpPoolStats {
-    enum PoolStatus {
-        EXPIRING = 1;
-        UNASSIGNED = 2;
-        ATTESTED = 3;
-        TOTAL = 4;
-    }
-    // State of the attestation key pool, for which the count of keys is reported.
-    optional PoolStatus pool_status = 1;
+    /**
+     * Security level of the Keymint instance associated with the
+     * attestation pool status.
+     */
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 1;
 
-    // Count of keys in the particular status
-    optional int32 count_of_keys = 2;
+    /**
+     * The number of signed attestation certificate chains which are
+     * expired.
+     */
+    optional int32 expiring = 2;
+
+    /**
+     * The number of signed attestation certificate chains which have
+     * not yet been assigned to an app.
+     */
+    optional int32 unassigned = 3;
+
+    /**
+     * The number of signed attestation keys.
+     */
+    optional int32 attested = 4;
+
+    /**
+     * The total number of attestation keys.
+     */
+    optional int32 total = 5;
+
 }
 
 /**
@@ -15356,7 +15381,7 @@ enum ArtDatumId {
     ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_COUNT = 3;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_TIME_HISTO_MILLIS = 4;
     ART_DATUM_GC_FULL_HEAP_COLLECTION_COUNT = 5;
-    ART_DATUM_JIT_METHOD_COMPILE_TIME_HISTO_MICROS = 6;
+    ART_DATUM_JIT_METHOD_COMPILE_TIME_MICROS = 6;
     ART_DATUM_AOT_COMPILE_TIME = 7;
     ART_DATUM_CLASS_VERIFICATION_TIME_COUNTER_MICROS = 8;
     ART_DATUM_CLASS_LOADING_TIME_COUNTER_MICROS = 9;
@@ -15767,6 +15792,9 @@ message UnattendedRebootOccurred {
 
     // Number of times the reboot was blocked by background app activity.
     optional int32 times_blocked_by_app_activity = 5;
+
+    // Time until next user interaction with the device.
+    optional int64 time_until_next_interaction_ms = 6;
 }
 
 
@@ -16479,4 +16507,57 @@ message PermissionDetailsInteraction {
 
     // The action the user took to interact with the fragment
     optional Action action = 4;
+}
+
+/**
+* Log that the user has toggled the sensor privacy.
+*/
+message PrivacySensorToggleInteraction {
+
+    enum Sensor {
+        SENSOR_UNKNOWN = 0;
+        MICROPHONE = 1;
+        CAMERA = 2;
+
+    }
+
+    // Sensor for which sensor privacy was toggled.
+    optional Sensor sensor = 1;
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        TOGGLE_ON = 1;
+        TOGGLE_OFF = 2;
+    }
+
+    // Action taken on sensor.
+    optional Action action = 2;
+
+    enum Source {
+        SOURCE_UNKNOWN = 0;
+        DIALOG = 1;
+        SETTINGS = 2;
+        QS_TILE = 3;
+    }
+
+    // Source for the toggling.
+    optional Source source = 3;
+
+    // Amount of time a user spent in the previous sensor privacy state in minutes.
+    optional int64 time_in_previous_state_in_mins = 4;
+}
+
+message PrivacyToggleDialogInteraction {
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        ENABLE = 1;
+        CANCEL = 2;
+    }
+
+    // Action taken on the toggle dialog.
+    optional Action action = 1;
+
+    // Name of the package for which the dialog was shown.
+    optional string package_name = 2;
 }
