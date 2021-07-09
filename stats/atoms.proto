@@ -15493,6 +15493,7 @@ enum ArtCompilationReason {
     ART_COMPILATION_REASON_BOOT_AFTER_OTA = 17;
     ART_COMPILATION_REASON_PREBUILT = 18;
     ART_COMPILATION_REASON_CMDLINE = 19;
+    ART_COMPILATION_REASON_VDEX = 20;
 }
 
 // Indicates which kind of measurement ART is reporting.
@@ -16643,8 +16644,8 @@ message PrivacySensorToggleInteraction {
 
     enum Sensor {
         SENSOR_UNKNOWN = 0;
-        CAMERA = 1;
-        MICROPHONE = 2;
+        MICROPHONE = 1;
+        CAMERA = 2;
     }
 
     // Sensor for which sensor privacy was toggled.
