@@ -575,6 +575,8 @@ message Atom {
         MediaCodecReported media_codec_reported = 378 [(module) = "framework"];
         PermissionUsageFragmentInteraction permission_usage_fragment_interaction = 379 [(module) = "permissioncontroller"];
         PermissionDetailsInteraction permission_details_interaction = 380 [(module) = "permissioncontroller"];
+        PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381 [(module) = "framework"];
+        PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16452,4 +16454,57 @@ message PermissionDetailsInteraction {
 
     // The action the user took to interact with the fragment
     optional Action action = 4;
+}
+
+/**
+* Log that the user has toggled the sensor privacy.
+*/
+message PrivacySensorToggleInteraction {
+
+    enum Sensor {
+        SENSOR_UNKNOWN = 0;
+        MICROPHONE = 1;
+        CAMERA = 2;
+
+    }
+
+    // Sensor for which sensor privacy was toggled.
+    optional Sensor sensor = 1;
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        TOGGLE_ON = 1;
+        TOGGLE_OFF = 2;
+    }
+
+    // Action taken on sensor.
+    optional Action action = 2;
+
+    enum Source {
+        SOURCE_UNKNOWN = 0;
+        DIALOG = 1;
+        SETTINGS = 2;
+        QS_TILE = 3;
+    }
+
+    // Source for the toggling.
+    optional Source source = 3;
+
+    // Amount of time a user spent in the previous sensor privacy state in minutes.
+    optional int64 time_in_previous_state_in_mins = 4;
+}
+
+message PrivacyToggleDialogInteraction {
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        ENABLE = 1;
+        CANCEL = 2;
+    }
+
+    // Action taken on the toggle dialog.
+    optional Action action = 1;
+
+    // Name of the package for which the dialog was shown.
+    optional string package_name = 2;
 }
