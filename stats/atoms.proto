@@ -10894,7 +10894,7 @@ message AppSearchCallStatsReported {
     optional int32 sampling_interval = 1;
 
     // # of previous skipped sample for this specific type of stats
-    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // We can't push atoms too closely, so some samples might be skipped
     // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
@@ -10938,7 +10938,7 @@ message AppSearchPutDocumentStatsReported {
     optional int32 sampling_interval = 1;
 
     // # of previous skipped sample for this specific type of stats
-    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // We can't push atoms too closely, so some samples might be skipped
     // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
@@ -10995,7 +10995,7 @@ message AppSearchInitializeStatsReported {
     optional int32 sampling_interval = 1;
 
     // # of previous skipped sample for this specific type of stats
-    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // We can't push atoms too closely, so some samples might be skipped
     // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
@@ -11071,7 +11071,7 @@ message AppSearchQueryStatsReported {
     optional int32 sampling_interval = 1;
 
     // # of previous skipped sample for this specific type of stats
-    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // We can't push atoms too closely, so some samples might be skipped
     // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
@@ -11161,7 +11161,7 @@ message AppSearchQueryStatsReported {
     optional int32 sampling_interval = 1;
 
     // # of previous skipped sample for this specific type of stats
-    // For WestWorld we can't push atoms too closely, so some samples might be skipped
+    // We can't push atoms too closely, so some samples might be skipped
     // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
     // For example, the true count of an event could be estimated as:
     //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
