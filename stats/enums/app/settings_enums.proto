@@ -3169,6 +3169,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     BIOMETRIC_CONSENT_PARENT_TO_CHILD = 1894;
+
+    // OPEN: Settings > Security & screen lock -> Encryption & credentials > Certificate management app > Remove app
+    // CATEGORY: SETTINGS
+    // OS: S
+    CREDENTIAL_MANAGEMENT_APP_REMOVE_APP = 1895;
 }
 
 // Battery Saver schedule types.
