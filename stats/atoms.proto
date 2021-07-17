@@ -3746,7 +3746,7 @@ message SlowInputEventReported {
      * are described in the comments.
      */
     // Whether or not this is a DOWN event. If false, this is a MOVE event
-    optional bool isDown = 1;
+    optional bool is_down = 1;
     // Start: the input event was created (touch events: the touch interrupt received in the driver)
     // End: the event was read in userspace (in EventHub)
     optional int32 event_to_read_micros = 2;
