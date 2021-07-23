@@ -577,6 +577,7 @@ message Atom {
         PermissionDetailsInteraction permission_details_interaction = 380 [(module) = "permissioncontroller"];
         PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381 [(module) = "framework"];
         PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
+        AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -11155,7 +11156,7 @@ message AppSearchQueryStatsReported {
 /**
  * Logs detailed stats for remove in AppSearch
  */
- message AppSearchRemoveStatsReported {
+message AppSearchRemoveStatsReported {
     // The sampling interval for this specific type of stats
     // For example, sampling_interval=10 means that one out of every 10 stats was logged.
     optional int32 sampling_interval = 1;
@@ -11189,6 +11190,61 @@ message AppSearchQueryStatsReported {
 
     // Number of documents deleted by this call.
     optional int32 native_num_documents_deleted = 9;
+}
+
+/**
+ * Logs detailed stats for optimization in AppSearch.
+ *
+ * stats pushed from:
+ *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 14
+ */
+message AppSearchOptimizeStatsReported {
+    // The sampling interval for this specific type of stats
+    // For example, sampling_interval=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_interval = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // We can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
+    optional int32 num_previous_skipped_sample = 2;
+
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
+    optional int32 status_code = 3;
+
+    // Overall time used for remove including the binder latency
+    optional int32 total_latency_millis = 4;
+
+    // Overall time used for the native function call.
+    optional int32 native_latency_millis = 5;
+
+    // Time used to optimize the document store in millis.
+    optional int32 native_document_store_optimize_latency_millis = 6;
+
+    // Time used to restore the index in millis.
+    optional int32 native_index_restoration_latency_millis = 7;
+
+    // Number of documents before the optimization.
+    optional int32 native_num_original_documents = 8;
+
+    // Number of documents deleted during the optimization.
+    optional int32 native_num_deleted_documents = 9;
+
+    // Number of documents expired during the optimization.
+    optional int32 native_num_expired_documents = 10;
+
+    // Size of storage in bytes before the optimization.
+    optional int64 native_storage_size_before_bytes = 11;
+
+    // Size of storage in bytes after the optimization.
+    optional int64 native_storage_size_after_bytes = 12;
+
+    // The amount of time in millis since the last optimization ran.
+    optional int64 native_time_since_last_optimize_millis = 13;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
