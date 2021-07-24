@@ -585,7 +585,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10118
+    // Next: 10127
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -734,6 +734,7 @@ message Atom {
                 10123 [(module) = "framework"];
         RkpErrorStats rkp_error_stats = 10124 [(module) = "framework"];
         Keystore2CrashStats keystore2_crash_stats = 10125 [(module) = "framework"];
+        VendorApexInfo vendor_apex_info = 10126 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -4269,8 +4270,8 @@ message AppStartOccurred {
     // Whether the app is an instant app.
     optional bool is_instant_app = 6;
 
-    // Device uptime when activity started.
-    optional int64 activity_start_millis = 7;
+    // Device uptime when activity started. Deprecated: use activity_start_timestamp_millis instead.
+    optional int64 activity_start_millis = 7 [deprecated = true];
 
     optional android.app.AppTransitionReasonEnum reason = 8;
 
@@ -4315,6 +4316,9 @@ message AppStartOccurred {
 
     // The hash value of the activity name.
     optional int32 activity_name_hash = 21;
+
+    // The timestamp(SystemClock#elapsedRealtime()) when starting activity.
+    optional int64 activity_start_timestamp_millis = 22;
 }
 
 message AppStartCanceled {
@@ -4668,6 +4672,12 @@ message LmkKillOccurred {
 
     // What triggered the LMK event.
     optional Reason reason = 13;
+
+    // Current thrashing levels (workingset_refaults/filecache in %).
+    optional int32 thrashing = 14;
+
+    // Max thrashing levels (workingset_refaults/filecache in %).
+    optional int32 max_thrashing = 15;
 }
 
 /*
@@ -16368,6 +16378,8 @@ message AlarmScheduled {
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
+    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app/enums.proto.
+    optional android.app.ProcessStateEnum calling_process_state = 9;
 }
 
 /**
@@ -16744,4 +16756,13 @@ message PrivacyToggleDialogInteraction {
 
     // Name of the package for which the dialog was shown.
     optional string package_name = 2;
+}
+
+message VendorApexInfo {
+  optional string package_name = 1;
+  optional string version_code = 2;
+  optional string version_name = 3;
+  optional string source_dir = 4;
+  optional string signing_certs_hash = 5;
+  optional string file_hash = 6;
 }
