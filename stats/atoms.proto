@@ -4218,8 +4218,8 @@ message AppStartOccurred {
     // Whether the app is an instant app.
     optional bool is_instant_app = 6;
 
-    // Device uptime when activity started.
-    optional int64 activity_start_millis = 7;
+    // Device uptime when activity started. Deprecated: use activity_start_timestamp_millis instead.
+    optional int64 activity_start_millis = 7 [deprecated = true];
 
     optional android.app.AppTransitionReasonEnum reason = 8;
 
@@ -4264,6 +4264,9 @@ message AppStartOccurred {
 
     // The hash value of the activity name.
     optional int32 activity_name_hash = 21;
+
+    // The timestamp(SystemClock#elapsedRealtime()) when starting activity.
+    optional int64 activity_start_timestamp_millis = 22;
 }
 
 message AppStartCanceled {
@@ -4617,6 +4620,12 @@ message LmkKillOccurred {
 
     // What triggered the LMK event.
     optional Reason reason = 13;
+
+    // Current thrashing levels (workingset_refaults/filecache in %).
+    optional int32 thrashing = 14;
+
+    // Max thrashing levels (workingset_refaults/filecache in %).
+    optional int32 max_thrashing = 15;
 }
 
 /*
@@ -16187,6 +16196,8 @@ message AlarmScheduled {
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
+    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app/enums.proto.
+    optional android.app.ProcessStateEnum calling_process_state = 9;
 }
 
 /**
