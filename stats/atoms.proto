@@ -579,6 +579,7 @@ message Atom {
         PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381 [(module) = "framework"];
         PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
         AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
+        NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report = 384 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16765,4 +16766,22 @@ message VendorApexInfo {
   optional string source_dir = 4;
   optional string signing_certs_hash = 5;
   optional string file_hash = 6;
+}
+
+/**
+ * Logs the non-a11yTool service warning status and its duration of the usage.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ *   packages/apps/Settings
+ */
+message NonA11yToolServiceWarningReported {
+    // Package name of the non-a11yTool service.
+    optional string package_name = 1;
+
+    // Warning status of the non-a11yTool service.
+    optional android.stats.accessibility.WarningStatus status = 2;
+
+    // Duration between status in milliseconds.
+    optional int64 duration_millis = 3;
 }

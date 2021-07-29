@@ -43,3 +43,11 @@ enum MagnificationMode {
   MAGNIFICATION_WINDOW = 2;
   MAGNIFICATION_ALL = 3;
 }
+
+// The wraning status on UI.
+enum WarningStatus {
+  WARNING_UNKNOWN = 0;
+  WARNING_NOTIFIED = 1;
+  WARNING_REVIEWED = 2;
+  WARNING_SOLVED = 3;
+}
