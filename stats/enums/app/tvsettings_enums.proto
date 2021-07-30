@@ -399,6 +399,21 @@ enum ItemId {
     // Never (toggle)
     DISPLAY_SOUND_MATCH_CONTENT_FRAMERATE_NEVER = 0x15530000;
 
+    // TvSettings > Display & Sound > Text scaling
+    DISPLAY_SOUND_TEXT_SCALING = 0x15600000;
+
+    // TvSettings > Display & Sound > Text scaling > Small (entry)
+    DISPLAY_SOUND_TEXT_SCALING_SMALL = 0x15610000;
+
+    // TvSettings > Display & Sound > Text scaling > Default (entry)
+    DISPLAY_SOUND_TEXT_SCALING_DEFAULT = 0x15620000;
+
+    // TvSettings > Display & Sound > Text scaling > Large (entry)
+    DISPLAY_SOUND_TEXT_SCALING_LARGE = 0x15630000;
+
+    // TvSettings > Display & Sound > Text scaling > Largest (entry)
+    DISPLAY_SOUND_TEXT_SCALING_LARGEST = 0x15640000;
+
     // TvSettings > Apps
     APPS = 0x16000000;
 
