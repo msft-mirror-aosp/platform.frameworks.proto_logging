@@ -580,6 +580,7 @@ message Atom {
         PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
         AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
         NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report = 384 [(module) = "framework"];
+        AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported = 385 [(module) = "appsearch"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -11378,6 +11379,78 @@ message AppSearchOptimizeStatsReported {
 
     // The amount of time in millis since the last optimization ran.
     optional int64 native_time_since_last_optimize_millis = 13;
+}
+
+/**
+ * Logs detailed stats for setting schema in AppSearch.
+ *
+ * stats pushed from:
+ *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 13
+ */
+message AppSearchSetSchemaStatsReported {
+    // The sampling interval for this specific type of stats
+    // For example, sampling_interval=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_interval = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // We can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch
+    optional int32 database = 4;
+
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
+    optional int32 status_code = 5;
+
+    // Overall time used for setting schema including the binder latency
+    optional int32 total_latency_millis = 6;
+
+    // Number of newly added schema types
+    optional int32 new_type_count = 7;
+
+    // Number of deleted schema types
+    optional int32 deleted_type_count = 8;
+
+    // Number of compatible schema type changes
+    optional int32 compatible_type_change_count = 9;
+
+    // Number of index-incompatible schema type changes
+    optional int32 index_incompatible_type_change_count = 10;
+
+    // Number of backwards-incompatible schema type changes
+    optional int32 backwards_incompatible_type_change_count = 11;
+
+    // Stores schema migration info if migration is executed with setting schema
+    optional SchemaMigrationStats schema_migration_stats = 12
+        [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs detailed stats for schema migration in AppSearch
+ */
+message SchemaMigrationStats {
+    optional int32 get_schema_latency_millis = 1;
+
+    optional int32 query_and_transform_latency_millis = 2;
+
+    optional int32 first_set_schema_latency_millis = 3;
+
+    optional int32 second_set_schema_latency_millis = 4;
+
+    optional int32 save_document_latency_millis = 5;
+
+    optional int32 migrated_document_count = 6;
+
+    optional int32 saved_document_count = 7;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
