@@ -3572,6 +3572,7 @@ message SmartSpaceCardReported {
         TIME_TO_LEAVE = 15;
         PACKAGE_DELIVERED = 16;
         TIPS = 17;
+        DOORBELL = 18;
     }
 
     // The surface that SmartSpace card is shown.
@@ -6073,7 +6074,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 31
+ * Next Tag: 38
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6113,6 +6114,8 @@ message UIInteractionFrameInfoReported {
         SHADE_APP_LAUNCH_FROM_QS_TILE = 33;
         SHADE_APP_LAUNCH_FROM_SETTINGS_BUTTON = 34;
         STATUS_BAR_APP_LAUNCH_FROM_CALL_CHIP = 35;
+        PIP_TRANSITION = 36;
+        WALLPAPER_TRANSITION = 37;
     }
 
     optional InteractionType interaction_type = 1;
