@@ -3174,6 +3174,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     CREDENTIAL_MANAGEMENT_APP_REMOVE_APP = 1895;
+
+    // OPEN: Settings > Display > Lock screen > Hub mode
+    // CATEGORY: SETTINGS
+    // OS: S
+    COMMUNAL_MODE_SETTINGS = 1896;
 }
 
 // Battery Saver schedule types.
