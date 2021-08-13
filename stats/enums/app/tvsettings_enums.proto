@@ -994,6 +994,9 @@ enum ItemId {
     // TvSettings > System > Accessibility > Switch Access > Configuration
     SYSTEM_A11Y_SWITCH_ACCESS_CONFIG = 0x17882000;
 
+    // TvSettings > System > Accessibility > Audio Description (Toggle)
+    SYSTEM_A11Y_AUDIO_DESCRIPTION = 0x17890000;
+
     // TvSettings > System > Reboot
     SYSTEM_REBOOT = 0x17900000;
 
