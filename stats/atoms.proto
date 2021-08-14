@@ -581,6 +581,8 @@ message Atom {
         AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
         NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report = 384 [(module) = "framework"];
         AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported = 385 [(module) = "appsearch"];
+        AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
+        SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -4395,6 +4397,56 @@ message AppStartFullyDrawn {
 
     // The hash value of the activity name.
     optional int32 activity_name_hash = 13;
+}
+
+/**
+ * Logs when an app enters a different App Compat state.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ */
+message AppCompatStateChanged {
+    // UID of the package whose state changed.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    enum State {
+        UNKNOWN = 0;
+        // The app is not visible or has been closed.
+        NOT_VISIBLE = 1;
+        // The app’s bounds aren’t letterboxed.
+        NOT_LETTERBOXED = 2;
+        // The app’s bounds are letterboxed because of size-compat-mode.
+        LETTERBOXED_FOR_SIZE_COMPAT_MODE = 3;
+        // The app’s bounds are letterboxed because of fixed orientation.
+        LETTERBOXED_FOR_FIXED_ORIENTATION = 4;
+        // The app’s bounds are letterboxed because of aspect ratio restrictions.
+        LETTERBOXED_FOR_ASPECT_RATIO = 5;
+    }
+
+    // The state that was entered.
+    optional State state = 2 [
+      (state_field_option).exclusive_state = true,
+      (state_field_option).nested = false];
+}
+
+/**
+ * Logs events reported for the Size Compat restart button of an app.
+ *
+ * Logged from:
+ *   frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/ShellTaskOrganizer.java
+ */
+message SizeCompatRestartButtonEventReported {
+    // UID of the package that has the button.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    enum Event {
+        UNKNOWN = 0;
+        APPEARED = 1;
+        CLICKED = 2;
+    }
+
+    // The event that was reported.
+    optional Event event = 2;
 }
 
 /**

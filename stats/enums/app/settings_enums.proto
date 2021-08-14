@@ -3179,6 +3179,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     COMMUNAL_MODE_SETTINGS = 1896;
+
+    // OPEN: Settings > Users > Install app in other user
+    // CATEGORY: SETTINGS
+    // OS: T
+    USERS_APP_COPYING = 1897;
 }
 
 // Battery Saver schedule types.
