@@ -3566,6 +3566,7 @@ message SmartSpaceCardReported {
         TIME_TO_LEAVE = 15;
         PACKAGE_DELIVERED = 16;
         TIPS = 17;
+        DOORBELL = 18;
     }
 
     // The surface that SmartSpace card is shown.
