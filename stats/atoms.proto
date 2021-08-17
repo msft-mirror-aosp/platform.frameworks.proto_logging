@@ -580,6 +580,7 @@ message Atom {
         AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
         AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
         SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
+        SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -8938,7 +8939,75 @@ message DebugFailingElapsedClock {
 /** Logs System UI bubbles event changed.
  *
  * Logged from:
- *     frameworks/base/packages/SystemUI/src/com/android/systemui/bubbles
+ *     frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/splitscreen
+ */
+message SplitscreenUIChanged {
+    // User interactions with splitscreen
+    enum Action {
+        UNKNOWN_ACTION = 0;
+        ENTER = 1;
+        EXIT = 2;
+        APP_CHANGE = 3;
+        RESIZE = 4;
+        SWAP = 5;
+    }
+
+    // The physical side on the device of the split
+    enum Position {
+        UNKNOWN_POSITION = 0;
+        LEFT = 1;
+        RIGHT = 2;
+        TOP = 3;
+        BOTTOM = 4;
+    }
+
+    // The reason for entering splitscreen
+    enum EnterReason {
+        UNKNOWN_ENTER = 0;
+        OVERVIEW = 1;
+        DRAG_LEFT = 2;
+        DRAG_TOP = 3;
+        DRAG_RIGHT = 4;
+        DRAG_BOTTOM = 5;
+    }
+
+    // The reason for exiting splitscreen
+    enum ExitReason {
+        UNKNOWN_EXIT = 0;
+        DRAG_DIVIDER = 1;
+        RETURN_HOME = 2;
+        SCREEN_LOCKED = 3;
+        SCREEN_LOCKED_SHOW_ON_TOP = 4;
+        DEVICE_FOLDED = 5;
+        ROOT_TASK_VANISHED = 6;
+        APP_FINISHED = 7;
+        APP_DOES_NOT_SUPPORT_MULTIWINDOW = 8;
+    }
+
+    // The event action
+    optional Action action = 1;
+    // What triggered splitscreen (if the action is ENTER)
+    optional EnterReason enter_reason = 2;
+    // What triggered leaving splitscreen (if the action is EXIT)
+    optional ExitReason exit_reason = 3;
+    // The ratio of split between the main/side stages
+    optional float split_ratio = 4;
+    // Data about the main stage in split
+    optional Position main_stage_position = 5;
+    optional int32 main_stage_uid = 6 [(is_uid) = true];
+    // Data about the side stage in split
+    optional Position side_stage_position = 7;
+    optional int32 side_stage_uid = 8;
+    // The drag session id (if the enter_trigger was DRAG)
+    optional int32 drag_instance_id = 9;
+    // An identifier used to identify a splitscreen session
+    optional int32 instance_id = 10;
+}
+
+/** Logs System UI bubbles event changed.
+ *
+ * Logged from:
+ *     frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/bubbles
  */
 message BubbleUIChanged {
 
