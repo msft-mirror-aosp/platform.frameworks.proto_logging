@@ -3570,6 +3570,7 @@ message SmartSpaceCardReported {
         PACKAGE_DELIVERED = 16;
         TIPS = 17;
         DOORBELL = 18;
+        CROSS_DEVICE_TIMER = 19;
     }
 
     // The surface that SmartSpace card is shown.
