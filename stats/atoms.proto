@@ -9123,7 +9123,7 @@ message SplitscreenUIChanged {
     optional int32 main_stage_uid = 6 [(is_uid) = true];
     // Data about the side stage in split
     optional Position side_stage_position = 7;
-    optional int32 side_stage_uid = 8;
+    optional int32 side_stage_uid = 8 [(is_uid) = true];
     // The drag session id (if the enter_trigger was DRAG)
     optional int32 drag_instance_id = 9;
     // An identifier used to identify a splitscreen session
