@@ -16495,7 +16495,7 @@ message TimeZoneDetectorState {
  */
 message LocationTimeZoneProviderStateChanged {
     // The index of the provider (primary = 0, secondary = 1)
-    optional int32 provider_index = 1;
+    optional int32 provider_index = 1 [(state_field_option).primary_field = true];
 
     enum State {
         // A placeholder for unknown values.
@@ -16521,7 +16521,7 @@ message LocationTimeZoneProviderStateChanged {
     }
 
     // The state of the provider.
-    optional State state = 2;
+    optional State state = 2 [(state_field_option).exclusive_state = true];
 }
 
 /*
