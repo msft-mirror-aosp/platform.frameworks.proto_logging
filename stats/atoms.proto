@@ -584,7 +584,7 @@ message Atom {
         AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
         SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
         SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
-
+        NetworkDnsHandshakeReported network_dns_handshake_reported = 389 [(module) = "resolv"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -3593,13 +3593,25 @@ message SmartSpaceCardReported {
     // Uniquely identifies a card. Should persist through updates.
     optional int32 instance_id = 2;
     // Uniquely identifies one of the possible types of the SmartSpace cards.
-    optional CardType card_type = 3;
+    // Deprecated. Please read card_type_id instead.
+    optional CardType card_type = 3 [deprecated = true];
     // Location of the card when the event occurred.
     optional DisplaySurface display_surface = 4;
     // The position of the card in the carousel when the event occurred.
     optional int32 rank = 5;
     // The number of cards shown to the user.
     optional int32 cardinality = 6;
+    // Uniquely identifies one of the possible types of the SmartSpace cards.
+    // To replace card_type. See go/smartspace-aster-metrics#card-type-id.
+    optional int32 card_type_id = 7;
+    // The app that the Smartspace card is tied to.
+    optional int32 uid = 8 [(is_uid) = true];
+    // If multiple subcards are displayed simultaneously, the position of
+    // the subcard that was interacted with.
+    optional int32 interacted_subcard_rank = 9;
+    // If multiple subcards are displayed simultaneously, the number of subcards
+    // shown when the interaction occurred.
+    optional int32 interacted_subcard_cardinality = 10;
 }
 
 /**
@@ -8342,6 +8354,52 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+}
+
+/**
+ * The NetworkDnsHandshakeReported message describes a DoT or DoH handshake operation along with
+ * its result, cause, network latency, TLS version, etc.
+ *
+ */
+message NetworkDnsHandshakeReported {
+  optional android.stats.dnsresolver.Protocol protocol = 1;
+
+  optional android.stats.dnsresolver.HandshakeResult result = 2;
+
+  optional android.stats.dnsresolver.HandshakeCause cause = 3;
+
+  optional android.stats.dnsresolver.NetworkType network_type = 4;
+
+  optional android.stats.dnsresolver.PrivateDnsModes private_dns_mode = 5;
+
+  // The latency in microseconds of the entire handshake operation.
+  optional int32 latency_micros = 6;
+
+  // Sent packets in bytes.
+  optional int32 bytes_sent = 7;
+
+  // Received packets in bytes.
+  optional int32 bytes_received = 8;
+
+  // Number of round-trips.
+  optional int32 round_trips = 9;
+
+  // True if TLS session cache hit.
+  optional bool tls_session_cache_hit = 10;
+
+  // 2 = TLS 1.2, 3 = TLS 1.3
+  optional int32 tls_version = 11;
+
+  // True if the handshake requires verifying the private DNS provider hostname.
+  optional bool hostname_verification = 12;
+
+  // Only present when protocol = PROTO_DOH.
+  optional int32 quic_version = 13;
+
+  optional int32 server_index = 14;
+
+  // The sampling-rate of this event is 1/sampling_rate_denom.
+  optional int32 sampling_rate_denom = 15;
 }
 
 /**
