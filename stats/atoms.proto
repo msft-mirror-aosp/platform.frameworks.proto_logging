@@ -591,13 +591,14 @@ message Atom {
             391 [(module) = "bluetooth"];
         BluetoothLeBatchScanReportDelay bluetooth_le_batch_scan_report_delay =
             392 [(module) = "bluetooth"];
+        AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10127
+    // Next: 10129
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -747,6 +748,9 @@ message Atom {
         RkpErrorStats rkp_error_stats = 10124 [(module) = "framework"];
         Keystore2CrashStats keystore2_crash_stats = 10125 [(module) = "framework"];
         VendorApexInfo vendor_apex_info = 10126 [(module) = "framework"];
+        AccessibilityShortcutStats accessibility_shortcut_stats = 10127 [(module) = "framework"];
+        AccessibilityFloatingMenuStats accessibility_floating_menu_stats =
+            10128 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -9441,30 +9445,74 @@ message MediaCodecReported {
     optional string package_name = 2;
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
+    // The name of the codec.
+    // eg. `OMX.google.aac.decoder`
     optional string codec = 5;
+    // The mime type. e.g. "audio/vorbis"
     optional string mime = 6;
+    // The codec mode. i.e. video or audio.
     optional string mode = 7;
+    // 1 if this is an encoder, 0 if this is a decoder.
     optional int32 encoder = 8;
+    // 0, 1
     optional int32 secure = 9;
+    // The video width in pixels.
     optional int32 width = 10;
+    // The video height in pixels.
     optional int32 height = 11;
+    // The rotation of the video in degrees
+    // 0, 90, 180, 270
     optional int32 rotation = 12;
+    // 1 if the codec uses crypto/drm, 0 otherwise.
     optional int32 crypto = 13;
+    // The codec profile. The values are dependent on the codec type.
+    // 0..n
     optional int32 profile = 14;
+    // The coding level. The values are dependent on the codec type.
+    // 0..n
     optional int32 level = 15;
+    // The maximum allowed width during a particular codec session.
+    // 0..n
     optional int32 max_width = 16;
+    // The maximum allowed height during a particular codec session.
+    // 0..n
     optional int32 max_height = 17;
+    // Indicating which error condition caused the codec to reset to an
+    // uninitialized state.
     optional int32 error_code = 18;
+    // The error state.
+    // The emitted values are descriptive:  UNINITIALIZED, INITIALIZING,
+    // INITIALIZED, CONFIGURING, CONFIGURED, STARTING, STARTED, FLUSHING, FLUSHED,
+    // STOPPING, and RELEASING.
+    // In the event of an internal codec error setting the state outside of these
+    // values, the invalid value will be encoded as a string (e.g., “17”).
     optional string error_state = 19;
+    // The max latency in us.
+    // The latency is from the time when the MediaCodec sends the ‘raw’ frame to
+    // the media codec service to when the decoded frame arrives back in
+    // MediaCodec’s possession.
     optional int64 latency_max = 20;
+    // The min latency in us.
     optional int64 latency_min = 21;
+    // The average latency in us.
     optional int64 latency_avg = 22;
+    // The number of buffers included in the avg/min/max calculation above.
     optional int64 latency_count = 23;
+    // The number of packets received back from the code where a latency could not
+    // be determined, and therefore they aren't included in the avg/min/max
+    // calculations above.
     optional int64 latency_unknown = 24;
+    // Error returned by queueInputBuffer.
     optional int32 queue_input_buffer_error = 25;
+    // Error returned by queueSecureInputBuffer.
     optional int32 queue_secure_input_buffer_error = 26;
+    // These modes are primarily for videos.
+    // CQ = constant quality
+    // CBR = constant bit rate
+    // VBR = variable bitrate
     optional string bitrate_mode = 27;
     optional int32 bitrate = 28;
+    // 0..n
     optional int64 lifetime_millis = 29;
     optional int64 playback_duration_seconds = 30;
     optional string log_session_id = 31;
@@ -14123,6 +14171,69 @@ message AccessibilityServiceReported {
     // The definition of the service status.
     // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
     optional android.stats.accessibility.ServiceStatus service_status = 2;
+}
+
+/**
+ * Logs when accessibility floating menu changed its position by user.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/accessibility/floatingmenu
+ */
+message AccessibilityFloatingMenuUIChanged {
+    // Normalized screen position of the accessibility floating menu. The range is between 0 and 1.
+    optional float normalized_x_position = 1;
+    optional float normalized_y_position = 2;
+
+    enum Orientation {
+        UNKNOWN = 0;
+        PORTRAIT = 1;
+        LANDSCAPE = 2;
+    }
+    // Orientation of the device when accessibility floating menu changed.
+    optional Orientation orientation = 3;
+}
+
+/**
+ * Pulls accessibility shortcuts status.
+ *
+ * Pulled from:
+ *   StatsPullAtomService
+ */
+message AccessibilityShortcutStats {
+    // The definition of the accessibility software shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType software_shortcut_type = 1;
+    // Number of accessibility services in accessibility software shortcut.
+    optional int32 software_shortcut_service_num = 2;
+
+    // The definition of the accessibility hardware shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType hardware_shortcut_type = 3;
+    // Number of accessibility services in accessibility hardware shortcut.
+    optional int32 hardware_shortcut_service_num = 4;
+
+    // The definition of the accessibility gesture shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType gesture_shortcut_type = 5;
+    // Number of accessibility services in accessibility gesture shortcut.
+    optional int32 gesture_shortcut_service_num = 6;
+}
+
+/**
+ * Pulls accessibility floating menu status.
+ *
+ * Pulled from:
+ *   StatsPullAtomService
+ */
+message AccessibilityFloatingMenuStats {
+    // Size of the accessibility floating menu.
+    optional int32 size = 1;
+    // Icon shape of the accessibility floating menu.
+    optional int32 icon_type = 2;
+    // Whether the accessibility floating menu is enable auto fade ability.
+    optional bool fade_enabled = 3;
+    // Opacity of the accessibility floating menu. The range is between 0 and 1.
+    optional float opacity = 4;
 }
 
 /**
