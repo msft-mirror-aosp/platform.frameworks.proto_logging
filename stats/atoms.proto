@@ -1970,8 +1970,19 @@ message KeyguardBouncerStateChanged {
         // Bouncer is hidden, either as a result of successfully entering the
         // password, screen timing out, or user going back to lock screen.
         HIDDEN = 1;
-        // This is when the user is being prompted to enter the password.
+        // The user is being prompted to enter the password and the keyguard is NOT in one
+        // handed mode.
         SHOWN = 2;
+        // The user is being prompted to enter the password and the keyguard shows in one
+        // handed mode and left aligned.
+        SHOWN_LEFT = 3;
+        // The user is being prompted to enter the password and the keyguard shows in one
+        // handed mode and right aligned.
+        SHOWN_RIGHT = 4;
+        // The keyguard switches to the left side while it is in one handed mode.
+        SWITCH_LEFT = 5;
+        // The keyguard switches to the right side while it is in one handed mode.
+        SWITCH_RIGHT = 6;
     }
     optional State state = 1;
 }
@@ -1991,6 +2002,13 @@ message KeyguardBouncerPasswordEntered {
         SUCCESS = 2;
     }
     optional BouncerResult result = 1;
+
+    enum BouncerSide {
+        DEFAULT = 0;
+        LEFT = 1;
+        RIGHT = 2;
+    }
+    optional BouncerSide side = 2;
 }
 
 /*
@@ -13702,6 +13720,9 @@ message PinStorageEvent {
 
     // Number of PINs stored or discarded.
     optional int32 number_of_pins = 2;
+
+    // The caller package name
+    optional string package_name = 3;
 }
 
 /**
