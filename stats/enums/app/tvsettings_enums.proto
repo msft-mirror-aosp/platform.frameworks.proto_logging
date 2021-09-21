@@ -677,6 +677,16 @@ enum ItemId {
     // Cached data (brings up "Clear cached data?" dialog upon click)
     SYSTEM_STORAGE_INTERNAL_STORAGE_CACHED = 0x17512000;
 
+    // TvSettings > System > Free up storage
+    SYSTEM_STORAGE_FREE_UP_STORAGE = 0x17520000;
+
+    // TvSettings > System > Free up storage >
+    // Clear cached data (brings up "Clear cached data?" dialog upon click)
+    SYSTEM_STORAGE_FREE_UP_STORAGE_CLEAR_CACHED_DATA = 0x17521000;
+
+    // TvSettings > System > Free up storage > Uninstall apps
+    SYSTEM_STORAGE_FREE_UP_STORAGE_UNINSTALL_APPS = 0x17522000;
+
     // TvSettings > System > Ambient mode
     SYSTEM_AMBIENT = 0x17600000;
 
