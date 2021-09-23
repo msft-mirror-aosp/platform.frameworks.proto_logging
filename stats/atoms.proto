@@ -581,13 +581,14 @@ message Atom {
         AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
         SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
         SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
+        AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10118
+    // Next: 10129
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -736,6 +737,9 @@ message Atom {
                 10123 [(module) = "framework"];
         RkpErrorStats rkp_error_stats = 10124 [(module) = "framework"];
         Keystore2CrashStats keystore2_crash_stats = 10125 [(module) = "framework"];
+        AccessibilityShortcutStats accessibility_shortcut_stats = 10127 [(module) = "framework"];
+        AccessibilityFloatingMenuStats accessibility_floating_menu_stats =
+            10128 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -13900,6 +13904,69 @@ message AccessibilityServiceReported {
     // The definition of the service status.
     // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
     optional android.stats.accessibility.ServiceStatus service_status = 2;
+}
+
+/**
+ * Logs when accessibility floating menu changed its position by user.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/accessibility/floatingmenu
+ */
+message AccessibilityFloatingMenuUIChanged {
+    // Normalized screen position of the accessibility floating menu. The range is between 0 and 1.
+    optional float normalized_x_position = 1;
+    optional float normalized_y_position = 2;
+
+    enum Orientation {
+        UNKNOWN = 0;
+        PORTRAIT = 1;
+        LANDSCAPE = 2;
+    }
+    // Orientation of the device when accessibility floating menu changed.
+    optional Orientation orientation = 3;
+}
+
+/**
+ * Pulls accessibility shortcuts status.
+ *
+ * Pulled from:
+ *   StatsPullAtomService
+ */
+message AccessibilityShortcutStats {
+    // The definition of the accessibility software shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType software_shortcut_type = 1;
+    // Number of accessibility services in accessibility software shortcut.
+    optional int32 software_shortcut_service_num = 2;
+
+    // The definition of the accessibility hardware shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType hardware_shortcut_type = 3;
+    // Number of accessibility services in accessibility hardware shortcut.
+    optional int32 hardware_shortcut_service_num = 4;
+
+    // The definition of the accessibility gesture shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType gesture_shortcut_type = 5;
+    // Number of accessibility services in accessibility gesture shortcut.
+    optional int32 gesture_shortcut_service_num = 6;
+}
+
+/**
+ * Pulls accessibility floating menu status.
+ *
+ * Pulled from:
+ *   StatsPullAtomService
+ */
+message AccessibilityFloatingMenuStats {
+    // Size of the accessibility floating menu.
+    optional int32 size = 1;
+    // Icon shape of the accessibility floating menu.
+    optional int32 icon_type = 2;
+    // Whether the accessibility floating menu is enable auto fade ability.
+    optional bool fade_enabled = 3;
+    // Opacity of the accessibility floating menu. The range is between 0 and 1.
+    optional float opacity = 4;
 }
 
 /**
