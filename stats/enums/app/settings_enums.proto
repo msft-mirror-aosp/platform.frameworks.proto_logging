@@ -3229,6 +3229,17 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SOUND_NOTIFICATIONS = 1906;
+
+    // OPEN: Settings > Display > Lock screen > Hub mode > Shared Apps
+    // CATEGORY: SETTINGS
+    // OS: T
+    COMMUNAL_MODE_SHARED_APP_SETTINGS = 1907;
+
+    // OPEN: Settings > System > Gestures > System navigation > 2-/3-button
+    // navigation gear icon
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_BUTTON_NAV_DLG = 1908;
 }
 
 // Battery Saver schedule types.
