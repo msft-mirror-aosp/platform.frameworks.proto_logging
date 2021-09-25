@@ -585,6 +585,10 @@ message Atom {
         SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
         SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
         NetworkDnsHandshakeReported network_dns_handshake_reported = 389 [(module) = "resolv"];
+        BluetoothCodePathCounter bluetooth_code_path_counter =
+            390 [(module) = "bluetooth"];
+        BluetoothLeBatchScanReportDelay bluetooth_le_batch_scan_report_delay =
+            392 [(module) = "bluetooth"];
         AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
@@ -592,7 +596,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10129
+    // Next: 10130
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -745,6 +749,8 @@ message Atom {
         AccessibilityShortcutStats accessibility_shortcut_stats = 10127 [(module) = "framework"];
         AccessibilityFloatingMenuStats accessibility_floating_menu_stats =
             10128 [(module) = "framework"];
+        DataUsageBytesTransferV2 data_usage_bytes_transfer_v2 = 10129 [(module) = "framework",
+                (truncate_timestamp) = true];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -3220,6 +3226,35 @@ message InputDeviceRegistered {
 }
 
 /**
+ * Logs when the counter is incremented
+ *
+ * Logged from:
+ *   system/bt
+ *   packages/apps/Bluetooth
+ *
+ */
+message BluetoothCodePathCounter {
+    // Keys of events with enum ranges to be defined
+    optional android.bluetooth.CodePathCounterKeyEnum key = 1;
+    // Number of frequency of events
+    optional int64 number = 2;
+}
+
+/**
+ * Logs when an application attempts to start a Bluetooth Low Energy scan.
+ * It only happens when the scan is initiated and does not repeatedly call
+ * while the scan is running.
+ *
+ * Logged from:
+ *   packages/apps/Bluetooth/src/com/android/bluetooth/gatt/GattService.java
+ *
+ */
+message BluetoothLeBatchScanReportDelay {
+    optional int32 application_uid = 1;
+    optional int64 application_report_delay_millis = 2;
+}
+
+/**
  * Logs when something is plugged into or removed from the USB-C connector.
  *
  * Logged from:
@@ -3635,6 +3670,9 @@ message SmartSpaceCardReported {
     // If multiple subcards are displayed simultaneously, the number of subcards
     // shown when the interaction occurred.
     optional int32 interacted_subcard_cardinality = 10;
+    // The time it takes in ms from smartspace target is created to sysui receives
+    // the target.
+    optional int32 received_latency_millis = 11;
 }
 
 /**
@@ -6394,6 +6432,80 @@ message DataUsageBytesTransfer {
     // network allocates a secondary 5G cell so telephony reports RAT = LTE along with NR state as
     // connected.
     optional bool is_nr_connected = 11;
+}
+
+/**
+ * Note: This is a copy from DataUsageBytesTransfer and add a metered field.
+ * TODO: DataUsageBytesTransfer should be eventually replaced with DataUsageBytesTransferV2.
+ *
+ * Used for pull network statistics via mobile|wifi networks, and sliced by interesting dimensions.
+ * Note that the data is expected to be sliced into more dimensions in future. In other words,
+ * the caller must not assume any row of data is one full report when filtering with a set of
+ * matching conditions, because future data may represent with multiple rows what is currently
+ * represented by one.
+ * To avoid being broken by future slicing, callers must take care to aggregate rows even if they
+ * query all the existing columns.
+ *
+ * Pulled from:
+ *   StatsPullAtomService (using NetworkStatsService to get NetworkStats)
+ */
+message DataUsageBytesTransferV2 {
+    // State of this record. Should be NetworkStats#SET_DEFAULT or NetworkStats#SET_FOREGROUND to
+    // indicate the foreground state, or NetworkStats#SET_ALL to indicate the record is for all
+    // states combined, not including debug states. See NetworkStats#SET_*.
+    optional int32 state = 1;
+
+    optional int64 rx_bytes = 2;
+
+    optional int64 rx_packets = 3;
+
+    optional int64 tx_bytes = 4;
+
+    optional int64 tx_packets = 5;
+
+    // Radio Access Technology (RAT) type of this record, should be one of
+    // TelephonyManager#NETWORK_TYPE_* constants, or NetworkTemplate#NETWORK_TYPE_ALL to indicate
+    // the record is for all rat types combined.
+    optional int32 rat_type = 6;
+
+    // Mcc/Mnc read from sim if the record is for a specific subscription, null indicates the
+    // record is combined across subscriptions.
+    optional string sim_mcc = 7;
+    optional string sim_mnc = 8;
+
+    // Allows mobile virtual network operators (MVNOs) to be identified with individual IDs.
+    // See TelephonyManager#getSimCarrierId.
+    optional int32 carrier_id = 9;
+
+    // Enumeration of opportunistic states with an additional DSS_ALL state indicates the record is
+    // combined regardless of the boolean value in its field.
+    enum DataSubscriptionState {
+        DSS_UNKNOWN = 0; // For server side backward compatibility.
+        DSS_ALL = 1;
+        DSS_OPPORTUNISTIC = 2;
+        DSS_NOT_OPPORTUNISTIC = 3;
+    }
+    // Mark whether the subscription is an opportunistic data subscription, and ALL indicates the
+    // record is combined across opportunistic data subscriptions.
+    // See {@link SubscriptionManager#setOpportunistic}.
+    optional DataSubscriptionState opportunistic_data_sub = 10;
+
+    // Indicate whether NR is connected, server side could use this with RAT type to determine if
+    // the record is for 5G NSA (Non Stand Alone) mode, where the primary cell is still LTE and
+    // network allocates a secondary 5G cell so telephony reports RAT = LTE along with NR state as
+    // connected.
+    optional bool is_nr_connected = 11;
+
+    // Enumeration of metered states.
+    enum MeteredState {
+        METERED_UNKNOWN = 0;
+        METERED_ALL = 1;
+        METERED_NO = 2;
+        METERED_YES = 3;
+    }
+    // Mark the reported data is metered or non-metered, and METERED_ALL indicates the record is
+    // combined across metered data.
+    optional MeteredState metered = 12;
 }
 
 /**
