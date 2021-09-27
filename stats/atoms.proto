@@ -3630,6 +3630,9 @@ message SmartSpaceCardReported {
     // If multiple subcards are displayed simultaneously, the number of subcards
     // shown when the interaction occurred.
     optional int32 interacted_subcard_cardinality = 10;
+    // The time it takes in ms from smartspace target is created to sysui receives
+    // the target.
+    optional int32 received_latency_millis = 11;
 }
 
 /**
