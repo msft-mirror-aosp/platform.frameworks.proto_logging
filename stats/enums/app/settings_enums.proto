@@ -3240,6 +3240,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SETTINGS_BUTTON_NAV_DLG = 1908;
+
+    // OPEN: Settings > Display > Lock screen > Hub mode > Trusted networks
+    // CATEGORY: SETTINGS
+    // OS: T
+    COMMUNAL_MODE_TRUSTED_NETWORKS_SETTINGS = 1909;
 }
 
 // Battery Saver schedule types.
