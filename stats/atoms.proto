@@ -7970,6 +7970,7 @@ message ContentCaptureServiceEvents {
         DATA_SHARE_ERROR_SERVICE_PIPE_FAIL = 13;
         DATA_SHARE_ERROR_CONCURRENT_REQUEST = 14;
         DATA_SHARE_ERROR_TIMEOUT_INTERRUPTED = 15;
+        ON_REMOTE_SERVICE_DIED = 16;
     }
     optional Event event = 1;
     // component/package of content capture service.

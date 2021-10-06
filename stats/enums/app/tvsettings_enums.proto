@@ -460,6 +460,9 @@ enum ItemId {
     // TvSettings > Apps > See all apps > [An app entry] > Open source licenses
     APPS_ALL_APPS_APP_ENTRY_LICENSES = 0x1611C000;
 
+    // TvSettings > Apps > See all apps > [An app entry] > Remove permissions Toggle
+    APPS_ALL_APPS_APP_ENTRY_HIBERNATION = 0x1611D000;
+
     // TvSettings > Apps > See all apps > Show system apps
     APPS_ALL_APPS_SHOW_SYSTEM_APPS = 0x16120000;
 
@@ -568,6 +571,9 @@ enum ItemId {
     // TvSettings > Apps > Security & restrictions >
     // Exit restricted profile
     APPS_SECURITY_RESTRICTIONS_EXIT_PROFILE = 0x16480000;
+
+    // TvSettings > Unused apps
+    APPS_UNUSED_APPS = 0x16500000;
 
     // TvSettings > System (same as TvSettings > Device Preferences)
     SYSTEM = 0x17000000;
