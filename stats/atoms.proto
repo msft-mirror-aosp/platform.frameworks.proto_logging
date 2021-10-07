@@ -11752,7 +11752,7 @@ message AppSearchOptimizeStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 13
+ * Next tag: 20
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -11794,28 +11794,29 @@ message AppSearchSetSchemaStatsReported {
     // Number of backwards-incompatible schema type changes
     optional int32 backwards_incompatible_type_change_count = 11;
 
-    // Stores schema migration info if migration is executed with setting schema
-    optional SchemaMigrationStats schema_migration_stats = 12
-        [(android.os.statsd.log_mode) = MODE_BYTES];
-}
+    // Whether schema migration is executed during setting schema
+    optional bool has_schema_migration = 12;
 
-/**
- * Logs detailed stats for schema migration in AppSearch
- */
-message SchemaMigrationStats {
-    optional int32 get_schema_latency_millis = 1;
+    // Overall time used for getting schema during schema migration
+    optional int32 schema_migration_get_schema_latency_millis = 13;
 
-    optional int32 query_and_transform_latency_millis = 2;
+    // Overall time used for querying and transforming documents during schema migration
+    optional int32 schema_migration_query_and_transform_latency_millis = 14;
 
-    optional int32 first_set_schema_latency_millis = 3;
+    // Overall time used for first setSchema during schema migration
+    optional int32 schema_migration_first_set_schema_latency_millis = 15;
 
-    optional int32 second_set_schema_latency_millis = 4;
+    // Overall time used for second setSchema during schema migration
+    optional int32 schema_migration_second_set_schema_latency_millis = 16;
 
-    optional int32 save_document_latency_millis = 5;
+    // Overall time used for saving documents during schema migration
+    optional int32 schema_migration_save_document_latency_millis = 17;
 
-    optional int32 migrated_document_count = 6;
+    // Number of migrated documents during schema migration
+    optional int32 schema_migration_migrated_document_count = 18;
 
-    optional int32 saved_document_count = 7;
+    // Number of saved documents during schema migration
+    optional int32 schema_migration_saved_document_count = 19;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
