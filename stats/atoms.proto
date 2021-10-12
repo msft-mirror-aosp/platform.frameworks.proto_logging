@@ -508,7 +508,7 @@ message Atom {
         MediametricsMediaParserReported mediametrics_mediaparser_reported = 316;
         TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
         TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
-        KilledAppStatsReported killed_app_stats_reported = 319 [(module) = "carwatchdogd"];
+        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "carwatchdogd"];
         MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
         MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
         MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
@@ -564,7 +564,7 @@ message Atom {
         OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
-        IoOveruseStatsReported io_overuse_stats_reported = 369 [(module) = "carwatchdogd"];
+        CarWatchdogIoOveruseStatsReported io_overuse_stats_reported = 369 [(module) = "carwatchdogd"];
         UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
         AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "appsearch"];
         AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "appsearch"];
@@ -15559,79 +15559,77 @@ message TextClassifierDownloadReported {
 }
 
 /**
- * Logs the current state of an application before it is killed.
+ * Logs the current state of an application/process before it is killed.
+ *
+ * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
  *
  * Pushed from:
  *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
  */
-message KilledAppStatsReported {
+message CarWatchdogKillStatsReported {
     // Linux process uid for the package.
     optional int32 uid = 1 [(is_uid) = true];
 
-    // Name of the package that was killed.
-    optional string package_name = 2;
-
-    // State of the application when it was killed.
-    enum AppState {
-        UNKNOWN_APP_STATE = 0;
-        BACKGROUND = 1;
-        FOREGROUND = 2;
+    // State of the uid when it was killed.
+    enum UidState {
+        UNKNOWN_UID_STATE = 0;
+        BACKGROUND_MODE = 1;
+        FOREGROUND_MODE = 2;
     }
-    optional AppState app_state = 3;
+    optional UidState uid_state = 2;
 
     // System state indicating whether the system was in normal mode or garage mode.
     enum SystemState {
         UNKNOWN_SYSTEM_STATE = 0;
         USER_INTERACTION_MODE = 1;
-        NO_USER_INTERACTION_MODE = 2;
+        USER_NO_INTERACTION_MODE = 2;
+        GARAGE_MODE = 3;
     }
-    optional SystemState system_state = 4;
+    optional SystemState system_state = 3;
 
     // Reason for killing the application.
-    // Keep in sync between:
-    //   packages/services/Car/watchdog/server/src/ApplicationTerminator.h
-    //   frameworks/base/cmds/statsd/src/atoms.proto
+    // Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
     enum KillReason {
         UNKNOWN_KILL_REASON = 0;
         KILLED_ON_ANR = 1;
         KILLED_ON_IO_OVERUSE = 2;
         KILLED_ON_MEMORY_OVERUSE = 3;
     }
-    optional KillReason kill_reason = 5;
+    optional KillReason kill_reason = 4;
 
     // Stats of the processes owned by the application when the application was killed.
     // The process stack traces are not collected when the application was killed due to IO_OVERUSE.
-    optional ProcessStats process_stat = 6 [(log_mode) = MODE_BYTES];
+    optional CarWatchdogProcessStats process_stats = 5 [(log_mode) = MODE_BYTES];
 
     // The application's I/O overuse stats logged only when the kill reason is KILLED_ON_IO_OVERUSE.
-    optional IoOveruseStats io_overuse_stats = 7 [(log_mode) = MODE_BYTES];
+    optional CarWatchdogIoOveruseStats io_overuse_stats = 6 [(log_mode) = MODE_BYTES];
 }
 
 /**
  * Logs the I/O overuse stats for an application on detecting I/O overuse.
  *
+ * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ *
  * Pushed from:
  *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
  */
-message IoOveruseStatsReported {
+message CarWatchdogIoOveruseStatsReported {
     // Linux process uid for the package.
     optional int32 uid = 1 [(is_uid) = true];
 
     // The application's I/O overuse stats.
-    optional IoOveruseStats io_overuse_stats = 2 [(log_mode) = MODE_BYTES];
+    optional CarWatchdogIoOveruseStats io_overuse_stats = 2 [(log_mode) = MODE_BYTES];
 }
 
 /**
  * Logs I/O overuse stats for a package.
  *
- * Keep in sync between:
- *  packages/services/Car/cpp/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
  *
  * Logged from:
  *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
  */
-message IoOveruseStats {
+message CarWatchdogIoOveruseStats {
     enum Period {
         DAILY = 0;
         WEEKLY = 1;
@@ -15641,23 +15639,21 @@ message IoOveruseStats {
     optional Period period = 1;
 
     // Threshold in-terms of write bytes defined for the package.
-    optional PerStateBytes threshold = 2;
+    optional CarWatchdogPerStateBytes threshold = 2;
 
     // Number of write bytes in each state for the specified period.
-    optional PerStateBytes written_bytes = 3;
+    optional CarWatchdogPerStateBytes written_bytes = 3;
 };
 
 /**
  * Logs bytes attributed to each application and system states.
  *
- * Keep in sync between:
- *  packages/services/Car/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
  *
  * Logged from:
  *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
  */
-message PerStateBytes {
+message CarWatchdogPerStateBytes {
     // Number of bytes attributed to the application foreground.
     optional int64 foreground_bytes = 1;
 
@@ -15669,31 +15665,27 @@ message PerStateBytes {
 }
 
 /**
- * Logs each ProcessStat in ProcessStats.
+ * Logs each CarWatchdogProcessStat in CarWatchdogProcessStats.
  *
- * Keep in sync between:
- *  packages/services/Car/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
  *
  * Logged from:
  *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
  */
-message ProcessStats {
+message CarWatchdogProcessStats {
     // Records the stats of the processes owned by an application.
-    repeated ProcessStat process_stat = 1;
+    repeated CarWatchdogProcessStat process_stat = 1;
 }
 
 /**
  * Logs a process's stats.
  *
- * Keep in sync between:
- *  packages/services/Car/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
  *
  * Logged from:
  *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
  */
-message ProcessStat {
+message CarWatchdogProcessStat {
     // Command name of the process.
     optional string process_name = 1;
 
