@@ -597,7 +597,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10130
+    // Next: 10131
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -752,6 +752,7 @@ message Atom {
             10128 [(module) = "framework"];
         DataUsageBytesTransferV2 data_usage_bytes_transfer_v2 = 10129 [(module) = "framework",
                 (truncate_timestamp) = true];
+        MediaCapabilities media_capabilities = 10130 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -17284,4 +17285,66 @@ message NonA11yToolServiceWarningReported {
 
     // Duration between status in milliseconds.
     optional int64 duration_millis = 3;
+}
+
+message MediaCapabilities {
+    message AudioEncodings {
+        repeated android.stats.mediametrics.AudioEncoding audio_encodings = 1;
+    }
+
+    message HdrFormats {
+        repeated android.stats.mediametrics.HdrFormat hdr_formats = 1;
+    }
+
+
+    message DisplayMode {
+        optional int32 height = 1;
+        optional int32 width = 2;
+        optional float refresh_rate = 3;
+        optional int32 seamless_refresh_rates_group_id = 4;
+    }
+
+    message DisplayModes {
+        repeated DisplayMode display_modes = 1;
+    }
+
+    // Surround sound capabilities
+
+    // List of surround sound encodings supported by this device
+    optional AudioEncodings surround_encodings = 1 [(log_mode) = MODE_BYTES];
+    // List of surround sound encodings supported by the sink device
+    optional AudioEncodings sink_surround_encodings = 2 [(log_mode) = MODE_BYTES];
+    // List of supported surround sound encodings disabled by user
+    optional AudioEncodings user_disabled_surround_encodings = 3 [(log_mode) = MODE_BYTES];
+    // List of unsupported surround sound encodings enabled by user
+    optional AudioEncodings user_enabled_surround_encodings = 4 [(log_mode) = MODE_BYTES];
+     // The surround sound output mode chosen by user
+    optional android.stats.mediametrics.EncodedSurroundOutputMode surround_output_mode = 5;
+
+
+    // Display capabilities
+
+    // List of HDR display formats supported by the sink device
+    optional HdrFormats sink_hdr_formats = 6 [(log_mode) = MODE_BYTES];
+    // List of modes supported by the sink device. Each mode has height, width, refresh rate and a list
+    // of refresh-rates between which a seamless switch is possible.
+    optional DisplayModes sink_display_modes = 7 [(log_mode) = MODE_BYTES];
+    // The HDCP level with which the display is connected
+    optional int32 hdcp_level = 8;
+
+    // Display settings
+
+    // The Match content refresh rate user preference
+    optional android.stats.mediametrics.MatchContentFrameRatePreference
+                match_content_refresh_rate_preference = 9;
+    // List of HDR formats disabled by the user
+    optional HdrFormats user_disabled_hdr_formats = 10 [(log_mode) = MODE_BYTES];
+    // The resolution height selected by the user
+    optional int32 user_preferred_resolution_height = 11;
+    // The resolution width selected by the user
+    optional int32 user_preferred_resolution_width = 12;
+    // The refresh rate selected by the user
+    optional float user_preferred_refresh_rate = 13;
+    // Whether the user has disabled auto low latency mode
+    optional bool has_user_disabled_allm = 14;
 }
