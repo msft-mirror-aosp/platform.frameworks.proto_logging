@@ -6174,6 +6174,7 @@ message UIActionLatencyReported {
         ACTION_ROTATE_SCREEN_CAMERA_CHECK = 10;
         ACTION_ROTATE_SCREEN_SENSOR = 11;
         ACTION_LOCKSCREEN_UNLOCK = 12;
+        ACTION_USER_SWITCH = 13;
     }
 
     optional ActionType action = 1;
