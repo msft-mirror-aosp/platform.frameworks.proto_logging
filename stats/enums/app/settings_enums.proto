@@ -3219,6 +3219,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: S
     SOUND_NOTIFICATIONS = 1906;
+
+    // OPEN: Settings > System > Gestures > System navigation > 2-/3-button
+    // navigation gear icon
+    // CATEGORY: SETTINGS
+    // OS: S
+    SETTINGS_BUTTON_NAV_DLG = 1907;
 }
 
 // Battery Saver schedule types.
