@@ -34,6 +34,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto";
+import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
 import "frameworks/proto_logging/stats/enums/net/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/connectivity/data_stall_event.proto";
@@ -591,6 +592,14 @@ message Atom {
         BluetoothLeBatchScanReportDelay bluetooth_le_batch_scan_report_delay =
             392 [(module) = "bluetooth"];
         AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
+        NeuralNetworksCompilationCompleted neuralnetworks_compilation_completed = 394
+            [(module) = "neuralnetworks"];
+        NeuralNetworksExecutionCompleted neuralnetworks_execution_completed = 395
+            [(module) = "neuralnetworks"];
+        NeuralNetworksCompilationFailed neuralnetworks_compilation_failed = 396
+            [(module) = "neuralnetworks"];
+        NeuralNetworksExecutionFailed neuralnetworks_execution_failed = 397
+            [(module) = "neuralnetworks"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -17433,4 +17442,244 @@ message MediaCapabilities {
     optional float user_preferred_refresh_rate = 13;
     // Whether the user has disabled auto low latency mode
     optional bool has_user_disabled_allm = 14;
+}
+
+/**
+ * Logs when NNAPI model is compiled successfully
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksCompilationCompleted {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this compilation.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 6;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 7;
+
+    // Did the compilation had to fallback to cpu due to an error?
+    optional bool fallback_to_cpu_from_error = 8;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 9;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 10;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 11;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 12;
+
+    // Time taken to compile a model
+    optional int64 compilation_time_sum_millis = 13;
+    optional int64 compilation_time_min_millis = 14;
+    optional int64 compilation_time_max_millis = 15;
+    optional int64 compilation_time_sum_squared_millis = 16;
+    optional int32 compilation_time_count = 17;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 18;
+}
+
+/**
+ * Logs when NNAPI model fails compilation
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksCompilationFailed {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this compilation.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 6;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 7;
+
+    // Error code returned by compilation call
+    optional android.neuralnetworks.ResultCode error_code = 8;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 9;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 10;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 11;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 12;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 13;
+}
+
+/**
+ * Logs when NNAPI model is executed successfully
+ *
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksExecutionCompleted {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this execution.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Execution mode
+    optional android.neuralnetworks.Mode mode = 6;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 7;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 8;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 9;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 10;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 11;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 12;
+
+    // Time taken to execute from runtime, including runtime/ipc overhead
+    optional int64 duration_runtime_sum_micros = 13;
+    optional int64 duration_runtime_min_micros = 14;
+    optional int64 duration_runtime_max_micros = 15;
+    optional int64 duration_runtime_sum_squared_micros = 16;
+    optional int32 duration_runtime_count = 17;
+
+    // Time taken to execute in the driver, excluding runtime/ipc overhead
+    optional int64 duration_driver_sum_micros = 18;
+    optional int64 duration_driver_min_micros = 19;
+    optional int64 duration_driver_max_micros = 20;
+    optional int64 duration_driver_sum_squared_micros = 21;
+    optional int32 duration_driver_count = 22;
+
+    // Time taken to execute on the hardware, excluding driver overhead
+    optional int64 duration_hardware_sum_micros = 23;
+    optional int64 duration_hardware_min_micros = 24;
+    optional int64 duration_hardware_max_micros = 25;
+    optional int64 duration_hardware_sum_squared_micros = 26;
+    optional int32 duration_hardware_count = 27;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 28;
+}
+
+/**
+ * Logs when NNAPI model fails execution
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksExecutionFailed {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this execution.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Execution mode
+    optional android.neuralnetworks.Mode mode = 6;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 7;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 8;
+
+    // Error code returned by execution call
+    optional android.neuralnetworks.ResultCode error_code = 9;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 10;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 11;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 12;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 13;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 14;
 }
