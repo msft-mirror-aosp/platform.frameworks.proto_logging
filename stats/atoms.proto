@@ -507,7 +507,7 @@ message Atom {
         MediametricsMediaParserReported mediametrics_mediaparser_reported = 316;
         TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
         TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
-        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "carwatchdogd"];
+        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "car"];
         MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
         MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
         MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
@@ -562,7 +562,7 @@ message Atom {
         OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
-        CarWatchdogIoOveruseStatsReported io_overuse_stats_reported = 369 [(module) = "carwatchdogd"];
+        CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car"];
         UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
         AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "appsearch"];
         AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "appsearch"];
@@ -15164,10 +15164,11 @@ message TextClassifierApiUsageReported {
 /**
  * Logs the current state of an application/process before it is killed.
  *
- * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pushed from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
 message CarWatchdogKillStatsReported {
     // Linux process uid for the package.
@@ -15211,10 +15212,11 @@ message CarWatchdogKillStatsReported {
 /**
  * Logs the I/O overuse stats for an application on detecting I/O overuse.
  *
- * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pushed from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
 message CarWatchdogIoOveruseStatsReported {
     // Linux process uid for the package.
@@ -15227,10 +15229,11 @@ message CarWatchdogIoOveruseStatsReported {
 /**
  * Logs I/O overuse stats for a package.
  *
- * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
 message CarWatchdogIoOveruseStats {
     enum Period {
@@ -15254,10 +15257,11 @@ message CarWatchdogIoOveruseStats {
 /**
  * Logs bytes attributed to each application and system states.
  *
- * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
 message CarWatchdogPerStateBytes {
     // Number of bytes attributed to the application foreground.
@@ -15273,10 +15277,11 @@ message CarWatchdogPerStateBytes {
 /**
  * Logs each CarWatchdogProcessStat in CarWatchdogProcessStats.
  *
- * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
 message CarWatchdogProcessStats {
     // Records the stats of the processes owned by an application.
@@ -15286,10 +15291,11 @@ message CarWatchdogProcessStats {
 /**
  * Logs a process's stats.
  *
- * Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
 message CarWatchdogProcessStat {
     // Command name of the process.
@@ -15317,6 +15323,9 @@ message CarWatchdogProcessStat {
 /**
  * Logs total I/O usage summary for all applications and services running in the system.
  *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
  * Pulled from:
  *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
@@ -15327,6 +15336,9 @@ message CarWatchdogSystemIoUsageSummary {
 
 /**
  * Logs I/O usage summary for an UID.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pulled from:
  *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
@@ -15342,7 +15354,8 @@ message CarWatchdogUidIoUsageSummary {
 /**
  * Logs I/O usage summary for a time period.
  *
- * Keep in sync with proto file at packages/services/Car/service/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pulled from:
  *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
@@ -15359,7 +15372,8 @@ message CarWatchdogIoUsageSummary {
 /**
  * Logs a car watchdog event's time period.
  *
- * Keep in sync with proto file at packages/services/Car/service/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pulled from:
  *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
@@ -15381,7 +15395,8 @@ message CarWatchdogEventTimePeriod {
 /**
  * Logs daily I/O usage summary.
  *
- * Keep in sync with proto file at packages/services/Car/service/proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pulled from:
  *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
