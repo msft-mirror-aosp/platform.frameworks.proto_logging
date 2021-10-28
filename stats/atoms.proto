@@ -31,6 +31,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hfp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
+import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto";
@@ -600,6 +601,11 @@ message Atom {
             [(module) = "neuralnetworks"];
         NeuralNetworksExecutionFailed neuralnetworks_execution_failed = 397
             [(module) = "neuralnetworks"];
+        ContextHubBooted context_hub_booted = 398 [(module) = "contexthub"];
+        ContextHubRestarted context_hub_restarted = 399 [(module) = "contexthub"];
+        ContextHubLoadedNanoappSnapshotReported context_hub_loaded_nanoapp_snapshot_reported = 400
+            [(module) = "contexthub"];
+        ChreCodeDownloadTransacted chre_code_download_transacted = 401 [(module) = "contexthub"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -17700,4 +17706,62 @@ message NeuralNetworksExecutionFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 14;
+}
+
+/**
+ * Logs boot-time info for a Context Hub.
+ */
+message ContextHubBooted {
+  // The amount of time it took the framework to connect to CHRE/Context Hub HAL
+  // since the framework has booted.
+  optional int64 boot_time_nanos = 1;
+
+  // The number of Context Hub instances found on this system.
+  optional int32 num_context_hubs = 2;
+}
+
+/**
+ * Logs Context Hub restart events (e.g. crashes).
+ */
+message ContextHubRestarted {
+  // The duration of time between the last time Context Hub restart and this event.
+  // This should use the SystemClock.elapsedRealTime() API.
+  optional int64 elapsed_time_millis_since_boot = 1;
+
+  // The ID of the Context Hub that has restarted (zero-indexed).
+  optional int32 context_hub_id = 2;
+}
+
+/**
+ * Logs a snapshot of all the nanoapps loaded on this Context Hub.
+ */
+message ContextHubLoadedNanoappSnapshotReported {
+  // The ID of the Context Hub the snapshot is for.
+  optional int32 context_hub_id = 1;
+
+  // The nanoapp this snapshot is for. The nanoapp ID is the 64-bit unique identifier
+  // for the application, and the version is the semantic versioning (https://semver.org)
+  // used to determine the software version.
+  optional int64 nanoapp_id = 2;
+  optional int32 nanoapp_version = 3;
+}
+
+/**
+ * Logs details of a dynamic CHRE nanoapp code download transaction.
+ */
+message ChreCodeDownloadTransacted {
+  enum Type {
+    LOAD = 1;
+    UNLOAD = 2;
+  }
+
+  // The ID/version of the nanoapp this code download was for.
+  optional int64 nanoapp_id = 1;
+  optional int32 nanoapp_version = 2;
+
+  // The type of code download transaction.
+  optional Type transaction_type = 3;
+
+  // The result of this transaction.
+  optional android.hardware.location.ContextHubTransactionResult transaction_result = 4;
 }
