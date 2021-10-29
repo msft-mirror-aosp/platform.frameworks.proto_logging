@@ -17751,8 +17751,9 @@ message ContextHubLoadedNanoappSnapshotReported {
  */
 message ChreCodeDownloadTransacted {
   enum Type {
-    LOAD = 1;
-    UNLOAD = 2;
+    TYPE_UNKNOWN = 0;
+    TYPE_LOAD = 1;
+    TYPE_UNLOAD = 2;
   }
 
   // The ID/version of the nanoapp this code download was for.
