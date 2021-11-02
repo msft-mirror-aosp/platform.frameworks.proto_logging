@@ -15,7 +15,7 @@
  */
 
 syntax = "proto2";
-package android.hardware.location;
+package android.contexthub;
 
 option java_outer_classname = "ContextHubProtoEnums";
 option java_multiple_files = true;

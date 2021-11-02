@@ -17743,7 +17743,7 @@ message ContextHubRestarted {
  * Logs a snapshot of all the nanoapps loaded on this Context Hub.
  */
 message ContextHubLoadedNanoappSnapshotReported {
-  // The ID of the Context Hub the snapshot is for.
+  // The ID of the Context Hub the snapshot is for (zero-indexed).
   optional int32 context_hub_id = 1;
 
   // The nanoapp this snapshot is for. The nanoapp ID is the 64-bit unique identifier
@@ -17771,5 +17771,5 @@ message ChreCodeDownloadTransacted {
   optional Type transaction_type = 3;
 
   // The result of this transaction.
-  optional android.hardware.location.ContextHubTransactionResult transaction_result = 4;
+  optional android.contexthub.ContextHubTransactionResult transaction_result = 4;
 }
