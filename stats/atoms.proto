@@ -15237,8 +15237,9 @@ message CarWatchdogIoOveruseStatsReported {
  */
 message CarWatchdogIoOveruseStats {
     enum Period {
-        DAILY = 0;
-        WEEKLY = 1;
+        UNKNOWN_PERIOD = 0;
+        DAILY = 1;
+        WEEKLY = 2;
     }
 
     // Threshold and usage stats period.
@@ -15302,7 +15303,7 @@ message CarWatchdogProcessStat {
     optional string process_name = 1;
 
     // Process uptime.
-    optional uint64 uptime_milliseconds = 2;
+    optional uint64 uptime_millis = 2;
 
     // Number of major page faults caused by the process and its children.
     optional uint64 major_page_faults = 3;
@@ -15380,9 +15381,10 @@ message CarWatchdogIoUsageSummary {
  */
 message CarWatchdogEventTimePeriod {
     enum Period {
-        WEEKLY = 0;
-        BIWEEKLY = 1;
-        MONTHLY = 2;
+        UNKNOWN_PERIOD = 0;
+        WEEKLY = 1;
+        BIWEEKLY = 2;
+        MONTHLY = 3;
     }
 
     // Start time of the event in milliseconds since epoch.
@@ -15406,7 +15408,7 @@ message CarWatchdogDailyIoUsageSummary {
     optional CarWatchdogPerStateBytes written_bytes = 1;
 
     // Total uptime for the system or service or application during a day.
-    optional uint64 uptime_mills = 2;
+    optional uint64 uptime_millis = 2;
 
     // Total disk I/O overuses during a day.
     optional int32 overuse_count = 3;
