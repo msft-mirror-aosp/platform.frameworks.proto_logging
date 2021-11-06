@@ -5340,7 +5340,7 @@ message BinaryPushStateChanged {
         // Logged when SIM PIN recovery preparation succeeded.
         SIM_PIN_PREPARATION_SUCCESS = 37;
         // Logged when SIM PIN recovery preparation failed.
-        SIM_PIN_PREPARATION_FAILURE = 38;
+        SIM_PIN_PREPARATION_FAILURE = 38 [deprecated = true];
         // Logged when unattended reboot is aborted and falls back to organic
         // reboot.
         UNATTENDED_REBOOT_ABORT = 39;
@@ -5354,13 +5354,15 @@ message BinaryPushStateChanged {
         PENDING_REBOOT_MARKED = 42;
         // Logged when Phonesky instructs Android platform to stop monitoring reboot
         // readiness signal.
-        PENDING_REBOOT_CANCELLED = 43;
+        PENDING_REBOOT_CANCELLED = 43 [deprecated = true];
         // Logged when Phonesky receives reboot readiness broadcast and the device
         // is ready to reboot.
         SIGNAL_READY_TO_REBOOT_RECEIVED = 44;
         // Logged when Phonesky receives reboot readiness broadcast and the device
         // is not ready to reboot.
         SIGNAL_NOT_READY_TO_REBOOT_RECEIVED = 45;
+        // Logged when Phonesky cancels an untracked train.
+        UNTRACKED_TRAIN_CANCELLED = 46;
     }
     optional State state = 6;
     // Possible experiment ids for monitoring this push.
@@ -5376,6 +5378,7 @@ message BinaryPushStateChanged {
     //  UNATTENDED_REBOOT_SECURED_AND_SIM_PIN = 4.
     //  UNATTENDED_REBOOT_SECURED_NO_SIM_PIN = 5.
     //  UNATTENDED_REBOOT_UNSECURED_AND_SIM_PIN = 6.
+    //  UNATTENDED_REBOOT_UNSECURED_NO_SIM_PIN = 7.
     // When state = INSTALL_FAILURE, this field logs the Install errors related
     // statusCode
     // When state = UNATTENDED_REBOOT_ABORT, this field logs the cancellation
@@ -5396,6 +5399,7 @@ message BinaryPushStateChanged {
     // reason:
     //  LSKF_NOT_PREPARED = 1.
     //  NO_STAGED_TRAIN = 2.
+    //  HAS_SIM_PIN_AND_SIM_PIN_STORAGE_DISABLED = 3.
     optional int32 reason = 9;
     // Whether or not this is a rollback event.
     optional bool is_rollback = 10;
