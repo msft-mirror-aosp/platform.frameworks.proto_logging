@@ -3245,6 +3245,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     COMMUNAL_MODE_TRUSTED_NETWORKS_SETTINGS = 1909;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Fast Pair
+    // CATEGORY: SETTINGS
+    // OS: T
+    CONNECTION_DEVICE_ADVANCED_FAST_PAIR = 1910;
 }
 
 // Battery Saver schedule types.
