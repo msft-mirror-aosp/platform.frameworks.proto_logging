@@ -67,6 +67,7 @@ import "frameworks/proto_logging/stats/enums/stats/wm/enums.proto";
 import "frameworks/proto_logging/stats/enums/system/security/keystore2/enums.proto";
 import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
+import "frameworks/proto_logging/stats/enums/uwb/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier_enums.proto";
@@ -606,6 +607,10 @@ message Atom {
         ContextHubLoadedNanoappSnapshotReported context_hub_loaded_nanoapp_snapshot_reported = 400
             [(module) = "contexthub"];
         ChreCodeDownloadTransacted chre_code_download_transacted = 401 [(module) = "contexthub"];
+        UwbSessionInitiated uwb_session_inited = 402 [(module) = "uwb"];
+        UwbSessionClosed uwb_session_closed = 403 [(module) = "uwb"];
+        UwbFirstRangingReceived uwb_first_ranging_received = 404 [(module) = "uwb"];
+        UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405 [(module) = "uwb"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -18346,4 +18351,102 @@ message GbaEvent {
 
     // The count that matches the above conditions.
     optional int32 count = 5;
+}
+
+/*
+ * Logs details of initiated UWB ranging session
+ */
+message UwbSessionInitiated {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // Scrambled timestamp sequence (STS) Type
+    optional android.uwb.Sts sts = 2;
+    // Was it an initiator as opposed to responder?
+    optional bool is_initiator = 3;
+    // Was it a controller as opposed to controlee?
+    optional bool is_controller = 4;
+    // Was the discovery done by the framework?
+    optional bool is_discovered_by_framework = 5;
+    // Was it out-of-band connection as opposed to in-band connection?
+    // Note that this field is ignored if is_discovered_by_framework is false.
+    optional bool is_out_of_band = 6;
+    // UWB channel 5, 6, 9, etc.
+    optional int32 channel = 7;
+    // The status code of session initialization.
+    optional android.uwb.Status status = 8;
+    // Initialization latency in ms if is_discovered_by_framework is true.
+    optional int32 latency_ms = 9;
+    // Initialization latency in step size of 200 ms if is_discovered_by_framework is true.
+    optional int32 latency_200ms = 10;
+}
+
+/*
+ * Logs details of closed UWB ranging session
+ */
+message UwbSessionClosed {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // Scrambled timestamp sequence (STS) Type
+    optional android.uwb.Sts sts = 2;
+    // Was it an initiator as opposed to responder?
+    optional bool is_initiator = 3;
+    // Was it a controller as opposed to controlee?
+    optional bool is_controller = 4;
+    // Was the connection done by the app as opposed to by the framework?
+    optional bool is_framework_initiated = 5;
+    // Was it out-of-band connection as opposed to in-band connection?
+    // Note that this field is ignored if is_framework_initiated is false.
+    optional bool is_out_of_band = 6;
+    // Session active duration in seconds
+    optional int32 duration_sec = 7;
+    // Session active duration bucket
+    optional android.uwb.DurationBucket duration_bucket = 8;
+    // Total ranging measurement count
+    optional int32 ranging_count = 9;
+    // Valid ranging measurement count
+    optional int32 valid_ranging_count = 10;
+    // Ranging measurement count bucket.
+    optional android.uwb.CountBucket ranging_count_bucket = 11;
+    // Valid ranging measurement count bucket.
+    optional android.uwb.CountBucket valid_ranging_count_bucket = 12;
+}
+
+message UwbRangingMeasurementReceived {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // None-Line-of-sight (LOS) indication
+    optional android.uwb.Nlos nlos = 2;
+    // Was the distance valid?
+    optional bool is_distance_valid = 3;
+    // The distance measurement in centimeters.
+    optional int32 distance_cm = 4;
+    // The distance measurement in step size of 50 cm
+    optional int32 distance_50cm = 5;
+    // The figure of merit of distance measurement
+    optional int32 distance_fom = 6;
+    // Was azimuth angle valid?
+    optional bool is_azimuth_valid = 7;
+    // The azimuth angle measurement in degrees.
+    optional int32 azimuth_degree = 8;
+    // The azimuth angle measurement in step size of 10 degree.
+    optional int32 azimuth_10degree = 9;
+    // The figure of merit of azimuth angle measurement.
+    optional int32 azimuth_fom = 10;
+    // Was elevation angle valid?
+    optional bool is_elevation_valid = 11;
+    // The elevation angle measurement in degrees.
+    optional int32 elevation_degree = 12;
+    // The elevation angle measurement in step size of 10 degree.
+    optional int32 elevation_10degree = 13;
+    // The figure of merit of elevation angle measurement.
+    optional int32 elevation_fom = 14;
+}
+
+message UwbFirstRangingReceived {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // The latency between the ranging start/resume and 1st ranging measurement, in ms.
+    optional int32 latency_ms = 2;
+    // The ranging latency in 200ms.
+    optional int32 latency_200ms = 3;
 }
