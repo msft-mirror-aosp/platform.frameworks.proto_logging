@@ -611,6 +611,8 @@ message Atom {
         UwbSessionClosed uwb_session_closed = 403 [(module) = "uwb"];
         UwbFirstRangingReceived uwb_first_ranging_received = 404 [(module) = "uwb"];
         UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405 [(module) = "uwb"];
+        TextClassifierDownloadWorkScheduled text_classifier_download_work_scheduled = 406 [(module) = "textclassifier"];
+        TextClassifierDownloadWorkCompleted text_classifier_download_work_completed = 407 [(module) = "textclassifier"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15584,7 +15586,9 @@ message TextClassifierApiUsageReported {
 }
 
 /**
- * Logs when TextClassifier Model Downloader schedule/finish a task.
+ * Logs when TextClassifier Model Downloader finishes a download task.
+ *
+ * Currently we create a downlaod task for each new manifest to download.
  *
  * Logged from: external/libtextclassifier/java/
  */
@@ -15603,6 +15607,7 @@ message TextClassifierDownloadReported {
         MANIFEST = 1;
         MODEL = 2;
     }
+    // Deprecated: now manifest and model files are downloaded together.
     optional FileType file_type = 2;
     // The status of the download
     enum DownloadStatus {
@@ -15613,26 +15618,82 @@ message TextClassifierDownloadReported {
         FAILED_AND_ABORT = 4;
     }
     optional DownloadStatus download_status = 3;
-    // The suffix of the url (without namespace) to download from, which contains model version and
-    // locale info (e.g. 'r/v803/en.fb'). We use this to uniquely identify a model/manifest file.
+    // The public GStatic url we used to download the model. Contains locale info.
     optional string url_suffix = 4;
     // Failure reason, only set if this is for a failure status
     enum FailureReason {
+        reserved 1, 8, 9;
+
         UNKNOWN_FAILURE_REASON = 0;
-        FAILED_TO_SCHEDULE = 1;
         FAILED_TO_DOWNLOAD_SERVICE_CONN_BROKEN = 2;
         FAILED_TO_DOWNLOAD_404_ERROR = 3;
         FAILED_TO_DOWNLOAD_OTHER = 4;
         DOWNLOADED_FILE_MISSING = 5;
         FAILED_TO_PARSE_MANIFEST = 6;
         FAILED_TO_VALIDATE_MODEL = 7;
-        FAILED_TO_MOVE_MODEL = 8;
-        WORKER_STOPPED = 9;
     }
     optional FailureReason failure_reason = 5;
     // How many attempts we have tried for the same task at a terminal status (i.e. SUCCEEDED or
     // FAILED_AND_ABORT).
     optional int32 run_attempt_count = 6;
+
+    // Custom failure code for downloader lib internal failures (E.g. 404 error).
+    optional int32 downloader_lib_failure_code = 7;
+
+    // Time elapsed for the whole download task
+    optional int64 download_duration_millis = 8;
+
+    // The id of the WorkManager work that launched this download.
+    optional int64 work_id = 9;
+}
+
+/**
+ * Logs when TextClassifier Model Downloader schedules a WorkManager work.
+ *
+ * Logged from: external/libtextclassifier/java/
+ */
+message TextClassifierDownloadWorkScheduled {
+    optional int64 work_id = 1;
+
+    enum ReasonToSchedule {
+        UNKNOWN_REASON_TO_SCHEDULE = 0;
+        TCS_STARTED = 1;
+        LOCALE_SETTINGS_CHANGED = 2;
+        DEVICE_CONFIG_UPDATED = 3;
+    }
+    optional ReasonToSchedule reason_to_schedule = 2;
+
+    optional bool failed_to_schedule = 3;
+}
+
+/**
+ * Logs when TextClassifier Model Downloader finishes a WorkManager work.
+ *
+ * A WorkManager work includes one or more downlad tasks. We log this atom when
+ * all tasks finished. The work_id can be used to join work log and task logs.
+ *
+ * Logged from: external/libtextclassifier/java/
+ */
+message TextClassifierDownloadWorkCompleted {
+    optional int64 work_id = 1;
+
+    enum WorkResult {
+        UNKNOWN_WORK_RESULT = 0;
+        SUCCESS_MODEL_DOWNLOADED = 1;
+        SUCCESS_NO_UPDATE_AVAILABLE = 2;
+        FAILURE_MODEL_DOWNLOADER_DISABLED = 3;
+        FAILURE_MAX_RUN_ATTEMPT_REACHED = 4;
+        RETRY_MODEL_DOWNLOAD_FAILED = 5;
+        RETRY_RUNTIME_EXCEPTION = 6;
+        RETRY_STOPPED_BY_OS = 7;
+    }
+    optional WorkResult work_result = 2;
+
+    // How many attempts we have tried for this work.
+    optional int32 run_attempt_count = 3;
+
+    optional int64 work_scheduled_to_started_duration_millis = 4;
+    optional int64 work_started_to_ended_duration_millis = 5;
 }
 
 /**
