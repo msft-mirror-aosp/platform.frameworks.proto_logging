@@ -613,6 +613,7 @@ message Atom {
         UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405 [(module) = "uwb"];
         TextClassifierDownloadWorkScheduled text_classifier_download_work_scheduled = 406 [(module) = "textclassifier"];
         TextClassifierDownloadWorkCompleted text_classifier_download_work_completed = 407 [(module) = "textclassifier"];
+        ClipboardWiped clipboard_wiped = 408 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -18524,4 +18525,18 @@ message UwbFirstRangingReceived {
     optional int32 latency_ms = 2;
     // The ranging latency in 200ms.
     optional int32 latency_200ms = 3;
+}
+
+/**
+ * Log that the clipboard has been wiped
+ * Logged from frameworks/base/services/core/java/com/android/server/clipboard/ClipboardService.java
+*/
+message ClipboardWiped {
+    enum Source {
+        SOURCE_UNKNOWN = 0;
+        AUTO_WIPE = 1;
+    }
+
+    // Source of the wipe
+    optional Source source = 1;
 }
