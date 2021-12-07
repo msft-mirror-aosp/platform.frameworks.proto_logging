@@ -6950,6 +6950,10 @@ message ProcessMemorySnapshot {
 
     // The sum of rss_in_kilobytes and swap_in_kilobytes.
     optional int32 anon_rss_and_swap_in_kilobytes = 8;
+
+    // GPU memory usage as measured by the kernel tracepoints
+    // Equivalent to dumpsys gpu --gpumem
+    optional int32 gpu_memory_kb = 9;
 }
 
 /*
