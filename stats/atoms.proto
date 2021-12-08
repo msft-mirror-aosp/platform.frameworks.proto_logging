@@ -614,6 +614,7 @@ message Atom {
         TextClassifierDownloadWorkScheduled text_classifier_download_work_scheduled = 406 [(module) = "textclassifier"];
         TextClassifierDownloadWorkCompleted text_classifier_download_work_completed = 407 [(module) = "textclassifier"];
         ClipboardWiped clipboard_wiped = 408 [(module) = "framework"];
+        VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -798,6 +799,7 @@ message Atom {
         UceEventStats uce_event_stats = 10143 [(module) = "telephony"];
         PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
         GbaEvent gba_event = 10145 [(module) = "telephony"];
+        PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -15716,6 +15718,26 @@ message TextClassifierDownloadWorkCompleted {
 }
 
 /**
+ * Logs telemetry for Android Virtualization framework
+ *
+ * On CreateVM requests, an atom is pushed that records what hypervisor is being used.
+ * the protected status of the new VM, and if the VM creation succeeded
+ * Logged from: packages/modules/Virtualization/
+ */
+message VmCreationRequested {
+    enum Hypervisor {
+        UNKNOWN = 0;
+        PKVM = 1;
+        OTHER = 2;
+    }
+    optional Hypervisor hypervisor = 1;
+    // Is the VM started in protected mode?
+    optional bool protected = 2;
+    // Did the VM creation succeed
+    optional bool success = 3;
+}
+
+/**
  * Logs the current state of an application/process before it is killed.
  *
  * Keep in sync with proto file at
@@ -18543,4 +18565,44 @@ message ClipboardWiped {
 
     // Source of the wipe
     optional Source source = 1;
+}
+
+/**
+ * Pulls status for a SIM.
+ *
+ * Each pull creates multiple atoms, one for each SIM. The atom holds the status for a SIM that's
+ * sensitive per carrier. The atom would be aggregated per carrier for analysis.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message PerSimStatus {
+    // Index of the SIM, 0 for single-SIM devices.
+    optional int32 sim_slot_index = 1;
+
+    // Carrier ID of the SIM.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 2;
+
+    // Indicates whether phone number source UICC provides a phone number
+    // and whether it agrees with other sources:
+    //  - 0: no number provided
+    //  - a positive integer (> 0): sources providing the same phone number
+    //    shall use the same integer. The integer shall start from 1, and
+    //    for each new unique source the next integer (2, 3, …) is used.
+    // This way, the raw phone number cannot be derived from the value of
+    // this field.
+    // This also allows a quick check of conflicts: any field > 1 means conflict,
+    // and the max means the count of unique phone numbers.
+    optional int32 phone_number_source_uicc = 3;
+
+    // Indicates whether phone number source CARRIER provides a phone number
+    // and whether it agrees with other sources.
+    // See field phone_number_source_uicc.
+    optional int32 phone_number_source_carrier = 4;
+
+    // Indicates whether phone number source IMS provides a phone number
+    // and whether it agrees with other sources.
+    // See field phone_number_source_uicc.
+    optional int32 phone_number_source_ims = 5;
 }
