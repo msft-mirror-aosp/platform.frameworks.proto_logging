@@ -10228,6 +10228,9 @@ message GpuStatsAppInfo {
 
     // App creates GLESv1 context.
     optional bool gles_1_in_use = 8;
+
+    // ANGLE in use for the app.
+    optional bool angle_in_use = 9;
 }
 
 /*
