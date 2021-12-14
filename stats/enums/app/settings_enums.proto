@@ -3250,6 +3250,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     CONNECTION_DEVICE_ADVANCED_FAST_PAIR = 1910;
+
+    // OPEN: Settings > Languages & input > App Languages
+    // CATEGORY: SETTINGS
+    // OS: T
+    APPS_LOCALE_LIST = 1911;
 }
 
 // Battery Saver schedule types.
