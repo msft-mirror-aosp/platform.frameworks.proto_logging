@@ -614,7 +614,7 @@ message Atom {
         UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405 [(module) = "uwb"];
         TextClassifierDownloadWorkScheduled text_classifier_download_work_scheduled = 406 [(module) = "textclassifier"];
         TextClassifierDownloadWorkCompleted text_classifier_download_work_completed = 407 [(module) = "textclassifier"];
-        ClipboardWiped clipboard_wiped = 408 [(module) = "framework"];
+        ClipboardCleared clipboard_cleared = 408 [(module) = "framework"];
         VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
         NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
 
@@ -18561,13 +18561,13 @@ message UwbFirstRangingReceived {
 }
 
 /**
- * Log that the clipboard has been wiped
- * Logged from frameworks/base/services/core/java/com/android/server/clipboard/ClipboardService.java
-*/
-message ClipboardWiped {
+ * Log that the clipboard has been cleared
+ * Logged from frameworks/base/services/core/java/android/content/ClipboardAutoWipeService.java
+ */
+message ClipboardCleared {
     enum Source {
         SOURCE_UNKNOWN = 0;
-        AUTO_WIPE = 1;
+        AUTO_CLEAR = 1;
     }
 
     // Source of the wipe
