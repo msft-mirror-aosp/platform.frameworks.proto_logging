@@ -7691,6 +7691,8 @@ message PackageNotificationPreferences {
     // Bitfield mask indicating what fields were locked by the user (see LockableAppfields in
     // PreferencesHelper.java)
     optional int32 user_locked_fields = 4;
+    // Indicates if the package importance was set by the user (rather than system default).
+    optional bool user_set_importance = 5;
 }
 
 /**
