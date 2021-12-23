@@ -4589,11 +4589,12 @@ message SizeCompatRestartButtonEventReported {
 }
 
 /**
- * Logs events reported for the Camera App Compat control, which is used to correct stretched viewfinder
- * in apps that don't handle all possible configurations, and changes between them, correctly.
+ * Logs events reported for the Camera App Compat control, which is used to
+ * correct stretched viewfinder in apps that don't handle all possible
+ * configurations, and changes between them, correctly.
  *
  * Logged from:
- *   frameworks/base/services/core/java/com/android/server/wm/ActivityRecord.java
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
  */
 message CameraCompatControlEventReported {
   // UID of the package that has the control.
