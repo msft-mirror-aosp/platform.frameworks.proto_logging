@@ -618,6 +618,7 @@ message Atom {
         VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
         NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
         CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
+        ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -18675,3 +18676,46 @@ message NearbyDeviceScanStateChanged {
   // Manufacturer of the device discovered/lost.
   optional string scanned_device_manufacturer = 8;
 }
+
+/**
+ * Logs when locales of an application are changed.
+ * Logged from
+ *   frameworks/base/services/core/java/com/android/server/locales/LocaleManagerService.java
+ */
+message ApplicationLocalesChanged {
+    // The uid which invoked this update. The locales for an application
+    // could be changed from the in-app picker OR from the settings UI.
+    optional int32 calling_uid = 1;
+
+    // The uid for which the locale change is being done.
+    optional int32 target_uid = 2;
+
+    // The new locales for the target package. A comma separated list of BCP 47
+    // locale identifiers, compatible with LocaleList#forLanguageTags.
+    optional string new_locales = 3;
+
+    // The previous locales for the target package. A comma separated list of
+    // BCP 47 locale identifiers, compatible with LocaleList#forLanguageTags.
+    optional string prev_locales = 4;
+
+    // Application locales changed status.
+    enum Status {
+        // A placeholder for unspecified values.
+        STATUS_UNSPECIFIED = 0;
+
+        // New locales were committed.
+        CONFIG_COMMITTED = 1;
+
+        // Likely because no change is required.
+        CONFIG_UNCOMMITTED = 2;
+
+        // Failed because the target package is invalid.
+        FAILURE_INVALID_TARGET_PACKAGE = 3;
+
+        // Failed because the calling package does not have the required permission.
+        FAILURE_PERMISSION_ABSENT = 4;
+    }
+
+    optional Status status = 5;
+}
+
