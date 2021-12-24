@@ -582,6 +582,7 @@ message Atom {
         SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
         SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
         AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
+        CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -4504,6 +4505,36 @@ message SizeCompatRestartButtonEventReported {
 
     // The event that was reported.
     optional Event event = 2;
+}
+
+/**
+ * Logs events reported for the Camera App Compat control, which is used to
+ * correct stretched viewfinder in apps that don't handle all possible
+ * configurations, and changes between them, correctly.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ */
+message CameraCompatControlEventReported {
+  // UID of the package that has the control.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  enum Event {
+    UNKNOWN = 0;
+    // Button to apply the treatment appeared.
+    APPEARED_APPLY_TREATMENT = 1;
+    // Button to revert the treatment appeared.
+    APPEARED_REVERT_TREATMENT = 2;
+    // Users clicked on the button to apply the treatment.
+    CLICKED_APPLY_TREATMENT = 3;
+    // Users clicked on the button to revert the treatment.
+    CLICKED_REVERT_TREATMENT = 4;
+    // Users clicked on the button to dismiss the control.
+    CLICKED_DISMISS = 5;
+  }
+
+  // The event that was reported.
+  optional Event event = 2;
 }
 
 /**
