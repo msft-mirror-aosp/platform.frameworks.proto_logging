@@ -6397,6 +6397,7 @@ message UIActionLatencyReported {
         ACTION_LOCKSCREEN_UNLOCK = 12;
         ACTION_USER_SWITCH = 13;
         ACTION_SWITCH_DISPLAY_UNFOLD = 14;
+        ACTION_UDFPS_ILLUMINATE = 15;
     }
 
     optional ActionType action = 1;
