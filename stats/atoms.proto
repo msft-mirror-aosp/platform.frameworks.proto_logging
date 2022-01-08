@@ -6307,7 +6307,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 43
+ * Next Tag: 45
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6354,6 +6354,9 @@ message UIInteractionFrameInfoReported {
         SPLASHSCREEN_EXIT_ANIM = 40;
         SCREEN_OFF = 41;
         SCREEN_OFF_SHOW_AOD = 42;
+        ONE_HANDED_ENTER_TRANSITION = 43;
+        ONE_HANDED_EXIT_TRANSITION = 44;
+
     }
 
     optional InteractionType interaction_type = 1;

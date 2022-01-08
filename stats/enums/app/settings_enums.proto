@@ -981,6 +981,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     FIELD_BATTERY_SAVER_PERCENTAGE_VALUE = 1785;
+
+    // ACTION: Settings > System > Multiple users > Add supervised user
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_USER_SUPERVISED_ADD = 1786;
 }
 
 /**
