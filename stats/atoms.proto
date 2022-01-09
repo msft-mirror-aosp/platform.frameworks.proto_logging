@@ -35,6 +35,8 @@ import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/nearby/enums.proto";
 import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
 import "frameworks/proto_logging/stats/enums/net/enums.proto";
@@ -619,6 +621,7 @@ message Atom {
         NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
         CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
         ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
+        MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported = 413;
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -14939,6 +14942,71 @@ message MediametricsAudioDeviceConnectionReported {
 
     // Number of connections if aggregated statistics, otherwise 1.
     optional int32 connection_count = 6;
+}
+
+/**
+ * Logs the status of an AudioTrack operation.
+ *
+ * Logged from:
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsAudioTrackStatusReported {
+    // The event (method) that the status is associated with (e.g. create, start, pause, etc.)
+    enum Event {
+        EVENT_UNKNOWN = 0;
+        EVENT_CREATE = 1;
+    }
+
+    // General status code for categorization of status.
+    optional android.media.Status status = 1;
+
+    // Status or error message, e.g. logcat.
+    optional string debug_message = 2;
+
+    // Supplemental status subcode for AudioTrack.
+    optional int32 sub_code = 3;
+
+    // Uid associated with track
+    optional int32 uid = 4 [(is_uid) = true];
+
+    // The AudioTrack event.
+    optional Event event = 5;
+
+    // Requested AudioTrack flags, with each flag bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_output_flags_t
+    optional int32 flags = 6;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_content_type_t, representing the content type of the AudioTrack.
+    optional android.media.audio.ContentType content_type = 7;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_usage_t, representing the use case for the AudioTrack.
+    optional android.media.audio.Usage usage = 8;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_format_t, representing the encoding of the AudioTrack data.
+    optional android.media.audio.Encoding encoding = 9;
+
+    // Channel mask, with each channel position bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_channel_mask_t, representing the channel configuration of AudioTrack data.
+    optional int64 channel_mask = 10;
+
+    // The size of the AudioTrack buffer in frames.
+    // If an error occurs during creation, this may be a small integer requested size
+    // as AudioFlinger is entitled to increase this as required.
+    optional int32 buffer_frame_count = 11;
+
+    // Sample rate in Hz.
+    optional int32 sample_rate = 12;
+
+    // Playback speed, nominal 1.f representing 1x.
+    optional float speed = 13;
+
+    // Playback pitch, nominal 1.f representing 1x.
+    optional float pitch = 14;
 }
 
 /**
