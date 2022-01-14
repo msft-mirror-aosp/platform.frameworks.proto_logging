@@ -991,6 +991,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_COLUMBUS_ACTION_FLASHLIGHT = 1787;
+
+    // ACTION: Settings > Display > Daydream ("Screen Saver")
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DREAM_SELECT_TYPE = 1788;
 }
 
 /**

@@ -622,6 +622,7 @@ message Atom {
         CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
         ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
         MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported = 413;
+        FoldStateDurationReported fold_state_duration_reported = 414 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16975,6 +16976,25 @@ message DeviceStateChanged {
     optional bool boot_state = 2;
 }
 
+/*
+ * Logged when device folded state changes.
+ *
+ * Logged from:
+ *     frameworks/base/packages/SystemUI/src/com/android/systemui/unfold/FoldStateLogger.kt
+ */
+message FoldStateDurationReported {
+    enum State {
+      UNKNOWN = 0;
+      OPEN = 1;
+      CLOSED = 2;
+      HALF_OPEN = 3;
+    }
+
+    optional State start_state = 1;
+    optional State end_state = 2;
+    optional int64 duration_millis = 3;
+}
+
 /**
  * This metric is collected at the end of playback
  * as a pulled atom.
@@ -17179,6 +17199,9 @@ message TimeZoneDetectorState {
     // The latest geo-derived suggestion (non-persistent).
     optional MetricsTimeZoneSuggestion latest_geo_suggestion = 10
             [(log_mode) = MODE_BYTES];
+
+    // True if fallback to telephony time zone detection is supported on the device.
+    optional bool telephony_time_zone_fallback_supported = 11;
 }
 
 /*
