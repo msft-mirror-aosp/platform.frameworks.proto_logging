@@ -17183,8 +17183,9 @@ message SipTransportFeatureTagStats {
  */
 message SipMessageResponse {
     enum Direction {
-        INCOMING = 0;
-        OUTGOING = 1;
+        UNKNOWN = 0;
+        INCOMING = 1;
+        OUTGOING = 2;
     }
     // the carrier id associated with this SIP delegate
     // Used as a dimension
@@ -17223,8 +17224,9 @@ message SipMessageResponse {
  */
 message SipTransportSession {
     enum Direction {
-        INCOMING = 0;
-        OUTGOING = 1;
+        UNKNOWN = 0;
+        INCOMING = 1;
+        OUTGOING = 2;
     }
     // the carrier id associated with this SIP delegate
     // Used as a dimension
