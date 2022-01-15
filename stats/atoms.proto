@@ -623,6 +623,8 @@ message Atom {
         ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
         MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported = 413;
         FoldStateDurationReported fold_state_duration_reported = 414 [(module) = "framework"];
+        LocationTimeZoneProviderControllerStateChanged location_time_zone_provider_controller_state_changed =
+            415 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -6360,7 +6362,7 @@ message UIInteractionFrameInfoReported {
         SCREEN_OFF_SHOW_AOD = 42;
         ONE_HANDED_ENTER_TRANSITION = 43;
         ONE_HANDED_EXIT_TRANSITION = 44;
-
+        UNFOLD_ANIM = 45;
     }
 
     optional InteractionType interaction_type = 1;
@@ -17126,16 +17128,7 @@ message MediaDrmActivityInfo {
 }
 
 /*
- * An obfuscated, canonical form time zone suggestion for metrics use.
- *
- * The suggestion's time zone IDs (which relate to location) are obfuscated by
- * mapping them to an ordinal. When the ordinal is assigned consistently across
- * several objects (i.e. so the same time zone ID is always mapped to the same
- * ordinal), this allows comparisons between those objects. For example, we can
- * answer "did these two suggestions agree?", "does the suggestion match the
- * device's current time zone?", without leaking knowledge of location. Ordinals
- * are also significantly more compact than full IANA TZDB IDs, albeit highly
- * unstable and of limited use.
+ * A canonical form time zone suggestion for metrics use.
  */
 message MetricsTimeZoneSuggestion {
     enum Type {
@@ -17148,7 +17141,26 @@ message MetricsTimeZoneSuggestion {
     // The ordinals for time zone(s) in the suggestion. Always empty for
     // UNCERTAIN, and can be empty for CERTAIN, for example when the device is in
     // a disputed area / on an ocean.
+    //
+    // The suggestion's time zone IDs (which relate to location) are obfuscated by
+    // mapping them to an ordinal. When the ordinal is assigned consistently across
+    // several objects (i.e. so the same time zone ID is always mapped to the same
+    // ordinal), this allows comparisons between those objects. For example, we can
+    // answer "did these two suggestions agree?", "does the suggestion match the
+    // device's current time zone?", without leaking knowledge of location. Ordinals
+    // are also significantly more compact than full IANA TZDB IDs, albeit unstable
+    // and of limited use.
     repeated int32 time_zone_ordinals = 2;
+
+    // The actual time zone ID(s) in the suggestion. Similar to time_zone_ordinals
+    // but contains the actual string IDs.
+    //
+    // This information is only captured / reported for some devices based on the
+    // value of a server side flag, i.e. it could be enabled for internal testers.
+    // Therefore the list can be empty even when time_zone_ordinals is populated.
+    //
+    // When enabled, see time_zone_ordinals for the expected number of values.
+    repeated string time_zone_ids = 3;
 }
 
 /*
@@ -17202,13 +17214,26 @@ message TimeZoneDetectorState {
 
     // True if fallback to telephony time zone detection is supported on the device.
     optional bool telephony_time_zone_fallback_supported = 11;
+
+    // The device's current time zone ID (see MetricsTimeZoneSuggestion).
+    optional string device_time_zone_id = 12;
+
+    // True if enhanced metrics collection is enabled.
+    optional bool enhanced_metrics_collection_enabled = 13;
+
+    // True if the device may run geolocation time zone detection in the
+    // background. This is the raw server flag value, not the value after
+    // considering other state like the user's "use location" setting that also
+    // affects runtime behavior. See LocationTimeZoneProviderController for
+    // details.
+    optional bool geo_detection_run_in_background_enabled = 14;
 }
 
 /*
  * Logs information about an individual location time zone provider's state.
  *
  * Logged from:
- * frameworks/base/services/core/java/com/android/server/location/timezone/ControllerImpl.java
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/location/RealProviderMetricsLogger.java
  */
 message LocationTimeZoneProviderStateChanged {
     // The index of the provider (primary = 0, secondary = 1)
@@ -17239,6 +17264,44 @@ message LocationTimeZoneProviderStateChanged {
 
     // The state of the provider.
     optional State state = 2 [(state_field_option).exclusive_state = true];
+}
+
+/*
+ * Logs information about the location time zone provider controller's state.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/location/RealControllerMetricsLogger.java
+ */
+message LocationTimeZoneProviderControllerStateChanged {
+
+    enum State {
+        // A placeholder for unknown values.
+        UNKNOWN = 0;
+
+        // The providers are initializing.
+        PROVIDERS_INITIALIZING = 1;
+
+        // The controller is / has been stopped.
+        STOPPED = 2;
+
+        // The controller is started and is initializing.
+        INITIALIZING = 3;
+
+        // The controller is started and is certain of the time zone.
+        CERTAIN = 4;
+
+        // The controller is started and is uncertain of the time zone.
+        UNCERTAIN = 5;
+
+        // The controller has been destroyed.
+        DESTROYED = 6;
+
+        // The controller has failed.
+        FAILED = 7;
+    }
+
+    // The state of the provider.
+    optional State state = 1;
 }
 
 /*
@@ -18236,8 +18299,9 @@ message SipTransportFeatureTagStats {
  */
 message SipMessageResponse {
     enum Direction {
-        INCOMING = 0;
-        OUTGOING = 1;
+        UNKNOWN = 0;
+        INCOMING = 1;
+        OUTGOING = 2;
     }
     // the carrier id associated with this SIP delegate
     // Used as a dimension
@@ -18276,8 +18340,9 @@ message SipMessageResponse {
  */
 message SipTransportSession {
     enum Direction {
-        INCOMING = 0;
-        OUTGOING = 1;
+        UNKNOWN = 0;
+        INCOMING = 1;
+        OUTGOING = 2;
     }
     // the carrier id associated with this SIP delegate
     // Used as a dimension
