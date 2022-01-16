@@ -42,6 +42,7 @@ import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
 import "frameworks/proto_logging/stats/enums/net/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/connectivity/data_stall_event.proto";
+import "frameworks/proto_logging/stats/enums/server/display/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/location/enums.proto";
@@ -625,6 +626,8 @@ message Atom {
         FoldStateDurationReported fold_state_duration_reported = 414 [(module) = "framework"];
         LocationTimeZoneProviderControllerStateChanged location_time_zone_provider_controller_state_changed =
             415 [(module) = "framework"];
+        DisplayHbmStateChanged display_hbm_state_changed = 416 [(module) = "framework"];
+        DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -13794,7 +13797,8 @@ message DataCallSession {
  * Logs data stall recovery event
  *
  * Logged from:
- *   frameworks/opt/telephony/src/java/com/android/internal/telephony/dataconnection/DcTracker.java
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/data/
+ *   DataStallRecoveryManager.java
  */
 message DataStallRecoveryReported {
     // Carrier ID of the SIM
@@ -13827,6 +13831,9 @@ message DataStallRecoveryReported {
 
     // The elapsed time between start of the data stall and result of current action.
     optional int32 duration_millis = 9;
+
+    // The data stall recovered reason. Available from Android T.
+    optional android.telephony.DataStallRecoveredReason reason = 10;
 }
 
 /**
@@ -18879,3 +18886,29 @@ message ApplicationLocalesChanged {
     optional Status status = 5;
 }
 
+/* Logs when the display HBM state changes.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/HighBrightnessModeController.java
+ */
+message DisplayHbmStateChanged {
+    optional int32 display_id = 1;
+
+    // New HBM state
+    optional android.server.display.HbmState state = 2;
+
+    // The reason the state changes.
+    optional android.server.display.HbmStateTransitionReason reason = 3;
+}
+
+/*
+ * Logs when the display HBM brightness changes.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/AutomaticBrightnessControllerjava
+ */
+message DisplayHbmBrightnessChanged {
+    optional int32 display_id = 1;
+
+    // display brightness
+    optional float brightness = 2;
+}
