@@ -813,6 +813,7 @@ message Atom {
         PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
         GbaEvent gba_event = 10145 [(module) = "telephony"];
         PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
+        GpuFreqTimeInStatePerUid gpu_freq_time_in_state_per_uid = 10147;
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -18911,4 +18912,54 @@ message DisplayHbmBrightnessChanged {
 
     // display brightness
     optional float brightness = 2;
+}
+
+/**
+ * Per-UID time at each GPU frequency spent running work on the GPU.
+ *
+ * Each pull creates multiple atoms, one per UID, up to at most 10 randomly selected UIDs.
+ *
+ * Pulled from:
+ *    frameworks/native/services/gpuservice/gpuwork/GpuWork.cpp
+ */
+message GpuFreqTimeInStatePerUid {
+    // The UID (i.e. app id) that scheduled work on the GPU.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The time duration (in seconds) over which this data was collected (most
+    // likely 24 hours).
+    optional int32 time_duration_seconds = 2;
+
+    // The maximum frequency that we record. This should be 1000 (MHz), until
+    // more fields are added below.
+    optional int32 max_freq_mhz = 3;
+
+    // The time (in milliseconds) that the GPU spent at a particular frequency
+    // (in Mhz) while running work from the given |uid|. Frequency 0Mhz is
+    // special; it gives the total time for all "gaps" between work from this
+    // |uid| that are <= 1 second, as a way of estimating the time in which the
+    // GPU might power down between periodic work from this |uid|.
+    optional int32 freq_0_mhz_time_millis = 4;
+    optional int32 freq_50_mhz_time_millis = 5;
+    optional int32 freq_100_mhz_time_millis = 6;
+    optional int32 freq_150_mhz_time_millis = 7;
+    optional int32 freq_200_mhz_time_millis = 8;
+    optional int32 freq_250_mhz_time_millis = 9;
+    optional int32 freq_300_mhz_time_millis = 10;
+    optional int32 freq_350_mhz_time_millis = 11;
+    optional int32 freq_400_mhz_time_millis = 12;
+    optional int32 freq_450_mhz_time_millis = 13;
+    optional int32 freq_500_mhz_time_millis = 14;
+    optional int32 freq_550_mhz_time_millis = 15;
+    optional int32 freq_600_mhz_time_millis = 16;
+    optional int32 freq_650_mhz_time_millis = 17;
+    optional int32 freq_700_mhz_time_millis = 18;
+    optional int32 freq_750_mhz_time_millis = 19;
+    optional int32 freq_800_mhz_time_millis = 20;
+    optional int32 freq_850_mhz_time_millis = 21;
+    optional int32 freq_900_mhz_time_millis = 22;
+    optional int32 freq_950_mhz_time_millis = 23;
+    optional int32 freq_1000_mhz_time_millis = 24;
+
+    // Reserve 25-45 for future MHz time buckets.
 }
