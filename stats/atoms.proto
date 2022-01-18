@@ -15856,9 +15856,9 @@ message VmCreationRequested {
     }
     optional Hypervisor hypervisor = 1;
     // Is the VM started in protected mode?
-    optional bool protected = 2;
+    optional bool is_protected = 2;
     // Did the VM creation succeed
-    optional bool success = 3;
+    optional bool creation_succeeded = 3;
 }
 
 /**
