@@ -4715,6 +4715,8 @@ message ForegroundServiceStateChanged {
     optional int32 fgs_start_count = 13;
     // SHA-1 hashed short_name combined with ANDROID_ID.
     optional int32 short_name_hash = 14;
+    // Whether this FGS package had permission to notify the user.
+    optional bool fgs_has_notification_permission = 15;
 }
 
 /**
