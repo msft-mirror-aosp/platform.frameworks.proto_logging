@@ -3275,6 +3275,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     ACCESSIBILITY_TEXT_READING_OPTIONS = 1912;
+
+    // OPEN: Settings > Developer options > Reboot with MTE > Info dialog
+    // CATEGORY: SETTINGS
+    // OS: T
+    REBOOT_WITH_MTE = 1913;
 }
 
 // Battery Saver schedule types.
