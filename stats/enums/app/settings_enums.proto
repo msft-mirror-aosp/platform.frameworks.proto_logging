@@ -3280,6 +3280,18 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     REBOOT_WITH_MTE = 1913;
+
+    // OPEN: Settings > System > Developer options > Enable freeform windows > Reboot dialog
+    // OPEN: Settings > System > Developer options > Force desktop mode > Reboot dialog
+    // CATEGORY: SETTINGS
+    // OS: T
+    REBOOT_CONFIRMATION_DIALOG = 1914;
+
+    // OPEN: SUW Welcome Screen -> Vision Settings -> Text and reading options
+    // OPEN: SUW Welcome Screen -> Anything else? -> Text and reading options
+    // CATEGORY: SETTINGS
+    // OS: T
+    SUW_ACCESSIBILITY_TEXT_READING_OPTIONS = 1915;
 }
 
 // Battery Saver schedule types.
