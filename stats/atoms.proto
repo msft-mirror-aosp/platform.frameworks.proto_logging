@@ -631,6 +631,9 @@ message Atom {
         PersistentUriPermissionsFlushed persistent_uri_permissions_flushed =
             418 [(module) = "framework"];
         EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419;
+        VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
+        ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
+        PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -819,6 +822,7 @@ message Atom {
         GpuFreqTimeInStatePerUid gpu_freq_time_in_state_per_uid = 10147;
         PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
             10148 [(module) = "framework"];
+        SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5122,6 +5126,12 @@ message BiometricAcquired {
     optional bool debug = 8;
     // The ID of the biometric sensor associated with this action.
     optional int32 sensor_id = 9;
+    // The ID of the session this event occurred in (if any)
+    optional int32 session_id = 10;
+    // The type of session (i.e. CUJ)
+    optional android.hardware.biometrics.SessionTypeEnum session_type = 11;
+    // If the AoD was on when this event occurred.
+    optional bool is_aod = 12;
 }
 
 /**
@@ -5164,6 +5174,12 @@ message BiometricAuthenticated {
     optional int32 sensor_id = 9;
     // The ambient light lux when authenticated.
     optional float ambient_light_lux = 10;
+    // The ID of the session this event occurred in (if any)
+    optional int32 session_id = 11;
+    // The type of session (i.e. CUJ)
+    optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
+    // If the AoD was on when this event occurred.
+    optional bool is_aod = 13;
 }
 
 /**
@@ -5195,6 +5211,12 @@ message BiometricErrorOccurred {
     optional int64 latency_millis = 9;
     // The ID of the biometric sensor associated with this action.
     optional int32 sensor_id = 10;
+    // The ID of the session this event occurred in (if any)
+    optional int32 session_id = 11;
+    // The type of session (i.e. CUJ)
+    optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
+    // If the AoD was on when this event occurred.
+    optional bool is_aod = 13;
 }
 
 /**
@@ -19023,4 +19045,61 @@ message PersistentUriPermissionsAmountPerPackage {
     optional int32 uid = 1 [(is_uid) = true];
     // Current amount of persistent uri permissions for this package
     optional int32 amount = 2;
+}
+
+/**
+ * VBMeta Digest cryptographically encapsulates the composition of signed images or partitions of
+ * a particular build.
+ *
+ * Logs when boot is complete.
+ * Pushed from:
+ *    frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message VBMetaDigestReported {
+    // the hex encoded string of VBMeta Digest value
+    optional string vbmeta_digest = 1;
+}
+
+/**
+ * APEXs can either be signed by Google or OEMs. This atom captures basic metadata of APEXs
+ * pre-installed on a build or a device.
+ *
+ * Logs when boot is complete.
+ * Pushed from:
+ *    frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message ApexInfoGathered {
+    // APEX package names are determined by OEMs
+    optional string package_name = 1;
+    // the version code of the APEX
+    optional int64 version_code = 2;
+    // the hex encoded SHA256 digest of the APEX file
+    optional string sha256_digest = 3;
+}
+
+/**
+ * PVM is protected virtual machine. This atom captures the notion of a container
+ * that describes a virtual machine.
+ *
+ * Will be pushed from:
+ *      frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message PvmInfoGathered {
+    // PVM names are determined by OEMs
+    optional string name = 1;
+    // an int describing the version of the VM
+    optional int64 version = 2;
+    // the hex encoded SHA256 digest of the pvm descriptor file
+    optional string sha256_digest = 3;
+}
+
+/**
+ * This will be pulled from
+ *     frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message SignedPartitionInfo {
+    // partition name (e.g. vendor, product) is determined by OEM
+    optional string partition_name = 1;
+    // the hex encoded SHA256 digest of the partition image file
+    optional string sha256_digest = 2;
 }

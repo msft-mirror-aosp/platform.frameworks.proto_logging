@@ -3292,6 +3292,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SUW_ACCESSIBILITY_TEXT_READING_OPTIONS = 1915;
+
+    // OPEN: Settings > System > Multiple users > Switch to admin user when
+    // docked
+    // CATEGORY: SETTINGS
+    // OS: T
+    TIMEOUT_TO_USER_ZERO = 1916;
 }
 
 // Battery Saver schedule types.
