@@ -27,24 +27,28 @@ package android.media;
  * 3) We choose code.proto rather than negative numbers (signed status)
  *    for numeric categorization.
  *
- * [Google3 proto]      [android.media.Status]
- * OK                  = 0; (OK)
- * UNKNOWN             = 2; (ERROR_UNKNOWN)
- * INVALID_ARGUMENT    = 3; (ERROR_ARGUMENT)
- * DEADLINE_EXCEEDED   = 4; (ERROR_TIMEOUT)
- * PERMISSION_DENIED   = 7; (ERROR_SECURITY)
- * RESOURCE_EXHAUSTED  = 8; (ERROR_MEMORY)
- * FAILED_PRECONDITION = 9; (ERROR_STATE)
- * UNAVAILABLE         = 14; (ERROR_IO)
+ * [Google3 proto]          [android.media.Status]
+ * OK                  = 0;  1 (NO_ERROR)
+ * UNKNOWN             = 2;  0 (ERROR_UNKNOWN)
+ * INVALID_ARGUMENT    = 3;  2 (ERROR_ARGUMENT)
+ * DEADLINE_EXCEEDED   = 4;  3 (ERROR_TIMEOUT)
+ * PERMISSION_DENIED   = 7;  4 (ERROR_SECURITY)
+ * RESOURCE_EXHAUSTED  = 8;  5 (ERROR_MEMORY)
+ * FAILED_PRECONDITION = 9;  6 (ERROR_STATE)
+ * UNAVAILABLE         = 14; 7 (ERROR_IO)
  */
 enum Status {
   // See above for the numbering scheme.
-  OK = 0;
-  ERROR_UNKNOWN = 2;
-  ERROR_ARGUMENT = 3;
-  ERROR_TIMEOUT = 4;
-  ERROR_SECURITY = 7;
-  ERROR_MEMORY = 8;
-  ERROR_STATE = 9;
-  ERROR_IO = 14;
+  // We use ERROR_UNKNOWN = 0 as the default value should new error values
+  // be sent to code not yet updated.
+  ERROR_UNKNOWN = 0;
+  // We use NO_ERROR to be visually distinct from an ERROR enumeration,
+  // though it may flag a best practices warning.
+  NO_ERROR = 1;
+  ERROR_ARGUMENT = 2;
+  ERROR_TIMEOUT = 3;
+  ERROR_SECURITY = 4;
+  ERROR_MEMORY = 5;
+  ERROR_STATE = 6;
+  ERROR_IO = 7;
 }

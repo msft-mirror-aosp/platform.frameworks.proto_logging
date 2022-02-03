@@ -26,6 +26,7 @@ import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/media_output_enum.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
+import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
@@ -634,6 +635,7 @@ message Atom {
         VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
         ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
         PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
+        WearSettingsUIInteracted wear_settings_ui_interacted = 423 [(module) = "wear_settings"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15006,12 +15008,6 @@ message MediametricsAudioDeviceConnectionReported {
  *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
  */
 message MediametricsAudioTrackStatusReported {
-    // The event (method) that the status is associated with (e.g. create, start, pause, etc.)
-    enum Event {
-        EVENT_UNKNOWN = 0;
-        EVENT_CREATE = 1;
-    }
-
     // General status code for categorization of status.
     optional android.media.Status status = 1;
 
@@ -15019,18 +15015,18 @@ message MediametricsAudioTrackStatusReported {
     optional string debug_message = 2;
 
     // Supplemental status subcode for AudioTrack.
-    optional int32 sub_code = 3;
+    optional int32 status_subcode = 3;
 
     // Uid associated with track
     optional int32 uid = 4 [(is_uid) = true];
 
     // The AudioTrack event.
-    optional Event event = 5;
+    optional android.media.audio.AudioTrackEvent event = 5;
 
     // Requested AudioTrack flags, with each flag bitwise ORed.
     // One or more bits from system/media/audio/include/system/audio-hal-enums.h
     // audio_output_flags_t
-    optional int32 flags = 6;
+    optional int32 output_flags = 6;
 
     // An enumeration from system/media/audio/include/system/audio-hal-enums.h
     // audio_content_type_t, representing the content type of the AudioTrack.
@@ -19102,4 +19098,15 @@ message SignedPartitionInfo {
     optional string partition_name = 1;
     // the hex encoded SHA256 digest of the partition image file
     optional string sha256_digest = 2;
+}
+
+/**
+ * Logs when Wear Settings UI is interacted with
+ */
+message WearSettingsUIInteracted {
+    /** The UI action category */
+    optional android.app.wearsettings.Action action = 1;
+
+    /** The ID of the entry that the users actioned on. */
+    optional android.app.wearsettings.ItemId item_id = 2;
 }

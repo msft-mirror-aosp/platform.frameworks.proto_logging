@@ -18,11 +18,21 @@ syntax = "proto2";
 
 package android.media.audio;
 
+// The event (method) associated with the AudioTrack (e.g. create, start,
+// pause, etc.)
+enum AudioTrackEvent {
+  AUDIO_TRACK_EVENT_UNKNOWN = 0;
+  AUDIO_TRACK_EVENT_CREATE = 1;
+}
+
 // An enumeration from system/media/audio/include/system/audio-hal-enums.h
 // audio_content_type_t, representing the content type of the AudioTrack.
 enum ContentType {
-  CONTENT_TYPE_INVALID = -1;
+  // Note: The first value in an enum must map to zero.
+  // Mapping the first value to zero ensures the default behavior
+  // is consistent between proto2 and proto3.
   CONTENT_TYPE_UNKNOWN = 0;
+  CONTENT_TYPE_INVALID = -1;
   CONTENT_TYPE_SPEECH = 1;
   CONTENT_TYPE_MUSIC = 2;
   CONTENT_TYPE_MOVIE = 3;
@@ -32,6 +42,7 @@ enum ContentType {
 // An enumeration from system/media/audio/include/system/audio-hal-enums.h
 // audio_format_t, representing the encoding of the AudioTrack data.
 enum Encoding {
+  // AUDIO_FORMAT_DEFAULT may alias as UNKNOWN if enum value not listed below.
   AUDIO_FORMAT_DEFAULT = 0;
   AUDIO_FORMAT_PCM_16_BIT = 0x1;
   AUDIO_FORMAT_PCM_8_BIT = 0x2;
