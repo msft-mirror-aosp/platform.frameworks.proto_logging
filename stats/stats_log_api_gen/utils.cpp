@@ -91,7 +91,7 @@ const char* cpp_type_name(java_type_t type) {
     switch (type) {
         case JAVA_TYPE_BOOLEAN:
             return "bool";
-        case JAVA_TYPE_INT:
+        case JAVA_TYPE_INT:  // Fallthrough.
         case JAVA_TYPE_ENUM:
             return "int32_t";
         case JAVA_TYPE_LONG:
@@ -104,6 +104,19 @@ const char* cpp_type_name(java_type_t type) {
             return "char const*";
         case JAVA_TYPE_BYTE_ARRAY:
             return "const BytesField&";
+        case JAVA_TYPE_BOOLEAN_ARRAY:
+            return "const bool*";
+        case JAVA_TYPE_INT_ARRAY:  // Fallthrough.
+        case JAVA_TYPE_ENUM_ARRAY:
+            return "const std::vector<int32_t>&";
+        case JAVA_TYPE_LONG_ARRAY:
+            return "const std::vector<int64_t>&";
+        case JAVA_TYPE_FLOAT_ARRAY:
+            return "const std::vector<float>&";
+        case JAVA_TYPE_STRING_ARRAY:
+            return "const std::vector<char const*>&";
+        case JAVA_TYPE_DOUBLE_ARRAY:
+            return "const std::vector<double>&";
         default:
             return "UNKNOWN";
     }
@@ -113,7 +126,7 @@ const char* java_type_name(java_type_t type) {
     switch (type) {
         case JAVA_TYPE_BOOLEAN:
             return "boolean";
-        case JAVA_TYPE_INT:
+        case JAVA_TYPE_INT:  // Fallthrough.
         case JAVA_TYPE_ENUM:
             return "int";
         case JAVA_TYPE_LONG:
@@ -126,8 +139,36 @@ const char* java_type_name(java_type_t type) {
             return "java.lang.String";
         case JAVA_TYPE_BYTE_ARRAY:
             return "byte[]";
+        case JAVA_TYPE_BOOLEAN_ARRAY:
+            return "boolean[]";
+        case JAVA_TYPE_INT_ARRAY:  // Fallthrough.
+        case JAVA_TYPE_ENUM_ARRAY:
+            return "int[]";
+        case JAVA_TYPE_LONG_ARRAY:
+            return "long[]";
+        case JAVA_TYPE_FLOAT_ARRAY:
+            return "float[]";
+        case JAVA_TYPE_STRING_ARRAY:
+            return "java.lang.String[]";
+        case JAVA_TYPE_DOUBLE_ARRAY:
+            return "double[]";
         default:
             return "UNKNOWN";
+    }
+}
+
+// Does not include AttributionChain type.
+bool is_repeated_field(java_type_t type) {
+    switch (type) {
+        case JAVA_TYPE_BOOLEAN_ARRAY:
+        case JAVA_TYPE_INT_ARRAY:
+        case JAVA_TYPE_FLOAT_ARRAY:
+        case JAVA_TYPE_LONG_ARRAY:
+        case JAVA_TYPE_STRING_ARRAY:
+        case JAVA_TYPE_ENUM_ARRAY:
+            return true;
+        default:
+            return false;
     }
 }
 
@@ -213,65 +254,6 @@ void write_native_atom_constants(FILE* out, const Atoms& atoms, const AtomDecl& 
     fprintf(out, "\n");
     fprintf(out, "};\n");
     fprintf(out, "\n");
-}
-
-void write_native_method_signature(FILE* out, const string& signaturePrefix,
-                                   const vector<java_type_t>& signature,
-                                   const AtomDecl& attributionDecl, const string& closer) {
-    fprintf(out, "%sint32_t code", signaturePrefix.c_str());
-    int argIndex = 1;
-    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
-         arg++) {
-        if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
-            for (const auto& chainField : attributionDecl.fields) {
-                if (chainField.javaType == JAVA_TYPE_STRING) {
-                    fprintf(out, ", const std::vector<%s>& %s", cpp_type_name(chainField.javaType),
-                            chainField.name.c_str());
-                } else {
-                    fprintf(out, ", const %s* %s, size_t %s_length",
-                            cpp_type_name(chainField.javaType), chainField.name.c_str(),
-                            chainField.name.c_str());
-                }
-            }
-        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out,
-                    ", const std::map<int, int32_t>& arg%d_1, "
-                    "const std::map<int, int64_t>& arg%d_2, "
-                    "const std::map<int, char const*>& arg%d_3, "
-                    "const std::map<int, float>& arg%d_4",
-                    argIndex, argIndex, argIndex, argIndex);
-        } else {
-            fprintf(out, ", %s arg%d", cpp_type_name(*arg), argIndex);
-        }
-        argIndex++;
-    }
-    fprintf(out, ")%s\n", closer.c_str());
-}
-
-void write_native_method_call(FILE* out, const string& methodName,
-                              const vector<java_type_t>& signature, const AtomDecl& attributionDecl,
-                              int argIndex) {
-    fprintf(out, "%s(code", methodName.c_str());
-    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
-         arg++) {
-        if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
-            for (const auto& chainField : attributionDecl.fields) {
-                if (chainField.javaType == JAVA_TYPE_STRING) {
-                    fprintf(out, ", %s", chainField.name.c_str());
-                } else {
-                    fprintf(out, ",  %s,  %s_length", chainField.name.c_str(),
-                            chainField.name.c_str());
-                }
-            }
-        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out, ", arg%d_1, arg%d_2, arg%d_3, arg%d_4", argIndex, argIndex, argIndex,
-                    argIndex);
-        } else {
-            fprintf(out, ", arg%d", argIndex);
-        }
-        argIndex++;
-    }
-    fprintf(out, ");\n");
 }
 
 // Java

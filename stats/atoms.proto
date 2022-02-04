@@ -642,7 +642,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10146
+    // Next: 10149
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -5517,6 +5517,12 @@ message TestAtomReported {
     }
     optional State state = 7;
     optional TrainExperimentIds bytes_field = 8 [(android.os.statsd.log_mode) = MODE_BYTES];
+    repeated int32 repeated_int_field = 9;
+    repeated int64 repeated_long_field = 10;
+    repeated float repeated_float_field = 11;
+    repeated string repeated_string_field = 12;
+    repeated bool repeated_boolean_field = 13;
+    repeated State repeated_enum_field = 14;
 }
 
 /** Represents USB port overheat event. */

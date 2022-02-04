@@ -134,7 +134,8 @@ static void write_method_signature(FILE* out, const vector<java_type_t>& signatu
 
 static int write_method_body(FILE* out, const vector<java_type_t>& signature,
                              const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
-                             const AtomDecl& attributionDecl, const string& indent) {
+                             const AtomDecl& attributionDecl, const string& indent,
+                             const int minApiLevel) {
     // Start StatsEvent.Builder.
     fprintf(out,
             "%s        final StatsEvent.Builder builder = "
@@ -149,6 +150,10 @@ static int write_method_body(FILE* out, const vector<java_type_t>& signature,
     int argIndex = 1;
     for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
          arg++) {
+        if (minApiLevel < API_T && is_repeated_field(*arg)) {
+            fprintf(stderr, "Found repeated field type with min api level < T.");
+            return 1;
+        }
         switch (*arg) {
             case JAVA_TYPE_BOOLEAN:
                 fprintf(out, "%s        builder.writeBoolean(arg%d);\n", indent.c_str(),
@@ -172,6 +177,34 @@ static int write_method_body(FILE* out, const vector<java_type_t>& signature,
             case JAVA_TYPE_BYTE_ARRAY:
                 fprintf(out,
                         "%s        builder.writeByteArray(null == arg%d ? new byte[0] : "
+                        "arg%d);\n",
+                        indent.c_str(), argIndex, argIndex);
+                break;
+            case JAVA_TYPE_BOOLEAN_ARRAY:
+                fprintf(out,
+                        "%s        builder.writeBooleanArray(null == arg%d ? new boolean[0] : "
+                        "arg%d);\n",
+                        indent.c_str(), argIndex, argIndex);
+                break;
+            case JAVA_TYPE_INT_ARRAY:
+                fprintf(out,
+                        "%s        builder.writeIntArray(null == arg%d ? new int[0] : arg%d);\n",
+                        indent.c_str(), argIndex, argIndex);
+                break;
+            case JAVA_TYPE_FLOAT_ARRAY:
+                fprintf(out,
+                        "%s        builder.writeFloatArray(null == arg%d ? new float[0] : "
+                        "arg%d);\n",
+                        indent.c_str(), argIndex, argIndex);
+                break;
+            case JAVA_TYPE_LONG_ARRAY:
+                fprintf(out,
+                        "%s        builder.writeLongArray(null == arg%d ? new long[0] : arg%d);\n",
+                        indent.c_str(), argIndex, argIndex);
+                break;
+            case JAVA_TYPE_STRING_ARRAY:
+                fprintf(out,
+                        "%s        builder.writeStringArray(null == arg%d ? new String[0] : "
                         "arg%d);\n",
                         indent.c_str(), argIndex, argIndex);
                 break;
@@ -278,8 +311,8 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
             indent = "    ";
         }
 
-        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet,
-                                    attributionDecl, indent);
+        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet, attributionDecl,
+                                    indent, minApiLevel);
         if (ret != 0) {
             return ret;
         }
@@ -303,6 +336,10 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
                     // Module logging does not yet support key value pair.
                     fprintf(stderr, "Module logging does not yet support key value pair.\n");
                     return 1;
+                } else if (is_repeated_field(*arg)) {
+                    // Module logging does not support repeated fields.
+                    fprintf(stderr, "Module logging does not support repeated fields.\n");
+                    return 1;
                 } else {
                     fprintf(out, ", arg%d", argIndex);
                 }
@@ -319,7 +356,7 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
 }
 
 static int write_java_pulled_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
-                              const AtomDecl& attributionDecl) {
+                                     const AtomDecl& attributionDecl, const int minApiLevel) {
     for (auto signatureInfoMapIt = signatureInfoMap.begin();
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         // Print method signature.
@@ -331,8 +368,8 @@ static int write_java_pulled_methods(FILE* out, const SignatureInfoMap& signatur
 
         // Print method body.
         string indent("");
-        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet,
-                                    attributionDecl, indent);
+        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet, attributionDecl,
+                                    indent, minApiLevel);
         if (ret != 0) {
             return ret;
         }
@@ -382,8 +419,8 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
     fprintf(out, "    // Write methods\n");
     errors += write_java_pushed_methods(out, atoms.signatureInfoMap, attributionDecl, minApiLevel);
     errors += write_java_non_chained_methods(out, atoms.nonChainedSignatureInfoMap);
-    errors += write_java_pulled_methods(out, atoms.pulledAtomsSignatureInfoMap,
-                                                   attributionDecl);
+    errors += write_java_pulled_methods(out, atoms.pulledAtomsSignatureInfoMap, attributionDecl,
+                                        minApiLevel);
     if (supportWorkSource) {
         errors += write_java_work_source_methods(out, atoms.signatureInfoMap);
     }

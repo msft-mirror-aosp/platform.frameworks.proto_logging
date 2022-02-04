@@ -87,6 +87,43 @@ static void write_annotations(FILE* out, int argIndex,
     }
 }
 
+static void write_native_method_signature(FILE* out, const string& signaturePrefix,
+                                          const vector<java_type_t>& signature,
+                                          const AtomDecl& attributionDecl, const string& closer) {
+    fprintf(out, "%sint32_t code", signaturePrefix.c_str());
+    int argIndex = 1;
+    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
+         arg++) {
+        if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
+            for (const auto& chainField : attributionDecl.fields) {
+                if (chainField.javaType == JAVA_TYPE_STRING) {
+                    fprintf(out, ", const std::vector<%s>& %s", cpp_type_name(chainField.javaType),
+                            chainField.name.c_str());
+                } else {
+                    fprintf(out, ", const %s* %s, size_t %s_length",
+                            cpp_type_name(chainField.javaType), chainField.name.c_str(),
+                            chainField.name.c_str());
+                }
+            }
+        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
+            fprintf(out,
+                    ", const std::map<int, int32_t>& arg%d_1, "
+                    "const std::map<int, int64_t>& arg%d_2, "
+                    "const std::map<int, char const*>& arg%d_3, "
+                    "const std::map<int, float>& arg%d_4",
+                    argIndex, argIndex, argIndex, argIndex);
+        } else {
+            fprintf(out, ", %s arg%d", cpp_type_name(*arg), argIndex);
+
+            if (*arg == JAVA_TYPE_BOOLEAN_ARRAY) {
+                fprintf(out, ", size_t arg%d_length", argIndex);
+            }
+        }
+        argIndex++;
+    }
+    fprintf(out, ")%s\n", closer.c_str());
+}
+
 static int write_native_method_body(FILE* out, vector<java_type_t>& signature,
                                     const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
                                     const AtomDecl& attributionDecl, const int minApiLevel) {
@@ -96,6 +133,10 @@ static int write_native_method_body(FILE* out, vector<java_type_t>& signature,
                       "event, ", minApiLevel);
     for (vector<java_type_t>::const_iterator arg = signature.begin();
          arg != signature.end(); arg++) {
+        if (minApiLevel < API_T && is_repeated_field(*arg)) {
+            fprintf(stderr, "Found repeated field type with min api level < T.");
+            return 1;
+        }
         switch (*arg) {
             case JAVA_TYPE_ATTRIBUTION_CHAIN: {
                 const char* uidName = attributionDecl.fields.front().name.c_str();
@@ -117,7 +158,8 @@ static int write_native_method_body(FILE* out, vector<java_type_t>& signature,
             case JAVA_TYPE_BOOLEAN:
                 fprintf(out, "    AStatsEvent_writeBool(event, arg%d);\n", argIndex);
                 break;
-            case JAVA_TYPE_INT:  // Fall through.
+            case JAVA_TYPE_INT:
+                [[fallthrough]];
             case JAVA_TYPE_ENUM:
                 fprintf(out, "    AStatsEvent_writeInt32(event, arg%d);\n", argIndex);
                 break;
@@ -130,6 +172,33 @@ static int write_native_method_body(FILE* out, vector<java_type_t>& signature,
             case JAVA_TYPE_STRING:
                 fprintf(out, "    AStatsEvent_writeString(event, arg%d);\n", argIndex);
                 break;
+            case JAVA_TYPE_BOOLEAN_ARRAY:
+                fprintf(out, "    AStatsEvent_writeBoolArray(event, arg%d, arg%d_length);\n",
+                        argIndex, argIndex);
+                break;
+            case JAVA_TYPE_INT_ARRAY:
+                [[fallthrough]];
+            case JAVA_TYPE_ENUM_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeInt32Array(event, arg%d.data(), arg%d.size());\n",
+                        argIndex, argIndex);
+                break;
+            case JAVA_TYPE_FLOAT_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeFloatArray(event, arg%d.data(), arg%d.size());\n",
+                        argIndex, argIndex);
+                break;
+            case JAVA_TYPE_LONG_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeInt64Array(event, arg%d.data(), arg%d.size());\n",
+                        argIndex, argIndex);
+                break;
+            case JAVA_TYPE_STRING_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeStringArray(event, arg%d.data(), arg%d.size());\n",
+                        argIndex, argIndex);
+                break;
+
             default:
                 // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS
                 fprintf(stderr, "Encountered unsupported type.\n");
@@ -140,6 +209,36 @@ static int write_native_method_body(FILE* out, vector<java_type_t>& signature,
         argIndex++;
     }
     return 0;
+}
+
+static void write_native_method_call(FILE* out, const string& methodName,
+                                     const vector<java_type_t>& signature,
+                                     const AtomDecl& attributionDecl, int argIndex) {
+    fprintf(out, "%s(code", methodName.c_str());
+    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
+         arg++) {
+        if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
+            for (const auto& chainField : attributionDecl.fields) {
+                if (chainField.javaType == JAVA_TYPE_STRING) {
+                    fprintf(out, ", %s", chainField.name.c_str());
+                } else {
+                    fprintf(out, ",  %s,  %s_length", chainField.name.c_str(),
+                            chainField.name.c_str());
+                }
+            }
+        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
+            fprintf(out, ", arg%d_1, arg%d_2, arg%d_3, arg%d_4", argIndex, argIndex, argIndex,
+                    argIndex);
+        } else {
+            fprintf(out, ", arg%d", argIndex);
+
+            if (*arg == JAVA_TYPE_BOOLEAN_ARRAY) {
+                fprintf(out, ", arg%d_length", argIndex);
+            }
+        }
+        argIndex++;
+    }
+    fprintf(out, ");\n");
 }
 
 static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
@@ -207,7 +306,8 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                                 atomVal, atomVal, argIndex);
                         break;
                     default:
-                        // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS, ATTRIBUTION_CHAIN
+                        // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS, ATTRIBUTION_CHAIN,
+                        // and all repeated fields
                         fprintf(stderr, "Encountered unsupported type.\n");
                         return 1;
                 }
@@ -261,7 +361,8 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                         fprintf(out, "    event.writeString(arg%d);\n", argIndex);
                         break;
                     default:
-                        // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS.
+                        // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS, and all repeated
+                        // fields.
                         fprintf(stderr, "Encountered unsupported type.\n");
                         return 1;
                 }

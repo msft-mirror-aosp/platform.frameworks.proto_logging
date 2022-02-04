@@ -366,7 +366,7 @@ static int write_rust_method_body(FILE* out, const AtomDecl& atomDecl,
         case JAVA_TYPE_STRING:
             fprintf(out, "            let str = std::ffi::CString::new(%s)?;\n", name.c_str());
             fprintf(out, "            AStatsEvent_writeString(__event, str.as_ptr());\n");
-	    break;
+            break;
         default:
 	    // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS
 	    fprintf(stderr, "Encountered unsupported type: %d.", type);
@@ -526,9 +526,11 @@ static int write_rust_stats_write_atoms(FILE* out, const AtomDeclSet& atomDeclSe
                                         const char* headerCrate) {
     for (const auto &atomDecl : atomDeclSet) {
         // Key value pairs not supported in Rust because they're not supported in native.
+        // TODO(b/216543320): support repeated fields in Rust
         if (std::find_if(atomDecl->fields.begin(), atomDecl->fields.end(),
-                         [](const AtomField &atomField) {
-                             return atomField.javaType == JAVA_TYPE_KEY_VALUE_PAIR;
+                         [](const AtomField& atomField) {
+                             return atomField.javaType == JAVA_TYPE_KEY_VALUE_PAIR ||
+                                    (is_repeated_field(atomField.javaType));
                          }) != atomDecl->fields.end()) {
             continue;
         }

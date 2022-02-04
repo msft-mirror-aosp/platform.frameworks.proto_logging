@@ -35,6 +35,7 @@ const char DEFAULT_CPP_HEADER_IMPORT[] = "statslog.h";
 const int API_LEVEL_CURRENT = 10000;
 const int API_Q = 29;
 const int API_R = 30;
+const int API_T = 33;
 
 const int JAVA_MODULE_REQUIRES_FLOAT = 0x01;
 const int JAVA_MODULE_REQUIRES_ATTRIBUTION = 0x02;
@@ -51,20 +52,14 @@ const char* cpp_type_name(java_type_t type);
 
 const char* java_type_name(java_type_t type);
 
+bool is_repeated_field(java_type_t type);
+
 // Common Native helpers
 void write_namespace(FILE* out, const string& cppNamespaces);
 
 void write_closing_namespace(FILE* out, const string& cppNamespaces);
 
 void write_native_atom_constants(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl);
-
-void write_native_method_signature(FILE* out, const string& signaturePrefix,
-                                   const vector<java_type_t>& signature,
-                                   const AtomDecl& attributionDecl, const string& closer);
-
-void write_native_method_call(FILE* out, const string& methodName,
-                              const vector<java_type_t>& signature, const AtomDecl& attributionDecl,
-                              int argIndex = 1);
 
 // Common Java helpers.
 void write_java_atom_codes(FILE* out, const Atoms& atoms);
