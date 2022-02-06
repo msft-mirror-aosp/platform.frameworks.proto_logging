@@ -12537,6 +12537,10 @@ message CameraStreamProto {
     // The frame counts for each histogram bins
     // Expected number of fields: 10
     repeated int64 histogram_counts = 13;
+    // The dynamic range profile of the stream
+    optional int32 dynamic_range_profile = 14;
+    // The stream use case
+    optional int32 stream_use_case = 15;
 }
 
 /**
@@ -15910,20 +15914,20 @@ message VmCreationRequested {
 /**
  * Logs telemetry for Early boot CompOsArtifacts checks (done by odsign)
  *
- * odsign is a binary that runs during early boot. One of its responsibility is to
- * check if the device can use compOS and check if so, validate the compos generated artifacts.
- * An atom is pushed on each such check. Note: We do not push an atom if canUseCompos is false.
+ * odsign is a binary that runs during early boot. One of its responsibility is
+ * to check if the device can use compOS and check if so, validate the compos
+ * generated artifacts. An atom is pushed on each such check. Note: We only
+ * push an atom from devices/configurations that can use compOs.
  */
- message EarlyBootCompOsArtifactsCheckReported {
-    // Can this device use CompOS - always true, bacause we are not logging other cases
-    optional bool canUseCompos = 1;
-    // Are the current Artifacts okay (This check is done by odrefresh).
-    // (currentArtifactsOk == true) => compilationRequired is false
-    optional bool currentArtifactsOk = 2;
-    // Has CompOs generated any Artifacts
-    optional bool compOsPendingArtifactsExists = 3;
-    // The device will be using CompOs generated artifacts. Note: the value of this is meaningless if currentArtifactsOk = true
-    optional bool useCompOsGeneratedArtifacts = 4;
+message EarlyBootCompOsArtifactsCheckReported {
+  // Are the current Artifacts okay (This check is done by odrefresh).
+  // (current_artifacts_ok == true) => compilationRequired is false
+  optional bool current_artifacts_ok = 1;
+  // Has CompOs generated any Artifacts
+  optional bool comp_os_pending_artifacts_exists = 2;
+  // The device will be using CompOs generated artifacts. Note: the value of
+  // this is meaningless if current_artifacts_ok = true
+  optional bool use_comp_os_generated_artifacts = 3;
 }
 
 /**
