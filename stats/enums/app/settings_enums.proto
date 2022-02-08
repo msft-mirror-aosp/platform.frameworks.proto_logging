@@ -3298,6 +3298,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     TIMEOUT_TO_USER_ZERO = 1916;
+
+    // OPEN: Settings > Security & Privacy (if safety center is enabled)
+    // CATEGORY: SETTINGS
+    // OS: T
+    SAFETY_CENTER = 1917;
 }
 
 // Battery Saver schedule types.
