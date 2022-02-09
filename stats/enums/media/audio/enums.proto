@@ -18,6 +18,13 @@ syntax = "proto2";
 
 package android.media.audio;
 
+// The event (method) associated with the AudioRecord (e.g. create, start,
+// stop, etc.)
+enum AudioRecordEvent {
+  AUDIO_RECORD_EVENT_UNKNOWN = 0;
+  AUDIO_RECORD_EVENT_CREATE = 1;
+}
+
 // The event (method) associated with the AudioTrack (e.g. create, start,
 // pause, etc.)
 enum AudioTrackEvent {
@@ -129,6 +136,30 @@ enum Encoding {
   AUDIO_FORMAT_IEC60958 = 0x2d000000;
   AUDIO_FORMAT_DTS_UHD = 0x2e000000;
   AUDIO_FORMAT_DRA = 0x2f000000;
+}
+
+// An enumeration from system/media/audio/include/system/audio-hal-enums.h
+// audio_source_t, representing the input source for the AudioRecord.
+// Keep in sync with audio-hal-enums.h.
+enum Source {
+  // Note: The first value in an enum must map to zero.
+  // Mapping the first value to zero ensures the default behavior
+  // is consistent between proto2 and proto3.
+  AUDIO_SOURCE_DEFAULT = 0;  // may alias as UNKNOWN
+  AUDIO_SOURCE_INVALID = -1;
+  AUDIO_SOURCE_MIC = 1;
+  AUDIO_SOURCE_VOICE_UPLINK = 2;
+  AUDIO_SOURCE_VOICE_DOWNLINK = 3;
+  AUDIO_SOURCE_VOICE_CALL = 4;
+  AUDIO_SOURCE_CAMCORDER = 5;
+  AUDIO_SOURCE_VOICE_RECOGNITION = 6;
+  AUDIO_SOURCE_VOICE_COMMUNICATION = 7;
+  AUDIO_SOURCE_REMOTE_SUBMIX = 8;
+  AUDIO_SOURCE_UNPROCESSED = 9;
+  AUDIO_SOURCE_VOICE_PERFORMANCE = 10;
+  AUDIO_SOURCE_ECHO_REFERENCE = 1997;
+  AUDIO_SOURCE_FM_TUNER = 1998;
+  AUDIO_SOURCE_HOTWORD = 1999;
 }
 
 // An enumeration from system/media/audio/include/system/audio-hal-enums.h

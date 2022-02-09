@@ -637,6 +637,7 @@ message Atom {
         PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
         WearSettingsUIInteracted wear_settings_ui_interacted = 423 [(module) = "wear_settings"];
         TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
+        MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported = 425;
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15020,6 +15021,56 @@ message MediametricsAudioDeviceConnectionReported {
 }
 
 /**
+ * Logs the status of an AudioRecord operation.
+ *
+ * Logged from:
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsAudioRecordStatusReported {
+    // General status code for categorization of status.
+    optional android.media.Status status = 1;
+
+    // Status or error message, e.g. logcat.
+    optional string debug_message = 2;
+
+    // Supplemental status subcode for AudioRecord.
+    optional int32 status_subcode = 3;
+
+    // Uid associated with the AudioRecord.
+    optional int32 uid = 4 [(is_uid) = true];
+
+    // The AudioRecord event.
+    optional android.media.audio.AudioRecordEvent event = 5;
+
+    // Requested AudioRecord flags, with each flag bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_input_flags_t
+    optional int32 input_flags = 6;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_source_t, representing the input source for the AudioRecord.
+    optional android.media.audio.Source source = 7;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_format_t, representing the encoding of the AudioRecord data.
+    optional android.media.audio.Encoding encoding = 8;
+
+    // Channel mask, with each channel position bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_channel_mask_t, representing the input channel configuration
+    // of AudioRecord data.
+    optional int64 channel_mask = 9;
+
+    // The size of the AudioRecord buffer in frames.
+    // If an error occurs during creation, this may be a small integer requested size
+    // as AudioFlinger is entitled to increase this as required.
+    optional int32 buffer_frame_count = 10;
+
+    // Sample rate in Hz.
+    optional int32 sample_rate = 11;
+}
+
+/**
  * Logs the status of an AudioTrack operation.
  *
  * Logged from:
@@ -16694,6 +16745,7 @@ message BinderLatencyReported {
             SYSTEM_SERVER = 1;
             TELEPHONY = 2;
             BLUETOOTH = 3;
+            WIFI = 4;
         }
         enum ServiceClassName {
             UNKNOWN_CLASS = 0;
