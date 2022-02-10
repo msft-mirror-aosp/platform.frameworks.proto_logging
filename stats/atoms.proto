@@ -687,10 +687,6 @@ message Atom {
         CpuTimePerThreadFreq cpu_time_per_thread_freq = 10037 [(module) = "framework"];
         OnDevicePowerMeasurement on_device_power_measurement = 10038 [(module) = "framework"];
         DeviceCalculatedPowerUse device_calculated_power_use = 10039 [(module) = "framework"];
-        DeviceCalculatedPowerBlameUid device_calculated_power_blame_uid =
-                10040 [(module) = "framework"];
-        DeviceCalculatedPowerBlameOther device_calculated_power_blame_other =
-                10041 [(module) = "framework"];
         ProcessMemoryHighWaterMark process_memory_high_water_mark = 10042 [(module) = "framework"];
         BatteryLevel battery_level = 10043 [(module) = "framework"];
         BuildInformation build_information = 10044 [(module) = "framework"];
@@ -833,7 +829,7 @@ message Atom {
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
-    reserved 10008, 10036;
+    reserved 10008, 10036, 10040, 10041;
 }
 
 /**
@@ -8212,56 +8208,6 @@ message DeviceCalculatedPowerUse {
     // BatteryStats last reset (i.e. roughly since device was last significantly charged).
     // Currently, this is from BatteryStatsHelper.getComputedPower() (not getTotalPower()).
     optional int64 computed_power_nano_amp_secs = 1;
-}
-
-/**
- * Pulls on-device BatteryStats power use calculations broken down by uid.
- * This atom should be complemented by DeviceCalculatedPowerBlameOther, which contains the power use
- * that is attributed to non-uid items. They must all be included to get the total power use.
- */
-message DeviceCalculatedPowerBlameUid {
-    // Uid being blamed. Note: isolated uids have already been mapped to host uid.
-    optional int32 uid = 1 [(is_uid) = true];
-
-    // Power used by this uid in nAs (i.e. nanocoulombs (nC)), as computed by BatteryStats, since
-    // BatteryStats last reset (i.e. roughly since device was last significantly charged).
-    optional int64 power_nano_amp_secs = 2;
-}
-
-/**
- * Pulls on-device BatteryStats power use calculations that are not due to a uid, broken down by
- * drain type.
- * This atom should be complemented by DeviceCalculatedPowerBlameUid, which contains the blame that
- * is attributed uids. They must all be included to get the total power use.
- */
-message DeviceCalculatedPowerBlameOther {
-    // The type of item whose power use is being reported.
-    enum DrainType {
-        AMBIENT_DISPLAY = 0;
-        // reserved 1; reserved "APP"; // Logged instead in DeviceCalculatedPowerBlameUid.
-        BLUETOOTH = 2;
-        CAMERA = 3;
-        // Cell-standby
-        CELL = 4;
-        FLASHLIGHT = 5;
-        IDLE = 6;
-        MEMORY = 7;
-        // Amount that total computed drain exceeded the drain estimated using the
-        // battery level changes and capacity.
-        OVERCOUNTED = 8;
-        PHONE = 9;
-        SCREEN = 10;
-        // Amount that total computed drain was below the drain estimated using the
-        // battery level changes and capacity.
-        UNACCOUNTED = 11;
-        // reserved 12; reserved "USER"; // Entire drain for a user. This is NOT supported.
-        WIFI = 13;
-    }
-    optional DrainType drain_type = 1;
-
-    // Power used by this item in nAs (i.e. nanocoulombs (nC)), as computed by BatteryStats, since
-    // BatteryStats last reset (i.e. roughly since device was last significantly charged).
-    optional int64 power_nano_amp_secs = 2;
 }
 
 // Keep in sync with frameworks/base/core/proto/android/os/batteryusagestats.proto
