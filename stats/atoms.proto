@@ -644,7 +644,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10149
+    // Next: 10152
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -823,6 +823,10 @@ message Atom {
         PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
             10148 [(module) = "framework"];
         SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
+        PinnedFileSizesPerPackage pinned_file_sizes_per_package = 10150
+            [(module) = "framework"];
+        PendingIntentsPerPackage pending_intents_per_package = 10151
+            [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -10363,6 +10367,9 @@ message SystemMemory {
     // Total DMABUF memory allocations
     // Reported from os.Debug.getDmabufTotalExportedKb (S+)
     optional int32 dmabuf_total_exported_kb = 9;
+
+    // Total shmem allocations
+    optional int32 shmem_kb = 10;
 }
 
 /*
@@ -19147,4 +19154,29 @@ message TracingServiceReportEvent {
   // UUID of the trace.
   optional int64 trace_uuid_lsb = 2;
   optional int64 trace_uuid_msb = 3;
+}
+
+/** Pulled from PinnerService. */
+message PinnedFileSizesPerPackage {
+    // If the file is pinned but not as part of a specific pinned app,
+    // this will be set to 1000 - the value of system_server.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Consists of only the pinned file's filename, not its full path; for example
+    // Given a pinned file at ‘/vendor/lib64/libCB.so’, then this field will be
+    // Determined to have have the value ‘libCB.so’.
+    optional string filename = 2;
+
+    // The size of the pinned file, in kilobytes.
+    optional int32 size_kb = 3;
+}
+
+/** Pulled from PendingIntentController. */
+message PendingIntentsPerPackage {
+    // The UID of the app that sent the PendingIntent.
+    optional int32 uid = 1 [(is_uid) = true];
+    // The total number of currently active PendingIntents belonging to this uid.
+    optional int32 pending_intent_count = 2;
+    // The total size of all currently active PendingIntents belonging to this uid, in kilobytes.
+    optional int32 pending_intent_total_bundle_size_kb = 3;
 }
