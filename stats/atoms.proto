@@ -638,6 +638,7 @@ message Atom {
         WearSettingsUIInteracted wear_settings_ui_interacted = 423 [(module) = "wear_settings"];
         TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
         MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported = 425;
+        LauncherLatency launcher_latency = 426 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -3698,6 +3699,10 @@ message LauncherUIChanged {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 25;
+
+    // Used to store on-device search related features of the target
+    // (e.g. spell-corrected query etc)
+    optional int32 search_attributes = 26;
 }
 
 message SmartSpaceCardReported {
@@ -19179,4 +19184,20 @@ message PendingIntentsPerPackage {
     optional int32 pending_intent_count = 2;
     // The total size of all currently active PendingIntents belonging to this uid, in kilobytes.
     optional int32 pending_intent_total_bundle_size_kb = 3;
+}
+
+/**
+ * Logs for Launcher latency. Uses KLL to reduce the data pression
+ *
+ * Logged from:
+ *      vendor/unbundled_google/packages/NexusLauncher
+ */
+message LauncherLatency {
+    // The event id generated from go/uievents
+    optional int32 event_id = 1;
+    // The instance id to track multiple partial durations or parellel running durations
+    optional int32 instance_id = 2;
+    optional int32 package_id = 3;
+    optional int64 latency_in_millis = 4;
+    optional int32 type = 5;
 }
