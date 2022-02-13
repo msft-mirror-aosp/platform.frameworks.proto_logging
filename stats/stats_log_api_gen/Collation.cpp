@@ -111,8 +111,6 @@ static java_type_t java_type(const FieldDescriptor* field) {
         case FieldDescriptor::TYPE_MESSAGE:
             if (field->message_type()->full_name() == "android.os.statsd.AttributionNode") {
                 return JAVA_TYPE_ATTRIBUTION_CHAIN;
-            } else if (field->message_type()->full_name() == "android.os.statsd.KeyValuePair") {
-                return JAVA_TYPE_KEY_VALUE_PAIR;
             } else if ((field->options().GetExtension(os::statsd::log_mode) ==
                         os::statsd::LogMode::MODE_BYTES) &&
                        !isRepeatedField) {
@@ -323,9 +321,9 @@ int collate_atom(const Descriptor* atom, AtomDecl* atomDecl, vector<java_type_t>
             }
             errorCount++;
             continue;
-        } else if (javaType == JAVA_TYPE_OBJECT && atomDecl->code < PULL_ATOM_START_ID) {
+        } else if (javaType == JAVA_TYPE_OBJECT) {
             // Allow attribution chain, but only at position 1.
-            print_error(field, "Message type not allowed for field in pushed atoms: %s\n",
+            print_error(field, "Message type not allowed for field without mode_bytes: %s\n",
                         field->name().c_str());
             errorCount++;
             continue;

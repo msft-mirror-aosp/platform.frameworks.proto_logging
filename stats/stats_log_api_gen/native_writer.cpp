@@ -105,13 +105,6 @@ static void write_native_method_signature(FILE* out, const string& signaturePref
                             chainField.name.c_str());
                 }
             }
-        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out,
-                    ", const std::map<int, int32_t>& arg%d_1, "
-                    "const std::map<int, int64_t>& arg%d_2, "
-                    "const std::map<int, char const*>& arg%d_3, "
-                    "const std::map<int, float>& arg%d_4",
-                    argIndex, argIndex, argIndex, argIndex);
         } else {
             fprintf(out, ", %s arg%d", cpp_type_name(*arg), argIndex);
 
@@ -200,7 +193,7 @@ static int write_native_method_body(FILE* out, vector<java_type_t>& signature,
                 break;
 
             default:
-                // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS
+                // Unsupported types: OBJECT, DOUBLE
                 fprintf(stderr, "Encountered unsupported type.\n");
                 return 1;
         }
@@ -226,9 +219,6 @@ static void write_native_method_call(FILE* out, const string& methodName,
                             chainField.name.c_str());
                 }
             }
-        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out, ", arg%d_1, arg%d_2, arg%d_3, arg%d_4", argIndex, argIndex, argIndex,
-                    argIndex);
         } else {
             fprintf(out, ", arg%d", argIndex);
 
@@ -249,11 +239,6 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         vector<java_type_t> signature = signatureInfoMapIt->first;
         const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = signatureInfoMapIt->second;
-        // Key value pairs not supported in native.
-        if (std::find(signature.begin(), signature.end(), JAVA_TYPE_KEY_VALUE_PAIR) !=
-            signature.end()) {
-            continue;
-        }
         write_native_method_signature(out, "int stats_write(", signature, attributionDecl, " {");
 
         // Write method body.
@@ -306,7 +291,7 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                                 atomVal, atomVal, argIndex);
                         break;
                     default:
-                        // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS, ATTRIBUTION_CHAIN,
+                        // Unsupported types: OBJECT, DOUBLE, ATTRIBUTION_CHAIN,
                         // and all repeated fields
                         fprintf(stderr, "Encountered unsupported type.\n");
                         return 1;
@@ -361,7 +346,7 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                         fprintf(out, "    event.writeString(arg%d);\n", argIndex);
                         break;
                     default:
-                        // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS, and all repeated
+                        // Unsupported types: OBJECT, DOUBLE, and all repeated
                         // fields.
                         fprintf(stderr, "Encountered unsupported type.\n");
                         return 1;
@@ -394,11 +379,6 @@ static void write_native_stats_write_non_chained_methods(FILE* out,
     for (auto signature_it = signatureInfoMap.begin();
          signature_it != signatureInfoMap.end(); signature_it++) {
         vector<java_type_t> signature = signature_it->first;
-        // Key value pairs not supported in native.
-        if (std::find(signature.begin(), signature.end(), JAVA_TYPE_KEY_VALUE_PAIR) !=
-            signature.end()) {
-            continue;
-        }
 
         write_native_method_signature(out, "int stats_write_non_chained(", signature,
                                       attributionDecl, " {");
@@ -435,11 +415,6 @@ static int write_native_build_stats_event_methods(FILE* out,
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         vector<java_type_t> signature = signatureInfoMapIt->first;
         const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = signatureInfoMapIt->second;
-        // Key value pairs not supported in native.
-        if (std::find(signature.begin(), signature.end(), JAVA_TYPE_KEY_VALUE_PAIR) !=
-            signature.end()) {
-            continue;
-        }
         write_native_method_signature(out, "void addAStatsEvent(AStatsEventList* pulled_data, ",
                                       signature, attributionDecl, " {");
 
@@ -463,11 +438,6 @@ static void write_native_method_header(FILE* out, const string& methodName,
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         vector<java_type_t> signature = signatureInfoMapIt->first;
 
-        // Key value pairs not supported in native.
-        if (std::find(signature.begin(), signature.end(), JAVA_TYPE_KEY_VALUE_PAIR) !=
-            signature.end()) {
-            continue;
-        }
         write_native_method_signature(out, methodName, signature, attributionDecl, ";");
     }
 }

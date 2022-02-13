@@ -199,7 +199,6 @@ message Atom {
         WTFOccurred wtf_occurred = 80 [(module) = "framework"];
         LowMemReported low_mem_reported = 81 [(module) = "framework"];
         GenericAtom generic_atom = 82;
-        KeyValuePairsAtom key_value_pairs_atom = 83 [(module) = "framework", (module) = "statsd"];
         VibratorStateChanged vibrator_state_changed = 84 [(module) = "framework"];
         DeferredJobStatsReported deferred_job_stats_reported = 85 [(module) = "framework"];
         ThermalThrottlingStateChanged thermal_throttling = 86 [deprecated=true];
@@ -834,7 +833,7 @@ message Atom {
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
-    reserved 10008, 10036, 10040, 10041;
+    reserved 83, 10008, 10036, 10040, 10041;
 }
 
 /**
@@ -852,20 +851,6 @@ message AttributionNode {
     optional string tag = 2;
 }
 
-message KeyValuePair {
-    optional int32 key = 1;
-    oneof value {
-        int32 value_int = 2;
-        int64 value_long = 3;
-        string value_str = 4;
-        float value_float = 5;
-    }
-}
-
-message KeyValuePairsAtom {
-    optional int32 uid = 1;
-    repeated KeyValuePair pairs = 2;
-}
 
 /*
  * *****************************************************************************

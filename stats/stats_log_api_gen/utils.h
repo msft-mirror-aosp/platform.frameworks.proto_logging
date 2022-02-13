@@ -39,7 +39,6 @@ const int API_T = 33;
 
 const int JAVA_MODULE_REQUIRES_FLOAT = 0x01;
 const int JAVA_MODULE_REQUIRES_ATTRIBUTION = 0x02;
-const int JAVA_MODULE_REQUIRES_KEY_VALUE_PAIRS = 0x04;
 
 void build_non_chained_decl_map(const Atoms& atoms,
                                 std::map<int, AtomDeclSet::const_iterator>* decl_map);
