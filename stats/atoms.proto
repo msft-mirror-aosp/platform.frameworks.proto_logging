@@ -682,6 +682,7 @@ message Atom {
         LeAudioConnectionSessionReported le_audio_connection_session_reported = 447 [(module) = "bluetooth"];
         LeAudioBroadcastSessionReported le_audio_broadcast_session_reported = 448 [(module) = "bluetooth"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
+        TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -20096,4 +20097,23 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
     // Version number of the database upgrade step that failed
     optional int32 upgrade_failed_to_version = 3;
     optional FailureCode failure_code = 4;
+}
+
+/**
+ * Logs for task manager events
+ *
+ * Logged from SystemUI
+ */
+message TaskManagerEventReported {
+
+    enum Event {
+        VIEWED = 1;
+        STOPPED = 2;
+    }
+
+    optional int32 uid = 1 [(is_uid) = true];
+
+    optional Event event = 2;
+
+    optional int64 time_running_ms = 3;
 }
