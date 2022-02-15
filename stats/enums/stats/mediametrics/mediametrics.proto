@@ -220,10 +220,10 @@ enum EncodedSurroundOutputMode {
     ENCODED_SURROUND_OUTPUT_MANUAL = 4;
 }
 enum HdrFormat {
-    HDR_TYPE_DOLBY_VISION = 0;
-    HDR_TYPE_HDR10 = 1;
-    HDR_TYPE_HLG = 2;
-    HDR_TYPE_HDR10_PLUS = 3;
+    HDR_TYPE_DOLBY_VISION = 1;
+    HDR_TYPE_HDR10 = 2;
+    HDR_TYPE_HLG = 3;
+    HDR_TYPE_HDR10_PLUS = 4;
 }
 enum MatchContentFrameRatePreference {
    MATCH_CONTENT_FRAMERATE_UNKNOWN = 0;

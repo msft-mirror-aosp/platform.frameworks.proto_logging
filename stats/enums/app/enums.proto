@@ -226,6 +226,7 @@ enum AppOpEnum {
     APP_OP_NEARBY_WIFI_DEVICES = 116;
     APP_OP_ESTABLISH_VPN_SERVICE = 117;
     APP_OP_ESTABLISH_VPN_MANAGER = 118;
+    APP_OP_ACCESS_RESTRICTED_SETTINGS = 119;
 }
 
 /**
@@ -316,6 +317,12 @@ enum AppExitReasonCode {
      * {@link #description} will specify the cause given by the system.
      */
     REASON_OTHER = 13;
+
+    /**
+     * Application process was killed by App Freezer, for example, because it receives
+     * sync binder transactions while being frozen.
+     */
+    REASON_FREEZER = 14;
 }
 
 /**
