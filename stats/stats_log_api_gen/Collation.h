@@ -69,7 +69,7 @@ const char DEFAULT_MODULE_NAME[] = "DEFAULT";
  * The types for atom parameters.
  */
 typedef enum {
-    JAVA_TYPE_UNKNOWN_OR_INVALID = 0,
+    JAVA_TYPE_UNKNOWN = 0,
 
     JAVA_TYPE_ATTRIBUTION_CHAIN = 1,
     JAVA_TYPE_BOOLEAN = 2,
@@ -79,13 +79,7 @@ typedef enum {
     JAVA_TYPE_DOUBLE = 6,
     JAVA_TYPE_STRING = 7,
     JAVA_TYPE_ENUM = 8,
-    JAVA_TYPE_BOOLEAN_ARRAY = 10,
-    JAVA_TYPE_INT_ARRAY = 11,
-    JAVA_TYPE_LONG_ARRAY = 12,
-    JAVA_TYPE_FLOAT_ARRAY = 13,
-    JAVA_TYPE_DOUBLE_ARRAY = 14,
-    JAVA_TYPE_STRING_ARRAY = 15,
-    JAVA_TYPE_ENUM_ARRAY = 16,
+    JAVA_TYPE_KEY_VALUE_PAIR = 9,
 
     JAVA_TYPE_OBJECT = -1,
     JAVA_TYPE_BYTE_ARRAY = -2,
@@ -147,7 +141,7 @@ struct AtomField {
     // values.
     map<int /* numeric value */, string /* value name */> enumValues;
 
-    inline AtomField() : name(), javaType(JAVA_TYPE_UNKNOWN_OR_INVALID) {
+    inline AtomField() : name(), javaType(JAVA_TYPE_UNKNOWN) {
     }
     inline AtomField(const AtomField& that)
         : name(that.name), javaType(that.javaType), enumValues(that.enumValues) {
@@ -178,6 +172,8 @@ struct AtomDecl {
     int defaultState = INT_MAX;
     int triggerStateReset = INT_MAX;
     bool nested = true;
+
+    int uidField = 0;
 
     AtomDecl();
     AtomDecl(const AtomDecl& that);
