@@ -26,11 +26,11 @@ enum AppTransitionReasonEnum {
     APP_TRANSITION_REASON_UNKNOWN = 0;
     // The transition was started because we drew the splash screen.
     APP_TRANSITION_SPLASH_SCREEN = 1;
-    // The transition was started because all app windows were drawn.
+    // The transition was started because we all app windows were drawn.
     APP_TRANSITION_WINDOWS_DRAWN = 2;
     // The transition was started because of a timeout.
     APP_TRANSITION_TIMEOUT = 3;
-    // The transition was started because we drew a task snapshot.
+    // The transition was started because of a we drew a task snapshot.
     APP_TRANSITION_SNAPSHOT = 4;
     // The transition was started because it was a recents animation and we only needed to wait on
     // the wallpaper.
@@ -223,10 +223,6 @@ enum AppOpEnum {
     APP_OP_ACTIVITY_RECOGNITION_SOURCE = 113;
     APP_OP_BLUETOOTH_ADVERTISE = 114;
     APP_OP_RECORD_INCOMING_PHONE_AUDIO = 115;
-    APP_OP_NEARBY_WIFI_DEVICES = 116;
-    APP_OP_ESTABLISH_VPN_SERVICE = 117;
-    APP_OP_ESTABLISH_VPN_MANAGER = 118;
-    APP_OP_ACCESS_RESTRICTED_SETTINGS = 119;
 }
 
 /**
@@ -317,12 +313,6 @@ enum AppExitReasonCode {
      * {@link #description} will specify the cause given by the system.
      */
     REASON_OTHER = 13;
-
-    /**
-     * Application process was killed by App Freezer, for example, because it receives
-     * sync binder transactions while being frozen.
-     */
-    REASON_FREEZER = 14;
 }
 
 /**
