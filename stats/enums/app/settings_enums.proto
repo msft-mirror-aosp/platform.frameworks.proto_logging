@@ -3303,6 +3303,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SAFETY_CENTER = 1917;
+
+    // OPEN: Settings > Accessibility -> Color and motion
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACCESSIBILITY_COLOR_AND_MOTION = 1918;
 }
 
 // Battery Saver schedule types.
