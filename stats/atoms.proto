@@ -638,6 +638,7 @@ message Atom {
         TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
         MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported = 425;
         LauncherLatency launcher_latency = 426 [(module) = "sysui"];
+        DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -19042,6 +19043,26 @@ message GpuFreqTimeInStatePerUid {
     optional int32 freq_1000_mhz_time_millis = 24;
 
     // Reserve 25-45 for future MHz time buckets.
+}
+
+/**
+ * Logs when entries are dropped in DropBox and the reason for the drop.
+ *
+ * Logged from: frameworks/base/services/
+ */
+message DropboxEntryDropped {
+    // Explains at which stage of the DropBox workflow the entry was dropped.
+    enum DropReason {
+        UNKNOWN = 0;
+        OVER_QUOTA = 1;
+        NO_AVAILABLE_QUOTA = 2;
+        CLEARING_DATA = 3;
+    }
+
+    optional DropReason drop_reason = 1;
+
+    // Tag describing the type of dropbox entry.
+    optional string tag = 2;
 }
 
 message PersistentUriPermissionsFlushed {
