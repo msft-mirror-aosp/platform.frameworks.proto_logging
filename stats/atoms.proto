@@ -205,7 +205,11 @@ message Atom {
         BiometricAcquired biometric_acquired = 87 [(module) = "framework"];
         BiometricAuthenticated biometric_authenticated = 88 [(module) = "framework"];
         BiometricErrorOccurred biometric_error_occurred = 89 [(module) = "framework"];
-        UiEventReported ui_event_reported = 90 [(module) = "framework", (module) = "sysui"];
+        UiEventReported ui_event_reported = 90 [
+            (module) = "framework",
+            (module) = "sysui",
+            (module) = "mediaprovider"
+        ];
         BatteryHealthSnapshot battery_health_snapshot = 91;
         SlowIo slow_io = 92;
         BatteryCausedShutdown battery_caused_shutdown = 93;
@@ -361,7 +365,8 @@ message Atom {
         MediametricsDrmManagerReported mediametrics_drmmanager_reported = 201;
         CarPowerStateChanged car_power_state_changed = 203 [(module) = "car"];
         GarageModeInfo garage_mode_info = 204 [(module) = "car"];
-        TestAtomReported test_atom_reported = 205 [(module) = "cts"];
+        TestAtomReported test_atom_reported = 205
+            [(module) = "cts", (module) = "statsdtest"];
         ContentCaptureCallerMismatchReported content_capture_caller_mismatch_reported =
                 206 [(module) = "framework"];
         ContentCaptureServiceEvents content_capture_service_events = 207 [(module) = "framework"];
@@ -433,7 +438,11 @@ message Atom {
         DisplayJankReported display_jank_reported = 257 [deprecated = true];
         AppStandbyBucketChanged app_standby_bucket_changed = 258 [(module) = "framework"];
         SharesheetStarted sharesheet_started = 259 [(module) = "framework"];
-        RankingSelected ranking_selected = 260 [(module) = "framework", (module) = "sysui"];
+        RankingSelected ranking_selected = 260 [
+            (module) = "framework",
+            (module) = "sysui",
+            (module) = "mediaprovider"
+        ];
         TvSettingsUIInteracted tvsettings_ui_interacted = 261 [(module) = "tv_settings"];
         LauncherStaticLayout launcher_snapshot = 262 [(module) = "sysui"];
         PackageInstallerV2Reported package_installer_v2_reported = 263 [(module) = "framework"];
@@ -639,6 +648,7 @@ message Atom {
         MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported = 425;
         LauncherLatency launcher_latency = 426 [(module) = "sysui"];
         DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
+        WifiP2pConnectionReported wifi_p2p_connection_reported = 428 [(module) = "wifi"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1298,6 +1308,49 @@ message WifiConnectionStateChanged {
     // Authentication type.
     // Filled for both connected and disconnected cases.
     optional android.net.wifi.WifiAuthType auth_type = 3;
+}
+
+/**
+ * Logged when wifi peer to peer connection happens
+ */
+message WifiP2pConnectionReported {
+    enum Type {
+        UNSPECIFIED = 0;
+        // fresh new connection.
+        FRESH = 1;
+        // reinvoke a group.
+        REINVOKE = 2;
+        // create a group with the current device as the group owner locally.
+        LOCAL = 3;
+        // create a group or join a group with config.
+        FAST = 4;
+    }
+    enum FailureCode {
+        // Failure is unknown.
+        UNKNOWN = 0;
+        // No failure.
+        NONE = 1;
+        // Timeout for current connecting request.
+        TIMEOUT = 2;
+        // The connecting request is canceled by the user.
+        CANCEL = 3;
+        // Provision discovery failure, e.g. no pin code, timeout, rejected by the peer.
+        PROV_DISC_FAIL = 4;
+        // Invitation failure, e.g. rejected by the peer.
+        INVITATION_FAIL = 5;
+        // Incoming request is rejected by the user.
+        USER_REJECT = 6;
+        // New connection request is issued before ending previous connecting request.
+        NEW_CONNECTION_ATTEMPT = 7;
+    }
+    // Type of the connection.
+    optional Type type = 1;
+    // Duration to connect in millis.
+    optional int32 latency_ms= 2;
+    // Duration to connect in step size of 200 millis.
+    optional int32 latency_200ms= 3;
+    // Failure code
+    optional FailureCode failure_code = 4;
 }
 
 /**
