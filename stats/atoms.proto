@@ -14440,6 +14440,8 @@ message UserLifecycleEventOccurred {
 /**
  * The UserInfo information about an Android user (as used in UserManager multiuser).
  *
+ * Currently, we do not include information about user 0, since it is uninteresting.
+ *
  * This will be pulled from
  *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
  */
@@ -14463,7 +14465,9 @@ message UserInfo {
     // according to System.currentTimeMillis
     optional int64 last_logged_in_time_millis = 6;
 
-    // True if user is currently running and unlocked
+    // True if user is currently running and unlocked.
+    // Note that this is NOT synonymous with being the 'current' user. Multiple users may be
+    // running unlocked, with one in the foreground and others running in the background.
     optional bool is_user_running_unlocked = 7;
 }
 
