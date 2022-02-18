@@ -655,7 +655,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10152
+    // Next: 10153
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -838,6 +838,7 @@ message Atom {
             [(module) = "framework"];
         PendingIntentsPerPackage pending_intents_per_package = 10151
             [(module) = "framework"];
+        UserInfo user_info = 10152 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -14437,6 +14438,36 @@ message UserLifecycleEventOccurred {
 }
 
 /**
+ * The UserInfo information about an Android user (as used in UserManager multiuser).
+ *
+ * This will be pulled from
+ *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
+ */
+message UserInfo {
+    // The @UserIdInt userId of the user
+    optional int32 user_id = 1;
+
+    // The type of user, if AOSP-defined, such as {@link UserManager#USER_TYPE_PROFILE_MANAGED}
+    optional UserLifecycleJourneyReported.UserType user_type = 2;
+
+    // The type of user if not AOSP-defined. Will be empty if user_type is not TYPE_UNKNOWN.
+    optional string user_type_custom = 3;
+
+    // The @UserInfoFlag UserInfo flags of user.
+    optional int32 user_flags = 4;
+
+    // Wall-clock time in milliseconds when user was created, according to System.currentTimeMillis
+    optional int64 creation_time_millis = 5;
+
+    // Wall-clock time in milliseconds when user last entered the state of STATE_RUNNING_UNLOCKED,
+    // according to System.currentTimeMillis
+    optional int64 last_logged_in_time_millis = 6;
+
+    // True if user is currently running and unlocked
+    optional bool is_user_running_unlocked = 7;
+}
+
+/**
  * Logs when accessibility shortcut clicked.
  *
  * Logged from:
@@ -18854,6 +18885,12 @@ message UwbSessionClosed {
     optional android.uwb.CountBucket ranging_count_bucket = 11;
     // Valid ranging measurement count bucket.
     optional android.uwb.CountBucket valid_ranging_count_bucket = 12;
+    // Ranging start count
+    optional int32 start_count = 13;
+    // Ranging start failure count
+    optional int32 start_failure_count = 14;
+    // Ranging start without valid ranging result count
+    optional int32 start_no_valid_report_count = 15;
 }
 
 message UwbRangingMeasurementReceived {
@@ -18867,8 +18904,8 @@ message UwbRangingMeasurementReceived {
     optional int32 distance_cm = 4;
     // The distance measurement in step size of 50 cm
     optional int32 distance_50cm = 5;
-    // The figure of merit of distance measurement
-    optional int32 distance_fom = 6;
+    // RSSI of ranging report, in dBm
+    optional int32 rssi = 6;
     // Was azimuth angle valid?
     optional bool is_azimuth_valid = 7;
     // The azimuth angle measurement in degrees.
