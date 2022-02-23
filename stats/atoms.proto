@@ -649,6 +649,7 @@ message Atom {
         LauncherLatency launcher_latency = 426 [(module) = "sysui"];
         DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
         WifiP2pConnectionReported wifi_p2p_connection_reported = 428 [(module) = "wifi"];
+        GameStateChanged game_state_changed = 429 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -19296,4 +19297,47 @@ message LauncherLatency {
     optional int32 package_id = 3;
     optional int64 latency_in_millis = 4;
     optional int32 type = 5;
+}
+
+/*
+ * Logs changes to game state set by game applications via GameService.
+ */
+message GameStateChanged {
+    enum State {
+        // Game mode is unknown.
+        MODE_UNKNOWN = 0;
+
+        // The game is not in active play, e.g.e the user is using a game menu.
+        MODE_NONE = 1;
+
+        // The game is in active, but interruptible, game play.
+        MODE_GAMEPLAY_INTERRUPTIBLE = 2;
+
+        // The game is in active user play mode, which cannot be interrupted.
+        MODE_GAMEPLAY_UNINTERRUPTIBLE = 3;
+
+        // The current content shown is not gameplay related (e.g. an ad).
+        MODE_CONTENT = 4;
+    }
+
+    // Provided to ensure package is available even with UID sharing.
+    optional string package_name = 1;
+
+    // The UID (i.e. app id).
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Whether the device enabled performance boost when the state was changed.
+    optional bool boost_enabled = 3;
+
+    // This includes a top-level state for the game.
+    optional State state = 4;
+
+    // Indicates if the game is loading assets/resources/compiling/etc.
+    optional bool is_loading = 5;
+
+    // A developer-selected enum, for example to indicate level or scene.
+    optional int32 label = 6;
+
+    // A developer-supplied enum, e.g. to indicate the current quality level.
+    optional int32 quality = 7;
 }
