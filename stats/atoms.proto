@@ -3744,6 +3744,10 @@ message LauncherUIChanged {
     // Used to store on-device search related features of the target
     // (e.g. spell-corrected query etc)
     optional int32 search_attributes = 26;
+
+    // Integer value of item attribute enum
+    // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+    repeated int32 item_attributes = 27;
 }
 
 message SmartSpaceCardReported {
@@ -3858,6 +3862,10 @@ message LauncherStaticLayout {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 19;
+
+    // Integer value of item attribute enum
+    // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+    repeated int32 item_attributes = 20;
 }
 
 /**
@@ -3906,6 +3914,13 @@ message LauncherLayoutSnapshot {
   // e.g., (x, y) span of the widget inside homescreen grid system
   optional int32 span_x = 17 [default = 1];
   optional int32 span_y = 18 [default = 1];
+
+  // Used to store features of the target (e.g. widget is reconfigurable, etc)
+  optional int32 features = 19;
+
+  // Integer value of item attribute enum
+  // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+  repeated int32 item_attributes = 20;
 }
 
 /**
