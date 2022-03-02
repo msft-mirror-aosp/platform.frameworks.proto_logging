@@ -3744,6 +3744,16 @@ message LauncherUIChanged {
     // Used to store on-device search related features of the target
     // (e.g. spell-corrected query etc)
     optional int32 search_attributes = 26;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
+}
+
+message LauncherAttributes{
+
+  // Integer value of item attribute enum
+  // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+  repeated int32 item_attributes = 1;
 }
 
 message SmartSpaceCardReported {
@@ -3858,6 +3868,9 @@ message LauncherStaticLayout {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 19;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 20 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -3906,6 +3919,9 @@ message LauncherLayoutSnapshot {
   // e.g., (x, y) span of the widget inside homescreen grid system
   optional int32 span_x = 17 [default = 1];
   optional int32 span_y = 18 [default = 1];
+
+  // List of attributes attached to the event.
+  optional LauncherAttributes attributes = 19 [(log_mode) = MODE_BYTES];
 }
 
 /**
