@@ -996,6 +996,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DREAM_SELECT_TYPE = 1788;
+
+    // ACTION: Settings > Display > Screen timeout > Docked timeout
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_SCREEN_TIMEOUT_DOCKED_CHANGED = 1789;
 }
 
 /**
@@ -3308,6 +3313,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     ACCESSIBILITY_COLOR_AND_MOTION = 1918;
+
+    // OPEN: Settings > Display > Screen timeout > Docked timeout
+    // CATEGORY: SETTINGS
+    // OS: T
+    SCREEN_TIMEOUT_DOCKED = 1919;
 }
 
 // Battery Saver schedule types.
