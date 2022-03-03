@@ -6468,6 +6468,10 @@ message UIInteractionFrameInfoReported {
         ONE_HANDED_ENTER_TRANSITION = 43;
         ONE_HANDED_EXIT_TRANSITION = 44;
         UNFOLD_ANIM = 45;
+        SUW_LOADING_TO_SHOW_INFO_WITH_ACTIONS = 46;
+        SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
+        SUW_LOADING_TO_NEXT_FLOW = 48;
+        SUW_LOADING_SCREEN_FOR_STATUS = 49;
     }
 
     optional InteractionType interaction_type = 1;
