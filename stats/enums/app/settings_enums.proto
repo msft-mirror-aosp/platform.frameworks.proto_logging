@@ -3318,6 +3318,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SCREEN_TIMEOUT_DOCKED = 1919;
+
+    // OPEN: Settings > Display -> Screen resolution
+    // CATEGORY: SETTINGS
+    // OS: T
+    SCREEN_RESOLUTION = 1920;
 }
 
 // Battery Saver schedule types.
