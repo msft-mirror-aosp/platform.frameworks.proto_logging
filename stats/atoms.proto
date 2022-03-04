@@ -3744,6 +3744,16 @@ message LauncherUIChanged {
     // Used to store on-device search related features of the target
     // (e.g. spell-corrected query etc)
     optional int32 search_attributes = 26;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
+}
+
+message LauncherAttributes{
+
+  // Integer value of item attribute enum
+  // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+  repeated int32 item_attributes = 1;
 }
 
 message SmartSpaceCardReported {
@@ -3858,6 +3868,9 @@ message LauncherStaticLayout {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 19;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 20 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -3906,6 +3919,9 @@ message LauncherLayoutSnapshot {
   // e.g., (x, y) span of the widget inside homescreen grid system
   optional int32 span_x = 17 [default = 1];
   optional int32 span_y = 18 [default = 1];
+
+  // List of attributes attached to the event.
+  optional LauncherAttributes attributes = 19 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -6452,6 +6468,10 @@ message UIInteractionFrameInfoReported {
         ONE_HANDED_ENTER_TRANSITION = 43;
         ONE_HANDED_EXIT_TRANSITION = 44;
         UNFOLD_ANIM = 45;
+        SUW_LOADING_TO_SHOW_INFO_WITH_ACTIONS = 46;
+        SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
+        SUW_LOADING_TO_NEXT_FLOW = 48;
+        SUW_LOADING_SCREEN_FOR_STATUS = 49;
     }
 
     optional InteractionType interaction_type = 1;
@@ -18963,6 +18983,19 @@ message ClipboardCleared {
  *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
  */
 message PerSimStatus {
+    enum WfcMode {
+        UNKNOWN = 0;
+        WIFI_ONLY = 1;
+        CELLULAR_PREFERRED = 2;
+        WIFI_PREFERRED = 3;
+    }
+    enum SimVoltageClass {
+        VOLTAGE_CLASS_UNKNOWN = 0;
+        VOLTAGE_CLASS_A = 1;
+        VOLTAGE_CLASS_B = 2;
+        VOLTAGE_CLASS_C = 3;
+    }
+
     // Index of the SIM, 0 for single-SIM devices.
     optional int32 sim_slot_index = 1;
 
@@ -18991,6 +19024,37 @@ message PerSimStatus {
     // and whether it agrees with other sources.
     // See field phone_number_source_uicc.
     optional int32 phone_number_source_ims = 5;
+
+    // Indicates whether VoLTE is enabled
+    optional bool volte_enabled = 6;
+
+    // Indicates whether WFC is enabled
+    optional bool wfc_enabled = 7;
+
+    // Indicates the user's WFC mode
+    optional WfcMode wfc_mode = 8;
+
+    // Indicates the user's WFC mode when roaming
+    optional WfcMode wfc_roaming_mode = 9;
+
+    // Indicates the user's setting for video calling.
+    optional bool video_calling_enabled = 10;
+
+    // Indicates if data roaming is enabled
+    optional bool data_roaming_enabled = 11;
+
+    // Indicates the list of networks allowed by the user. Bitmask is encoded as
+    // TelephonyManager#NetworkTypeBitMask.
+    optional int64 allowed_networks_by_user = 12;
+
+    // Indicates if 2G is disabled by the user using the "Allow 2G" toggle
+    optional bool is_2g_disabled = 13;
+
+    // Indicates if PIN1 of the SIM card is enabled
+    optional bool is_pin1_enabled = 14;
+
+    // Indicates the lowest voltage class supported by the SIM
+    optional SimVoltageClass sim_voltage_class = 15;
 }
 
 /*
