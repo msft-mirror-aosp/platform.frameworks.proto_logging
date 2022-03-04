@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 392
+// Next ID: 393
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -219,6 +219,7 @@ enum ItemId {
   GESTURES_TILT_TO_BRIGHT = 344;
   GESTURES_TILT_TO_WAKE = 260;
   GESTURES_TOUCH_TO_WAKE = 320;
+  GESTURES_TOUCH_AND_HOLD_WATCHFACE = 392;
   GO_TO_WATCH_FACE = 381;
   HEALTH_GENDER = 384;
   HEALTH_HEIGHT = 386;
