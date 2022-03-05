@@ -661,7 +661,10 @@ message Atom {
             [(module) = "framework"];
         HotwordDetectorEvents hotword_detector_events = 434
             [(module) = "framework"];
-
+        AdServicesApiCalled ad_services_api_called =
+            435 [(module) = "adservices", (truncate_timestamp) = true];
+        AdServicesMeasurementReportsUploaded ad_services_mesurement_reports_uploaded =
+            436 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -19527,4 +19530,76 @@ message HotwordDetectorEvents {
 
     // The UID for which assistant application is active.
     optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Logs when an AdServices api is called.
+ */
+message AdServicesApiCalled {
+    // The name of the api that was called.
+    // Can be classified as one of the three:
+    //
+    // Targeting
+    //  * GetTopics()
+    //
+    // Remarketing
+    //  * RegisterGroup()
+    //  * LeaveGroup()
+    //  * RunAuction()
+    //
+    // Measurement - client side
+    //   * register()
+    //   * deleteRegistrations()
+
+
+    enum AdServicesApiClassType {
+        UNKNOWN = 0;
+        TARGETING = 1;
+        REMARKETING = 2;
+        MEASUREMENT = 3;
+    }
+
+    enum AdServicesApiName {
+        API_NAME_UNKNOWN = 0;
+        GET_TOPICS = 1;
+        REGISTER_GROUP = 2;
+        LEAVE_GROUP = 3;
+        RUN_AUCTION = 4;
+        REGISTER = 5;
+        DELETE_REGISTRATIONS = 6;
+    }
+
+    optional AdServicesApiClassType api_class = 1;
+
+    // The actual name of the api within the 3 classes described above.
+    optional AdServicesApiName  api_name = 2;
+
+    optional string app_package_name = 3;
+    optional string sdk_package_name = 4;
+
+    optional int32 latency_millis = 5;
+
+    // response_code is the error/failure code for the given api.
+    optional int32 response_code = 6;
+}
+
+/**
+ * Logs when an AdServices measurement reports are being uploaded.
+ */
+message AdServicesMeasurementReportsUploaded {
+    enum ReportType {
+        UNKNOWN_REPORT = 0;
+        EVENT = 1;
+        AGGREGATE = 2;
+    }
+
+    optional ReportType type = 1;
+
+    enum ReportUploadStatus {
+        UNKNOWN_STATUS = 0;
+        SUCCESS = 1;
+        FAILURE = 2;
+    }
+
+    optional ReportUploadStatus response_code = 2;
 }
