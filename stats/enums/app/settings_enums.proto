@@ -3323,6 +3323,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SCREEN_RESOLUTION = 1920;
+    
+    // OPEN: Settings > Sound > Spatial audio
+    // CATEGORY: SETTINGS
+    // OS: T
+    SETTINGS_SPATIAL_AUDIO = 1921;
 }
 
 // Battery Saver schedule types.
