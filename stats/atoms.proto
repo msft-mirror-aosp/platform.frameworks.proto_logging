@@ -11657,6 +11657,9 @@ message AppSearchCallStatsReported {
 
     // Number of operations failed for batch operations.
     optional int32 num_operations_failed = 10;
+
+    // Number of actual API calls reported in this atom.
+    optional int32 num_reported_calls = 11;
 }
 
 /**
