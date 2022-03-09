@@ -85,21 +85,23 @@ enum PlaybackState {
     BUFFERING = 6;
     // Playback is buffering while paused
     PAUSED_BUFFERING = 7;
+    // the value 8 is not used
+    reserved 8;
     // Playback is suppressed (e.g. due to audio focus loss)
-    SUPPRESSED = 8;
+    SUPPRESSED = 9;
     // Playback is suppressed (e.g. due to audio focus loss) while buffering to resume a
     // playback
-    SUPPRESSED_BUFFERING = 9;
+    SUPPRESSED_BUFFERING = 10;
     // Playback has reached the end of the media
-    ENDED = 10;
+    ENDED = 11;
     // Playback is stopped and can be restarted
-    STOPPED = 11;
+    STOPPED = 12;
     // Playback is stopped due a fatal error and can be retried
-    FAILED = 12;
+    FAILED = 13;
     // Playback is interrupted by an ad
-    INTERRUPTED_BY_AD = 13;
+    INTERRUPTED_BY_AD = 14;
     // Playback is abandoned before reaching the end of the media
-    ABANDONED = 14;
+    ABANDONED = 15;
 }
 
 enum PlaybackErrorCode {
