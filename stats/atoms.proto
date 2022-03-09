@@ -4667,7 +4667,7 @@ message AppStartFullyDrawn {
  */
 message AppCompatStateChanged {
     // UID of the package whose state changed.
-    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
 
     enum State {
         UNKNOWN = 0;
