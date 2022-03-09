@@ -1001,6 +1001,18 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_SCREEN_TIMEOUT_DOCKED_CHANGED = 1789;
+
+    // ACTION: Settings > Display > Auto-rotate screen > Auto-rotate when <device_state>
+    //  SUBTYPE: Integer with device state id. Device dependant.
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_ENABLE_AUTO_ROTATION_DEVICE_STATE = 1790;
+
+    // ACTION: Settings > Display > Auto-rotate screen > Auto-rotate when <device_state>
+    //  SUBTYPE: Integer with device state id. Device dependant.
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DISABLE_AUTO_ROTATION_DEVICE_STATE = 1791;
 }
 
 /**
