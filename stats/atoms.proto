@@ -665,6 +665,8 @@ message Atom {
             435 [(module) = "adservices", (truncate_timestamp) = true];
         AdServicesMeasurementReportsUploaded ad_services_mesurement_reports_uploaded =
             436 [(module) = "adservices", (truncate_timestamp) = true];
+        BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
+            437 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -19606,4 +19608,32 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+}
+
+/**
+ * Log the duration of executing all receivers of LOCKED_BOOT_COMPLETED or BOOT_COMPLETED broadcast.
+ * The dispatch latency is the dispatchTime - enqueueTime.
+ * The completion latency is the completeTime - enqueueTime.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/BroadcastQueue.java
+ */
+message BootCompletedBroadcastCompletionLatencyReported {
+    enum Event {
+        UNKNOWN = 0;
+        LOCKED_BOOT_COMPLETED = 1;
+        BOOT_COMPLETED = 2;
+    }
+
+    optional Event event = 1;
+    // from enqueueTime to dispatchTime.
+    optional int32 dispatch_latency_uptime_millis = 2;
+    // from enqueueTime to completeTime.
+    optional int32 complete_latency_uptime_millis = 3;
+    // from enqueueRealTime to dispatchRealTime.
+    optional int32 dispatch_latency_realtime_millis = 4;
+    // from enqueueRealTime to completeRealTime.
+    optional int32 complete_latency_realtime_millis = 5;
+
+    optional int32 user_id = 6;
+    optional UserLifecycleJourneyReported.UserType user_type = 7;
 }
