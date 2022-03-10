@@ -661,7 +661,8 @@ message Atom {
             [(module) = "framework"];
         HotwordDetectorEvents hotword_detector_events = 434
             [(module) = "framework"];
-
+        BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
+            435 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -6479,6 +6480,10 @@ message UIInteractionFrameInfoReported {
         ONE_HANDED_ENTER_TRANSITION = 43;
         ONE_HANDED_EXIT_TRANSITION = 44;
         UNFOLD_ANIM = 45;
+        SUW_LOADING_TO_SHOW_INFO_WITH_ACTIONS = 46;
+        SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
+        SUW_LOADING_TO_NEXT_FLOW = 48;
+        SUW_LOADING_SCREEN_FOR_STATUS = 49;
     }
 
     optional InteractionType interaction_type = 1;
@@ -19527,4 +19532,32 @@ message HotwordDetectorEvents {
 
     // The UID for which assistant application is active.
     optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Log the duration of executing all receivers of LOCKED_BOOT_COMPLETED or BOOT_COMPLETED broadcast.
+ * The dispatch latency is the dispatchTime - enqueueTime.
+ * The completion latency is the completeTime - enqueueTime.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/BroadcastQueue.java
+ */
+message BootCompletedBroadcastCompletionLatencyReported {
+    enum Event {
+        UNKNOWN = 0;
+        LOCKED_BOOT_COMPLETED = 1;
+        BOOT_COMPLETED = 2;
+    }
+
+    optional Event event = 1;
+    // from enqueueTime to dispatchTime.
+    optional int32 dispatch_latency_uptime_millis = 2;
+    // from enqueueTime to completeTime.
+    optional int32 complete_latency_uptime_millis = 3;
+    // from enqueueRealTime to dispatchRealTime.
+    optional int32 dispatch_latency_realtime_millis = 4;
+    // from enqueueRealTime to completeRealTime.
+    optional int32 complete_latency_realtime_millis = 5;
+
+    optional int32 user_id = 6;
+    optional UserLifecycleJourneyReported.UserType user_type = 7;
 }
