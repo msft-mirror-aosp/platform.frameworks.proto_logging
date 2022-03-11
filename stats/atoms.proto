@@ -1357,6 +1357,11 @@ message WifiP2pConnectionReported {
         // New connection request is issued before ending previous connecting request.
         NEW_CONNECTION_ATTEMPT = 7;
     }
+    enum GroupRole {
+        GROUP_UNKNOWN = 0;
+        GROUP_OWNER = 1;
+        GROUP_CLIENT = 2;
+    }
     // Type of the connection.
     optional Type type = 1;
     // Duration to connect in millis.
@@ -1365,6 +1370,9 @@ message WifiP2pConnectionReported {
     optional int32 latency_200ms= 3;
     // Failure code
     optional FailureCode failure_code = 4;
+    // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
+    // credential.
+    optional GroupRole group_role = 5;
 }
 
 /**
