@@ -19521,6 +19521,9 @@ message HotwordDetectorEvents {
 
     // The type of event.
     enum Event {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
         // Indicates that the system requested to bind the service.
         REQUEST_BIND_SERVICE = 1;
 
