@@ -661,8 +661,9 @@ message Atom {
             [(module) = "framework"];
         HotwordDetectorEvents hotword_detector_events = 434
             [(module) = "framework"];
+        // 435, 436 not been used in this branch.
         BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
-            435 [(module) = "framework"];
+            437 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -12580,9 +12581,9 @@ message CameraStreamProto {
     // Expected number of fields: 10
     repeated int64 histogram_counts = 13;
     // The dynamic range profile of the stream
-    optional int32 dynamic_range_profile = 14;
+    optional int64 dynamic_range_profile = 14;
     // The stream use case
-    optional int32 stream_use_case = 15;
+    optional int64 stream_use_case = 15;
 }
 
 /**
