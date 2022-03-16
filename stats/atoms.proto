@@ -36,6 +36,7 @@ import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto";
+import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/nearby/enums.proto";
@@ -650,6 +651,24 @@ message Atom {
         DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
         WifiP2pConnectionReported wifi_p2p_connection_reported = 428 [(module) = "wifi"];
         GameStateChanged game_state_changed = 429 [(module) = "framework"];
+        HotwordDetectorCreateRequested hotword_detector_create_requested = 430
+            [(module) = "framework"];
+        HotwordDetectionServiceInitResultReported hotword_detection_service_init_result_reported = 431
+            [(module) = "framework"];
+        HotwordDetectionServiceRestarted hotword_detection_service_restarted = 432
+            [(module) = "framework"];
+        HotwordDetectorKeyphraseTriggered hotword_detector_keyphrase_triggered = 433
+            [(module) = "framework"];
+        HotwordDetectorEvents hotword_detector_events = 434
+            [(module) = "framework"];
+        AdServicesApiCalled ad_services_api_called =
+            435 [(module) = "adservices", (truncate_timestamp) = true];
+        AdServicesMeasurementReportsUploaded ad_services_mesurement_reports_uploaded =
+            436 [(module) = "adservices", (truncate_timestamp) = true];
+        BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
+            437 [(module) = "framework"];
+        ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
+            [(module) = "appsearch"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -831,7 +850,7 @@ message Atom {
         PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
         GbaEvent gba_event = 10145 [(module) = "telephony"];
         PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
-        GpuFreqTimeInStatePerUid gpu_freq_time_in_state_per_uid = 10147;
+        GpuWorkPerUid gpu_work_per_uid = 10147;
         PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
             10148 [(module) = "framework"];
         SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
@@ -1345,6 +1364,11 @@ message WifiP2pConnectionReported {
         // New connection request is issued before ending previous connecting request.
         NEW_CONNECTION_ATTEMPT = 7;
     }
+    enum GroupRole {
+        GROUP_UNKNOWN = 0;
+        GROUP_OWNER = 1;
+        GROUP_CLIENT = 2;
+    }
     // Type of the connection.
     optional Type type = 1;
     // Duration to connect in millis.
@@ -1353,6 +1377,9 @@ message WifiP2pConnectionReported {
     optional int32 latency_200ms= 3;
     // Failure code
     optional FailureCode failure_code = 4;
+    // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
+    // credential.
+    optional GroupRole group_role = 5;
 }
 
 /**
@@ -3744,6 +3771,16 @@ message LauncherUIChanged {
     // Used to store on-device search related features of the target
     // (e.g. spell-corrected query etc)
     optional int32 search_attributes = 26;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
+}
+
+message LauncherAttributes{
+
+  // Integer value of item attribute enum
+  // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+  repeated int32 item_attributes = 1;
 }
 
 message SmartSpaceCardReported {
@@ -3858,6 +3895,9 @@ message LauncherStaticLayout {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 19;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 20 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -3906,6 +3946,9 @@ message LauncherLayoutSnapshot {
   // e.g., (x, y) span of the widget inside homescreen grid system
   optional int32 span_x = 17 [default = 1];
   optional int32 span_y = 18 [default = 1];
+
+  // List of attributes attached to the event.
+  optional LauncherAttributes attributes = 19 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -6452,6 +6495,10 @@ message UIInteractionFrameInfoReported {
         ONE_HANDED_ENTER_TRANSITION = 43;
         ONE_HANDED_EXIT_TRANSITION = 44;
         UNFOLD_ANIM = 45;
+        SUW_LOADING_TO_SHOW_INFO_WITH_ACTIONS = 46;
+        SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
+        SUW_LOADING_TO_NEXT_FLOW = 48;
+        SUW_LOADING_SCREEN_FOR_STATUS = 49;
     }
 
     optional InteractionType interaction_type = 1;
@@ -7387,7 +7434,7 @@ message DiskStats {
 
 
 /**
- * Free and total bytes of the Data, Cache, and System partition.
+ * Free and total bytes of the Data, Cache, System, and Metadata partitions.
  */
 message DirectoryUsage {
     enum Directory {
@@ -7395,6 +7442,7 @@ message DirectoryUsage {
         DATA = 1;
         CACHE = 2;
         SYSTEM = 3;
+        METADATA = 4;
     }
     optional Directory directory = 1;
     optional int64 free_bytes = 2;
@@ -12153,6 +12201,45 @@ message AppSearchStorageInfo {
         [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
+
+/**
+ * Reported when AppSearch Contacts Indexer syncs the contacts data from CP2 to AppSearch
+ *
+ * Reported from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
+ *
+ * Next tag: 8
+ */
+message ContactsIndexerUpdateStatsReported {
+    enum UpdateType {
+      UNKNOWN = 0;
+      DELTA = 1;
+      FULL = 2;
+    }
+
+    // Type of the update
+    optional UpdateType update_type = 1;
+
+    // Latency for the update in millis
+    optional int32 total_latency_millis = 2;
+
+    // Status code to indicate whether the update succeeds, or fails and why
+    optional int32 status_code = 3;
+
+    // Number of new contacts inserted during this update
+    optional int32 number_of_contacts_inserted = 4;
+
+    // Number of existing contacts updated during this update
+    optional int32 number_of_contacts_updated = 5;
+
+    // Number of existing contacts deleted during this update
+    optional int32 number_of_contacts_deleted = 6;
+
+    // Number of existing contacts skipped during this update due to no
+    // significant change
+    optional int32 number_of_contacts_skipped = 7;
+}
+
 /**
  * Reported when the RebootEscrow HAL has attempted to recover the escrowed
  * key to indicate whether it was successful or not.
@@ -12539,9 +12626,9 @@ message CameraStreamProto {
     // Expected number of fields: 10
     repeated int64 histogram_counts = 13;
     // The dynamic range profile of the stream
-    optional int32 dynamic_range_profile = 14;
+    optional int64 dynamic_range_profile = 14;
     // The stream use case
-    optional int32 stream_use_case = 15;
+    optional int64 stream_use_case = 15;
 }
 
 /**
@@ -18958,6 +19045,19 @@ message ClipboardCleared {
  *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
  */
 message PerSimStatus {
+    enum WfcMode {
+        UNKNOWN = 0;
+        WIFI_ONLY = 1;
+        CELLULAR_PREFERRED = 2;
+        WIFI_PREFERRED = 3;
+    }
+    enum SimVoltageClass {
+        VOLTAGE_CLASS_UNKNOWN = 0;
+        VOLTAGE_CLASS_A = 1;
+        VOLTAGE_CLASS_B = 2;
+        VOLTAGE_CLASS_C = 3;
+    }
+
     // Index of the SIM, 0 for single-SIM devices.
     optional int32 sim_slot_index = 1;
 
@@ -18986,6 +19086,37 @@ message PerSimStatus {
     // and whether it agrees with other sources.
     // See field phone_number_source_uicc.
     optional int32 phone_number_source_ims = 5;
+
+    // Indicates whether VoLTE is enabled
+    optional bool volte_enabled = 6;
+
+    // Indicates whether WFC is enabled
+    optional bool wfc_enabled = 7;
+
+    // Indicates the user's WFC mode
+    optional WfcMode wfc_mode = 8;
+
+    // Indicates the user's WFC mode when roaming
+    optional WfcMode wfc_roaming_mode = 9;
+
+    // Indicates the user's setting for video calling.
+    optional bool video_calling_enabled = 10;
+
+    // Indicates if data roaming is enabled
+    optional bool data_roaming_enabled = 11;
+
+    // Indicates the list of networks allowed by the user. Bitmask is encoded as
+    // TelephonyManager#NetworkTypeBitMask.
+    optional int64 allowed_networks_by_user = 12;
+
+    // Indicates if 2G is disabled by the user using the "Allow 2G" toggle
+    optional bool is_2g_disabled = 13;
+
+    // Indicates if PIN1 of the SIM card is enabled
+    optional bool is_pin1_enabled = 14;
+
+    // Indicates the lowest voltage class supported by the SIM
+    optional SimVoltageClass sim_voltage_class = 15;
 }
 
 /*
@@ -19089,51 +19220,31 @@ message DisplayHbmBrightnessChanged {
 /**
  * Per-UID time at each GPU frequency spent running work on the GPU.
  *
- * Each pull creates multiple atoms, one per UID, up to at most 10 randomly selected UIDs.
+ * Each pull creates multiple atoms, one per (GPU ID, UID) pair, for at most 10
+ * randomly selected UIDs.
  *
  * Pulled from:
  *    frameworks/native/services/gpuservice/gpuwork/GpuWork.cpp
  */
-message GpuFreqTimeInStatePerUid {
+message GpuWorkPerUid {
     // The UID (i.e. app id) that scheduled work on the GPU.
     optional int32 uid = 1 [(is_uid) = true];
 
+    // The GPU ID for which we have work information.
+    optional int32 gpu_id = 2;
+
     // The time duration (in seconds) over which this data was collected (most
     // likely 24 hours).
-    optional int32 time_duration_seconds = 2;
+    optional int32 time_duration_seconds = 3;
 
-    // The maximum frequency that we record. This should be 1000 (MHz), until
-    // more fields are added below.
-    optional int32 max_freq_mhz = 3;
+    // The total amount of time (in milliseconds) the GPU spent running work for
+    // |uid|.
+    optional int32 total_active_duration_millis= 4;
 
-    // The time (in milliseconds) that the GPU spent at a particular frequency
-    // (in Mhz) while running work from the given |uid|. Frequency 0Mhz is
-    // special; it gives the total time for all "gaps" between work from this
-    // |uid| that are <= 1 second, as a way of estimating the time in which the
-    // GPU might power down between periodic work from this |uid|.
-    optional int32 freq_0_mhz_time_millis = 4;
-    optional int32 freq_50_mhz_time_millis = 5;
-    optional int32 freq_100_mhz_time_millis = 6;
-    optional int32 freq_150_mhz_time_millis = 7;
-    optional int32 freq_200_mhz_time_millis = 8;
-    optional int32 freq_250_mhz_time_millis = 9;
-    optional int32 freq_300_mhz_time_millis = 10;
-    optional int32 freq_350_mhz_time_millis = 11;
-    optional int32 freq_400_mhz_time_millis = 12;
-    optional int32 freq_450_mhz_time_millis = 13;
-    optional int32 freq_500_mhz_time_millis = 14;
-    optional int32 freq_550_mhz_time_millis = 15;
-    optional int32 freq_600_mhz_time_millis = 16;
-    optional int32 freq_650_mhz_time_millis = 17;
-    optional int32 freq_700_mhz_time_millis = 18;
-    optional int32 freq_750_mhz_time_millis = 19;
-    optional int32 freq_800_mhz_time_millis = 20;
-    optional int32 freq_850_mhz_time_millis = 21;
-    optional int32 freq_900_mhz_time_millis = 22;
-    optional int32 freq_950_mhz_time_millis = 23;
-    optional int32 freq_1000_mhz_time_millis = 24;
-
-    // Reserve 25-45 for future MHz time buckets.
+    // The total amount of time (in milliseconds) the GPU was inactive while
+    // running "continuous" work for |uid|. This is estimated by adding up the
+    // duration of the small gaps between GPU work for |uid|.
+    optional int32 total_inactive_duration_millis = 5;
 }
 
 /**
@@ -19340,4 +19451,242 @@ message GameStateChanged {
 
     // A developer-supplied enum, e.g. to indicate the current quality level.
     optional int32 quality = 7;
+}
+
+/**
+ * Logs information related to creating hotword detector.
+ */
+message HotwordDetectorCreateRequested {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // True if the detector is created successfully.
+    optional bool is_created_done = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Logs information related to hotword detection service init result.
+ */
+message HotwordDetectionServiceInitResultReported {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The result of initialization.
+    enum Result {
+        // Indicates that the service was initialized successfully.
+        CALLBACK_INIT_STATE_SUCCESS = 0;
+
+        // Indicates that the service was not initialized successfully.
+        CALLBACK_INIT_STATE_ERROR = 1;
+
+        // Indicates that the callback was invoked without init state.
+        CALLBACK_INIT_STATE_UNKNOWN_NO_VALUE = 2;
+
+        // Indicates that the callback was invoked, but the init state value exceeded
+        // the defined maximum.
+        CALLBACK_INIT_STATE_UNKNOWN_OVER_MAX_CUSTOM_VALUE = 3;
+
+        // Indicates that the callback was not invoked within timeout.
+        CALLBACK_INIT_STATE_UNKNOWN_TIMEOUT = 4;
+    }
+    optional Result result = 2;
+}
+
+/**
+ * Logs information related to restarting hotword detection service.
+ */
+message HotwordDetectionServiceRestarted {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The reason for restarting service.
+    enum Reason {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
+        // Indicates that the service was restarted due to audio service died.
+        AUDIO_SERVICE_DIED = 1;
+
+        // Indicates that the service was restarted regularly.
+        SCHEDULE = 2;
+
+        // Indicates that the service was restarted due to service crashed.
+        CRASH = 3;
+    }
+    optional Reason reason = 2;
+}
+
+/**
+ * Logs information related to keyphrase trigger.
+ */
+message HotwordDetectorKeyphraseTriggered {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The result of detection.
+    enum Result {
+        // Indicates that the system got the keyphrase from DSP.
+        KEYPHRASE_TRIGGER = 0;
+
+        // Indicates that the system can not inform the service to verify the keyphrase.
+        FAILED_TO_INFORM_SERVICE = 1;
+
+        // Indicates that the callback was not invoked within timeout after informing
+        // the service.
+        DETECT_TIMEOUT = 2;
+
+        // Indicates that the system got the exception after informing the service.
+        DETECT_EXCEPTION = 3;
+
+        // Indicates that the service crashed.
+        SERVICE_CRASH = 4;
+
+        // Indicates that the keyphrase was detected.
+        DETECTED = 5;
+
+        // Indicates that the keyphrase was not detected.
+        REJECTED = 6;
+    }
+    // What result after detecting.
+    optional Result result = 2;
+}
+
+/**
+ * Logs information related to hotword detector events.
+ */
+message HotwordDetectorEvents {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The type of event.
+    enum Event {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
+        // Indicates that the system requested to bind the service.
+        REQUEST_BIND_SERVICE = 1;
+
+        // Indicates that the system connected the service successfully.
+        ON_CONNECTED = 2;
+
+        // Indicates that the system failed to bind the service.
+        REQUEST_BIND_SERVICE_FAIL = 3;
+
+        // Indicates that the system called the updateState function of service.
+        REQUEST_UPDATE_STATE = 4;
+
+        // Indicates that the callback was not invoked within timeout after calling
+        // the updateState function of service.
+        CALLBACK_UPDATE_STATE_AFTER_TIMEOUT = 5;
+
+        // Indicates that no starting recognition after creating the detector.
+        DID_NOT_CALL_START_RECOGNITION = 6;
+    }
+    optional Event event = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Logs when an AdServices api is called.
+ */
+message AdServicesApiCalled {
+    // The name of the api that was called.
+    // Can be classified as one of the three:
+    //
+    // Targeting
+    //  * GetTopics()
+    //
+    // Remarketing
+    //  * RegisterGroup()
+    //  * LeaveGroup()
+    //  * RunAuction()
+    //
+    // Measurement - client side
+    //   * register()
+    //   * deleteRegistrations()
+
+
+    enum AdServicesApiClassType {
+        UNKNOWN = 0;
+        TARGETING = 1;
+        REMARKETING = 2;
+        MEASUREMENT = 3;
+    }
+
+    enum AdServicesApiName {
+        API_NAME_UNKNOWN = 0;
+        GET_TOPICS = 1;
+        REGISTER_GROUP = 2;
+        LEAVE_GROUP = 3;
+        RUN_AUCTION = 4;
+        REGISTER = 5;
+        DELETE_REGISTRATIONS = 6;
+    }
+
+    optional AdServicesApiClassType api_class = 1;
+
+    // The actual name of the api within the 3 classes described above.
+    optional AdServicesApiName  api_name = 2;
+
+    optional string app_package_name = 3;
+    optional string sdk_package_name = 4;
+
+    optional int32 latency_millis = 5;
+
+    // response_code is the error/failure code for the given api.
+    optional int32 response_code = 6;
+}
+
+/**
+ * Logs when an AdServices measurement reports are being uploaded.
+ */
+message AdServicesMeasurementReportsUploaded {
+    enum ReportType {
+        UNKNOWN_REPORT = 0;
+        EVENT = 1;
+        AGGREGATE = 2;
+    }
+
+    optional ReportType type = 1;
+
+    enum ReportUploadStatus {
+        UNKNOWN_STATUS = 0;
+        SUCCESS = 1;
+        FAILURE = 2;
+    }
+
+    optional ReportUploadStatus response_code = 2;
+}
+
+/**
+ * Log the duration of executing all receivers of LOCKED_BOOT_COMPLETED or BOOT_COMPLETED broadcast.
+ * The dispatch latency is the dispatchTime - enqueueTime.
+ * The completion latency is the completeTime - enqueueTime.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/BroadcastQueue.java
+ */
+message BootCompletedBroadcastCompletionLatencyReported {
+    enum Event {
+        UNKNOWN = 0;
+        LOCKED_BOOT_COMPLETED = 1;
+        BOOT_COMPLETED = 2;
+    }
+
+    optional Event event = 1;
+    // from enqueueTime to dispatchTime.
+    optional int32 dispatch_latency_uptime_millis = 2;
+    // from enqueueTime to completeTime.
+    optional int32 complete_latency_uptime_millis = 3;
+    // from enqueueRealTime to dispatchRealTime.
+    optional int32 dispatch_latency_realtime_millis = 4;
+    // from enqueueRealTime to completeRealTime.
+    optional int32 complete_latency_realtime_millis = 5;
+
+    optional int32 user_id = 6;
+    optional UserLifecycleJourneyReported.UserType user_type = 7;
 }

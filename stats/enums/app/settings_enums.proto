@@ -996,6 +996,23 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DREAM_SELECT_TYPE = 1788;
+
+    // ACTION: Settings > Display > Screen timeout > Docked timeout
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_SCREEN_TIMEOUT_DOCKED_CHANGED = 1789;
+
+    // ACTION: Settings > Display > Auto-rotate screen > Auto-rotate when <device_state>
+    //  SUBTYPE: Integer with device state id. Device dependant.
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_ENABLE_AUTO_ROTATION_DEVICE_STATE = 1790;
+
+    // ACTION: Settings > Display > Auto-rotate screen > Auto-rotate when <device_state>
+    //  SUBTYPE: Integer with device state id. Device dependant.
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DISABLE_AUTO_ROTATION_DEVICE_STATE = 1791;
 }
 
 /**
@@ -3308,6 +3325,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     ACCESSIBILITY_COLOR_AND_MOTION = 1918;
+
+    // OPEN: Settings > Display > Screen timeout > Docked timeout
+    // CATEGORY: SETTINGS
+    // OS: T
+    SCREEN_TIMEOUT_DOCKED = 1919;
+
+    // OPEN: Settings > Display -> Screen resolution
+    // CATEGORY: SETTINGS
+    // OS: T
+    SCREEN_RESOLUTION = 1920;
 }
 
 // Battery Saver schedule types.
