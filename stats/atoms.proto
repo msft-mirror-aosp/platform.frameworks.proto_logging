@@ -664,6 +664,9 @@ message Atom {
         // 435, 436 not been used in this branch.
         BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
             437 [(module) = "framework"];
+        ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
+            [(module) = "appsearch"];
+
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -12195,6 +12198,45 @@ message AppSearchStorageInfo {
         [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
+
+/**
+ * Reported when AppSearch Contacts Indexer syncs the contacts data from CP2 to AppSearch
+ *
+ * Reported from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
+ *
+ * Next tag: 8
+ */
+message ContactsIndexerUpdateStatsReported {
+    enum UpdateType {
+      UNKNOWN = 0;
+      DELTA = 1;
+      FULL = 2;
+    }
+
+    // Type of the update
+    optional UpdateType update_type = 1;
+
+    // Latency for the update in millis
+    optional int32 total_latency_millis = 2;
+
+    // Status code to indicate whether the update succeeds, or fails and why
+    optional int32 status_code = 3;
+
+    // Number of new contacts inserted during this update
+    optional int32 number_of_contacts_inserted = 4;
+
+    // Number of existing contacts updated during this update
+    optional int32 number_of_contacts_updated = 5;
+
+    // Number of existing contacts deleted during this update
+    optional int32 number_of_contacts_deleted = 6;
+
+    // Number of existing contacts skipped during this update due to no
+    // significant change
+    optional int32 number_of_contacts_skipped = 7;
+}
+
 /**
  * Reported when the RebootEscrow HAL has attempted to recover the escrowed
  * key to indicate whether it was successful or not.
@@ -19518,6 +19560,9 @@ message HotwordDetectorEvents {
 
     // The type of event.
     enum Event {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
         // Indicates that the system requested to bind the service.
         REQUEST_BIND_SERVICE = 1;
 
