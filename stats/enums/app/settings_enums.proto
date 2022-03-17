@@ -3335,6 +3335,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SCREEN_RESOLUTION = 1920;
+
+    // Logs that the user has edited the turn screen on settings.
+    // CATEGORY: SETTINGS
+    // OS: T
+    SETTINGS_MANAGE_TURN_SCREEN_ON = 1922;
 }
 
 // Battery Saver schedule types.
