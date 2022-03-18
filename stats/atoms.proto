@@ -10500,10 +10500,21 @@ message SystemMemory {
   optional int32 retained_dmabuf_count = 5;
 
   // Size of dmabufs mapped to the process address space.
-  optional int32 mapped_dmabuf_kb = 6;
+  optional int32 mapped_dmabuf_kb = 6 [deprecated = true];
 
   // Number of dmabufs mapped to the process address space.
-  optional int32 mapped_dmabuf_count = 7;
+  optional int32 mapped_dmabuf_count = 7 [deprecated = true];
+
+  // Size of dmabufs mapped to the process address space that are also
+  // mapped to the SurfaceFlinger address space. This indicates memory
+  // being used by graphics compositing layers. If this data row pertains
+  // to SurfaceFlinger itself, then the below field holds the size of all
+  // dmabuifs that are shared with any other process. The delta between
+  // this field and retained_dmabuf_kb, above, is private dmabufs that
+  // SurfaceFlinger is holding but are not shared with other processes.
+  optional int32 surfaceflinger_shared_dmabuf_kb = 8;
+  // As above, but total number of all dmabufs shared with SurfaceFlinger.
+  optional int32 surfaceflinger_shared_dmabuf_count = 9;
 }
 
 /**
@@ -11678,6 +11689,9 @@ message AppSearchCallStatsReported {
 
     // Number of operations failed for batch operations.
     optional int32 num_operations_failed = 10;
+
+    // Number of actual API calls reported in this atom.
+    optional int32 num_reported_calls = 11;
 }
 
 /**

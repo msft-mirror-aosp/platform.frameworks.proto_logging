@@ -3340,6 +3340,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SETTINGS_SPATIAL_AUDIO = 1921;
+
+    // Logs that the user has edited the turn screen on settings.
+    // CATEGORY: SETTINGS
+    // OS: T
+    SETTINGS_MANAGE_TURN_SCREEN_ON = 1922;
 }
 
 // Battery Saver schedule types.
