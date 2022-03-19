@@ -3981,6 +3981,8 @@ message StyleUIChanged {
     optional android.stats.style.LocationPreference location_preference = 10;
     optional android.stats.style.DatePreference date_preference = 11;
     optional android.stats.style.LaunchedPreference launched_preference = 12;
+    optional android.stats.style.EffectPreference effect_preference = 13;
+    optional int32 effect_id_hash = 14;
 }
 
 /**
