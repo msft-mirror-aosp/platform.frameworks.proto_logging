@@ -664,10 +664,10 @@ message Atom {
         // 435, 436 not been used in this branch.
         BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
             437 [(module) = "framework"];
-        AppBackgroundRestrictionsInfo app_background_restrictions_info =
-            438 [(module) = "framework"];
         ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
             [(module) = "appsearch"];
+        AppBackgroundRestrictionsInfo app_background_restrictions_info = 441
+            [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -4658,7 +4658,7 @@ message AppStartFullyDrawn {
  */
 message AppCompatStateChanged {
     // UID of the package whose state changed.
-    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
 
     enum State {
         UNKNOWN = 0;
