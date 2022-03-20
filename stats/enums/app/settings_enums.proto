@@ -3340,6 +3340,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     SETTINGS_MANAGE_TURN_SCREEN_ON = 1922;
+
+    // OPEN: Settings > Accessibility > Magnification > Settings > Magnification area > Magnification triple tap warning dialog
+    // CATEGORY: SETTINGS
+    // OS: T
+    DIALOG_MAGNIFICATION_TRIPLE_TAP_WARNING = 1923;
 }
 
 // Battery Saver schedule types.
