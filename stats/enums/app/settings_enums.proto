@@ -3336,6 +3336,11 @@ enum PageId {
     // OS: T
     SCREEN_RESOLUTION = 1920;
 
+    // OPEN: Settings > Sound > Spatial audio
+    // CATEGORY: SETTINGS
+    // OS: T
+    SETTINGS_SPATIAL_AUDIO = 1921;
+
     // Logs that the user has edited the turn screen on settings.
     // CATEGORY: SETTINGS
     // OS: T
