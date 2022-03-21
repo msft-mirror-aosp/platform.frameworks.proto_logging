@@ -677,7 +677,7 @@ message Atom {
             444 [(module) = "permissioncontroller"];
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
             445 [(module) = "permissioncontroller"];
-
+        GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9199,6 +9199,17 @@ message GnssConfigurationReported {
     // non-framework location access permission. The package names are concatenated in one string
     // with spaces as separators.
     optional string enabled_proxy_app_package_name_list = 13;
+}
+
+/**
+ * Logs GNSS PSDS downloads as defined in IGnssPsds.aidl.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java
+ */
+message GnssPsdsDownloadReported {
+    // PSDS type as defined in PsdsType.aidl
+    optional int32 psds_type = 1;
 }
 
 /**
