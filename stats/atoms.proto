@@ -667,17 +667,17 @@ message Atom {
             436 [(module) = "adservices", (truncate_timestamp) = true];
         BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
                 437 [(module) = "framework"];
-        PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
-            438 [(module) = "permissioncontroller"];
-        RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
-            439 [(module) = "permissioncontroller"];
         ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
             [(module) = "appsearch"];
         AppBackgroundRestrictionsInfo app_background_restrictions_info =
             441 [(module) = "framework"];
         MmsProviderGetThreadIdFailed mms_provider_get_thread_id_failed = 442 [(module) = "framework"];
         MmsSmsDatabaseHelperOnUpgradeFailed mms_sms_database_helper_on_upgrade_failed = 443 [(module) = "framework"];
-
+        PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
+            444 [(module) = "permissioncontroller"];
+        RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
+            445 [(module) = "permissioncontroller"];
+        GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9202,6 +9202,17 @@ message GnssConfigurationReported {
 }
 
 /**
+ * Logs GNSS PSDS downloads as defined in IGnssPsds.aidl.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java
+ */
+message GnssPsdsDownloadReported {
+    // PSDS type as defined in PsdsType.aidl
+    optional int32 psds_type = 1;
+}
+
+/**
  * Logs when a NFC device's error occurred.
  * Logged from:
  *     system/nfc/src/nfc/nfc/nfc_ncif.cc
@@ -13538,6 +13549,9 @@ message VoiceCallSession {
 
     // Whether the call was a conference call (applicable only for calls over IMS).
     optional bool is_multiparty = 32;
+
+    // Duration after the call was connected.
+    optional android.telephony.CallDuration call_duration = 33;
 }
 
 /**
