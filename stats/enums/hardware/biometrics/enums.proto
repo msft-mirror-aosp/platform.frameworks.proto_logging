@@ -58,9 +58,3 @@ enum IssueEnum {
     // When the HAL has not sent ERROR_CANCELED within the specified timeout.
     ISSUE_CANCEL_TIMED_OUT = 4;
 }
-
-enum SessionTypeEnum {
-    SESSION_TYPE_UNKNOWN = 0;
-    SESSION_TYPE_KEYGUARD_ENTRY = 1;
-    SESSION_TYPE_BIOMETRIC_PROMPT = 2;
-}
