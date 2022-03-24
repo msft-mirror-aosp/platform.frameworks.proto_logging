@@ -12242,7 +12242,7 @@ message AppSearchStorageInfo {
  * Reported from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
  *
- * Next tag: 8
+ * Next tag: 11
  */
 message ContactsIndexerUpdateStatsReported {
     enum UpdateType {
@@ -12257,21 +12257,35 @@ message ContactsIndexerUpdateStatsReported {
     // Latency for the update in millis
     optional int32 total_latency_millis = 2;
 
-    // Status code to indicate whether the update succeeds, or fails and why
-    optional int32 status_code = 3;
+    // Status code to indicate whether the insert new contacts, or update
+    // existing contacts succeeds, or fails and why
+    // In case of success, it only contains OK.
+    // In case of failures, it contains all the possible errors we get.
+    repeated int32 update_status_codes = 3;
 
-    // Number of new contacts inserted during this update
-    optional int32 number_of_contacts_inserted = 4;
+    // Status code to indicate whether the delete succeeds, or fails and why
+    // In case of success, it only contains OK.
+    // In case of failures, it contains all the possible errors we get.
+    repeated int32 delete_status_codes = 4;
 
-    // Number of existing contacts updated during this update
-    optional int32 number_of_contacts_updated = 5;
+    // Number of new contacts successfully inserted during this update
+    optional int32 number_of_contacts_inserted = 5;
 
-    // Number of existing contacts deleted during this update
-    optional int32 number_of_contacts_deleted = 6;
+    // Number of existing contacts successfully updated during this update
+    optional int32 number_of_contacts_updated = 6;
+
+    // Number of existing contacts successfully deleted during this update
+    optional int32 number_of_contacts_deleted = 7;
 
     // Number of existing contacts skipped during this update due to no
     // significant change
-    optional int32 number_of_contacts_skipped = 7;
+    optional int32 number_of_contacts_skipped = 8;
+
+    // Number of contacts failed to be updated
+    optional int32 number_of_contacts_failed_to_update = 9;
+
+    // Number of contacts failed to be deleted
+    optional int32 number_of_contacts_failed_to_delete = 10;
 }
 
 /**
