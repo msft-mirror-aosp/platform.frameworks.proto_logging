@@ -159,6 +159,7 @@ message BadStateAtoms {
         BadStateAtom1 bad1 = 1;
         BadStateAtom2 bad2 = 2;
         BadStateAtom3 bad3 = 3;
+        BadStateAtom4 bad4 = 4;
     }
 }
 
@@ -189,6 +190,11 @@ message BadStateAtom3 {
     optional int32 state2 = 3 [(android.os.statsd.state_field_option).exclusive_state = true];
 }
 
+// Repeated fields can't have state annotations.
+message BadStateAtom4 {
+    repeated int32 state = 1 [(android.os.statsd.state_field_option).exclusive_state = true];
+}
+
 message GoodStateAtom1 {
     optional int32 uid = 1 [(android.os.statsd.state_field_option).primary_field = true];
     optional int32 state = 2 [(android.os.statsd.state_field_option).exclusive_state = true];
@@ -207,6 +213,37 @@ message GoodStateAtom3 {
     optional int32 uid = 1 [(android.os.statsd.state_field_option).primary_field = true];
     optional int32 tid = 2 [(android.os.statsd.state_field_option).primary_field = true];
     optional int32 state = 3 [(android.os.statsd.state_field_option).exclusive_state = true];
+}
+
+message BadUidAtoms {
+    oneof pushed {
+        BadUidAtom1 bad1 = 1;
+        BadUidAtom2 bad2 = 2;
+    }
+}
+
+message GoodUidAtoms {
+    oneof pushed {
+        GoodUidAtom1 good1 = 1;
+        GoodUidAtom2 good2 = 2;
+    }
+}
+
+// The only repeated field type that can have is_uid annotation is int32.
+message BadUidAtom1 {
+    repeated int64 uid = 1 [(android.os.statsd.is_uid) = true];
+}
+
+message BadUidAtom2 {
+    optional string uid = 1 [(android.os.statsd.is_uid) = true];
+}
+
+message GoodUidAtom1 {
+    optional int32 uid = 1 [(android.os.statsd.is_uid) = true];
+}
+
+message GoodUidAtom2 {
+    repeated int32 uid = 1 [(android.os.statsd.is_uid) = true];
 }
 
 message ModuleOneAtom {
