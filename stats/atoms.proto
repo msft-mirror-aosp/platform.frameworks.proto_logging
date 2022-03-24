@@ -19381,15 +19381,20 @@ message DropboxEntryDropped {
     // Explains at which stage of the DropBox workflow the entry was dropped.
     enum DropReason {
         UNKNOWN = 0;
-        OVER_QUOTA = 1;
-        NO_AVAILABLE_QUOTA = 2;
         CLEARING_DATA = 3;
+        AGED = 4;
+        WRITE_FAILURE = 5;
+
+        reserved 1, 2;
     }
 
     optional DropReason drop_reason = 1;
 
     // Tag describing the type of dropbox entry.
     optional string tag = 2;
+
+    // The age (millis) of the dropped dropbox entry.
+    optional int64 age_millis = 3;
 }
 
 message PersistentUriPermissionsFlushed {
