@@ -3350,6 +3350,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     DIALOG_MAGNIFICATION_TRIPLE_TAP_WARNING = 1923;
+
+    // OPEN: Settings > Accessibility > Display size and text > Click
+    // "Reset settings" > Reset settings dialog
+    // CATEGORY: SETTINGS
+    // OS: T
+    DIALOG_RESET_SETTINGS = 1924;
 }
 
 // Battery Saver schedule types.
