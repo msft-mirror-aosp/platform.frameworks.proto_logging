@@ -668,7 +668,11 @@ message Atom {
             [(module) = "appsearch"];
         AppBackgroundRestrictionsInfo app_background_restrictions_info = 441
             [(module) = "framework"];
-
+        PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
+            444 [(module) = "permissioncontroller"];
+        RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
+            445 [(module) = "permissioncontroller"];
+        GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -19823,4 +19827,49 @@ message AppBackgroundRestrictionsInfo {
 
     // indicates if the current device is a low ram device.
     optional bool low_mem_device = 12;
+}
+
+/**
+ * Log that the permission reminder notification has been displayed or clicked.
+ */
+message PermissionReminderNotificationInteracted {
+    // id which identifies single session of user interacting with permission
+    // controller
+    optional int64 session_id = 1;
+
+    enum Result {
+        UNDEFINED = 0;
+        // notification was presented to the user
+        NOTIFICATION_PRESENTED = 1;
+        // notification was clicked by the user
+        NOTIFICATION_CLICKED = 2;
+    }
+
+    // View / interaction recorded
+    optional Result result = 2;
+}
+
+/**
+ * Log that the user has interacted with the permission decision screen.
+ */
+message RecentPermissionDecisionsInteracted {
+    // id which identifies single session of user interacting with permission
+    // controller
+    optional int64 session_id = 1;
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        SCREEN_VIEWED = 1;
+        REVIEW_DECISION = 2;
+        VIEW_ALL_CLICKED = 3;
+    }
+
+    // Action taken on the recent permission decisions page.
+    optional Action action = 2;
+
+    // Uid of the package for the permission decision being reviewed
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Name of the permission for the permission decision being reviewed.
+    optional string permission_group_name = 4;
 }
