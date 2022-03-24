@@ -26,6 +26,7 @@ enum ShortcutType {
   TRIPLE_TAP = 3;
   A11Y_BUTTON_LONG_PRESS = 4;
   A11Y_FLOATING_MENU = 5;
+  A11Y_GESTURE = 6;
 }
 
 // The service status code.
@@ -41,4 +42,12 @@ enum MagnificationMode {
   MAGNIFICATION_FULL_SCREEN = 1;
   MAGNIFICATION_WINDOW = 2;
   MAGNIFICATION_ALL = 3;
+}
+
+// The wraning status on UI.
+enum WarningStatus {
+  WARNING_UNKNOWN = 0;
+  WARNING_SHOWN = 1;
+  WARNING_CLICKED = 2;
+  WARNING_SERVICE_DISABLED = 3;
 }

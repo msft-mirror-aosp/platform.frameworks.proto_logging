@@ -26,17 +26,25 @@ import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/media_output_enum.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
+import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hfp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
+import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto";
+import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/enums.proto";
+import "frameworks/proto_logging/stats/enums/nearby/enums.proto";
+import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
 import "frameworks/proto_logging/stats/enums/net/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/connectivity/data_stall_event.proto";
+import "frameworks/proto_logging/stats/enums/server/display/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/location/enums.proto";
@@ -65,6 +73,7 @@ import "frameworks/proto_logging/stats/enums/stats/wm/enums.proto";
 import "frameworks/proto_logging/stats/enums/system/security/keystore2/enums.proto";
 import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
+import "frameworks/proto_logging/stats/enums/uwb/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier_enums.proto";
@@ -191,7 +200,6 @@ message Atom {
         WTFOccurred wtf_occurred = 80 [(module) = "framework"];
         LowMemReported low_mem_reported = 81 [(module) = "framework"];
         GenericAtom generic_atom = 82;
-        KeyValuePairsAtom key_value_pairs_atom = 83 [(module) = "framework", (module) = "statsd"];
         VibratorStateChanged vibrator_state_changed = 84 [(module) = "framework"];
         DeferredJobStatsReported deferred_job_stats_reported = 85 [(module) = "framework"];
         ThermalThrottlingStateChanged thermal_throttling = 86 [deprecated=true];
@@ -317,7 +325,8 @@ message Atom {
         ProcessStartTime process_start_time = 169 [(module) = "framework"];
         PermissionGrantRequestResultReported permission_grant_request_result_reported =
                 170 [(module) = "permissioncontroller"];
-        BluetoothSocketConnectionStateChanged bluetooth_socket_connection_state_changed = 171;
+        BluetoothSocketConnectionStateChanged bluetooth_socket_connection_state_changed =
+                171 [(module) = "bluetooth"];
         DeviceIdentifierAccessDenied device_identifier_access_denied =
                 172 [(module) = "telephony_common"];
         BubbleDeveloperErrorReported bubble_developer_error_reported = 173 [(module) = "framework"];
@@ -357,7 +366,8 @@ message Atom {
         MediametricsDrmManagerReported mediametrics_drmmanager_reported = 201;
         CarPowerStateChanged car_power_state_changed = 203 [(module) = "car"];
         GarageModeInfo garage_mode_info = 204 [(module) = "car"];
-        TestAtomReported test_atom_reported = 205 [(module) = "cts"];
+        TestAtomReported test_atom_reported = 205
+            [(module) = "cts", (module) = "statsdtest"];
         ContentCaptureCallerMismatchReported content_capture_caller_mismatch_reported =
                 206 [(module) = "framework"];
         ContentCaptureServiceEvents content_capture_service_events = 207 [(module) = "framework"];
@@ -515,7 +525,7 @@ message Atom {
         MediametricsMediaParserReported mediametrics_mediaparser_reported = 316;
         TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
         TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
-        KilledAppStatsReported killed_app_stats_reported = 319 [(module) = "carwatchdogd"];
+        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "car"];
         MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
         MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
         MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
@@ -571,7 +581,7 @@ message Atom {
         OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
-        IoOveruseStatsReported io_overuse_stats_reported = 369 [(module) = "carwatchdogd"];
+        CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car"];
         UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
         AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "appsearch"];
         AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "appsearch"];
@@ -587,15 +597,88 @@ message Atom {
         PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381 [(module) = "framework"];
         PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
         AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
+        NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report = 384 [(module) = "framework"];
+        AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported = 385 [(module) = "appsearch"];
+        AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
+        SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
+        SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
+        NetworkDnsHandshakeReported network_dns_handshake_reported = 389 [(module) = "resolv"];
+        BluetoothCodePathCounter bluetooth_code_path_counter =
+            390 [(module) = "bluetooth"];
+        BluetoothLeBatchScanReportDelay bluetooth_le_batch_scan_report_delay =
+            392 [(module) = "bluetooth"];
+        AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
+        NeuralNetworksCompilationCompleted neuralnetworks_compilation_completed = 394
+            [(module) = "neuralnetworks"];
+        NeuralNetworksExecutionCompleted neuralnetworks_execution_completed = 395
+            [(module) = "neuralnetworks"];
+        NeuralNetworksCompilationFailed neuralnetworks_compilation_failed = 396
+            [(module) = "neuralnetworks"];
+        NeuralNetworksExecutionFailed neuralnetworks_execution_failed = 397
+            [(module) = "neuralnetworks"];
+        ContextHubBooted context_hub_booted = 398 [(module) = "contexthub"];
+        ContextHubRestarted context_hub_restarted = 399 [(module) = "contexthub"];
+        ContextHubLoadedNanoappSnapshotReported context_hub_loaded_nanoapp_snapshot_reported = 400
+            [(module) = "contexthub"];
+        ChreCodeDownloadTransacted chre_code_download_transacted = 401 [(module) = "contexthub"];
+        UwbSessionInitiated uwb_session_inited = 402 [(module) = "uwb"];
+        UwbSessionClosed uwb_session_closed = 403 [(module) = "uwb"];
+        UwbFirstRangingReceived uwb_first_ranging_received = 404 [(module) = "uwb"];
+        UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405 [(module) = "uwb"];
         TextClassifierDownloadWorkScheduled text_classifier_download_work_scheduled = 406 [(module) = "textclassifier"];
         TextClassifierDownloadWorkCompleted text_classifier_download_work_completed = 407 [(module) = "textclassifier"];
-
+        ClipboardCleared clipboard_cleared = 408 [(module) = "framework"];
+        VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
+        NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
+        CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
+        ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
+        MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported = 413;
+        FoldStateDurationReported fold_state_duration_reported = 414 [(module) = "framework"];
+        LocationTimeZoneProviderControllerStateChanged location_time_zone_provider_controller_state_changed =
+            415 [(module) = "framework"];
+        DisplayHbmStateChanged display_hbm_state_changed = 416 [(module) = "framework"];
+        DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417 [(module) = "framework"];
+        PersistentUriPermissionsFlushed persistent_uri_permissions_flushed =
+            418 [(module) = "framework"];
+        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419;
+        VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
+        ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
+        PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
+        WearSettingsUIInteracted wear_settings_ui_interacted = 423 [(module) = "wear_settings"];
+        TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
+        MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported = 425;
+        LauncherLatency launcher_latency = 426 [(module) = "sysui"];
+        DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
+        WifiP2pConnectionReported wifi_p2p_connection_reported = 428 [(module) = "wifi"];
+        GameStateChanged game_state_changed = 429 [(module) = "framework"];
+        HotwordDetectorCreateRequested hotword_detector_create_requested = 430
+            [(module) = "framework"];
+        HotwordDetectionServiceInitResultReported hotword_detection_service_init_result_reported = 431
+            [(module) = "framework"];
+        HotwordDetectionServiceRestarted hotword_detection_service_restarted = 432
+            [(module) = "framework"];
+        HotwordDetectorKeyphraseTriggered hotword_detector_keyphrase_triggered = 433
+            [(module) = "framework"];
+        HotwordDetectorEvents hotword_detector_events = 434
+            [(module) = "framework"];
+        // 435, 436 not been used in this branch.
+        BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
+            437 [(module) = "framework"];
+        ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
+            [(module) = "appsearch"];
+        AppBackgroundRestrictionsInfo app_background_restrictions_info = 441
+            [(module) = "framework"];
+        PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
+            444 [(module) = "permissioncontroller"];
+        RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
+            445 [(module) = "permissioncontroller"];
+        GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10118
+    // Next: 10153
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -638,10 +721,6 @@ message Atom {
         CpuTimePerThreadFreq cpu_time_per_thread_freq = 10037 [(module) = "framework"];
         OnDevicePowerMeasurement on_device_power_measurement = 10038 [(module) = "framework"];
         DeviceCalculatedPowerUse device_calculated_power_use = 10039 [(module) = "framework"];
-        DeviceCalculatedPowerBlameUid device_calculated_power_blame_uid =
-                10040 [(module) = "framework"];
-        DeviceCalculatedPowerBlameOther device_calculated_power_blame_other =
-                10041 [(module) = "framework"];
         ProcessMemoryHighWaterMark process_memory_high_water_mark = 10042 [(module) = "framework"];
         BatteryLevel battery_level = 10043 [(module) = "framework"];
         BuildInformation build_information = 10044 [(module) = "framework"];
@@ -715,6 +794,8 @@ message Atom {
         ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
         PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
         UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
+        LauncherLayoutSnapshot launcher_layout_snapshot = 10108
+            [(module) = "sysui"];
         GlobalHibernatedApps global_hibernated_apps = 10109 [(module) = "framework"];
         InputEventLatencySketch input_event_latency_sketch = 10110 [(module) = "input"];
         BatteryUsageStatsBeforeReset battery_usage_stats_before_reset =
@@ -742,13 +823,52 @@ message Atom {
                 10123 [(module) = "framework"];
         RkpErrorStats rkp_error_stats = 10124 [(module) = "framework"];
         Keystore2CrashStats keystore2_crash_stats = 10125 [(module) = "framework"];
+        VendorApexInfo vendor_apex_info = 10126 [(module) = "framework"];
+        AccessibilityShortcutStats accessibility_shortcut_stats = 10127 [(module) = "framework"];
+        AccessibilityFloatingMenuStats accessibility_floating_menu_stats =
+            10128 [(module) = "framework"];
+        DataUsageBytesTransferV2 data_usage_bytes_transfer_v2 = 10129 [(module) = "framework",
+                (truncate_timestamp) = true];
+        MediaCapabilities media_capabilities = 10130 [(module) = "framework"];
+        CarWatchdogSystemIoUsageSummary car_watchdog_system_io_usage_summary =
+            10131 [(module) = "car"];
+        CarWatchdogUidIoUsageSummary car_watchdog_uid_io_usage_summary = 10132 [(module) = "car"];
+        ImsRegistrationFeatureTagStats ims_registration_feature_tag_stats =
+                10133 [(module) = "telephony"];
+        RcsClientProvisioningStats rcs_client_provisioning_stats =
+                10134 [(module) = "telephony"];
+        RcsAcsProvisioningStats rcs_acs_provisioning_stats =
+                10135 [(module) = "telephony"];
+        SipDelegateStats sip_delegate_stats = 10136 [(module) = "telephony"];
+        SipTransportFeatureTagStats sip_transport_feature_tag_stats =
+                10137 [(module) = "telephony"];
+        SipMessageResponse sip_message_response = 10138 [(module) = "telephony"];
+        SipTransportSession sip_transport_session = 10139 [(module) = "telephony"];
+        ImsDedicatedBearerListenerEvent ims_dedicated_bearer_listener_event =
+                10140 [(module) = "telephony"];
+        ImsDedicatedBearerEvent ims_dedicated_bearer_event = 10141 [(module) = "telephony"];
+        ImsRegistrationServiceDescStats ims_registration_service_desc_stats =
+                10142 [(module) = "telephony"];
+        UceEventStats uce_event_stats = 10143 [(module) = "telephony"];
+        PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
+        GbaEvent gba_event = 10145 [(module) = "telephony"];
+        PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
+        GpuWorkPerUid gpu_work_per_uid = 10147;
+        PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
+            10148 [(module) = "framework"];
+        SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
+        PinnedFileSizesPerPackage pinned_file_sizes_per_package = 10150
+            [(module) = "framework"];
+        PendingIntentsPerPackage pending_intents_per_package = 10151
+            [(module) = "framework"];
+        UserInfo user_info = 10152 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
-    reserved 10008, 10036;
+    reserved 83, 10008, 10036, 10040, 10041;
 }
 
 /**
@@ -766,20 +886,6 @@ message AttributionNode {
     optional string tag = 2;
 }
 
-message KeyValuePair {
-    optional int32 key = 1;
-    oneof value {
-        int32 value_int = 2;
-        int64 value_long = 3;
-        string value_str = 4;
-        float value_float = 5;
-    }
-}
-
-message KeyValuePairsAtom {
-    optional int32 uid = 1;
-    repeated KeyValuePair pairs = 2;
-}
 
 /*
  * *****************************************************************************
@@ -1229,6 +1335,57 @@ message WifiConnectionStateChanged {
 }
 
 /**
+ * Logged when wifi peer to peer connection happens
+ */
+message WifiP2pConnectionReported {
+    enum Type {
+        UNSPECIFIED = 0;
+        // fresh new connection.
+        FRESH = 1;
+        // reinvoke a group.
+        REINVOKE = 2;
+        // create a group with the current device as the group owner locally.
+        LOCAL = 3;
+        // create a group or join a group with config.
+        FAST = 4;
+    }
+    enum FailureCode {
+        // Failure is unknown.
+        UNKNOWN = 0;
+        // No failure.
+        NONE = 1;
+        // Timeout for current connecting request.
+        TIMEOUT = 2;
+        // The connecting request is canceled by the user.
+        CANCEL = 3;
+        // Provision discovery failure, e.g. no pin code, timeout, rejected by the peer.
+        PROV_DISC_FAIL = 4;
+        // Invitation failure, e.g. rejected by the peer.
+        INVITATION_FAIL = 5;
+        // Incoming request is rejected by the user.
+        USER_REJECT = 6;
+        // New connection request is issued before ending previous connecting request.
+        NEW_CONNECTION_ATTEMPT = 7;
+    }
+    enum GroupRole {
+        GROUP_UNKNOWN = 0;
+        GROUP_OWNER = 1;
+        GROUP_CLIENT = 2;
+    }
+    // Type of the connection.
+    optional Type type = 1;
+    // Duration to connect in millis.
+    optional int32 latency_ms= 2;
+    // Duration to connect in step size of 200 millis.
+    optional int32 latency_200ms= 3;
+    // Failure code
+    optional FailureCode failure_code = 4;
+    // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
+    // credential.
+    optional GroupRole group_role = 5;
+}
+
+/**
  * Logs when memory stats of a process is reported.
  *
  * Logged from:
@@ -1406,9 +1563,10 @@ message DeferredJobStatsReported {
  * Logs when a job scheduler job state changes.
  *
  * Logged from:
- *   frameworks/base/services/core/java/com/android/server/am/BatteryStatsService.java
+ *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
+ *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 18
+ * Next tag: 22
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -1451,7 +1609,7 @@ message ScheduledJobStateChanged {
     // The job id (as assigned by the app).
     optional int32 job_id = 6;
 
-    // One flag for each of the API constraints defined by Jobscheduler. Does not include implcit
+    // One flag for each of the API constraints defined by JobScheduler. Does not include implicit
     // constraints as they are always assumed to be set.
     optional bool has_charging_constraint = 7;
     optional bool has_battery_not_low_constraint = 8;
@@ -1461,11 +1619,22 @@ message ScheduledJobStateChanged {
     optional bool has_idle_constraint = 12;
     optional bool has_connectivity_constraint = 13;
     optional bool has_content_trigger_constraint = 14;
+    optional bool is_prefetch = 18;
 
     // True if the app has requested this run as an expedited job.
     optional bool is_requested_expedited_job = 15;
     // True if the job is running as an expedited job. Only valid for STARTED and FINISHED states.
     optional bool is_running_as_expedited_job = 16;
+
+    // The priority set by the app (via JobInfo.Builder.setPriority()).
+    optional int32 requested_priority = 19;
+    // The priority JobScheduler ran the job at. Only valid for STARTED and FINISHED states.
+    optional int32 effective_priority = 20;
+
+    // Number of times JobScheduler has tried to run this particular job. This value is incremented
+    // when a job is stopped and rescheduled for various reasons (lost network, constraints no
+    // longer satisfied, etc). For periodic jobs, this value is reset after a successful run.
+    optional int32 num_previous_attempts = 21;
 }
 
 /**
@@ -1961,8 +2130,19 @@ message KeyguardBouncerStateChanged {
         // Bouncer is hidden, either as a result of successfully entering the
         // password, screen timing out, or user going back to lock screen.
         HIDDEN = 1;
-        // This is when the user is being prompted to enter the password.
+        // The user is being prompted to enter the password and the keyguard is NOT in one
+        // handed mode.
         SHOWN = 2;
+        // The user is being prompted to enter the password and the keyguard shows in one
+        // handed mode and left aligned.
+        SHOWN_LEFT = 3;
+        // The user is being prompted to enter the password and the keyguard shows in one
+        // handed mode and right aligned.
+        SHOWN_RIGHT = 4;
+        // The keyguard switches to the left side while it is in one handed mode.
+        SWITCH_LEFT = 5;
+        // The keyguard switches to the right side while it is in one handed mode.
+        SWITCH_RIGHT = 6;
     }
     optional State state = 1;
 }
@@ -1982,6 +2162,13 @@ message KeyguardBouncerPasswordEntered {
         SUCCESS = 2;
     }
     optional BouncerResult result = 1;
+
+    enum BouncerSide {
+        DEFAULT = 0;
+        LEFT = 1;
+        RIGHT = 2;
+    }
+    optional BouncerSide side = 2;
 }
 
 /*
@@ -3199,6 +3386,35 @@ message InputDeviceRegistered {
 }
 
 /**
+ * Logs when the counter is incremented
+ *
+ * Logged from:
+ *   system/bt
+ *   packages/apps/Bluetooth
+ *
+ */
+message BluetoothCodePathCounter {
+    // Keys of events with enum ranges to be defined
+    optional android.bluetooth.CodePathCounterKeyEnum key = 1;
+    // Number of frequency of events
+    optional int64 number = 2;
+}
+
+/**
+ * Logs when an application attempts to start a Bluetooth Low Energy scan.
+ * It only happens when the scan is initiated and does not repeatedly call
+ * while the scan is running.
+ *
+ * Logged from:
+ *   packages/apps/Bluetooth/src/com/android/bluetooth/gatt/GattService.java
+ *
+ */
+message BluetoothLeBatchScanReportDelay {
+    optional int32 application_uid = 1;
+    optional int64 application_report_delay_millis = 2;
+}
+
+/**
  * Logs when something is plugged into or removed from the USB-C connector.
  *
  * Logged from:
@@ -3554,6 +3770,20 @@ message LauncherUIChanged {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 25;
+
+    // Used to store on-device search related features of the target
+    // (e.g. spell-corrected query etc)
+    optional int32 search_attributes = 26;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
+}
+
+message LauncherAttributes{
+
+  // Integer value of item attribute enum
+  // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
+  repeated int32 item_attributes = 1;
 }
 
 message SmartSpaceCardReported {
@@ -3577,6 +3807,8 @@ message SmartSpaceCardReported {
         TIME_TO_LEAVE = 15;
         PACKAGE_DELIVERED = 16;
         TIPS = 17;
+        DOORBELL = 18;
+        CROSS_DEVICE_TIMER = 19;
     }
 
     // The surface that SmartSpace card is shown.
@@ -3593,13 +3825,28 @@ message SmartSpaceCardReported {
     // Uniquely identifies a card. Should persist through updates.
     optional int32 instance_id = 2;
     // Uniquely identifies one of the possible types of the SmartSpace cards.
-    optional CardType card_type = 3;
+    // Deprecated. Please read card_type_id instead.
+    optional CardType card_type = 3 [deprecated = true];
     // Location of the card when the event occurred.
     optional DisplaySurface display_surface = 4;
     // The position of the card in the carousel when the event occurred.
     optional int32 rank = 5;
     // The number of cards shown to the user.
     optional int32 cardinality = 6;
+    // Uniquely identifies one of the possible types of the SmartSpace cards.
+    // To replace card_type. See go/smartspace-aster-metrics#card-type-id.
+    optional int32 card_type_id = 7;
+    // The app that the Smartspace card is tied to.
+    optional int32 uid = 8 [(is_uid) = true];
+    // If multiple subcards are displayed simultaneously, the position of
+    // the subcard that was interacted with.
+    optional int32 interacted_subcard_rank = 9;
+    // If multiple subcards are displayed simultaneously, the number of subcards
+    // shown when the interaction occurred.
+    optional int32 interacted_subcard_cardinality = 10;
+    // The time it takes in ms from smartspace target is created to sysui receives
+    // the target.
+    optional int32 received_latency_millis = 11;
 }
 
 /**
@@ -3651,6 +3898,60 @@ message LauncherStaticLayout {
 
     // Used to store features of the target (e.g. widget is reconfigurable, etc)
     optional int32 features = 19;
+
+    // List of attributes attached to the event.
+    optional LauncherAttributes attributes = 20 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Used for logging launcher static elements using pulled atom.
+ *
+ * Logged from:
+ *   packages/apps/Launcher3
+ */
+message LauncherLayoutSnapshot {
+  // The event id (e.g., snapshot, drag and drop)
+  optional int32 event_id = 1;
+  // The event's source or target id (e.g., icon, shortcut, widget)
+  optional int32 item_id = 2;
+  // If the target needs to be tracked, use this id field
+  optional int32 instance_id = 3;
+  optional int32 uid = 4 [(is_uid) = true];
+  optional string package_name = 5;
+  optional string component_name = 6;
+
+  // (x, y) coordinate and the index information of the target on the container
+  optional int32 grid_x = 7 [default = -1];
+  optional int32 grid_y = 8 [default = -1];
+  optional int32 page_id = 9 [default = -2];
+
+  // e.g., folder icon's (x, y) location and index information on the workspace
+  // e.g., when used with widgets target, use these values for (span_x, span_y)
+  optional int32 grid_x_parent = 10 [default = -1];
+  optional int32 grid_y_parent = 11 [default = -1];
+  optional int32 page_id_parent = 12 [default = -2];
+
+  // UNKNOWN = 0
+  // HOTSEAT = 1
+  // WORKSPACE = 2
+  // FOLDER_HOTSEAT = 3
+  // FOLDER_WORKSPACE = 4
+  optional int32 container_id = 13;
+
+  optional bool is_work_profile = 14;
+
+  // e.g., PIN, WIDGET TRAY, APPS TRAY, PREDICTION
+  optional int32 attribute_id = 15;
+
+  // e.g., number of icons inside a folder
+  optional int32 cardinality = 16;
+
+  // e.g., (x, y) span of the widget inside homescreen grid system
+  optional int32 span_x = 17 [default = 1];
+  optional int32 span_y = 18 [default = 1];
+
+  // List of attributes attached to the event.
+  optional LauncherAttributes attributes = 19 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -3673,6 +3974,8 @@ message StyleUIChanged {
     optional android.stats.style.LocationPreference location_preference = 10;
     optional android.stats.style.DatePreference date_preference = 11;
     optional android.stats.style.LaunchedPreference launched_preference = 12;
+    optional android.stats.style.EffectPreference effect_preference = 13;
+    optional int32 effect_id_hash = 14;
 }
 
 /**
@@ -4354,6 +4657,86 @@ message AppStartFullyDrawn {
 }
 
 /**
+ * Logs when an app enters a different App Compat state.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ */
+message AppCompatStateChanged {
+    // UID of the package whose state changed.
+    optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
+
+    enum State {
+        UNKNOWN = 0;
+        // The app is not visible or has been closed.
+        NOT_VISIBLE = 1;
+        // The app’s bounds aren’t letterboxed.
+        NOT_LETTERBOXED = 2;
+        // The app’s bounds are letterboxed because of size-compat-mode.
+        LETTERBOXED_FOR_SIZE_COMPAT_MODE = 3;
+        // The app’s bounds are letterboxed because of fixed orientation.
+        LETTERBOXED_FOR_FIXED_ORIENTATION = 4;
+        // The app’s bounds are letterboxed because of aspect ratio restrictions.
+        LETTERBOXED_FOR_ASPECT_RATIO = 5;
+    }
+
+    // The state that was entered.
+    optional State state = 2 [
+      (state_field_option).exclusive_state = true,
+      (state_field_option).nested = false];
+}
+
+/**
+ * Logs events reported for the Size Compat restart button of an app.
+ *
+ * Logged from:
+ *   frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/ShellTaskOrganizer.java
+ */
+message SizeCompatRestartButtonEventReported {
+    // UID of the package that has the button.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    enum Event {
+        UNKNOWN = 0;
+        APPEARED = 1;
+        CLICKED = 2;
+    }
+
+    // The event that was reported.
+    optional Event event = 2;
+}
+
+/**
+ * Logs events reported for the Camera App Compat control, which is used to
+ * correct stretched viewfinder in apps that don't handle all possible
+ * configurations, and changes between them, correctly.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ */
+message CameraCompatControlEventReported {
+  // UID of the package that has the control.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  enum Event {
+    UNKNOWN = 0;
+    // Button to apply the treatment appeared.
+    APPEARED_APPLY_TREATMENT = 1;
+    // Button to revert the treatment appeared.
+    APPEARED_REVERT_TREATMENT = 2;
+    // Users clicked on the button to apply the treatment.
+    CLICKED_APPLY_TREATMENT = 3;
+    // Users clicked on the button to revert the treatment.
+    CLICKED_REVERT_TREATMENT = 4;
+    // Users clicked on the button to dismiss the control.
+    CLICKED_DISMISS = 5;
+  }
+
+  // The event that was reported.
+  optional Event event = 2;
+}
+
+/**
  * Logs a picture-in-picture action
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
@@ -4439,6 +4822,8 @@ message ForegroundServiceStateChanged {
     optional int32 fgs_start_count = 13;
     // SHA-1 hashed short_name combined with ANDROID_ID.
     optional int32 short_name_hash = 14;
+    // Whether this FGS package had permission to notify the user.
+    optional bool fgs_has_notification_permission = 15;
 }
 
 /**
@@ -4734,6 +5119,12 @@ message NotificationReported {
     optional android.stats.sysui.NotificationImportance importance_asst = 19;
     optional int32 assistant_hash = 20;
     optional float assistant_ranking_score = 21;
+
+    // Fields for tracking ongoing and foreground service notifications
+    optional bool is_ongoing = 22;
+    optional bool is_foreground_service = 23;
+    // Fields to know about the timeout for notifications.
+    optional int64 timeout_millis = 24;
 }
 
 message Notification {
@@ -4833,6 +5224,12 @@ message BiometricAcquired {
     optional bool debug = 8;
     // The ID of the biometric sensor associated with this action.
     optional int32 sensor_id = 9;
+    // The ID of the session this event occurred in (if any)
+    optional int32 session_id = 10;
+    // The type of session (i.e. CUJ)
+    optional android.hardware.biometrics.SessionTypeEnum session_type = 11;
+    // If the AoD was on when this event occurred.
+    optional bool is_aod = 12;
 }
 
 /**
@@ -4875,6 +5272,12 @@ message BiometricAuthenticated {
     optional int32 sensor_id = 9;
     // The ambient light lux when authenticated.
     optional float ambient_light_lux = 10;
+    // The ID of the session this event occurred in (if any)
+    optional int32 session_id = 11;
+    // The type of session (i.e. CUJ)
+    optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
+    // If the AoD was on when this event occurred.
+    optional bool is_aod = 13;
 }
 
 /**
@@ -4906,6 +5309,12 @@ message BiometricErrorOccurred {
     optional int64 latency_millis = 9;
     // The ID of the biometric sensor associated with this action.
     optional int32 sensor_id = 10;
+    // The ID of the session this event occurred in (if any)
+    optional int32 session_id = 11;
+    // The type of session (i.e. CUJ)
+    optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
+    // If the AoD was on when this event occurred.
+    optional bool is_aod = 13;
 }
 
 /**
@@ -5109,14 +5518,83 @@ message BinaryPushStateChanged {
         // (e.g. soft restart, notification restart).
         NO_REBOOT_PROMOTION_STRATEGY_ELIGIBLE = 30;
         REBOOT_TRIGGER_FAILURE = 31;
+        // Logged after INSTALL_REQUESTED for devices installing a train which
+        // requires reboot and eligible for unattended reboot.
+        UNATTENDED_REBOOT_ELIGIBLE = 32;
+        // Logged when Phonesky trys to prepare LSKF.
+        LSKF_PREPARATION_INITITATED = 33;
+        // Logged when LSKF preparation succeeded.
+        LSKF_PREPARATION_SUCCESS = 34;
+        // Logged when LSKF preparation failed.
+        LSKF_PREPARATION_FAILURE = 35;
+        // Logged when Phonesky cannot schedule reboot job on a unattended reboot
+        // eligible device.
+        UNATTENDED_REBOOT_NOT_TRIGGERED = 36;
+        // Logged when SIM PIN recovery preparation succeeded.
+        SIM_PIN_PREPARATION_SUCCESS = 37;
+        // Logged when SIM PIN recovery preparation failed.
+        SIM_PIN_PREPARATION_FAILURE = 38 [deprecated = true];
+        // Logged when unattended reboot is aborted and falls back to organic
+        // reboot.
+        UNATTENDED_REBOOT_ABORT = 39;
+        // Logged when Phonesky re-prepares LSKF.
+        LSKF_PREPARATION_RETRY = 40;
+        // Logged when the device doesn’t support checkpoint and cannot stage
+        // multiple sessions.
+        CHECKPOINT_NOT_SUPPORTED = 41;
+        // Logged when Phonesky instructs Android platform to monitor reboot
+        // readiness signal.
+        PENDING_REBOOT_MARKED = 42;
+        // Logged when Phonesky instructs Android platform to stop monitoring reboot
+        // readiness signal.
+        PENDING_REBOOT_CANCELLED = 43 [deprecated = true];
+        // Logged when Phonesky receives reboot readiness broadcast and the device
+        // is ready to reboot.
+        SIGNAL_READY_TO_REBOOT_RECEIVED = 44;
+        // Logged when Phonesky receives reboot readiness broadcast and the device
+        // is not ready to reboot.
+        SIGNAL_NOT_READY_TO_REBOOT_RECEIVED = 45;
+        // Logged when Phonesky cancels an untracked train.
+        UNTRACKED_TRAIN_CANCELLED = 46;
     }
     optional State state = 6;
     // Possible experiment ids for monitoring this push.
     optional TrainExperimentIds experiment_ids = 7 [(log_mode) = MODE_BYTES];
-    // user id
+    // Index of the Android User. E.g. 0 for primary profile, 10, 11, 12
+    // for guest and secondary profiles. Not PII.
     optional int32 user_id = 8;
+    // Log additional info for a state when needed.
+    // When state = REBOOT_TRIGGERED, this field logs the reboot type:
+    //  USERSPACE_REBOOT = 1.
+    //  FORCED_REBOOT = 2.
+    //  NOTIFICATION_RESTART_REBOOT = 3.
+    //  UNATTENDED_REBOOT_SECURED_AND_SIM_PIN = 4.
+    //  UNATTENDED_REBOOT_SECURED_NO_SIM_PIN = 5.
+    //  UNATTENDED_REBOOT_UNSECURED_AND_SIM_PIN = 6.
+    //  UNATTENDED_REBOOT_UNSECURED_NO_SIM_PIN = 7.
+    // When state = INSTALL_FAILURE, this field logs the Install errors related
+    // statusCode
+    // When state = UNATTENDED_REBOOT_ABORT, this field logs the cancellation
+    // reason:
+    //  LSKF_RETRY_EXCEED_MAXIMUM = 1.
+    //  SIM_PIN_NOT_PREPARED = 2.
+    // When state = UNATTENDED_REBOOT_ELIGIBLE, this field logs the cancellation
+    // reason:
+    //  UNATTENDED_REBOOT_SECURED_AND_SIM_PIN = 1.
+    //  UNATTENDED_REBOOT_SECURED_NO_SIM_PIN = 2.
+    //  UNATTENDED_REBOOT_UNSECURED_AND_SIM_PIN = 3.
+    //  UNATTENDED_REBOOT_UNSECURED_NO_SIM_PIN = 4.
+    // When state = UNATTENDED_REBOOT_NOT_TRIGGERED, this field logs the
+    // cancellation reason:
+    //  LSKF_NOT_PREPARED = 1.
+    //  REBOOT_NOT_READY = 2.
+    // When state = PENDING_REBOOT_CANCELLED, this field logs the cancellation
+    // reason:
+    //  LSKF_NOT_PREPARED = 1.
+    //  NO_STAGED_TRAIN = 2.
+    //  HAS_SIM_PIN_AND_SIM_PIN_STORAGE_DISABLED = 3.
     optional int32 reason = 9;
-    // Whether or not this is a rollback event
+    // Whether or not this is a rollback event.
     optional bool is_rollback = 10;
 }
 
@@ -5135,6 +5613,12 @@ message TestAtomReported {
     }
     optional State state = 7;
     optional TrainExperimentIds bytes_field = 8 [(android.os.statsd.log_mode) = MODE_BYTES];
+    repeated int32 repeated_int_field = 9;
+    repeated int64 repeated_long_field = 10;
+    repeated float repeated_float_field = 11;
+    repeated string repeated_string_field = 12;
+    repeated bool repeated_boolean_field = 13;
+    repeated State repeated_enum_field = 14;
 }
 
 /** Represents USB port overheat event. */
@@ -5811,6 +6295,13 @@ message SnapshotMergeReported {
         EXPECTED_MERGE_TARGET = 11;
         UNMERGED_SECTORS_AFTER_COMPLETION = 12;
         UNEXPECTED_MERGE_STATE = 13;
+        GET_COW_PATH_CONSISTENCY_CHECK = 14;
+        OPEN_COW_CONSISTENCY_CHECK = 15;
+        PARSE_COW_CONSISTENCY_CHECK = 16;
+        OPEN_COW_DIRECT_CONSISTENCY_CHECK = 17;
+        MEM_ALIGN_CONSISTENCY_CHECK = 18;
+        DIRECT_READ_CONSISTENCY_CHECK = 19;
+        WRONG_MERGE_COUNT_CONSISTENCY_CHECK = 20;
     };
 
     // Status of the update after the merge attempts.
@@ -5959,7 +6450,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 31
+ * Next Tag: 45
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -5999,6 +6490,20 @@ message UIInteractionFrameInfoReported {
         SHADE_APP_LAUNCH_FROM_QS_TILE = 33;
         SHADE_APP_LAUNCH_FROM_SETTINGS_BUTTON = 34;
         STATUS_BAR_APP_LAUNCH_FROM_CALL_CHIP = 35;
+        PIP_TRANSITION = 36;
+        WALLPAPER_TRANSITION = 37;
+        USER_SWITCH = 38;
+        SPLASHSCREEN_AVD = 39;
+        SPLASHSCREEN_EXIT_ANIM = 40;
+        SCREEN_OFF = 41;
+        SCREEN_OFF_SHOW_AOD = 42;
+        ONE_HANDED_ENTER_TRANSITION = 43;
+        ONE_HANDED_EXIT_TRANSITION = 44;
+        UNFOLD_ANIM = 45;
+        SUW_LOADING_TO_SHOW_INFO_WITH_ACTIONS = 46;
+        SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
+        SUW_LOADING_TO_NEXT_FLOW = 48;
+        SUW_LOADING_SCREEN_FOR_STATUS = 49;
     }
 
     optional InteractionType interaction_type = 1;
@@ -6040,6 +6545,10 @@ message UIActionLatencyReported {
         ACTION_ROTATE_SCREEN_CAMERA_CHECK = 10;
         ACTION_ROTATE_SCREEN_SENSOR = 11;
         ACTION_LOCKSCREEN_UNLOCK = 12;
+        ACTION_USER_SWITCH = 13;
+        ACTION_SWITCH_DISPLAY_UNFOLD = 14;
+        ACTION_UDFPS_ILLUMINATE = 15;
+        ACTION_SHOW_BACK_ARROW = 16;
     }
 
     optional ActionType action = 1;
@@ -6188,6 +6697,80 @@ message DataUsageBytesTransfer {
     // network allocates a secondary 5G cell so telephony reports RAT = LTE along with NR state as
     // connected.
     optional bool is_nr_connected = 11;
+}
+
+/**
+ * Note: This is a copy from DataUsageBytesTransfer and add a metered field.
+ * TODO: DataUsageBytesTransfer should be eventually replaced with DataUsageBytesTransferV2.
+ *
+ * Used for pull network statistics via mobile|wifi networks, and sliced by interesting dimensions.
+ * Note that the data is expected to be sliced into more dimensions in future. In other words,
+ * the caller must not assume any row of data is one full report when filtering with a set of
+ * matching conditions, because future data may represent with multiple rows what is currently
+ * represented by one.
+ * To avoid being broken by future slicing, callers must take care to aggregate rows even if they
+ * query all the existing columns.
+ *
+ * Pulled from:
+ *   StatsPullAtomService (using NetworkStatsService to get NetworkStats)
+ */
+message DataUsageBytesTransferV2 {
+    // State of this record. Should be NetworkStats#SET_DEFAULT or NetworkStats#SET_FOREGROUND to
+    // indicate the foreground state, or NetworkStats#SET_ALL to indicate the record is for all
+    // states combined, not including debug states. See NetworkStats#SET_*.
+    optional int32 state = 1;
+
+    optional int64 rx_bytes = 2;
+
+    optional int64 rx_packets = 3;
+
+    optional int64 tx_bytes = 4;
+
+    optional int64 tx_packets = 5;
+
+    // Radio Access Technology (RAT) type of this record, should be one of
+    // TelephonyManager#NETWORK_TYPE_* constants, or NetworkTemplate#NETWORK_TYPE_ALL to indicate
+    // the record is for all rat types combined.
+    optional int32 rat_type = 6;
+
+    // Mcc/Mnc read from sim if the record is for a specific subscription, null indicates the
+    // record is combined across subscriptions.
+    optional string sim_mcc = 7;
+    optional string sim_mnc = 8;
+
+    // Allows mobile virtual network operators (MVNOs) to be identified with individual IDs.
+    // See TelephonyManager#getSimCarrierId.
+    optional int32 carrier_id = 9;
+
+    // Enumeration of opportunistic states with an additional DSS_ALL state indicates the record is
+    // combined regardless of the boolean value in its field.
+    enum DataSubscriptionState {
+        DSS_UNKNOWN = 0; // For server side backward compatibility.
+        DSS_ALL = 1;
+        DSS_OPPORTUNISTIC = 2;
+        DSS_NOT_OPPORTUNISTIC = 3;
+    }
+    // Mark whether the subscription is an opportunistic data subscription, and ALL indicates the
+    // record is combined across opportunistic data subscriptions.
+    // See {@link SubscriptionManager#setOpportunistic}.
+    optional DataSubscriptionState opportunistic_data_sub = 10;
+
+    // Indicate whether NR is connected, server side could use this with RAT type to determine if
+    // the record is for 5G NSA (Non Stand Alone) mode, where the primary cell is still LTE and
+    // network allocates a secondary 5G cell so telephony reports RAT = LTE along with NR state as
+    // connected.
+    optional bool is_nr_connected = 11;
+
+    // Enumeration of metered states.
+    enum MeteredState {
+        METERED_UNKNOWN = 0;
+        METERED_ALL = 1;
+        METERED_NO = 2;
+        METERED_YES = 3;
+    }
+    // Mark the reported data is metered or non-metered, and METERED_ALL indicates the record is
+    // combined across metered data.
+    optional MeteredState metered = 12;
 }
 
 /**
@@ -6556,6 +7139,10 @@ message ProcessMemorySnapshot {
 
     // The sum of rss_in_kilobytes and swap_in_kilobytes.
     optional int32 anon_rss_and_swap_in_kilobytes = 8;
+
+    // GPU memory usage as measured by the kernel tracepoints
+    // Equivalent to dumpsys gpu --gpumem
+    optional int32 gpu_memory_kb = 9;
 }
 
 /*
@@ -6853,7 +7440,7 @@ message DiskStats {
 
 
 /**
- * Free and total bytes of the Data, Cache, and System partition.
+ * Free and total bytes of the Data, Cache, System, and Metadata partitions.
  */
 message DirectoryUsage {
     enum Directory {
@@ -6861,6 +7448,7 @@ message DirectoryUsage {
         DATA = 1;
         CACHE = 2;
         SYSTEM = 3;
+        METADATA = 4;
     }
     optional Directory directory = 1;
     optional int64 free_bytes = 2;
@@ -7288,6 +7876,8 @@ message PackageNotificationPreferences {
     // Bitfield mask indicating what fields were locked by the user (see LockableAppfields in
     // PreferencesHelper.java)
     optional int32 user_locked_fields = 4;
+    // Indicates if the package importance was set by the user (rather than system default).
+    optional bool user_set_importance = 5;
 }
 
 /**
@@ -7650,6 +8240,7 @@ message ContentCaptureServiceEvents {
         DATA_SHARE_ERROR_SERVICE_PIPE_FAIL = 13;
         DATA_SHARE_ERROR_CONCURRENT_REQUEST = 14;
         DATA_SHARE_ERROR_TIMEOUT_INTERRUPTED = 15;
+        ON_REMOTE_SERVICE_DIED = 16;
     }
     optional Event event = 1;
     // component/package of content capture service.
@@ -7723,56 +8314,6 @@ message DeviceCalculatedPowerUse {
     optional int64 computed_power_nano_amp_secs = 1;
 }
 
-/**
- * Pulls on-device BatteryStats power use calculations broken down by uid.
- * This atom should be complemented by DeviceCalculatedPowerBlameOther, which contains the power use
- * that is attributed to non-uid items. They must all be included to get the total power use.
- */
-message DeviceCalculatedPowerBlameUid {
-    // Uid being blamed. Note: isolated uids have already been mapped to host uid.
-    optional int32 uid = 1 [(is_uid) = true];
-
-    // Power used by this uid in nAs (i.e. nanocoulombs (nC)), as computed by BatteryStats, since
-    // BatteryStats last reset (i.e. roughly since device was last significantly charged).
-    optional int64 power_nano_amp_secs = 2;
-}
-
-/**
- * Pulls on-device BatteryStats power use calculations that are not due to a uid, broken down by
- * drain type.
- * This atom should be complemented by DeviceCalculatedPowerBlameUid, which contains the blame that
- * is attributed uids. They must all be included to get the total power use.
- */
-message DeviceCalculatedPowerBlameOther {
-    // The type of item whose power use is being reported.
-    enum DrainType {
-        AMBIENT_DISPLAY = 0;
-        // reserved 1; reserved "APP"; // Logged instead in DeviceCalculatedPowerBlameUid.
-        BLUETOOTH = 2;
-        CAMERA = 3;
-        // Cell-standby
-        CELL = 4;
-        FLASHLIGHT = 5;
-        IDLE = 6;
-        MEMORY = 7;
-        // Amount that total computed drain exceeded the drain estimated using the
-        // battery level changes and capacity.
-        OVERCOUNTED = 8;
-        PHONE = 9;
-        SCREEN = 10;
-        // Amount that total computed drain was below the drain estimated using the
-        // battery level changes and capacity.
-        UNACCOUNTED = 11;
-        // reserved 12; reserved "USER"; // Entire drain for a user. This is NOT supported.
-        WIFI = 13;
-    }
-    optional DrainType drain_type = 1;
-
-    // Power used by this item in nAs (i.e. nanocoulombs (nC)), as computed by BatteryStats, since
-    // BatteryStats last reset (i.e. roughly since device was last significantly charged).
-    optional int64 power_nano_amp_secs = 2;
-}
-
 // Keep in sync with frameworks/base/core/proto/android/os/batteryusagestats.proto
 /**
  * Represents a device's BatteryUsageStats, with power usage information about the device
@@ -7813,6 +8354,26 @@ message BatteryUsageStatsAtomsProto {
             optional int64 duration_millis = 3;
         }
         repeated PowerComponentUsage power_components = 2;
+
+        // Represents a slice of power attribution, e.g. "cpu while in the background"
+        // or "wifi when running a background service".  Queries that care about
+        // PowerComponentUsage slices need to be aware of all supported dimensions.
+        // There are no roll-ups included in the slices - it is up to the clients
+        // of this data to aggregate values as needed.
+        message PowerComponentUsageSlice {
+            optional PowerComponentUsage power_component = 1;
+
+            enum ProcessState {
+                UNSPECIFIED = 0;
+                FOREGROUND = 1;
+                BACKGROUND = 2;
+                FOREGROUND_SERVICE = 3;
+            }
+
+            optional ProcessState process_state = 2;
+        }
+
+        repeated PowerComponentUsageSlice slices = 3;
     }
 
     // Total power usage for the device during this session.
@@ -7829,6 +8390,9 @@ message BatteryUsageStatsAtomsProto {
 
     // Sum of all discharge percentage point drops during the reported session.
     optional int32 session_discharge_percentage = 6;
+
+    // Total amount of time battery was discharging during the reported session
+    optional int64 discharge_duration_millis = 7;
 }
 
 /**
@@ -8171,6 +8735,52 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+}
+
+/**
+ * The NetworkDnsHandshakeReported message describes a DoT or DoH handshake operation along with
+ * its result, cause, network latency, TLS version, etc.
+ *
+ */
+message NetworkDnsHandshakeReported {
+  optional android.stats.dnsresolver.Protocol protocol = 1;
+
+  optional android.stats.dnsresolver.HandshakeResult result = 2;
+
+  optional android.stats.dnsresolver.HandshakeCause cause = 3;
+
+  optional android.stats.dnsresolver.NetworkType network_type = 4;
+
+  optional android.stats.dnsresolver.PrivateDnsModes private_dns_mode = 5;
+
+  // The latency in microseconds of the entire handshake operation.
+  optional int32 latency_micros = 6;
+
+  // Sent packets in bytes.
+  optional int32 bytes_sent = 7;
+
+  // Received packets in bytes.
+  optional int32 bytes_received = 8;
+
+  // Number of round-trips.
+  optional int32 round_trips = 9;
+
+  // True if TLS session cache hit.
+  optional bool tls_session_cache_hit = 10;
+
+  // 2 = TLS 1.2, 3 = TLS 1.3
+  optional int32 tls_version = 11;
+
+  // True if the handshake requires verifying the private DNS provider hostname.
+  optional bool hostname_verification = 12;
+
+  // Only present when protocol = PROTO_DOH.
+  optional int32 quic_version = 13;
+
+  optional int32 server_index = 14;
+
+  // The sampling-rate of this event is 1/sampling_rate_denom.
+  optional int32 sampling_rate_denom = 15;
 }
 
 /**
@@ -8585,6 +9195,17 @@ message GnssConfigurationReported {
 }
 
 /**
+ * Logs GNSS PSDS downloads as defined in IGnssPsds.aidl.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/location/gnss/GnssPsdsDownloader.java
+ */
+message GnssPsdsDownloadReported {
+    // PSDS type as defined in PsdsType.aidl
+    optional int32 psds_type = 1;
+}
+
+/**
  * Logs when a NFC device's error occurred.
  * Logged from:
  *     system/nfc/src/nfc/nfc/nfc_ncif.cc
@@ -8894,7 +9515,75 @@ message DebugFailingElapsedClock {
 /** Logs System UI bubbles event changed.
  *
  * Logged from:
- *     frameworks/base/packages/SystemUI/src/com/android/systemui/bubbles
+ *     frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/splitscreen
+ */
+message SplitscreenUIChanged {
+    // User interactions with splitscreen
+    enum Action {
+        UNKNOWN_ACTION = 0;
+        ENTER = 1;
+        EXIT = 2;
+        APP_CHANGE = 3;
+        RESIZE = 4;
+        SWAP = 5;
+    }
+
+    // The physical side on the device of the split
+    enum Position {
+        UNKNOWN_POSITION = 0;
+        LEFT = 1;
+        RIGHT = 2;
+        TOP = 3;
+        BOTTOM = 4;
+    }
+
+    // The reason for entering splitscreen
+    enum EnterReason {
+        UNKNOWN_ENTER = 0;
+        OVERVIEW = 1;
+        DRAG_LEFT = 2;
+        DRAG_TOP = 3;
+        DRAG_RIGHT = 4;
+        DRAG_BOTTOM = 5;
+    }
+
+    // The reason for exiting splitscreen
+    enum ExitReason {
+        UNKNOWN_EXIT = 0;
+        DRAG_DIVIDER = 1;
+        RETURN_HOME = 2;
+        SCREEN_LOCKED = 3;
+        SCREEN_LOCKED_SHOW_ON_TOP = 4;
+        DEVICE_FOLDED = 5;
+        ROOT_TASK_VANISHED = 6;
+        APP_FINISHED = 7;
+        APP_DOES_NOT_SUPPORT_MULTIWINDOW = 8;
+    }
+
+    // The event action
+    optional Action action = 1;
+    // What triggered splitscreen (if the action is ENTER)
+    optional EnterReason enter_reason = 2;
+    // What triggered leaving splitscreen (if the action is EXIT)
+    optional ExitReason exit_reason = 3;
+    // The ratio of split between the main/side stages
+    optional float split_ratio = 4;
+    // Data about the main stage in split
+    optional Position main_stage_position = 5;
+    optional int32 main_stage_uid = 6 [(is_uid) = true];
+    // Data about the side stage in split
+    optional Position side_stage_position = 7;
+    optional int32 side_stage_uid = 8 [(is_uid) = true];
+    // The drag session id (if the enter_trigger was DRAG)
+    optional int32 drag_instance_id = 9;
+    // An identifier used to identify a splitscreen session
+    optional int32 instance_id = 10;
+}
+
+/** Logs System UI bubbles event changed.
+ *
+ * Logged from:
+ *     frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/bubbles
  */
 message BubbleUIChanged {
 
@@ -9096,30 +9785,74 @@ message MediaCodecReported {
     optional string package_name = 2;
     optional int64 package_version_code = 3;
     optional int64 media_apex_version = 4;
+    // The name of the codec.
+    // eg. `OMX.google.aac.decoder`
     optional string codec = 5;
+    // The mime type. e.g. "audio/vorbis"
     optional string mime = 6;
+    // The codec mode. i.e. video or audio.
     optional string mode = 7;
+    // 1 if this is an encoder, 0 if this is a decoder.
     optional int32 encoder = 8;
+    // 0, 1
     optional int32 secure = 9;
+    // The video width in pixels.
     optional int32 width = 10;
+    // The video height in pixels.
     optional int32 height = 11;
+    // The rotation of the video in degrees
+    // 0, 90, 180, 270
     optional int32 rotation = 12;
+    // 1 if the codec uses crypto/drm, 0 otherwise.
     optional int32 crypto = 13;
+    // The codec profile. The values are dependent on the codec type.
+    // 0..n
     optional int32 profile = 14;
+    // The coding level. The values are dependent on the codec type.
+    // 0..n
     optional int32 level = 15;
+    // The maximum allowed width during a particular codec session.
+    // 0..n
     optional int32 max_width = 16;
+    // The maximum allowed height during a particular codec session.
+    // 0..n
     optional int32 max_height = 17;
+    // Indicating which error condition caused the codec to reset to an
+    // uninitialized state.
     optional int32 error_code = 18;
+    // The error state.
+    // The emitted values are descriptive:  UNINITIALIZED, INITIALIZING,
+    // INITIALIZED, CONFIGURING, CONFIGURED, STARTING, STARTED, FLUSHING, FLUSHED,
+    // STOPPING, and RELEASING.
+    // In the event of an internal codec error setting the state outside of these
+    // values, the invalid value will be encoded as a string (e.g., “17”).
     optional string error_state = 19;
+    // The max latency in us.
+    // The latency is from the time when the MediaCodec sends the ‘raw’ frame to
+    // the media codec service to when the decoded frame arrives back in
+    // MediaCodec’s possession.
     optional int64 latency_max = 20;
+    // The min latency in us.
     optional int64 latency_min = 21;
+    // The average latency in us.
     optional int64 latency_avg = 22;
+    // The number of buffers included in the avg/min/max calculation above.
     optional int64 latency_count = 23;
+    // The number of packets received back from the code where a latency could not
+    // be determined, and therefore they aren't included in the avg/min/max
+    // calculations above.
     optional int64 latency_unknown = 24;
+    // Error returned by queueInputBuffer.
     optional int32 queue_input_buffer_error = 25;
+    // Error returned by queueSecureInputBuffer.
     optional int32 queue_secure_input_buffer_error = 26;
+    // These modes are primarily for videos.
+    // CQ = constant quality
+    // CBR = constant bit rate
+    // VBR = variable bitrate
     optional string bitrate_mode = 27;
     optional int32 bitrate = 28;
+    // 0..n
     optional int64 lifetime_millis = 29;
     optional int64 playback_duration_seconds = 30;
     optional string log_session_id = 31;
@@ -9649,6 +10382,9 @@ message GpuStatsAppInfo {
 
     // App creates GLESv1 context.
     optional bool gles_1_in_use = 8;
+
+    // ANGLE in use for the app.
+    optional bool angle_in_use = 9;
 }
 
 /*
@@ -9742,6 +10478,9 @@ message SystemMemory {
     // Total DMABUF memory allocations
     // Reported from os.Debug.getDmabufTotalExportedKb (S+)
     optional int32 dmabuf_total_exported_kb = 9;
+
+    // Total shmem allocations
+    optional int32 shmem_kb = 10;
 }
 
 /*
@@ -9770,10 +10509,21 @@ message SystemMemory {
   optional int32 retained_dmabuf_count = 5;
 
   // Size of dmabufs mapped to the process address space.
-  optional int32 mapped_dmabuf_kb = 6;
+  optional int32 mapped_dmabuf_kb = 6 [deprecated = true];
 
   // Number of dmabufs mapped to the process address space.
-  optional int32 mapped_dmabuf_count = 7;
+  optional int32 mapped_dmabuf_count = 7 [deprecated = true];
+
+  // Size of dmabufs mapped to the process address space that are also
+  // mapped to the SurfaceFlinger address space. This indicates memory
+  // being used by graphics compositing layers. If this data row pertains
+  // to SurfaceFlinger itself, then the below field holds the size of all
+  // dmabuifs that are shared with any other process. The delta between
+  // this field and retained_dmabuf_kb, above, is private dmabufs that
+  // SurfaceFlinger is holding but are not shared with other processes.
+  optional int32 surfaceflinger_shared_dmabuf_kb = 8;
+  // As above, but total number of all dmabufs shared with SurfaceFlinger.
+  optional int32 surfaceflinger_shared_dmabuf_count = 9;
 }
 
 /**
@@ -10948,6 +11698,9 @@ message AppSearchCallStatsReported {
 
     // Number of operations failed for batch operations.
     optional int32 num_operations_failed = 10;
+
+    // Number of actual API calls reported in this atom.
+    optional int32 num_reported_calls = 11;
 }
 
 /**
@@ -11267,6 +12020,79 @@ message AppSearchOptimizeStatsReported {
     optional int64 native_time_since_last_optimize_millis = 13;
 }
 
+/**
+ * Logs detailed stats for setting schema in AppSearch.
+ *
+ * stats pushed from:
+ *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 20
+ */
+message AppSearchSetSchemaStatsReported {
+    // The sampling interval for this specific type of stats
+    // For example, sampling_interval=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_interval = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // We can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch
+    optional int32 database = 4;
+
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
+    optional int32 status_code = 5;
+
+    // Overall time used for setting schema including the binder latency
+    optional int32 total_latency_millis = 6;
+
+    // Number of newly added schema types
+    optional int32 new_type_count = 7;
+
+    // Number of deleted schema types
+    optional int32 deleted_type_count = 8;
+
+    // Number of compatible schema type changes
+    optional int32 compatible_type_change_count = 9;
+
+    // Number of index-incompatible schema type changes
+    optional int32 index_incompatible_type_change_count = 10;
+
+    // Number of backwards-incompatible schema type changes
+    optional int32 backwards_incompatible_type_change_count = 11;
+
+    // Whether schema migration is executed during setting schema
+    optional bool has_schema_migration = 12;
+
+    // Overall time used for getting schema during schema migration
+    optional int32 schema_migration_get_schema_latency_millis = 13;
+
+    // Overall time used for querying and transforming documents during schema migration
+    optional int32 schema_migration_query_and_transform_latency_millis = 14;
+
+    // Overall time used for first setSchema during schema migration
+    optional int32 schema_migration_first_set_schema_latency_millis = 15;
+
+    // Overall time used for second setSchema during schema migration
+    optional int32 schema_migration_second_set_schema_latency_millis = 16;
+
+    // Overall time used for saving documents during schema migration
+    optional int32 schema_migration_save_document_latency_millis = 17;
+
+    // Number of migrated documents during schema migration
+    optional int32 schema_migration_migrated_document_count = 18;
+
+    // Number of saved documents during schema migration
+    optional int32 schema_migration_saved_document_count = 19;
+}
+
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
 // Next tag: 15
 message AppSearchDocumentStorageInfo {
@@ -11404,6 +12230,59 @@ message AppSearchStorageInfo {
     // Storage information of the index.
     optional AppSearchIndexStorageInfo index_storage_info = 5
         [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+
+/**
+ * Reported when AppSearch Contacts Indexer syncs the contacts data from CP2 to AppSearch
+ *
+ * Reported from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
+ *
+ * Next tag: 11
+ */
+message ContactsIndexerUpdateStatsReported {
+    enum UpdateType {
+      UNKNOWN = 0;
+      DELTA = 1;
+      FULL = 2;
+    }
+
+    // Type of the update
+    optional UpdateType update_type = 1;
+
+    // Latency for the update in millis
+    optional int32 total_latency_millis = 2;
+
+    // Status code to indicate whether the insert new contacts, or update
+    // existing contacts succeeds, or fails and why
+    // In case of success, it only contains OK.
+    // In case of failures, it contains all the possible errors we get.
+    repeated int32 update_status_codes = 3;
+
+    // Status code to indicate whether the delete succeeds, or fails and why
+    // In case of success, it only contains OK.
+    // In case of failures, it contains all the possible errors we get.
+    repeated int32 delete_status_codes = 4;
+
+    // Number of new contacts successfully inserted during this update
+    optional int32 number_of_contacts_inserted = 5;
+
+    // Number of existing contacts successfully updated during this update
+    optional int32 number_of_contacts_updated = 6;
+
+    // Number of existing contacts successfully deleted during this update
+    optional int32 number_of_contacts_deleted = 7;
+
+    // Number of existing contacts skipped during this update due to no
+    // significant change
+    optional int32 number_of_contacts_skipped = 8;
+
+    // Number of contacts failed to be updated
+    optional int32 number_of_contacts_failed_to_update = 9;
+
+    // Number of contacts failed to be deleted
+    optional int32 number_of_contacts_failed_to_delete = 10;
 }
 
 /**
@@ -11791,6 +12670,10 @@ message CameraStreamProto {
     // The frame counts for each histogram bins
     // Expected number of fields: 10
     repeated int64 histogram_counts = 13;
+    // The dynamic range profile of the stream
+    optional int64 dynamic_range_profile = 14;
+    // The stream use case
+    optional int64 stream_use_case = 15;
 }
 
 /**
@@ -11909,8 +12792,9 @@ message AppCompatibilityChangeReported {
 message PerfettoUploaded {
     // TODO(lalitm): many of the atoms below should be renamed to have a
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
-    // This will be done after the server side is ready for this change.
-    // Next id: 48.
+    // This state exists because of legacy reasons (i.e. these values existed
+    // before go/perfetto-monitoring was a thing).
+    // Next id: 52.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -11959,31 +12843,37 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_UNKNOWN_ERROR = 35;
         PERFETTO_TRACED_START_TRACING_INVALID_SESSION_STATE = 36;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_FILTER = 47;
+        PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
-        PERFETTO_UPLOAD_INCIDENT_BEGIN = 8;
         PERFETTO_FINALIZE_TRACE_AND_EXIT = 11;
-        PERFETTO_NOT_UPLOADING_EMPTY_TRACE = 17;
+        PERFETTO_CMD_FW_REPORT_BEGIN = 49;
+        // Will be removed once incidentd is no longer used.
+        PERFETTO_UPLOAD_INCIDENT_BEGIN = 8;
 
         // Guardrails inside perfetto_cmd after tracing has finished.
+        PERFETTO_CMD_FW_REPORT_EMPTY_TRACE = 50;
+        // Will be removed once incidentd is no longer used.
         PERFETTO_UPLOAD_INCIDENT_FAILURE = 10;
+        PERFETTO_NOT_UPLOADING_EMPTY_TRACE = 17;
+
+        // "Successful" terminal states inside perfetto_cmd.
+        PERFETTO_CMD_FW_REPORT_HANDOFF = 51;
 
         // Deprecated as "success" is misleading; it simply means we were
         // able to communicate with incidentd. Will be removed once
-        // incidentd is properly instrumented.
+        // incidentd is no longer used.
         PERFETTO_UPLOAD_INCIDENT_SUCCESS = 9 [deprecated = true];
 
-        // Deprecated as has the potential to be too spammy. Will be
-        // replaced with a whole new atom proto which uses a count metric
-        // instead of the event metric used for this proto.
-        PERFETTO_TRIGGER_BEGIN = 12 [deprecated = true];
-        PERFETTO_TRIGGER_SUCCESS = 13 [deprecated = true];
-        PERFETTO_TRIGGER_FAILURE = 14  [deprecated = true];
+        // Contained trigger begin/success/failure. Replaced by
+        // |PerfettoTriggerAtom| to allow aggregation using a count metric
+        // and reduce spam.
+        reserved 12, 13, 14;
 
-        // Deprecated as too coarse grained to be useful. Will be replaced
-        // with better broken down atoms as we do with traced.
-        PERFETTO_HIT_GUARDRAILS = 15 [deprecated = true];
+        // Contained that a guardrail in perfetto_cmd was hit. Replaced with
+        // kCmd* guardrails.
+        reserved 15;
 
         // Contained status of Dropbox uploads. Removed as Perfetto no
         // longer supports uploading traces using Dropbox.
@@ -12666,6 +13556,9 @@ message VoiceCallSession {
 
     // Whether the call was a conference call (applicable only for calls over IMS).
     optional bool is_multiparty = 32;
+
+    // Duration after the call was connected.
+    optional android.telephony.CallDuration call_duration = 33;
 }
 
 /**
@@ -13092,7 +13985,8 @@ message DataCallSession {
  * Logs data stall recovery event
  *
  * Logged from:
- *   frameworks/opt/telephony/src/java/com/android/internal/telephony/dataconnection/DcTracker.java
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/data/
+ *   DataStallRecoveryManager.java
  */
 message DataStallRecoveryReported {
     // Carrier ID of the SIM
@@ -13125,6 +14019,9 @@ message DataStallRecoveryReported {
 
     // The elapsed time between start of the data stall and result of current action.
     optional int32 duration_millis = 9;
+
+    // The data stall recovered reason. Available from Android T.
+    optional android.telephony.DataStallRecoveredReason reason = 10;
 }
 
 /**
@@ -13237,6 +14134,9 @@ message PinStorageEvent {
 
     // Number of PINs stored or discarded.
     optional int32 number_of_pins = 2;
+
+    // The caller package name
+    optional string package_name = 3;
 }
 
 /**
@@ -13674,6 +14574,36 @@ message UserLifecycleEventOccurred {
 }
 
 /**
+ * The UserInfo information about an Android user (as used in UserManager multiuser).
+ *
+ * This will be pulled from
+ *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
+ */
+message UserInfo {
+    // The @UserIdInt userId of the user
+    optional int32 user_id = 1;
+
+    // The type of user, if AOSP-defined, such as {@link UserManager#USER_TYPE_PROFILE_MANAGED}
+    optional UserLifecycleJourneyReported.UserType user_type = 2;
+
+    // The type of user if not AOSP-defined. Will be empty if user_type is not TYPE_UNKNOWN.
+    optional string user_type_custom = 3;
+
+    // The @UserInfoFlag UserInfo flags of user.
+    optional int32 user_flags = 4;
+
+    // Wall-clock time in milliseconds when user was created, according to System.currentTimeMillis
+    optional int64 creation_time_millis = 5;
+
+    // Wall-clock time in milliseconds when user last entered the state of STATE_RUNNING_UNLOCKED,
+    // according to System.currentTimeMillis
+    optional int64 last_logged_in_time_millis = 6;
+
+    // True if user is currently running and unlocked
+    optional bool is_user_running_unlocked = 7;
+}
+
+/**
  * Logs when accessibility shortcut clicked.
  *
  * Logged from:
@@ -13706,6 +14636,69 @@ message AccessibilityServiceReported {
     // The definition of the service status.
     // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
     optional android.stats.accessibility.ServiceStatus service_status = 2;
+}
+
+/**
+ * Logs when accessibility floating menu changed its position by user.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/accessibility/floatingmenu
+ */
+message AccessibilityFloatingMenuUIChanged {
+    // Normalized screen position of the accessibility floating menu. The range is between 0 and 1.
+    optional float normalized_x_position = 1;
+    optional float normalized_y_position = 2;
+
+    enum Orientation {
+        UNKNOWN = 0;
+        PORTRAIT = 1;
+        LANDSCAPE = 2;
+    }
+    // Orientation of the device when accessibility floating menu changed.
+    optional Orientation orientation = 3;
+}
+
+/**
+ * Pulls accessibility shortcuts status.
+ *
+ * Pulled from:
+ *   StatsPullAtomService
+ */
+message AccessibilityShortcutStats {
+    // The definition of the accessibility software shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType software_shortcut_type = 1;
+    // Number of accessibility services in accessibility software shortcut.
+    optional int32 software_shortcut_service_num = 2;
+
+    // The definition of the accessibility hardware shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType hardware_shortcut_type = 3;
+    // Number of accessibility services in accessibility hardware shortcut.
+    optional int32 hardware_shortcut_service_num = 4;
+
+    // The definition of the accessibility gesture shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType gesture_shortcut_type = 5;
+    // Number of accessibility services in accessibility gesture shortcut.
+    optional int32 gesture_shortcut_service_num = 6;
+}
+
+/**
+ * Pulls accessibility floating menu status.
+ *
+ * Pulled from:
+ *   StatsPullAtomService
+ */
+message AccessibilityFloatingMenuStats {
+    // Size of the accessibility floating menu.
+    optional int32 size = 1;
+    // Icon shape of the accessibility floating menu.
+    optional int32 icon_type = 2;
+    // Whether the accessibility floating menu is enable auto fade ability.
+    optional bool fade_enabled = 3;
+    // Opacity of the accessibility floating menu. The range is between 0 and 1.
+    optional float opacity = 4;
 }
 
 /**
@@ -13835,6 +14828,18 @@ message AudioPowerUsageDataReported {
         RECORD_TYPE = 7;  // other recording
     }
     optional AudioType type = 4;
+
+    // Minimum volume duration of the audio in seconds
+    optional int32 minimum_volume_duration_secs = 5;
+
+    // Minimum volume (0 ... 1.0)
+    optional float minimum_volume = 6;
+
+    // Maximum volume duration of the audio in seconds
+    optional int32 maximum_volume_duration_secs = 7;
+
+    // Maximum volume (0 ... 1.0)
+    optional float maximum_volume = 8;
 }
 
 /**
@@ -14180,6 +15185,115 @@ message MediametricsAudioDeviceConnectionReported {
 }
 
 /**
+ * Logs the status of an AudioRecord operation.
+ *
+ * Logged from:
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsAudioRecordStatusReported {
+    // General status code for categorization of status.
+    optional android.media.Status status = 1;
+
+    // Status or error message, e.g. logcat.
+    optional string debug_message = 2;
+
+    // Supplemental status subcode for AudioRecord.
+    optional int32 status_subcode = 3;
+
+    // Uid associated with the AudioRecord.
+    optional int32 uid = 4 [(is_uid) = true];
+
+    // The AudioRecord event.
+    optional android.media.audio.AudioRecordEvent event = 5;
+
+    // Requested AudioRecord flags, with each flag bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_input_flags_t
+    optional int32 input_flags = 6;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_source_t, representing the input source for the AudioRecord.
+    optional android.media.audio.Source source = 7;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_format_t, representing the encoding of the AudioRecord data.
+    optional android.media.audio.Encoding encoding = 8;
+
+    // Channel mask, with each channel position bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_channel_mask_t, representing the input channel configuration
+    // of AudioRecord data.
+    optional int64 channel_mask = 9;
+
+    // The size of the AudioRecord buffer in frames.
+    // If an error occurs during creation, this may be a small integer requested size
+    // as AudioFlinger is entitled to increase this as required.
+    optional int32 buffer_frame_count = 10;
+
+    // Sample rate in Hz.
+    optional int32 sample_rate = 11;
+}
+
+/**
+ * Logs the status of an AudioTrack operation.
+ *
+ * Logged from:
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsAudioTrackStatusReported {
+    // General status code for categorization of status.
+    optional android.media.Status status = 1;
+
+    // Status or error message, e.g. logcat.
+    optional string debug_message = 2;
+
+    // Supplemental status subcode for AudioTrack.
+    optional int32 status_subcode = 3;
+
+    // Uid associated with track
+    optional int32 uid = 4 [(is_uid) = true];
+
+    // The AudioTrack event.
+    optional android.media.audio.AudioTrackEvent event = 5;
+
+    // Requested AudioTrack flags, with each flag bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_output_flags_t
+    optional int32 output_flags = 6;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_content_type_t, representing the content type of the AudioTrack.
+    optional android.media.audio.ContentType content_type = 7;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_usage_t, representing the use case for the AudioTrack.
+    optional android.media.audio.Usage usage = 8;
+
+    // An enumeration from system/media/audio/include/system/audio-hal-enums.h
+    // audio_format_t, representing the encoding of the AudioTrack data.
+    optional android.media.audio.Encoding encoding = 9;
+
+    // Channel mask, with each channel position bitwise ORed.
+    // One or more bits from system/media/audio/include/system/audio-hal-enums.h
+    // audio_channel_mask_t, representing the channel configuration of AudioTrack data.
+    optional int64 channel_mask = 10;
+
+    // The size of the AudioTrack buffer in frames.
+    // If an error occurs during creation, this may be a small integer requested size
+    // as AudioFlinger is entitled to increase this as required.
+    optional int32 buffer_frame_count = 11;
+
+    // Sample rate in Hz.
+    optional int32 sample_rate = 12;
+
+    // Playback speed, nominal 1.f representing 1x.
+    optional float speed = 13;
+
+    // Playback pitch, nominal 1.f representing 1x.
+    optional float pitch = 14;
+}
+
+/**
  * Logs: i) creation of different types of cryptographic keys in the keystore,
  * ii) operations performed using the keys,
  * iii) attestation of the keys
@@ -14306,6 +15420,7 @@ message Keystore2KeyCreationWithGeneralInfo {
         P_256 = 2;
         P_384 = 3;
         P_521 = 4;
+        CURVE_25519 = 5;
     };
     // Which ec curve was selected if elliptic curve cryptography is in use
     optional EcCurve ec_curve = 3;
@@ -15000,105 +16115,148 @@ message TextClassifierDownloadWorkCompleted {
 }
 
 /**
- * Logs the current state of an application before it is killed.
+ * Logs telemetry for Android Virtualization framework
+ *
+ * On CreateVM requests, an atom is pushed that records what hypervisor is being used.
+ * the protected status of the new VM, and if the VM creation succeeded
+ * Logged from: packages/modules/Virtualization/
+ */
+message VmCreationRequested {
+    enum Hypervisor {
+        UNKNOWN = 0;
+        PKVM = 1;
+        OTHER = 2;
+    }
+    optional Hypervisor hypervisor = 1;
+    // Is the VM started in protected mode?
+    optional bool is_protected = 2;
+    // Did the VM creation succeed
+    optional bool creation_succeeded = 3;
+}
+
+/**
+ * Logs telemetry for Early boot CompOsArtifacts checks (done by odsign)
+ *
+ * odsign is a binary that runs during early boot. One of its responsibility is
+ * to check if the device can use compOS and check if so, validate the compos
+ * generated artifacts. An atom is pushed on each such check. Note: We only
+ * push an atom from devices/configurations that can use compOs.
+ */
+message EarlyBootCompOsArtifactsCheckReported {
+  // Are the current Artifacts okay (This check is done by odrefresh).
+  // (current_artifacts_ok == true) => compilationRequired is false
+  optional bool current_artifacts_ok = 1;
+  // Has CompOs generated any Artifacts
+  optional bool comp_os_pending_artifacts_exists = 2;
+  // The device will be using CompOs generated artifacts. Note: the value of
+  // this is meaningless if current_artifacts_ok = true
+  optional bool use_comp_os_generated_artifacts = 3;
+}
+
+/**
+ * Logs the current state of an application/process before it is killed.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Pushed from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
-message KilledAppStatsReported {
+message CarWatchdogKillStatsReported {
     // Linux process uid for the package.
     optional int32 uid = 1 [(is_uid) = true];
 
-    // Name of the package that was killed.
-    optional string package_name = 2;
-
-    // State of the application when it was killed.
-    enum AppState {
-        UNKNOWN_APP_STATE = 0;
-        BACKGROUND = 1;
-        FOREGROUND = 2;
+    // State of the uid when it was killed.
+    enum UidState {
+        UNKNOWN_UID_STATE = 0;
+        BACKGROUND_MODE = 1;
+        FOREGROUND_MODE = 2;
     }
-    optional AppState app_state = 3;
+    optional UidState uid_state = 2;
 
     // System state indicating whether the system was in normal mode or garage mode.
     enum SystemState {
         UNKNOWN_SYSTEM_STATE = 0;
         USER_INTERACTION_MODE = 1;
-        NO_USER_INTERACTION_MODE = 2;
+        USER_NO_INTERACTION_MODE = 2;
+        GARAGE_MODE = 3;
     }
-    optional SystemState system_state = 4;
+    optional SystemState system_state = 3;
 
     // Reason for killing the application.
-    // Keep in sync between:
-    //   packages/services/Car/watchdog/server/src/ApplicationTerminator.h
-    //   frameworks/base/cmds/statsd/src/atoms.proto
+    // Keep in sync with proto file at packages/services/Car/cpp/watchdog/proto
     enum KillReason {
         UNKNOWN_KILL_REASON = 0;
         KILLED_ON_ANR = 1;
         KILLED_ON_IO_OVERUSE = 2;
         KILLED_ON_MEMORY_OVERUSE = 3;
     }
-    optional KillReason kill_reason = 5;
+    optional KillReason kill_reason = 4;
 
     // Stats of the processes owned by the application when the application was killed.
     // The process stack traces are not collected when the application was killed due to IO_OVERUSE.
-    optional ProcessStats process_stat = 6 [(log_mode) = MODE_BYTES];
+    optional CarWatchdogProcessStats process_stats = 5 [(log_mode) = MODE_BYTES];
 
     // The application's I/O overuse stats logged only when the kill reason is KILLED_ON_IO_OVERUSE.
-    optional IoOveruseStats io_overuse_stats = 7 [(log_mode) = MODE_BYTES];
+    optional CarWatchdogIoOveruseStats io_overuse_stats = 6 [(log_mode) = MODE_BYTES];
 }
 
 /**
  * Logs the I/O overuse stats for an application on detecting I/O overuse.
  *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
  * Pushed from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
-message IoOveruseStatsReported {
+message CarWatchdogIoOveruseStatsReported {
     // Linux process uid for the package.
     optional int32 uid = 1 [(is_uid) = true];
 
     // The application's I/O overuse stats.
-    optional IoOveruseStats io_overuse_stats = 2 [(log_mode) = MODE_BYTES];
+    optional CarWatchdogIoOveruseStats io_overuse_stats = 2 [(log_mode) = MODE_BYTES];
 }
 
 /**
  * Logs I/O overuse stats for a package.
  *
- * Keep in sync between:
- *  packages/services/Car/cpp/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
-message IoOveruseStats {
+message CarWatchdogIoOveruseStats {
     enum Period {
-        DAILY = 0;
-        WEEKLY = 1;
+        UNKNOWN_PERIOD = 0;
+        DAILY = 1;
+        WEEKLY = 2;
     }
 
     // Threshold and usage stats period.
     optional Period period = 1;
 
     // Threshold in-terms of write bytes defined for the package.
-    optional PerStateBytes threshold = 2;
+    optional CarWatchdogPerStateBytes threshold = 2;
 
     // Number of write bytes in each state for the specified period.
-    optional PerStateBytes written_bytes = 3;
+    optional CarWatchdogPerStateBytes written_bytes = 3;
+
+    // Application or service uptime during the aforementioned period.
+    optional uint64 uptime_millis = 4;
 };
 
 /**
  * Logs bytes attributed to each application and system states.
  *
- * Keep in sync between:
- *  packages/services/Car/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
-message PerStateBytes {
+message CarWatchdogPerStateBytes {
     // Number of bytes attributed to the application foreground.
     optional int64 foreground_bytes = 1;
 
@@ -15110,36 +16268,34 @@ message PerStateBytes {
 }
 
 /**
- * Logs each ProcessStat in ProcessStats.
+ * Logs each CarWatchdogProcessStat in CarWatchdogProcessStats.
  *
- * Keep in sync between:
- *  packages/services/Car/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
-message ProcessStats {
+message CarWatchdogProcessStats {
     // Records the stats of the processes owned by an application.
-    repeated ProcessStat process_stat = 1;
+    repeated CarWatchdogProcessStat process_stat = 1;
 }
 
 /**
  * Logs a process's stats.
  *
- * Keep in sync between:
- *  packages/services/Car/watchdog/server/src/proto/statsd.proto
- *  frameworks/base/cmds/statsd/src/atoms.proto
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
  *
  * Logged from:
- *  packages/services/Car/cpp/watchdog/server/src/StatsReporter.cpp
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
  */
-message ProcessStat {
+message CarWatchdogProcessStat {
     // Command name of the process.
     optional string process_name = 1;
 
     // Process uptime.
-    optional uint64 uptime_milliseconds = 2;
+    optional uint64 uptime_millis = 2;
 
     // Number of major page faults caused by the process and its children.
     optional uint64 major_page_faults = 3;
@@ -15155,6 +16311,107 @@ message ProcessStat {
 
     // Resident set size in kb.
     optional uint64 vm_rss_kb = 7;
+}
+
+/**
+ * Logs total I/O usage summary for all applications and services running in the system.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
+ * Pulled from:
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
+ */
+message CarWatchdogSystemIoUsageSummary {
+    // I/O usage summary for the system.
+    optional CarWatchdogIoUsageSummary io_usage_summary = 1 [(log_mode) = MODE_BYTES];
+
+    // Start time of the event in milliseconds since epoch.
+    // Note: This field must be a top-level field as it is used to slice the metrics.
+    optional int64 start_time_millis = 2;
+}
+
+/**
+ * Logs I/O usage summary for an UID.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
+ * Pulled from:
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
+ */
+message CarWatchdogUidIoUsageSummary {
+    // UID of the application/service whose usage summary are recorded.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // I/O usage summary for the UID.
+    optional CarWatchdogIoUsageSummary io_usage_summary = 2 [(log_mode) = MODE_BYTES];
+
+    // Start time of the event in milliseconds since epoch.
+    // Note: This field must be a top-level field as it is used to slice the metrics.
+    optional int64 start_time_millis = 3;
+}
+
+/**
+ * Logs I/O usage summary for a time period.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
+ * Pulled from:
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
+ */
+message CarWatchdogIoUsageSummary {
+    // Summary event time period.
+    optional CarWatchdogEventTimePeriod event_time_period = 1;
+
+    // Daily I/O usage summary for the period. Logs summary entries only for days with I/O usage.
+    // The entries are ordered beginning from the event_time_period.start_time_millis.
+    repeated CarWatchdogDailyIoUsageSummary daily_io_usage_summary = 2;
+}
+
+/**
+ * Logs a car watchdog event's time period.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
+ * Pulled from:
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
+ */
+message CarWatchdogEventTimePeriod {
+    enum Period {
+        UNKNOWN_PERIOD = 0;
+        WEEKLY = 1;
+        BIWEEKLY = 2;
+        MONTHLY = 3;
+    }
+
+    // Deprecated field - Start time of the event in milliseconds since epoch.
+    optional uint64 start_time_millis = 1 [deprecated = true];
+
+    // Period for the event.
+    optional Period period = 2;
+}
+
+/**
+ * Logs daily I/O usage summary.
+ *
+ * Keep in sync with proto file at
+ * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ *
+ * Pulled from:
+ *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
+ */
+message CarWatchdogDailyIoUsageSummary {
+    // Total bytes written to disk during a day.
+    optional CarWatchdogPerStateBytes written_bytes = 1;
+
+    // Total uptime for the system or service or application during a day.
+    optional uint64 uptime_millis = 2;
+
+    // Total disk I/O overuses during a day.
+    optional int32 overuse_count = 3;
 }
 
 /*
@@ -15210,8 +16467,9 @@ message MediaNetworkInfoChanged {
     optional string log_session_id = 1;
     //  New network type
     optional android.stats.mediametrics.NetworkType type = 2;
-    //  Network Start time, relative to playback creation time in millisecond.
-    //  It's in absolute time (e.g. always ticks even if the playback is paused).
+    // When the network info change occurred relative to playback creation
+    // time in milliseconds.
+    // It is in absolute time (e.g. always ticks even if the playback is paused).
     optional int64 time_since_playback_created_millis = 3;
 }
 
@@ -15221,8 +16479,9 @@ message MediaPlaybackStateChanged {
     optional string log_session_id = 1;
     //  New playback state
     optional android.stats.mediametrics.PlaybackState playback_state = 2;
-    //  State change time, relative to playback creation time in millisecond.
-    //  It's in absolute time (e.g. always ticks even if the playback is paused).
+    // When the state change occurred relative to playback creation time in
+    // milliseconds.
+    // It is in absolute time (e.g. always ticks even if the playback is paused).
     optional int64 time_since_playback_created_millis = 3;
 }
 
@@ -15236,8 +16495,8 @@ message MediaPlaybackErrorReported {
     optional android.stats.mediametrics.PlaybackErrorCode error_code = 3;
     //  Sub-code of error type specified by the error code.
     optional int32 sub_error_code = 4;
-    //  Error time, relative to playback creation time in millisecond.
-    //  It's in absolute time (e.g. always ticks even if the playback is paused).
+    // When the error occurred relative to playback creation time in millisecond.
+    // It is in absolute time (e.g. always ticks even if the playback is paused).
     optional int64 time_since_playback_created_millis = 5;
 }
 
@@ -15259,9 +16518,10 @@ message MediaPlaybackTrackChanged {
     //  Bits per second. 0 means unknown.
     optional int32 bitrate = 7;
 
-    //  Track change time, relative to playback creation time in millisecond.
-    //  It's in absolute time (e.g. always ticks even if the playback is paused).
-    optional int64 time_since_playback_created_millis = 8;
+   // When the track change occurred, relative to playback creation time in
+   // millisecond.
+   // It is in absolute time (e.g. always ticks even if the playback is paused).
+   optional int64 time_since_playback_created_millis = 8;
 
     //  Track type. Audio, Video, Text
     optional android.stats.mediametrics.TrackType type = 9;
@@ -15465,6 +16725,7 @@ message ImsServiceEntitlementUpdated {
 
 // Indicates which compile filter was used for the package being loaded in an ART session.
 enum ArtCompileFilter {
+    ART_COMPILATION_FILTER_UNSPECIFIED = 0;
     ART_COMPILATION_FILTER_ERROR = 1;
     ART_COMPILATION_FILTER_UNKNOWN = 2;
     ART_COMPILATION_FILTER_ASSUMED_VERIFIED = 3;
@@ -15483,6 +16744,7 @@ enum ArtCompileFilter {
 }
 
 enum ArtCompilationReason {
+    ART_COMPILATION_REASON_UNSPECIFIED = 0;
     ART_COMPILATION_REASON_ERROR = 1;
     ART_COMPILATION_REASON_UNKNOWN = 2;
     ART_COMPILATION_REASON_FIRST_BOOT = 3;
@@ -15502,6 +16764,7 @@ enum ArtCompilationReason {
     ART_COMPILATION_REASON_BOOT_AFTER_OTA = 17;
     ART_COMPILATION_REASON_PREBUILT = 18;
     ART_COMPILATION_REASON_CMDLINE = 19;
+    ART_COMPILATION_REASON_VDEX = 20;
 }
 
 // Indicates which kind of measurement ART is reporting.
@@ -15546,6 +16809,7 @@ enum ArtDatumId {
 
 // Indicates what class of thread the reported values apply to.
 enum ArtThreadType {
+    ART_THREAD_UNKNOWN = 0;
     ART_THREAD_MAIN = 1;
     ART_THREAD_BACKGROUND = 2;
 }
@@ -15645,6 +16909,7 @@ message BinderLatencyReported {
             SYSTEM_SERVER = 1;
             TELEPHONY = 2;
             BLUETOOTH = 3;
+            WIFI = 4;
         }
         enum ServiceClassName {
             UNKNOWN_CLASS = 0;
@@ -16010,6 +17275,37 @@ message DeviceControlChanged {
     optional bool is_locked = 5;
 }
 
+/*
+ * Logged when hardware based user-configurable device state changes.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/devicestate/DeviceStateManagerService.java
+ */
+message DeviceStateChanged {
+    optional int32 new_device_state = 1
+            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
+    optional bool boot_state = 2;
+}
+
+/*
+ * Logged when device folded state changes.
+ *
+ * Logged from:
+ *     frameworks/base/packages/SystemUI/src/com/android/systemui/unfold/FoldStateLogger.kt
+ */
+message FoldStateDurationReported {
+    enum State {
+      UNKNOWN = 0;
+      OPEN = 1;
+      CLOSED = 2;
+      HALF_OPEN = 3;
+    }
+
+    optional State start_state = 1;
+    optional State end_state = 2;
+    optional int64 duration_millis = 3;
+}
+
 /**
  * This metric is collected at the end of playback
  * as a pulled atom.
@@ -16141,28 +17437,7 @@ message MediaDrmActivityInfo {
 }
 
 /*
- * Logged when hardware based user-configurable device state changes.
- *
- * Logged from:
- *     frameworks/base/services/core/java/com/android/server/devicestate/DeviceStateManagerService.java
- */
-message DeviceStateChanged {
-    optional int32 new_device_state = 1
-            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
-    optional bool boot_state = 2;
-}
-
-/*
- * An obfuscated, canonical form time zone suggestion for metrics use.
- *
- * The suggestion's time zone IDs (which relate to location) are obfuscated by
- * mapping them to an ordinal. When the ordinal is assigned consistently across
- * several objects (i.e. so the same time zone ID is always mapped to the same
- * ordinal), this allows comparisons between those objects. For example, we can
- * answer "did these two suggestions agree?", "does the suggestion match the
- * device's current time zone?", without leaking knowledge of location. Ordinals
- * are also significantly more compact than full IANA TZDB IDs, albeit highly
- * unstable and of limited use.
+ * A canonical form time zone suggestion for metrics use.
  */
 message MetricsTimeZoneSuggestion {
     enum Type {
@@ -16175,7 +17450,26 @@ message MetricsTimeZoneSuggestion {
     // The ordinals for time zone(s) in the suggestion. Always empty for
     // UNCERTAIN, and can be empty for CERTAIN, for example when the device is in
     // a disputed area / on an ocean.
+    //
+    // The suggestion's time zone IDs (which relate to location) are obfuscated by
+    // mapping them to an ordinal. When the ordinal is assigned consistently across
+    // several objects (i.e. so the same time zone ID is always mapped to the same
+    // ordinal), this allows comparisons between those objects. For example, we can
+    // answer "did these two suggestions agree?", "does the suggestion match the
+    // device's current time zone?", without leaking knowledge of location. Ordinals
+    // are also significantly more compact than full IANA TZDB IDs, albeit unstable
+    // and of limited use.
     repeated int32 time_zone_ordinals = 2;
+
+    // The actual time zone ID(s) in the suggestion. Similar to time_zone_ordinals
+    // but contains the actual string IDs.
+    //
+    // This information is only captured / reported for some devices based on the
+    // value of a server side flag, i.e. it could be enabled for internal testers.
+    // Therefore the list can be empty even when time_zone_ordinals is populated.
+    //
+    // When enabled, see time_zone_ordinals for the expected number of values.
+    repeated string time_zone_ids = 3;
 }
 
 /*
@@ -16226,17 +17520,33 @@ message TimeZoneDetectorState {
     // The latest geo-derived suggestion (non-persistent).
     optional MetricsTimeZoneSuggestion latest_geo_suggestion = 10
             [(log_mode) = MODE_BYTES];
+
+    // True if fallback to telephony time zone detection is supported on the device.
+    optional bool telephony_time_zone_fallback_supported = 11;
+
+    // The device's current time zone ID (see MetricsTimeZoneSuggestion).
+    optional string device_time_zone_id = 12;
+
+    // True if enhanced metrics collection is enabled.
+    optional bool enhanced_metrics_collection_enabled = 13;
+
+    // True if the device may run geolocation time zone detection in the
+    // background. This is the raw server flag value, not the value after
+    // considering other state like the user's "use location" setting that also
+    // affects runtime behavior. See LocationTimeZoneProviderController for
+    // details.
+    optional bool geo_detection_run_in_background_enabled = 14;
 }
 
 /*
  * Logs information about an individual location time zone provider's state.
  *
  * Logged from:
- * frameworks/base/services/core/java/com/android/server/location/timezone/ControllerImpl.java
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/location/RealProviderMetricsLogger.java
  */
 message LocationTimeZoneProviderStateChanged {
     // The index of the provider (primary = 0, secondary = 1)
-    optional int32 provider_index = 1;
+    optional int32 provider_index = 1 [(state_field_option).primary_field = true];
 
     enum State {
         // A placeholder for unknown values.
@@ -16262,7 +17572,45 @@ message LocationTimeZoneProviderStateChanged {
     }
 
     // The state of the provider.
-    optional State state = 2;
+    optional State state = 2 [(state_field_option).exclusive_state = true];
+}
+
+/*
+ * Logs information about the location time zone provider controller's state.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/location/RealControllerMetricsLogger.java
+ */
+message LocationTimeZoneProviderControllerStateChanged {
+
+    enum State {
+        // A placeholder for unknown values.
+        UNKNOWN = 0;
+
+        // The providers are initializing.
+        PROVIDERS_INITIALIZING = 1;
+
+        // The controller is / has been stopped.
+        STOPPED = 2;
+
+        // The controller is started and is initializing.
+        INITIALIZING = 3;
+
+        // The controller is started and is certain of the time zone.
+        CERTAIN = 4;
+
+        // The controller is started and is uncertain of the time zone.
+        UNCERTAIN = 5;
+
+        // The controller has been destroyed.
+        DESTROYED = 6;
+
+        // The controller has failed.
+        FAILED = 7;
+    }
+
+    // The state of the provider.
+    optional State state = 1;
 }
 
 /*
@@ -16655,7 +18003,6 @@ message PrivacySensorToggleInteraction {
         SENSOR_UNKNOWN = 0;
         MICROPHONE = 1;
         CAMERA = 2;
-
     }
 
     // Sensor for which sensor privacy was toggled.
@@ -16697,4 +18044,1846 @@ message PrivacyToggleDialogInteraction {
 
     // Name of the package for which the dialog was shown.
     optional string package_name = 2;
+}
+
+message VendorApexInfo {
+  optional string package_name = 1;
+  optional string version_code = 2;
+  optional string version_name = 3;
+  optional string source_dir = 4;
+  optional string signing_certs_hash = 5;
+  optional string file_hash = 6;
+}
+
+/**
+ * Logs the non-a11yTool service warning status and its duration of the usage.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ *   packages/apps/Settings
+ */
+message NonA11yToolServiceWarningReported {
+    // Package name of the non-a11yTool service.
+    optional string package_name = 1;
+
+    // Warning status of the non-a11yTool service.
+    optional android.stats.accessibility.WarningStatus status = 2;
+
+    // Duration between status in milliseconds.
+    optional int64 duration_millis = 3;
+}
+
+message MediaCapabilities {
+    message AudioEncodings {
+        repeated android.stats.mediametrics.AudioEncoding audio_encodings = 1;
+    }
+
+    message HdrFormats {
+        repeated android.stats.mediametrics.HdrFormat hdr_formats = 1;
+    }
+
+
+    message DisplayMode {
+        optional int32 height = 1;
+        optional int32 width = 2;
+        optional float refresh_rate = 3;
+        optional int32 seamless_refresh_rates_group_id = 4;
+    }
+
+    message DisplayModes {
+        repeated DisplayMode display_modes = 1;
+    }
+
+    // Surround sound capabilities
+
+    // List of surround sound encodings supported by this device
+    optional AudioEncodings surround_encodings = 1 [(log_mode) = MODE_BYTES];
+    // List of surround sound encodings supported by the sink device
+    optional AudioEncodings sink_surround_encodings = 2 [(log_mode) = MODE_BYTES];
+    // List of supported surround sound encodings disabled by user
+    optional AudioEncodings user_disabled_surround_encodings = 3 [(log_mode) = MODE_BYTES];
+    // List of unsupported surround sound encodings enabled by user
+    optional AudioEncodings user_enabled_surround_encodings = 4 [(log_mode) = MODE_BYTES];
+     // The surround sound output mode chosen by user
+    optional android.stats.mediametrics.EncodedSurroundOutputMode surround_output_mode = 5;
+
+
+    // Display capabilities
+
+    // List of HDR display formats supported by the sink device
+    optional HdrFormats sink_hdr_formats = 6 [(log_mode) = MODE_BYTES];
+    // List of modes supported by the sink device. Each mode has height, width, refresh rate and a list
+    // of refresh-rates between which a seamless switch is possible.
+    optional DisplayModes sink_display_modes = 7 [(log_mode) = MODE_BYTES];
+    // The HDCP level with which the display is connected
+    optional int32 hdcp_level = 8;
+
+    // Display settings
+
+    // The Match content refresh rate user preference
+    optional android.stats.mediametrics.MatchContentFrameRatePreference
+                match_content_refresh_rate_preference = 9;
+    // List of HDR formats disabled by the user
+    optional HdrFormats user_disabled_hdr_formats = 10 [(log_mode) = MODE_BYTES];
+    // The resolution height selected by the user
+    optional int32 user_preferred_resolution_height = 11;
+    // The resolution width selected by the user
+    optional int32 user_preferred_resolution_width = 12;
+    // The refresh rate selected by the user
+    optional float user_preferred_refresh_rate = 13;
+    // Whether the user has disabled auto low latency mode
+    optional bool has_user_disabled_allm = 14;
+}
+
+/**
+ * Logs when NNAPI model is compiled successfully
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksCompilationCompleted {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this compilation.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 6;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 7;
+
+    // Did the compilation had to fallback to cpu due to an error?
+    optional bool fallback_to_cpu_from_error = 8;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 9;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 10;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 11;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 12;
+
+    // Time taken to compile a model
+    optional int64 compilation_time_sum_millis = 13;
+    optional int64 compilation_time_min_millis = 14;
+    optional int64 compilation_time_max_millis = 15;
+    optional int64 compilation_time_sum_squared_millis = 16;
+    optional int32 compilation_time_count = 17;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 18;
+}
+
+/**
+ * Logs when NNAPI model fails compilation
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksCompilationFailed {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this compilation.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 6;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 7;
+
+    // Error code returned by compilation call
+    optional android.neuralnetworks.ResultCode error_code = 8;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 9;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 10;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 11;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 12;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 13;
+}
+
+/**
+ * Logs when NNAPI model is executed successfully
+ *
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksExecutionCompleted {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this execution.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Execution mode
+    optional android.neuralnetworks.Mode mode = 6;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 7;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 8;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 9;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 10;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 11;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 12;
+
+    // Time taken to execute from runtime, including runtime/ipc overhead
+    optional int64 duration_runtime_sum_micros = 13;
+    optional int64 duration_runtime_min_micros = 14;
+    optional int64 duration_runtime_max_micros = 15;
+    optional int64 duration_runtime_sum_squared_micros = 16;
+    optional int32 duration_runtime_count = 17;
+
+    // Time taken to execute in the driver, excluding runtime/ipc overhead
+    optional int64 duration_driver_sum_micros = 18;
+    optional int64 duration_driver_min_micros = 19;
+    optional int64 duration_driver_max_micros = 20;
+    optional int64 duration_driver_sum_squared_micros = 21;
+    optional int32 duration_driver_count = 22;
+
+    // Time taken to execute on the hardware, excluding driver overhead
+    optional int64 duration_hardware_sum_micros = 23;
+    optional int64 duration_hardware_min_micros = 24;
+    optional int64 duration_hardware_max_micros = 25;
+    optional int64 duration_hardware_sum_squared_micros = 26;
+    optional int32 duration_hardware_count = 27;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 28;
+}
+
+/**
+ * Logs when NNAPI model fails execution
+ * Logged from
+ *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ */
+message NeuralNetworksExecutionFailed {
+    // Linux process uid for the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // id which identifies single session of client interacting with NNAPI runtime
+    optional int32 session_id = 2;
+
+    // NNAPI mainline module version.
+    optional int64 version_nnapi_module = 3;
+
+    // An identifier that can be used to match events for ML model architecture.
+    // Hash is generated from model operations and operands definition, but not weights.
+    // Hash algorithm: HMAC-SHA256
+    // Size: 32 byte
+    optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
+
+    // Devices identifier used by this execution.
+    // Device identifier is a concatenation of [device name, =, and device version].
+    // If multiple devices are used, all device identifiers are sorted and concatenated
+    // with comma as a separator.
+    optional string device_id = 5;
+
+    // Execution mode
+    optional android.neuralnetworks.Mode mode = 6;
+
+    // Type of tensors used for inputs
+    optional android.neuralnetworks.DataClass input_data_class = 7;
+
+    // Type of tensors used for outputs
+    optional android.neuralnetworks.DataClass output_data_class = 8;
+
+    // Error code returned by execution call
+    optional android.neuralnetworks.ResultCode error_code = 9;
+
+    // Did client name target devices explicitly?
+    optional bool introspection_enabled = 10;
+
+    // Was cache enabled?
+    optional bool cache_enabled = 11;
+
+    // Was control flow used in the model?
+    optional bool has_control_flow = 12;
+
+    // Whether there exists a partition boundary in the compilation that has dynamic size
+    optional bool has_dynamic_temporaries = 13;
+
+    // How many times this atom occurred locally before being pushed.
+    optional int32 count = 14;
+}
+
+/**
+ * Logs boot-time info for a Context Hub.
+ */
+message ContextHubBooted {
+  // The amount of time it took the framework to connect to CHRE/Context Hub HAL
+  // since the framework has booted.
+  optional int64 boot_time_nanos = 1;
+
+  // The number of Context Hub instances found on this system.
+  optional int32 num_context_hubs = 2;
+}
+
+/**
+ * Logs Context Hub restart events (e.g. crashes).
+ */
+message ContextHubRestarted {
+  // The duration of time between the last time Context Hub restart and this event.
+  // This should use the SystemClock.elapsedRealTime() API.
+  optional int64 elapsed_time_millis_since_boot = 1;
+
+  // The ID of the Context Hub that has restarted (zero-indexed).
+  optional int32 context_hub_id = 2;
+}
+
+/**
+ * Logs a snapshot of all the nanoapps loaded on this Context Hub.
+ */
+message ContextHubLoadedNanoappSnapshotReported {
+  // The ID of the Context Hub the snapshot is for (zero-indexed).
+  optional int32 context_hub_id = 1;
+
+  // The nanoapp this snapshot is for. The nanoapp ID is the 64-bit unique identifier
+  // for the application, and the version is the semantic versioning (https://semver.org)
+  // used to determine the software version.
+  optional int64 nanoapp_id = 2;
+  optional int32 nanoapp_version = 3;
+}
+
+/**
+ * Logs details of a dynamic CHRE nanoapp code download transaction.
+ */
+message ChreCodeDownloadTransacted {
+  enum Type {
+    TYPE_UNKNOWN = 0;
+    TYPE_LOAD = 1;
+    TYPE_UNLOAD = 2;
+  }
+  // The ID/version of the nanoapp this code download was for.
+  optional int64 nanoapp_id = 1;
+  optional int32 nanoapp_version = 2;
+
+  // The type of code download transaction.
+  optional Type transaction_type = 3;
+
+  // The result of this transaction.
+  optional android.contexthub.ContextHubTransactionResult transaction_result = 4;
+}
+
+/**
+ * Stats about each feature tag that was included in the registration.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message ImsRegistrationFeatureTagStats {
+    // the carrier id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // The slot id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The name of the feature tag
+    // used as a dimension
+    optional android.telephony.ImsFeatureTag feature_tag_name = 3;
+
+    // The underlying radio technology type associated with the feature tag
+    // used as a dimension
+    // See the ImsRegistrationImplBase#REGISTRATION_TECH*
+    optional int32 registration_tech = 4;
+
+    // The time this feature tag was registered, rounded to 5 minutes
+    optional int32 registered_seconds = 5;
+}
+
+/**
+ * Stats about the messaging client interacting with telephony
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message RcsClientProvisioningStats {
+    enum EventType {
+        EVENT_TYPE_UNSPECIFIED = 0;
+        // The client sent its client params to the ACS service.
+        CLIENT_PARAMS_SENT = 1;
+        // The client has manually triggered reconfiguration
+        TRIGGER_RCS_RECONFIGURATION = 2;
+        // Default messaging application changed.
+        DMA_CHANGED = 3;
+    }
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // Used as a dimension
+    optional EventType event = 3;
+
+    // The number of times this event has occurred.
+    optional int32 count = 4;
+}
+
+/**
+ * Stats about the RCS provisioning via ACS
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message RcsAcsProvisioningStats {
+    enum ResponseType {
+        RESPONSE_TYPE_UNSPECIFIED = 0;
+        // a provisioning request resulted in an error.
+        ERROR = 1;
+        // a provisioning request succeeded and provided an xml
+        PROVISIONING_XML = 2;
+        // a provisioning request has resulted in a "pre-provisioning" xml, which
+        // means RCS is not provisioned and requires the user to intervene.
+        PRE_PROVISIONING_XML = 3;
+    }
+
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The response code of provisioning if the provisioning resulted in
+    // ResponseType.ERROR
+    // Used as a dimension
+    optional int32 response_code = 3;
+
+    // used as a dimension.
+    optional ResponseType response_type = 4;
+
+    // Does the provisioning XML have single registration provisioned.
+    // Populated if response_type is ResponseType.PROVISIONING_XML
+    // used as a dimension
+    optional bool is_single_registration_enabled = 5;
+
+    // The number of times this event has occurred.
+    optional int32 count = 6;
+
+    // The amount of time in seconds that the device was in this state in total, rounded 5 minutes
+    optional int32 state_timer_sec = 7;
+}
+
+/**
+ * Metrics surrounding the lifetime of a SIP delegate created by applications.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message SipDelegateStats {
+    // The random number identifier with this SIP delegate
+    optional int32 dimension = 1;
+
+    // The carrier id associated with this SIP delegate
+    optional int32 carrier_id = 2;
+
+    // The slot id associated with this SIP delegate
+    optional int32 slot_id = 3;
+
+    // The total uptime of this delegate, rounded 5 minutes
+    optional int32 uptime_seconds = 4;
+
+    // The reason why this SIP delegate was destroyed.
+    // See the SipDelegateManager#SIP_DELEGATE_DESTROY_REASON*
+    optional int32 destroy_reason = 5;
+}
+
+/**
+ * Tracks each feature tag associated with the SipDelegates that are currently active.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message SipTransportFeatureTagStats {
+    // the carrier id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // The slot id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The name of the feature tag
+    // used as a dimension
+    optional android.telephony.ImsFeatureTag feature_tag_name = 3;
+
+    // The reason why this feature tag was denied on the SIP Transport
+    // used as a dimension
+    // Use SIP transport denied reason.
+    // See the SipDelegateManager#DENIED_REASON*
+    optional int32 sip_transport_denied_reason = 4;
+
+    // The reason why this feature tag was associated with the SIP Transport but not
+    // marked as deregistered.
+    // used as a dimension
+    // Use SIP transport deregistered reason.
+    // See the DelegateRegistrationState#DEREGISTERING_REASON*
+    optional int32 sip_transport_deregistered_reason = 5;
+
+    // the time this feature tag was in this state, rounded 5 minutes
+    optional int32 associated_seconds = 6;
+}
+
+/**
+ * Tracks each SIP message and the response from either the app or network.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message SipMessageResponse {
+    enum Direction {
+        UNKNOWN = 0;
+        INCOMING = 1;
+        OUTGOING = 2;
+    }
+    // the carrier id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // The slot id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The SIP message method type (INVITE, MESSAGE, etc...)
+    // used as a dimension
+    optional android.telephony.SipRequestMethodType sip_message_method = 3;
+
+    // The SIP message response code, used if this is a response to a request.
+    // used as a dimension.
+    optional int32 sip_message_response = 4;
+
+    // The SIP message direction
+    // used as a dimension
+    optional Direction sip_message_direction = 5;
+
+    // The response from the SIP stack to sending/receiving the message
+    // used as a dimension
+    // See the SipDelegateManager#MESSAGE_FAILURE_REASON*
+    optional int32 message_error = 6;
+
+    // The number of messages that fit this criteria.
+    optional int32 count = 7;
+}
+
+/**
+ * Tracks SIP sessions managed by the SIP transport.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message SipTransportSession {
+    enum Direction {
+        UNKNOWN = 0;
+        INCOMING = 1;
+        OUTGOING = 2;
+    }
+    // the carrier id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // The slot id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The SIP message method that started the session (INVITE, SUBSCRIBE, etc...)
+    // used as a dimension
+    optional android.telephony.SipRequestMethodType session_method = 3;
+
+    // The SIP message direction
+    // used as a dimension
+    optional Direction sip_message_direction = 4;
+
+    // The response from the SIP stack or network.
+    // used as a dimension.
+    optional int32 sip_response = 5;
+
+    // The number of these sessions counted
+    optional int32 session_count = 6;
+
+    // The number of sessions that were started properly and did not require
+    // the SIP transport to forcefully close them.
+    optional int32 ended_gracefully_count = 7;
+}
+
+/**
+ * Used to determine if there were dedicated bearers set up for a specific listener.
+ * If not, this indicates that there may have been a network issue in the dedicated bearer setup.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message ImsDedicatedBearerListenerEvent {
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // Radio access technology (RAT) used by the registration when it terminated.
+    // The value is either 4G or 5G.
+    // Used as a dimension
+    optional android.telephony.NetworkTypeEnum rat_at_end = 3;
+
+    // QoS class identifier.
+    // dimension
+    optional int32 qci = 4;
+
+    // True if there was a dedicated bearer established for this listener.
+    // dimension
+    optional bool dedicated_bearer_established = 5;
+
+    // The count of listeners with this result.
+    optional int32 event_count = 6;
+}
+
+/**
+ * Logs information related to ims dedicated bearer which fulfills required qos and provides guaranteed service.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message ImsDedicatedBearerEvent {
+    enum State {
+        STATE_UNSPECIFIED = 0;
+        STATE_ADDED = 1;
+        STATE_MODIFIED = 2;
+        STATE_DELETED = 3;
+    }
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // Radio access technology (RAT) used by the registration when it terminated.
+    // The value is either 4G or 5G.
+    // Used as a dimension
+    optional android.telephony.NetworkTypeEnum rat_at_end = 3;
+
+    // Qos class identifier.
+    // Used as a dimension
+    optional int32 qci = 4;
+
+    // Dedicated bearer state from the network.
+    // Used as a dimension
+    optional State bearer_state = 5;
+
+    // Whether location connection information is received.
+    // Used as a dimension
+    optional bool local_connection_info_received = 6;
+
+    // Whether remote connection information is received.
+    // Used as a dimension
+    optional bool remote_connection_info_received = 7;
+
+    // Whether or not the QoS indication had listeners.
+    // Used as a dimension
+    optional bool has_listeners = 8;
+
+    // The count that matches the above conditions.
+    optional int32 count = 9;
+}
+
+/**
+ * Stats about each ServiceDescription that was included in the PIDF XML sent to the network during publish.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message ImsRegistrationServiceDescStats {
+    // Describe Service IDs will be included PUBLISH
+    // See RcsContactPresenceTuple.java
+    enum ServiceId {
+        SERVICE_ID_UNSPECIFIED = 0;
+        SERVICE_ID_CUSTOM = 1;
+        SERVICE_ID_MMTEL = 2;
+        SERVICE_ID_CHAT_V1 = 3;
+        SERVICE_ID_CHAT_V2 = 4;
+        SERVICE_ID_FT = 5;
+        SERVICE_ID_FT_OVER_SMS = 6;
+        SERVICE_ID_GEO_PUSH = 7;
+        SERVICE_ID_GEO_PUSH_VIA_SMS = 8;
+        SERVICE_ID_CALL_COMPOSER = 9;
+        SERVICE_ID_POST_CALL = 10;
+        SERVICE_ID_SHARED_MAP = 11;
+        SERVICE_ID_SHARED_SKETCH = 12;
+        SERVICE_ID_CHATBOT = 13;
+        SERVICE_ID_CHATBOT_STANDALONE = 14;
+        SERVICE_ID_CHATBOT_ROLE = 15;
+    }
+
+    // the carrier id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // The slot id associated with this SIP delegate
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The service id portion of the ServiceDescription
+    // used as a dimension
+    optional ServiceId service_id_name = 3;
+
+    // The version portion of the ServiceDescription
+    // used as a dimension
+    optional float service_id_version = 4;
+
+    // The underlying radio technology type associated with the feature tag
+    // used as a dimension
+    // See the ImsRegistrationImplBase#REGISTRATION_TECH*
+    optional int32 registration_tech = 5;
+
+    // the time this feature tag was registered, rounded 5 minutes
+    optional int32 published_seconds = 6;
+}
+
+/**
+ * Stats related to UCE queries to the network
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message UceEventStats {
+    enum MessageType {
+        MESSAGE_TYPE_UNSPECIFIED = 0;
+        PUBLISH = 1;
+        SUBSCRIBE = 2;
+        INCOMING_OPTION = 3;
+        OUTGOING_OPTION = 4;
+    }
+    enum CommandCode {
+        SERVICE_UNKNOWN = 0;
+        GENERIC_FAILURE = 1;
+        INVALID_PARAM = 2;
+        FETCH_ERROR = 3;
+        REQUEST_TIMEOUT = 4;
+        INSUFFICIENT_MEMORY = 5;
+        LOST_NETWORK_CONNECTION = 6;
+        NOT_SUPPORTED = 7;
+        NOT_FOUND = 8;
+        SERVICE_UNAVAILABLE = 9;
+        NO_CHANGE = 10;
+    }
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // Used to identify the message type.
+    // Used as a dimension
+    optional MessageType type = 3;
+
+    // Whether the UCE event is successfully finished. If false, the request to the
+    // modem timed out and we sent a timeout error back to the requesting app.
+    // Used as a dimension
+    optional bool successful = 4;
+
+    // The command error code for the Uce event. Not populated if the modem
+    // accepted the request and delivered a network_response.
+    // Used as a dimension
+    optional CommandCode command_code = 5;
+
+    // The network response code for the Uce event. Will not be populated if
+    // command_code is present.
+    // Used as a dimension
+    optional int32 network_response = 6;
+
+    // The count that matches the above conditions;
+    optional int32 count = 7;
+}
+
+/**
+ * Information related to a SIP NOTIFY event from modem.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message PresenceNotifyEvent {
+    // See RFC3265 Section 3.2.4 for more information about these subscription states.
+    enum TerminatedReason {
+        REASON_UNSPECIFIED = 0;
+        // Not spec defined, the network returned a custom code that is not spec defined.
+        REASON_CUSTOM = 1;
+        REASON_DEACTIVATED = 2;
+        REASON_PROBATION = 3;
+        REASON_REJECTED = 4;
+        REASON_TIMEOUT = 5;
+        REASON_GIVEUP = 6;
+        REASON_NORESOURCE = 7;
+    }
+
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // The terminated reason associated with the subscription state.
+    // Used as a dimension
+    optional TerminatedReason reason = 3;
+
+    // Whether or not the NOTIFY received contained at least one body with PIDF
+    // content before moving to the terminated state.
+    // Used as a dimension
+    optional bool content_body_received = 4;
+
+    // The count of PIDF info received that contained RCS caps.
+    optional int32 rcs_caps_count = 5;
+
+    // The count of PIDF info received that contained MMTEL caps.
+    optional int32 mmtel_caps_count = 6;
+
+    // The count of PIDF info received that contained no mmtel or RCS caps.
+    optional int32 no_caps_count = 7;
+
+    // The count that matches the above conditions;
+    optional int32 count = 8;
+}
+
+/**
+ * Tracks GBA requests from applications
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/RcsStats.java
+ */
+message GbaEvent {
+    enum FailedReason {
+        UNKNOWN = 0;
+        FEATURE_NOT_SUPPORTED = 1;
+        FEATURE_NOT_READY = 2;
+        NETWORK_FAILURE = 3;
+        INCORRECT_NAF_ID = 4;
+        SECURITY_PROTOCOL_NOT_SUPPORTED = 5;
+    }
+    // Carrier ID of the SIM used for IMS registration.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    // Used as a dimension
+    optional int32 carrier_id = 1;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    // Used as a dimension
+    optional int32 slot_id = 2;
+
+    // Whether the GBA event is successful.
+    // Used as a dimension
+    optional bool successful = 3;
+
+    // Gba authentication failed reason.
+    // Used as a dimension
+    optional FailedReason failed_reason = 4;
+
+    // The count that matches the above conditions.
+    optional int32 count = 5;
+}
+
+/*
+ * Logs details of initiated UWB ranging session
+ */
+message UwbSessionInitiated {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // Scrambled timestamp sequence (STS) Type
+    optional android.uwb.Sts sts = 2;
+    // Was it an initiator as opposed to responder?
+    optional bool is_initiator = 3;
+    // Was it a controller as opposed to controlee?
+    optional bool is_controller = 4;
+    // Was the discovery done by the framework?
+    optional bool is_discovered_by_framework = 5;
+    // Was it out-of-band connection as opposed to in-band connection?
+    // Note that this field is ignored if is_discovered_by_framework is false.
+    optional bool is_out_of_band = 6;
+    // UWB channel 5, 6, 9, etc.
+    optional int32 channel = 7;
+    // The status code of session initialization.
+    optional android.uwb.Status status = 8;
+    // Initialization latency in ms if is_discovered_by_framework is true.
+    optional int32 latency_ms = 9;
+    // Initialization latency in step size of 200 ms if is_discovered_by_framework is true.
+    optional int32 latency_200ms = 10;
+}
+
+/*
+ * Logs details of closed UWB ranging session
+ */
+message UwbSessionClosed {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // Scrambled timestamp sequence (STS) Type
+    optional android.uwb.Sts sts = 2;
+    // Was it an initiator as opposed to responder?
+    optional bool is_initiator = 3;
+    // Was it a controller as opposed to controlee?
+    optional bool is_controller = 4;
+    // Was the connection done by the app as opposed to by the framework?
+    optional bool is_framework_initiated = 5;
+    // Was it out-of-band connection as opposed to in-band connection?
+    // Note that this field is ignored if is_framework_initiated is false.
+    optional bool is_out_of_band = 6;
+    // Session active duration in seconds
+    optional int32 duration_sec = 7;
+    // Session active duration bucket
+    optional android.uwb.DurationBucket duration_bucket = 8;
+    // Total ranging measurement count
+    optional int32 ranging_count = 9;
+    // Valid ranging measurement count
+    optional int32 valid_ranging_count = 10;
+    // Ranging measurement count bucket.
+    optional android.uwb.CountBucket ranging_count_bucket = 11;
+    // Valid ranging measurement count bucket.
+    optional android.uwb.CountBucket valid_ranging_count_bucket = 12;
+    // Ranging start count
+    optional int32 start_count = 13;
+    // Ranging start failure count
+    optional int32 start_failure_count = 14;
+    // Ranging start without valid ranging result count
+    optional int32 start_no_valid_report_count = 15;
+}
+
+message UwbRangingMeasurementReceived {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // None-Line-of-sight (LOS) indication
+    optional android.uwb.Nlos nlos = 2;
+    // Was the distance valid?
+    optional bool is_distance_valid = 3;
+    // The distance measurement in centimeters.
+    optional int32 distance_cm = 4;
+    // The distance measurement in step size of 50 cm
+    optional int32 distance_50cm = 5;
+    // RSSI of ranging report, in dBm
+    optional int32 rssi = 6;
+    // Was azimuth angle valid?
+    optional bool is_azimuth_valid = 7;
+    // The azimuth angle measurement in degrees.
+    optional int32 azimuth_degree = 8;
+    // The azimuth angle measurement in step size of 10 degree.
+    optional int32 azimuth_10degree = 9;
+    // The figure of merit of azimuth angle measurement.
+    optional int32 azimuth_fom = 10;
+    // Was elevation angle valid?
+    optional bool is_elevation_valid = 11;
+    // The elevation angle measurement in degrees.
+    optional int32 elevation_degree = 12;
+    // The elevation angle measurement in step size of 10 degree.
+    optional int32 elevation_10degree = 13;
+    // The figure of merit of elevation angle measurement.
+    optional int32 elevation_fom = 14;
+}
+
+message UwbFirstRangingReceived {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // The latency between the ranging start/resume and 1st ranging measurement, in ms.
+    optional int32 latency_ms = 2;
+    // The ranging latency in 200ms.
+    optional int32 latency_200ms = 3;
+}
+
+/**
+ * Log that the clipboard has been cleared
+ * Logged from frameworks/base/services/core/java/android/content/ClipboardAutoWipeService.java
+ */
+message ClipboardCleared {
+    enum Source {
+        SOURCE_UNKNOWN = 0;
+        AUTO_CLEAR = 1;
+    }
+
+    // Source of the wipe
+    optional Source source = 1;
+}
+
+/**
+ * Pulls status for a SIM.
+ *
+ * Each pull creates multiple atoms, one for each SIM. The atom holds the status for a SIM that's
+ * sensitive per carrier. The atom would be aggregated per carrier for analysis.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message PerSimStatus {
+    enum WfcMode {
+        UNKNOWN = 0;
+        WIFI_ONLY = 1;
+        CELLULAR_PREFERRED = 2;
+        WIFI_PREFERRED = 3;
+    }
+    enum SimVoltageClass {
+        VOLTAGE_CLASS_UNKNOWN = 0;
+        VOLTAGE_CLASS_A = 1;
+        VOLTAGE_CLASS_B = 2;
+        VOLTAGE_CLASS_C = 3;
+    }
+
+    // Index of the SIM, 0 for single-SIM devices.
+    optional int32 sim_slot_index = 1;
+
+    // Carrier ID of the SIM.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 2;
+
+    // Indicates whether phone number source UICC provides a phone number
+    // and whether it agrees with other sources:
+    //  - 0: no number provided
+    //  - a positive integer (> 0): sources providing the same phone number
+    //    shall use the same integer. The integer shall start from 1, and
+    //    for each new unique source the next integer (2, 3, …) is used.
+    // This way, the raw phone number cannot be derived from the value of
+    // this field.
+    // This also allows a quick check of conflicts: any field > 1 means conflict,
+    // and the max means the count of unique phone numbers.
+    optional int32 phone_number_source_uicc = 3;
+
+    // Indicates whether phone number source CARRIER provides a phone number
+    // and whether it agrees with other sources.
+    // See field phone_number_source_uicc.
+    optional int32 phone_number_source_carrier = 4;
+
+    // Indicates whether phone number source IMS provides a phone number
+    // and whether it agrees with other sources.
+    // See field phone_number_source_uicc.
+    optional int32 phone_number_source_ims = 5;
+
+    // Indicates whether VoLTE is enabled
+    optional bool volte_enabled = 6;
+
+    // Indicates whether WFC is enabled
+    optional bool wfc_enabled = 7;
+
+    // Indicates the user's WFC mode
+    optional WfcMode wfc_mode = 8;
+
+    // Indicates the user's WFC mode when roaming
+    optional WfcMode wfc_roaming_mode = 9;
+
+    // Indicates the user's setting for video calling.
+    optional bool video_calling_enabled = 10;
+
+    // Indicates if data roaming is enabled
+    optional bool data_roaming_enabled = 11;
+
+    // Indicates the list of networks allowed by the user. Bitmask is encoded as
+    // TelephonyManager#NetworkTypeBitMask.
+    optional int64 allowed_networks_by_user = 12;
+
+    // Indicates if 2G is disabled by the user using the "Allow 2G" toggle
+    optional bool is_2g_disabled = 13;
+
+    // Indicates if PIN1 of the SIM card is enabled
+    optional bool is_pin1_enabled = 14;
+
+    // Indicates the lowest voltage class supported by the SIM
+    optional SimVoltageClass sim_voltage_class = 15;
+}
+
+/*
+ * Logs Device Scan State events generated by Nearby Scan API.
+ */
+message NearbyDeviceScanStateChanged {
+  // Uid of the client that triggers the Nearby scan.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Scan start timestamp as session id.
+  optional int64 scan_session_id = 2;
+
+  // Scan state.
+  optional android.nearby.NearbyScanState scan_state = 3;
+
+  // Scan type.
+  optional android.nearby.NearbyScanType scan_type = 4;
+
+  // Medium that this device was discovered/lost.
+  optional android.nearby.NearbyNetworkMedium network_medium = 5;
+
+  // Received Signal Strength Indication (RSSI) value of the device discovered/lost.
+  optional int32 rssi = 6;
+
+  // Model of the device discovered/lost.
+  optional string scanned_device_model = 7;
+
+  // Manufacturer of the device discovered/lost.
+  optional string scanned_device_manufacturer = 8;
+}
+
+/**
+ * Logs when locales of an application are changed.
+ * Logged from
+ *   frameworks/base/services/core/java/com/android/server/locales/LocaleManagerService.java
+ */
+message ApplicationLocalesChanged {
+    // The uid which invoked this update. The locales for an application
+    // could be changed from the in-app picker OR from the settings UI.
+    optional int32 calling_uid = 1 [(is_uid) = true];
+
+    // The uid for which the locale change is being done.
+    optional int32 target_uid = 2 [(is_uid) = true];
+
+    // The new locales for the target package. A comma separated list of BCP 47
+    // locale identifiers, compatible with LocaleList#forLanguageTags.
+    optional string new_locales = 3;
+
+    // The previous locales for the target package. A comma separated list of
+    // BCP 47 locale identifiers, compatible with LocaleList#forLanguageTags.
+    optional string prev_locales = 4;
+
+    // Application locales changed status.
+    enum Status {
+        // A placeholder for unspecified values.
+        STATUS_UNSPECIFIED = 0;
+
+        // New locales were committed.
+        CONFIG_COMMITTED = 1;
+
+        // Likely because no change is required.
+        CONFIG_UNCOMMITTED = 2;
+
+        // Failed because the target package is invalid.
+        FAILURE_INVALID_TARGET_PACKAGE = 3;
+
+        // Failed because the calling package does not have the required permission.
+        FAILURE_PERMISSION_ABSENT = 4;
+    }
+
+    optional Status status = 5;
+}
+
+/* Logs when the display HBM state changes.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/HighBrightnessModeController.java
+ */
+message DisplayHbmStateChanged {
+    optional int32 display_id = 1;
+
+    // New HBM state
+    optional android.server.display.HbmState state = 2;
+
+    // The reason the state changes.
+    optional android.server.display.HbmStateTransitionReason reason = 3;
+}
+
+/*
+ * Logs when the display HBM brightness changes.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/AutomaticBrightnessControllerjava
+ */
+message DisplayHbmBrightnessChanged {
+    optional int32 display_id = 1;
+
+    // display brightness
+    optional float brightness = 2;
+}
+
+/**
+ * Per-UID time at each GPU frequency spent running work on the GPU.
+ *
+ * Each pull creates multiple atoms, one per (GPU ID, UID) pair, for at most 10
+ * randomly selected UIDs.
+ *
+ * Pulled from:
+ *    frameworks/native/services/gpuservice/gpuwork/GpuWork.cpp
+ */
+message GpuWorkPerUid {
+    // The UID (i.e. app id) that scheduled work on the GPU.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The GPU ID for which we have work information.
+    optional int32 gpu_id = 2;
+
+    // The time duration (in seconds) over which this data was collected (most
+    // likely 24 hours).
+    optional int32 time_duration_seconds = 3;
+
+    // The total amount of time (in milliseconds) the GPU spent running work for
+    // |uid|.
+    optional int32 total_active_duration_millis= 4;
+
+    // The total amount of time (in milliseconds) the GPU was inactive while
+    // running "continuous" work for |uid|. This is estimated by adding up the
+    // duration of the small gaps between GPU work for |uid|.
+    optional int32 total_inactive_duration_millis = 5;
+}
+
+/**
+ * Logs when entries are dropped in DropBox and the reason for the drop.
+ *
+ * Logged from: frameworks/base/services/
+ */
+message DropboxEntryDropped {
+    // Explains at which stage of the DropBox workflow the entry was dropped.
+    enum DropReason {
+        UNKNOWN = 0;
+        OVER_QUOTA = 1;
+        NO_AVAILABLE_QUOTA = 2;
+        CLEARING_DATA = 3;
+    }
+
+    optional DropReason drop_reason = 1;
+
+    // Tag describing the type of dropbox entry.
+    optional string tag = 2;
+}
+
+message PersistentUriPermissionsFlushed {
+    // Current amount of persistent uri permissions overall
+    optional int32 permissions_flushed_amount = 1;
+}
+
+message PersistentUriPermissionsAmountPerPackage {
+    // The uid persistent uri permissions amount reported for
+    optional int32 uid = 1 [(is_uid) = true];
+    // Current amount of persistent uri permissions for this package
+    optional int32 amount = 2;
+}
+
+/**
+ * VBMeta Digest cryptographically encapsulates the composition of signed images or partitions of
+ * a particular build.
+ *
+ * Logs when boot is complete.
+ * Pushed from:
+ *    frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message VBMetaDigestReported {
+    // the hex encoded string of VBMeta Digest value
+    optional string vbmeta_digest = 1;
+}
+
+/**
+ * APEXs can either be signed by Google or OEMs. This atom captures basic metadata of APEXs
+ * pre-installed on a build or a device.
+ *
+ * Logs when boot is complete.
+ * Pushed from:
+ *    frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message ApexInfoGathered {
+    // APEX package names are determined by OEMs
+    optional string package_name = 1;
+    // the version code of the APEX
+    optional int64 version_code = 2;
+    // the hex encoded SHA256 digest of the APEX file
+    optional string sha256_digest = 3;
+}
+
+/**
+ * PVM is protected virtual machine. This atom captures the notion of a container
+ * that describes a virtual machine.
+ *
+ * Will be pushed from:
+ *      frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message PvmInfoGathered {
+    // PVM names are determined by OEMs
+    optional string name = 1;
+    // an int describing the version of the VM
+    optional int64 version = 2;
+    // the hex encoded SHA256 digest of the pvm descriptor file
+    optional string sha256_digest = 3;
+}
+
+/**
+ * This will be pulled from
+ *     frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message SignedPartitionInfo {
+    // partition name (e.g. vendor, product) is determined by OEM
+    optional string partition_name = 1;
+    // the hex encoded SHA256 digest of the partition image file
+    optional string sha256_digest = 2;
+}
+
+/**
+ * Logs when Wear Settings UI is interacted with
+ */
+message WearSettingsUIInteracted {
+    /** The UI action category */
+    optional android.app.wearsettings.Action action = 1;
+
+    /** The ID of the entry that the users actioned on. */
+    optional android.app.wearsettings.ItemId item_id = 2;
+}
+
+message TracingServiceReportEvent {
+    enum Event {
+      TRACING_SERVICE_REPORT_UNDEFINED = 0;
+
+      // Checkpoints inside TracingServiceProxy.
+      TRACING_SERVICE_REPORT_BEGIN = 1;
+      TRACING_SERVICE_REPORT_SVC_HANDOFF = 2;
+
+      // Guardrails inside TracingServiceProxy.
+      TRACING_SERVICE_REPORT_BIND_PERM_INCORRECT = 3;
+      TRACING_SERVICE_REPORT_SVC_PERM_MISSING = 4;
+      TRACING_SERVICE_REPORT_SVC_COMM_ERROR = 5;
+  }
+
+  // Which stage of the pipeline we are reporting from.
+  optional Event event = 1;
+
+  // UUID of the trace.
+  optional int64 trace_uuid_lsb = 2;
+  optional int64 trace_uuid_msb = 3;
+}
+
+/** Pulled from PinnerService. */
+message PinnedFileSizesPerPackage {
+    // If the file is pinned but not as part of a specific pinned app,
+    // this will be set to 1000 - the value of system_server.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Consists of only the pinned file's filename, not its full path; for example
+    // Given a pinned file at ‘/vendor/lib64/libCB.so’, then this field will be
+    // Determined to have have the value ‘libCB.so’.
+    optional string filename = 2;
+
+    // The size of the pinned file, in kilobytes.
+    optional int32 size_kb = 3;
+}
+
+/** Pulled from PendingIntentController. */
+message PendingIntentsPerPackage {
+    // The UID of the app that sent the PendingIntent.
+    optional int32 uid = 1 [(is_uid) = true];
+    // The total number of currently active PendingIntents belonging to this uid.
+    optional int32 pending_intent_count = 2;
+    // The total size of all currently active PendingIntents belonging to this uid, in kilobytes.
+    optional int32 pending_intent_total_bundle_size_kb = 3;
+}
+
+/**
+ * Logs for Launcher latency. Uses KLL to reduce the data pression
+ *
+ * Logged from:
+ *      vendor/unbundled_google/packages/NexusLauncher
+ */
+message LauncherLatency {
+    // The event id generated from go/uievents
+    optional int32 event_id = 1;
+    // The instance id to track multiple partial durations or parellel running durations
+    optional int32 instance_id = 2;
+    optional int32 package_id = 3;
+    optional int64 latency_in_millis = 4;
+    optional int32 type = 5;
+}
+
+/*
+ * Logs changes to game state set by game applications via GameService.
+ */
+message GameStateChanged {
+    enum State {
+        // Game mode is unknown.
+        MODE_UNKNOWN = 0;
+
+        // The game is not in active play, e.g.e the user is using a game menu.
+        MODE_NONE = 1;
+
+        // The game is in active, but interruptible, game play.
+        MODE_GAMEPLAY_INTERRUPTIBLE = 2;
+
+        // The game is in active user play mode, which cannot be interrupted.
+        MODE_GAMEPLAY_UNINTERRUPTIBLE = 3;
+
+        // The current content shown is not gameplay related (e.g. an ad).
+        MODE_CONTENT = 4;
+    }
+
+    // Provided to ensure package is available even with UID sharing.
+    optional string package_name = 1;
+
+    // The UID (i.e. app id).
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Whether the device enabled performance boost when the state was changed.
+    optional bool boost_enabled = 3;
+
+    // This includes a top-level state for the game.
+    optional State state = 4;
+
+    // Indicates if the game is loading assets/resources/compiling/etc.
+    optional bool is_loading = 5;
+
+    // A developer-selected enum, for example to indicate level or scene.
+    optional int32 label = 6;
+
+    // A developer-supplied enum, e.g. to indicate the current quality level.
+    optional int32 quality = 7;
+}
+
+/**
+ * Logs information related to creating hotword detector.
+ */
+message HotwordDetectorCreateRequested {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // True if the detector is created successfully.
+    optional bool is_created_done = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Logs information related to hotword detection service init result.
+ */
+message HotwordDetectionServiceInitResultReported {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The result of initialization.
+    enum Result {
+        // Indicates that the service was initialized successfully.
+        CALLBACK_INIT_STATE_SUCCESS = 0;
+
+        // Indicates that the service was not initialized successfully.
+        CALLBACK_INIT_STATE_ERROR = 1;
+
+        // Indicates that the callback was invoked without init state.
+        CALLBACK_INIT_STATE_UNKNOWN_NO_VALUE = 2;
+
+        // Indicates that the callback was invoked, but the init state value exceeded
+        // the defined maximum.
+        CALLBACK_INIT_STATE_UNKNOWN_OVER_MAX_CUSTOM_VALUE = 3;
+
+        // Indicates that the callback was not invoked within timeout.
+        CALLBACK_INIT_STATE_UNKNOWN_TIMEOUT = 4;
+    }
+    optional Result result = 2;
+}
+
+/**
+ * Logs information related to restarting hotword detection service.
+ */
+message HotwordDetectionServiceRestarted {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The reason for restarting service.
+    enum Reason {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
+        // Indicates that the service was restarted due to audio service died.
+        AUDIO_SERVICE_DIED = 1;
+
+        // Indicates that the service was restarted regularly.
+        SCHEDULE = 2;
+
+        // Indicates that the service was restarted due to service crashed.
+        CRASH = 3;
+    }
+    optional Reason reason = 2;
+}
+
+/**
+ * Logs information related to keyphrase trigger.
+ */
+message HotwordDetectorKeyphraseTriggered {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The result of detection.
+    enum Result {
+        // Indicates that the system got the keyphrase from DSP.
+        KEYPHRASE_TRIGGER = 0;
+
+        // Indicates that the system can not inform the service to verify the keyphrase.
+        FAILED_TO_INFORM_SERVICE = 1;
+
+        // Indicates that the callback was not invoked within timeout after informing
+        // the service.
+        DETECT_TIMEOUT = 2;
+
+        // Indicates that the system got the exception after informing the service.
+        DETECT_EXCEPTION = 3;
+
+        // Indicates that the service crashed.
+        SERVICE_CRASH = 4;
+
+        // Indicates that the keyphrase was detected.
+        DETECTED = 5;
+
+        // Indicates that the keyphrase was not detected.
+        REJECTED = 6;
+    }
+    // What result after detecting.
+    optional Result result = 2;
+}
+
+/**
+ * Logs information related to hotword detector events.
+ */
+message HotwordDetectorEvents {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The type of event.
+    enum Event {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
+        // Indicates that the system requested to bind the service.
+        REQUEST_BIND_SERVICE = 1;
+
+        // Indicates that the system connected the service successfully.
+        ON_CONNECTED = 2;
+
+        // Indicates that the system failed to bind the service.
+        REQUEST_BIND_SERVICE_FAIL = 3;
+
+        // Indicates that the system called the updateState function of service.
+        REQUEST_UPDATE_STATE = 4;
+
+        // Indicates that the callback was not invoked within timeout after calling
+        // the updateState function of service.
+        CALLBACK_UPDATE_STATE_AFTER_TIMEOUT = 5;
+
+        // Indicates that no starting recognition after creating the detector.
+        DID_NOT_CALL_START_RECOGNITION = 6;
+    }
+    optional Event event = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Log the duration of executing all receivers of LOCKED_BOOT_COMPLETED or BOOT_COMPLETED broadcast.
+ * The dispatch latency is the dispatchTime - enqueueTime.
+ * The completion latency is the completeTime - enqueueTime.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/BroadcastQueue.java
+ */
+message BootCompletedBroadcastCompletionLatencyReported {
+    enum Event {
+        UNKNOWN = 0;
+        LOCKED_BOOT_COMPLETED = 1;
+        BOOT_COMPLETED = 2;
+    }
+
+    optional Event event = 1;
+    // from enqueueTime to dispatchTime.
+    optional int32 dispatch_latency_uptime_millis = 2;
+    // from enqueueTime to completeTime.
+    optional int32 complete_latency_uptime_millis = 3;
+    // from enqueueRealTime to dispatchRealTime.
+    optional int32 dispatch_latency_realtime_millis = 4;
+    // from enqueueRealTime to completeRealTime.
+    optional int32 complete_latency_realtime_millis = 5;
+
+    optional int32 user_id = 6;
+    optional UserLifecycleJourneyReported.UserType user_type = 7;
+}
+
+/**
+ * Logs information about app background restrictions.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/am/AppRestrictionController.java
+ */
+message AppBackgroundRestrictionsInfo {
+    // the uid of the app.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    enum RestrictionLevel {
+        LEVEL_UNKNOWN = 0;
+        LEVEL_UNRESTRICTED = 1;
+        LEVEL_EXEMPTED = 2;
+        LEVEL_ADAPTIVE_BUCKET = 3;
+        LEVEL_RESTRICTED_BUCKET = 4;
+        LEVEL_BACKGROUND_RESTRICTED = 5;
+        LEVEL_HIBERNATION = 6;
+    }
+    // indicates the app background restriction level.
+    optional RestrictionLevel restriction_level = 2;
+
+    enum Threshold {
+        THRESHOLD_UNKNOWN = 0;
+        THRESHOLD_RESTRICTED = 1; // app was background restricted by the system.
+        THRESHOLD_USER = 2; // app was background restricted by user action.
+    }
+    // indicates which threshold caused the app to be put into bg restriction.
+    optional Threshold threshold = 3;
+
+    enum StateTracker {
+        UNKNOWN_TRACKER = 0;
+        BATTERY_TRACKER = 1;
+        BATTERY_EXEMPTION_TRACKER = 2;
+        FGS_TRACKER = 3;
+        MEDIA_SESSION_TRACKER = 4;
+        PERMISSION_TRACKER = 5;
+        BROADCAST_EVENTS_TRACKER = 6;
+        BIND_SERVICE_EVENTS_TRACKER = 7;
+    }
+    // indicates the reason/tracker which caused the app to hit the threshold.
+    optional StateTracker tracker = 4;
+
+    message FgsTrackerInfo {
+        // indicates whether an fgs notification was visible for this app or not.
+        optional bool fgs_notification_visible = 1;
+        // total FGS duration for this app.
+        optional int64 fgs_duration = 2;
+    }
+    optional FgsTrackerInfo fgs_tracker_info = 5 [(log_mode) = MODE_BYTES];
+
+    message BatteryTrackerInfo {
+        // total battery usage within last 24h (percentage)
+        optional int32 battery_24h = 1;
+        // background battery usage (percentage)
+        optional int32 battery_usage_background = 2;
+        // FGS battery usage (percentage)
+        optional int32 battery_usage_fgs = 3;
+    }
+    optional BatteryTrackerInfo battery_tracker_info = 6 [(log_mode) = MODE_BYTES];
+
+    message BroadcastEventsTrackerInfo {
+        // the number of broadcasts sent by this app.
+        optional int32 broadcasts_sent = 1;
+    }
+    optional BroadcastEventsTrackerInfo broadcast_events_tracker_info = 7 [(log_mode) = MODE_BYTES];
+
+    message BindServiceEventsTrackerInfo {
+        // the number of bind service requests by this app.
+        optional int32 bind_service_requests = 1;
+    }
+    optional BindServiceEventsTrackerInfo bind_service_events_tracker_info =
+        8 [(log_mode) = MODE_BYTES];
+
+    // The reasons listed below are defined in PowerExemptionManager.java
+    enum ExemptionReason {
+        // range 0-9 is reserved for default reasons
+        REASON_UNKNOWN = 0;
+        REASON_DENIED = 1;
+        REASON_OTHER = 2;
+        // range 10-49 is reserved for BG-FGS-launch allowed proc states
+        REASON_PROC_STATE_PERSISTENT = 10;
+        REASON_PROC_STATE_PERSISTENT_UI = 11;
+        REASON_PROC_STATE_TOP = 12;
+        REASON_PROC_STATE_BTOP = 13;
+        REASON_PROC_STATE_FGS = 14;
+        REASON_PROC_STATE_BFGS = 15;
+        // range 50-99 is reserved for BG-FGS-launch allowed reasons
+        REASON_UID_VISIBLE = 50;
+        REASON_SYSTEM_UID = 51;
+        REASON_ACTIVITY_STARTER = 52;
+        REASON_START_ACTIVITY_FLAG = 53;
+        REASON_FGS_BINDING = 54;
+        REASON_DEVICE_OWNER = 55;
+        REASON_PROFILE_OWNER = 56;
+        REASON_COMPANION_DEVICE_MANAGER = 57;
+        REASON_BACKGROUND_ACTIVITY_PERMISSION = 58;
+        REASON_BACKGROUND_FGS_PERMISSION = 59;
+        REASON_INSTR_BACKGROUND_ACTIVITY_PERMISSION = 60;
+        REASON_INSTR_BACKGROUND_FGS_PERMISSION = 61;
+        REASON_SYSTEM_ALERT_WINDOW_PERMISSION = 62;
+        REASON_DEVICE_DEMO_MODE = 63;
+        REASON_ALLOWLISTED_PACKAGE = 65;
+        REASON_APPOP = 66;
+        REASON_ACTIVITY_VISIBILITY_GRACE_PERIOD = 67;
+        REASON_OP_ACTIVATE_VPN = 68;
+        REASON_OP_ACTIVATE_PLATFORM_VPN = 69;
+        REASON_TEMP_ALLOWED_WHILE_IN_USE = 70;
+        REASON_CURRENT_INPUT_METHOD = 71;
+        // range 100-199 is reserved for public reasons
+        REASON_GEOFENCING = 100;
+        REASON_PUSH_MESSAGING = 101;
+        REASON_PUSH_MESSAGING_OVER_QUOTA = 102;
+        REASON_ACTIVITY_RECOGNITION = 103;
+        REASON_ACCOUNT_TRANSFER = 104;
+        // range 200-299 is reserved for broadcast actions
+        REASON_BOOT_COMPLETED = 200;
+        REASON_PRE_BOOT_COMPLETED = 201;
+        REASON_LOCKED_BOOT_COMPLETED = 202;
+        REASON_BLUETOOTH_BROADCAST = 203;
+        REASON_TIMEZONE_CHANGED = 204;
+        REASON_TIME_CHANGED = 205;
+        REASON_LOCALE_CHANGED = 206;
+        REASON_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED = 207;
+        REASON_REFRESH_SAFETY_SOURCES = 208;
+        // range 300-399 is reserved for other internal reasons
+        REASON_SYSTEM_ALLOW_LISTED = 300;
+        REASON_ALARM_MANAGER_ALARM_CLOCK = 301;
+        REASON_ALARM_MANAGER_WHILE_IDLE = 302;
+        REASON_SERVICE_LAUNCH = 303;
+        REASON_KEY_CHAIN = 304;
+        REASON_PACKAGE_VERIFIER = 305;
+        REASON_SYNC_MANAGER = 306;
+        REASON_DOMAIN_VERIFICATION_V1 = 307;
+        REASON_DOMAIN_VERIFICATION_V2 = 308;
+        REASON_VPN = 309;
+        REASON_NOTIFICATION_SERVICE = 310;
+        REASON_PACKAGE_REPLACED = 311;
+        REASON_LOCATION_PROVIDER = 312;
+        REASON_MEDIA_BUTTON = 313;
+        REASON_EVENT_SMS = 314;
+        REASON_EVENT_MMS = 315;
+        REASON_SHELL = 316;
+        REASON_MEDIA_SESSION_CALLBACK = 317;
+        REASON_ROLE_DIALER = 318;
+        REASON_ROLE_EMERGENCY = 319;
+        REASON_SYSTEM_MODULE = 320;
+        REASON_CARRIER_PRIVILEGED_APP = 321;
+        // app requested to be exempt
+        REASON_OPT_OUT_REQUESTED = 1000;
+    }
+    // indicates if the app is exempt from background restrictions and the reason if applicable.
+    optional ExemptionReason exemption_reason = 9;
+
+    enum OptimizationLevel {
+        UNKNOWN = 0;
+        OPTIMIZED = 1;
+        BACKGROUND_RESTRICTED = 2;
+        NOT_OPTIMIZED = 3;
+    }
+    // the user choice for the optimization level of the app.
+    optional OptimizationLevel opt_level = 10;
+
+    enum TargetSdk {
+        SDK_UNKNOWN = 0;
+        SDK_PRE_S = 1;
+        SDK_S = 2;
+        SDK_T = 3;
+    }
+    // indicates the target sdk level for this app.
+    optional TargetSdk target_sdk = 11;
+
+    // indicates if the current device is a low ram device.
+    optional bool low_mem_device = 12;
+}
+
+/**
+ * Log that the permission reminder notification has been displayed or clicked.
+ */
+message PermissionReminderNotificationInteracted {
+    // id which identifies single session of user interacting with permission
+    // controller
+    optional int64 session_id = 1;
+
+    enum Result {
+        UNDEFINED = 0;
+        // notification was presented to the user
+        NOTIFICATION_PRESENTED = 1;
+        // notification was clicked by the user
+        NOTIFICATION_CLICKED = 2;
+    }
+
+    // View / interaction recorded
+    optional Result result = 2;
+}
+
+/**
+ * Log that the user has interacted with the permission decision screen.
+ */
+message RecentPermissionDecisionsInteracted {
+    // id which identifies single session of user interacting with permission
+    // controller
+    optional int64 session_id = 1;
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        SCREEN_VIEWED = 1;
+        REVIEW_DECISION = 2;
+        VIEW_ALL_CLICKED = 3;
+    }
+
+    // Action taken on the recent permission decisions page.
+    optional Action action = 2;
+
+    // Uid of the package for the permission decision being reviewed
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Name of the permission for the permission decision being reviewed.
+    optional string permission_group_name = 4;
 }
