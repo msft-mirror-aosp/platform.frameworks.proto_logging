@@ -676,6 +676,8 @@ message Atom {
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
             445 [(module) = "permissioncontroller"];
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
+        DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -5069,6 +5071,25 @@ message UiEventReported {
     // An identifier used to disambiguate which logs refer to a particular instance of some
     // UI element. Useful when there might be multiple instances simultaneously active.
     optional int32 instance_id = 4;
+}
+
+/**
+ * Reports a notification was created or updated.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/
+ */
+message DreamUiEventReported {
+    // The event's source or target uid, if applicable.
+    optional int32 uid = 1 [(is_uid) = true];
+    // The event_id (as for UiEventReported).
+    optional int32 event_id = 2;
+    // An identifier used to disambiguate which logs refer to a particular instance of some
+    // UI element. Useful when there might be multiple instances simultaneously active.
+    optional int32 instance_id = 3;
+
+    // The name of the dream component, which identifies the type of the dream.
+    optional string dream_component_name = 4;
 }
 
 /**
