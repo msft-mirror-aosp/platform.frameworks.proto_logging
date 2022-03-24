@@ -19363,7 +19363,7 @@ message DisplayHbmBrightnessChanged {
 }
 
 /**
- * Per-UID time at each GPU frequency spent running work on the GPU.
+ * Per-UID time spent running work on the GPU.
  *
  * Each pull creates multiple atoms, one per (GPU ID, UID) pair, for at most 10
  * randomly selected UIDs.
@@ -19372,24 +19372,24 @@ message DisplayHbmBrightnessChanged {
  *    frameworks/native/services/gpuservice/gpuwork/GpuWork.cpp
  */
 message GpuWorkPerUid {
-    // The UID (i.e. app id) that scheduled work on the GPU.
-    optional int32 uid = 1 [(is_uid) = true];
+  // The UID (i.e. app id) that scheduled work on the GPU.
+  optional int32 uid = 1 [(is_uid) = true];
 
-    // The GPU ID for which we have work information.
-    optional int32 gpu_id = 2;
+  // The GPU ID for which we have work information.
+  optional int32 gpu_id = 2;
 
-    // The time duration (in seconds) over which this data was collected (most
-    // likely 24 hours).
-    optional int32 time_duration_seconds = 3;
+  // The time duration (in seconds) over which this data was collected (most
+  // likely 24 hours).
+  optional int32 time_duration_seconds = 3;
 
-    // The total amount of time (in milliseconds) the GPU spent running work for
-    // |uid|.
-    optional int32 total_active_duration_millis= 4;
+  // The total amount of time (in milliseconds) the GPU spent running work for
+  // |uid|.
+  optional int32 total_active_duration_millis = 4;
 
-    // The total amount of time (in milliseconds) the GPU was inactive while
-    // running "continuous" work for |uid|. This is estimated by adding up the
-    // duration of the small gaps between GPU work for |uid|.
-    optional int32 total_inactive_duration_millis = 5;
+  // The total amount of time (in milliseconds) the GPU was inactive while
+  // running "continuous" work for |uid|. This is estimated by adding up the
+  // duration of the small gaps between GPU work for |uid|.
+  optional int32 total_inactive_duration_millis = 5;
 }
 
 /**
