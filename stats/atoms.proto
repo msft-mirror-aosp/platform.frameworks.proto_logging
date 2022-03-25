@@ -673,6 +673,8 @@ message Atom {
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
             445 [(module) = "permissioncontroller"];
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
+        DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -5066,6 +5068,25 @@ message UiEventReported {
     // An identifier used to disambiguate which logs refer to a particular instance of some
     // UI element. Useful when there might be multiple instances simultaneously active.
     optional int32 instance_id = 4;
+}
+
+/**
+ * Reports a notification was created or updated.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/
+ */
+message DreamUiEventReported {
+    // The event's source or target uid, if applicable.
+    optional int32 uid = 1 [(is_uid) = true];
+    // The event_id (as for UiEventReported).
+    optional int32 event_id = 2;
+    // An identifier used to disambiguate which logs refer to a particular instance of some
+    // UI element. Useful when there might be multiple instances simultaneously active.
+    optional int32 instance_id = 3;
+
+    // The name of the dream component, which identifies the type of the dream.
+    optional string dream_component_name = 4;
 }
 
 /**
@@ -12239,7 +12260,7 @@ message AppSearchStorageInfo {
  * Reported from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
  *
- * Next tag: 8
+ * Next tag: 11
  */
 message ContactsIndexerUpdateStatsReported {
     enum UpdateType {
@@ -12254,21 +12275,35 @@ message ContactsIndexerUpdateStatsReported {
     // Latency for the update in millis
     optional int32 total_latency_millis = 2;
 
-    // Status code to indicate whether the update succeeds, or fails and why
-    optional int32 status_code = 3;
+    // Status code to indicate whether the insert new contacts, or update
+    // existing contacts succeeds, or fails and why
+    // In case of success, it only contains OK.
+    // In case of failures, it contains all the possible errors we get.
+    repeated int32 update_status_codes = 3;
 
-    // Number of new contacts inserted during this update
-    optional int32 number_of_contacts_inserted = 4;
+    // Status code to indicate whether the delete succeeds, or fails and why
+    // In case of success, it only contains OK.
+    // In case of failures, it contains all the possible errors we get.
+    repeated int32 delete_status_codes = 4;
 
-    // Number of existing contacts updated during this update
-    optional int32 number_of_contacts_updated = 5;
+    // Number of new contacts successfully inserted during this update
+    optional int32 number_of_contacts_inserted = 5;
 
-    // Number of existing contacts deleted during this update
-    optional int32 number_of_contacts_deleted = 6;
+    // Number of existing contacts successfully updated during this update
+    optional int32 number_of_contacts_updated = 6;
+
+    // Number of existing contacts successfully deleted during this update
+    optional int32 number_of_contacts_deleted = 7;
 
     // Number of existing contacts skipped during this update due to no
     // significant change
-    optional int32 number_of_contacts_skipped = 7;
+    optional int32 number_of_contacts_skipped = 8;
+
+    // Number of contacts failed to be updated
+    optional int32 number_of_contacts_failed_to_update = 9;
+
+    // Number of contacts failed to be deleted
+    optional int32 number_of_contacts_failed_to_delete = 10;
 }
 
 /**
@@ -19252,7 +19287,7 @@ message DisplayHbmBrightnessChanged {
 }
 
 /**
- * Per-UID time at each GPU frequency spent running work on the GPU.
+ * Per-UID time spent running work on the GPU.
  *
  * Each pull creates multiple atoms, one per (GPU ID, UID) pair, for at most 10
  * randomly selected UIDs.
@@ -19261,24 +19296,24 @@ message DisplayHbmBrightnessChanged {
  *    frameworks/native/services/gpuservice/gpuwork/GpuWork.cpp
  */
 message GpuWorkPerUid {
-    // The UID (i.e. app id) that scheduled work on the GPU.
-    optional int32 uid = 1 [(is_uid) = true];
+  // The UID (i.e. app id) that scheduled work on the GPU.
+  optional int32 uid = 1 [(is_uid) = true];
 
-    // The GPU ID for which we have work information.
-    optional int32 gpu_id = 2;
+  // The GPU ID for which we have work information.
+  optional int32 gpu_id = 2;
 
-    // The time duration (in seconds) over which this data was collected (most
-    // likely 24 hours).
-    optional int32 time_duration_seconds = 3;
+  // The time duration (in seconds) over which this data was collected (most
+  // likely 24 hours).
+  optional int32 time_duration_seconds = 3;
 
-    // The total amount of time (in milliseconds) the GPU spent running work for
-    // |uid|.
-    optional int32 total_active_duration_millis= 4;
+  // The total amount of time (in milliseconds) the GPU spent running work for
+  // |uid|.
+  optional int32 total_active_duration_millis = 4;
 
-    // The total amount of time (in milliseconds) the GPU was inactive while
-    // running "continuous" work for |uid|. This is estimated by adding up the
-    // duration of the small gaps between GPU work for |uid|.
-    optional int32 total_inactive_duration_millis = 5;
+  // The total amount of time (in milliseconds) the GPU was inactive while
+  // running "continuous" work for |uid|. This is estimated by adding up the
+  // duration of the small gaps between GPU work for |uid|.
+  optional int32 total_inactive_duration_millis = 5;
 }
 
 /**
@@ -19290,15 +19325,20 @@ message DropboxEntryDropped {
     // Explains at which stage of the DropBox workflow the entry was dropped.
     enum DropReason {
         UNKNOWN = 0;
-        OVER_QUOTA = 1;
-        NO_AVAILABLE_QUOTA = 2;
         CLEARING_DATA = 3;
+        AGED = 4;
+        WRITE_FAILURE = 5;
+
+        reserved 1, 2;
     }
 
     optional DropReason drop_reason = 1;
 
     // Tag describing the type of dropbox entry.
     optional string tag = 2;
+
+    // The age (millis) of the dropped dropbox entry.
+    optional int64 age_millis = 3;
 }
 
 message PersistentUriPermissionsFlushed {
