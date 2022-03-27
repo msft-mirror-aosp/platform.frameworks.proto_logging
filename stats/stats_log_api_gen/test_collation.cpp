@@ -162,8 +162,7 @@ TEST(CollationTest, NonMessageTypeFails) {
 }
 
 /**
- * Test that atoms that have non-primitive types or repeated double fields are
- * rejected.
+ * Test that atoms that have unsupported field types are rejected.
  */
 TEST(CollationTest, FailOnBadTypes) {
     Atoms atoms;
@@ -211,12 +210,25 @@ TEST(CollationTest, FailOnBadStateAtomOptions) {
     Atoms atoms;
     int errorCount = collate_atoms(BadStateAtoms::descriptor(), DEFAULT_MODULE_NAME, &atoms);
 
-    EXPECT_EQ(3, errorCount);
+    EXPECT_EQ(4, errorCount);
 }
 
 TEST(CollationTest, PassOnGoodStateAtomOptions) {
     Atoms atoms;
     int errorCount = collate_atoms(GoodStateAtoms::descriptor(), DEFAULT_MODULE_NAME, &atoms);
+    EXPECT_EQ(0, errorCount);
+}
+
+TEST(CollationTest, FailOnBadUidAtomOptions) {
+    Atoms atoms;
+    int errorCount = collate_atoms(BadUidAtoms::descriptor(), DEFAULT_MODULE_NAME, &atoms);
+
+    EXPECT_EQ(2, errorCount);
+}
+
+TEST(CollationTest, PassOnGoodUidAtomOptions) {
+    Atoms atoms;
+    int errorCount = collate_atoms(GoodUidAtoms::descriptor(), DEFAULT_MODULE_NAME, &atoms);
     EXPECT_EQ(0, errorCount);
 }
 
