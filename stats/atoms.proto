@@ -5071,7 +5071,7 @@ message UiEventReported {
 }
 
 /**
- * Reports a notification was created or updated.
+ * Atom for logging Dream user interaction and impression events.
  *
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/
