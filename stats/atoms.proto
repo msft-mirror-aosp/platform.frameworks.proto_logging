@@ -674,6 +674,7 @@ message Atom {
             445 [(module) = "permissioncontroller"];
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
+        TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -6471,7 +6472,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 45
+ * Next Tag: 52
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6525,6 +6526,8 @@ message UIInteractionFrameInfoReported {
         SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
         SUW_LOADING_TO_NEXT_FLOW = 48;
         SUW_LOADING_SCREEN_FOR_STATUS = 49;
+        SPLIT_SCREEN_ENTER = 50;
+        SPLIT_SCREEN_EXIT = 51;
     }
 
     optional InteractionType interaction_type = 1;
@@ -19916,4 +19919,23 @@ message RecentPermissionDecisionsInteracted {
 
     // Name of the permission for the permission decision being reviewed.
     optional string permission_group_name = 4;
+}
+
+/**
+ * Logs for task manager events
+ *
+ * Logged from SystemUI
+ */
+message TaskManagerEventReported {
+
+    enum Event {
+        VIEWED = 1;
+        STOPPED = 2;
+    }
+
+    optional int32 uid = 1 [(is_uid) = true];
+
+    optional Event event = 2;
+
+    optional int64 time_running_ms = 3;
 }
