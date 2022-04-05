@@ -3898,6 +3898,7 @@ message SmartSpaceCardReported {
         LOCKSCREEN = 2;
         AOD = 3;
         SHADE = 4;
+        DREAM_OVERLAY = 5;
     }
 
     // The event id (e.g., impression, click, longpress, dismiss)
