@@ -40,8 +40,8 @@ import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/nearby/enums.proto";
-import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
 import "frameworks/proto_logging/stats/enums/net/enums.proto";
+import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/connectivity/data_stall_event.proto";
 import "frameworks/proto_logging/stats/enums/server/display/enums.proto";
@@ -674,6 +674,7 @@ message Atom {
             445 [(module) = "permissioncontroller"];
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
+        TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -6471,7 +6472,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 45
+ * Next Tag: 52
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6525,6 +6526,8 @@ message UIInteractionFrameInfoReported {
         SUW_SHOW_FUNCTION_SCREEN_WITH_ACTIONS = 47;
         SUW_LOADING_TO_NEXT_FLOW = 48;
         SUW_LOADING_SCREEN_FOR_STATUS = 49;
+        SPLIT_SCREEN_ENTER = 50;
+        SPLIT_SCREEN_EXIT = 51;
     }
 
     optional InteractionType interaction_type = 1;
@@ -18177,10 +18180,11 @@ message NeuralNetworksCompilationCompleted {
     // Size: 32 byte
     optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
 
-    // Devices identifier used by this compilation.
-    // Device identifier is a concatenation of [device name, =, and device version].
-    // If multiple devices are used, all device identifiers are sorted and concatenated
-    // with comma as a separator.
+    // Device driver identifier used by this compilation.
+    // NeuralNetworks models are compiled/prepared for one or more device drivers (e.g., DSP, GPU,
+    // TPU, CPU). The device driver identifier is a concatenation of [device driver name, =, and
+    // device driver version]. If multiple device drivers are used, all device driver identifiers
+    // are sorted and concatenated with comma as a separator.
     optional string device_id = 5;
 
     // Type of tensors used for inputs
@@ -18236,10 +18240,11 @@ message NeuralNetworksCompilationFailed {
     // Size: 32 byte
     optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
 
-    // Devices identifier used by this compilation.
-    // Device identifier is a concatenation of [device name, =, and device version].
-    // If multiple devices are used, all device identifiers are sorted and concatenated
-    // with comma as a separator.
+    // Device driver identifier used by this compilation.
+    // NeuralNetworks models are compiled/prepared for one or more device drivers (e.g., DSP, GPU,
+    // TPU, CPU). The device driver identifier is a concatenation of [device driver name, =, and
+    // device driver version]. If multiple device drivers are used, all device driver identifiers
+    // are sorted and concatenated with comma as a separator.
     optional string device_id = 5;
 
     // Type of tensors used for inputs
@@ -18289,10 +18294,11 @@ message NeuralNetworksExecutionCompleted {
     // Size: 32 byte
     optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
 
-    // Devices identifier used by this execution.
-    // Device identifier is a concatenation of [device name, =, and device version].
-    // If multiple devices are used, all device identifiers are sorted and concatenated
-    // with comma as a separator.
+    // Device driver identifier used by this execution.
+    // NeuralNetworks models are executed on one or more device drivers (e.g., DSP, GPU, TPU, CPU).
+    // The device driver identifier is a concatenation of [device driver name, =, and device driver
+    // version]. If multiple device drivers are used, all device driver identifiers are sorted and
+    // concatenated with comma as a separator.
     optional string device_id = 5;
 
     // Execution mode
@@ -18362,10 +18368,11 @@ message NeuralNetworksExecutionFailed {
     // Size: 32 byte
     optional bytes model_arch_hash = 4 [(log_mode) = MODE_BYTES];
 
-    // Devices identifier used by this execution.
-    // Device identifier is a concatenation of [device name, =, and device version].
-    // If multiple devices are used, all device identifiers are sorted and concatenated
-    // with comma as a separator.
+    // Device driver identifier used by this execution.
+    // NeuralNetworks models are executed on one or more device drivers (e.g., DSP, GPU, TPU, CPU).
+    // The device driver identifier is a concatenation of [device driver name, =, and device driver
+    // version]. If multiple device drivers are used, all device driver identifiers are sorted and
+    // concatenated with comma as a separator.
     optional string device_id = 5;
 
     // Execution mode
@@ -19912,4 +19919,23 @@ message RecentPermissionDecisionsInteracted {
 
     // Name of the permission for the permission decision being reviewed.
     optional string permission_group_name = 4;
+}
+
+/**
+ * Logs for task manager events
+ *
+ * Logged from SystemUI
+ */
+message TaskManagerEventReported {
+
+    enum Event {
+        VIEWED = 1;
+        STOPPED = 2;
+    }
+
+    optional int32 uid = 1 [(is_uid) = true];
+
+    optional Event event = 2;
+
+    optional int64 time_running_ms = 3;
 }
