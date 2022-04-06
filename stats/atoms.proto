@@ -688,6 +688,7 @@ message Atom {
             452 [(module) = "framework"];
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
             453 [(module) = "framework"];
+        AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -20182,3 +20183,21 @@ message CdmAssociationAction {
     // Name of the CDM Association Request profiles.
     optional DeviceProfile device_profile = 2;
 }
+
+/**
+ * Logs when text and reading options changed.
+ *
+ * Logged from:
+ *   packages/apps/Settings/src/com/android/settings/accessibility
+ */
+message AccessibilityTextReadingOptionsChanged {
+    // The item name of the accessibility feature "Text and Reading Options".
+    optional android.stats.accessibility.TextReadingOption name = 1;
+
+    // The status value of the item of the accessibility feature "Text and Reading Options".
+    optional int32 value = 2;
+
+    // The entry point from which page.
+    optional android.stats.accessibility.TextReadingEntry entry_point = 3;
+}
+
