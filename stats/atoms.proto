@@ -640,7 +640,7 @@ message Atom {
         DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417 [(module) = "framework"];
         PersistentUriPermissionsFlushed persistent_uri_permissions_flushed =
             418 [(module) = "framework"];
-        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419;
+        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419 [(module) = "art"];
         VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
         ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
         PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
