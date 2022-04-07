@@ -47,6 +47,7 @@ enum Action {
     COLOR_WALLPAPER_HOME_LOCK_APPLIED = 25;
     COLOR_PRESET_APPLIED = 26;
     WALLPAPER_EFFECT_APPLIED = 27;
+    SNAPSHOT = 28;
 }
 
 enum LocationPreference {

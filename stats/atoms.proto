@@ -4056,6 +4056,11 @@ message StyleUIChanged {
     optional android.stats.style.LaunchedPreference launched_preference = 12;
     optional android.stats.style.EffectPreference effect_preference = 13;
     optional int32 effect_id_hash = 14;
+    optional int32 lock_wallpaper_category_hash = 15;
+    optional int32 lock_wallpaper_id_hash = 16;
+    optional int32 first_launch_date_since_setup = 17;
+    optional int32 first_wallpaper_apply_date_since_setup = 18;
+    optional int32 app_launch_count = 19;
 }
 
 /**
