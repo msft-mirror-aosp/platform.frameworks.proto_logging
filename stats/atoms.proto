@@ -640,7 +640,7 @@ message Atom {
         DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417 [(module) = "framework"];
         PersistentUriPermissionsFlushed persistent_uri_permissions_flushed =
             418 [(module) = "framework"];
-        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419;
+        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419 [(module) = "art"];
         VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
         ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
         PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
@@ -675,6 +675,10 @@ message Atom {
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
         TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
+        MagnificationTripleTapAndHoldActivatedSessionReported magnification_triple_tap_and_hold_activated_session_reported =
+            452 [(module) = "framework"];
+        MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
+            453 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -3821,6 +3825,7 @@ message SmartSpaceCardReported {
         LOCKSCREEN = 2;
         AOD = 3;
         SHADE = 4;
+        DREAM_OVERLAY = 5;
     }
 
     // The event id (e.g., impression, click, longpress, dismiss)
@@ -12289,24 +12294,24 @@ message ContactsIndexerUpdateStatsReported {
     // In case of failures, it contains all the possible errors we get.
     repeated int32 delete_status_codes = 4;
 
-    // Number of new contacts successfully inserted during this update
-    optional int32 number_of_contacts_inserted = 5;
+    // Number of new contacts to be updated.
+    optional int32 number_of_new_contacts_to_be_updated = 5;
 
-    // Number of existing contacts successfully updated during this update
-    optional int32 number_of_contacts_updated = 6;
+    // Number of old and new contacts has been successfully updated.
+    optional int32 number_of_contacts_update_succeeded = 6;
 
-    // Number of existing contacts successfully deleted during this update
-    optional int32 number_of_contacts_deleted = 7;
+    // Number of old contacts has been successfully deleted.
+    optional int32 number_of_contacts_delete_succeeded = 7;
 
-    // Number of existing contacts skipped during this update due to no
-    // significant change
-    optional int32 number_of_contacts_skipped = 8;
+    // Number of old contacts skipped during this update due to no
+    // significant change.
+    optional int32 number_of_contacts_update_skipped = 8;
 
-    // Number of contacts failed to be updated
-    optional int32 number_of_contacts_failed_to_update = 9;
+    // Number of old and new contacts failed to be updated
+    optional int32 number_of_contacts_update_failed = 9;
 
-    // Number of contacts failed to be deleted
-    optional int32 number_of_contacts_failed_to_delete = 10;
+    // Number of old contacts failed to be deleted
+    optional int32 number_of_contacts_delete_failed = 10;
 }
 
 /**
@@ -17278,6 +17283,29 @@ message MagnificationModeWithImeOnReported {
     // The definition of the magnification mode.
     // From frameworks/base/core/proto/android/stats/accessibility/accessibility_enums.proto.
     optional android.stats.accessibility.MagnificationMode activated_mode = 1;
+}
+
+/**
+ * Logs the duration for the magnification session which is activated by the triple tap and
+ * hold gesture.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ */
+message MagnificationTripleTapAndHoldActivatedSessionReported {
+    // The duration of the triple tap and hold activated session in milliseconds
+    optional int64 duration_millis = 1;
+}
+
+/**
+ * Logs the duration for the following typing focus activated session.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ */
+message MagnificationFollowTypingFocusActivatedSessionReported {
+    // The duration of the following typing focus activated session in milliseconds
+    optional int64 duration_millis = 1;
 }
 
 /*
