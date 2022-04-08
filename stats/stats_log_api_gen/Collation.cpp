@@ -25,7 +25,6 @@
 namespace android {
 namespace stats_log_api_gen {
 
-using google::protobuf::OneofDescriptor;
 using google::protobuf::EnumDescriptor;
 using google::protobuf::FieldDescriptor;
 using google::protobuf::FileDescriptor;
@@ -47,7 +46,6 @@ AtomDecl::AtomDecl(const AtomDecl& that)
       name(that.name),
       message(that.message),
       fields(that.fields),
-      oneOfName(that.oneOfName),
       fieldNumberToAnnotations(that.fieldNumberToAnnotations),
       primaryFields(that.primaryFields),
       exclusiveField(that.exclusiveField),
@@ -57,8 +55,7 @@ AtomDecl::AtomDecl(const AtomDecl& that)
       uidField(that.uidField) {
 }
 
-AtomDecl::AtomDecl(int c, const string& n, const string& m, const string &o)
-    : code(c), name(n), message(m), oneOfName(o) {
+AtomDecl::AtomDecl(int c, const string& n, const string& m) : code(c), name(n), message(m) {
 }
 
 AtomDecl::~AtomDecl() {
@@ -74,7 +71,7 @@ static void print_error(const FieldDescriptor* field, const char* format, ...) {
 
     SourceLocation loc;
     if (field->GetSourceLocation(&loc)) {
-        // TODO(b/162454173): this will work if we can figure out how to pass
+        // TODO: this will work if we can figure out how to pass
         // --include_source_info to protoc
         fprintf(stderr, "%s:%d: ", file->name().c_str(), loc.start_line);
     } else {
@@ -113,6 +110,7 @@ static java_type_t java_type(const FieldDescriptor* field) {
         case FieldDescriptor::TYPE_GROUP:
             return JAVA_TYPE_UNKNOWN;
         case FieldDescriptor::TYPE_MESSAGE:
+            // TODO: not the final package name
             if (field->message_type()->full_name() == "android.os.statsd.AttributionNode") {
                 return JAVA_TYPE_ATTRIBUTION_CHAIN;
             } else if (field->message_type()->full_name() == "android.os.statsd.KeyValuePair") {
@@ -148,7 +146,7 @@ static java_type_t java_type(const FieldDescriptor* field) {
 void collate_enums(const EnumDescriptor& enumDescriptor, AtomField* atomField) {
     for (int i = 0; i < enumDescriptor.value_count(); i++) {
         atomField->enumValues[enumDescriptor.value(i)->number()] =
-                enumDescriptor.value(i)->name();
+                enumDescriptor.value(i)->name().c_str();
     }
 }
 
@@ -398,14 +396,16 @@ int collate_atom(const Descriptor* atom, AtomDecl* atomDecl, vector<java_type_t>
             collate_enums(*field->enum_type(), &atField);
         }
 
-        // Generate signature for atom.
-        if (javaType == JAVA_TYPE_ENUM) {
-            // All enums are treated as ints when it comes to function signatures.
-            signature->push_back(JAVA_TYPE_INT);
-        } else if (javaType == JAVA_TYPE_OBJECT && isBinaryField) {
-            signature->push_back(JAVA_TYPE_BYTE_ARRAY);
-        } else {
-            signature->push_back(javaType);
+        // Generate signature for pushed atoms
+        if (atomDecl->code < PULL_ATOM_START_ID) {
+            if (javaType == JAVA_TYPE_ENUM) {
+                // All enums are treated as ints when it comes to function signatures.
+                signature->push_back(JAVA_TYPE_INT);
+            } else if (javaType == JAVA_TYPE_OBJECT && isBinaryField) {
+                signature->push_back(JAVA_TYPE_BYTE_ARRAY);
+            } else {
+                signature->push_back(javaType);
+            }
         }
 
         atomDecl->fields.push_back(atField);
@@ -514,20 +514,12 @@ int collate_atoms(const Descriptor* descriptor, const string& moduleName, Atoms*
             continue;
         }
 
-        const OneofDescriptor* oneofAtom = atomField->containing_oneof();
-        if (oneofAtom == nullptr) {
-            print_error(atomField, "Atom is not declared in a `oneof` field: %s\n",
-                        atomField->name().c_str());
-            errorCount++;
-            continue;
-        }
-
         const Descriptor* atom = atomField->message_type();
         shared_ptr<AtomDecl> atomDecl =
-                make_shared<AtomDecl>(atomField->number(), atomField->name(), atom->name(),
-                                      oneofAtom->name());
+                make_shared<AtomDecl>(atomField->number(), atomField->name(), atom->name());
 
-        if (atomField->options().GetExtension(os::statsd::truncate_timestamp)) {
+        if (atomDecl->code < PULL_ATOM_START_ID &&
+            atomField->options().GetExtension(os::statsd::truncate_timestamp)) {
             addAnnotationToAtomDecl(atomDecl.get(), ATOM_ID_FIELD_NUMBER,
                                     ANNOTATION_ID_TRUNCATE_TIMESTAMP, ANNOTATION_TYPE_BOOL,
                                     AnnotationValue(true));
@@ -538,31 +530,20 @@ int collate_atoms(const Descriptor* descriptor, const string& moduleName, Atoms*
 
         vector<java_type_t> signature;
         errorCount += collate_atom(atom, atomDecl.get(), &signature);
-        if (!atomDecl->primaryFields.empty() && atomDecl->exclusiveField == 0) {
+        if (atomDecl->primaryFields.size() != 0 && atomDecl->exclusiveField == 0) {
             print_error(atomField, "Cannot have a primary field without an exclusive field: %s\n",
                         atomField->name().c_str());
             errorCount++;
             continue;
         }
 
-        if ((oneofAtom->name() != ONEOF_PUSHED_ATOM_NAME) &&
-                 (oneofAtom->name() != ONEOF_PULLED_ATOM_NAME)) {
-            print_error(atomField, "Atom is neither a pushed nor pulled atom: %s\n",
-                        atomField->name().c_str());
-            errorCount++;
-            continue;
-        }
-
-        FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = oneofAtom->name() ==
-            ONEOF_PUSHED_ATOM_NAME ? atoms->signatureInfoMap[signature] :
-            atoms->pulledAtomsSignatureInfoMap[signature];
+        FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = atoms->signatureInfoMap[signature];
         populateFieldNumberToAtomDeclSet(atomDecl, &fieldNumberToAtomDeclSet);
 
         atoms->decls.insert(atomDecl);
 
         shared_ptr<AtomDecl> nonChainedAtomDecl =
-                make_shared<AtomDecl>(atomField->number(), atomField->name(), atom->name(),
-                                      oneofAtom->name());
+                make_shared<AtomDecl>(atomField->number(), atomField->name(), atom->name());
         vector<java_type_t> nonChainedSignature;
         if (get_non_chained_node(atom, nonChainedAtomDecl.get(), &nonChainedSignature)) {
             FieldNumberToAtomDeclSet& nonChainedFieldNumberToAtomDeclSet =
@@ -575,25 +556,13 @@ int collate_atoms(const Descriptor* descriptor, const string& moduleName, Atoms*
     }
 
     if (dbg) {
-        // Signatures for pushed atoms.
         printf("signatures = [\n");
         for (SignatureInfoMap::const_iterator it = atoms->signatureInfoMap.begin();
              it != atoms->signatureInfoMap.end(); it++) {
             printf("   ");
             for (vector<java_type_t>::const_iterator jt = it->first.begin(); jt != it->first.end();
                  jt++) {
-                printf(" %d", static_cast<int>(*jt));
-            }
-            printf("\n");
-        }
-
-        // Signatures for pull atoms.
-        for (SignatureInfoMap::const_iterator it = atoms->pulledAtomsSignatureInfoMap.begin();
-             it != atoms->pulledAtomsSignatureInfoMap.end(); it++) {
-            printf("   ");
-            for (vector<java_type_t>::const_iterator jt = it->first.begin(); jt != it->first.end();
-                 jt++) {
-                printf(" %d", static_cast<int>(*jt));
+                printf(" %d", (int)*jt);
             }
             printf("\n");
         }

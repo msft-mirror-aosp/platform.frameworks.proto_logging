@@ -29,7 +29,6 @@
 namespace android {
 namespace stats_log_api_gen {
 
-using google::protobuf::OneofDescriptor;
 using google::protobuf::Descriptor;
 using google::protobuf::FieldDescriptor;
 using std::map;
@@ -41,14 +40,6 @@ using std::vector;
 const int PULL_ATOM_START_ID = 10000;
 
 const int FIRST_UID_IN_CHAIN_ID = 0;
-
-/**
- * The types of oneof atoms.
- *
- * `OneofDescriptor::name()` returns the name of the oneof.
- */
-const char ONEOF_PUSHED_ATOM_NAME[] = "pushed";
-const char ONEOF_PULLED_ATOM_NAME[] = "pulled";
 
 enum AnnotationId : uint8_t {
     ANNOTATION_ID_IS_UID = 1,
@@ -63,7 +54,7 @@ enum AnnotationId : uint8_t {
 
 const int ATOM_ID_FIELD_NUMBER = -1;
 
-const char DEFAULT_MODULE_NAME[] = "DEFAULT";
+const string DEFAULT_MODULE_NAME = "DEFAULT";
 
 /**
  * The types for atom parameters.
@@ -95,9 +86,9 @@ union AnnotationValue {
     int intValue;
     bool boolValue;
 
-    explicit AnnotationValue(const int value) : intValue(value) {
+    AnnotationValue(const int value) : intValue(value) {
     }
-    explicit AnnotationValue(const bool value) : boolValue(value) {
+    AnnotationValue(const bool value) : boolValue(value) {
     }
 };
 
@@ -163,8 +154,6 @@ struct AtomDecl {
     string message;
     vector<AtomField> fields;
 
-    string oneOfName;
-
     FieldNumberToAnnotations fieldNumberToAnnotations;
 
     vector<int> primaryFields;
@@ -177,7 +166,7 @@ struct AtomDecl {
 
     AtomDecl();
     AtomDecl(const AtomDecl& that);
-    AtomDecl(int code, const string& name, const string& message, const string& oneOfName);
+    AtomDecl(int code, const string& name, const string& message);
     ~AtomDecl();
 
     inline bool operator<(const AtomDecl& that) const {
@@ -195,7 +184,6 @@ using SignatureInfoMap = map<vector<java_type_t>, FieldNumberToAtomDeclSet>;
 
 struct Atoms {
     SignatureInfoMap signatureInfoMap;
-    SignatureInfoMap pulledAtomsSignatureInfoMap;
     AtomDeclSet decls;
     AtomDeclSet non_chained_decls;
     SignatureInfoMap nonChainedSignatureInfoMap;

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_STATS_LOG_API_GEN_JAVA_WRITER_Q_H
-#define ANDROID_STATS_LOG_API_GEN_JAVA_WRITER_Q_H
+#pragma once
 
 #include <stdio.h>
 #include <string.h>
@@ -29,6 +28,8 @@
 namespace android {
 namespace stats_log_api_gen {
 
+using namespace std;
+
 void write_java_q_logging_constants(FILE* out, const string& indent);
 
 int write_java_methods_q_schema(FILE* out, const SignatureInfoMap& signatureInfoMap,
@@ -39,5 +40,3 @@ void write_java_helpers_for_q_schema_methods(FILE* out, const AtomDecl& attribut
 
 }  // namespace stats_log_api_gen
 }  // namespace android
-
-#endif  // ANDROID_STATS_LOG_API_GEN_JAVA_WRITER_Q_H

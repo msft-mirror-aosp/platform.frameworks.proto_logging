@@ -17,17 +17,15 @@
 // ==========================================================
 // Build the library for use on the host
 // ==========================================================
-package {
-    default_applicable_licenses: ["Android-Apache-2.0"],
-}
-
 cc_library_host_shared {
     name: "libstats_proto_host",
     srcs: [
         "atoms.proto",
         "atom_field_options.proto",
-        "enums/**/*.proto",
-        "message/*.proto",
+    ],
+
+    shared_libs: [
+        "libplatformprotos",
     ],
 
     proto: {
@@ -37,6 +35,27 @@ cc_library_host_shared {
             "external/protobuf/src",
         ],
     },
+
+    export_shared_lib_headers: [
+        "libplatformprotos",
+    ]
+
+}
+
+cc_library_static {
+    name: "libbt-platform-protos-lite",
+    host_supported: true,
+    proto: {
+        export_proto_headers: true,
+        type: "lite",
+    },
+    srcs: [
+        "enums/bluetooth/a2dp/enums.proto",
+        "enums/bluetooth/enums.proto",
+        "enums/bluetooth/hci/enums.proto",
+        "enums/bluetooth/hfp/enums.proto",
+        "enums/bluetooth/smp/enums.proto",
+    ],
 }
 
 filegroup {
@@ -62,9 +81,4 @@ filegroup {
     ],
 }
 
-filegroup {
-    name: "libstats_atom_message_protos",
-    srcs: [
-        "message/*.proto",
-    ],
-}
+

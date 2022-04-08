@@ -13,8 +13,10 @@
 #include "java_writer.h"
 #include "java_writer_q.h"
 #include "native_writer.h"
-#include "rust_writer.h"
 #include "utils.h"
+
+using namespace google::protobuf;
+using namespace std;
 
 namespace android {
 namespace stats_log_api_gen {
@@ -29,8 +31,6 @@ static void print_usage() {
     fprintf(stderr, "  --header FILENAME    the cpp file to output for write helpers\n");
     fprintf(stderr, "  --help               this message\n");
     fprintf(stderr, "  --java FILENAME      the java file to output\n");
-    fprintf(stderr, "  --rust FILENAME      the rust file to output\n");
-    fprintf(stderr, "  --rustHeader FILENAME the rust file to output for write helpers\n");
     fprintf(stderr, "  --module NAME        optional, module name to generate outputs for\n");
     fprintf(stderr,
             "  --namespace COMMA,SEP,NAMESPACE   required for cpp/header with "
@@ -66,8 +66,6 @@ static int run(int argc, char const* const* argv) {
     string javaFilename;
     string javaPackage;
     string javaClass;
-    string rustFilename;
-    string rustHeaderFilename;
 
     string moduleName = DEFAULT_MODULE_NAME;
     string cppNamespace = DEFAULT_CPP_NAMESPACE;
@@ -102,20 +100,6 @@ static int run(int argc, char const* const* argv) {
                 return 1;
             }
             javaFilename = argv[index];
-        } else if (0 == strcmp("--rust", argv[index])) {
-            index++;
-            if (index >= argc) {
-                print_usage();
-                return 1;
-            }
-            rustFilename = argv[index];
-        } else if (0 == strcmp("--rustHeader", argv[index])) {
-            index++;
-            if (index >= argc) {
-                print_usage();
-                return 1;
-            }
-            rustHeaderFilename = argv[index];
         } else if (0 == strcmp("--module", argv[index])) {
             index++;
             if (index >= argc) {
@@ -178,9 +162,7 @@ static int run(int argc, char const* const* argv) {
         index++;
     }
 
-    if (cppFilename.empty() && headerFilename.empty()
-        && javaFilename.empty() && rustFilename.empty()
-        && rustHeaderFilename.empty()) {
+    if (cppFilename.size() == 0 && headerFilename.size() == 0 && javaFilename.size() == 0) {
         print_usage();
         return 1;
     }
@@ -194,13 +176,11 @@ static int run(int argc, char const* const* argv) {
     if (compileApiLevel < API_R) {
         // Cannot compile against pre-R.
         fprintf(stderr, "compileApiLevel must be %d or higher.\n", API_R);
-        return 1;
     }
 
     if (minApiLevel < API_Q) {
         // Cannot support pre-Q.
         fprintf(stderr, "minApiLevel must be %d or higher.\n", API_Q);
-        return 1;
     }
 
     if (minApiLevel == API_LEVEL_CURRENT) {
@@ -231,9 +211,9 @@ static int run(int argc, char const* const* argv) {
                  &attributionSignature);
 
     // Write the .cpp file
-    if (!cppFilename.empty()) {
+    if (cppFilename.size() != 0) {
         FILE* out = fopen(cppFilename.c_str(), "w");
-        if (out == nullptr) {
+        if (out == NULL) {
             fprintf(stderr, "Unable to open file for write: %s\n", cppFilename.c_str());
             return 1;
         }
@@ -254,9 +234,9 @@ static int run(int argc, char const* const* argv) {
     }
 
     // Write the .h file
-    if (!headerFilename.empty()) {
+    if (headerFilename.size() != 0) {
         FILE* out = fopen(headerFilename.c_str(), "w");
-        if (out == nullptr) {
+        if (out == NULL) {
             fprintf(stderr, "Unable to open file for write: %s\n", headerFilename.c_str());
             return 1;
         }
@@ -265,64 +245,36 @@ static int run(int argc, char const* const* argv) {
             fprintf(stderr, "Must supply --namespace if supplying a specific module\n");
         }
         errorCount = android::stats_log_api_gen::write_stats_log_header(out, atoms, attributionDecl,
-                                                                        cppNamespace, minApiLevel);
+                                                                        cppNamespace);
         fclose(out);
     }
 
     // Write the .java file
-    if (!javaFilename.empty()) {
-        if (javaClass.empty()) {
+    if (javaFilename.size() != 0) {
+        if (javaClass.size() == 0) {
             fprintf(stderr, "Must supply --javaClass if supplying a Java filename");
             return 1;
         }
 
-        if (javaPackage.empty()) {
+        if (javaPackage.size() == 0) {
             fprintf(stderr, "Must supply --javaPackage if supplying a Java filename");
             return 1;
         }
 
-        if (moduleName.empty()) {
+        if (moduleName.size() == 0) {
             fprintf(stderr, "Must supply --module if supplying a Java filename");
             return 1;
         }
 
         FILE* out = fopen(javaFilename.c_str(), "w");
-        if (out == nullptr) {
+        if (out == NULL) {
             fprintf(stderr, "Unable to open file for write: %s\n", javaFilename.c_str());
             return 1;
         }
 
         errorCount = android::stats_log_api_gen::write_stats_log_java(
-                out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel, compileApiLevel,
+                out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel,
                 supportWorkSource);
-
-        fclose(out);
-    }
-
-    // Write the main .rs file
-    if (!rustFilename.empty()) {
-        FILE* out = fopen(rustFilename.c_str(), "w");
-        if (out == nullptr) {
-            fprintf(stderr, "Unable to open file for write: %s\n", rustFilename.c_str());
-            return 1;
-        }
-
-        errorCount += android::stats_log_api_gen::write_stats_log_rust(
-                out, atoms, attributionDecl, minApiLevel);
-
-        fclose(out);
-    }
-
-    // Write the header .rs file
-    if (!rustHeaderFilename.empty()) {
-        FILE* out = fopen(rustHeaderFilename.c_str(), "w");
-        if (out == nullptr) {
-            fprintf(stderr, "Unable to open file for write: %s\n", rustHeaderFilename.c_str());
-            return 1;
-        }
-
-        android::stats_log_api_gen::write_stats_log_rust_header(
-                out, atoms, attributionDecl);
 
         fclose(out);
     }

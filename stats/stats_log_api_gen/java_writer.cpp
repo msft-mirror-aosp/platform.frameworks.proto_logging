@@ -39,27 +39,11 @@ static int write_java_q_logger_class(FILE* out, const SignatureInfoMap& signatur
     return 0;
 }
 
-static void write_java_annotation_constants(FILE* out, const int minApiLevel,
-                                            const int compileApiLevel) {
+static void write_java_annotation_constants(FILE* out) {
     fprintf(out, "    // Annotation constants.\n");
 
-    const map<AnnotationId, string>& ANNOTATION_ID_CONSTANTS = get_annotation_id_constants();
-    if (compileApiLevel <= API_R) {
-        for (const auto& [id, name] : ANNOTATION_ID_CONSTANTS) {
-            fprintf(out, "    public static final byte %s = %hhu;\n", name.c_str(), id);
-        }
-    } else if (minApiLevel <= API_R) { // compileApiLevel = S+
-        for (const auto& [id, name] : ANNOTATION_ID_CONSTANTS) {
-            fprintf(out, "    public static final byte %s =\n", name.c_str());
-            fprintf(out, "            Build.VERSION.SDK_INT <= Build.VERSION_CODES.R ?\n");
-            fprintf(out, "            %hhu : StatsLog.%s;\n", id, name.c_str());
-            fprintf(out, "\n");
-        }
-    } else {
-        for (const auto& [id, name] : ANNOTATION_ID_CONSTANTS) {
-            fprintf(out, "    public static final byte %s = StatsLog.%s;\n",
-                    name.c_str(), name.c_str());
-        }
+    for (const auto& [id, name] : ANNOTATION_ID_CONSTANTS) {
+        fprintf(out, "    public static final byte %s = %hhu;\n", name.c_str(), id);
     }
     fprintf(out, "\n");
 }
@@ -72,7 +56,6 @@ static void write_annotations(FILE* out, int argIndex,
         return;
     }
     const AtomDeclSet& atomDeclSet = fieldNumberToAtomDeclSetIt->second;
-    const map<AnnotationId, string>& ANNOTATION_ID_CONSTANTS = get_annotation_id_constants();
     for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
         const string atomConstant = make_constant_name(atomDecl->name);
         fprintf(out, "        if (%s == code) {\n", atomConstant.c_str());
@@ -113,154 +96,7 @@ static void write_annotations(FILE* out, int argIndex,
     }
 }
 
-static void write_method_signature(FILE* out, const vector<java_type_t>& signature,
-                                   const AtomDecl& attributionDecl) {
-    int argIndex = 1;
-    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
-         arg++) {
-        if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
-            for (const auto& chainField : attributionDecl.fields) {
-                fprintf(out, ", %s[] %s", java_type_name(chainField.javaType),
-                        chainField.name.c_str());
-            }
-        } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out, ", android.util.SparseArray<Object> valueMap");
-        } else {
-            fprintf(out, ", %s arg%d", java_type_name(*arg), argIndex);
-        }
-        argIndex++;
-    }
-}
-
-static int write_method_body(FILE* out, const vector<java_type_t>& signature,
-                             const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
-                             const AtomDecl& attributionDecl, const string& indent) {
-    // Start StatsEvent.Builder.
-    fprintf(out,
-            "%s        final StatsEvent.Builder builder = "
-            "StatsEvent.newBuilder();\n",
-            indent.c_str());
-
-    // Write atom code.
-    fprintf(out, "%s        builder.setAtomId(code);\n", indent.c_str());
-    write_annotations(out, ATOM_ID_FIELD_NUMBER, fieldNumberToAtomDeclSet);
-
-    // Write the args.
-    int argIndex = 1;
-    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
-         arg++) {
-        switch (*arg) {
-            case JAVA_TYPE_BOOLEAN:
-                fprintf(out, "%s        builder.writeBoolean(arg%d);\n", indent.c_str(),
-                        argIndex);
-                break;
-            case JAVA_TYPE_INT:
-            case JAVA_TYPE_ENUM:
-                fprintf(out, "%s        builder.writeInt(arg%d);\n", indent.c_str(), argIndex);
-                break;
-            case JAVA_TYPE_FLOAT:
-                fprintf(out, "%s        builder.writeFloat(arg%d);\n", indent.c_str(),
-                        argIndex);
-                break;
-            case JAVA_TYPE_LONG:
-                fprintf(out, "%s        builder.writeLong(arg%d);\n", indent.c_str(), argIndex);
-                break;
-            case JAVA_TYPE_STRING:
-                fprintf(out, "%s        builder.writeString(arg%d);\n", indent.c_str(),
-                        argIndex);
-                break;
-            case JAVA_TYPE_BYTE_ARRAY:
-                fprintf(out,
-                        "%s        builder.writeByteArray(null == arg%d ? new byte[0] : "
-                        "arg%d);\n",
-                        indent.c_str(), argIndex, argIndex);
-                break;
-            case JAVA_TYPE_ATTRIBUTION_CHAIN: {
-                const char* uidName = attributionDecl.fields.front().name.c_str();
-                const char* tagName = attributionDecl.fields.back().name.c_str();
-
-                fprintf(out, "%s        builder.writeAttributionChain(\n", indent.c_str());
-                fprintf(out, "%s                null == %s ? new int[0] : %s,\n",
-                        indent.c_str(), uidName, uidName);
-                fprintf(out, "%s                null == %s ? new String[0] : %s);\n",
-                        indent.c_str(), tagName, tagName);
-                break;
-            }
-            case JAVA_TYPE_KEY_VALUE_PAIR:
-                fprintf(out, "\n");
-                fprintf(out, "%s        // Write KeyValuePairs.\n", indent.c_str());
-                fprintf(out, "%s        final int count = valueMap.size();\n", indent.c_str());
-                fprintf(out, "%s        android.util.SparseIntArray intMap = null;\n",
-                        indent.c_str());
-                fprintf(out, "%s        android.util.SparseLongArray longMap = null;\n",
-                        indent.c_str());
-                fprintf(out, "%s        android.util.SparseArray<String> stringMap = null;\n",
-                        indent.c_str());
-                fprintf(out, "%s        android.util.SparseArray<Float> floatMap = null;\n",
-                        indent.c_str());
-                fprintf(out, "%s        for (int i = 0; i < count; i++) {\n", indent.c_str());
-                fprintf(out, "%s            final int key = valueMap.keyAt(i);\n",
-                        indent.c_str());
-                fprintf(out, "%s            final Object value = valueMap.valueAt(i);\n",
-                        indent.c_str());
-                fprintf(out, "%s            if (value instanceof Integer) {\n", indent.c_str());
-                fprintf(out, "%s                if (null == intMap) {\n", indent.c_str());
-                fprintf(out,
-                        "%s                    intMap = new "
-                        "android.util.SparseIntArray();\n",
-                        indent.c_str());
-                fprintf(out, "%s                }\n", indent.c_str());
-                fprintf(out, "%s                intMap.put(key, (Integer) value);\n",
-                        indent.c_str());
-                fprintf(out, "%s            } else if (value instanceof Long) {\n",
-                        indent.c_str());
-                fprintf(out, "%s                if (null == longMap) {\n", indent.c_str());
-                fprintf(out,
-                        "%s                    longMap = new "
-                        "android.util.SparseLongArray();\n",
-                        indent.c_str());
-                fprintf(out, "%s                }\n", indent.c_str());
-                fprintf(out, "%s                longMap.put(key, (Long) value);\n",
-                        indent.c_str());
-                fprintf(out, "%s            } else if (value instanceof String) {\n",
-                        indent.c_str());
-                fprintf(out, "%s                if (null == stringMap) {\n", indent.c_str());
-                fprintf(out,
-                        "%s                    stringMap = new "
-                        "android.util.SparseArray<>();\n",
-                        indent.c_str());
-                fprintf(out, "%s                }\n", indent.c_str());
-                fprintf(out, "%s                stringMap.put(key, (String) value);\n",
-                        indent.c_str());
-                fprintf(out, "%s            } else if (value instanceof Float) {\n",
-                        indent.c_str());
-                fprintf(out, "%s                if (null == floatMap) {\n", indent.c_str());
-                fprintf(out,
-                        "%s                    floatMap = new "
-                        "android.util.SparseArray<>();\n",
-                        indent.c_str());
-                fprintf(out, "%s                }\n", indent.c_str());
-                fprintf(out, "%s                floatMap.put(key, (Float) value);\n",
-                        indent.c_str());
-                fprintf(out, "%s            }\n", indent.c_str());
-                fprintf(out, "%s        }\n", indent.c_str());
-                fprintf(out,
-                        "%s        builder.writeKeyValuePairs("
-                        "intMap, longMap, stringMap, floatMap);\n",
-                        indent.c_str());
-                break;
-            default:
-                // Unsupported types: OBJECT, DOUBLE.
-                fprintf(stderr, "Encountered unsupported type.");
-                return 1;
-        }
-        write_annotations(out, argIndex, fieldNumberToAtomDeclSet);
-        argIndex++;
-    }
-    return 0;
-}
-
-static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
+static int write_java_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
                               const AtomDecl& attributionDecl, const int minApiLevel) {
     for (auto signatureInfoMapIt = signatureInfoMap.begin();
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
@@ -268,7 +104,21 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
         fprintf(out, "    public static void write(int code");
         const vector<java_type_t>& signature = signatureInfoMapIt->first;
         const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = signatureInfoMapIt->second;
-        write_method_signature(out, signature, attributionDecl);
+        int argIndex = 1;
+        for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
+             arg++) {
+            if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
+                for (auto chainField : attributionDecl.fields) {
+                    fprintf(out, ", %s[] %s", java_type_name(chainField.javaType),
+                            chainField.name.c_str());
+                }
+            } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
+                fprintf(out, ", android.util.SparseArray<Object> valueMap");
+            } else {
+                fprintf(out, ", %s arg%d", java_type_name(*arg), argIndex);
+            }
+            argIndex++;
+        }
         fprintf(out, ") {\n");
 
         // Print method body.
@@ -278,13 +128,130 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
             indent = "    ";
         }
 
-        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet,
-                                    attributionDecl, indent);
-        if (ret != 0) {
-            return ret;
-        }
-        fprintf(out, "\n");
+        // Start StatsEvent.Builder.
+        fprintf(out,
+                "%s        final StatsEvent.Builder builder = "
+                "StatsEvent.newBuilder();\n",
+                indent.c_str());
 
+        // Write atom code.
+        fprintf(out, "%s        builder.setAtomId(code);\n", indent.c_str());
+        write_annotations(out, ATOM_ID_FIELD_NUMBER, fieldNumberToAtomDeclSet);
+
+        // Write the args.
+        argIndex = 1;
+        for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
+             arg++) {
+            switch (*arg) {
+                case JAVA_TYPE_BOOLEAN:
+                    fprintf(out, "%s        builder.writeBoolean(arg%d);\n", indent.c_str(),
+                            argIndex);
+                    break;
+                case JAVA_TYPE_INT:
+                case JAVA_TYPE_ENUM:
+                    fprintf(out, "%s        builder.writeInt(arg%d);\n", indent.c_str(), argIndex);
+                    break;
+                case JAVA_TYPE_FLOAT:
+                    fprintf(out, "%s        builder.writeFloat(arg%d);\n", indent.c_str(),
+                            argIndex);
+                    break;
+                case JAVA_TYPE_LONG:
+                    fprintf(out, "%s        builder.writeLong(arg%d);\n", indent.c_str(), argIndex);
+                    break;
+                case JAVA_TYPE_STRING:
+                    fprintf(out, "%s        builder.writeString(arg%d);\n", indent.c_str(),
+                            argIndex);
+                    break;
+                case JAVA_TYPE_BYTE_ARRAY:
+                    fprintf(out,
+                            "%s        builder.writeByteArray(null == arg%d ? new byte[0] : "
+                            "arg%d);\n",
+                            indent.c_str(), argIndex, argIndex);
+                    break;
+                case JAVA_TYPE_ATTRIBUTION_CHAIN: {
+                    const char* uidName = attributionDecl.fields.front().name.c_str();
+                    const char* tagName = attributionDecl.fields.back().name.c_str();
+
+                    fprintf(out, "%s        builder.writeAttributionChain(\n", indent.c_str());
+                    fprintf(out, "%s                null == %s ? new int[0] : %s,\n",
+                            indent.c_str(), uidName, uidName);
+                    fprintf(out, "%s                null == %s ? new String[0] : %s);\n",
+                            indent.c_str(), tagName, tagName);
+                    break;
+                }
+                case JAVA_TYPE_KEY_VALUE_PAIR:
+                    fprintf(out, "\n");
+                    fprintf(out, "%s        // Write KeyValuePairs.\n", indent.c_str());
+                    fprintf(out, "%s        final int count = valueMap.size();\n", indent.c_str());
+                    fprintf(out, "%s        android.util.SparseIntArray intMap = null;\n",
+                            indent.c_str());
+                    fprintf(out, "%s        android.util.SparseLongArray longMap = null;\n",
+                            indent.c_str());
+                    fprintf(out, "%s        android.util.SparseArray<String> stringMap = null;\n",
+                            indent.c_str());
+                    fprintf(out, "%s        android.util.SparseArray<Float> floatMap = null;\n",
+                            indent.c_str());
+                    fprintf(out, "%s        for (int i = 0; i < count; i++) {\n", indent.c_str());
+                    fprintf(out, "%s            final int key = valueMap.keyAt(i);\n",
+                            indent.c_str());
+                    fprintf(out, "%s            final Object value = valueMap.valueAt(i);\n",
+                            indent.c_str());
+                    fprintf(out, "%s            if (value instanceof Integer) {\n", indent.c_str());
+                    fprintf(out, "%s                if (null == intMap) {\n", indent.c_str());
+                    fprintf(out,
+                            "%s                    intMap = new "
+                            "android.util.SparseIntArray();\n",
+                            indent.c_str());
+                    fprintf(out, "%s                }\n", indent.c_str());
+                    fprintf(out, "%s                intMap.put(key, (Integer) value);\n",
+                            indent.c_str());
+                    fprintf(out, "%s            } else if (value instanceof Long) {\n",
+                            indent.c_str());
+                    fprintf(out, "%s                if (null == longMap) {\n", indent.c_str());
+                    fprintf(out,
+                            "%s                    longMap = new "
+                            "android.util.SparseLongArray();\n",
+                            indent.c_str());
+                    fprintf(out, "%s                }\n", indent.c_str());
+                    fprintf(out, "%s                longMap.put(key, (Long) value);\n",
+                            indent.c_str());
+                    fprintf(out, "%s            } else if (value instanceof String) {\n",
+                            indent.c_str());
+                    fprintf(out, "%s                if (null == stringMap) {\n", indent.c_str());
+                    fprintf(out,
+                            "%s                    stringMap = new "
+                            "android.util.SparseArray<>();\n",
+                            indent.c_str());
+                    fprintf(out, "%s                }\n", indent.c_str());
+                    fprintf(out, "%s                stringMap.put(key, (String) value);\n",
+                            indent.c_str());
+                    fprintf(out, "%s            } else if (value instanceof Float) {\n",
+                            indent.c_str());
+                    fprintf(out, "%s                if (null == floatMap) {\n", indent.c_str());
+                    fprintf(out,
+                            "%s                    floatMap = new "
+                            "android.util.SparseArray<>();\n",
+                            indent.c_str());
+                    fprintf(out, "%s                }\n", indent.c_str());
+                    fprintf(out, "%s                floatMap.put(key, (Float) value);\n",
+                            indent.c_str());
+                    fprintf(out, "%s            }\n", indent.c_str());
+                    fprintf(out, "%s        }\n", indent.c_str());
+                    fprintf(out,
+                            "%s        builder.writeKeyValuePairs("
+                            "intMap, longMap, stringMap, floatMap);\n",
+                            indent.c_str());
+                    break;
+                default:
+                    // Unsupported types: OBJECT, DOUBLE.
+                    fprintf(stderr, "Encountered unsupported type.");
+                    return 1;
+            }
+            write_annotations(out, argIndex, fieldNumberToAtomDeclSet);
+            argIndex++;
+        }
+
+        fprintf(out, "\n");
         fprintf(out, "%s        builder.usePooledBuffer();\n", indent.c_str());
         fprintf(out, "%s        StatsLog.write(builder.build());\n", indent.c_str());
 
@@ -292,7 +259,7 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
         if (minApiLevel == API_Q) {
             fprintf(out, "        } else {\n");
             fprintf(out, "            QLogger.write(code");
-            int argIndex = 1;
+            argIndex = 1;
             for (vector<java_type_t>::const_iterator arg = signature.begin();
                  arg != signature.end(); arg++) {
                 if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
@@ -318,47 +285,17 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
     return 0;
 }
 
-static int write_java_pulled_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
-                              const AtomDecl& attributionDecl) {
-    for (auto signatureInfoMapIt = signatureInfoMap.begin();
-         signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
-        // Print method signature.
-        fprintf(out, "    public static StatsEvent buildStatsEvent(int code");
-        const vector<java_type_t>& signature = signatureInfoMapIt->first;
-        const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = signatureInfoMapIt->second;
-        write_method_signature(out, signature, attributionDecl);
-        fprintf(out, ") {\n");
-
-        // Print method body.
-        string indent("");
-        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet,
-                                    attributionDecl, indent);
-        if (ret != 0) {
-            return ret;
-        }
-        fprintf(out, "\n");
-
-        fprintf(out, "%s        return builder.build();\n", indent.c_str());
-
-        fprintf(out, "    }\n");  // method
-        fprintf(out, "\n");
-    }
-    return 0;
-}
-
 int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                          const string& javaClass, const string& javaPackage, const int minApiLevel,
-                         const int compileApiLevel, const bool supportWorkSource) {
+                         const bool supportWorkSource) {
     // Print prelude
     fprintf(out, "// This file is autogenerated\n");
     fprintf(out, "\n");
     fprintf(out, "package %s;\n", javaPackage.c_str());
     fprintf(out, "\n");
     fprintf(out, "\n");
-    if (minApiLevel <= API_R) {
+    if (minApiLevel == API_Q) {
         fprintf(out, "import android.os.Build;\n");
-    }
-    if (minApiLevel <= API_Q) {
         fprintf(out, "import android.os.SystemClock;\n");
     }
 
@@ -374,16 +311,14 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
 
     write_java_atom_codes(out, atoms);
     write_java_enum_values(out, atoms);
-    write_java_annotation_constants(out, minApiLevel, compileApiLevel);
+    write_java_annotation_constants(out);
 
     int errors = 0;
 
     // Print write methods.
     fprintf(out, "    // Write methods\n");
-    errors += write_java_pushed_methods(out, atoms.signatureInfoMap, attributionDecl, minApiLevel);
+    errors += write_java_methods(out, atoms.signatureInfoMap, attributionDecl, minApiLevel);
     errors += write_java_non_chained_methods(out, atoms.nonChainedSignatureInfoMap);
-    errors += write_java_pulled_methods(out, atoms.pulledAtomsSignatureInfoMap,
-                                                   attributionDecl);
     if (supportWorkSource) {
         errors += write_java_work_source_methods(out, atoms.signatureInfoMap);
     }

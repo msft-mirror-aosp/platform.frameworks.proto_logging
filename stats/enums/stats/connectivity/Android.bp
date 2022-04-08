@@ -12,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package {
-    default_applicable_licenses: ["Android-Apache-2.0"],
-}
-
 java_library_static {
     name: "networkstackprotos",
     proto: {
@@ -39,5 +35,4 @@ java_library_static {
         "com.android.tethering",
     ],
     sdk_version: "system_current",
-    min_sdk_version: "30",
 }

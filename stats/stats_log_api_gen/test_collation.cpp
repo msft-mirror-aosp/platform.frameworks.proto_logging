@@ -24,6 +24,7 @@ namespace android {
 namespace stats_log_api_gen {
 
 using std::map;
+using std::set;
 using std::vector;
 
 /**
@@ -31,11 +32,11 @@ using std::vector;
  */
 static bool map_contains_vector(const SignatureInfoMap& s, int count, ...) {
     va_list args;
-    vector<java_type_t> v(count);
+    vector<java_type_t> v;
 
     va_start(args, count);
     for (int i = 0; i < count; i++) {
-        v[i] = static_cast<java_type_t>(va_arg(args, int));
+        v.push_back((java_type_t)va_arg(args, int));
     }
     va_end(args);
 
@@ -221,7 +222,7 @@ TEST(CollationTest, FailOnBadBinaryFieldAtom) {
     Atoms atoms;
     int errorCount =
             collate_atoms(BadEventWithBinaryFieldAtom::descriptor(), DEFAULT_MODULE_NAME, &atoms);
-    EXPECT_GT(errorCount, 0);
+    EXPECT_TRUE(errorCount > 0);
 }
 
 TEST(CollationTest, PassOnLogFromModuleAtom) {
@@ -362,70 +363,6 @@ TEST(CollationTest, RecognizeModule1Atom) {
     EXPECT_EQ(3, annotation->atomId);
     EXPECT_EQ(ANNOTATION_TYPE_BOOL, annotation->type);
     EXPECT_TRUE(annotation->value.boolValue);
-}
-
-/**
- * Test that an atom is not a pushed nor pulled atom.
- */
-TEST(CollationTest, InvalidAtomType) {
-    Atoms atoms;
-    int errorCount = collate_atoms(NotAPushNorPullAtom::descriptor(), DEFAULT_MODULE_NAME, &atoms);
-
-    EXPECT_EQ(1, errorCount);
-}
-
-/**
- * Test that an atom was not declared in a `oneof` field.
- */
-TEST(CollationTest, AtomNotDeclaredInAOneof) {
-    Atoms atoms;
-    int errorCount = collate_atoms(AtomNotInAOneof::descriptor(), DEFAULT_MODULE_NAME, &atoms);
-
-    EXPECT_EQ(1, errorCount);
-}
-
-/**
- * Test a correct collation with pushed and pulled atoms.
- */
-TEST(CollationTest, CollatePushedAndPulledAtoms) {
-    Atoms atoms;
-    int errorCount = collate_atoms(PushedAndPulledAtoms::descriptor(), DEFAULT_MODULE_NAME, &atoms);
-
-    EXPECT_EQ(0, errorCount);
-    EXPECT_EQ(1ul, atoms.signatureInfoMap.size());
-    EXPECT_EQ(2ul, atoms.pulledAtomsSignatureInfoMap.size());
-
-    // IntAtom
-    EXPECT_MAP_CONTAINS_SIGNATURE(atoms.signatureInfoMap, JAVA_TYPE_INT);
-
-    // AnotherIntAtom
-    EXPECT_MAP_CONTAINS_SIGNATURE(atoms.pulledAtomsSignatureInfoMap, JAVA_TYPE_INT);
-
-    // OutOfOrderAtom
-    EXPECT_MAP_CONTAINS_SIGNATURE(atoms.pulledAtomsSignatureInfoMap, JAVA_TYPE_INT, JAVA_TYPE_INT);
-
-    EXPECT_EQ(3ul, atoms.decls.size());
-
-    AtomDeclSet::const_iterator atomIt = atoms.decls.begin();
-    EXPECT_EQ(1, (*atomIt)->code);
-    EXPECT_EQ("int_atom_1", (*atomIt)->name);
-    EXPECT_EQ("IntAtom", (*atomIt)->message);
-    EXPECT_NO_ENUM_FIELD((*atomIt));
-    atomIt++;
-
-    EXPECT_EQ(10, (*atomIt)->code);
-    EXPECT_EQ("another_int_atom", (*atomIt)->name);
-    EXPECT_EQ("AnotherIntAtom", (*atomIt)->message);
-    EXPECT_NO_ENUM_FIELD((*atomIt));
-    atomIt++;
-
-    EXPECT_EQ(11, (*atomIt)->code);
-    EXPECT_EQ("out_of_order_atom", (*atomIt)->name);
-    EXPECT_EQ("OutOfOrderAtom", (*atomIt)->message);
-    EXPECT_NO_ENUM_FIELD((*atomIt));
-    atomIt++;
-
-    EXPECT_EQ(atoms.decls.end(), atomIt);
 }
 
 }  // namespace stats_log_api_gen

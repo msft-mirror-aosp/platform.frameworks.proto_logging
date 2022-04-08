@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package {
-    default_applicable_licenses: ["Android-Apache-2.0"],
-}
-
 java_library {
-    name: "styleprotoslite",
+    name: "styleprotosnano",
     proto: {
-        type: "lite",
+        type: "nano",
+        output_params: ["store_unknown_fields=true"],
+        include_dirs: ["external/protobuf/src"],
     },
+
+    sdk_version: "current",
     srcs: [
         "*.proto",
     ],
