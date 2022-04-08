@@ -678,6 +678,7 @@ message Atom {
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
         TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
+        CdmAssociationAction cdm_association_action = 451 [(module) = "framework"];
         MagnificationTripleTapAndHoldActivatedSessionReported magnification_triple_tap_and_hold_activated_session_reported =
             452 [(module) = "framework"];
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
@@ -20066,3 +20067,31 @@ message AccessibilityTextReadingOptionsChanged {
     optional android.stats.accessibility.TextReadingEntry entry_point = 3;
 }
 
+/** Log the CompanionDeviceManager associations are created by various device
+ * profiles
+ *
+ * Logged from:
+ * frameworks/base/services/companion/java/com/android/server/companion/
+ * CompanionDeviceManagerService.java
+ */
+message CdmAssociationAction {
+    enum Action {
+        UNKNOWN = 0;
+        CREATED = 1;
+        REMOVED = 2;
+    }
+
+    enum DeviceProfile{
+        DEVICE_PROFILE_NULL = 0;
+        DEVICE_PROFILE_WATCH = 1;
+        DEVICE_PROFILE_APP_STREAMING = 2;
+        DEVICE_PROFILE_AUTO_PROJECTION = 3;
+        DEVICE_PROFILE_COMPUTER = 4;
+    }
+
+    // Action taken on the CDM association been created by companion apps.
+    optional Action action = 1;
+
+    // Name of the CDM Association Request profiles.
+    optional DeviceProfile device_profile = 2;
+}
