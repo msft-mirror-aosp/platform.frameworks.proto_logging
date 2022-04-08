@@ -672,8 +672,8 @@ message Atom {
             [(module) = "appsearch"];
         AppBackgroundRestrictionsInfo app_background_restrictions_info =
             441 [(module) = "framework"];
-        MmsProviderGetThreadIdFailed mms_provider_get_thread_id_failed = 442 [(module) = "framework"];
-        MmsSmsDatabaseHelperOnUpgradeFailed mms_sms_database_helper_on_upgrade_failed = 443 [(module) = "framework"];
+        MmsSmsProviderGetThreadIdFailed mms_sms_provider_get_thread_id_failed = 442 [(module) = "telephony"];
+        MmsSmsDatabaseHelperOnUpgradeFailed mms_sms_database_helper_on_upgrade_failed = 443 [(module) = "telephony"];
         PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
             444 [(module) = "permissioncontroller"];
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
@@ -20119,9 +20119,9 @@ message AppBackgroundRestrictionsInfo {
 }
 
 /**
- * Logs failure reason when MmsProvider#getThreadId fails to return a threadId
+ * Logs failure reason when MmsSmsProvider#getThreadId fails to return a threadId
  */
-message MmsProviderGetThreadIdFailed {
+message MmsSmsProviderGetThreadIdFailed {
     enum FailureCode {
         FAILURE_UNKNOWN = 0;
         // Did not return a threadId due to recipients being passed in
