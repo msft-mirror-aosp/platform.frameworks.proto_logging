@@ -679,6 +679,7 @@ message Atom {
             452 [(module) = "framework"];
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
             453 [(module) = "framework"];
+        AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -3984,6 +3985,11 @@ message StyleUIChanged {
     optional android.stats.style.LaunchedPreference launched_preference = 12;
     optional android.stats.style.EffectPreference effect_preference = 13;
     optional int32 effect_id_hash = 14;
+    optional int32 lock_wallpaper_category_hash = 15;
+    optional int32 lock_wallpaper_id_hash = 16;
+    optional int32 first_launch_date_since_setup = 17;
+    optional int32 first_wallpaper_apply_date_since_setup = 18;
+    optional int32 app_launch_count = 19;
 }
 
 /**
@@ -19967,3 +19973,21 @@ message TaskManagerEventReported {
 
     optional int64 time_running_ms = 3;
 }
+
+/**
+ * Logs when text and reading options changed.
+ *
+ * Logged from:
+ *   packages/apps/Settings/src/com/android/settings/accessibility
+ */
+message AccessibilityTextReadingOptionsChanged {
+    // The item name of the accessibility feature "Text and Reading Options".
+    optional android.stats.accessibility.TextReadingOption name = 1;
+
+    // The status value of the item of the accessibility feature "Text and Reading Options".
+    optional int32 value = 2;
+
+    // The entry point from which page.
+    optional android.stats.accessibility.TextReadingEntry entry_point = 3;
+}
+
