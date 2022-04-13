@@ -19666,6 +19666,19 @@ message HotwordDetectorKeyphraseTriggered {
 
         // Indicates that the keyphrase was not detected.
         REJECTED = 6;
+
+        // Indicates that the system got the unexpected detected callback.
+        DETECT_UNEXPECTED_CALLBACK = 7;
+
+        // Indicates that the system got the security exception when handling detected callback.
+        DETECT_SECURITY_EXCEPTION = 8;
+
+        // Indicates that the system got the unexpected rejected callback.
+        REJECT_UNEXPECTED_CALLBACK = 9;
+
+        // Indicates that the system called rejected callback when the trusted process was
+        // restarted.
+        REJECTED_FROM_RESTART = 10;
     }
     // What result after detecting.
     optional Result result = 2;
