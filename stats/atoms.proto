@@ -14623,6 +14623,8 @@ message UserLifecycleJourneyReported {
         USER_SWITCH_FG = 2; // A user switch journey without a UI shown
         USER_START = 3; // A user start journey
         USER_CREATE = 4; // A user creation journey
+        USER_STOP = 5; // A user stop journey
+        USER_REMOVE = 6; // A user removal journey
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -14674,6 +14676,8 @@ message UserLifecycleEventOccurred {
         USER_RUNNING_LOCKED = 4; // Indicates that user is running in locked state
         UNLOCKING_USER = 5; // Indicates that this is a user unlocking event
         UNLOCKED_USER = 6; // Indicates that this is a user unlocked event
+        STOP_USER = 7; // Indicates that this is a user stop event
+        REMOVE_USER = 8; // Indicates that this is a user removal event
     }
     optional Event event = 3;
 
