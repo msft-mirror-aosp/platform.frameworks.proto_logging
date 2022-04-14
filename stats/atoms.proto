@@ -31,6 +31,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hfp/enums.proto";
+import "frameworks/proto_logging/stats/enums/bluetooth/leaudio/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
@@ -673,6 +674,8 @@ message Atom {
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
             445 [(module) = "permissioncontroller"];
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
+        LeAudioConnectionSessionReported le_audio_connection_session_reported = 447 [(module) = "bluetooth"];
+        LeAudioBroadcastSessionReported le_audio_broadcast_session_reported = 448 [(module) = "bluetooth"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
         TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
         CdmAssociationAction cdm_association_action = 451 [(module) = "framework"];
@@ -2432,6 +2435,8 @@ message BluetoothAclConnectionStateChanged {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 3;
+    // Used transport of this event.
+    optional android.bluetooth.TransportTypeEnum transport = 4;
 }
 
 /**
@@ -3368,6 +3373,68 @@ message BluetoothHALCrashReasonReported {
     // Original type: uint8_t
     // Default: 0x00 (DEFAULT)
     optional int32 vendor_error_code = 4;
+}
+
+/**
+ * Logs when an LE Audio connection session ended
+ *
+ * Logged from:
+ *   packages/modules/Bluetooth
+ *
+ */
+message LeAudioConnectionSessionReported {
+    // Size of this CSIS group
+    optional int32 group_size = 1;
+    // An identifier that can be used to match events for this CSIS group.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired groups, it stays consistent between Bluetooth toggling for the
+    // same remote group.
+    // For unpaired groups, it stays consistent within the same Bluetooth adapter
+    // session for the same remote group.
+    // Default: 0 if the group's metric id is unknown.
+    optional int32 group_metric_id = 2;
+    // Total duration of this LeAudioConnectionSession
+    optional int64 duration_nanos = 3;
+
+    // Connecting timestamp offset to the beginning of this session of each device session
+    repeated int64 device_connecting_offset_nanos = 4;
+    // Connected timestamp offset to the beginning of this session of each device session
+    repeated int64 device_connected_offset_nanos = 5;
+    // Duration of each device session
+    repeated int64 device_connection_duration_nanos = 6;
+    // Connection status of each device session
+    repeated android.bluetooth.leaudio.ConnectionStatus device_connection_status = 7;
+    // Disconnection status of each device session
+    repeated android.bluetooth.leaudio.ConnectionStatus device_disconnection_status = 8;
+    // An identifier that can be used to match events for this device.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired devices, it stays consistent between Bluetooth toggling for the
+    // same remote device.
+    // For unpaired devices, it stays consistent within the same Bluetooth adapter
+    // session for the same remote device.
+    // Default: 0 if the device's metric id is unknown.
+    repeated int32 device_metric_id = 9;
+
+    // Streaming beginning timestamp offset to the beginning of this session
+    repeated int64 streaming_session_offset_nanos = 10;
+    // Streaming ending timestamp offset to the beginning of this session
+    repeated int64 streaming_session_duration_nanos = 11;
+    // Streaming context type of each steaming session
+    repeated android.bluetooth.leaudio.ContextType streaming_context_type = 12;
+}
+
+/**
+ * Logs when an LE Audio broadcast session ended
+ *
+ * Logged from:
+ *   packages/modules/Bluetooth
+ *
+ */
+message LeAudioBroadcastSessionReported {
+    // Broadcast duration
+    optional int64 duration_nanos = 1;
 }
 
 /* Logs input device information when input device is registered with Android device.
@@ -14016,6 +14083,9 @@ message DataCallSession {
     // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
     // on the RAT at the end of the data call.
     optional int32 band_at_end = 19;
+
+    // Reason why the data call handover failed, as in RIL_DataCallFailCause from ril.h
+    repeated int32 handover_failure_causes = 20;
 }
 
 /**
@@ -14548,6 +14618,8 @@ message UserLifecycleJourneyReported {
         USER_SWITCH_FG = 2; // A user switch journey without a UI shown
         USER_START = 3; // A user start journey
         USER_CREATE = 4; // A user creation journey
+        USER_STOP = 5; // A user stop journey
+        USER_REMOVE = 6; // A user removal journey
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -14599,6 +14671,8 @@ message UserLifecycleEventOccurred {
         USER_RUNNING_LOCKED = 4; // Indicates that user is running in locked state
         UNLOCKING_USER = 5; // Indicates that this is a user unlocking event
         UNLOCKED_USER = 6; // Indicates that this is a user unlocked event
+        STOP_USER = 7; // Indicates that this is a user stop event
+        REMOVE_USER = 8; // Indicates that this is a user removal event
     }
     optional Event event = 3;
 
@@ -16169,6 +16243,8 @@ message VmCreationRequested {
     optional bool is_protected = 2;
     // Did the VM creation succeed
     optional bool creation_succeeded = 3;
+    // Binder exception Code thrown by createVm request
+    optional int32 binder_exception_code = 4;
 }
 
 /**
