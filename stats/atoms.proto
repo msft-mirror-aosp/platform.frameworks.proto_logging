@@ -602,6 +602,7 @@ message Atom {
         EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419 [(module) = "art"];
         IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
+        TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -18010,4 +18011,18 @@ message PerSimStatus {
     // and whether it agrees with other sources.
     // See field phone_number_source_uicc.
     optional int32 phone_number_source_ims = 5;
+}
+
+/**
+ * Logs when a telephony anomaly is reported.
+ *
+ * Logged from:
+ *   frameworks/base/telephony/java/android/telephony/AnomalyReporter.java
+ */
+message TelephonyAnomalyDetected {
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    optional int64 event_id_lsb = 2;
+    optional int64 event_id_msb = 3;
 }
