@@ -12850,6 +12850,9 @@ message CameraActionEvent {
     optional CameraStreamProto stream_3 = 17 [(log_mode) = MODE_BYTES];
     optional CameraStreamProto stream_4 = 18 [(log_mode) = MODE_BYTES];
     optional CameraStreamProto stream_5 = 19 [(log_mode) = MODE_BYTES];
+
+    // User tag string for this session
+    optional string user_tag = 20;
 }
 
 /**
