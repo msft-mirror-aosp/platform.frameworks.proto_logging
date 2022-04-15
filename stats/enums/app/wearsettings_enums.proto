@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 395
+// Next ID: 398
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -196,6 +196,9 @@ enum ItemId {
   DND_OPTIONS_REMINDERS = 182;
   DND_OPTIONS_REPEAT_CALLERS = 393;
   DND_OPTIONS_MEDIA_SOUNDS = 394;
+  DND_SETTINGS_SWITCH = 395;
+  DND_CUSTOMIZE = 396;
+  BED_TIME_MODE_SETTINGS_SWITCH = 397;
   EMERGENCY_ALERTS_ALERT_REMINDER = 122;
   EMERGENCY_ALERTS_ALERT_SOUND_DURATION = 123;
   EMERGENCY_ALERTS_ALERT_VIBRATE = 124;
