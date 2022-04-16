@@ -4058,6 +4058,7 @@ message StyleUIChanged {
     optional int32 first_launch_date_since_setup = 17;
     optional int32 first_wallpaper_apply_date_since_setup = 18;
     optional int32 app_launch_count = 19;
+    optional int32 color_variant = 20;
 }
 
 /**
