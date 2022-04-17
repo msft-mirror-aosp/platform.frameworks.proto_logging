@@ -19309,6 +19309,10 @@ message PerSimStatus {
 
     // Indicates the lowest voltage class supported by the SIM
     optional SimVoltageClass sim_voltage_class = 15;
+
+    // APN type bitmask of the APNs added or modified by user:
+    // @ApnType in frameworks/base/telephony/java/android/telephony/Annotation.java.
+    optional int32 user_modified_apn_type_bitmask = 16;
 }
 
 /*
