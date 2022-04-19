@@ -687,6 +687,7 @@ message Atom {
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
             453 [(module) = "framework"];
         AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
+        UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -19114,6 +19115,7 @@ message GbaEvent {
 
 /*
  * Logs details of initiated UWB ranging session
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
 message UwbSessionInitiated {
     // UWB profiles
@@ -19141,6 +19143,7 @@ message UwbSessionInitiated {
 
 /*
  * Logs details of closed UWB ranging session
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
 message UwbSessionClosed {
     // UWB profiles
@@ -19176,6 +19179,10 @@ message UwbSessionClosed {
     optional int32 start_no_valid_report_count = 15;
 }
 
+/*
+ * Log that the ranging measurement is received
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
 message UwbRangingMeasurementReceived {
     // UWB profiles
     optional android.uwb.Profile profile = 1;
@@ -19207,6 +19214,10 @@ message UwbRangingMeasurementReceived {
     optional int32 elevation_fom = 14;
 }
 
+/*
+ * Log that the first ranging measurement is received
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
 message UwbFirstRangingReceived {
     // UWB profiles
     optional android.uwb.Profile profile = 1;
@@ -19214,6 +19225,24 @@ message UwbFirstRangingReceived {
     optional int32 latency_ms = 2;
     // The ranging latency in 200ms.
     optional int32 latency_200ms = 3;
+}
+
+/*
+ * Log that UWB device error is detected
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
+message UwbDeviceErrorReported {
+    enum Type {
+        UNKNOWN = 0;
+        // Initialization error
+        INIT_ERROR = 1;
+        // Device status error
+        DEVICE_STATUS_ERROR = 2;
+        // UCI generic error
+        UCI_GENERIC_ERROR = 3;
+    }
+    // Error type
+    optional Type type= 1;
 }
 
 /**
