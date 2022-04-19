@@ -824,7 +824,8 @@ message Atom {
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
-        TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
+        TelephonyNetworkRequests telephony_network_requests =
+            10115 [(module) = "telephony", deprecated = true];
         AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
         VmStat vmstat = 10117 [(module) = "framework"];
         Keystore2KeyCreationWithGeneralInfo keystore2_key_creation_with_general_info =
@@ -880,6 +881,7 @@ message Atom {
         PendingIntentsPerPackage pending_intents_per_package = 10151
             [(module) = "framework"];
         UserInfo user_info = 10152 [(module) = "framework"];
+        TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -13809,6 +13811,8 @@ message SupportedRadioAccessFamily {
 }
 
 /**
+ * This atom is deprecated starting in T, use TelephonyNetworkRequestsV2 instead.
+ *
  * Pulls information about network requests.
  *
  * Pulled from:
@@ -13822,6 +13826,34 @@ message TelephonyNetworkRequests {
     optional int32 enterprise_request_count = 2;
     // Number of times the enterprise capability was released.
     optional int32 enterprise_release_count = 3;
+}
+
+/**
+ * Pulls information about network requests.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message TelephonyNetworkRequestsV2 {
+    enum NetworkCapability {
+        // Unknown capability was requested.
+        UNKNOWN = 0;
+        // Low latency capability (URLLC) was requested.
+        PRIORITIZE_LATENCY = 1;
+        // High bandwidth capability (EMBB) was requested.
+        PRIORITIZE_BANDWIDTH = 2;
+        // CBS (Carrier Branded Services) capability was requested.
+        CBS = 3;
+        // Enterprise capability was requested.
+        ENTERPRISE = 4;
+    }
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // The capability that was requested.
+    optional NetworkCapability capability = 2;
+    // Number of times the capability was requested.
+    optional int32 request_count = 3;
 }
 
 /**
