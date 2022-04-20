@@ -684,6 +684,7 @@ message Atom {
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
             453 [(module) = "framework"];
         AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
+        UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -818,7 +819,8 @@ message Atom {
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
-        TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
+        TelephonyNetworkRequests telephony_network_requests =
+            10115 [(module) = "telephony", deprecated = true];
         AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
         VmStat vmstat = 10117 [(module) = "framework"];
         Keystore2KeyCreationWithGeneralInfo keystore2_key_creation_with_general_info =
@@ -874,6 +876,7 @@ message Atom {
         PendingIntentsPerPackage pending_intents_per_package = 10151
             [(module) = "framework"];
         UserInfo user_info = 10152 [(module) = "framework"];
+        TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -13803,6 +13806,8 @@ message SupportedRadioAccessFamily {
 }
 
 /**
+ * This atom is deprecated starting in T, use TelephonyNetworkRequestsV2 instead.
+ *
  * Pulls information about network requests.
  *
  * Pulled from:
@@ -13816,6 +13821,34 @@ message TelephonyNetworkRequests {
     optional int32 enterprise_request_count = 2;
     // Number of times the enterprise capability was released.
     optional int32 enterprise_release_count = 3;
+}
+
+/**
+ * Pulls information about network requests.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message TelephonyNetworkRequestsV2 {
+    enum NetworkCapability {
+        // Unknown capability was requested.
+        UNKNOWN = 0;
+        // Low latency capability (URLLC) was requested.
+        PRIORITIZE_LATENCY = 1;
+        // High bandwidth capability (EMBB) was requested.
+        PRIORITIZE_BANDWIDTH = 2;
+        // CBS (Carrier Branded Services) capability was requested.
+        CBS = 3;
+        // Enterprise capability was requested.
+        ENTERPRISE = 4;
+    }
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // The capability that was requested.
+    optional NetworkCapability capability = 2;
+    // Number of times the capability was requested.
+    optional int32 request_count = 3;
 }
 
 /**
@@ -19111,6 +19144,7 @@ message GbaEvent {
 
 /*
  * Logs details of initiated UWB ranging session
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
 message UwbSessionInitiated {
     // UWB profiles
@@ -19138,6 +19172,7 @@ message UwbSessionInitiated {
 
 /*
  * Logs details of closed UWB ranging session
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
 message UwbSessionClosed {
     // UWB profiles
@@ -19173,6 +19208,10 @@ message UwbSessionClosed {
     optional int32 start_no_valid_report_count = 15;
 }
 
+/*
+ * Log that the ranging measurement is received
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
 message UwbRangingMeasurementReceived {
     // UWB profiles
     optional android.uwb.Profile profile = 1;
@@ -19204,6 +19243,10 @@ message UwbRangingMeasurementReceived {
     optional int32 elevation_fom = 14;
 }
 
+/*
+ * Log that the first ranging measurement is received
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
 message UwbFirstRangingReceived {
     // UWB profiles
     optional android.uwb.Profile profile = 1;
@@ -19211,6 +19254,24 @@ message UwbFirstRangingReceived {
     optional int32 latency_ms = 2;
     // The ranging latency in 200ms.
     optional int32 latency_200ms = 3;
+}
+
+/*
+ * Log that UWB device error is detected
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
+message UwbDeviceErrorReported {
+    enum Type {
+        UNKNOWN = 0;
+        // Initialization error
+        INIT_ERROR = 1;
+        // Device status error
+        DEVICE_STATUS_ERROR = 2;
+        // UCI generic error
+        UCI_GENERIC_ERROR = 3;
+    }
+    // Error type
+    optional Type type= 1;
 }
 
 /**
