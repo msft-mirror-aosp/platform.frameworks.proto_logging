@@ -880,6 +880,7 @@ message Atom {
             [(module) = "framework"];
         UserInfo user_info = 10152 [(module) = "framework"];
         TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
+        DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -13806,6 +13807,16 @@ message SupportedRadioAccessFamily {
     // A bitmask of supported radio technologies.
     // See android.telephony.TelephonyManager.NetworkTypeBitMask.
     optional int64 network_type_bitmask = 1;
+}
+
+/**
+ * Pulls the status of device-level telephony features.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message DeviceTelephonyProperties {
+    optional bool using_new_data_stack = 1;
 }
 
 /**
