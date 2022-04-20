@@ -689,6 +689,7 @@ message Atom {
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
             453 [(module) = "framework"];
         AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
+        WifiSetupFailureCrashReported wifi_setup_failure_crash_reported = 455 [(module) = "wifi"];
         UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
@@ -824,7 +825,8 @@ message Atom {
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
-        TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
+        TelephonyNetworkRequests telephony_network_requests =
+            10115 [(module) = "telephony", deprecated = true];
         AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
         VmStat vmstat = 10117 [(module) = "framework"];
         Keystore2KeyCreationWithGeneralInfo keystore2_key_creation_with_general_info =
@@ -880,6 +882,8 @@ message Atom {
         PendingIntentsPerPackage pending_intents_per_package = 10151
             [(module) = "framework"];
         UserInfo user_info = 10152 [(module) = "framework"];
+        TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
+        DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1402,6 +1406,38 @@ message WifiP2pConnectionReported {
     // credential.
     optional GroupRole group_role = 5;
 }
+
+/**
+ * Logged when wifi setup failure or crash reported
+ */
+message WifiSetupFailureCrashReported {
+    enum Type {
+        UNKNOWN = 0;
+        // Wifi HAL crash
+        HAL_CRASH = 1;
+        // Wificond crash
+        WIFICOND_CRASH = 2;
+        // Supplicant crash
+        SUPPLICANT_CRASH = 3;
+        // hostapd crash
+        HOSTAPD_CRASH = 4;
+        // HAL error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_HAL = 5;
+        // Wificond error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_WIFICOND = 6;
+        // Supplicant error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_SUPPLICANT = 7;
+        // HAL error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_HAL = 8;
+        // Wificond error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_WIFICOND = 9;
+        // Hostapd error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_HOSTAPD = 10;
+    }
+    // Type of failure
+    optional Type type= 1;
+}
+
 
 /**
  * Logs when memory stats of a process is reported.
@@ -13809,6 +13845,18 @@ message SupportedRadioAccessFamily {
 }
 
 /**
+ * Pulls the status of device-level telephony features.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message DeviceTelephonyProperties {
+    optional bool using_new_data_stack = 1;
+}
+
+/**
+ * This atom is deprecated starting in T, use TelephonyNetworkRequestsV2 instead.
+ *
  * Pulls information about network requests.
  *
  * Pulled from:
@@ -13822,6 +13870,34 @@ message TelephonyNetworkRequests {
     optional int32 enterprise_request_count = 2;
     // Number of times the enterprise capability was released.
     optional int32 enterprise_release_count = 3;
+}
+
+/**
+ * Pulls information about network requests.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message TelephonyNetworkRequestsV2 {
+    enum NetworkCapability {
+        // Unknown capability was requested.
+        UNKNOWN = 0;
+        // Low latency capability (URLLC) was requested.
+        PRIORITIZE_LATENCY = 1;
+        // High bandwidth capability (EMBB) was requested.
+        PRIORITIZE_BANDWIDTH = 2;
+        // CBS (Carrier Branded Services) capability was requested.
+        CBS = 3;
+        // Enterprise capability was requested.
+        ENTERPRISE = 4;
+    }
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // The capability that was requested.
+    optional NetworkCapability capability = 2;
+    // Number of times the capability was requested.
+    optional int32 request_count = 3;
 }
 
 /**
@@ -20136,6 +20212,8 @@ message AppBackgroundRestrictionsInfo {
         REASON_ROLE_EMERGENCY = 319;
         REASON_SYSTEM_MODULE = 320;
         REASON_CARRIER_PRIVILEGED_APP = 321;
+        REASON_DPO_PROTECTED_APP = 322;
+        REASON_DISALLOW_APPS_CONTROL = 323;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
