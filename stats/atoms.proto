@@ -13845,13 +13845,14 @@ message SupportedRadioAccessFamily {
 }
 
 /**
- * Pulls the status of device-level telephony features.
+ * Pulls the status of device-level telephony properties.
  *
  * Pulled from:
  *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
  */
 message DeviceTelephonyProperties {
-    optional bool using_new_data_stack = 1;
+    // True if the device adopts the data stack came out in T
+    optional bool using_t_data_stack = 1;
 }
 
 /**
