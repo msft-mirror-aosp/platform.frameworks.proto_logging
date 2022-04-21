@@ -684,6 +684,7 @@ message Atom {
         MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
             453 [(module) = "framework"];
         AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
+        WifiSetupFailureCrashReported wifi_setup_failure_crash_reported = 455 [(module) = "wifi"];
         UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
@@ -1399,6 +1400,37 @@ message WifiP2pConnectionReported {
     // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
     // credential.
     optional GroupRole group_role = 5;
+}
+
+/**
+ * Logged when wifi setup failure or crash reported
+ */
+message WifiSetupFailureCrashReported {
+    enum Type {
+        UNKNOWN = 0;
+        // Wifi HAL crash
+        HAL_CRASH = 1;
+        // Wificond crash
+        WIFICOND_CRASH = 2;
+        // Supplicant crash
+        SUPPLICANT_CRASH = 3;
+        // hostapd crash
+        HOSTAPD_CRASH = 4;
+        // HAL error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_HAL = 5;
+        // Wificond error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_WIFICOND = 6;
+        // Supplicant error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_SUPPLICANT = 7;
+        // HAL error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_HAL = 8;
+        // Wificond error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_WIFICOND = 9;
+        // Hostapd error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_HOSTAPD = 10;
+    }
+    // Type of failure
+    optional Type type= 1;
 }
 
 /**
@@ -13807,13 +13839,14 @@ message SupportedRadioAccessFamily {
 }
 
 /**
- * Pulls the status of device-level telephony features.
+ * Pulls the status of device-level telephony properties.
  *
  * Pulled from:
  *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
  */
 message DeviceTelephonyProperties {
-    optional bool using_new_data_stack = 1;
+    // True if the device adopts the data stack came out in T
+    optional bool using_t_data_stack = 1;
 }
 
 /**
