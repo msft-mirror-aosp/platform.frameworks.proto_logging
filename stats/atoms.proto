@@ -6673,6 +6673,9 @@ message UIInteractionFrameInfoReported {
 
     // Maximum time it took to render a single frame during the interaction.
     optional int64 max_frame_time_nanos = 4;
+
+    // Maximum number of successive frames missed.
+    optional int64 max_successive_missed_frames = 7;
 }
 
 /**
@@ -16396,7 +16399,7 @@ message IsolatedCompilationEnded {
     // Time between compilation job starts to when it ends.
     // Note: this does not include the time between compilation job being scheduled (or when apex is staged)
     // and it actually starting
-    optional int64 compilation_time = 1;
+    optional int64 compilation_time_millis = 1;
     // Result of compilation
     optional Result compilation_result = 2;
 }
