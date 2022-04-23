@@ -6666,6 +6666,9 @@ message UIInteractionFrameInfoReported {
 
     // Maximum time it took to render a single frame during the interaction.
     optional int64 max_frame_time_nanos = 4;
+
+    // Maximum number of successive frames missed.
+    optional int64 max_successive_missed_frames = 7;
 }
 
 /**
