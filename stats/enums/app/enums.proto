@@ -447,6 +447,38 @@ enum AppExitSubReasonCode {
      * while being frozen.
      */
     SUBREASON_FREEZER_BINDER_TRANSACTION = 20;
+
+    /**
+     * The process was killed because of force-stop, it could be due to that
+     * the user clicked the "Force stop" button of the application in the Settings;
+     * this would be set only when the reason is {@link #REASON_USER_REQUESTED}.
+     */
+    SUBREASON_FORCE_STOP = 21;
+
+    /**
+     * The process was killed because the user removed the application away from Recents;
+     * this would be set only when the reason is {@link #REASON_USER_REQUESTED}.
+     */
+    SUBREASON_REMOVE_TASK = 22;
+
+    /**
+     * The process was killed because the user stopped the application from the task manager;
+     * this would be set only when the reason is {@link #REASON_USER_REQUESTED}.
+     */
+    SUBREASON_STOP_APP = 23;
+
+    /**
+     * The process was killed because the user stopped the application from developer options,
+     * or via the adb shell commmand interface; this would be set only when the reason is
+     * {@link #REASON_USER_REQUESTED}.
+     */
+    SUBREASON_KILL_BACKGROUND = 24;
+
+    /**
+     * The process was killed because of package update; this would be set only when the reason is
+     * {@link #REASON_USER_REQUESTED}.
+     */
+    SUBREASON_PACKAGE_UPDATE = 25;
 }
 
 /**
