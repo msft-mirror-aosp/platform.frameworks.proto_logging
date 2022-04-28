@@ -111,8 +111,6 @@ static java_type_t java_type(const FieldDescriptor* field) {
         case FieldDescriptor::TYPE_MESSAGE:
             if (field->message_type()->full_name() == "android.os.statsd.AttributionNode") {
                 return JAVA_TYPE_ATTRIBUTION_CHAIN;
-            } else if (field->message_type()->full_name() == "android.os.statsd.KeyValuePair") {
-                return JAVA_TYPE_KEY_VALUE_PAIR;
             } else if ((field->options().GetExtension(os::statsd::log_mode) ==
                         os::statsd::LogMode::MODE_BYTES) &&
                        !isRepeatedField) {
@@ -157,18 +155,16 @@ static int collate_field_annotations(AtomDecl* atomDecl, const FieldDescriptor* 
                                      const int fieldNumber, const java_type_t& javaType) {
     int errorCount = 0;
 
-    if (is_repeated_field(javaType) &&
-        (field->options().HasExtension(os::statsd::state_field_option) ||
-         field->options().HasExtension(os::statsd::is_uid))) {
-        print_error(
-                field,
-                "Annotations on restricted field types and repeated fields are not allowed: '%s'\n",
-                atomDecl->message.c_str());
-        errorCount++;
-        return errorCount;
-    }
-
     if (field->options().HasExtension(os::statsd::state_field_option)) {
+        if (is_repeated_field(javaType)) {
+            print_error(
+                field,
+                "State field annotations are not allowed for repeated fields: '%s'\n",
+                atomDecl->message.c_str());
+            errorCount++;
+            return errorCount;
+        }
+
         const os::statsd::StateAtomFieldOption& stateFieldOption =
                 field->options().GetExtension(os::statsd::state_field_option);
         const bool primaryField = stateFieldOption.primary_field();
@@ -259,8 +255,10 @@ static int collate_field_annotations(AtomDecl* atomDecl, const FieldDescriptor* 
     }
 
     if (field->options().GetExtension(os::statsd::is_uid) == true) {
-        if (javaType != JAVA_TYPE_INT) {
-            print_error(field, "is_uid annotation can only be applied to int32 fields: '%s'\n",
+        if (javaType != JAVA_TYPE_INT && javaType != JAVA_TYPE_INT_ARRAY) {
+            print_error(field,
+                        "is_uid annotation can only be applied to int32 fields and repeated int32 "
+                        "fields: '%s'\n",
                         atomDecl->message.c_str());
             errorCount++;
         }
@@ -323,9 +321,9 @@ int collate_atom(const Descriptor* atom, AtomDecl* atomDecl, vector<java_type_t>
             }
             errorCount++;
             continue;
-        } else if (javaType == JAVA_TYPE_OBJECT && atomDecl->code < PULL_ATOM_START_ID) {
+        } else if (javaType == JAVA_TYPE_OBJECT) {
             // Allow attribution chain, but only at position 1.
-            print_error(field, "Message type not allowed for field in pushed atoms: %s\n",
+            print_error(field, "Message type not allowed for field without mode_bytes: %s\n",
                         field->name().c_str());
             errorCount++;
             continue;

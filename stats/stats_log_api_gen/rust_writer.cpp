@@ -159,19 +159,9 @@ static void write_rust_method_signature(FILE* out, const char* namePrefix,
     fprintf(out, "\n");
 }
 
-static bool write_rust_usage(FILE* out, const string& method_name,
-                             const shared_ptr<AtomDecl> atom,
-                             const AtomDecl& attributionDecl,
-                             bool isNonChained,
+static bool write_rust_usage(FILE* out, const string& method_name, const shared_ptr<AtomDecl> atom,
+                             const AtomDecl& attributionDecl, bool isNonChained,
                              const char* headerCrate) {
-    // Key value pairs not supported in Rust because they're not supported in native.
-    if (std::find_if(atom->fields.begin(), atom->fields.end(),
-                     [](const AtomField &atomField) {
-                         return atomField.javaType == JAVA_TYPE_KEY_VALUE_PAIR;
-                     }) != atom->fields.end()) {
-        fprintf(out, "    // Key value pairs are unsupported in Rust.\n");
-        return false;
-    }
     fprintf(out, "    // Definition: ");
     write_rust_method_signature(out, method_name.c_str(), *atom, attributionDecl,
                                 false, isNonChained, headerCrate);
@@ -368,9 +358,9 @@ static int write_rust_method_body(FILE* out, const AtomDecl& atomDecl,
             fprintf(out, "            AStatsEvent_writeString(__event, str.as_ptr());\n");
             break;
         default:
-	    // Unsupported types: OBJECT, DOUBLE, KEY_VALUE_PAIRS
-	    fprintf(stderr, "Encountered unsupported type: %d.", type);
-	    return 1;
+            // Unsupported types: OBJECT, DOUBLE
+            fprintf(stderr, "Encountered unsupported type: %d.", type);
+            return 1;
         }
         // write_annotations expects the first argument to have an index of 1.
         write_annotations(out, i + 1, atomDecl, "AStatsEvent_", "__event, ");
@@ -524,13 +514,11 @@ static int write_rust_stats_write_atoms(FILE* out, const AtomDeclSet& atomDeclSe
                                         const AtomDeclSet& nonChainedAtomDeclSet,
                                         const int minApiLevel,
                                         const char* headerCrate) {
-    for (const auto &atomDecl : atomDeclSet) {
-        // Key value pairs not supported in Rust because they're not supported in native.
+    for (const auto& atomDecl : atomDeclSet) {
         // TODO(b/216543320): support repeated fields in Rust
         if (std::find_if(atomDecl->fields.begin(), atomDecl->fields.end(),
                          [](const AtomField& atomField) {
-                             return atomField.javaType == JAVA_TYPE_KEY_VALUE_PAIR ||
-                                    (is_repeated_field(atomField.javaType));
+                             return is_repeated_field(atomField.javaType);
                          }) != atomDecl->fields.end()) {
             continue;
         }

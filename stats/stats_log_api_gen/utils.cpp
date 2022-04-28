@@ -207,14 +207,6 @@ static void write_cpp_usage(FILE* out, const string& method_name, const string& 
                             chainField.name.c_str());
                 }
             }
-        } else if (field->javaType == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out,
-                    ", const std::map<int, int32_t>& %s_int"
-                    ", const std::map<int, int64_t>& %s_long"
-                    ", const std::map<int, char const*>& %s_str"
-                    ", const std::map<int, float>& %s_float",
-                    field->name.c_str(), field->name.c_str(), field->name.c_str(),
-                    field->name.c_str());
         } else {
             fprintf(out, ", %s %s", cpp_type_name(field->javaType), field->name.c_str());
         }
@@ -311,8 +303,6 @@ void write_java_usage(FILE* out, const string& method_name, const string& atom_c
          field++) {
         if (field->javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
             fprintf(out, ", android.os.WorkSource workSource");
-        } else if (field->javaType == JAVA_TYPE_KEY_VALUE_PAIR) {
-            fprintf(out, ", android.util.SparseArray<Object> value_map");
         } else if (field->javaType == JAVA_TYPE_BYTE_ARRAY) {
             fprintf(out, ", byte[] %s", field->name.c_str());
         } else {
@@ -333,9 +323,6 @@ int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureI
              arg++) {
             if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
                 fprintf(stderr, "Non chained signatures should not have attribution chains.\n");
-                return 1;
-            } else if (*arg == JAVA_TYPE_KEY_VALUE_PAIR) {
-                fprintf(stderr, "Module logging does not yet support key value pair.\n");
                 return 1;
             } else {
                 fprintf(out, ", %s arg%d", java_type_name(*arg), argIndex);
