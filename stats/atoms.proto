@@ -603,6 +603,7 @@ message Atom {
         EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419 [(module) = "art"];
         IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
+        TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
 
         HotwordDetectorCreateRequested hotword_detector_create_requested = 430
             [(module) = "framework"];
@@ -18153,4 +18154,18 @@ message HotwordDetectorEvents {
 
     // The UID for which assistant application is active.
     optional int32 uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Logs when a telephony anomaly is reported.
+ *
+ * Logged from:
+ *   frameworks/base/telephony/java/android/telephony/AnomalyReporter.java
+ */
+message TelephonyAnomalyDetected {
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    optional int64 event_id_lsb = 2;
+    optional int64 event_id_msb = 3;
 }
