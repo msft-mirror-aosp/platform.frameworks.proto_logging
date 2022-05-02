@@ -31,6 +31,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hfp/enums.proto";
+import "frameworks/proto_logging/stats/enums/bluetooth/leaudio/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
@@ -640,7 +641,7 @@ message Atom {
         DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417 [(module) = "framework"];
         PersistentUriPermissionsFlushed persistent_uri_permissions_flushed =
             418 [(module) = "framework"];
-        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419;
+        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419 [(module) = "art"];
         VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
         ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
         PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
@@ -673,8 +674,21 @@ message Atom {
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
             445 [(module) = "permissioncontroller"];
         GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
+        LeAudioConnectionSessionReported le_audio_connection_session_reported = 447 [(module) = "bluetooth"];
+        LeAudioBroadcastSessionReported le_audio_broadcast_session_reported = 448 [(module) = "bluetooth"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
         TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
+        CdmAssociationAction cdm_association_action = 451 [(module) = "framework"];
+        MagnificationTripleTapAndHoldActivatedSessionReported magnification_triple_tap_and_hold_activated_session_reported =
+            452 [(module) = "framework"];
+        MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
+            453 [(module) = "framework"];
+        AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
+        WifiSetupFailureCrashReported wifi_setup_failure_crash_reported = 455 [(module) = "wifi"];
+        UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
+        IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
+        IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
+        TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -809,7 +823,8 @@ message Atom {
             battery_usage_stats_since_reset_using_power_profile_model =
             10113 [(module) = "framework"];
         InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
-        TelephonyNetworkRequests telephony_network_requests = 10115 [(module) = "telephony"];
+        TelephonyNetworkRequests telephony_network_requests =
+            10115 [(module) = "telephony", deprecated = true];
         AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
         VmStat vmstat = 10117 [(module) = "framework"];
         Keystore2KeyCreationWithGeneralInfo keystore2_key_creation_with_general_info =
@@ -865,6 +880,8 @@ message Atom {
         PendingIntentsPerPackage pending_intents_per_package = 10151
             [(module) = "framework"];
         UserInfo user_info = 10152 [(module) = "framework"];
+        TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
+        DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1386,6 +1403,37 @@ message WifiP2pConnectionReported {
     // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
     // credential.
     optional GroupRole group_role = 5;
+}
+
+/**
+ * Logged when wifi setup failure or crash reported
+ */
+message WifiSetupFailureCrashReported {
+    enum Type {
+        UNKNOWN = 0;
+        // Wifi HAL crash
+        HAL_CRASH = 1;
+        // Wificond crash
+        WIFICOND_CRASH = 2;
+        // Supplicant crash
+        SUPPLICANT_CRASH = 3;
+        // hostapd crash
+        HOSTAPD_CRASH = 4;
+        // HAL error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_HAL = 5;
+        // Wificond error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_WIFICOND = 6;
+        // Supplicant error on WifiNative.setupInterfaceForClientMode
+        CLIENT_FAILURE_SUPPLICANT = 7;
+        // HAL error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_HAL = 8;
+        // Wificond error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_WIFICOND = 9;
+        // Hostapd error on WifiNative.setupInterfaceForSoftApMode
+        SOFT_AP_FAILURE_HOSTAPD = 10;
+    }
+    // Type of failure
+    optional Type type= 1;
 }
 
 /**
@@ -2426,6 +2474,8 @@ message BluetoothAclConnectionStateChanged {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 3;
+    // Used transport of this event.
+    optional android.bluetooth.TransportTypeEnum transport = 4;
 }
 
 /**
@@ -3364,6 +3414,68 @@ message BluetoothHALCrashReasonReported {
     optional int32 vendor_error_code = 4;
 }
 
+/**
+ * Logs when an LE Audio connection session ended
+ *
+ * Logged from:
+ *   packages/modules/Bluetooth
+ *
+ */
+message LeAudioConnectionSessionReported {
+    // Size of this CSIS group
+    optional int32 group_size = 1;
+    // An identifier that can be used to match events for this CSIS group.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired groups, it stays consistent between Bluetooth toggling for the
+    // same remote group.
+    // For unpaired groups, it stays consistent within the same Bluetooth adapter
+    // session for the same remote group.
+    // Default: 0 if the group's metric id is unknown.
+    optional int32 group_metric_id = 2;
+    // Total duration of this LeAudioConnectionSession
+    optional int64 duration_nanos = 3;
+
+    // Connecting timestamp offset to the beginning of this session of each device session
+    repeated int64 device_connecting_offset_nanos = 4;
+    // Connected timestamp offset to the beginning of this session of each device session
+    repeated int64 device_connected_offset_nanos = 5;
+    // Duration of each device session
+    repeated int64 device_connection_duration_nanos = 6;
+    // Connection status of each device session
+    repeated android.bluetooth.leaudio.ConnectionStatus device_connection_status = 7;
+    // Disconnection status of each device session
+    repeated android.bluetooth.leaudio.ConnectionStatus device_disconnection_status = 8;
+    // An identifier that can be used to match events for this device.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired devices, it stays consistent between Bluetooth toggling for the
+    // same remote device.
+    // For unpaired devices, it stays consistent within the same Bluetooth adapter
+    // session for the same remote device.
+    // Default: 0 if the device's metric id is unknown.
+    repeated int32 device_metric_id = 9;
+
+    // Streaming beginning timestamp offset to the beginning of this session
+    repeated int64 streaming_session_offset_nanos = 10;
+    // Streaming ending timestamp offset to the beginning of this session
+    repeated int64 streaming_session_duration_nanos = 11;
+    // Streaming context type of each steaming session
+    repeated android.bluetooth.leaudio.ContextType streaming_context_type = 12;
+}
+
+/**
+ * Logs when an LE Audio broadcast session ended
+ *
+ * Logged from:
+ *   packages/modules/Bluetooth
+ *
+ */
+message LeAudioBroadcastSessionReported {
+    // Broadcast duration
+    optional int64 duration_nanos = 1;
+}
+
 /* Logs input device information when input device is registered with Android device.
  * Reported at when a new input device is found by EventHub.
  *
@@ -3821,6 +3933,7 @@ message SmartSpaceCardReported {
         LOCKSCREEN = 2;
         AOD = 3;
         SHADE = 4;
+        DREAM_OVERLAY = 5;
     }
 
     // The event id (e.g., impression, click, longpress, dismiss)
@@ -3979,6 +4092,12 @@ message StyleUIChanged {
     optional android.stats.style.LaunchedPreference launched_preference = 12;
     optional android.stats.style.EffectPreference effect_preference = 13;
     optional int32 effect_id_hash = 14;
+    optional int32 lock_wallpaper_category_hash = 15;
+    optional int32 lock_wallpaper_id_hash = 16;
+    optional int32 first_launch_date_since_setup = 17;
+    optional int32 first_wallpaper_apply_date_since_setup = 18;
+    optional int32 app_launch_count = 19;
+    optional int32 color_variant = 20;
 }
 
 /**
@@ -6472,7 +6591,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 52
+ * Next Tag: 54
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6528,6 +6647,8 @@ message UIInteractionFrameInfoReported {
         SUW_LOADING_SCREEN_FOR_STATUS = 49;
         SPLIT_SCREEN_ENTER = 50;
         SPLIT_SCREEN_EXIT = 51;
+        LOCKSCREEN_LAUNCH_CAMERA = 52;
+        SPLIT_SCREEN_RESIZE = 53;
     }
 
     optional InteractionType interaction_type = 1;
@@ -6546,6 +6667,9 @@ message UIInteractionFrameInfoReported {
 
     // Maximum time it took to render a single frame during the interaction.
     optional int64 max_frame_time_nanos = 4;
+
+    // Maximum number of successive frames missed.
+    optional int64 max_successive_missed_frames = 7;
 }
 
 /**
@@ -12289,24 +12413,24 @@ message ContactsIndexerUpdateStatsReported {
     // In case of failures, it contains all the possible errors we get.
     repeated int32 delete_status_codes = 4;
 
-    // Number of new contacts successfully inserted during this update
-    optional int32 number_of_contacts_inserted = 5;
+    // Number of new contacts to be updated.
+    optional int32 number_of_new_contacts_to_be_updated = 5;
 
-    // Number of existing contacts successfully updated during this update
-    optional int32 number_of_contacts_updated = 6;
+    // Number of old and new contacts has been successfully updated.
+    optional int32 number_of_contacts_update_succeeded = 6;
 
-    // Number of existing contacts successfully deleted during this update
-    optional int32 number_of_contacts_deleted = 7;
+    // Number of old contacts has been successfully deleted.
+    optional int32 number_of_contacts_delete_succeeded = 7;
 
-    // Number of existing contacts skipped during this update due to no
-    // significant change
-    optional int32 number_of_contacts_skipped = 8;
+    // Number of old contacts skipped during this update due to no
+    // significant change.
+    optional int32 number_of_contacts_update_skipped = 8;
 
-    // Number of contacts failed to be updated
-    optional int32 number_of_contacts_failed_to_update = 9;
+    // Number of old and new contacts failed to be updated
+    optional int32 number_of_contacts_update_failed = 9;
 
-    // Number of contacts failed to be deleted
-    optional int32 number_of_contacts_failed_to_delete = 10;
+    // Number of old contacts failed to be deleted
+    optional int32 number_of_contacts_delete_failed = 10;
 }
 
 /**
@@ -12770,6 +12894,9 @@ message CameraActionEvent {
     optional CameraStreamProto stream_3 = 17 [(log_mode) = MODE_BYTES];
     optional CameraStreamProto stream_4 = 18 [(log_mode) = MODE_BYTES];
     optional CameraStreamProto stream_5 = 19 [(log_mode) = MODE_BYTES];
+
+    // User tag string for this session
+    optional string user_tag = 20;
 }
 
 /**
@@ -13719,6 +13846,19 @@ message SupportedRadioAccessFamily {
 }
 
 /**
+ * Pulls the status of device-level telephony properties.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message DeviceTelephonyProperties {
+    // True if the device adopts the data stack came out in T
+    optional bool using_t_data_stack = 1;
+}
+
+/**
+ * This atom is deprecated starting in T, use TelephonyNetworkRequestsV2 instead.
+ *
  * Pulls information about network requests.
  *
  * Pulled from:
@@ -13732,6 +13872,34 @@ message TelephonyNetworkRequests {
     optional int32 enterprise_request_count = 2;
     // Number of times the enterprise capability was released.
     optional int32 enterprise_release_count = 3;
+}
+
+/**
+ * Pulls information about network requests.
+ *
+ * Pulled from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/MetricsCollector.java
+ */
+message TelephonyNetworkRequestsV2 {
+    enum NetworkCapability {
+        // Unknown capability was requested.
+        UNKNOWN = 0;
+        // Low latency capability (URLLC) was requested.
+        PRIORITIZE_LATENCY = 1;
+        // High bandwidth capability (EMBB) was requested.
+        PRIORITIZE_BANDWIDTH = 2;
+        // CBS (Carrier Branded Services) capability was requested.
+        CBS = 3;
+        // Enterprise capability was requested.
+        ENTERPRISE = 4;
+    }
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // The capability that was requested.
+    optional NetworkCapability capability = 2;
+    // Number of times the capability was requested.
+    optional int32 request_count = 3;
 }
 
 /**
@@ -14003,6 +14171,9 @@ message DataCallSession {
     // See GeranBands, UtranBands and EutranBands in IRadio interface, depending
     // on the RAT at the end of the data call.
     optional int32 band_at_end = 19;
+
+    // Reason why the data call handover failed, as in RIL_DataCallFailCause from ril.h
+    repeated int32 handover_failure_causes = 20;
 }
 
 /**
@@ -14535,6 +14706,8 @@ message UserLifecycleJourneyReported {
         USER_SWITCH_FG = 2; // A user switch journey without a UI shown
         USER_START = 3; // A user start journey
         USER_CREATE = 4; // A user creation journey
+        USER_STOP = 5; // A user stop journey
+        USER_REMOVE = 6; // A user removal journey
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -14586,6 +14759,8 @@ message UserLifecycleEventOccurred {
         USER_RUNNING_LOCKED = 4; // Indicates that user is running in locked state
         UNLOCKING_USER = 5; // Indicates that this is a user unlocking event
         UNLOCKED_USER = 6; // Indicates that this is a user unlocked event
+        STOP_USER = 7; // Indicates that this is a user stop event
+        REMOVE_USER = 8; // Indicates that this is a user removal event
     }
     optional Event event = 3;
 
@@ -16156,6 +16331,8 @@ message VmCreationRequested {
     optional bool is_protected = 2;
     // Did the VM creation succeed
     optional bool creation_succeeded = 3;
+    // Binder exception Code thrown by createVm request
+    optional int32 binder_exception_code = 4;
 }
 
 /**
@@ -16175,6 +16352,46 @@ message EarlyBootCompOsArtifactsCheckReported {
   // The device will be using CompOs generated artifacts. Note: the value of
   // this is meaningless if current_artifacts_ok = true
   optional bool use_comp_os_generated_artifacts = 3;
+}
+
+/**
+ * Logs telemetry when Isolation compilation job is scheduled.
+ *
+ * The atoms are sent by IsolatedCompilationService (fragment of system_server)
+ * when apex are staged and need compilation.
+ */
+message IsolatedCompilationScheduled {
+    enum Result {
+        SCHEDULING_RESULT_UNKNOWN = 0;
+        SCHEDULING_FAILURE = 1;
+        SCHEDULING_SUCCESS = 2;
+    }
+    optional Result scheduling_result = 1;
+}
+
+/**
+ * Logs telemetry Isolation compilation completion.
+ *
+ * The atoms is sent by IsolatedCompilationService by compilation ends
+ * and contain results/timings of compilation
+ */
+message IsolatedCompilationEnded {
+    enum Result {
+        RESULT_UNKNOWN = 0;
+        RESULT_SUCCESS = 1;
+        RESULT_UNKNOWN_FAILURE = 2;
+        RESULT_FAILED_TO_START = 3;
+        RESULT_JOB_CANCELED = 4;
+        RESULT_COMPILATION_FAILED = 5;
+        RESULT_UNEXPECTED_COMPILATION_RESULT = 6;
+        RESULT_COMPOSD_DIED = 7;
+    }
+    // Time between compilation job starts to when it ends.
+    // Note: this does not include the time between compilation job being scheduled (or when apex is staged)
+    // and it actually starting
+    optional int64 compilation_time_millis = 1;
+    // Result of compilation
+    optional Result compilation_result = 2;
 }
 
 /**
@@ -17278,6 +17495,29 @@ message MagnificationModeWithImeOnReported {
     // The definition of the magnification mode.
     // From frameworks/base/core/proto/android/stats/accessibility/accessibility_enums.proto.
     optional android.stats.accessibility.MagnificationMode activated_mode = 1;
+}
+
+/**
+ * Logs the duration for the magnification session which is activated by the triple tap and
+ * hold gesture.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ */
+message MagnificationTripleTapAndHoldActivatedSessionReported {
+    // The duration of the triple tap and hold activated session in milliseconds
+    optional int64 duration_millis = 1;
+}
+
+/**
+ * Logs the duration for the following typing focus activated session.
+ *
+ * Logged from:
+ *   frameworks/base/services/accessibility/java/com/android/server/accessibility
+ */
+message MagnificationFollowTypingFocusActivatedSessionReported {
+    // The duration of the following typing focus activated session in milliseconds
+    optional int64 duration_millis = 1;
 }
 
 /*
@@ -18995,6 +19235,7 @@ message GbaEvent {
 
 /*
  * Logs details of initiated UWB ranging session
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
 message UwbSessionInitiated {
     // UWB profiles
@@ -19022,6 +19263,7 @@ message UwbSessionInitiated {
 
 /*
  * Logs details of closed UWB ranging session
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
 message UwbSessionClosed {
     // UWB profiles
@@ -19057,6 +19299,10 @@ message UwbSessionClosed {
     optional int32 start_no_valid_report_count = 15;
 }
 
+/*
+ * Log that the ranging measurement is received
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
 message UwbRangingMeasurementReceived {
     // UWB profiles
     optional android.uwb.Profile profile = 1;
@@ -19088,6 +19334,10 @@ message UwbRangingMeasurementReceived {
     optional int32 elevation_fom = 14;
 }
 
+/*
+ * Log that the first ranging measurement is received
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
 message UwbFirstRangingReceived {
     // UWB profiles
     optional android.uwb.Profile profile = 1;
@@ -19095,6 +19345,24 @@ message UwbFirstRangingReceived {
     optional int32 latency_ms = 2;
     // The ranging latency in 200ms.
     optional int32 latency_200ms = 3;
+}
+
+/*
+ * Log that UWB device error is detected
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
+message UwbDeviceErrorReported {
+    enum Type {
+        UNKNOWN = 0;
+        // Initialization error
+        INIT_ERROR = 1;
+        // Device status error
+        DEVICE_STATUS_ERROR = 2;
+        // UCI generic error
+        UCI_GENERIC_ERROR = 3;
+    }
+    // Error type
+    optional Type type= 1;
 }
 
 /**
@@ -19193,6 +19461,10 @@ message PerSimStatus {
 
     // Indicates the lowest voltage class supported by the SIM
     optional SimVoltageClass sim_voltage_class = 15;
+
+    // APN type bitmask of the APNs added or modified by user:
+    // @ApnType in frameworks/base/telephony/java/android/telephony/Annotation.java.
+    optional int32 user_modified_apn_type_bitmask = 16;
 }
 
 /*
@@ -19630,6 +19902,19 @@ message HotwordDetectorKeyphraseTriggered {
 
         // Indicates that the keyphrase was not detected.
         REJECTED = 6;
+
+        // Indicates that the system got the unexpected detected callback.
+        DETECT_UNEXPECTED_CALLBACK = 7;
+
+        // Indicates that the system got the security exception when handling detected callback.
+        DETECT_SECURITY_EXCEPTION = 8;
+
+        // Indicates that the system got the unexpected rejected callback.
+        REJECT_UNEXPECTED_CALLBACK = 9;
+
+        // Indicates that the system called rejected callback when the trusted process was
+        // restarted.
+        REJECTED_FROM_RESTART = 10;
     }
     // What result after detecting.
     optional Result result = 2;
@@ -19752,12 +20037,16 @@ message AppBackgroundRestrictionsInfo {
     optional FgsTrackerInfo fgs_tracker_info = 5 [(log_mode) = MODE_BYTES];
 
     message BatteryTrackerInfo {
-        // total battery usage within last 24h (percentage)
+        // total battery usage within last 24h (1/10000th)
         optional int32 battery_24h = 1;
-        // background battery usage (percentage)
+        // background battery usage (1/10000th)
         optional int32 battery_usage_background = 2;
-        // FGS battery usage (percentage)
+        // FGS battery usage (1/10000th)
         optional int32 battery_usage_fgs = 3;
+        // Foreground battery usage (1/10000th)
+        optional int32 battery_usage_foreground = 4;
+        // Cached battery usage (1/10000th)
+        optional int32 battery_usage_cached = 5;
     }
     optional BatteryTrackerInfo battery_tracker_info = 6 [(log_mode) = MODE_BYTES];
 
@@ -19848,6 +20137,8 @@ message AppBackgroundRestrictionsInfo {
         REASON_ROLE_EMERGENCY = 319;
         REASON_SYSTEM_MODULE = 320;
         REASON_CARRIER_PRIVILEGED_APP = 321;
+        REASON_DPO_PROTECTED_APP = 322;
+        REASON_DISALLOW_APPS_CONTROL = 323;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
@@ -19874,6 +20165,9 @@ message AppBackgroundRestrictionsInfo {
 
     // indicates if the current device is a low ram device.
     optional bool low_mem_device = 12;
+
+    // indicates previous background restriction level.
+    optional RestrictionLevel previous_restriction_level = 13;
 }
 
 /**
@@ -19938,4 +20232,65 @@ message TaskManagerEventReported {
     optional Event event = 2;
 
     optional int64 time_running_ms = 3;
+}
+
+/**
+ * Logs when text and reading options changed.
+ *
+ * Logged from:
+ *   packages/apps/Settings/src/com/android/settings/accessibility
+ */
+message AccessibilityTextReadingOptionsChanged {
+    // The item name of the accessibility feature "Text and Reading Options".
+    optional android.stats.accessibility.TextReadingOption name = 1;
+
+    // The status value of the item of the accessibility feature "Text and Reading Options".
+    optional int32 value = 2;
+
+    // The entry point from which page.
+    optional android.stats.accessibility.TextReadingEntry entry_point = 3;
+}
+
+/** Log the CompanionDeviceManager associations are created by various device
+ * profiles
+ *
+ * Logged from:
+ * frameworks/base/services/companion/java/com/android/server/companion/
+ * CompanionDeviceManagerService.java
+ */
+message CdmAssociationAction {
+    enum Action {
+        UNKNOWN = 0;
+        CREATED = 1;
+        REMOVED = 2;
+    }
+
+    enum DeviceProfile{
+        DEVICE_PROFILE_NULL = 0;
+        DEVICE_PROFILE_WATCH = 1;
+        DEVICE_PROFILE_APP_STREAMING = 2;
+        DEVICE_PROFILE_AUTO_PROJECTION = 3;
+        DEVICE_PROFILE_COMPUTER = 4;
+    }
+
+    // Action taken on the CDM association been created by companion apps.
+    optional Action action = 1;
+
+    // Name of the CDM Association Request profiles.
+    optional DeviceProfile device_profile = 2;
+}
+
+/**
+ * Logs when a telephony anomaly is reported.
+ *
+ * Logged from:
+ *   frameworks/base/telephony/java/android/telephony/AnomalyReporter.java
+ */
+message TelephonyAnomalyDetected {
+    // Carrier ID of the SIM card.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 1;
+    // UUID of the anomaly, as generated by android.telephony.AnomalyReporter
+    optional int64 event_id_lsb = 2;
+    optional int64 event_id_msb = 3;
 }
