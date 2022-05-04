@@ -6591,7 +6591,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 54
+ * Next Tag: 55
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6649,6 +6649,7 @@ message UIInteractionFrameInfoReported {
         SPLIT_SCREEN_EXIT = 51;
         LOCKSCREEN_LAUNCH_CAMERA = 52;
         SPLIT_SCREEN_RESIZE = 53;
+        SETTINGS_SLIDER = 54;
     }
 
     optional InteractionType interaction_type = 1;
