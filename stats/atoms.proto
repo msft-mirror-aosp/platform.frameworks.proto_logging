@@ -3816,7 +3816,7 @@ message ExclusionRectStateChanged {
     }
     optional WindowHorizontalLocation x_location = 4;
     optional bool landscape = 5;
-    optional bool splitscreen = 6;
+    optional bool splitscreen = 6 [deprecated = true];
     optional int32 duration_millis = 7;
 }
 
