@@ -600,7 +600,7 @@ message Atom {
         CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
         TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
 
-        // StatsdStats tracks platform atoms with ids upto 500.
+        // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
