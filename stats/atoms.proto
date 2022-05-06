@@ -13824,7 +13824,8 @@ message SimSlotState {
     optional int32 active_slot_count = 1;
 
     // Number of SIM cards (both physical and active eSIM profiles).
-    // This number is always equal to or less than the number of active SIM slots.
+    // This number may be greater than the number of active SIM slots, if multiple profiles are
+    // enabled on the same eUICC.
     optional int32 sim_count = 2;
 
     // Number of active eSIM profiles.
