@@ -689,6 +689,7 @@ message Atom {
         IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
+        LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 500.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -3816,7 +3817,7 @@ message ExclusionRectStateChanged {
     }
     optional WindowHorizontalLocation x_location = 4;
     optional bool landscape = 5;
-    optional bool splitscreen = 6;
+    optional bool splitscreen = 6 [deprecated = true];
     optional int32 duration_millis = 7;
 }
 
@@ -4802,10 +4803,51 @@ message AppCompatStateChanged {
         LETTERBOXED_FOR_ASPECT_RATIO = 5;
     }
 
+    // Position of the letterbox
+    enum Position {
+        UNKNOWN_POSITION = 0;
+        NOT_LETTERBOXED_POSITION = 1;
+        CENTER = 2;
+        LEFT = 3;
+        RIGHT = 4;
+        TOP = 5;
+        BOTTOM = 6;
+    }
+
     // The state that was entered.
     optional State state = 2 [
       (state_field_option).exclusive_state = true,
       (state_field_option).nested = false];
+
+    optional Position letterbox_position = 3;
+}
+
+/**
+ * Logs when an app that is letterboxed changes position.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ */
+
+message LetterboxPositionChanged {
+    // UID of the package that is letterboxed.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The new position of the letterbox
+    enum PositionChange {
+        UNKNOWN = 0;
+        CENTER_TO_LEFT = 1;
+        LEFT_TO_CENTER = 2;
+        CENTER_TO_RIGHT= 3;
+        RIGHT_TO_CENTER = 4;
+        CENTER_TO_TOP = 5;
+        TOP_TO_CENTER = 6;
+        CENTER_TO_BOTTOM = 7;
+        BOTTOM_TO_CENTER = 8;
+    }
+
+    optional PositionChange position_change = 2;
+
 }
 
 /**
