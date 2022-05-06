@@ -616,7 +616,7 @@ message Atom {
         HotwordDetectorEvents hotword_detector_events = 434
             [(module) = "framework"];
 
-        // StatsdStats tracks platform atoms with ids upto 500.
+        // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
