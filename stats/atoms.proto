@@ -691,7 +691,7 @@ message Atom {
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
 
-        // StatsdStats tracks platform atoms with ids upto 500.
+        // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
