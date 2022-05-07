@@ -14655,6 +14655,8 @@ message RankingSelected {
     optional int32 instance_id = 3;
     // Which of the ranked targets got picked, default starting position 0.
     optional int32 position_picked = 4;
+    // Whether the selected target is pinned.
+    optional bool is_pinned = 5;
 }
 
 /**
