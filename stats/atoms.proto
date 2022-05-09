@@ -13822,6 +13822,11 @@ message CellularServiceState {
 
     // Total time spent in this service state, rounded to 5 minutes.
     optional int32 total_time_seconds = 9;
+
+    // Whether the device is in limited service (only emergency voice
+    // call available). Voice and data RAT will be recorded as
+    // NETWORK_TYPE_UNKNOWN in this case.
+    optional bool is_emergency_only = 10;
 }
 
 /**
