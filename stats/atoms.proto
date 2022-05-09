@@ -13749,12 +13749,12 @@ message VoiceCallRatUsage {
  */
 message CellularServiceState {
     // Radio access technology (RAT) for voice.
-    // NETWORK_TYPE_UNKNOWN when the device is out of service.
+    // NETWORK_TYPE_UNKNOWN when the device is not in-service.
     // NETWORK_TYPE_IWLAN when the device is using VoWiFi.
     optional android.telephony.NetworkTypeEnum voice_rat = 1;
 
     // Radio access technology (RAT) for data.
-    // NETWORK_TYPE_UNKNOWN when the device is out of service.
+    // NETWORK_TYPE_UNKNOWN when the device is not in-service.
     // Only cellular RATs are valid and show where the device is camped.
     optional android.telephony.NetworkTypeEnum data_rat = 2;
 
