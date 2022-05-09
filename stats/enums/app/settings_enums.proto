@@ -3356,6 +3356,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     DIALOG_RESET_SETTINGS = 1924;
+
+    // OPEN: Settings > Developer Options > Predictive gesture animations > Click
+    // CATEGORY: SETTINGS
+    // OS: T
+    DIALOG_BACK_ANIMATIONS = 1925;
 }
 
 // Battery Saver schedule types.
