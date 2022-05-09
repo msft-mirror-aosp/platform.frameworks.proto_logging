@@ -544,6 +544,9 @@ enum ItemId {
     // TvSettings > Apps > Special app access > All files access
     APPS_SPECIAL_APP_ACCESS_ALL_FILES_ACCESS = 0x16380000;
 
+    // TvSettings > Apps > Special app access > Turn screen on
+    APPS_SPECIAL_APP_ACCESS_TURN_SCREEN_ON = 0x16390000;
+
     // TvSettings > Apps > Security & restrictions
     APPS_SECURITY_RESTRICTIONS = 0x16400000;
 
