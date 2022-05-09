@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 398
+// Next ID: 399
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -290,6 +290,7 @@ enum ItemId {
   WIFI_AVAILABLE_NETWORKS_GROUP = 131;
   WIFI_CURRENT_NETWORK = 276;
   WIFI_FORGET_NETWORK = 328;
+  WIFI_MAC_RANDOMIZATION = 398;
   WIFI_OLD = 278;
   WIFI_OPEN_ON_PHONE = 327;
   WIFI_OPEN_ON_WATCH = 326;
