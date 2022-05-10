@@ -13791,12 +13791,12 @@ message VoiceCallRatUsage {
  */
 message CellularServiceState {
     // Radio access technology (RAT) for voice.
-    // NETWORK_TYPE_UNKNOWN when the device is out of service.
+    // NETWORK_TYPE_UNKNOWN when the device is not in-service.
     // NETWORK_TYPE_IWLAN when the device is using VoWiFi.
     optional android.telephony.NetworkTypeEnum voice_rat = 1;
 
     // Radio access technology (RAT) for data.
-    // NETWORK_TYPE_UNKNOWN when the device is out of service.
+    // NETWORK_TYPE_UNKNOWN when the device is not in-service.
     // Only cellular RATs are valid and show where the device is camped.
     optional android.telephony.NetworkTypeEnum data_rat = 2;
 
@@ -13822,6 +13822,11 @@ message CellularServiceState {
 
     // Total time spent in this service state, rounded to 5 minutes.
     optional int32 total_time_seconds = 9;
+
+    // Whether the device is in limited service (only emergency voice
+    // call available). Voice and data RAT will be recorded as
+    // NETWORK_TYPE_UNKNOWN in this case.
+    optional bool is_emergency_only = 10;
 }
 
 /**
