@@ -14015,6 +14015,9 @@ message OutgoingSms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 13;
+
+    // Time in milliseconds to complete the SMS send to the network.
+    optional int64 interval_millis = 14;
 }
 
 /**
