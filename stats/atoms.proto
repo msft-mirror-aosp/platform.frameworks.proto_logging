@@ -690,7 +690,7 @@ message Atom {
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
 
-        // StatsdStats tracks platform atoms with ids upto 500.
+        // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
@@ -6591,7 +6591,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 55
+ * Next Tag: 56
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6650,6 +6650,7 @@ message UIInteractionFrameInfoReported {
         LOCKSCREEN_LAUNCH_CAMERA = 52;
         SPLIT_SCREEN_RESIZE = 53;
         SETTINGS_SLIDER = 54;
+        TAKE_SCREENSHOT = 55;
     }
 
     optional InteractionType interaction_type = 1;
@@ -14015,6 +14016,9 @@ message OutgoingSms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 13;
+
+    // Time in milliseconds to complete the SMS send to the network.
+    optional int64 interval_millis = 14;
 }
 
 /**
