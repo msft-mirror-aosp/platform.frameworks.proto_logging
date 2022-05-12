@@ -18551,6 +18551,9 @@ message NeuralNetworksCompilationCompleted {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 18;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 19;
 }
 
 /**
@@ -18604,6 +18607,9 @@ message NeuralNetworksCompilationFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 13;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 14;
 }
 
 /**
@@ -18679,6 +18685,9 @@ message NeuralNetworksExecutionCompleted {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 28;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 29;
 }
 
 /**
@@ -18735,6 +18744,9 @@ message NeuralNetworksExecutionFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 14;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 15;
 }
 
 /**
