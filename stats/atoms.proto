@@ -18496,7 +18496,7 @@ message MediaCapabilities {
 /**
  * Logs when NNAPI model is compiled successfully
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksCompilationCompleted {
     // Linux process uid for the package.
@@ -18556,7 +18556,7 @@ message NeuralNetworksCompilationCompleted {
 /**
  * Logs when NNAPI model fails compilation
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksCompilationFailed {
     // Linux process uid for the package.
@@ -18610,7 +18610,7 @@ message NeuralNetworksCompilationFailed {
  * Logs when NNAPI model is executed successfully
  *
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksExecutionCompleted {
     // Linux process uid for the package.
@@ -18684,7 +18684,7 @@ message NeuralNetworksExecutionCompleted {
 /**
  * Logs when NNAPI model fails execution
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksExecutionFailed {
     // Linux process uid for the package.
