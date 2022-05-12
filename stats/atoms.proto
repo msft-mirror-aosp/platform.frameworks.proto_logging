@@ -701,6 +701,7 @@ message Atom {
         RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "remoteprovisioner"];
         RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "remoteprovisioner"];
         RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
+        MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -6654,7 +6655,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 55
+ * Next Tag: 56
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6713,6 +6714,7 @@ message UIInteractionFrameInfoReported {
         LOCKSCREEN_LAUNCH_CAMERA = 52;
         SPLIT_SCREEN_RESIZE = 53;
         SETTINGS_SLIDER = 54;
+        TAKE_SCREENSHOT = 55;
     }
 
     optional InteractionType interaction_type = 1;
@@ -14078,6 +14080,9 @@ message OutgoingSms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 13;
+
+    // Time in milliseconds to complete the SMS send to the network.
+    optional int64 interval_millis = 14;
 }
 
 /**
@@ -15174,6 +15179,27 @@ message MediaOutputOpSwitchReported {
 
     // The amount of applied devices within a remote dynamic group after a switching is done.
     optional int32 applied_device_count_within_remote_group = 9;
+}
+
+/*
+ * Logs when the user interact with Media Output Switcher.
+ *
+ * Logged from:
+ *  packages/SystemUI/src/com/android/systemui/media/dialog/MediaOutputMetricLogger.java
+ */
+message MediaOutputOpInteractionReported {
+    /** * The type of interaction with the output switch dialog. */
+    enum InteractionType {
+        EXPANSION = 0;
+        ADJUST_VOLUME = 1;
+        STOP_CASTING = 2;
+    }
+
+    // Type of interaction.
+    optional InteractionType interaction_type = 1;
+
+    // Type of device that interaction with.
+    optional android.app.settings.mediaoutput.MediumType target = 2;
 }
 
 /**
