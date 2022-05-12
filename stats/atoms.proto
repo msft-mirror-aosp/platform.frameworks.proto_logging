@@ -20613,16 +20613,16 @@ message RemoteKeyProvisioningNetworkInfo {
 //   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
 message RemoteKeyProvisioningTiming {
     // Time spent waiting on the RKP service to reply.
-    optional uint32 server_wait_millis = 1;
+    optional int32 server_wait_millis = 1;
 
     // Time spent waiting on internal binder calls to the provisioning service.
-    optional uint32 binder_wait_millis = 2;
+    optional int32 binder_wait_millis = 2;
 
     // Time spent waiting on the serialization lock.
-    optional uint32 lock_wait_millis = 3;
+    optional int32 lock_wait_millis = 3;
 
     // Total time spent processing the attempt.
-    optional uint32 total_processing_time = 4;
+    optional int32 total_processing_time = 4;
 
     // The network transport, according ConnectivityManager::getActiveNetwork().
     optional android.stats.connectivity.TransportType transport_type = 5;
@@ -20642,13 +20642,13 @@ message RemoteKeyProvisioningTiming {
 //   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
 message RemoteKeyProvisioningErrorCounts {
     // The total number of RKP attempts there have been this boot.
-    optional uint32 total_count = 1;
+    optional int32 total_count = 1;
 
     // How many errors this device has encountered this boot.
-    optional uint32 error_count = 2;
+    optional int32 error_count = 2;
 
     // How many bytes of data have been sent that resulted in errors. These
     // bytes count against an error budget, so it's important to track.
-    optional uint32 error_bytes = 3;
+    optional int32 error_bytes = 3;
 }
 
