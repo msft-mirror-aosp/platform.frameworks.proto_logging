@@ -690,7 +690,7 @@ message Atom {
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
 
-        // StatsdStats tracks platform atoms with ids upto 500.
+        // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
@@ -3903,7 +3903,10 @@ message LauncherAttributes{
 
 message SmartSpaceCardReported {
     // Different SmartSpace cards.
+    // DEPRECATED CardType enum. Use SmartspaceTarget.mFeatureType, which matches the list from:
+    // google3/java/com/google/android/apps/miphone/aiai/echo/smartspace/Constants.kt
     enum CardType {
+        option deprecated = true;
         UNKNOWN_CARD = 0;
         COMMUTE = 1;
         CALENDAR = 2;
@@ -3954,15 +3957,49 @@ message SmartSpaceCardReported {
     optional int32 card_type_id = 7;
     // The app that the Smartspace card is tied to.
     optional int32 uid = 8 [(is_uid) = true];
-    // If multiple subcards are displayed simultaneously, the position of
-    // the subcard that was interacted with.
+    // This represents the interacted subaction for the given card.
     optional int32 interacted_subcard_rank = 9;
-    // If multiple subcards are displayed simultaneously, the number of subcards
-    // shown when the interaction occurred.
+    // This represents the number of displayed subactions on the given card when a subaction click
+    // occurred.
     optional int32 interacted_subcard_cardinality = 10;
     // The time it takes in ms from smartspace target is created to sysui receives
     // the target.
     optional int32 received_latency_millis = 11;
+    // The sub cards.
+    optional SmartSpaceSubcards subcards_info = 12 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * This message represents information about any SmartSpace subcards.
+ * Logged from
+ *   vendor/unbundled_google/packages/SystemUIGoogle/bcsmartspace/src/com/google/android/systemui/smartspace/BcSmartspaceLogger.java
+ *   vendor/unbundled_google/packages/NexusLauncher/src/com/google/android/apps/nexuslauncher/qsb/SmartspaceViewContainer.java
+ * Next Tag: 3
+ */
+message SmartSpaceSubcards {
+    // List of subcards.
+    repeated SmartSpaceCardMetadata subcards = 1;
+    // The index of the clicked subcard, if applicable.
+    // This index is 1 indexed as opposed to 0 indexed due to sint32 encoding
+    // limitation when using -1 as a default.
+    // Default will be 0 to denote that no subcard was clicked.
+    // Please note this has no information about whether the primary card was
+    // clicked or not. Basically if this has the value 0, just ignore this field.
+    optional int32 clicked_subcard_index = 2;
+}
+
+/**
+ * This message represents metadata for a SmartSpace card.
+ * Logged from
+ *   vendor/unbundled_google/packages/SystemUIGoogle/bcsmartspace/src/com/google/android/systemui/smartspace/BcSmartspaceLogger.java
+ *   vendor/unbundled_google/packages/NexusLauncher/src/com/google/android/apps/nexuslauncher/qsb/SmartspaceViewContainer.java
+ * Next Tag: 3
+ */
+message SmartSpaceCardMetadata {
+    // Uniquely identifies a card. Should persist through updates.
+    optional int32 instance_id = 1;
+    // The type of the card.
+    optional int32 card_type_id = 2;
 }
 
 /**
@@ -6591,7 +6628,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 55
+ * Next Tag: 56
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6650,6 +6687,7 @@ message UIInteractionFrameInfoReported {
         LOCKSCREEN_LAUNCH_CAMERA = 52;
         SPLIT_SCREEN_RESIZE = 53;
         SETTINGS_SLIDER = 54;
+        TAKE_SCREENSHOT = 55;
     }
 
     optional InteractionType interaction_type = 1;
@@ -13749,12 +13787,12 @@ message VoiceCallRatUsage {
  */
 message CellularServiceState {
     // Radio access technology (RAT) for voice.
-    // NETWORK_TYPE_UNKNOWN when the device is out of service.
+    // NETWORK_TYPE_UNKNOWN when the device is not in-service.
     // NETWORK_TYPE_IWLAN when the device is using VoWiFi.
     optional android.telephony.NetworkTypeEnum voice_rat = 1;
 
     // Radio access technology (RAT) for data.
-    // NETWORK_TYPE_UNKNOWN when the device is out of service.
+    // NETWORK_TYPE_UNKNOWN when the device is not in-service.
     // Only cellular RATs are valid and show where the device is camped.
     optional android.telephony.NetworkTypeEnum data_rat = 2;
 
@@ -13780,6 +13818,11 @@ message CellularServiceState {
 
     // Total time spent in this service state, rounded to 5 minutes.
     optional int32 total_time_seconds = 9;
+
+    // Whether the device is in limited service (only emergency voice
+    // call available). Voice and data RAT will be recorded as
+    // NETWORK_TYPE_UNKNOWN in this case.
+    optional bool is_emergency_only = 10;
 }
 
 /**
@@ -14010,6 +14053,9 @@ message OutgoingSms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 13;
+
+    // Time in milliseconds to complete the SMS send to the network.
+    optional int64 interval_millis = 14;
 }
 
 /**
