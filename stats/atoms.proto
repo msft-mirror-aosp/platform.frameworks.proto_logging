@@ -669,6 +669,8 @@ message Atom {
             [(module) = "appsearch"];
         AppBackgroundRestrictionsInfo app_background_restrictions_info = 441
             [(module) = "framework"];
+        MmsSmsProviderGetThreadIdFailed mms_sms_provider_get_thread_id_failed = 442 [(module) = "telephony"];
+        MmsSmsDatabaseHelperOnUpgradeFailed mms_sms_database_helper_on_upgrade_failed = 443 [(module) = "telephony"];
         PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
             444 [(module) = "permissioncontroller"];
         RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
@@ -691,7 +693,7 @@ message Atom {
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
 
-        // StatsdStats tracks platform atoms with ids upto 500.
+        // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
@@ -6633,7 +6635,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 55
+ * Next Tag: 56
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6692,6 +6694,7 @@ message UIInteractionFrameInfoReported {
         LOCKSCREEN_LAUNCH_CAMERA = 52;
         SPLIT_SCREEN_RESIZE = 53;
         SETTINGS_SLIDER = 54;
+        TAKE_SCREENSHOT = 55;
     }
 
     optional InteractionType interaction_type = 1;
@@ -14057,6 +14060,9 @@ message OutgoingSms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 13;
+
+    // Time in milliseconds to complete the SMS send to the network.
+    optional int64 interval_millis = 14;
 }
 
 /**
@@ -20264,6 +20270,42 @@ message RecentPermissionDecisionsInteracted {
 
     // Name of the permission for the permission decision being reviewed.
     optional string permission_group_name = 4;
+}
+
+/**
+ * Logs failure reason when MmsSmsProvider#getThreadId fails to return a threadId
+ */
+message MmsSmsProviderGetThreadIdFailed {
+    enum FailureCode {
+        FAILURE_UNKNOWN = 0;
+        // Did not return a threadId due to recipients being passed in
+        FAILURE_NO_RECIPIENTS = 1;
+        FAILURE_FIND_OR_CREATE_THREAD_ID_SQL = 2;
+        // Found more than one threadId for the given of recipients
+        FAILURE_MULTIPLE_THREAD_IDS_FOUND = 3;
+    }
+
+    optional FailureCode failure_code = 1;
+}
+
+/**
+ * Logs failure reason when MmsSmsDatabaseHelperOnUpgradeFailed fails on an upgrade step
+ */
+message MmsSmsDatabaseHelperOnUpgradeFailed {
+    enum FailureCode {
+        FAILURE_UNKNOWN = 0;
+        FAILURE_IO_EXCEPTION = 1;
+        FAILURE_SECURITY_EXCEPTION = 2;
+        FAILURE_SQL_EXCEPTION = 3;
+    }
+
+    // Database version being upgraded from
+    optional int32 old_version = 1;
+    // Database version being upgraded to
+    optional int32 current_version = 2;
+    // Version number of the database upgrade step that failed
+    optional int32 upgrade_failed_to_version = 3;
+    optional FailureCode failure_code = 4;
 }
 
 /**
