@@ -688,6 +688,7 @@ message Atom {
         UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
         IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
+        OnsOpportunisticEsimProvisioningComplete ons_opportunistic_esim_provisioning_complete = 459 [(module) = "ons"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
 
@@ -20384,3 +20385,59 @@ message TelephonyAnomalyDetected {
     optional int64 event_id_lsb = 2;
     optional int64 event_id_msb = 3;
 }
+/*
+ * Pushed atom logged by ONS service.
+ */
+message OnsOpportunisticEsimProvisioningComplete {
+    enum ResultCode {
+        // Unknown
+        RESULT_UNKNOWN = 0;
+
+        // Operation was successful.
+        RESULT_SUCCESS = 1;
+
+        // Device capabilities not met such as eSIM and MultiSIM not supported.
+        RESULT_DEVICE_NOT_CAPABLE = 2;
+
+        // Internet connection is not available while trying to download opportunistic eSIM.
+        RESULT_INTERNET_NOT_AVAILABLE = 3;
+
+        // Error occurred while switching device from Single to MultiSIM mode.
+        RESULT_SWITCH_TO_MULTISIM_FAILED = 4;
+
+        // Connection error occurred while downloading opportunistic eSIM from SMDP server.
+        RESULT_CONNECTION_ERROR = 5;
+
+        // Download failed because there is no sufficient storage available in eUICC memory.
+        RESULT_MEMORY_FULL = 6;
+
+        // Installation of downloaded eSIM failed.
+        RESULT_INSTALL_ESIM_PROFILE_FAILED = 7;
+
+        // Unresolvable errors such as Invalid SMDP address or activation code.
+        RESULT_UNRESOLVABLE_ERROR = 8;
+
+        //Auto provisioning disabled
+        RESULT_AUTO_PROVISIONING_DISABLED = 9;
+    }
+
+    // CBRS carrier id. Filled only while reporting failure cases.
+    optional int32 carrier_id = 1;
+
+    // carrier id of the opportunistic eSIM downloaded from the SMDP server.
+    // Filled only while reporting failure cases.
+    optional int32 opportunistic_esim_carrier_id = 2;
+
+    // Flag to indicate that the data connection was used for downloading.
+    optional bool is_mobile_data_used = 3;
+
+    // Error code occurred during the above operation.
+    optional ResultCode error_code = 4;
+
+    // Retry count of the above operation.
+    optional int32 retry_count = 5;
+
+    // Detailed error code.
+    optional int32 detailed_error_code = 6;
+}
+
