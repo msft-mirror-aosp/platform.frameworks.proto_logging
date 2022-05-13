@@ -689,6 +689,7 @@ message Atom {
         IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
+        MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
 
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15148,6 +15149,27 @@ message MediaOutputOpSwitchReported {
 
     // The amount of applied devices within a remote dynamic group after a switching is done.
     optional int32 applied_device_count_within_remote_group = 9;
+}
+
+/*
+ * Logs when the user interact with Media Output Switcher.
+ *
+ * Logged from:
+ *  packages/SystemUI/src/com/android/systemui/media/dialog/MediaOutputMetricLogger.java
+ */
+message MediaOutputOpInteractionReported {
+    /** * The type of interaction with the output switch dialog. */
+    enum InteractionType {
+        EXPANSION = 0;
+        ADJUST_VOLUME = 1;
+        STOP_CASTING = 2;
+    }
+
+    // Type of interaction.
+    optional InteractionType interaction_type = 1;
+
+    // Type of device that interaction with.
+    optional android.app.settings.mediaoutput.MediumType target = 2;
 }
 
 /**
