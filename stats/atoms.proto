@@ -8437,7 +8437,12 @@ message ContentCaptureServiceEvents {
     // component/package of target.
     // it's a concatenated list of component/package for SET_WHITELIST event
     // separated by " ".
-    optional string target_info = 3;
+    // Deprecated: should not log app package
+    optional string target_info = 3 [deprecated = true];
+    // The number of packages in the allow list
+    optional int32 set_allowlist_package_count = 4;
+    // The number of activities in the allow list
+    optional int32 set_allowlist_activity_count = 5;
 }
 
 /**
@@ -8462,7 +8467,8 @@ message ContentCaptureSessionEvents {
     optional string service_info = 4;
     // component/package of app.
     // (n/a on session finished)
-    optional string app_info = 5;
+    // Deprecated: should not log app package
+    optional string app_info = 5 [deprecated = true];
     optional bool is_child_session = 6;
 }
 
@@ -8477,7 +8483,8 @@ message ContentCaptureFlushed {
     // component/package of content capture service.
     optional string service_info = 2;
     // component/package of app.
-    optional string app_info = 3;
+    // Deprecated: should not log app package
+    optional string app_info = 3 [deprecated = true];
     // session start/finish events
     optional int32 child_session_started = 4;
     optional int32 child_session_finished = 5;
