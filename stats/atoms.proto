@@ -691,6 +691,7 @@ message Atom {
         OnsOpportunisticEsimProvisioningComplete ons_opportunistic_esim_provisioning_complete = 459 [(module) = "ons"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
+        BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
 
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -20448,3 +20449,41 @@ message OnsOpportunisticEsimProvisioningComplete {
     optional int32 detailed_error_code = 6;
 }
 
+/**
+ * Logs when a background dexopt job is ended.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/pm/BackgroundDexOptService.java
+ */
+message BackgroundDexoptJobEnded {
+    // Corresponds to `BackgroundDexOptService.Status`, except for
+    // `STATUS_JOB_FINISHED`.
+    enum Status {
+        STATUS_UNKNOWN = 0;
+
+        // The job has finished. This value is used even if some packages have
+        // failed compilation during the job. (Corresponds to either
+        // `BackgroundDexOptService.Status.STATUS_OK` or
+        // `BackgroundDexOptService.Status.STATUS_DEX_OPT_FAILED`.)
+        STATUS_JOB_FINISHED = 1;
+
+        STATUS_ABORT_BY_CANCELLATION = 2;
+        STATUS_ABORT_NO_SPACE_LEFT = 3;
+        STATUS_ABORT_THERMAL = 4;
+        STATUS_ABORT_BATTERY = 5;
+    }
+
+    optional Status status = 1;
+
+    // If `status` is `STATUS_ABORT_BY_CANCELLATION`, the reason of the
+    // cancellation.
+    optional android.app.job.StopReasonEnum cancellation_reason = 2;
+
+    // The duration of the job run, in milliseconds, not counting time spent in
+    // sleep.
+    optional int64 duration_ms = 3;
+
+    // The duration of the job run, in milliseconds, including time spent in
+    // sleep.
+    optional int64 duration_including_sleep_ms = 4;
+}
