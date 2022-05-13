@@ -3903,7 +3903,10 @@ message LauncherAttributes{
 
 message SmartSpaceCardReported {
     // Different SmartSpace cards.
+    // DEPRECATED CardType enum. Use SmartspaceTarget.mFeatureType, which matches the list from:
+    // google3/java/com/google/android/apps/miphone/aiai/echo/smartspace/Constants.kt
     enum CardType {
+        option deprecated = true;
         UNKNOWN_CARD = 0;
         COMMUTE = 1;
         CALENDAR = 2;
@@ -3954,15 +3957,49 @@ message SmartSpaceCardReported {
     optional int32 card_type_id = 7;
     // The app that the Smartspace card is tied to.
     optional int32 uid = 8 [(is_uid) = true];
-    // If multiple subcards are displayed simultaneously, the position of
-    // the subcard that was interacted with.
+    // This represents the interacted subaction for the given card.
     optional int32 interacted_subcard_rank = 9;
-    // If multiple subcards are displayed simultaneously, the number of subcards
-    // shown when the interaction occurred.
+    // This represents the number of displayed subactions on the given card when a subaction click
+    // occurred.
     optional int32 interacted_subcard_cardinality = 10;
     // The time it takes in ms from smartspace target is created to sysui receives
     // the target.
     optional int32 received_latency_millis = 11;
+    // The sub cards.
+    optional SmartSpaceSubcards subcards_info = 12 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * This message represents information about any SmartSpace subcards.
+ * Logged from
+ *   vendor/unbundled_google/packages/SystemUIGoogle/bcsmartspace/src/com/google/android/systemui/smartspace/BcSmartspaceLogger.java
+ *   vendor/unbundled_google/packages/NexusLauncher/src/com/google/android/apps/nexuslauncher/qsb/SmartspaceViewContainer.java
+ * Next Tag: 3
+ */
+message SmartSpaceSubcards {
+    // List of subcards.
+    repeated SmartSpaceCardMetadata subcards = 1;
+    // The index of the clicked subcard, if applicable.
+    // This index is 1 indexed as opposed to 0 indexed due to sint32 encoding
+    // limitation when using -1 as a default.
+    // Default will be 0 to denote that no subcard was clicked.
+    // Please note this has no information about whether the primary card was
+    // clicked or not. Basically if this has the value 0, just ignore this field.
+    optional int32 clicked_subcard_index = 2;
+}
+
+/**
+ * This message represents metadata for a SmartSpace card.
+ * Logged from
+ *   vendor/unbundled_google/packages/SystemUIGoogle/bcsmartspace/src/com/google/android/systemui/smartspace/BcSmartspaceLogger.java
+ *   vendor/unbundled_google/packages/NexusLauncher/src/com/google/android/apps/nexuslauncher/qsb/SmartspaceViewContainer.java
+ * Next Tag: 3
+ */
+message SmartSpaceCardMetadata {
+    // Uniquely identifies a card. Should persist through updates.
+    optional int32 instance_id = 1;
+    // The type of the card.
+    optional int32 card_type_id = 2;
 }
 
 /**
