@@ -23,6 +23,7 @@ option java_outer_classname = "AtomsProto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/media_output_enum.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
@@ -690,8 +691,14 @@ message Atom {
         UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
         IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
         IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
+        OnsOpportunisticEsimProvisioningComplete ons_opportunistic_esim_provisioning_complete = 459 [(module) = "ons"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
+        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "remoteprovisioner"];
+        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "remoteprovisioner"];
+        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
+        MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
+        BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
 
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -885,6 +892,7 @@ message Atom {
         UserInfo user_info = 10152 [(module) = "framework"];
         TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
+        RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -6672,7 +6680,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 56
+ * Next Tag: 57
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6732,6 +6740,7 @@ message UIInteractionFrameInfoReported {
         SPLIT_SCREEN_RESIZE = 53;
         SETTINGS_SLIDER = 54;
         TAKE_SCREENSHOT = 55;
+        VOLUME_CONTROL = 56;
     }
 
     optional InteractionType interaction_type = 1;
@@ -8479,7 +8488,12 @@ message ContentCaptureServiceEvents {
     // component/package of target.
     // it's a concatenated list of component/package for SET_WHITELIST event
     // separated by " ".
-    optional string target_info = 3;
+    // Deprecated: should not log app package
+    optional string target_info = 3 [deprecated = true];
+    // The number of packages in the allow list
+    optional int32 set_allowlist_package_count = 4;
+    // The number of activities in the allow list
+    optional int32 set_allowlist_activity_count = 5;
 }
 
 /**
@@ -8504,7 +8518,8 @@ message ContentCaptureSessionEvents {
     optional string service_info = 4;
     // component/package of app.
     // (n/a on session finished)
-    optional string app_info = 5;
+    // Deprecated: should not log app package
+    optional string app_info = 5 [deprecated = true];
     optional bool is_child_session = 6;
 }
 
@@ -8519,7 +8534,8 @@ message ContentCaptureFlushed {
     // component/package of content capture service.
     optional string service_info = 2;
     // component/package of app.
-    optional string app_info = 3;
+    // Deprecated: should not log app package
+    optional string app_info = 3 [deprecated = true];
     // session start/finish events
     optional int32 child_session_started = 4;
     optional int32 child_session_finished = 5;
@@ -15194,6 +15210,27 @@ message MediaOutputOpSwitchReported {
     optional int32 applied_device_count_within_remote_group = 9;
 }
 
+/*
+ * Logs when the user interact with Media Output Switcher.
+ *
+ * Logged from:
+ *  packages/SystemUI/src/com/android/systemui/media/dialog/MediaOutputMetricLogger.java
+ */
+message MediaOutputOpInteractionReported {
+    /** * The type of interaction with the output switch dialog. */
+    enum InteractionType {
+        EXPANSION = 0;
+        ADJUST_VOLUME = 1;
+        STOP_CASTING = 2;
+    }
+
+    // Type of interaction.
+    optional InteractionType interaction_type = 1;
+
+    // Type of device that interaction with.
+    optional android.app.settings.mediaoutput.MediumType target = 2;
+}
+
 /**
  * Logs when the Assistant is invoked.
  *
@@ -15983,7 +16020,13 @@ message RkpErrorStats {
 
     // Count of a particular error occurred.
     optional int32 count = 2;
+
+    /**
+     * Security level of the IRemotelyProvisionedComponent.
+     */
+    optional android.system.security.keystore2.SecurityLevelEnum security_level = 3;
 }
+
 
 /**
  * Logs: Status of the attestation key pool related to
@@ -18496,7 +18539,7 @@ message MediaCapabilities {
 /**
  * Logs when NNAPI model is compiled successfully
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksCompilationCompleted {
     // Linux process uid for the package.
@@ -18551,12 +18594,15 @@ message NeuralNetworksCompilationCompleted {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 18;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 19;
 }
 
 /**
  * Logs when NNAPI model fails compilation
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksCompilationFailed {
     // Linux process uid for the package.
@@ -18604,13 +18650,16 @@ message NeuralNetworksCompilationFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 13;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 14;
 }
 
 /**
  * Logs when NNAPI model is executed successfully
  *
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksExecutionCompleted {
     // Linux process uid for the package.
@@ -18679,12 +18728,15 @@ message NeuralNetworksExecutionCompleted {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 28;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 29;
 }
 
 /**
  * Logs when NNAPI model fails execution
  * Logged from
- *   modules/NeuralNetworks/runtime/TelemetryWestworld.cpp
+ *   modules/NeuralNetworks/runtime/TelemetryStatsd.cpp
  */
 message NeuralNetworksExecutionFailed {
     // Linux process uid for the package.
@@ -18735,6 +18787,9 @@ message NeuralNetworksExecutionFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 14;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 15;
 }
 
 /**
@@ -20423,4 +20478,211 @@ message TelephonyAnomalyDetected {
     // UUID of the anomaly, as generated by android.telephony.AnomalyReporter
     optional int64 event_id_lsb = 2;
     optional int64 event_id_msb = 3;
+}
+
+// Logs when the remote key provisioner application is invoked, either
+// due to a periodically scheduled job, due to an attestation key being
+// consumed from the pool, or when the system has detected that it's
+// completely out of attestation keys.
+//
+// Logged from:
+//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+message RemoteKeyProvisioningAttempt {
+    // The reason for the provisioning attempt.
+    enum Cause {
+        CAUSE_UNKNOWN = 0;
+        SCHEDULED = 1;          // A scheduled job issued the request
+        KEY_CONSUMED = 2;       // A provisioned key was consumed from the pool
+        OUT_OF_KEYS = 3;        // The system is out of keys
+    }
+    optional Cause cause = 1;
+
+    // The name of the remotely provisioned component for whom keys are being
+    // generated and certified. The string value is determined by the vendor,
+    // and is fixed for the lifetime of the device. The number of unique string
+    // values on a given device is determined by how many remotely provisioned
+    // component HALs are on a given device. Typically, this is 2-3 HALs.
+    optional string remotely_provisioned_component = 2;
+
+    // The uptime of the device, organized into time ranges of interest.
+    enum UpTime {
+        UPTIME_UNKNOWN = 0;
+        LESS_THAN_5_MINUTES = 1;
+        BETWEEN_5_AND_60_MINUTES = 2;
+        MORE_THAN_60_MINUTES = 3;
+    }
+    optional UpTime uptime = 3;
+
+    // The state of remote provisioning enablement
+    enum Enablement {
+        ENABLEMENT_UNKNOWN = 0;
+        ENABLED_WITH_FALLBACK = 1;
+        ENABLED_RKP_ONLY = 2;
+        DISABLED = 3;
+    }
+    optional Enablement enablement = 4;
+
+    // If the key pool is completely exhausted, this is set to true. Typically,
+    // we do not expect to see a pool with no spare keys available.
+    optional bool is_key_pool_empty = 5;
+
+    // Indicates success or failure of the provisioning attempt.
+    optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 6;
+}
+
+// Logs that correlate remote key provisioning status with the active
+// network for the given provisioning attempt.
+//
+// Logged from:
+//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+message RemoteKeyProvisioningNetworkInfo {
+    // The network transport, according ConnectivityManager::getActiveNetwork().
+    optional android.stats.connectivity.TransportType transport_type = 1;
+
+    // Indicates success or failure of the provisioning attempt.
+    optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 2;
+
+    // If an HTTP error was received, this contains the code. Else, contains 200.
+    optional int32 http_status_error = 3;
+}
+
+// Logs indicating timing data to understand how long the remote provisioner is
+// taking to perform various sub-tasks. This is intended to be used with KLL metrics.
+//
+// Logged from:
+//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+message RemoteKeyProvisioningTiming {
+    // Time spent waiting on the RKP service to reply.
+    optional int32 server_wait_millis = 1;
+
+    // Time spent waiting on internal binder calls to the provisioning service.
+    optional int32 binder_wait_millis = 2;
+
+    // Time spent waiting on the serialization lock.
+    optional int32 lock_wait_millis = 3;
+
+    // Total time spent processing the attempt.
+    optional int32 total_processing_time = 4;
+
+    // The network transport, according ConnectivityManager::getActiveNetwork().
+    optional android.stats.connectivity.TransportType transport_type = 5;
+
+    // The name of the remotely provisioned component for whom keys are being
+    // generated and certified. The string value is determined by the vendor,
+    // and is fixed for the lifetime of the device. The number of unique string
+    // values on a given device is determined by how many remotely provisioned
+    // component HALs are on a given device. Typically, this is 2-3 HALs.
+    optional string remotely_provisioned_component = 6;
+}
+
+// Counters that track how many errors we're seeing on the device for the
+// given boot.
+//
+// Logged from:
+//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+message RemoteKeyProvisioningErrorCounts {
+    // The total number of RKP attempts there have been this boot.
+    optional int32 total_count = 1;
+
+    // How many errors this device has encountered this boot.
+    optional int32 error_count = 2;
+
+    // How many bytes of data have been sent that resulted in errors. These
+    // bytes count against an error budget, so it's important to track.
+    optional int32 error_bytes = 3;
+}
+
+/*
+ * Pushed atom logged by ONS service.
+ */
+message OnsOpportunisticEsimProvisioningComplete {
+    enum ResultCode {
+        // Unknown
+        RESULT_UNKNOWN = 0;
+
+        // Operation was successful.
+        RESULT_SUCCESS = 1;
+
+        // Device capabilities not met such as eSIM and MultiSIM not supported.
+        RESULT_DEVICE_NOT_CAPABLE = 2;
+
+        // Internet connection is not available while trying to download opportunistic eSIM.
+        RESULT_INTERNET_NOT_AVAILABLE = 3;
+
+        // Error occurred while switching device from Single to MultiSIM mode.
+        RESULT_SWITCH_TO_MULTISIM_FAILED = 4;
+
+        // Connection error occurred while downloading opportunistic eSIM from SMDP server.
+        RESULT_CONNECTION_ERROR = 5;
+
+        // Download failed because there is no sufficient storage available in eUICC memory.
+        RESULT_MEMORY_FULL = 6;
+
+        // Installation of downloaded eSIM failed.
+        RESULT_INSTALL_ESIM_PROFILE_FAILED = 7;
+
+        // Unresolvable errors such as Invalid SMDP address or activation code.
+        RESULT_UNRESOLVABLE_ERROR = 8;
+
+        //Auto provisioning disabled
+        RESULT_AUTO_PROVISIONING_DISABLED = 9;
+    }
+
+    // CBRS carrier id. Filled only while reporting failure cases.
+    optional int32 carrier_id = 1;
+
+    // carrier id of the opportunistic eSIM downloaded from the SMDP server.
+    // Filled only while reporting failure cases.
+    optional int32 opportunistic_esim_carrier_id = 2;
+
+    // Flag to indicate that the data connection was used for downloading.
+    optional bool is_mobile_data_used = 3;
+
+    // Error code occurred during the above operation.
+    optional ResultCode error_code = 4;
+
+    // Retry count of the above operation.
+    optional int32 retry_count = 5;
+
+    // Detailed error code.
+    optional int32 detailed_error_code = 6;
+}
+
+/**
+ * Logs when a background dexopt job is ended.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/pm/BackgroundDexOptService.java
+ */
+message BackgroundDexoptJobEnded {
+    // Corresponds to `BackgroundDexOptService.Status`, except for
+    // `STATUS_JOB_FINISHED`.
+    enum Status {
+        STATUS_UNKNOWN = 0;
+
+        // The job has finished. This value is used even if some packages have
+        // failed compilation during the job. (Corresponds to either
+        // `BackgroundDexOptService.Status.STATUS_OK` or
+        // `BackgroundDexOptService.Status.STATUS_DEX_OPT_FAILED`.)
+        STATUS_JOB_FINISHED = 1;
+
+        STATUS_ABORT_BY_CANCELLATION = 2;
+        STATUS_ABORT_NO_SPACE_LEFT = 3;
+        STATUS_ABORT_THERMAL = 4;
+        STATUS_ABORT_BATTERY = 5;
+    }
+
+    optional Status status = 1;
+
+    // If `status` is `STATUS_ABORT_BY_CANCELLATION`, the reason of the
+    // cancellation.
+    optional android.app.job.StopReasonEnum cancellation_reason = 2;
+
+    // The duration of the job run, in milliseconds, not counting time spent in
+    // sleep.
+    optional int64 duration_ms = 3;
+
+    // The duration of the job run, in milliseconds, including time spent in
+    // sleep.
+    optional int64 duration_including_sleep_ms = 4;
 }
