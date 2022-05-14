@@ -703,7 +703,8 @@ message Atom {
         RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
         MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
         BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
-
+        SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
+        AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -6693,7 +6694,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 56
+ * Next Tag: 57
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6753,6 +6754,7 @@ message UIInteractionFrameInfoReported {
         SPLIT_SCREEN_RESIZE = 53;
         SETTINGS_SLIDER = 54;
         TAKE_SCREENSHOT = 55;
+        VOLUME_CONTROL = 56;
     }
 
     optional InteractionType interaction_type = 1;
@@ -8500,7 +8502,12 @@ message ContentCaptureServiceEvents {
     // component/package of target.
     // it's a concatenated list of component/package for SET_WHITELIST event
     // separated by " ".
-    optional string target_info = 3;
+    // Deprecated: should not log app package
+    optional string target_info = 3 [deprecated = true];
+    // The number of packages in the allow list
+    optional int32 set_allowlist_package_count = 4;
+    // The number of activities in the allow list
+    optional int32 set_allowlist_activity_count = 5;
 }
 
 /**
@@ -8525,7 +8532,8 @@ message ContentCaptureSessionEvents {
     optional string service_info = 4;
     // component/package of app.
     // (n/a on session finished)
-    optional string app_info = 5;
+    // Deprecated: should not log app package
+    optional string app_info = 5 [deprecated = true];
     optional bool is_child_session = 6;
 }
 
@@ -8540,7 +8548,8 @@ message ContentCaptureFlushed {
     // component/package of content capture service.
     optional string service_info = 2;
     // component/package of app.
-    optional string app_info = 3;
+    // Deprecated: should not log app package
+    optional string app_info = 3 [deprecated = true];
     // session start/finish events
     optional int32 child_session_started = 4;
     optional int32 child_session_finished = 5;
@@ -18603,6 +18612,9 @@ message NeuralNetworksCompilationCompleted {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 18;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 19;
 }
 
 /**
@@ -18656,6 +18668,9 @@ message NeuralNetworksCompilationFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 13;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 14;
 }
 
 /**
@@ -18731,6 +18746,9 @@ message NeuralNetworksExecutionCompleted {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 28;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 29;
 }
 
 /**
@@ -18787,6 +18805,9 @@ message NeuralNetworksExecutionFailed {
 
     // How many times this atom occurred locally before being pushed.
     optional int32 count = 14;
+
+    // model_arch_hash compressed to 64 bits by bitwise-xor each 64 chunk of model_arch_hash.
+    optional int64 model_arch_hash_64 = 15;
 }
 
 /**
@@ -20489,6 +20510,82 @@ message TaskManagerEventReported {
 }
 
 
+
+/** Log for autofill events. This captures events till the view goes out of
+ * focus. For each auttofilled view going out of focus, and coming back, a
+ * separate event would be generated.
+ *
+ * Logged from:
+ * frameworks/base/services/autofill/java/com/android/server/autofill/
+ */
+message AutofillPresentationEventReported {
+  enum PresentationEventResult {
+    NONE_SHOWN_UNKNOWN_REASON =
+        0;  // Includes reasons where losses can be partial: eg: IME not showing
+            // certain datasets, while others are filtered out because user
+            // started typing. So, it can either refer to a set of mixed of
+            // known or unknown reasons.
+    ANY_SHOWN =
+        1;  // This is counter to the event name, but we need it in order to get
+            // overall success rate.
+    // Below ones corresponds to no presentation getting shown
+    NONE_SHOWN_VIEW_FOCUS_CHANGED =
+        2;  // User action leads to focus getting shifted to another field
+    NONE_SHOWN_VIEW_CHANGED =
+        3;  // This would also include if view becomes invisible.
+    NONE_SHOWN_ACTIVITY_FINISHED = 4;  // Eg: User pressed back
+    NONE_SHOWN_REQUEST_TIMEOUT =
+        5;  // Autofill provider didn't respond in the given time.
+    NONE_SHOWN_SESSION_COMMITTED_PREMATURELY =
+        6;  // Session was prematurely committed. This can happen due to various
+            // reasons, eg: app developers calling commit() earlier than when
+            // they should.
+  }
+
+  // Id number which increases for each subsequent request.
+  optional int32 request_id = 1;
+
+  // SessionId to aggregate requests within a session, and see overall
+  // performance.
+  optional int32 session_id = 2;
+
+  // Result of autofill event.
+  optional PresentationEventResult presentation_event_result = 3;
+
+  // Count of datasets that should've been available for display. If the request
+  // times out, this won't be populated.
+  optional int32 available_count = 4;
+
+  // Count of datasets that are shown to the user.
+  optional int32 count_shown = 5;
+
+  // Count of datasets that are eligible to be shown to the user, but aren't
+  // shown because user started typing already, and the results were filtered.
+  // If the user starts typing, dataset isn't shown at the moment, but then the
+  // user deletes text, and the dataset becomes visible, it would count as
+  // shown, and not as filtered out.
+  optional int32 count_filtered_user_typing = 6;
+
+  // Count of datasets that aren't shown because IME didn't use datasets at all.
+  optional int32 count_not_shown_unused_by_ime = 7;
+
+  // Count of datasets that are eligible to be shown to the user, but aren't
+  // shown because display didn't show them (probably user didn't scroll to see
+  // the view). The dataset was requested by display, but not shown.
+  optional int32 count_not_shown_never_visible = 8;
+
+  // How the dataset is supposed to be shown to the user
+  optional AutofillDisplayPresentationType display_presentation_type = 9;
+}
+
+// Tells how Autofill dataset was/will-be displayed.
+enum AutofillDisplayPresentationType {
+  UNKNOWN_AUTOFILL_DISPLAY_PRESENTATION_TYPE = 0;
+  MENU = 1;    // aka drop-down
+  INLINE = 2;  // shown via IME
+  DIALOG = 3;  // aka Bottom-sheet dialog
+}
+
 /**
  * Log the CompanionDeviceManager associations are created by various device
  * profiles
@@ -20680,16 +20777,16 @@ message RemoteKeyProvisioningNetworkInfo {
 //   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
 message RemoteKeyProvisioningTiming {
     // Time spent waiting on the RKP service to reply.
-    optional uint32 server_wait_millis = 1;
+    optional int32 server_wait_millis = 1;
 
     // Time spent waiting on internal binder calls to the provisioning service.
-    optional uint32 binder_wait_millis = 2;
+    optional int32 binder_wait_millis = 2;
 
     // Time spent waiting on the serialization lock.
-    optional uint32 lock_wait_millis = 3;
+    optional int32 lock_wait_millis = 3;
 
     // Total time spent processing the attempt.
-    optional uint32 total_processing_time = 4;
+    optional int32 total_processing_time = 4;
 
     // The network transport, according ConnectivityManager::getActiveNetwork().
     optional android.stats.connectivity.TransportType transport_type = 5;
@@ -20709,14 +20806,14 @@ message RemoteKeyProvisioningTiming {
 //   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
 message RemoteKeyProvisioningErrorCounts {
     // The total number of RKP attempts there have been this boot.
-    optional uint32 total_count = 1;
+    optional int32 total_count = 1;
 
     // How many errors this device has encountered this boot.
-    optional uint32 error_count = 2;
+    optional int32 error_count = 2;
 
     // How many bytes of data have been sent that resulted in errors. These
     // bytes count against an error budget, so it's important to track.
-    optional uint32 error_bytes = 3;
+    optional int32 error_bytes = 3;
 }
 
 /**
@@ -20756,4 +20853,43 @@ message BackgroundDexoptJobEnded {
     // The duration of the job run, in milliseconds, including time spent in
     // sleep.
     optional int64 duration_including_sleep_ms = 4;
+}
+
+/**
+ * Logs information about sync exemptions when they occur.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/content/ContentService.java
+ */
+message SyncExemptionOccurred {
+    optional int32 uid = 1 [(is_uid) = true]; // the uid of the app.
+
+    enum ProcState {
+        UNKNOWN = 0;
+        PERSISTENT = 1;
+        PERSISTENT_UI = 2;
+        TOP = 3;
+        BOUND_TOP = 4;
+        FOREGROUND_SERVICE = 5;
+        BOUND_FOREGROUND_SERVICE = 6;
+        IMPORTANT_FOREGROUND = 7;
+        IMPORTANT_BACKGROUND = 8;
+        TRANSIENT_BACKGROUND = 9;
+        BACKUP = 10;
+        SERVICE = 11;
+        RECEIVER = 12;
+        TOP_SLEEPING = 13;
+        HEAVY_WEIGHT = 14;
+        HOME = 15;
+        LAST_ACTIVITY = 16;
+        CACHED_ACTIVITY = 17;
+        CACHED_ACTIVITY_CLIENT = 18;
+        CACHED_RECENT = 19;
+        CACHED_EMPTY = 20;
+    }
+    optional ProcState proc_state = 2; // the proc state of the app when the exemption occurred.
+
+    optional bool is_uid_active = 3; // was the uid active when the exemption occurred.
+
+    optional AppBackgroundRestrictionsInfo.RestrictionLevel restriction_level = 4;
 }
