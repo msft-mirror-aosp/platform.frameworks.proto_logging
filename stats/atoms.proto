@@ -699,7 +699,7 @@ message Atom {
         RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
         MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
         BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
-
+        AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -20417,6 +20417,81 @@ message TaskManagerEventReported {
     optional Event event = 2;
 
     optional int64 time_running_ms = 3;
+}
+
+/** Log for autofill events. This captures events till the view goes out of
+ * focus. For each auttofilled view going out of focus, and coming back, a
+ * separate event would be generated.
+ *
+ * Logged from:
+ * frameworks/base/services/autofill/java/com/android/server/autofill/
+ */
+message AutofillPresentationEventReported {
+  enum PresentationEventResult {
+    NONE_SHOWN_UNKNOWN_REASON =
+        0;  // Includes reasons where losses can be partial: eg: IME not showing
+            // certain datasets, while others are filtered out because user
+            // started typing. So, it can either refer to a set of mixed of
+            // known or unknown reasons.
+    ANY_SHOWN =
+        1;  // This is counter to the event name, but we need it in order to get
+            // overall success rate.
+    // Below ones corresponds to no presentation getting shown
+    NONE_SHOWN_VIEW_FOCUS_CHANGED =
+        2;  // User action leads to focus getting shifted to another field
+    NONE_SHOWN_VIEW_CHANGED =
+        3;  // This would also include if view becomes invisible.
+    NONE_SHOWN_ACTIVITY_FINISHED = 4;  // Eg: User pressed back
+    NONE_SHOWN_REQUEST_TIMEOUT =
+        5;  // Autofill provider didn't respond in the given time.
+    NONE_SHOWN_SESSION_COMMITTED_PREMATURELY =
+        6;  // Session was prematurely committed. This can happen due to various
+            // reasons, eg: app developers calling commit() earlier than when
+            // they should.
+  }
+
+  // Id number which increases for each subsequent request.
+  optional int32 request_id = 1;
+
+  // SessionId to aggregate requests within a session, and see overall
+  // performance.
+  optional int32 session_id = 2;
+
+  // Result of autofill event.
+  optional PresentationEventResult presentation_event_result = 3;
+
+  // Count of datasets that should've been available for display. If the request
+  // times out, this won't be populated.
+  optional int32 available_count = 4;
+
+  // Count of datasets that are shown to the user.
+  optional int32 count_shown = 5;
+
+  // Count of datasets that are eligible to be shown to the user, but aren't
+  // shown because user started typing already, and the results were filtered.
+  // If the user starts typing, dataset isn't shown at the moment, but then the
+  // user deletes text, and the dataset becomes visible, it would count as
+  // shown, and not as filtered out.
+  optional int32 count_filtered_user_typing = 6;
+
+  // Count of datasets that aren't shown because IME didn't use datasets at all.
+  optional int32 count_not_shown_unused_by_ime = 7;
+
+  // Count of datasets that are eligible to be shown to the user, but aren't
+  // shown because display didn't show them (probably user didn't scroll to see
+  // the view). The dataset was requested by display, but not shown.
+  optional int32 count_not_shown_never_visible = 8;
+
+  // How the dataset is supposed to be shown to the user
+  optional AutofillDisplayPresentationType display_presentation_type = 9;
+}
+
+// Tells how Autofill dataset was/will-be displayed.
+enum AutofillDisplayPresentationType {
+  UNKNOWN_AUTOFILL_DISPLAY_PRESENTATION_TYPE = 0;
+  MENU = 1;    // aka drop-down
+  INLINE = 2;  // shown via IME
+  DIALOG = 3;  // aka Bottom-sheet dialog
 }
 
 /**
