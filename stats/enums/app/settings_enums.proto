@@ -3366,6 +3366,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     LE_AUDIO_BROADCAST_SCAN_QR_CODE = 1926;
+
+    // OPEN: Settings > About phone > Limited Warranty
+    // CATEGORY: SETTINGS
+    // OS: T
+    LIMITED_WARRANTY_COUNTRY_LIST = 1927;
+
+    // OPEN: Settings > About phone > Limited Warranty > Click any country
+    // CATEGORY: SETTINGS
+    // OS: T
+    LIMITED_WARRANTY_DETAILS = 1928;
 }
 
 // Battery Saver schedule types.
