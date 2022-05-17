@@ -696,6 +696,7 @@ message Atom {
         RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
         MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
         BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
+        SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -20567,6 +20568,43 @@ message BackgroundDexoptJobEnded {
     // The duration of the job run, in milliseconds, including time spent in
     // sleep.
     optional int64 duration_including_sleep_ms = 4;
+}
+
+/**
+ * Logs information about sync exemptions when they occur.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/content/ContentService.java
+ */
+message SyncExemptionOccurred {
+    optional int32 uid = 1 [(is_uid) = true]; // the uid of the app.
+
+    enum ProcState {
+        UNKNOWN = 0;
+        PERSISTENT = 1;
+        PERSISTENT_UI = 2;
+        TOP = 3;
+        BOUND_TOP = 4;
+        FOREGROUND_SERVICE = 5;
+        BOUND_FOREGROUND_SERVICE = 6;
+        IMPORTANT_FOREGROUND = 7;
+        IMPORTANT_BACKGROUND = 8;
+        TRANSIENT_BACKGROUND = 9;
+        BACKUP = 10;
+        SERVICE = 11;
+        RECEIVER = 12;
+        TOP_SLEEPING = 13;
+        HEAVY_WEIGHT = 14;
+        HOME = 15;
+        LAST_ACTIVITY = 16;
+        CACHED_ACTIVITY = 17;
+        CACHED_ACTIVITY_CLIENT = 18;
+        CACHED_RECENT = 19;
+        CACHED_EMPTY = 20;
+    }
+    optional ProcState proc_state = 2; // the proc state of the app when the exemption occurred.
+
+    optional bool is_uid_active = 3; // was the uid active when the exemption occurred.
 }
 
 // Logs when the remote key provisioner application is invoked, either
