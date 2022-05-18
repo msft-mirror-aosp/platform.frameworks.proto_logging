@@ -12954,6 +12954,10 @@ message CameraActionEvent {
 
     // User tag string for this session
     optional string user_tag = 20;
+
+    // Video stabilization mode
+    // Original type: uint8_t
+    optional int32 video_stabilization_mode = 21 [default = -1];
 }
 
 /**
