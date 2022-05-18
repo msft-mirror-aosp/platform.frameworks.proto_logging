@@ -6640,7 +6640,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 57
+ * Next Tag: 58
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6701,6 +6701,7 @@ message UIInteractionFrameInfoReported {
         SETTINGS_SLIDER = 54;
         TAKE_SCREENSHOT = 55;
         VOLUME_CONTROL = 56;
+        BIOMETRIC_PROMPT_TRANSITION = 57;
     }
 
     optional InteractionType interaction_type = 1;
