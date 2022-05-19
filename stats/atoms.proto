@@ -20611,6 +20611,8 @@ message SyncExemptionOccurred {
     optional ProcState proc_state = 2; // the proc state of the app when the exemption occurred.
 
     optional bool is_uid_active = 3; // was the uid active when the exemption occurred.
+
+    optional AppBackgroundRestrictionsInfo.RestrictionLevel restriction_level = 4;
 }
 
 // Logs when the remote key provisioner application is invoked, either
