@@ -3361,6 +3361,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     DIALOG_BACK_ANIMATIONS = 1925;
+
+    // OPEN: Le audio broadcast dialog > Find a broadcast > Scan QR code
+    // CATEGORY: SETTINGS
+    // OS: T
+    LE_AUDIO_BROADCAST_SCAN_QR_CODE = 1926;
 }
 
 // Battery Saver schedule types.
