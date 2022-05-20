@@ -700,6 +700,8 @@ message Atom {
         BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
+        DockStateChanged dock_state_changed = 470 [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1919,6 +1921,18 @@ message PluggedStateChanged {
     // Whether the device is plugged in, from frameworks/proto_logging/stats/enums/os/enums.proto.
     optional android.os.BatteryPluggedStateEnum state = 1
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
+}
+
+/**
+ * Logs whether the device is docked, and what type of dock it is using.
+ *
+ * Logged from:
+ *   services/core/java/com/android/server/power/PowerManagerService.java
+ */
+message DockStateChanged {
+    // The device dock state, from frameworks/proto_logging/stats/enums/server/enums.proto.
+    optional android.server.DockStateEnum state = 1
+    [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
 
 /**
