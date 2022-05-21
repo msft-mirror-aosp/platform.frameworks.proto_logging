@@ -701,6 +701,8 @@ message Atom {
         BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
+        DockStateChanged dock_state_changed = 470 [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1920,6 +1922,18 @@ message PluggedStateChanged {
     // Whether the device is plugged in, from frameworks/proto_logging/stats/enums/os/enums.proto.
     optional android.os.BatteryPluggedStateEnum state = 1
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
+}
+
+/**
+ * Logs whether the device is docked, and what type of dock it is using.
+ *
+ * Logged from:
+ *   services/core/java/com/android/server/power/PowerManagerService.java
+ */
+message DockStateChanged {
+    // The device dock state, from frameworks/proto_logging/stats/enums/server/enums.proto.
+    optional android.server.DockStateEnum state = 1
+    [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
 
 /**
@@ -6681,7 +6695,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 58
+ * Next Tag: 59
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6743,6 +6757,7 @@ message UIInteractionFrameInfoReported {
         TAKE_SCREENSHOT = 55;
         VOLUME_CONTROL = 56;
         BIOMETRIC_PROMPT_TRANSITION = 57;
+        SETTINGS_TOGGLE = 58;
     }
 
     optional InteractionType interaction_type = 1;
@@ -20597,6 +20612,8 @@ message SyncExemptionOccurred {
     optional ProcState proc_state = 2; // the proc state of the app when the exemption occurred.
 
     optional bool is_uid_active = 3; // was the uid active when the exemption occurred.
+
+    optional AppBackgroundRestrictionsInfo.RestrictionLevel restriction_level = 4;
 }
 
 // Logs when the remote key provisioner application is invoked, either
