@@ -6637,7 +6637,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 58
+ * Next Tag: 59
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -6699,6 +6699,7 @@ message UIInteractionFrameInfoReported {
         TAKE_SCREENSHOT = 55;
         VOLUME_CONTROL = 56;
         BIOMETRIC_PROMPT_TRANSITION = 57;
+        SETTINGS_TOGGLE = 58;
     }
 
     optional InteractionType interaction_type = 1;
@@ -20611,6 +20612,8 @@ message SyncExemptionOccurred {
     optional ProcState proc_state = 2; // the proc state of the app when the exemption occurred.
 
     optional bool is_uid_active = 3; // was the uid active when the exemption occurred.
+
+    optional AppBackgroundRestrictionsInfo.RestrictionLevel restriction_level = 4;
 }
 
 // Logs when the remote key provisioner application is invoked, either
