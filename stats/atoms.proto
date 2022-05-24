@@ -18037,6 +18037,7 @@ message AlarmScheduled {
         PERMISSION = 1;
         ALLOW_LIST = 2;
         CHANGE_DISABLED = 3;
+        POLICY_PERMISSION = 4;
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
