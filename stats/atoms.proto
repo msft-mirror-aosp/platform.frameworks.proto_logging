@@ -9926,6 +9926,8 @@ message ProcessStartTime {
     // The process name.
     // Usually package name, "system" for system server.
     // Provided by ActivityManagerService.
+    // Do not fetch this field from device to save storage space, use uid field induced
+    // package name as process name.
     optional string process_name = 3;
 
     enum StartType {
@@ -9949,11 +9951,38 @@ message ProcessStartTime {
 
     // hostingType field in ProcessRecord, the component type such as "activity",
     // "service", "content provider", "broadcast" or other strings.
-    optional string hosting_type = 8;
+    // deprecatd by enum type field hosting_type_id to reduce storage space usage by
+    // string type.
+    // Do not fetch this field from device to save storage space.
+    optional string hosting_type = 8 [deprecated = true];
 
     // hostingNameStr field in ProcessRecord. The component class name that runs
     // in this process.
+    // Do not fetch this field from device to save storage space.
     optional string hosting_name = 9;
+
+    // Broadcast action name.
+    optional string broadcast_action_name = 10;
+
+    enum HostingTypeId {
+        HOSTING_TYPE_UNKNOWN = 0;
+        HOSTING_TYPE_ACTIVITY = 1;
+        HOSTING_TYPE_ADDED_APPLICATION = 2;
+        HOSTING_TYPE_BACKUP = 3;
+        HOSTING_TYPE_BROADCAST = 4;
+        HOSTING_TYPE_CONTENT_PROVIDER = 5;
+        HOSTING_TYPE_LINK_FAIL = 6;
+        HOSTING_TYPE_ON_HOLD = 7;
+        HOSTING_TYPE_NEXT_ACTIVITY = 8;
+        HOSTING_TYPE_NEXT_TOP_ACTIVITY = 9;
+        HOSTING_TYPE_RESTART = 10;
+        HOSTING_TYPE_SERVICE = 11;
+        HOSTING_TYPE_SYSTEM = 12;
+        HOSTING_TYPE_TOP_ACTIVITY = 13;
+        HOSTING_TYPE_EMPTY = 14;
+    }
+
+    optional HostingTypeId hosting_type_id = 11;
 }
 
 /**
