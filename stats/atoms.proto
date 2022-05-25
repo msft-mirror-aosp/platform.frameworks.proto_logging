@@ -18040,6 +18040,7 @@ message AlarmScheduled {
         PERMISSION = 1;
         ALLOW_LIST = 2;
         CHANGE_DISABLED = 3;
+        POLICY_PERMISSION = 4;
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
@@ -20092,10 +20093,17 @@ message AdServicesApiCalled {
     // Targeting
     //  * GetTopics()
     //
-    // Remarketing
-    //  * RegisterGroup()
-    //  * LeaveGroup()
-    //  * RunAuction()
+    // FLEDGE
+    //  * joinCustomAudience()
+    //  * leaveCustomAudience()
+    //  * overrideCustomAudienceRemoteInfo()
+    //  * removeCustomAudienceRemoteInfoOverride()
+    //  * resetAllCustomAudienceOverrides()
+    //  * runAdSelection()
+    //  * reportImpression()
+    //  * overrideAdSelectionConfigRemoteInfo()
+    //  * removeAdSelectionConfigRemoteInfoOverride()
+    //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
     //   * register()
@@ -20105,18 +20113,25 @@ message AdServicesApiCalled {
     enum AdServicesApiClassType {
         UNKNOWN = 0;
         TARGETING = 1;
-        REMARKETING = 2;
+        FLEDGE = 2;
         MEASUREMENT = 3;
     }
 
     enum AdServicesApiName {
         API_NAME_UNKNOWN = 0;
         GET_TOPICS = 1;
-        REGISTER_GROUP = 2;
-        LEAVE_GROUP = 3;
-        RUN_AUCTION = 4;
+        JOIN_CUSTOM_AUDIENCE = 2;
+        LEAVE_CUSTOM_AUDIENCE = 3;
+        RUN_AD_SELECTION = 4;
         REGISTER = 5;
         DELETE_REGISTRATIONS = 6;
+        REPORT_IMPRESSION = 7;
+        OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
+        REMOVE_CUSTOM_AUDIENCE_REMOTE_INFO_OVERRIDE = 9;
+        RESET_ALL_CUSTOM_AUDIENCE_OVERRIDES = 10;
+        OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
+        REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
+        RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
     }
 
     optional AdServicesApiClassType api_class = 1;
@@ -20336,6 +20351,7 @@ message AppBackgroundRestrictionsInfo {
         REASON_CARRIER_PRIVILEGED_APP = 321;
         REASON_DPO_PROTECTED_APP = 322;
         REASON_DISALLOW_APPS_CONTROL = 323;
+        REASON_ACTIVE_DEVICE_ADMIN = 324;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
