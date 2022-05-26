@@ -6611,6 +6611,21 @@ message SnapshotMergeReported {
 
     // Build fingerprint at the time the merge was initiated.
     optional string target_build_fingerprint = 14;
+
+    // Whether the device enabled userspace snapshots.
+    optional bool userspace_snapshots_enabled = 15;
+
+    // Whether this update attempt used userspace snapshots.
+    optional bool userspace_snapshots_used = 16;
+
+    // Whether the device enabled XOR compression.
+    optional bool xor_compression_enabled = 17;
+
+    // Whether this update attempt used XOR compression.
+    optional bool xor_compression_used = 18;
+
+    // Whether this update attempt used io_uring.
+    optional bool iouring_used = 19;
 }
 
 /**
