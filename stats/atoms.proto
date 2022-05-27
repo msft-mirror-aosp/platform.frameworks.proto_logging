@@ -6611,6 +6611,21 @@ message SnapshotMergeReported {
 
     // Build fingerprint at the time the merge was initiated.
     optional string target_build_fingerprint = 14;
+
+    // Whether the device enabled userspace snapshots.
+    optional bool userspace_snapshots_enabled = 15;
+
+    // Whether this update attempt used userspace snapshots.
+    optional bool userspace_snapshots_used = 16;
+
+    // Whether the device enabled XOR compression.
+    optional bool xor_compression_enabled = 17;
+
+    // Whether this update attempt used XOR compression.
+    optional bool xor_compression_used = 18;
+
+    // Whether this update attempt used io_uring.
+    optional bool iouring_used = 19;
 }
 
 /**
@@ -20197,10 +20212,17 @@ message AdServicesApiCalled {
     // Targeting
     //  * GetTopics()
     //
-    // Remarketing
-    //  * RegisterGroup()
-    //  * LeaveGroup()
-    //  * RunAuction()
+    // FLEDGE
+    //  * joinCustomAudience()
+    //  * leaveCustomAudience()
+    //  * overrideCustomAudienceRemoteInfo()
+    //  * removeCustomAudienceRemoteInfoOverride()
+    //  * resetAllCustomAudienceOverrides()
+    //  * runAdSelection()
+    //  * reportImpression()
+    //  * overrideAdSelectionConfigRemoteInfo()
+    //  * removeAdSelectionConfigRemoteInfoOverride()
+    //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
     //   * register()
@@ -20210,18 +20232,25 @@ message AdServicesApiCalled {
     enum AdServicesApiClassType {
         UNKNOWN = 0;
         TARGETING = 1;
-        REMARKETING = 2;
+        FLEDGE = 2;
         MEASUREMENT = 3;
     }
 
     enum AdServicesApiName {
         API_NAME_UNKNOWN = 0;
         GET_TOPICS = 1;
-        REGISTER_GROUP = 2;
-        LEAVE_GROUP = 3;
-        RUN_AUCTION = 4;
+        JOIN_CUSTOM_AUDIENCE = 2;
+        LEAVE_CUSTOM_AUDIENCE = 3;
+        RUN_AD_SELECTION = 4;
         REGISTER = 5;
         DELETE_REGISTRATIONS = 6;
+        REPORT_IMPRESSION = 7;
+        OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
+        REMOVE_CUSTOM_AUDIENCE_REMOTE_INFO_OVERRIDE = 9;
+        RESET_ALL_CUSTOM_AUDIENCE_OVERRIDES = 10;
+        OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
+        REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
+        RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
     }
 
     optional AdServicesApiClassType api_class = 1;
