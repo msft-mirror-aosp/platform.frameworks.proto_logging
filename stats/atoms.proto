@@ -10089,6 +10089,15 @@ message MediaCodecReported {
     optional int32 original_video_qp_p_max = 55;
     optional int32 original_video_qp_b_min = 56;
     optional int32 original_video_qp_b_max = 57;
+    optional int32 config_color_standard = 58;
+    optional int32 config_color_range = 59;
+    optional int32 config_color_transfer = 60;
+    optional int32 parsed_color_standard = 61;
+    optional int32 parsed_color_range = 62;
+    optional int32 parsed_color_transfer = 63;
+    optional int32 hdr_static_info = 64;
+    optional int32 hdr_10_plus_info = 65;
+    optional int32 hdr_format = 66;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -18028,6 +18037,7 @@ message AlarmScheduled {
         PERMISSION = 1;
         ALLOW_LIST = 2;
         CHANGE_DISABLED = 3;
+        POLICY_PERMISSION = 4;
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
@@ -20252,6 +20262,7 @@ message AppBackgroundRestrictionsInfo {
         REASON_CARRIER_PRIVILEGED_APP = 321;
         REASON_DPO_PROTECTED_APP = 322;
         REASON_DISALLOW_APPS_CONTROL = 323;
+        REASON_ACTIVE_DEVICE_ADMIN = 324;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
