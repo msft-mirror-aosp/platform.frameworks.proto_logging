@@ -1469,6 +1469,32 @@ message ProcessMemoryStatReported {
     }
     optional Type type = 7;
     optional int64 duration_millis = 8;
+
+    // Keep in sync with
+    // frameworks/base/services/core/java/com/android/server/am/ProcessProfileRecord.java
+    enum HostingComponentType {
+        HOSTING_COMPONENT_TYPE_EMPTY = 0x0;
+        HOSTING_COMPONENT_TYPE_SYSTEM = 0x0001;
+        HOSTING_COMPONENT_TYPE_PERSISTENT = 0x0002;
+        HOSTING_COMPONENT_TYPE_BACKUP = 0x0004;
+        HOSTING_COMPONENT_TYPE_INSTRUMENTATION = 0x0008;
+        HOSTING_COMPONENT_TYPE_ACTIVITY = 0x0010;
+        HOSTING_COMPONENT_TYPE_BROADCAST_RECEIVER = 0x0020;
+        HOSTING_COMPONENT_TYPE_PROVIDER = 0x0040;
+        HOSTING_COMPONENT_TYPE_STARTED_SERVICE = 0x0080;
+        HOSTING_COMPONENT_TYPE_FOREGROUND_SERVICE = 0x0100;
+        HOSTING_COMPONENT_TYPE_BOUND_SERVICE = 0x0200;
+    }
+
+    // The types of the components this process is hosting at the moment this
+    // snapshot is taken.
+    // See the available types in HostingComponentType above.
+    optional int32 current_hosting_component_types = 10;
+
+    // The historical types of the components this process is or was hosting
+    // since it's born.
+    // See the available types in HostingComponentType above.
+    optional int32 historical_hosting_component_types = 11;
 }
 
 /**
