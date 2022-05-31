@@ -843,6 +843,12 @@ enum ItemId {
     // TvSettings > System > Energy saver > Turn off display after > Never
     SYSTEM_ENERGYSAVER_START_DELAY_NEVER = 0x17717000;
 
+    // TvSettings > System > Power & Energy
+    SYSTEM_POWER_AND_ENERGY = 0x17E00000;
+
+    // TvSettings > System > Power & Energy > Eco settings
+    SYSTEM_POWER_AND_ENERGY_ECO_SETTINGS = 0x17E10000;
+
     // TvSettings > System > Accessibility
     SYSTEM_A11Y = 0x17800000;
 
