@@ -66,6 +66,7 @@ import "frameworks/proto_logging/stats/enums/stats/launcher/launcher.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/style/style_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/sysui/notification_enums.proto";
@@ -706,6 +707,9 @@ message Atom {
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         DockStateChanged dock_state_changed = 470 [(module) = "framework"];
+        SafetySourceStateCollected safety_source_state_collected = 471 [(module) = "permissioncontroller"];
+        SafetyCenterSystemEventReported safety_center_system_event_reported = 472 [(module) = "permissioncontroller"];
+        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller"];
 
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -900,6 +904,7 @@ message Atom {
         TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
+        SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -20984,4 +20989,143 @@ message SyncExemptionOccurred {
     optional bool is_uid_active = 3; // was the uid active when the exemption occurred.
 
     optional AppBackgroundRestrictionsInfo.RestrictionLevel restriction_level = 4;
+}
+
+// Logs the overall Safety State of the device (as cached by the Safety Center)
+message SafetyState {
+    // The overall severity level of the Safety Center.
+    optional android.stats.safetycenter.SafetySeverityLevel overall_severity_level = 1;
+
+    // The number of open issues in the Safety Center.
+    optional int64 open_issues_count = 2;
+
+    // The number of dismissed issues in the Safety Center.
+    optional int64 dismissed_issues_count = 3;
+}
+
+// Logs the state of an individual Safety Source when overall SafetyState is
+// collected.
+message SafetySourceStateCollected {
+    optional int64 encoded_safety_source_id = 1;
+
+    optional android.stats.safetycenter.SafetySourceProfileType safety_source_profile_type = 2;
+
+    // The severity level of this source.
+    optional android.stats.safetycenter.SafetySeverityLevel severity_level = 3;
+
+    // The number of open issues belonging to this Safety Source.
+    optional int64 open_issues_count = 4;
+
+    // The number of dismissed issues belonging to this Safety Source.
+    optional int64 dismissed_issues_count = 5;
+}
+
+// Logs system-health and performance related events from the Safety Center
+message SafetyCenterSystemEventReported {
+    enum EventType {
+        EVENT_TYPE_UNKNOWN = 0;
+        SINGLE_SOURCE_GET_NEW_DATA = 1;
+        SINGLE_SOURCE_RESCAN = 2;
+        COMPLETE_GET_NEW_DATA = 3;
+        COMPLETE_RESCAN = 4;
+        INLINE_ACTION = 5;
+    }
+    optional EventType event_type = 1;
+
+    // Unset if this event isn't source-specific.
+    optional int64 encoded_safety_source_id = 2;
+
+    // Unset if this event isn't source-specific.
+    optional android.stats.safetycenter.SafetySourceProfileType safety_source_profile_type = 3;
+
+    // Unset if this event isn't specific to an issue.
+    optional int64 encoded_issue_type_id = 4;
+
+    optional int64 duration_millis = 5;
+
+    enum Result {
+        RESULT_UNKNOWN = 0;
+        SUCCESS = 1;
+        TIMEOUT = 2;
+        ERROR = 3;
+    }
+    optional Result result = 6;
+}
+
+// Logs a user interaction with the Safety Center. Various fields may or may not be
+// set depending on the Action reported.
+message SafetyCenterInteractionReported {
+    // ID which identifies single session of user interacting with Safety Center.
+    optional int64 session_id = 1;
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+
+        SAFETY_CENTER_VIEWED = 1;
+        SAFETY_ISSUE_VIEWED = 2;
+
+        SCAN_INITIATED = 3;
+
+        ISSUE_PRIMARY_ACTION_CLICKED = 4;
+        ISSUE_SECONDARY_ACTION_CLICKED = 5;
+        ISSUE_DISMISS_CLICKED = 6;
+
+        MORE_ISSUES_CLICKED = 7;
+        ENTRY_CLICKED = 8;
+        ENTRY_ICON_ACTION_CLICKED = 9;
+        STATIC_ENTRY_CLICKED = 10;
+
+        PRIVACY_CONTROL_TOGGLE_CLICKED = 11;
+        SENSOR_PERMISSION_REVOKE_CLICKED = 12;
+        SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
+        REVIEW_SETTINGS_CLICKED = 14;
+    }
+
+    // Action taken in the Safety Center.
+    optional Action action = 2;
+
+    enum ViewType {
+        VIEW_TYPE_UNKNOWN = 0;
+        FULL = 1;
+        QUICK_SETTINGS = 2;
+    }
+
+    // Which view of the Safety Center this interaction occurred in.
+    optional ViewType view_type = 3;
+
+    enum NavigationSource {
+        SOURCE_UNKNOWN = 0;
+        NOTIFICATION = 1;
+        QUICK_SETTINGS_TILE = 2;
+        SETTINGS = 3;
+        SENSOR_INDICATOR = 4;
+    }
+
+    // Where the session was initiated from.
+    optional NavigationSource navigation_source = 4;
+
+    // Severity level of the particular issue or entry, or the overall Safety
+    // Center this interaction is associated with.
+    optional android.stats.safetycenter.SafetySeverityLevel severity_level = 5;
+
+    // The hashed ID of the Safety Source that this interaction was with performed with,
+    // or nothing if this event isn't source-specific.
+    optional int64 encoded_safety_source_id = 6;
+
+    // The kind of profile that this safety source originated from (sources from
+    // personal and work profiles may have the same source ID)
+    optional android.stats.safetycenter.SafetySourceProfileType safety_source_profile_type = 7;
+
+    // A hash of the loggable issue type ID that this interaction was performed with.
+    optional int64 encoded_issue_type_id = 8;
+
+    enum Sensor {
+        SENSOR_UNKNOWN = 0;
+        MICROPHONE = 1;
+        CAMERA = 2;
+        LOCATION = 3;
+    }
+
+    // Which sensor was associated with this interaction (if any).
+    optional Sensor sensor = 9;
 }
