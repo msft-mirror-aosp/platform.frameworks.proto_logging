@@ -19718,6 +19718,10 @@ message PerSimStatus {
     // APN type bitmask of the APNs added or modified by user:
     // @ApnType in frameworks/base/telephony/java/android/telephony/Annotation.java.
     optional int32 user_modified_apn_type_bitmask = 16;
+
+    // Indicates the unmetered networks
+    // Bitmask is encoded as TelephonyManager#NetworkTypeBitMask.
+    optional int64 unmetered_networks = 17;
 }
 
 /*
