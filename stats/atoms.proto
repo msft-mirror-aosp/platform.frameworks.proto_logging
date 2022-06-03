@@ -710,6 +710,7 @@ message Atom {
         SafetySourceStateCollected safety_source_state_collected = 471 [(module) = "permissioncontroller"];
         SafetyCenterSystemEventReported safety_center_system_event_reported = 472 [(module) = "permissioncontroller"];
         SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller"];
+        SettingsProviderSettingChanged settings_provider_setting_changed = 474 [(module) = "framework"];
 
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -21161,4 +21162,17 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+}
+
+/**
+ * Logs information about SettingsProvider setting changes when they occur.
+ *
+ * Logged from:
+ *      frameworks/base/packages/src/com/android/providers/settings/SettingsProvider.java
+ */
+message SettingsProviderSettingChanged {
+    optional int32 user_id = 1; // user for whom the setting has changed
+    optional string name = 2; // name of the setting
+    optional int32 type = 3; // the setting type, e.g., global, system or secure
+    optional int32 change_type = 4; // the change type, e.g., insert, delete or update
 }
