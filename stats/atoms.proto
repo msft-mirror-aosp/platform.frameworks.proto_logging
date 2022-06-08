@@ -20030,6 +20030,7 @@ message LauncherLatency {
     optional int32 package_id = 3;
     optional int64 latency_in_millis = 4;
     optional int32 type = 5;
+    optional int32 query_length = 6 [default = -1];
 }
 
 /*
