@@ -20361,6 +20361,28 @@ message HotwordDetectorEvents {
 
         // Indicates that no starting recognition after creating the detector.
         DID_NOT_CALL_START_RECOGNITION = 6;
+
+        // Indicates that the system disconnected the service.
+        ON_DISCONNECTED = 7;
+
+        // Indicates that the application called the updateState function.
+        APP_REQUEST_UPDATE_STATE = 8;
+
+        // Indicates that starting to listen software detection.
+        START_SOFTWARE_DETECTION = 9;
+
+        // Indicates that starting to listen external source detection.
+        START_EXTERNAL_SOURCE_DETECTION = 10;
+
+        // Indicates that the external source detection was detected.
+        EXTERNAL_SOURCE_DETECTED = 11;
+
+        // Indicates that the external source detection was not detected.
+        EXTERNAL_SOURCE_REJECTED = 12;
+
+        // Indicates that the system got the security exception when handling external
+        // source detected callback.
+        EXTERNAL_SOURCE_DETECT_SECURITY_EXCEPTION = 13;
     }
     optional Event event = 2;
 
