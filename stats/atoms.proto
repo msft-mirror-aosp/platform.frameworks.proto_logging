@@ -7432,6 +7432,9 @@ message ProcessMemorySnapshot {
     // GPU memory usage as measured by the kernel tracepoints
     // Equivalent to dumpsys gpu --gpumem
     optional int32 gpu_memory_kb = 9;
+
+    // Whether or not this process is hosting one or more foregound services.
+    optional bool has_foreground_services = 10;
 }
 
 /*
@@ -18349,6 +18352,9 @@ message AppProcessDied {
 
     // The last known RSS (in kB) of the process before it dies, could be 0.
     optional int32 rss = 7;
+
+    // Whether or not this process is hosting one or more foregound services.
+    optional bool has_foreground_services = 8;
 }
 
 /**
@@ -20006,6 +20012,7 @@ message LauncherLatency {
     optional int32 package_id = 3;
     optional int64 latency_in_millis = 4;
     optional int32 type = 5;
+    optional int32 query_length = 6 [default = -1];
 }
 
 /*
