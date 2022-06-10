@@ -41,6 +41,7 @@ import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto"
 import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
+import "frameworks/proto_logging/stats/enums/mms/enums.proto";
 import "frameworks/proto_logging/stats/enums/nearby/enums.proto";
 import "frameworks/proto_logging/stats/enums/net/enums.proto";
 import "frameworks/proto_logging/stats/enums/neuralnetworks/enums.proto";
@@ -721,7 +722,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10153
+    // Next: 10159
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -910,6 +911,8 @@ message Atom {
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
+        IncomingMms incoming_mms = 10157 [(module) = "mms"];
+        OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -21335,4 +21338,92 @@ message SettingsProviderSettingChanged {
     optional string name = 2; // name of the setting
     optional int32 type = 3; // the setting type, e.g., global, system or secure
     optional int32 change_type = 4; // the change type, e.g., insert, delete or update
+}
+
+/**
+ * Pulls information for a single incoming MMS.
+ *
+ * Each pull creates multiple atoms, one for each MMS.
+ * The sequence is randomized when pulled.
+ *
+ * Pulled from:
+ *   packages/services/Mms/src/com/android/mms/service/metrics/MmsMetricsCollector.java
+ */
+message IncomingMms {
+    // Radio access technology (RAT) used for downloading the MMS.
+    // It can be IWLAN in case of IMS.
+    // RAT is logged at the beginning of the download.
+    optional android.telephony.NetworkTypeEnum rat = 1;
+
+    // Indicate a specific result handling the MMS.
+    optional android.mms.MmsResultEnum result = 2;
+
+    // Roaming type when MMS was received.
+    optional android.telephony.RoamingTypeEnum roaming = 3;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    optional int32 sim_slot_index = 4;
+
+    // Whether the device was in multi-SIM mode (with multiple active SIM profiles).
+    optional bool is_multi_sim = 5;
+
+    // Whether the MMS was received with an eSIM profile.
+    optional bool is_esim = 6;
+
+    // Carrier ID of the SIM card used for the MMS.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 7;
+
+    // Average time in milliseconds to download MMS from the network.
+    optional int64 avg_interval_millis = 8;
+
+    // Total number of MMS having same configuration.
+    optional int64 mms_count = 9;
+}
+
+/**
+ * Pulls information for a single outgoing MMS.
+ *
+ * Each pull creates multiple atoms, one for each MMS.
+ * The sequence is randomized when pulled.
+ *
+ * Pulled from:
+ *   packages/services/Mms/src/com/android/mms/service/metrics/MmsMetricsCollector.java
+ */
+message OutgoingMms {
+    // Radio access technology (RAT) used for uploading the MMS.
+    // It can be IWLAN in case of IMS.
+    // RAT is logged at the beginning of the upload.
+    optional android.telephony.NetworkTypeEnum rat = 1;
+
+    // Indicate a specific result handling the MMS.
+    optional android.mms.MmsResultEnum result = 2;
+
+    // Roaming type when MMS was received.
+    optional android.telephony.RoamingTypeEnum roaming = 3;
+
+    // Index of the SIM used, 0 for single-SIM devices.
+    optional int32 sim_slot_index = 4;
+
+    // Whether the device was in multi-SIM mode (with multiple active SIM profiles).
+    optional bool is_multi_sim = 5;
+
+    // Whether the MMS was sent with an eSIM profile.
+    optional bool is_esim = 6;
+
+    // Carrier ID of the SIM card used for the MMS.
+    // See https://source.android.com/devices/tech/config/carrierid.
+    optional int32 carrier_id = 7;
+
+    // Average time in milliseconds to download MMS from the network.
+    optional int64 avg_interval_millis = 8;
+
+    // Total number of MMS having same configuration.
+    optional int64 mms_count = 9;
+
+    // Whether the default MMS application sent the MMS (regardless of which application).
+    optional bool is_from_default_app = 10;
+
+    // Retry count: 0 for the first attempt and then increasing for each attempt.
+    optional int32 retry_id = 11;
 }
