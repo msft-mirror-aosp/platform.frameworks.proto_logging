@@ -702,7 +702,11 @@ message Atom {
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         DockStateChanged dock_state_changed = 470 [(module) = "framework"];
-
+        BroadcastDeliveryEventReported broadcast_delivery_event_reported =
+                475 [(module) = "framework"];
+        ServiceRequestEventReported service_request_event_reported = 476 [(module) = "framework"];
+        ProviderAcquisitionEventReported provider_acquisition_event_reported =
+                477 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -5079,6 +5083,23 @@ message ForegroundServiceStateChanged {
     optional int32 short_name_hash = 14;
     // Whether this FGS package had permission to notify the user.
     optional bool fgs_has_notification_permission = 15;
+
+    // Keep in sync with frameworks/base/core/java/android/content/pm/ServiceInfo.java
+    enum ForegroundServiceType {
+        FOREGROUND_SERVICE_TYPE_NONE = 0;
+        FOREGROUND_SERVICE_TYPE_DATA_SYNC = 0x0001; // 1 << 0
+        FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK = 0x0002; // 1 << 1
+        FOREGROUND_SERVICE_TYPE_PHONE_CALL = 0x0004; //1 << 2
+        FOREGROUND_SERVICE_TYPE_LOCATION = 0x0008; // 1 << 3
+        FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE = 0x0010; // 1 << 4
+        FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION = 0x0020; // 1 << 5
+        FOREGROUND_SERVICE_TYPE_CAMERA = 0x0040; // 1 << 6
+        FOREGROUND_SERVICE_TYPE_MICROPHONE = 0x0080; // 1 << 7
+    }
+
+    // The foreground service types, must be one or a combination of the types
+    // in the ForegroundServiceType above.
+    optional int32 fgs_types = 16;
 }
 
 /**
@@ -6000,6 +6021,102 @@ message ServiceLaunchReported {
     optional string package_name = 2;
 
     optional string service_name = 3;
+}
+
+/**
+ * The type of process start. It's the same as ProcessStartTime.StartType but we
+ * can't re-type that for background compatibility.
+ */
+enum ProcessStartType {
+    PROCESS_START_TYPE_UNKNOWN = 0;
+    PROCESS_START_TYPE_WARM = 1;
+    PROCESS_START_TYPE_HOT = 2;
+    PROCESS_START_TYPE_COLD = 3;
+}
+
+/**
+ * Logs when a service request is made.
+ * Logged from:
+ *   services/core/java/com/android/server/am/ActiveServices.java
+ */
+message ServiceRequestEventReported {
+    /** The package uid of the service host. */
+    optional int32 uid = 1 [(is_uid) = true];
+
+    /** The package uid of the service launch request. */
+    optional int32 requester_uid = 2 [(is_uid) = true];
+
+    /** The action name of the service request. */
+    optional string action_name = 3;
+
+    /**
+     * The types of the requests to the service.
+     */
+    enum RequestType {
+        UNKNOWN = 0;
+        START = 1;
+        BIND = 2;
+    }
+
+    /** The type of the current request to the service.*/
+    optional RequestType request_type = 4;
+
+    /** Whether or not it's requested to start as a foreground service. */
+    optional bool fg_required = 5;
+
+    /** The start type of the host process. */
+    optional ProcessStartType proc_start_type = 6;
+}
+
+/**
+ * Logs indicating a broadcast is being delivered to a receiver.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/am/BroadcastQueue.java
+ */
+message BroadcastDeliveryEventReported {
+    /** The package uid of the broadcast receiver. */
+    optional int32 uid = 1 [(is_uid) = true];
+
+    /** The package uid of the broadcast sender. */
+    optional int32 sender_uid = 2 [(is_uid) = true];
+
+    /** The action name of the broadcast. */
+    optional string action_name = 3;
+
+    /**
+     * The types of the broadcast receivers.
+     */
+    enum ReceiverType {
+        UNKNOWN = 0;
+        RUNTIME = 1;
+        MANIFEST = 2;
+    }
+
+    /** The type of the current broadcast receiver. */
+    optional ReceiverType receiver_type = 4;
+
+    /** The start type of the host process. */
+    optional ProcessStartType proc_start_type = 5;
+}
+
+/**
+ * Logs indicating a client is requesting to acquire a provider,
+ * this doesn't include the case where the provider has been installed in the
+ * client's process space and it's just increasing a ref count.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/am/ContentProviderHelper.java
+ */
+message ProviderAcquisitionEventReported {
+    /** The package uid of the content provider host. */
+    optional int32 uid = 1 [(is_uid) = true];
+
+    /** The package uid of the content provider client who makes the request. */
+    optional int32 client_uid = 2 [(is_uid) = true];
+
+    /** The start type of the host process. */
+    optional ProcessStartType proc_start_type = 3;
 }
 
 /**
@@ -20202,6 +20319,28 @@ message HotwordDetectorEvents {
 
         // Indicates that no starting recognition after creating the detector.
         DID_NOT_CALL_START_RECOGNITION = 6;
+
+        // Indicates that the system disconnected the service.
+        ON_DISCONNECTED = 7;
+
+        // Indicates that the application called the updateState function.
+        APP_REQUEST_UPDATE_STATE = 8;
+
+        // Indicates that starting to listen software detection.
+        START_SOFTWARE_DETECTION = 9;
+
+        // Indicates that starting to listen external source detection.
+        START_EXTERNAL_SOURCE_DETECTION = 10;
+
+        // Indicates that the external source detection was detected.
+        EXTERNAL_SOURCE_DETECTED = 11;
+
+        // Indicates that the external source detection was not detected.
+        EXTERNAL_SOURCE_REJECTED = 12;
+
+        // Indicates that the system got the security exception when handling external
+        // source detected callback.
+        EXTERNAL_SOURCE_DETECT_SECURITY_EXCEPTION = 13;
     }
     optional Event event = 2;
 
