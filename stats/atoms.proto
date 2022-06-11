@@ -3156,6 +3156,16 @@ message BluetoothDeviceInfoReported {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 8;
+    // A flag indicating if the MAC address of the remote device is public or
+    // random.
+    optional android.bluetooth.AddressTypeEnum address_type = 9;
+    // The first byte of MAC address
+    optional int32 byte1 = 10;
+    // The second byte of MAC address
+    optional int32 byte2 = 11;
+    // The third byte of MAC address
+    optional int32 byte3 = 12;
+
 }
 
 /**
@@ -19948,6 +19958,7 @@ message LauncherLatency {
     optional int32 package_id = 3;
     optional int64 latency_in_millis = 4;
     optional int32 type = 5;
+    optional int32 query_length = 6 [default = -1];
 }
 
 /*
