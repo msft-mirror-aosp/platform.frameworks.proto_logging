@@ -64,7 +64,6 @@ cc_test_host {
         "Collation.cpp",
         "test_collation.cpp",
         "test.proto",
-        "utils.cpp",
     ],
 
     static_libs: [
@@ -140,7 +139,7 @@ cc_library {
             static_libs: [
                 "libstatssocket",
                 "libstatspull",
-                "statsd-aidl-ndk",
+                "statsd-aidl-ndk_platform",
             ],
             shared_libs: ["libbinder_ndk"],
             export_static_lib_headers: [
@@ -161,7 +160,7 @@ cc_library {
 genrule {
     name: "statslog_header.rs",
     tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --rustHeader $(genDir)/statslog_header.rs --rustHeaderCrate statslog_rust_header",
+    cmd: "$(location stats-log-api-gen) --rustHeader $(genDir)/statslog_header.rs",
     out: [
         "statslog_header.rs",
     ],
@@ -178,15 +177,12 @@ rust_library {
         "libstatspull_bindgen",
         "libthiserror",
     ],
-    apex_available: [
-        "com.android.virt",
-    ],
 }
 
 genrule {
     name: "statslog.rs",
     tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --rust $(genDir)/statslog.rs --rustHeaderCrate statslog_rust_header",
+    cmd: "$(location stats-log-api-gen) --rust $(genDir)/statslog.rs",
     out: [
         "statslog.rs",
     ],
@@ -202,8 +198,5 @@ rust_library {
     rustlibs: [
         "libstatslog_rust_header",
         "libstatspull_bindgen",
-    ],
-    apex_available: [
-        "com.android.virt",
     ],
 }
