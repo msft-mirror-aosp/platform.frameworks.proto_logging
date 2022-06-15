@@ -12974,8 +12974,8 @@ message VoiceCallSession {
     // Direction of the call (incoming or outgoing).
     optional android.telephony.CallDirectionEnum direction = 3;
 
-    // Time spent setting up the call.
-    optional android.telephony.CallSetupDurationEnum setup_duration = 4;
+    // Deprecated by setup_duration_millis
+    optional android.telephony.CallSetupDurationEnum setup_duration = 4 [ deprecated = true ];
 
     // Whether the call ended before the setup was completed.
     optional bool setup_failed = 5;
