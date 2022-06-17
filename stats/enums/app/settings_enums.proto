@@ -3376,6 +3376,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     LIMITED_WARRANTY_DETAILS = 1928;
+
+    // OPEN: Settings > Sound > Clear Calling
+    CLEAR_CALLING = 1929;
 }
 
 // Battery Saver schedule types.
