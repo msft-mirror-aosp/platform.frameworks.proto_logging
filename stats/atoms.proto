@@ -715,6 +715,7 @@ message Atom {
         CellBroadcastModuleError cb_module_error = 480 [(module) = "cellbroadcast"];
         CellBroadcastServiceFeature cb_service_feature= 481 [(module) = "cellbroadcast"];
         CellBroadcastReceiverFeature cb_receiver_feature= 482 [(module) = "cellbroadcast"];
+        JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -916,6 +917,19 @@ message Atom {
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
     reserved 83, 10008, 10036, 10040, 10041;
+}
+
+message JSScriptEngineLatencyReported {
+    enum LatencyStat {
+      UNKNOWN = 0;
+      SANDBOX_INIT = 1;
+      ISOLATE_CREATE = 2;
+      JAVA_PROCESS_EXECUTION = 3;
+      WEBVIEW_PROCESS_EXECUTION = 4;
+    }
+
+    optional LatencyStat stat = 1;
+    optional int64 latency_millis = 2;
 }
 
 /**
