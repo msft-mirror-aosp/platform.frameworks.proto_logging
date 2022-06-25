@@ -67,6 +67,7 @@ import "frameworks/proto_logging/stats/enums/stats/launcher/launcher.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/privacysignals/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/style/style_enums.proto";
@@ -723,6 +724,9 @@ message Atom {
         CellBroadcastServiceFeature cb_service_feature= 481 [(module) = "cellbroadcast"];
         CellBroadcastReceiverFeature cb_receiver_feature= 482 [(module) = "cellbroadcast"];
         JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
+        PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
+        PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
+        PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21616,3 +21620,64 @@ message OutgoingMms {
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 11;
 }
+
+message PrivacySignalNotificationInteraction {
+
+    enum Action {
+        UNKNOWN = 0;
+        NOTIFICATION_SHOWN = 1;
+        NOTIFICATION_CLICKED = 2;
+        DISMISSED = 3;
+    }
+
+    // Privacy source that triggered the notification
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    // Optional Uid of the package for which the notification was sent.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Action taken on the notification.
+    optional Action action = 3;
+
+    // Session Id to link the notification with the issue card.
+    optional int64 session_id = 4; // to map the notification and issue card interaction
+}
+
+message PrivacySignalIssueCardInteraction {
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        CARD_SHOWN = 1;
+        CARD_CLICKED = 2;
+        CARD_DISMISSED = 3;
+        CLICKED_CTA1 = 4;
+        CLICKED_CTA2 = 5;
+    }
+
+    // Privacy source  that pushed the issue card.
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    // Optional Uid of the package for which the issue card was sent.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Action taken on the issue card.
+    optional Action action = 3;
+
+    // Session Id to link the notification with the issue card.
+    optional int64 session_id = 4;
+}
+
+message PrivacySignalsJobFailure {
+
+    // Which privacy source for which the daily job failed.
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    enum JobFailureReason {
+        REASON_UNKNOWN = 0;
+        TIMEOUT = 1;
+        COROUTINE_CANCELLED = 2;
+    }
+    optional JobFailureReason reason =2;
+}
+
+
