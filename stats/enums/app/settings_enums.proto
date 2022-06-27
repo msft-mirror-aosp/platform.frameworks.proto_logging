@@ -3371,6 +3371,11 @@ enum PageId {
 
     // OPEN: Settings > Sound > Clear Calling
     CLEAR_CALLING = 1929;
+
+    // The dialog will show after successfully pairing one of the binaural hearing aids
+    // CATEGORY: SETTINGS
+    // OS: T
+    DIALOG_ACCESSIBILITY_HEARING_AID_PAIR_ANOTHER = 1930;
 }
 
 // Battery Saver schedule types.
