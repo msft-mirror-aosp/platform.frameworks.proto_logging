@@ -17,6 +17,8 @@
 syntax = "proto2";
 
 package android.os.statsd;
+
+option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
