@@ -6954,6 +6954,8 @@ message UIInteractionFrameInfoReported {
         SETTINGS_TOGGLE = 58;
         SHADE_DIALOG_OPEN = 59;
         USER_DIALOG_OPEN = 60;
+        TASKBAR_EXPAND = 61;
+        TASKBAR_COLLAPSE = 62;
     }
 
     optional InteractionType interaction_type = 1;
