@@ -3278,7 +3278,6 @@ message BluetoothSdpAttributeReported {
 /**
 * Logs the user created Bluetooth device's name.
 * It is pushed at Bluetooth pairing and connection.
-* The metric will only be collected from dogfooders.
 *
 * Logged from:
 *     packages/modules/Bluetooth
