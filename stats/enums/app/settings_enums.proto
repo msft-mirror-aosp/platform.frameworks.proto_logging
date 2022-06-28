@@ -1908,44 +1908,41 @@ enum PageId {
     // OPEN: Settings > Display > Night light > Set end time dialog
     DIALOG_NIGHT_DISPLAY_SET_END_TIME = 589;
 
+    // OPEN: Settings > User > Edit info dialog
+    DIALOG_USER_EDIT = 590;
 
+    // OPEN: Settings > User > Confirm remove dialog
+    DIALOG_USER_REMOVE = 591;
 
-        // OPEN: Settings > User > Edit info dialog
-        DIALOG_USER_EDIT = 590;
+    // OPEN: Settings > User > Enable calling dialog
+    DIALOG_USER_ENABLE_CALLING = 592;
 
-        // OPEN: Settings > User > Confirm remove dialog
-        DIALOG_USER_REMOVE = 591;
+    // OPEN: Settings > User > Enable calling and sms dialog
+    DIALOG_USER_ENABLE_CALLING_AND_SMS = 593;
 
-        // OPEN: Settings > User > Enable calling dialog
-        DIALOG_USER_ENABLE_CALLING = 592;
+    // OPEN: Settings > User > Cannot manage device message dialog
+    DIALOG_USER_CANNOT_MANAGE = 594;
 
-        // OPEN: Settings > User > Enable calling and sms dialog
-        DIALOG_USER_ENABLE_CALLING_AND_SMS = 593;
+    // OPEN: Settings > User > Add user dialog
+    DIALOG_USER_ADD = 595;
 
-        // OPEN: Settings > User > Cannot manage device message dialog
-        DIALOG_USER_CANNOT_MANAGE = 594;
+    // OPEN: Settings > User > Setup user dialog
+    DIALOG_USER_SETUP = 596;
 
-        // OPEN: Settings > User > Add user dialog
-        DIALOG_USER_ADD = 595;
+    // OPEN: Settings > User > Setup profile dialog
+    DIALOG_USER_SETUP_PROFILE = 597;
 
-        // OPEN: Settings > User > Setup user dialog
-        DIALOG_USER_SETUP = 596;
+    // OPEN: Settings > User > Choose user type dialog
+    DIALOG_USER_CHOOSE_TYPE = 598;
 
-        // OPEN: Settings > User > Setup profile dialog
-        DIALOG_USER_SETUP_PROFILE = 597;
+    // OPEN: Settings > User > Need lockscreen dialog
+    DIALOG_USER_NEED_LOCKSCREEN = 599;
 
-        // OPEN: Settings > User > Choose user type dialog
-        DIALOG_USER_CHOOSE_TYPE = 598;
+    // OPEN: Settings > User > Confirm exit guest mode dialog
+    DIALOG_USER_CONFIRM_EXIT_GUEST = 600;
 
-        // OPEN: Settings > User > Need lockscreen dialog
-        DIALOG_USER_NEED_LOCKSCREEN = 599;
-
-        // OPEN: Settings > User > Confirm exit guest mode dialog
-        DIALOG_USER_CONFIRM_EXIT_GUEST = 600;
-
-        // OPEN: Settings > User > Edit user profile dialog
-        DIALOG_USER_EDIT_PROFILE = 601;
-
+    // OPEN: Settings > User > Edit user profile dialog
+    DIALOG_USER_EDIT_PROFILE = 601;
 
     // OPEN: Settings > Wifi > Saved AP > Edit dialog
     DIALOG_WIFI_SAVED_AP_EDIT = 602;
@@ -2008,6 +2005,7 @@ enum PageId {
 
     // OPEN: Settings > Apps > Default Apps > Default browser
     DEFAULT_BROWSER_PICKER = 785;
+
     // OPEN: Settings > Apps > Default Apps > Default emergency app
     DEFAULT_EMERGENCY_APP_PICKER = 786;
 
@@ -2022,7 +2020,6 @@ enum PageId {
 
     // OPEN: Settings > Apps > Notification > Notification Assistant
     DEFAULT_NOTIFICATION_ASSISTANT = 790;
-
 
     // OPEN: Settings > Apps > Default Apps > Warning dialog to confirm selection
     DEFAULT_APP_PICKER_CONFIRMATION_DIALOG = 791;
@@ -2102,7 +2099,6 @@ enum PageId {
     // CATEGORY: SETTINGS
     SETTINGS_LOCK_SCREEN_PREFERENCES = 882;
 
-
     // OPEN: Settings -> Display -> When in VR Mode
     VR_DISPLAY_PREFERENCE = 921;
 
@@ -2133,7 +2129,6 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: O
     ENTERPRISE_PRIVACY_PERMISSIONS = 939;
-
 
     // OPEN: Settings > Security > Managed Device Info > Default apps
     // CATEGORY: SETTINGS
@@ -2507,7 +2502,6 @@ enum PageId {
     // OS: Q
     NOTIFICATION_ZEN_MODE_OVERRIDING_APPS = 1588;
 
-
     // OPEN: Settings > Sound & notification > Do Not Disturb > See all exceptions >
     // Allow apps to override > Choose app
     // CATEGORY: SETTINGS
@@ -2525,8 +2519,6 @@ enum PageId {
 
     // OPEN: Settings > Apps & Notifications -> Special app access -> Financial Apps Sms Access
     SETTINGS_FINANCIAL_APPS_SMS_ACCESS = 1597;
-
-
 
     // OPEN: Settings > Sound > Do Not Disturb > Schedules > (Click on system rule)
     // > Do Not Disturb behavior
