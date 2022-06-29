@@ -709,6 +709,7 @@ message Atom {
         ProviderAcquisitionEventReported provider_acquisition_event_reported =
                 477 [(module) = "framework"];
         BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
+        VibrationReported vibration_reported = 487 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -4691,7 +4692,7 @@ message ANROccurredProcessingStarted {
 /**
  * Logs when the vibrator state changes.
  * Logged from:
- *      frameworks/base/services/core/java/com/android/server/VibratorService.java
+ *      frameworks/base/services/core/java/com/android/vibrator/VibratorManagerService.java
  */
 message VibratorStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -4705,6 +4706,74 @@ message VibratorStateChanged {
     // Duration (in milliseconds) requested to keep the vibrator on.
     // Only applicable for State == ON.
     optional int64 duration_millis = 3;
+}
+
+/**
+ * Logs vibration request.
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
+ */
+// Next tag: 26
+message VibrationReported {
+  repeated AttributionNode attribution_node = 1;
+
+  enum VibrationType {
+    UNKNOWN = 0;
+    SINGLE = 1;
+    REPEATED = 2;
+    EXTERNAL = 3;
+  }
+
+  // Vibration identifiers for aggregation.
+  optional VibrationType vibration_type = 2;
+  // One of VibrationAttributes.USAGE_* constant values.
+  optional int32 vibration_usage = 3;
+  optional int32 vibration_status = 4;
+
+  // Vibration completion causes.
+  // Flag indicating if the vibration was canceled by the same process
+  // or superseded/canceled by another vibration from the same process.
+  optional bool ended_by_same_uid = 5;
+  // Usage value of the vibration that superseded/canceled this one.
+  optional int32 ended_by_usage = 6;
+  // Usage value of the vibration that was superseded/canceled by this one.
+  optional int32 interrupted_usage = 7;
+
+  // Vibration execution counters.
+  optional int32 repeat_count = 8;
+  // Total duration of this vibration at the service, including setup and cleanup.
+  optional int64 vibration_duration_millis = 9;
+  // Total duration the vibrator motor was active with non-zero amplitude.
+  optional int64 vibrator_on_duration_millis = 10;
+  // Delta between the incoming binder call to vibrate and the first step in the
+  // vibration conductor (closest measure of starting HAL interactions).
+  optional int64 start_latency_millis = 11;
+  // Delta between the HAL reporting the last vibrate operation has completed and
+  // vibrator service has finished the vibration and become idle.
+  optional int64 end_latency_millis = 12;
+
+  // Vibrator hardware HAL API interaction counters.
+  // The majority of vibrations will populate only a couple of the fields below.
+  optional int32 hal_compose_count = 13;
+  optional int32 hal_compose_pwle_count = 14;
+  optional int32 hal_on_count = 15;
+  optional int32 hal_off_count = 16;
+  optional int32 hal_perform_count = 17;
+  optional int32 hal_set_amplitude_count = 18;
+  optional int32 hal_set_external_control_count = 19;
+
+  // Vibrator hardware HAL API constants used (deduped).
+  // Values from CompositionPrimitive.aidl successfully triggered by this vibration at least once.
+  repeated int32 hal_supported_composition_primitives_used = 20;
+  // Values from Effect.aidl triggered by this vibration at least once.
+  repeated int32 hal_supported_effects_used = 21;
+  // Values from CompositionPrimitive.aidl triggered but not supported by the device.
+  repeated int32 hal_unsupported_composition_primitives_used = 22;
+  // Values from Effect.aidl triggered but not supported by the device.
+  repeated int32 hal_unsupported_effects_used = 23;
+  // Vibrator hardware HAL argument sizes (total).
+  optional int32 hal_composition_size = 24;
+  optional int32 hal_pwle_size = 25;
 }
 
 /*
