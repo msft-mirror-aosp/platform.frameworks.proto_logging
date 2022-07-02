@@ -17,6 +17,8 @@
 syntax = "proto2";
 
 package android.os.statsd;
+
+option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
@@ -720,12 +722,13 @@ message Atom {
         PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
+        SandboxApiCalled sandbox_api_called = 488 [(module) = "adservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10153
+    // Next: 10160
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -914,6 +917,7 @@ message Atom {
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
+        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "adservices"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -21410,4 +21414,33 @@ message PrivacySignalsJobFailure {
         COROUTINE_CANCELLED = 2;
     }
     optional JobFailureReason reason =2;
+}
+
+// Logs when an API call from app to sandbox process is made
+message SandboxApiCalled {
+    enum Method {
+        METHOD_UNSPECIFIED = 0;
+        LOAD_SDK = 1;
+        LOAD_SANDBOX_AND_SDK = 2;
+        REQUEST_SURFACE_PACKAGE = 3;
+    }
+
+    // The method which was called.
+    optional Method method = 1;
+
+    //Time taken from the initiation of the API till the callback was received
+    optional int32 latency_millis = 2;
+
+    // The success status of the callback
+    optional bool success = 3;
+}
+
+//Logs periodically the storage of SDKs used by the app
+message SandboxSdkStorage {
+
+    // Boolean value to specify if the storage belongs to SDK or is shared
+    optional bool shared = 1;
+
+    // Storage
+    optional int32 storage_kb = 2;
 }
