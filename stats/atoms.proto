@@ -730,7 +730,7 @@ message Atom {
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         VibrationReported vibration_reported = 487 [(module) = "framework"];
-        SandboxApiCalled sandbox_api_called = 488 [(module) = "adservices"];
+        SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -928,7 +928,7 @@ message Atom {
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
-        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "adservices"];
+        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
