@@ -21379,6 +21379,9 @@ message IncomingMms {
 
     // Total number of MMS having same configuration.
     optional int64 mms_count = 9;
+
+    // Retry count: 0 for the first attempt and then increasing for each attempt.
+    optional int32 retry_id = 10;
 }
 
 /**
