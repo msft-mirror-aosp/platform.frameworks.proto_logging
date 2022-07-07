@@ -1013,6 +1013,30 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DISABLE_AUTO_ROTATION_DEVICE_STATE = 1791;
+
+    // ACTION: Settings > Apps > Battery optimized apps > filter set to
+    // <All apps>
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_OPTIMIZED_APPS_FILTER_ALL_APPS = 1792;
+
+    // ACTION: Settings > Apps > Battery optimized apps > filter set to
+    // <restricted>
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_OPTIMIZED_APPS_FILTER_RESTRICTED = 1793;
+
+    // ACTION: Settings > Apps > Battery optimized apps > filter set to
+    // <unrestricted>
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_OPTIMIZED_APPS_FILTER_UNRESTRICTED = 1794;
+
+    // ACTION: Settings > Apps > Battery optimized apps > filter set to
+    // <optimized>
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_OPTIMIZED_APPS_FILTER_OPTIMIZED = 1795;
 }
 
 /**
@@ -3376,6 +3400,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     DIALOG_ACCESSIBILITY_HEARING_AID_PAIR_ANOTHER = 1930;
+
+    // OPEN: Settings > Apps > Battery optimized apps
+    // CATEGORY: SETTINGS
+    // OS: T
+    BATTERY_OPTIMIZED_APPS_LIST = 1931;
 }
 
 // Battery Saver schedule types.
