@@ -1025,6 +1025,9 @@ enum ItemId {
     // TvSettings > System > Accessibility > Audio Description (Toggle)
     SYSTEM_A11Y_AUDIO_DESCRIPTION = 0x17890000;
 
+    // TvSettings > System > Accessibility > Bold Text (Toggle)
+    SYSTEM_A11Y_BOLD_TEXT = 0x178A0000;
+
     // TvSettings > System > Reboot
     SYSTEM_REBOOT = 0x17900000;
 
