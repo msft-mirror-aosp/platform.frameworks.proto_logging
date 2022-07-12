@@ -21669,7 +21669,7 @@ message SettingsProviderSettingChanged {
 message IncomingMms {
     // Radio access technology (RAT) used for downloading the MMS.
     // It can be IWLAN in case of IMS.
-    // RAT is logged at the beginning of the download.
+    // RAT is logged at the end of the download.
     optional android.telephony.NetworkTypeEnum rat = 1;
 
     // Indicate a specific result handling the MMS.
@@ -21699,6 +21699,9 @@ message IncomingMms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 10;
+
+    // Whether MmsService or carrier app downloaded the MMS from the network.
+    optional bool handled_by_carrier_app = 11;
 }
 
 /**
@@ -21713,7 +21716,7 @@ message IncomingMms {
 message OutgoingMms {
     // Radio access technology (RAT) used for uploading the MMS.
     // It can be IWLAN in case of IMS.
-    // RAT is logged at the beginning of the upload.
+    // RAT is logged at the end of the upload.
     optional android.telephony.NetworkTypeEnum rat = 1;
 
     // Indicate a specific result handling the MMS.
@@ -21746,6 +21749,9 @@ message OutgoingMms {
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
     optional int32 retry_id = 11;
+
+    // Whether MmsService or carrier app uploaded the MMS to the network.
+    optional bool handled_by_carrier_app = 12;
 }
 
 message PrivacySignalNotificationInteraction {
