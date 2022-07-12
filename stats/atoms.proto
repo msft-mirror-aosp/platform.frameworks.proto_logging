@@ -1200,6 +1200,12 @@ message WifiHealthStatReported {
     optional bool is_cell_data_available = 3;
     // the Band bucket the connected network is on
     optional Band band = 4;
+    // the Signal strength in the range of [-126, 0)
+    optional int32 rssi = 5;
+    // estimated tx throughput in kbps
+    optional int32 tx_kbps = 6 [default = -1];
+    // estimated rx throughput in kbps
+    optional int32 rx_kbps = 7 [default = -1];
 }
 
 /**
