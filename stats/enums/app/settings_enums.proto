@@ -1037,6 +1037,21 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_BATTERY_OPTIMIZED_APPS_FILTER_OPTIMIZED = 1795;
+
+    // Custom tag to log changes to the dock setup flow state
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DOCK_SETUP_STATE_CHANGED = 1796;
+
+    // Custom tag to log the start of each step in the dock setup flow
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DOCK_SETUP_STEP_START = 1797;
+
+    // Custom tag to log the result of each step in the dock setup flow
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DOCK_SETUP_STEP_COMPLETE = 1798;
 }
 
 /**
