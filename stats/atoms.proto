@@ -6963,7 +6963,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 61
+ * Next Tag: 64
  */
 message UIInteractionFrameInfoReported {
     enum InteractionType {
@@ -7030,6 +7030,7 @@ message UIInteractionFrameInfoReported {
         USER_DIALOG_OPEN = 60;
         TASKBAR_EXPAND = 61;
         TASKBAR_COLLAPSE = 62;
+        SHADE_CLEAR_ALL = 63;
     }
 
     optional InteractionType interaction_type = 1;
