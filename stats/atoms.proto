@@ -738,6 +738,7 @@ message Atom {
         // reserved 492
         AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
+        ActivityActionBlocked activity_action_blocked = 495 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1072,6 +1073,25 @@ message ScreenStateChanged {
     // New screen state, from frameworks/proto_logging/stats/enums/view/enums.proto.
     optional android.view.DisplayStateEnum state = 1
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
+}
+
+/**
+ * Part of the go/activity-security project. Logs information about activity
+ * starts which would be blocked as part of the project.
+ *
+ * Logged from:
+ *  - frameworks/base/services/core/java/com/android/server/wm/ActivityStarter.java
+ */
+message ActivityActionBlocked {
+    optional int32 caller_uid = 1 [(is_uid) = true];
+    optional string caller_activity_class_name = 2;
+    optional int32 target_task_top_activity_uid = 3 [(is_uid) = true];
+    optional string target_task_top_activity_class_name = 4;
+    optional bool target_task_is_different = 5;
+    optional int32 target_activity_uid = 6 [(is_uid) = true];
+    optional string target_activity_class_name = 7;
+    optional string target_intent_action = 8;
+    optional int32 target_intent_flags = 9;
 }
 
 /**
