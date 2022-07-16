@@ -249,7 +249,7 @@ message Atom {
         WifiEnabledStateChanged wifi_enabled_state_changed = 113 [(module) = "framework"];
         WifiRunningStateChanged wifi_running_state_changed = 114
                 [(module) = "framework", deprecated = true];
-        AppCompacted app_compacted = 115 [(module) = "framework"];
+        AppCompacted app_compacted = 115 [(module) = "framework", deprecated = true];
         NetworkDnsEventReported network_dns_event_reported = 116 [(module) = "resolv"];
         DocsUIPickerLaunchedFromReported docs_ui_picker_launched_from_reported =
             117 [(module) = "docsui"];
@@ -734,6 +734,7 @@ message Atom {
         SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
+        AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9253,6 +9254,32 @@ message AppCompacted {
 
   // Free ZRAM in kilobytes after compaction.
   optional int64 after_zram_free_kilobytes = 18;
+}
+
+message AppCompactedV2 {
+  // UID of the process being compacted
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Process state for compacted process
+  optional int32 proc_state = 2;
+
+  // Current OOM Adjust at the time of compaction, this would correspond to any newly set oom adj.
+  optional int32 current_oom_adj = 3;
+
+  // Delta Anon RSS reduced with compaction computed as RSS Before - RSS After.
+  optional int64 delta_anon_rss = 4;
+
+  // Physical ZRAM Consumed during compaction
+  optional int64 zram_consumed = 5;
+
+  // CPU time spent compacting
+  optional float compact_cpu_time = 6;
+
+  // Anon RSS of the process prior to being compacted
+  optional int64 original_anon_rss = 7;
+
+  // Reason for the OOM adj change
+  optional android.app.OomChangeReasonEnum oom_change_reason = 8;
 }
 
 /**
