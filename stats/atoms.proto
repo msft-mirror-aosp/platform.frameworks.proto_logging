@@ -14605,6 +14605,10 @@ message DataCallSession {
 
     // Reason why the data call handover failed, as in RIL_DataCallFailCause from ril.h
     repeated int32 handover_failure_causes = 20;
+
+    // For each int32, the lower 16 bits represent the source RAT while the upper 16 bits indicate
+    // the target RAT of the failed handover.
+    repeated int32 handover_failure_rat = 21;
 }
 
 /**
