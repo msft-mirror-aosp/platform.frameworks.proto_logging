@@ -3452,6 +3452,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     ACCESSIBILITY_TOGGLE_SOFTWARE_CURSOR = 1933;
+
+    // OPEN: Settings > Network & internet > Mobile network > Backup Calling > Dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    BACKUP_CALLING_DIALOG = 1934;
 }
 
 // Battery Saver schedule types.
