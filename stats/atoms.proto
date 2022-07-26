@@ -14380,7 +14380,11 @@ message IncomingSms {
     optional int32 carrier_id = 13;
 
     // Random message ID.
+    // If the value of count is greater than 1, the message_id represents only one of the messages.
     optional int64 message_id = 14;
+
+    // Number of messages with the same properties (see message_id for exception)
+    optional int32 count = 15;
 }
 
 /**
@@ -14432,13 +14436,21 @@ message OutgoingSms {
     optional int32 carrier_id = 11;
 
     // Random message ID.
+    // If the value of count is greater than 1, the message_id represents only one of the messages.
     optional int64 message_id = 12;
 
     // Retry count: 0 for the first attempt and then increasing for each attempt.
+    // If the value of count is greater than 1, the retry_id represents the value associated with
+    // the message defined by message_id.
     optional int32 retry_id = 13;
 
     // Time in milliseconds to complete the SMS send to the network.
+    // If the value of count is greater than 1, this field measures the average time interval.
     optional int64 interval_millis = 14;
+
+    // Number of messages with the same properties (see message_id, retry_id and latency_millis for
+    // exceptions)
+    optional int32 count = 15;
 }
 
 /**
