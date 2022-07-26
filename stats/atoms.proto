@@ -12508,7 +12508,7 @@ message AppSearchQueryStatsReported {
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
-    // Overall time used for query including estimated binder latency
+    // Overall time used for query which doesn't include estimated binder latency
     optional int32 total_latency_millis = 6;
 
     // Time used to rewrite the search spec.
