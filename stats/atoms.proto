@@ -21877,22 +21877,39 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
+// Next ID: 5
 message SandboxApiCalled {
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         LOAD_SANDBOX_AND_SDK = 2;
         REQUEST_SURFACE_PACKAGE = 3;
+        SEND_DATA = 4;
+        GET_LOADED_SDK_LIBRARIES_INFO = 5;
     }
-
     // The method which was called.
     optional Method method = 1;
 
-    //Time taken from the initiation of the API till the callback was received
-    optional int32 latency_millis = 2;
+    enum Stage {
+        STAGE_UNSPECIFIED = 0;
+        APP_TO_SYSTEM_SERVER = 1;
+        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
+        LOAD_SANDBOX = 3;
+        SYSTEM_SERVER_TO_SANDBOX = 4;
+        SANDBOX = 5;
+        SDK = 6;
+        SANDBOX_TO_SYSTEM_SERVER = 7;
+        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
+        SYSTEM_SERVER_TO_APP = 9;
+    }
+    // The stage at which latency is being measured.
+    optional Stage stage = 4;
 
     // The success status of the callback
     optional bool success = 3;
+
+    //Time taken from the initiation of the API till the callback was received
+    optional int32 latency_millis = 2;
 }
 
 //Logs periodically the storage of SDKs used by the app
