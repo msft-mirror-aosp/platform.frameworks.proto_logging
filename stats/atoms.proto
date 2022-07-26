@@ -735,6 +735,7 @@ message Atom {
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
+        DisplayBrightnessChanged display_brightness_changed = 492 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21941,4 +21942,50 @@ message MobileDataDownloadFileGroupStats {
   // Inverse of the sampling rate used to sample this event.
   optional int32 sampling_interval = 6;
   // Note: we do not have owner_package since that's already transmitted.
+}
+
+// Logs Display Brightness change events.
+message DisplayBrightnessChanged{
+
+    enum Reason {
+        UNKNOWN = 0;
+        MANUAL = 1;
+    }
+
+    // Display brightness before the brightness event, in nits.
+    optional float source_nits = 1;
+
+    // Display brightness after the brightness event, in nits.
+    optional float target_nits = 2;
+
+    // Average ambient light, in lux.
+    optional float lux = 3;
+
+    // Physical display id, only logged for non-virtual displays.
+    optional string physical_display_id = 4;
+
+    // Whether the short term model was active at the time of the event.
+    optional bool short_term_model_active = 5;
+
+    // Factor applied to the brightness by power saving features.
+    // If not applied, this is set to -1.
+    optional float power_brightness_factor = 6;
+
+    // RBC strength.
+    // If RBC is not enabled, this is set to -1;
+    optional int32 reduce_bright_colors_strength = 7;
+
+    // Max nits value when HBM is enabled.
+    // If HBM is not enabled, this is set to -1;
+    optional float hbm_current_max = 8;
+
+    // Thermal throttling cap.
+    // If thermal throttling not enabled, this is -1.
+    optional float thermal_throttling_cap = 9;
+
+    // Whether adaptive brightness is enabled.
+    optional bool adaptive_brightness_enabled = 10;
+
+    // Reason that triggered the brightness event to occur.
+    optional Reason reason = 11;
 }
