@@ -20795,6 +20795,12 @@ message AdServicesApiCalled {
     // Measurement - client side
     //   * register()
     //   * deleteRegistrations()
+    //
+    // AdId
+    //   * GetAdId()
+    //
+    // AppsetId
+    //   * GetAppsetId()
 
 
     enum AdServicesApiClassType {
@@ -20802,6 +20808,8 @@ message AdServicesApiCalled {
         TARGETING = 1;
         FLEDGE = 2;
         MEASUREMENT = 3;
+        ADID = 4;
+        APPSETID = 5;
     }
 
     enum AdServicesApiName {
@@ -20819,6 +20827,8 @@ message AdServicesApiCalled {
         OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
         REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
+        GET_ADID = 14;
+        GET_APPSETID = 15;
     }
 
     optional AdServicesApiClassType api_class = 1;
