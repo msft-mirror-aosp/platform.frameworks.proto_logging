@@ -716,9 +716,9 @@ message Atom {
                 477 [(module) = "framework"];
         BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
         CellBroadcastConfigUpdated cb_config_updated = 479 [(module) = "cellbroadcast"];
-        CellBroadcastModuleError cb_module_error = 480 [(module) = "cellbroadcast"];
-        CellBroadcastServiceFeature cb_service_feature= 481 [(module) = "cellbroadcast"];
-        CellBroadcastReceiverFeature cb_receiver_feature= 482 [(module) = "cellbroadcast"];
+        CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
+        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
+        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
         JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
         PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
@@ -13786,7 +13786,7 @@ message CellBroadcastConfigUpdated  {
  * Logged from Cell Broadcast module:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice
  */
-message CellBroadcastServiceFeature {
+message CellBroadcastServiceFeatureChanged {
     // Not for mainline devices, but for android-go devices, OEM can register package names.
     // if there is a data then true otherwise false
     optional bool overlay_additional_cbr_packages = 1;
@@ -13804,7 +13804,7 @@ message CellBroadcastServiceFeature {
  * Logged from Cell Broadcast module:
  *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  */
-message CellBroadcastReceiverFeature {
+message CellBroadcastReceiverFeatureChanged {
     // Whether to enable alert handling during active voice call
     optional bool alert_during_call = 1;
     // Play alert sound in full volume regardless DND is on
@@ -13829,7 +13829,7 @@ message CellBroadcastReceiverFeature {
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
  *   packages/apps/CellBroadcastReceiver/
  */
-message CellBroadcastModuleError {
+message CellBroadcastModuleErrorReported {
     enum ErrorType {
         ERROR_UNKNOWN = 0;
         ERROR_BAD_CONFIG = 1;
