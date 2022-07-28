@@ -7119,6 +7119,7 @@ message UIActionLatencyReported {
         ACTION_UDFPS_ILLUMINATE = 15;
         ACTION_SHOW_BACK_ARROW = 16;
         ACTION_LOAD_SHARE_SHEET = 17;
+        ACTION_SHOW_SELECTION_TOOLBAR = 18;
     }
 
     optional ActionType action = 1;
