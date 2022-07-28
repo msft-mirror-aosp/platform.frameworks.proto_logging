@@ -723,9 +723,9 @@ message Atom {
                 477 [(module) = "framework"];
         BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
         CellBroadcastConfigUpdated cb_config_updated = 479 [(module) = "cellbroadcast"];
-        CellBroadcastModuleError cb_module_error = 480 [(module) = "cellbroadcast"];
-        CellBroadcastServiceFeature cb_service_feature= 481 [(module) = "cellbroadcast"];
-        CellBroadcastReceiverFeature cb_receiver_feature= 482 [(module) = "cellbroadcast"];
+        CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
+        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
+        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
         JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
         PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
@@ -12508,7 +12508,7 @@ message AppSearchQueryStatsReported {
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
-    // Overall time used for query including estimated binder latency
+    // Overall time used for query which doesn't include estimated binder latency
     optional int32 total_latency_millis = 6;
 
     // Time used to rewrite the search spec.
@@ -13962,7 +13962,7 @@ message CellBroadcastConfigUpdated  {
  * Logged from Cell Broadcast module:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice
  */
-message CellBroadcastServiceFeature {
+message CellBroadcastServiceFeatureChanged {
     // Not for mainline devices, but for android-go devices, OEM can register package names.
     // if there is a data then true otherwise false
     optional bool overlay_additional_cbr_packages = 1;
@@ -13980,7 +13980,7 @@ message CellBroadcastServiceFeature {
  * Logged from Cell Broadcast module:
  *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  */
-message CellBroadcastReceiverFeature {
+message CellBroadcastReceiverFeatureChanged {
     // Whether to enable alert handling during active voice call
     optional bool alert_during_call = 1;
     // Play alert sound in full volume regardless DND is on
@@ -14005,7 +14005,7 @@ message CellBroadcastReceiverFeature {
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
  *   packages/apps/CellBroadcastReceiver/
  */
-message CellBroadcastModuleError {
+message CellBroadcastModuleErrorReported {
     enum ErrorType {
         ERROR_UNKNOWN = 0;
         ERROR_BAD_CONFIG = 1;
@@ -21877,22 +21877,39 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
+// Next ID: 5
 message SandboxApiCalled {
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         LOAD_SANDBOX_AND_SDK = 2;
         REQUEST_SURFACE_PACKAGE = 3;
+        SEND_DATA = 4;
+        GET_LOADED_SDK_LIBRARIES_INFO = 5;
     }
-
     // The method which was called.
     optional Method method = 1;
 
-    //Time taken from the initiation of the API till the callback was received
-    optional int32 latency_millis = 2;
+    enum Stage {
+        STAGE_UNSPECIFIED = 0;
+        APP_TO_SYSTEM_SERVER = 1;
+        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
+        LOAD_SANDBOX = 3;
+        SYSTEM_SERVER_TO_SANDBOX = 4;
+        SANDBOX = 5;
+        SDK = 6;
+        SANDBOX_TO_SYSTEM_SERVER = 7;
+        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
+        SYSTEM_SERVER_TO_APP = 9;
+    }
+    // The stage at which latency is being measured.
+    optional Stage stage = 4;
 
     // The success status of the callback
     optional bool success = 3;
+
+    //Time taken from the initiation of the API till the callback was received
+    optional int32 latency_millis = 2;
 }
 
 //Logs periodically the storage of SDKs used by the app
