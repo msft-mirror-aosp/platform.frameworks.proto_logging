@@ -736,6 +736,7 @@ message Atom {
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
         DisplayBrightnessChanged display_brightness_changed = 492 [(module) = "framework"];
+        AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22006,4 +22007,36 @@ message DisplayBrightnessChanged{
 
     // Reason that triggered the brightness event to occur.
     optional Reason reason = 11;
+}
+
+
+/**
+ * Logs when various Privacy Sandbox settings are used.
+ */
+message AdServicesSettingsUsageReported {
+    enum AdServiceSettingRegion {
+        REGION_UNSPECIFIED = 0;
+        EU = 1;
+        ROW = 2;
+    }
+
+    optional AdServiceSettingRegion region = 1;
+
+    enum AdServiceSettingsName {
+        ACTION_UNSPECIFIED = 0;
+        REQUESTED_NOTIFICATION = 1;
+        LANDING_PAGE_DISPLAYED = 2;
+        OPT_IN_SELECTED = 3;
+        OPT_OUT_SELECTED = 4;
+        MANAGE_TOPICS_SELECTED = 5;
+        MANAGE_APPS_SELECTED = 6;
+        RESET_TOPIC_SELECTED = 7;
+        RESET_APP_SELECTED = 8;
+        BLOCK_TOPIC_SELECTED = 9;
+        UNBLOCK_TOPIC_SELECTED = 10;
+        BLOCK_APP_SELECTED = 11;
+        UNBLOCK_APP_SELECTED = 12;
+    }
+
+    optional AdServiceSettingsName action = 2;
 }
