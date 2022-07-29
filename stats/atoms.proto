@@ -741,6 +741,7 @@ message Atom {
         NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         VmBooted vm_booted = 505 [(module) = "virtualizationservice"];
         VmExited vm_exited = 506 [(module) = "virtualizationservice"];
+        AmbientBrightnessStatsReported ambient_brightness_stats_reported = 507 [(module) = "framework"];
         MediametricsSpatializerCapabilitiesReported mediametrics_spatializercapabilities_reported =
                 508 [(module) = "media_metrics"];
         MediametricsSpatializerDeviceEnabledReported mediametrics_spatializerdeviceenabled_reported =
@@ -766,6 +767,7 @@ message Atom {
         BluetoothRemoteSupportedFeaturesReported bluetooth_remote_supported_features_reported = 531 [(module) = "bluetooth"];
         BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
         BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
+        BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         OdsignReported odsign_reported = 548 [(module) = "art"];
         // StatsdStats tracks platform atoms with ids upto 750.
@@ -22417,3 +22419,31 @@ message IwlanPdnDisconnectedReasonReported {
   optional int32 wifi_signal_level = 4;
 }
 
+// Logs daily ambient brightness stats.
+message AmbientBrightnessStatsReported {
+
+    // How much time was spent in each of the buckets, in seconds.
+    repeated float bucket_size_seconds = 1;
+
+    // Ambient brightness values for creating bucket boundaries from.
+    repeated float bucket_boundary_lux = 2;
+}
+
+/**
+ * Logs the Brightness Configuration pushed by the long term model. The Brightness Configuration is
+ * expressed as a curve where each point is a pair of ambient light (lux) and the corresponding
+ * screen brightness (nits).
+ *
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/display/DisplayManagerService.java
+ */
+message BrightnessConfigurationUpdated {
+    // Array of ambient light values (in lux) to define the configuration.
+    repeated float lux = 1;
+    // Array of screen brightness values (in nits) corresponding to the lux
+    // values above.
+    repeated float nits = 2;
+    // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
+    // "local:$PHYSICAL_ID".
+    optional string physical_display_id = 3;
+}
