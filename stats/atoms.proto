@@ -725,6 +725,7 @@ message Atom {
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
+        AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21516,4 +21517,35 @@ message MobileDataDownloadFileGroupStats {
   // Inverse of the sampling rate used to sample this event.
   optional int32 sampling_interval = 6;
   // Note: we do not have owner_package since that's already transmitted.
+}
+
+/**
+ * Logs when various Privacy Sandbox settings are used.
+ */
+message AdServicesSettingsUsageReported {
+    enum AdServiceSettingRegion {
+        REGION_UNSPECIFIED = 0;
+        EU = 1;
+        ROW = 2;
+    }
+
+    optional AdServiceSettingRegion region = 1;
+
+    enum AdServiceSettingsName {
+        ACTION_UNSPECIFIED = 0;
+        REQUESTED_NOTIFICATION = 1;
+        LANDING_PAGE_DISPLAYED = 2;
+        OPT_IN_SELECTED = 3;
+        OPT_OUT_SELECTED = 4;
+        MANAGE_TOPICS_SELECTED = 5;
+        MANAGE_APPS_SELECTED = 6;
+        RESET_TOPIC_SELECTED = 7;
+        RESET_APP_SELECTED = 8;
+        BLOCK_TOPIC_SELECTED = 9;
+        UNBLOCK_TOPIC_SELECTED = 10;
+        BLOCK_APP_SELECTED = 11;
+        UNBLOCK_APP_SELECTED = 12;
+    }
+
+    optional AdServiceSettingsName action = 2;
 }
