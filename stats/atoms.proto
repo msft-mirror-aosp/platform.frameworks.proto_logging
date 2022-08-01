@@ -21967,8 +21967,8 @@ message MobileDataDownloadFileGroupStats {
 message DisplayBrightnessChanged{
 
     enum Reason {
-        UNKNOWN = 0;
-        MANUAL = 1;
+        REASON_UNKNOWN = 0;
+        REASON_MANUAL = 1;
     }
 
     // Display brightness before the brightness event, in nits.
