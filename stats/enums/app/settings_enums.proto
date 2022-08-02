@@ -3420,6 +3420,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     BATTERY_OPTIMIZED_APPS_LIST = 1931;
+
+    // OPEN: Settings > Accessibility > Software Cursor
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCESSIBILITY_TOGGLE_SOFTWARE_CURSOR = 1932;
 }
 
 // Battery Saver schedule types.
