@@ -716,15 +716,16 @@ message Atom {
                 477 [(module) = "framework"];
         BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
         CellBroadcastConfigUpdated cb_config_updated = 479 [(module) = "cellbroadcast"];
-        CellBroadcastModuleError cb_module_error = 480 [(module) = "cellbroadcast"];
-        CellBroadcastServiceFeature cb_service_feature= 481 [(module) = "cellbroadcast"];
-        CellBroadcastReceiverFeature cb_receiver_feature= 482 [(module) = "cellbroadcast"];
+        CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
+        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
+        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
         JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
         PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
+        AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1202,6 +1203,12 @@ message WifiHealthStatReported {
     optional bool is_cell_data_available = 3;
     // the Band bucket the connected network is on
     optional Band band = 4;
+    // the Signal strength in the range of [-126, 0)
+    optional int32 rssi = 5;
+    // estimated tx throughput in kbps
+    optional int32 tx_kbps = 6 [default = -1];
+    // estimated rx throughput in kbps
+    optional int32 rx_kbps = 7 [default = -1];
 }
 
 /**
@@ -12326,7 +12333,7 @@ message AppSearchQueryStatsReported {
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
-    // Overall time used for query including estimated binder latency
+    // Overall time used for query which doesn't include estimated binder latency
     optional int32 total_latency_millis = 6;
 
     // Time used to rewrite the search spec.
@@ -13780,7 +13787,7 @@ message CellBroadcastConfigUpdated  {
  * Logged from Cell Broadcast module:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice
  */
-message CellBroadcastServiceFeature {
+message CellBroadcastServiceFeatureChanged {
     // Not for mainline devices, but for android-go devices, OEM can register package names.
     // if there is a data then true otherwise false
     optional bool overlay_additional_cbr_packages = 1;
@@ -13798,7 +13805,7 @@ message CellBroadcastServiceFeature {
  * Logged from Cell Broadcast module:
  *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  */
-message CellBroadcastReceiverFeature {
+message CellBroadcastReceiverFeatureChanged {
     // Whether to enable alert handling during active voice call
     optional bool alert_during_call = 1;
     // Play alert sound in full volume regardless DND is on
@@ -13823,7 +13830,7 @@ message CellBroadcastReceiverFeature {
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
  *   packages/apps/CellBroadcastReceiver/
  */
-message CellBroadcastModuleError {
+message CellBroadcastModuleErrorReported {
     enum ErrorType {
         ERROR_UNKNOWN = 0;
         ERROR_BAD_CONFIG = 1;
@@ -17547,6 +17554,28 @@ enum ArtDatumId {
     ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 26;
     ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 27;
     ART_DATUM_GC_TOTAL_COLLECTION_TIME_MS = 28;
+
+    // New metrics to support averages reported as sum (numerator) and count (denominator),
+    // in order to make it easier to be reported as Value Metrics.
+
+    // numerator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_GC_WORLD_STOP_TIME_US = 29;
+    // denominator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_GC_WORLD_STOP_COUNT = 30;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_SCANNED_BYTES = 31;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_FREED_BYTES = 32;
+    // denominator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_DURATION_MS = 33;
+    // numerator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_SCANNED_BYTES = 34;
+    // numerator from ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_FREED_BYTES = 35;
+    // denominator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_DURATION_MS = 36;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -20500,6 +20529,12 @@ message AdServicesApiCalled {
     // Measurement - client side
     //   * register()
     //   * deleteRegistrations()
+    //
+    // AdId
+    //   * GetAdId()
+    //
+    // AppsetId
+    //   * GetAppsetId()
 
 
     enum AdServicesApiClassType {
@@ -20507,6 +20542,8 @@ message AdServicesApiCalled {
         TARGETING = 1;
         FLEDGE = 2;
         MEASUREMENT = 3;
+        ADID = 4;
+        APPSETID = 5;
     }
 
     enum AdServicesApiName {
@@ -20524,6 +20561,8 @@ message AdServicesApiCalled {
         OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
         REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
+        GET_ADID = 14;
+        GET_APPSETID = 15;
     }
 
     optional AdServicesApiClassType api_class = 1;
@@ -21419,22 +21458,39 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
+// Next ID: 5
 message SandboxApiCalled {
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         LOAD_SANDBOX_AND_SDK = 2;
         REQUEST_SURFACE_PACKAGE = 3;
+        SEND_DATA = 4;
+        GET_LOADED_SDK_LIBRARIES_INFO = 5;
     }
-
     // The method which was called.
     optional Method method = 1;
 
-    //Time taken from the initiation of the API till the callback was received
-    optional int32 latency_millis = 2;
+    enum Stage {
+        STAGE_UNSPECIFIED = 0;
+        APP_TO_SYSTEM_SERVER = 1;
+        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
+        LOAD_SANDBOX = 3;
+        SYSTEM_SERVER_TO_SANDBOX = 4;
+        SANDBOX = 5;
+        SDK = 6;
+        SANDBOX_TO_SYSTEM_SERVER = 7;
+        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
+        SYSTEM_SERVER_TO_APP = 9;
+    }
+    // The stage at which latency is being measured.
+    optional Stage stage = 4;
 
     // The success status of the callback
     optional bool success = 3;
+
+    //Time taken from the initiation of the API till the callback was received
+    optional int32 latency_millis = 2;
 }
 
 //Logs periodically the storage of SDKs used by the app
@@ -21483,4 +21539,35 @@ message MobileDataDownloadFileGroupStats {
   // Inverse of the sampling rate used to sample this event.
   optional int32 sampling_interval = 6;
   // Note: we do not have owner_package since that's already transmitted.
+}
+
+/**
+ * Logs when various Privacy Sandbox settings are used.
+ */
+message AdServicesSettingsUsageReported {
+    enum AdServiceSettingRegion {
+        REGION_UNSPECIFIED = 0;
+        EU = 1;
+        ROW = 2;
+    }
+
+    optional AdServiceSettingRegion region = 1;
+
+    enum AdServiceSettingsName {
+        ACTION_UNSPECIFIED = 0;
+        REQUESTED_NOTIFICATION = 1;
+        LANDING_PAGE_DISPLAYED = 2;
+        OPT_IN_SELECTED = 3;
+        OPT_OUT_SELECTED = 4;
+        MANAGE_TOPICS_SELECTED = 5;
+        MANAGE_APPS_SELECTED = 6;
+        RESET_TOPIC_SELECTED = 7;
+        RESET_APP_SELECTED = 8;
+        BLOCK_TOPIC_SELECTED = 9;
+        UNBLOCK_TOPIC_SELECTED = 10;
+        BLOCK_APP_SELECTED = 11;
+        UNBLOCK_APP_SELECTED = 12;
+    }
+
+    optional AdServiceSettingsName action = 2;
 }
