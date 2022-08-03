@@ -6953,7 +6953,6 @@ message UIInteractionFrameInfoReported {
     enum InteractionType {
         UNKNOWN = 0;
         NOTIFICATION_SHADE_SWIPE = 1;
-        SHADE_EXPAND_COLLAPSE_LOCK = 2;
         SHADE_SCROLL_FLING = 3;
         SHADE_ROW_EXPAND = 4;
         SHADE_ROW_SWIPE = 5;
@@ -7015,6 +7014,7 @@ message UIInteractionFrameInfoReported {
         TASKBAR_EXPAND = 61;
         TASKBAR_COLLAPSE = 62;
         SHADE_CLEAR_ALL = 63;
+        reserved 2;
     }
 
     optional InteractionType interaction_type = 1;
@@ -7064,6 +7064,7 @@ message UIActionLatencyReported {
         ACTION_UDFPS_ILLUMINATE = 15;
         ACTION_SHOW_BACK_ARROW = 16;
         ACTION_LOAD_SHARE_SHEET = 17;
+        ACTION_FOLD_TO_AOD = 19;
     }
 
     optional ActionType action = 1;
