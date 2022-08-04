@@ -21966,7 +21966,7 @@ message MobileDataDownloadFileGroupStats {
 }
 
 // Logs Display Brightness change events.
-message DisplayBrightnessChanged{
+message DisplayBrightnessChanged {
 
     enum Reason {
         REASON_UNKNOWN = 0;
@@ -21974,29 +21974,31 @@ message DisplayBrightnessChanged{
     }
 
     // Display brightness before the brightness event, in nits.
-    optional float source_nits = 1;
+    optional float initial_nits = 1;
 
     // Display brightness after the brightness event, in nits.
-    optional float target_nits = 2;
+    optional float end_nits = 2;
 
-    // Average ambient light, in lux.
+    // Estimated ambient light, in lux.
     optional float lux = 3;
 
-    // Physical display id, only logged for non-virtual displays.
+    // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
+    // "local:$PHYSICAL_ID".
     optional string physical_display_id = 4;
 
     // Whether the short term model was active at the time of the event.
     optional bool short_term_model_active = 5;
 
-    // Factor applied to the brightness by power saving features.
+    // The factor to adjust the screen brightness in low power mode in the range
+    // 0 (screen off) to 1 (no change).
     // If not applied, this is set to -1.
     optional float power_brightness_factor = 6;
 
-    // RBC strength.
+    // The level of Reduce Bright Colors (RBC) intensity, the range is [0, 100].
     // If RBC is not enabled, this is set to -1;
     optional int32 reduce_bright_colors_strength = 7;
 
-    // Max nits value when HBM is enabled.
+    // Max nits value when High Brightness Mode (HBM) is enabled.
     // If HBM is not enabled, this is set to -1;
     optional float hbm_current_max = 8;
 
