@@ -17,6 +17,8 @@
 syntax = "proto2";
 
 package android.os.statsd;
+
+option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
@@ -66,6 +68,8 @@ import "frameworks/proto_logging/stats/enums/stats/launcher/launcher.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/mobiledatadownload/enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/privacysignals/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/style/style_enums.proto";
@@ -711,12 +715,23 @@ message Atom {
         ProviderAcquisitionEventReported provider_acquisition_event_reported =
                 477 [(module) = "framework"];
         BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
+        CellBroadcastConfigUpdated cb_config_updated = 479 [(module) = "cellbroadcast"];
+        CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
+        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
+        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
+        JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
+        PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
+        PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
+        PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
+        SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
+        MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
+        AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10153
+    // Next: 10160
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -905,6 +920,7 @@ message Atom {
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
+        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -912,6 +928,19 @@ message Atom {
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
     reserved 83, 10008, 10036, 10040, 10041;
+}
+
+message JSScriptEngineLatencyReported {
+    enum LatencyStat {
+      UNKNOWN = 0;
+      SANDBOX_INIT = 1;
+      ISOLATE_CREATE = 2;
+      JAVA_PROCESS_EXECUTION = 3;
+      WEBVIEW_PROCESS_EXECUTION = 4;
+    }
+
+    optional LatencyStat stat = 1;
+    optional int64 latency_millis = 2;
 }
 
 /**
@@ -1174,6 +1203,12 @@ message WifiHealthStatReported {
     optional bool is_cell_data_available = 3;
     // the Band bucket the connected network is on
     optional Band band = 4;
+    // the Signal strength in the range of [-126, 0)
+    optional int32 rssi = 5;
+    // estimated tx throughput in kbps
+    optional int32 tx_kbps = 6 [default = -1];
+    // estimated rx throughput in kbps
+    optional int32 rx_kbps = 7 [default = -1];
 }
 
 /**
@@ -12298,7 +12333,7 @@ message AppSearchQueryStatsReported {
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
-    // Overall time used for query including estimated binder latency
+    // Overall time used for query which doesn't include estimated binder latency
     optional int32 total_latency_millis = 6;
 
     // Time used to rewrite the search spec.
@@ -13601,7 +13636,7 @@ message IntegrityRulesPushed {
  *
  * Logged from Cell Broadcast module and platform:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
- *   packages/apps/CellBroadcastReceiver/
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  *   frameworks/opt/telephony/src/java/com/android/internal/telephony/CellBroadcastServiceManager.java
  */
 message CellBroadcastMessageReported {
@@ -13623,31 +13658,60 @@ message CellBroadcastMessageReported {
 
     // GSM, CDMA, CDMA-SCP
     optional CbType type = 1;
-
     // The source of the report
     optional ReportSource source = 2;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
+    optional int32 serial_number = 3;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
+    optional int32 message_id = 4;
 }
 
 /**
- * Logs when a cell broadcast message is filtered out, or otherwise intentionally not sent to CBR.
+ * Logs when a cell broadcast message is filtered out,
+ * or otherwise intentionally not sent to CBR, or not shown to users for reason
  *
- * Logged from CellBroadcastService module:
+ * Logged from Cell Broadcast module:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  */
 message CellBroadcastMessageFiltered {
     enum FilterReason {
+        // shown message to the user
         NOT_FILTERED = 0;
+        // filtered message due to duplication (message body, service category, cross sim)
         DUPLICATE_MESSAGE = 1;
+        // filtered message due to outside of coordinate range
         GEOFENCED_MESSAGE = 2;
+        // filtered message due to not using for emergency alert but for update cell information on Setting Menu
         AREA_INFO_MESSAGE = 3;
+        // filtered message due to OEM set config value ‘filtered message for duplication’ as ‘true’
         DISABLED_BY_OEM = 4;
+        // when in ECBM(Emergency CallBack Mode) status
+        NOTSHOW_ECBM = 5;
+        // when user turn off preference of channel
+        NOTSHOW_USER_PREF = 6;
+        // when Empty content or Unsupported charset
+        NOTSHOW_EMPTY_BODY = 7;
+        // when language code in message is not same with preference of second language
+        NOTSHOW_MISMATCH_PREF_SECOND_LANG = 8;
+        // when user turn off preference of second language
+        NOTSHOW_PREF_SECONDLANG_OFF = 9;
+        // when language code in message is not same with device language setting
+        NOTSHOW_MISMATCH_DEVICE_LANG_SETTING = 10;
+        // when channel has feature ‘testing_mode = true’ and device is not in cb test_mode
+        NOTSHOW_MESSAGE_FOR_TESTMODE = 11;
+        // when the message contains ‘filter’ string from properties
+        NOTSHOW_FILTER_STRING = 12;
     }
 
     // GSM, CDMA, CDMA-SCP
     optional CellBroadcastMessageReported.CbType type = 1;
-
     // The source of the report
     optional FilterReason filter = 2;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
+    optional int32 serial_number = 3;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
+    optional int32 message_id = 4;
 }
 
 /**
@@ -13679,9 +13743,122 @@ message CellBroadcastMessageError {
 
     // What kind of error occurred
     optional ErrorType type = 1;
-
     // Exception message (or log message) associated with the error (max 1000 chars)
     optional string exception_message = 2;
+}
+
+/**
+ * CellBroadcast channel range
+ * Refer from CellBroadcastConfigUpdated, CellBroadcastReceiverFeature
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastChannelRange {
+    optional int32 start = 1;
+    optional int32 end = 2;
+}
+/**
+ * CellBroadcast channel ranges
+ * Nested field for repeated
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastChannelRanges {
+    repeated CellBroadcastChannelRange channel_ranges = 1;
+}
+
+/**
+ * Logs when an channel configuration is updated with mcc-mnc
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastConfigUpdated  {
+    // mcc_mnc value of Network operator for the roaming case
+    optional string roaming_mcc_mnc = 1;
+    // The channel ranges to be updated logged as bytes
+    optional CellBroadcastChannelRanges channel_ranges = 2 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs when a cell broadcast message is activated with the feature below
+ * or when channel configuration is changed with the feature below
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice
+ */
+message CellBroadcastServiceFeatureChanged {
+    // Not for mainline devices, but for android-go devices, OEM can register package names.
+    // if there is a data then true otherwise false
+    optional bool overlay_additional_cbr_packages = 1;
+    // package name which will get area info message
+    // if there is a data except “com.android.settings” then true, or false
+    optional bool overlay_area_info_packages = 2;
+    // Reset Area Info when device goes out of service
+    optional bool reset_area_info = 3;
+}
+
+/**
+ * Logs when a cell broadcast message is activated with the feature below
+ * or when channel configuration is changed with the feature below
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastReceiverFeatureChanged {
+    // Whether to enable alert handling during active voice call
+    optional bool alert_during_call = 1;
+    // Play alert sound in full volume regardless DND is on
+    // [none:0][all:Integer.MAX_VALUE][partial:4370 4380 50]
+    optional CellBroadcastChannelRanges override_dnd = 2 [(log_mode) = MODE_BYTES];
+    // Whether to Support roaming for attached network operator
+    optional bool roaming_support = 3;
+    // Whether to save alerts to sms inbox database
+    optional bool store_sms = 4;
+    // whether the device is in test mode through *#*#CMAS#*#*
+    optional bool testing_mode = 5;
+    // whether Text To Speech is on/off
+    optional bool tts_mode = 6;
+    // whether the device is able to enter test mode even on user build
+    optional bool testing_mode_on_user_build = 7;
+}
+
+/**
+ * Logs when exception is occurred in the device
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
+ *   packages/apps/CellBroadcastReceiver/
+ */
+message CellBroadcastModuleErrorReported {
+    enum ErrorType {
+        ERROR_UNKNOWN = 0;
+        ERROR_BAD_CONFIG = 1;
+        ERROR_DB_MIGRATION = 2;
+        ERROR_DEFAULT_RES = 3;
+        ERROR_ENABLE_CHANNEL = 4;
+        ERROR_GET_LOCATION = 5;
+        ERROR_MISSING_RES = 6;
+        ERROR_PLAY_FLASH = 7;
+        ERROR_PLAY_SOUND = 8;
+        ERROR_PLAY_TTS = 9;
+        ERROR_PREF_MIGRATION = 10;
+        ERROR_PROVIDER_INIT = 11;
+        ERROR_RESET_CHANNEL_R = 12;
+        ERROR_STATUS_BAR = 13;
+        ERROR_REMINDER_INTERVAL = 14;
+        ERROR_ICON_RESOURCE = 15;
+        ERROR_CHANNEL_RANGE_PARSE = 16;
+        ERROR_DB_INIT = 17;
+        ERROR_NOT_FOUND_DEFAULT_CBR_PKGS = 18;
+        ERROR_FOUND_MULTIPLE_CBR_PKGS = 19;
+    }
+
+    // The source of the report
+    optional CellBroadcastMessageReported.ReportSource source = 1;
+
+    // The error type
+    optional ErrorType type = 2;
 }
 
 /**
@@ -17377,6 +17554,28 @@ enum ArtDatumId {
     ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 26;
     ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 27;
     ART_DATUM_GC_TOTAL_COLLECTION_TIME_MS = 28;
+
+    // New metrics to support averages reported as sum (numerator) and count (denominator),
+    // in order to make it easier to be reported as Value Metrics.
+
+    // numerator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_GC_WORLD_STOP_TIME_US = 29;
+    // denominator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_GC_WORLD_STOP_COUNT = 30;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_SCANNED_BYTES = 31;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_FREED_BYTES = 32;
+    // denominator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_DURATION_MS = 33;
+    // numerator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_SCANNED_BYTES = 34;
+    // numerator from ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_FREED_BYTES = 35;
+    // denominator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_DURATION_MS = 36;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -20330,6 +20529,12 @@ message AdServicesApiCalled {
     // Measurement - client side
     //   * register()
     //   * deleteRegistrations()
+    //
+    // AdId
+    //   * GetAdId()
+    //
+    // AppsetId
+    //   * GetAppsetId()
 
 
     enum AdServicesApiClassType {
@@ -20337,6 +20542,8 @@ message AdServicesApiCalled {
         TARGETING = 1;
         FLEDGE = 2;
         MEASUREMENT = 3;
+        ADID = 4;
+        APPSETID = 5;
     }
 
     enum AdServicesApiName {
@@ -20354,6 +20561,8 @@ message AdServicesApiCalled {
         OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
         REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
+        GET_ADID = 14;
+        GET_APPSETID = 15;
     }
 
     optional AdServicesApiClassType api_class = 1;
@@ -21187,4 +21396,178 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+}
+
+message PrivacySignalNotificationInteraction {
+
+    enum Action {
+        UNKNOWN = 0;
+        NOTIFICATION_SHOWN = 1;
+        NOTIFICATION_CLICKED = 2;
+        DISMISSED = 3;
+    }
+
+    // Privacy source that triggered the notification
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    // Optional Uid of the package for which the notification was sent.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Action taken on the notification.
+    optional Action action = 3;
+
+    // Session Id to link the notification with the issue card.
+    optional int64 session_id = 4; // to map the notification and issue card interaction
+}
+
+message PrivacySignalIssueCardInteraction {
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        CARD_SHOWN = 1;
+        CARD_CLICKED = 2;
+        CARD_DISMISSED = 3;
+        CLICKED_CTA1 = 4;
+        CLICKED_CTA2 = 5;
+    }
+
+    // Privacy source  that pushed the issue card.
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    // Optional Uid of the package for which the issue card was sent.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Action taken on the issue card.
+    optional Action action = 3;
+
+    // Session Id to link the notification with the issue card.
+    optional int64 session_id = 4;
+}
+
+message PrivacySignalsJobFailure {
+
+    // Which privacy source for which the daily job failed.
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    enum JobFailureReason {
+        REASON_UNKNOWN = 0;
+        TIMEOUT = 1;
+        COROUTINE_CANCELLED = 2;
+    }
+    optional JobFailureReason reason =2;
+}
+
+// Logs when an API call from app to sandbox process is made
+// Next ID: 5
+message SandboxApiCalled {
+    enum Method {
+        METHOD_UNSPECIFIED = 0;
+        LOAD_SDK = 1;
+        LOAD_SANDBOX_AND_SDK = 2;
+        REQUEST_SURFACE_PACKAGE = 3;
+        SEND_DATA = 4;
+        GET_LOADED_SDK_LIBRARIES_INFO = 5;
+    }
+    // The method which was called.
+    optional Method method = 1;
+
+    enum Stage {
+        STAGE_UNSPECIFIED = 0;
+        APP_TO_SYSTEM_SERVER = 1;
+        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
+        LOAD_SANDBOX = 3;
+        SYSTEM_SERVER_TO_SANDBOX = 4;
+        SANDBOX = 5;
+        SDK = 6;
+        SANDBOX_TO_SYSTEM_SERVER = 7;
+        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
+        SYSTEM_SERVER_TO_APP = 9;
+    }
+    // The stage at which latency is being measured.
+    optional Stage stage = 4;
+
+    // The success status of the callback
+    optional bool success = 3;
+
+    //Time taken from the initiation of the API till the callback was received
+    optional int32 latency_millis = 2;
+}
+
+//Logs periodically the storage of SDKs used by the app
+message SandboxSdkStorage {
+
+    // Boolean value to specify if the storage belongs to SDK or is shared
+    optional bool shared = 1;
+
+    // Storage
+    optional int32 storage_kb = 2;
+}
+
+/**
+ * Logs stats on the download status of file groups. Provides information on
+ * download latency and download penetration.
+ */
+message MobileDataDownloadFileGroupDownloadStatusReported {
+  // The status of the file group on device: PENDING, DOWNLOADED, FAILED
+  optional android.stats.mobiledatadownload.DownloadStatus
+      file_group_download_status = 1;
+  // Timestamp of when this file group was added to the device.
+  optional int64 group_added_timestamp = 2;
+  // Timestamp of when MDD completed downloading the file group.
+  optional int64 group_downloaded_timestamp = 3;
+  // Stats specific to the file group
+  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
+  // Number of days since the last time the device attempted to log file group download status for any file group.
+  optional int32 days_since_last_log = 5;
+}
+
+/** Shared data among MobileDataDownload statistics. Not meant to be a top level atom proto.*/
+message MobileDataDownloadFileGroupStats {
+  // The name of the file group. This a string set server side used to retrieve
+  // the files. Does not contain PII.
+  optional string file_group_name = 1;
+  // Allows the clients to identify a file group based on a given set of
+  // properties. This string is set server side and does not contain PII.
+  optional string variant_id = 2;
+  // Identifier for the data file group created to identify the version of the
+  // file group.
+  optional int64 build_id = 3;
+  // The number of files in the file group.
+  optional int32 file_count = 4;
+  // Whether the file group has an account associated with it.
+  optional bool has_account = 5;
+  // Inverse of the sampling rate used to sample this event.
+  optional int32 sampling_interval = 6;
+  // Note: we do not have owner_package since that's already transmitted.
+}
+
+/**
+ * Logs when various Privacy Sandbox settings are used.
+ */
+message AdServicesSettingsUsageReported {
+    enum AdServiceSettingRegion {
+        REGION_UNSPECIFIED = 0;
+        EU = 1;
+        ROW = 2;
+    }
+
+    optional AdServiceSettingRegion region = 1;
+
+    enum AdServiceSettingsName {
+        ACTION_UNSPECIFIED = 0;
+        REQUESTED_NOTIFICATION = 1;
+        LANDING_PAGE_DISPLAYED = 2;
+        OPT_IN_SELECTED = 3;
+        OPT_OUT_SELECTED = 4;
+        MANAGE_TOPICS_SELECTED = 5;
+        MANAGE_APPS_SELECTED = 6;
+        RESET_TOPIC_SELECTED = 7;
+        RESET_APP_SELECTED = 8;
+        BLOCK_TOPIC_SELECTED = 9;
+        UNBLOCK_TOPIC_SELECTED = 10;
+        BLOCK_APP_SELECTED = 11;
+        UNBLOCK_APP_SELECTED = 12;
+    }
+
+    optional AdServiceSettingsName action = 2;
 }
