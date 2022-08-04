@@ -755,7 +755,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10160
+    // Next: 10161
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -947,6 +947,7 @@ message Atom {
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
         SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+        MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -15531,6 +15532,20 @@ message UserInfo {
     // Note that this is NOT synonymous with being the 'current' user. Multiple users may be
     // running unlocked, with one in the foreground and others running in the background.
     optional bool is_user_running_unlocked = 7;
+}
+
+
+/**
+ * The MultiUserInfo information about maximum supported users on the device.
+ *
+ * This will be pulled from
+ *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
+ */
+message MultiUserInfo {
+    // Maximum users supported on the device
+    optional int32 max_supported_users = 1;
+    // Whether multi user setting is on.
+    optional bool multi_user_setting_on = 2;
 }
 
 /**
