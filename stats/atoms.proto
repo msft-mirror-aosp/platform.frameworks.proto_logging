@@ -735,8 +735,9 @@ message Atom {
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
-        DisplayBrightnessChanged display_brightness_changed = 492 [(module) = "framework"];
+        // reserved 492
         AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
+        DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -939,7 +940,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 83, 10008, 10036, 10040, 10041;
+    reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041;
 }
 
 /**
@@ -7010,7 +7011,6 @@ message UIInteractionFrameInfoReported {
     enum InteractionType {
         UNKNOWN = 0;
         NOTIFICATION_SHADE_SWIPE = 1;
-        SHADE_EXPAND_COLLAPSE_LOCK = 2;
         SHADE_SCROLL_FLING = 3;
         SHADE_ROW_EXPAND = 4;
         SHADE_ROW_SWIPE = 5;
@@ -7072,6 +7072,7 @@ message UIInteractionFrameInfoReported {
         TASKBAR_EXPAND = 61;
         TASKBAR_COLLAPSE = 62;
         SHADE_CLEAR_ALL = 63;
+        reserved 2;
     }
 
     optional InteractionType interaction_type = 1;
