@@ -940,7 +940,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041;
+    reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041, 21004, 21005;
 }
 
 /**
