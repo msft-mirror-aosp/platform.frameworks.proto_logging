@@ -711,6 +711,8 @@ message Atom {
                 477 [(module) = "framework"];
         BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
         VibrationReported vibration_reported = 487 [(module) = "framework"];
+        // reserved 492
+        DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -911,8 +913,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-
-    reserved 83, 10008, 10036, 10040, 10041;
+    reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041;
 }
 
 /**
@@ -21254,4 +21255,52 @@ message OutgoingMms {
 
     // Whether MmsService or carrier app uploaded the MMS to the network.
     optional bool handled_by_carrier_app = 12;
+}
+
+// Logs Display Brightness change events.
+message DisplayBrightnessChanged {
+
+    enum Reason {
+        REASON_UNKNOWN = 0;
+        REASON_MANUAL = 1;
+    }
+
+    // Display brightness before the brightness event, in nits.
+    optional float initial_nits = 1;
+
+    // Display brightness after the brightness event, in nits.
+    optional float end_nits = 2;
+
+    // Estimated ambient light, in lux.
+    optional float lux = 3;
+
+    // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
+    // "local:$PHYSICAL_ID".
+    optional string physical_display_id = 4;
+
+    // Whether the short term model was active at the time of the event.
+    optional bool short_term_model_active = 5;
+
+    // The factor to adjust the screen brightness in low power mode in the range
+    // 0 (screen off) to 1 (no change).
+    // If not applied, this is set to -1.
+    optional float power_brightness_factor = 6;
+
+    // The level of Reduce Bright Colors (RBC) intensity, the range is [0, 100].
+    // If RBC is not enabled, this is set to -1;
+    optional int32 reduce_bright_colors_strength = 7;
+
+    // Max nits value when High Brightness Mode (HBM) is enabled.
+    // If HBM is not enabled, this is set to -1;
+    optional float hbm_current_max = 8;
+
+    // Thermal throttling cap.
+    // If thermal throttling not enabled, this is -1.
+    optional float thermal_throttling_cap = 9;
+
+    // Whether adaptive brightness is enabled.
+    optional bool adaptive_brightness_enabled = 10;
+
+    // Reason that triggered the brightness event to occur.
+    optional Reason reason = 11;
 }
