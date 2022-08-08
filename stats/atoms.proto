@@ -773,6 +773,8 @@ message Atom {
         AmbientModeChanged ambient_mode_changed_reported = 515 [(module) = "framework"];
         ANRLatencyReported anr_latency_reported = 516 [(module) = "framework"];
         ResourceValueApiStatisticsReported resource_api_info = 517 [(module) = "framework"];
+        SystemDefaultNetworkChanged system_default_network_changed =
+            518 [(module) = "network_stack"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9630,6 +9632,19 @@ message NetworkIpReachabilityMonitorReported {
 
     // NUD neighbor type, default gateway, DNS server or both.
     optional android.stats.connectivity.NudNeighborType neighbor_type = 3;
+}
+
+/**
+ * Logs when system default network changes.
+ */
+message SystemDefaultNetworkChanged {
+    // Active transport types encoded as a 32 bit integer.
+    // The integer will have n-th bit set if there was an active transport type of value n.
+    // Transport type values are defined in packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 transportTypes = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
