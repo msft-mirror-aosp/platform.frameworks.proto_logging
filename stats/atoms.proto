@@ -738,6 +738,7 @@ message Atom {
         // reserved 492
         AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
+        ActivityActionBlocked activity_action_blocked = 495 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1072,6 +1073,25 @@ message ScreenStateChanged {
     // New screen state, from frameworks/proto_logging/stats/enums/view/enums.proto.
     optional android.view.DisplayStateEnum state = 1
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
+}
+
+/**
+ * Part of the go/activity-security project. Logs information about activity
+ * starts which would be blocked as part of the project.
+ *
+ * Logged from:
+ *  - frameworks/base/services/core/java/com/android/server/wm/ActivityStarter.java
+ */
+message ActivityActionBlocked {
+    optional int32 caller_uid = 1 [(is_uid) = true];
+    optional string caller_activity_class_name = 2;
+    optional int32 target_task_top_activity_uid = 3 [(is_uid) = true];
+    optional string target_task_top_activity_class_name = 4;
+    optional bool target_task_is_different = 5;
+    optional int32 target_activity_uid = 6 [(is_uid) = true];
+    optional string target_activity_class_name = 7;
+    optional string target_intent_action = 8;
+    optional int32 target_intent_flags = 9;
 }
 
 /**
@@ -21891,6 +21911,8 @@ message SandboxApiCalled {
         REQUEST_SURFACE_PACKAGE = 3;
         SEND_DATA = 4;
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        SYNC_DATA_FROM_CLIENT = 6;
+        UNLOAD_SDK = 7;
     }
     // The method which was called.
     optional Method method = 1;
@@ -21966,7 +21988,7 @@ message MobileDataDownloadFileGroupStats {
 }
 
 // Logs Display Brightness change events.
-message DisplayBrightnessChanged{
+message DisplayBrightnessChanged {
 
     enum Reason {
         REASON_UNKNOWN = 0;
@@ -21974,29 +21996,31 @@ message DisplayBrightnessChanged{
     }
 
     // Display brightness before the brightness event, in nits.
-    optional float source_nits = 1;
+    optional float initial_nits = 1;
 
     // Display brightness after the brightness event, in nits.
-    optional float target_nits = 2;
+    optional float end_nits = 2;
 
-    // Average ambient light, in lux.
+    // Estimated ambient light, in lux.
     optional float lux = 3;
 
-    // Physical display id, only logged for non-virtual displays.
+    // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
+    // "local:$PHYSICAL_ID".
     optional string physical_display_id = 4;
 
     // Whether the short term model was active at the time of the event.
     optional bool short_term_model_active = 5;
 
-    // Factor applied to the brightness by power saving features.
+    // The factor to adjust the screen brightness in low power mode in the range
+    // 0 (screen off) to 1 (no change).
     // If not applied, this is set to -1.
     optional float power_brightness_factor = 6;
 
-    // RBC strength.
+    // The level of Reduce Bright Colors (RBC) intensity, the range is [0, 100].
     // If RBC is not enabled, this is set to -1;
     optional int32 reduce_bright_colors_strength = 7;
 
-    // Max nits value when HBM is enabled.
+    // Max nits value when High Brightness Mode (HBM) is enabled.
     // If HBM is not enabled, this is set to -1;
     optional float hbm_current_max = 8;
 
