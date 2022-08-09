@@ -21467,6 +21467,8 @@ message SandboxApiCalled {
         REQUEST_SURFACE_PACKAGE = 3;
         SEND_DATA = 4;
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        SYNC_DATA_FROM_CLIENT = 6;
+        UNLOAD_SDK = 7;
     }
     // The method which was called.
     optional Method method = 1;
