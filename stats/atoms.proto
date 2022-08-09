@@ -6238,6 +6238,15 @@ message BroadcastDeliveryEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 5;
+
+    /** The delay in ms from enqueue to dispatch of this intent to the set of receivers. */
+    optional int64 dispatch_delay = 6;
+
+    /** The delay in ms from beginning of dispatch to this specific receiver. */
+    optional int64 receive_delay = 7;
+
+    /** The delay in ms from dispatch to finish the handling of this intent. */
+    optional int64 finish_delay = 8;
 }
 
 /**
