@@ -750,6 +750,8 @@ message Atom {
                 500 [(module) = "adservices"];
         RunAdBiddingPerCAProcessReported run_ad_bidding_per_ca_process_reported =
                 501 [(module) = "adservices"];
+        MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
+        MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -18755,7 +18757,7 @@ message OdrefreshReported {
         // A placeholder for unknown values.
         TRIGGER_UNKNOWN = 0;
 
-        // ART apex version has changed since time artifacts were generated.
+        // ART APEX version has changed since time artifacts were generated.
         TRIGGER_APEX_VERSION_MISMATCH = 1;
 
         // Dex files on the boot classpath or system_server classpath have changed.
@@ -18777,10 +18779,12 @@ message OdrefreshReported {
         // Preparation for compilation.
         STAGE_PREPARATION = 20;
 
-        // Compilation of primary boot classpath extensions.
+        // Compilation of the boot classpath for the primary architecture
+        // ("primary boot classpath").
         STAGE_PRIMARY_BOOT_CLASSPATH = 30;
 
-        // Compilation of secondary boot classpath extensions.
+        // Compilation of the boot classpath for the secondary architecture
+        // ("secondary boot classpath"), if any.
         STAGE_SECONDARY_BOOT_CLASSPATH = 40;
 
         // Compilation of system_server classpath.
@@ -18820,10 +18824,12 @@ message OdrefreshReported {
 
     optional Status status = 4;
 
-    // Compilation time iof primary boot classpath extensions.
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath").
     optional int32 primary_bcp_compilation_seconds = 5;
 
-    // Compilation time of secondary boot classpath extensions.
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any.
     optional int32 secondary_bcp_compilation_seconds = 6;
 
     // Compilation time of system_server classpath.
@@ -22109,6 +22115,50 @@ message MobileDataDownloadFileGroupStats {
   // Inverse of the sampling rate used to sample this event.
   optional int32 sampling_interval = 6;
   // Note: we do not have owner_package since that's already transmitted.
+}
+
+/**
+* Logs stats on the result of download attempts of file groups. Provides info on individual download attempts.
+*/
+message MobileDataDownloadDownloadResultReported {
+  // The result of the download attempt
+  optional android.stats.mobiledatadownload.DownloadResult download_result = 1;
+
+  // Specifies which file group the download attempt was for
+  optional MobileDataDownloadFileGroupStats file_group_stats = 2 [(log_mode) = MODE_BYTES];
+}
+
+/**
+* Logs stats on the amount of storage being used by file groups.
+*/
+message MobileDataDownloadFileGroupStorageStatsReported {
+  // Storage stats for all file groups in the MDD Instance
+  optional MobileDataDownloadStorageStats storage_stats = 1  [(log_mode) = MODE_BYTES];
+  // All the bytes used by mdd file groups
+  optional int64 total_mdd_bytes_used = 2;
+  // All the bytes used in the entire mdd directory
+  optional int64 total_mdd_directory_bytes_used = 3;
+}
+
+/**
+* Container for MobileDataDownloadFileGroupStorageStats
+*/
+message MobileDataDownloadStorageStats {
+    repeated MobileDataDownloadFileGroupStorageStats mobile_data_download_file_group_storage_stats = 1;
+}
+
+/**
+* Storage stats for a single file group. This is logged as a nested field and is not meant to be logged as a top level proto.
+*/
+message MobileDataDownloadFileGroupStorageStats {
+  // The total number of bytes used by this file group
+  optional int64 total_bytes_used = 1;
+  // The total number of inline file bytes used by this file group
+  optional int64 total_inline_bytes_used = 2;
+  // The number of bytes used for the downloaded version of the file group
+  optional int64 downloaded_group_bytes_used = 3;
+  // Specifies which file group this storage is associated with
+  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(log_mode) = MODE_BYTES];
 }
 
 // Logs Display Brightness change events.
