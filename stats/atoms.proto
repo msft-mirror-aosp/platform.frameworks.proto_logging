@@ -20646,7 +20646,7 @@ message AdServicesApiCalled {
     //  * overrideCustomAudienceRemoteInfo()
     //  * removeCustomAudienceRemoteInfoOverride()
     //  * resetAllCustomAudienceOverrides()
-    //  * runAdSelection()
+    //  * selectAds()
     //  * reportImpression()
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
@@ -20677,7 +20677,7 @@ message AdServicesApiCalled {
         GET_TOPICS = 1;
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
-        RUN_AD_SELECTION = 4;
+        SELECT_ADS = 4;
         REGISTER = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
