@@ -10455,6 +10455,13 @@ message ProcessStartTime {
     }
 
     optional HostingTypeId hosting_type_id = 11;
+
+    enum TriggerType {
+        TRIGGER_TYPE_UNKNOWN = 0;
+        TRIGGER_TYPE_ALARM = 1;
+    }
+
+    optional TriggerType trigger_type = 12;
 }
 
 /**
