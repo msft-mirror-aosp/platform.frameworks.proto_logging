@@ -752,6 +752,7 @@ message Atom {
                 501 [(module) = "adservices"];
         MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
         MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
+        NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -6272,6 +6273,15 @@ message BroadcastDeliveryEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 5;
+
+    /** The delay in ms from enqueue to dispatch of this intent to the set of receivers. */
+    optional int64 dispatch_delay = 6;
+
+    /** The delay in ms from beginning of dispatch to this specific receiver. */
+    optional int64 receive_delay = 7;
+
+    /** The delay in ms from dispatch to finish the handling of this intent. */
+    optional int64 finish_delay = 8;
 }
 
 /**
@@ -9011,6 +9021,23 @@ message BatteryUsageStatsAtomsProto {
 
     // Total amount of time battery was discharging during the reported session
     optional int64 discharge_duration_millis = 7;
+
+    // Notes the power model used for a power component.
+    message PowerComponentModel {
+        // Holds android.os.PowerComponentEnum, or custom component value between 1000 and 9999.
+        optional int32 component = 1;
+
+        enum PowerModel {
+            UNDEFINED = 0;
+            POWER_PROFILE = 1;
+            MEASURED_ENERGY = 2;
+        }
+
+        optional PowerModel power_model = 2;
+    }
+
+    // The power model used for each power component.
+    repeated PowerComponentModel component_models = 8;
 }
 
 /**
@@ -9379,6 +9406,20 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+}
+
+/**
+ * logs the number of DNS servers supported by the protocol
+ */
+message NetworkDnsServerSupportReported {
+    // The network type of the network
+    optional android.stats.dnsresolver.NetworkType network_type = 1;
+
+    // The private DNS mode of the network
+    optional android.stats.dnsresolver.PrivateDnsModes private_dns_modes = 2;
+
+    // Stores the state of all DNS servers for this network
+    optional android.stats.dnsresolver.Servers servers = 3 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -10423,6 +10464,13 @@ message ProcessStartTime {
     }
 
     optional HostingTypeId hosting_type_id = 11;
+
+    enum TriggerType {
+        TRIGGER_TYPE_UNKNOWN = 0;
+        TRIGGER_TYPE_ALARM = 1;
+    }
+
+    optional TriggerType trigger_type = 12;
 }
 
 /**
@@ -20941,7 +20989,7 @@ message AdServicesApiCalled {
     //  * overrideCustomAudienceRemoteInfo()
     //  * removeCustomAudienceRemoteInfoOverride()
     //  * resetAllCustomAudienceOverrides()
-    //  * runAdSelection()
+    //  * selectAds()
     //  * reportImpression()
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
@@ -20972,7 +21020,7 @@ message AdServicesApiCalled {
         GET_TOPICS = 1;
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
-        RUN_AD_SELECTION = 4;
+        SELECT_ADS = 4;
         REGISTER = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
