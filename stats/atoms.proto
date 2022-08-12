@@ -20435,6 +20435,7 @@ message DropboxEntryDropped {
         CLEARING_DATA = 3;
         AGED = 4;
         WRITE_FAILURE = 5;
+        ENTRY_TOO_LARGE = 6;
 
         reserved 1, 2;
     }
