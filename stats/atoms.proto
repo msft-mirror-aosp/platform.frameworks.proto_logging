@@ -752,6 +752,7 @@ message Atom {
                 501 [(module) = "adservices"];
         MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
         MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
+        NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9011,6 +9012,23 @@ message BatteryUsageStatsAtomsProto {
 
     // Total amount of time battery was discharging during the reported session
     optional int64 discharge_duration_millis = 7;
+
+    // Notes the power model used for a power component.
+    message PowerComponentModel {
+        // Holds android.os.PowerComponentEnum, or custom component value between 1000 and 9999.
+        optional int32 component = 1;
+
+        enum PowerModel {
+            UNDEFINED = 0;
+            POWER_PROFILE = 1;
+            MEASURED_ENERGY = 2;
+        }
+
+        optional PowerModel power_model = 2;
+    }
+
+    // The power model used for each power component.
+    repeated PowerComponentModel component_models = 8;
 }
 
 /**
@@ -9379,6 +9397,20 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+}
+
+/**
+ * logs the number of DNS servers supported by the protocol
+ */
+message NetworkDnsServerSupportReported {
+    // The network type of the network
+    optional android.stats.dnsresolver.NetworkType network_type = 1;
+
+    // The private DNS mode of the network
+    optional android.stats.dnsresolver.PrivateDnsModes private_dns_modes = 2;
+
+    // Stores the state of all DNS servers for this network
+    optional android.stats.dnsresolver.Servers servers = 3 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -18757,7 +18789,7 @@ message OdrefreshReported {
         // A placeholder for unknown values.
         TRIGGER_UNKNOWN = 0;
 
-        // ART apex version has changed since time artifacts were generated.
+        // ART APEX version has changed since time artifacts were generated.
         TRIGGER_APEX_VERSION_MISMATCH = 1;
 
         // Dex files on the boot classpath or system_server classpath have changed.
@@ -18779,10 +18811,12 @@ message OdrefreshReported {
         // Preparation for compilation.
         STAGE_PREPARATION = 20;
 
-        // Compilation of primary boot classpath extensions.
+        // Compilation of the boot classpath for the primary architecture
+        // ("primary boot classpath").
         STAGE_PRIMARY_BOOT_CLASSPATH = 30;
 
-        // Compilation of secondary boot classpath extensions.
+        // Compilation of the boot classpath for the secondary architecture
+        // ("secondary boot classpath"), if any.
         STAGE_SECONDARY_BOOT_CLASSPATH = 40;
 
         // Compilation of system_server classpath.
@@ -18822,10 +18856,12 @@ message OdrefreshReported {
 
     optional Status status = 4;
 
-    // Compilation time iof primary boot classpath extensions.
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath").
     optional int32 primary_bcp_compilation_seconds = 5;
 
-    // Compilation time of secondary boot classpath extensions.
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any.
     optional int32 secondary_bcp_compilation_seconds = 6;
 
     // Compilation time of system_server classpath.
@@ -20937,7 +20973,7 @@ message AdServicesApiCalled {
     //  * overrideCustomAudienceRemoteInfo()
     //  * removeCustomAudienceRemoteInfoOverride()
     //  * resetAllCustomAudienceOverrides()
-    //  * runAdSelection()
+    //  * selectAds()
     //  * reportImpression()
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
@@ -20968,7 +21004,7 @@ message AdServicesApiCalled {
         GET_TOPICS = 1;
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
-        RUN_AD_SELECTION = 4;
+        SELECT_ADS = 4;
         REGISTER = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
