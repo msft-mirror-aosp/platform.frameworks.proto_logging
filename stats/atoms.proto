@@ -14338,6 +14338,25 @@ message AppFreezeChanged {
 
     // Time since last unfrozen.
     optional int64 time_unfrozen_millis = 4;
+
+    // The list of reason should be kept in sync with @OomAdjReason in OomAdjuster.java.
+    enum OomAdjReason {
+        NONE = 0;
+        ACTIVITY = 1;
+        FINISH_RECEIVER = 2;
+        START_RECEIVER = 3;
+        BIND_SERVICE = 4;
+        UNBIND_SERVICE = 5;
+        START_SERVICE = 6;
+        GET_PROVIDER = 7;
+        REMOVE_PROVIDER = 8;
+        UI_VISIBILITY = 9;
+        ALLOWLIST = 10;
+        PROCESS_BEGIN = 11;
+        PROCESS_END = 12;
+    }
+
+    optional OomAdjReason unfreeze_reason = 5;
 }
 
 /**
