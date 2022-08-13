@@ -6273,6 +6273,15 @@ message BroadcastDeliveryEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 5;
+
+    /** The delay in ms from enqueue to dispatch of this intent to the set of receivers. */
+    optional int64 dispatch_delay = 6;
+
+    /** The delay in ms from beginning of dispatch to this specific receiver. */
+    optional int64 receive_delay = 7;
+
+    /** The delay in ms from dispatch to finish the handling of this intent. */
+    optional int64 finish_delay = 8;
 }
 
 /**
@@ -10455,6 +10464,13 @@ message ProcessStartTime {
     }
 
     optional HostingTypeId hosting_type_id = 11;
+
+    enum TriggerType {
+        TRIGGER_TYPE_UNKNOWN = 0;
+        TRIGGER_TYPE_ALARM = 1;
+    }
+
+    optional TriggerType trigger_type = 12;
 }
 
 /**
@@ -20980,8 +20996,12 @@ message AdServicesApiCalled {
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
-    //   * register()
+    //   * register() : SOURCE
+    //   * register() : TRIGGER
     //   * deleteRegistrations()
+    //   * registerWebSource()
+    //   * registerWebTrigger()
+    //   * getMeasurementApiStatus()
     //
     // AdId
     //   * GetAdId()
@@ -21005,7 +21025,7 @@ message AdServicesApiCalled {
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
         SELECT_ADS = 4;
-        REGISTER = 5;
+        REGISTER_SOURCE = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
         OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
@@ -21016,6 +21036,10 @@ message AdServicesApiCalled {
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
         GET_ADID = 14;
         GET_APPSETID = 15;
+        REGISTER_TRIGGER = 16;
+        REGISTER_WEB_SOURCE = 17;
+        REGISTER_WEB_TRIGGER = 18;
+        GET_MEASUREMENT_API_STATUS = 19;
     }
 
     optional AdServicesApiClassType api_class = 1;
