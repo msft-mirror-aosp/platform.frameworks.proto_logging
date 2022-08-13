@@ -23,6 +23,7 @@ option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
@@ -726,6 +727,18 @@ message Atom {
         SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
+        BackgroundFetchProcessReported background_fetch_process_reported =
+                496 [(module) = "adservices"];
+        UpdateCustomAudienceProcessReported update_custom_audience_process_reported =
+                497 [(module) = "adservices"];
+        RunAdBiddingProcessReported run_ad_bidding_process_reported = 498 [(module) = "adservices"];
+        RunAdScoringProcessReported run_ad_scoring_process_reported = 499 [(module) = "adservices"];
+        RunAdSelectionProcessReported run_ad_selection_process_reported =
+                500 [(module) = "adservices"];
+        RunAdBiddingPerCAProcessReported run_ad_bidding_per_ca_process_reported =
+                501 [(module) = "adservices"];
+        MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
+        MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -20505,6 +20518,119 @@ message HotwordDetectorEvents {
 }
 
 /**
+ *  Logs for a background fetch process when the runBackgroundFetch() is called.
+ */
+message BackgroundFetchProcessReported {
+    optional int32 latency_in_millis = 1;
+    optional int32 num_of_eligible_to_update_cas = 2;
+    optional android.adservices.service.BackgroundFetchResultCode result_code = 3;
+}
+
+/**
+ *  Logs for an updating a single custom audience process when the updateCustomAudience() is called.
+ */
+message UpdateCustomAudienceProcessReported {
+    optional int32 latency_in_millis = 1;
+    optional android.adservices.service.UpdateCustomAudienceResultCode result_code = 2;
+    optional int32 data_size_of_ads_in_bytes = 3;
+    optional int32 num_of_ads = 4;
+}
+
+/**
+ * Logs for the bidding stage of an ad selection process when the getBuyersCustomAudience() or
+ * the runAdBidding() is called.
+ */
+message RunAdBiddingProcessReported {
+    /* Logs when the getBuyersCustomAudience() is called. */
+    optional int32 get_buyers_custom_audience_latency_in_millis = 1;
+    optional android.adservices.service.ResultCode get_buyers_custom_audience_result_code = 2;
+    optional int32 num_buyers_requested = 3;
+    optional int32 num_buyers_fetched = 4;
+
+    /* Logs when the runAdBidding() is called. */
+    optional int32 num_of_ads_entering_bidding = 5;
+    optional int32 num_of_cas_entering_bidding = 6;
+    optional int32 num_of_cas_post_bidding = 7;
+    optional float ratio_of_cas_selecting_rmkt_ads = 8;
+    optional int32 run_ad_bidding_latency_in_millis = 9;
+    optional android.adservices.service.ResultCode run_ad_bidding_result_code = 10;
+
+    /* Time from the start of the getBuyersCustomAudience() to the end of the runAdBidding(). */
+    optional int32 total_ad_bidding_stage_latency_in_millis = 11;
+}
+
+/**
+ * Logs for the scoring stage of an ad selection process when the runAdScoring() is called.
+ */
+message RunAdScoringProcessReported {
+    /* Logs when the getAdSelectionLogic() is called. */
+    optional int32 get_ad_selection_logic_latency_in_millis = 1;
+    optional android.adservices.service.ResultCode get_ad_selection_logic_result_code = 2;
+    optional android.adservices.service.ScriptType get_ad_selection_logic_script_type = 3;
+    optional int32 fetched_ad_selection_logic_script_size_in_bytes = 4;
+
+    /* Logs when the getTrustedScoringSignals() is called. */
+    optional int32 get_trusted_scoring_signals_latency_in_millis = 5;
+    optional android.adservices.service.ResultCode get_trusted_scoring_signals_result_code = 6;
+    optional int32 fetched_trusted_scoring_signals_data_size_in_bytes = 7;
+
+    /* Logs when the getAdScores() is called. */
+    // the total scoreAds script execution time when getAdScores() is called.
+    optional int32 score_ads_latency_in_millis = 8;
+    // the overall latency of the getAdScores().
+    optional int32 get_ad_scores_latency_in_millis = 9;
+    optional android.adservices.service.ResultCode get_ad_scores_result_code = 10;
+
+    optional int32 num_of_cas_entering_scoring = 11;
+    optional int32 num_of_remarketing_ads_entering_scoring = 12;
+    optional int32 num_of_contextual_ads_entering_scoring = 13;
+    // the overall latency of the runAdScoring process.
+    optional int32 run_ad_scoring_latency_in_millis = 14;
+    optional android.adservices.service.ResultCode run_ad_scoring_result_code = 15;
+}
+
+/* Logs for the ad selection process when the runAdSelection() is called.*/
+message RunAdSelectionProcessReported {
+    /* Logs for the persisting ad selection process. */
+    optional bool is_remarketing_ads_won = 1;
+    optional int32 ad_selection_entry_size_in_bytes = 2;
+    optional int32 persist_ad_selection_latency_in_millis = 3;
+    optional android.adservices.service.ResultCode persist_ad_selection_result_code = 4;
+
+    /* Logs for the overall runAdSelection process. */
+    optional int32 run_ad_selection_latency_in_millis = 5;
+    optional android.adservices.service.ResultCode run_ad_selection_result_code = 6;
+}
+
+/**
+ *  Logs for the bidding process on a single custom audience when the runAdBiddingPerCA() is called.
+ */
+message RunAdBiddingPerCAProcessReported {
+    optional int32 num_of_ads_for_bidding = 1;
+    optional int32 run_ad_bidding_per_ca_latency_in_millis = 2;
+    optional android.adservices.service.ResultCode run_ad_bidding_per_ca_result_code = 3;
+
+    /* Logs for the getting buyer's decision logic script process. */
+    optional int32 get_buyer_decision_logic_latency_in_millis = 4;
+    optional android.adservices.service.ResultCode get_buyer_decision_logic_result_code = 5;
+    optional android.adservices.service.ScriptType buyer_decision_logic_script_type = 6;
+    optional int32 fetched_buyer_decision_logic_script_size_in_bytes = 7;
+
+    /* Logs for the getting trusted bidding signals process. */
+    optional int32 num_of_keys_of_trusted_bidding_signals = 8;
+    optional int32 fetched_trusted_bidding_signals_data_size_in_bytes = 9;
+    optional int32 get_trusted_bidding_signals_latency_in_millis = 10;
+    optional android.adservices.service.ResultCode get_trusted_bidding_signals_result_code = 11;
+
+    /* Logs when runBidding() is called. */
+    // the total generateBids script execution time when runBidding() is called..
+    optional int32 generate_bids_latency_in_millis = 12;
+    // the overall latency of runBidding().
+    optional int32 run_bidding_latency_in_millis = 13;
+    optional android.adservices.service.ResultCode run_bidding_result_code = 14;
+}
+
+/**
  * Logs when an AdServices api is called.
  */
 message AdServicesApiCalled {
@@ -20520,15 +20646,19 @@ message AdServicesApiCalled {
     //  * overrideCustomAudienceRemoteInfo()
     //  * removeCustomAudienceRemoteInfoOverride()
     //  * resetAllCustomAudienceOverrides()
-    //  * runAdSelection()
+    //  * selectAds()
     //  * reportImpression()
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
-    //   * register()
+    //   * register() : SOURCE
+    //   * register() : TRIGGER
     //   * deleteRegistrations()
+    //   * registerWebSource()
+    //   * registerWebTrigger()
+    //   * getMeasurementApiStatus()
     //
     // AdId
     //   * GetAdId()
@@ -20551,8 +20681,8 @@ message AdServicesApiCalled {
         GET_TOPICS = 1;
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
-        RUN_AD_SELECTION = 4;
-        REGISTER = 5;
+        SELECT_ADS = 4;
+        REGISTER_SOURCE = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
         OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
@@ -20563,6 +20693,10 @@ message AdServicesApiCalled {
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
         GET_ADID = 14;
         GET_APPSETID = 15;
+        REGISTER_TRIGGER = 16;
+        REGISTER_WEB_SOURCE = 17;
+        REGISTER_WEB_TRIGGER = 18;
+        GET_MEASUREMENT_API_STATUS = 19;
     }
 
     optional AdServicesApiClassType api_class = 1;
@@ -21467,6 +21601,8 @@ message SandboxApiCalled {
         REQUEST_SURFACE_PACKAGE = 3;
         SEND_DATA = 4;
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        SYNC_DATA_FROM_CLIENT = 6;
+        UNLOAD_SDK = 7;
     }
     // The method which was called.
     optional Method method = 1;
@@ -21539,6 +21675,50 @@ message MobileDataDownloadFileGroupStats {
   // Inverse of the sampling rate used to sample this event.
   optional int32 sampling_interval = 6;
   // Note: we do not have owner_package since that's already transmitted.
+}
+
+/**
+* Logs stats on the result of download attempts of file groups. Provides info on individual download attempts.
+*/
+message MobileDataDownloadDownloadResultReported {
+  // The result of the download attempt
+  optional android.stats.mobiledatadownload.DownloadResult download_result = 1;
+
+  // Specifies which file group the download attempt was for
+  optional MobileDataDownloadFileGroupStats file_group_stats = 2 [(log_mode) = MODE_BYTES];
+}
+
+/**
+* Logs stats on the amount of storage being used by file groups.
+*/
+message MobileDataDownloadFileGroupStorageStatsReported {
+  // Storage stats for all file groups in the MDD Instance
+  optional MobileDataDownloadStorageStats storage_stats = 1  [(log_mode) = MODE_BYTES];
+  // All the bytes used by mdd file groups
+  optional int64 total_mdd_bytes_used = 2;
+  // All the bytes used in the entire mdd directory
+  optional int64 total_mdd_directory_bytes_used = 3;
+}
+
+/**
+* Container for MobileDataDownloadFileGroupStorageStats
+*/
+message MobileDataDownloadStorageStats {
+    repeated MobileDataDownloadFileGroupStorageStats mobile_data_download_file_group_storage_stats = 1;
+}
+
+/**
+* Storage stats for a single file group. This is logged as a nested field and is not meant to be logged as a top level proto.
+*/
+message MobileDataDownloadFileGroupStorageStats {
+  // The total number of bytes used by this file group
+  optional int64 total_bytes_used = 1;
+  // The total number of inline file bytes used by this file group
+  optional int64 total_inline_bytes_used = 2;
+  // The number of bytes used for the downloaded version of the file group
+  optional int64 downloaded_group_bytes_used = 3;
+  // Specifies which file group this storage is associated with
+  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(log_mode) = MODE_BYTES];
 }
 
 /**
