@@ -739,6 +739,7 @@ message Atom {
                 501 [(module) = "adservices"];
         MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
         MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
+        NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9182,6 +9183,20 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+}
+
+/**
+ * logs the number of DNS servers supported by the protocol
+ */
+message NetworkDnsServerSupportReported {
+    // The network type of the network
+    optional android.stats.dnsresolver.NetworkType network_type = 1;
+
+    // The private DNS mode of the network
+    optional android.stats.dnsresolver.PrivateDnsModes private_dns_modes = 2;
+
+    // Stores the state of all DNS servers for this network
+    optional android.stats.dnsresolver.Servers servers = 3 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -20646,15 +20661,19 @@ message AdServicesApiCalled {
     //  * overrideCustomAudienceRemoteInfo()
     //  * removeCustomAudienceRemoteInfoOverride()
     //  * resetAllCustomAudienceOverrides()
-    //  * runAdSelection()
+    //  * selectAds()
     //  * reportImpression()
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
-    //   * register()
+    //   * register() : SOURCE
+    //   * register() : TRIGGER
     //   * deleteRegistrations()
+    //   * registerWebSource()
+    //   * registerWebTrigger()
+    //   * getMeasurementApiStatus()
     //
     // AdId
     //   * GetAdId()
@@ -20677,8 +20696,8 @@ message AdServicesApiCalled {
         GET_TOPICS = 1;
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
-        RUN_AD_SELECTION = 4;
-        REGISTER = 5;
+        SELECT_ADS = 4;
+        REGISTER_SOURCE = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
         OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
@@ -20689,6 +20708,10 @@ message AdServicesApiCalled {
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
         GET_ADID = 14;
         GET_APPSETID = 15;
+        REGISTER_TRIGGER = 16;
+        REGISTER_WEB_SOURCE = 17;
+        REGISTER_WEB_TRIGGER = 18;
+        GET_MEASUREMENT_API_STATUS = 19;
     }
 
     optional AdServicesApiClassType api_class = 1;
