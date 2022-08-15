@@ -390,3 +390,17 @@ enum HandshakeCause {
     HC_RECONNECT_AFTER_IDLE = 2;
     HC_RETRY_AFTER_ERROR = 3;
 }
+
+message Servers {
+    repeated Server server = 1;
+}
+
+message Server {
+    optional android.stats.dnsresolver.Protocol protocol = 1;
+
+    // The order of the dns server in the network
+    optional int32 index = 2;
+
+    // The validation status of the DNS server in the network
+    required bool validated = 3;
+}
