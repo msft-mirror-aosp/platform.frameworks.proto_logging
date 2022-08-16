@@ -23,6 +23,7 @@ package {
 
 enum_protos = [
     "enums/adservices/fledge/*.proto",
+    "enums/anr/*.proto",
     "enums/app/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/debug/*.proto",
