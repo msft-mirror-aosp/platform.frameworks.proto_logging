@@ -5459,6 +5459,12 @@ message LmkKillOccurred {
 
     // Max thrashing levels (workingset_refaults/filecache in %).
     optional int32 max_thrashing = 15;
+
+    // How many active foreground services across the system
+    optional int32 total_foreground_services = 16;
+
+    // How many processes hosting foreground services
+    optional int32 procs_with_foreground_services = 17;
 }
 
 /*
