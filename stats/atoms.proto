@@ -4960,6 +4960,9 @@ message AppStartOccurred {
 
     // The process state of the launching activity prior to the launch.
     optional AppProcessState process_state = 23;
+
+    // The oom adj score of the launching activity prior to the launch.
+    optional int32 process_oom_adj = 24;
 }
 
 message AppStartCanceled {
