@@ -1052,6 +1052,21 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DOCK_SETUP_STEP_COMPLETE = 1798;
+
+    // ACTION: Settings > Battery Usage > Click daily chart time slot
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_USAGE_DAILY_TIME_SLOT = 1799;
+
+    // ACTION: Settings > Battery Usage > Click daily chart show all
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_USAGE_DAILY_SHOW_ALL = 1800;
+
+    // Custom tag to log the battery history is loaded
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_HISTORY_LOADED = 1801;
 }
 
 /**
