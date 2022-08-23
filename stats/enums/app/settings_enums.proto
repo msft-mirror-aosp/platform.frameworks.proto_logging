@@ -2042,6 +2042,12 @@ enum PageId {
     // OPEN: Settings > System > Input & Gesture > Double twist gesture
     SETTINGS_GESTURE_DOUBLE_TWIST = 755;
 
+    // OPEN: Settings > System > Languages
+    SETTINGS_LANGUAGES_CATEGORY = 756;
+
+    // OPEN: Settings > System > Keyboard
+    SETTINGS_KEYBOARDS_CATEGORY = 757;
+
     // OPEN: Settings > Apps > Default Apps > Default browser
     DEFAULT_BROWSER_PICKER = 785;
 
