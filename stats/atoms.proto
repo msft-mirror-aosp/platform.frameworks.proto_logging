@@ -755,6 +755,7 @@ message Atom {
         NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         VmBooted vm_booted = 505 [(module) = "virtualizationservice"];
         VmExited vm_exited = 506 [(module) = "virtualizationservice"];
+        AmbientBrightnessStatsReported ambient_brightness_stats_reported = 507 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22448,4 +22449,14 @@ message AdServicesSettingsUsageReported {
     }
 
     optional AdServiceSettingsName action = 2;
+}
+
+// Logs daily ambient brightness stats.
+message AmbientBrightnessStatsReported {
+
+    // How much time was spent in each of the buckets, in seconds.
+    repeated float bucket_size_seconds = 1;
+
+    // Ambient brightness values for creating bucket boundaries from.
+    repeated float bucket_boundary_lux = 2;
 }
