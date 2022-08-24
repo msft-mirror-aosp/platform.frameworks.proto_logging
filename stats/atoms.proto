@@ -718,7 +718,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10159
+    // Next: 10161
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -908,6 +908,7 @@ message Atom {
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
+        MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -15342,6 +15343,20 @@ message UserInfo {
     optional bool is_user_running_unlocked = 7;
 }
 
+
+/**
+ * The MultiUserInfo information about maximum supported users on the device.
+ *
+ * This will be pulled from
+ *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
+ */
+message MultiUserInfo {
+    // Maximum users supported on the device
+    optional int32 max_supported_users = 1;
+    // Whether multi user setting is on.
+    optional bool multi_user_setting_on = 2;
+}
+
 /**
  * Logs when accessibility shortcut clicked.
  *
@@ -21200,8 +21215,11 @@ message OnsOpportunisticEsimProvisioningComplete {
         // Unresolvable errors such as Invalid SMDP address or activation code.
         RESULT_UNRESOLVABLE_ERROR = 8;
 
-        //Auto provisioning disabled
+        // Auto provisioning disabled
         RESULT_AUTO_PROVISIONING_DISABLED = 9;
+
+        // eSIM provisioning failed
+        RESULT_ESIM_PROVISIONING_FAILED = 10;
     }
 
     // CBRS carrier id. Filled only while reporting failure cases.
