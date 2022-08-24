@@ -21200,8 +21200,11 @@ message OnsOpportunisticEsimProvisioningComplete {
         // Unresolvable errors such as Invalid SMDP address or activation code.
         RESULT_UNRESOLVABLE_ERROR = 8;
 
-        //Auto provisioning disabled
+        // Auto provisioning disabled
         RESULT_AUTO_PROVISIONING_DISABLED = 9;
+
+        // eSIM provisioning failed
+        RESULT_ESIM_PROVISIONING_FAILED = 10;
     }
 
     // CBRS carrier id. Filled only while reporting failure cases.
