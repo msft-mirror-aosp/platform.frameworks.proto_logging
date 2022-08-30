@@ -766,6 +766,7 @@ message Atom {
         HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
         DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
             514 [(module) = "framework"];
+        AmbientModeChanged ambient_mode_changed_reported = 515 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22649,3 +22650,26 @@ message HearingAidInfoReported {
     optional BondEntry bond_entry = 3;
 }
 
+/**
+ * Logs when Ambient/OFFLOAD Mode is entered or exited.
+ *
+ * Logged from:
+ *  1. package: vendor/google_clockwork/packages/Ambient/src/com/google/android/wearable/ambient
+ *  (possible class: AmbiactiveActivityManager.java)
+ *  2. package: vendor/google_clockwork/packages/Ambient/src/com/google/android/wearable/ambient/autoresume
+ *  (possible class: AmbientLiteFlowController.java)
+ *  3. package: frameworks/opt/wear/src/com/google/android/clockwork/displayoffload
+ *  (possible class: DisplayOffloadService.java)
+ */
+message AmbientModeChanged {
+    enum AmbientStateEnum {
+        AMBIENT_ENTER = 1;
+        AMBIENT_EXIT = 2;
+        AMBIENT_LITE_ENTER = 3;
+        AMBIENT_LITE_EXIT = 4;
+        OFFLOAD_ENTER = 5;
+        OFFLOAD_EXIT = 6;
+    }
+
+    optional AmbientStateEnum state = 1;
+}
