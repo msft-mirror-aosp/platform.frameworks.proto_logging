@@ -21616,6 +21616,8 @@ message SandboxApiCalled {
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
+        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
+        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
