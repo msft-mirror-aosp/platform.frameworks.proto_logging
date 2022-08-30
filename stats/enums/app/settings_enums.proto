@@ -992,7 +992,7 @@ enum Action {
     // OS: T
     ACTION_COLUMBUS_ACTION_FLASHLIGHT = 1787;
 
-    // ACTION: Settings > Display > Daydream ("Screen Saver")
+    // ACTION: Settings > Display > Daydream (Screen saver) > Choose a screen saver
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DREAM_SELECT_TYPE = 1788;
@@ -1233,7 +1233,7 @@ enum PageId {
     // OS: 6.0
     DISPLAY = 46;
 
-    // OPEN: Settings > Display > Daydream
+    // OPEN: Settings > Display > Daydream (Screen saver)
     // CATEGORY: SETTINGS
     // OS: 6.0
     DREAM = 47;
@@ -3452,6 +3452,15 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     ACCESSIBILITY_TOGGLE_SOFTWARE_CURSOR = 1933;
+
+    // OPEN: Settings > Network & internet > Mobile network > Backup Calling > Dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    BACKUP_CALLING_DIALOG = 1934;
+
+    // OPEN: SUW choose a screen saver
+    // OS: T
+    SUW_DREAM = 1935;
 }
 
 // Battery Saver schedule types.
