@@ -22379,7 +22379,7 @@ message PrivacySignalsJobFailure {
 
 // Logs when an API call from app to sandbox process is made
 message SandboxApiCalled {
-    // Next ID: 8
+    // Next ID: 10
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
