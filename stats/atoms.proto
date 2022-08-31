@@ -10517,8 +10517,9 @@ message ProcessStartTime {
     enum TriggerType {
         TRIGGER_TYPE_UNKNOWN = 0;
         TRIGGER_TYPE_ALARM = 1;
-        TRIGGER_PUSH_MESSAGE = 2;
-        TRIGGER_PUSH_MESSAGE_OVER_QUOTA = 3;
+        TRIGGER_TYPE_PUSH_MESSAGE = 2;
+        TRIGGER_TYPE_PUSH_MESSAGE_OVER_QUOTA = 3;
+        TRIGGER_TYPE_JOB = 4;
     }
 
     optional TriggerType trigger_type = 12;
@@ -17383,6 +17384,8 @@ message VmCreationRequested {
 message VmBooted {
     optional int32 uid = 1 [(is_uid) = true];
     optional string vm_identifier = 2;
+    // Elapsed time between start and boot completion of a VM
+    optional int64 elapsed_time_millis = 3;
 }
 
 /**
@@ -17414,6 +17417,8 @@ message VmExited {
     optional int32 uid = 1 [(is_uid) = true];
     optional string vm_identifier = 2;
     optional DeathReason death_reason = 3;
+    // Elapsed time between start and termination of a VM
+    optional int64 elapsed_time_millis = 4;
 }
 
 /**
@@ -22373,17 +22378,20 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
-// Next ID: 5
 message SandboxApiCalled {
+    // Next ID: 8
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
-        LOAD_SANDBOX_AND_SDK = 2;
         REQUEST_SURFACE_PACKAGE = 3;
-        SEND_DATA = 4;
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
+        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
+        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+
+        LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
+        SEND_DATA = 4 [deprecated = true];
     }
     // The method which was called.
     optional Method method = 1;
