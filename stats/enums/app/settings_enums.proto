@@ -2057,12 +2057,6 @@ enum PageId {
     // OPEN: Settings > System > Input & Gesture > Double twist gesture
     SETTINGS_GESTURE_DOUBLE_TWIST = 755;
 
-    // OPEN: Settings > System > Languages
-    SETTINGS_LANGUAGES_CATEGORY = 756;
-
-    // OPEN: Settings > System > Keyboard
-    SETTINGS_KEYBOARDS_CATEGORY = 757;
-
     // OPEN: Settings > Apps > Default Apps > Default browser
     DEFAULT_BROWSER_PICKER = 785;
 
@@ -3461,6 +3455,21 @@ enum PageId {
     // OPEN: SUW choose a screen saver
     // OS: T
     SUW_DREAM = 1935;
+
+    // OPEN: Settings > System > Languages
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_LANGUAGES_CATEGORY = 1950;
+
+    // OPEN: Settings > System > Keyboard
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_KEYBOARDS_CATEGORY = 1960;
+
+    // OPEN: Settings > System > Keyboard > Physical keyboard > Modifier keys
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_KEYBOARDS_MODIFIER_KEYS = 1961;
 }
 
 // Battery Saver schedule types.
