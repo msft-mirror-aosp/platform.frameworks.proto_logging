@@ -739,6 +739,9 @@ message Atom {
                 501 [(module) = "adservices"];
         MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
         MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
+        NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
+        AdServicesMeasurementRegistrations ad_services_measurement_registrations =
+            512 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9182,6 +9185,20 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+}
+
+/**
+ * logs the number of DNS servers supported by the protocol
+ */
+message NetworkDnsServerSupportReported {
+    // The network type of the network
+    optional android.stats.dnsresolver.NetworkType network_type = 1;
+
+    // The private DNS mode of the network
+    optional android.stats.dnsresolver.PrivateDnsModes private_dns_modes = 2;
+
+    // Stores the state of all DNS servers for this network
+    optional android.stats.dnsresolver.Servers servers = 3 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -20653,8 +20670,12 @@ message AdServicesApiCalled {
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
-    //   * register()
+    //   * register() : SOURCE
+    //   * register() : TRIGGER
     //   * deleteRegistrations()
+    //   * registerWebSource()
+    //   * registerWebTrigger()
+    //   * getMeasurementApiStatus()
     //
     // AdId
     //   * GetAdId()
@@ -20678,7 +20699,7 @@ message AdServicesApiCalled {
         JOIN_CUSTOM_AUDIENCE = 2;
         LEAVE_CUSTOM_AUDIENCE = 3;
         SELECT_ADS = 4;
-        REGISTER = 5;
+        REGISTER_SOURCE = 5;
         DELETE_REGISTRATIONS = 6;
         REPORT_IMPRESSION = 7;
         OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
@@ -20689,9 +20710,13 @@ message AdServicesApiCalled {
         RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
         GET_ADID = 14;
         GET_APPSETID = 15;
+        REGISTER_TRIGGER = 16;
+        REGISTER_WEB_SOURCE = 17;
+        REGISTER_WEB_TRIGGER = 18;
+        GET_MEASUREMENT_API_STATUS = 19;
     }
 
-    optional AdServicesApiClassType api_class = 1;
+    optional AdServicesApiClassType api_class = 1 [deprecated = true];
 
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
@@ -20724,6 +20749,21 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+}
+
+/**
+ * Logs registration response size when registration URI is pinged.
+ */
+message AdServicesMeasurementRegistrations {
+    enum RegistrationType {
+        UNKNOWN_REGISTRATION = 0;
+        SOURCE = 1;
+        TRIGGER = 2;
+    }
+
+    optional RegistrationType type = 1;
+    optional int64 response_size_in_bytes = 2;
+    optional string adtech_url_domain_if_size_above_threshold = 3;
 }
 
 /**
@@ -21584,17 +21624,20 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
-// Next ID: 5
 message SandboxApiCalled {
+    // Next ID: 8
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
-        LOAD_SANDBOX_AND_SDK = 2;
         REQUEST_SURFACE_PACKAGE = 3;
-        SEND_DATA = 4;
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
+        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
+        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+
+        LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
+        SEND_DATA = 4 [deprecated = true];
     }
     // The method which was called.
     optional Method method = 1;
