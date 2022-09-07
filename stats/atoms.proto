@@ -760,6 +760,8 @@ message Atom {
         MediametricsSpatializerDeviceEnabledReported mediametrics_spatializerdeviceenabled_reported = 509;
         MediametricsHeadTrackerDeviceEnabledReported mediametrics_headtrackerdeviceenabled_reported = 510;
         MediametricsHeadTrackerDeviceSupportedReported mediametrics_headtrackerdevicesupported_reported = 511;
+        AdServicesMeasurementRegistrations ad_services_measurement_registrations =
+            512 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21365,6 +21367,21 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+}
+
+/**
+ * Logs registration response size when registration URI is pinged.
+ */
+message AdServicesMeasurementRegistrations {
+    enum RegistrationType {
+        UNKNOWN_REGISTRATION = 0;
+        SOURCE = 1;
+        TRIGGER = 2;
+    }
+
+    optional RegistrationType type = 1;
+    optional int64 response_size_in_bytes = 2;
+    optional string adtech_url_domain_if_size_above_threshold = 3;
 }
 
 /**
