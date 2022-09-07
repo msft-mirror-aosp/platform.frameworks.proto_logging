@@ -937,6 +937,7 @@ message Atom {
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+        NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -21785,4 +21786,19 @@ message AdServicesSettingsUsageReported {
     }
 
     optional AdServiceSettingsName action = 2;
+}
+
+// Logs information about bpf maps in BpfNetMaps.
+//
+// Logged from:
+//   packages/modules/Connectivity/service/src/com/android/server/BpfNetMaps.java
+message NetworkBpfMapInfo {
+    // The size of cookie tag bpf map.
+    optional int32 cookie_tag_map_size = 1;
+
+    // The size of uid owner bpf map.
+    optional int32 uid_owner_map_size = 2;
+
+    // The size of uid permission bpf map.
+    optional int32 uid_permission_map_size = 3;
 }
