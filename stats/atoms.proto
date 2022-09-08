@@ -17,8 +17,6 @@
 syntax = "proto2";
 
 package android.os.statsd;
-
-option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
@@ -68,8 +66,6 @@ import "frameworks/proto_logging/stats/enums/stats/launcher/launcher.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
-import "frameworks/proto_logging/stats/enums/stats/mobiledatadownload/enums.proto";
-import "frameworks/proto_logging/stats/enums/stats/privacysignals/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/style/style_enums.proto";
@@ -719,18 +715,12 @@ message Atom {
         CellBroadcastModuleError cb_module_error = 480 [(module) = "cellbroadcast"];
         CellBroadcastServiceFeature cb_service_feature= 481 [(module) = "cellbroadcast"];
         CellBroadcastReceiverFeature cb_receiver_feature= 482 [(module) = "cellbroadcast"];
-        JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
-        PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
-        PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
-        PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
-        SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
-        MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10160
+    // Next: 10153
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -919,7 +909,6 @@ message Atom {
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
-        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -927,19 +916,6 @@ message Atom {
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
     reserved 83, 10008, 10036, 10040, 10041;
-}
-
-message JSScriptEngineLatencyReported {
-    enum LatencyStat {
-      UNKNOWN = 0;
-      SANDBOX_INIT = 1;
-      ISOLATE_CREATE = 2;
-      JAVA_PROCESS_EXECUTION = 3;
-      WEBVIEW_PROCESS_EXECUTION = 4;
-    }
-
-    optional LatencyStat stat = 1;
-    optional int64 latency_millis = 2;
 }
 
 /**
@@ -21357,130 +21333,4 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
-}
-
-message PrivacySignalNotificationInteraction {
-
-    enum Action {
-        UNKNOWN = 0;
-        NOTIFICATION_SHOWN = 1;
-        NOTIFICATION_CLICKED = 2;
-        DISMISSED = 3;
-    }
-
-    // Privacy source that triggered the notification
-    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
-
-    // Optional Uid of the package for which the notification was sent.
-    optional int32 uid = 2 [(is_uid) = true];
-
-    // Action taken on the notification.
-    optional Action action = 3;
-
-    // Session Id to link the notification with the issue card.
-    optional int64 session_id = 4; // to map the notification and issue card interaction
-}
-
-message PrivacySignalIssueCardInteraction {
-
-    enum Action {
-        ACTION_UNKNOWN = 0;
-        CARD_SHOWN = 1;
-        CARD_CLICKED = 2;
-        CARD_DISMISSED = 3;
-        CLICKED_CTA1 = 4;
-        CLICKED_CTA2 = 5;
-    }
-
-    // Privacy source  that pushed the issue card.
-    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
-
-    // Optional Uid of the package for which the issue card was sent.
-    optional int32 uid = 2 [(is_uid) = true];
-
-    // Action taken on the issue card.
-    optional Action action = 3;
-
-    // Session Id to link the notification with the issue card.
-    optional int64 session_id = 4;
-}
-
-message PrivacySignalsJobFailure {
-
-    // Which privacy source for which the daily job failed.
-    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
-
-    enum JobFailureReason {
-        REASON_UNKNOWN = 0;
-        TIMEOUT = 1;
-        COROUTINE_CANCELLED = 2;
-    }
-    optional JobFailureReason reason =2;
-}
-
-// Logs when an API call from app to sandbox process is made
-message SandboxApiCalled {
-    enum Method {
-        METHOD_UNSPECIFIED = 0;
-        LOAD_SDK = 1;
-        LOAD_SANDBOX_AND_SDK = 2;
-        REQUEST_SURFACE_PACKAGE = 3;
-    }
-
-    // The method which was called.
-    optional Method method = 1;
-
-    //Time taken from the initiation of the API till the callback was received
-    optional int32 latency_millis = 2;
-
-    // The success status of the callback
-    optional bool success = 3;
-}
-
-//Logs periodically the storage of SDKs used by the app
-message SandboxSdkStorage {
-
-    // Boolean value to specify if the storage belongs to SDK or is shared
-    optional bool shared = 1;
-
-    // Storage
-    optional int32 storage_kb = 2;
-}
-
-/**
- * Logs stats on the download status of file groups. Provides information on
- * download latency and download penetration.
- */
-message MobileDataDownloadFileGroupDownloadStatusReported {
-  // The status of the file group on device: PENDING, DOWNLOADED, FAILED
-  optional android.stats.mobiledatadownload.DownloadStatus
-      file_group_download_status = 1;
-  // Timestamp of when this file group was added to the device.
-  optional int64 group_added_timestamp = 2;
-  // Timestamp of when MDD completed downloading the file group.
-  optional int64 group_downloaded_timestamp = 3;
-  // Stats specific to the file group
-  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
-  // Number of days since the last time the device attempted to log file group download status for any file group.
-  optional int32 days_since_last_log = 5;
-}
-
-/** Shared data among MobileDataDownload statistics. Not meant to be a top level atom proto.*/
-message MobileDataDownloadFileGroupStats {
-  // The name of the file group. This a string set server side used to retrieve
-  // the files. Does not contain PII.
-  optional string file_group_name = 1;
-  // Allows the clients to identify a file group based on a given set of
-  // properties. This string is set server side and does not contain PII.
-  optional string variant_id = 2;
-  // Identifier for the data file group created to identify the version of the
-  // file group.
-  optional int64 build_id = 3;
-  // The number of files in the file group.
-  optional int32 file_count = 4;
-  // Whether the file group has an account associated with it.
-  optional bool has_account = 5;
-  // Inverse of the sampling rate used to sample this event.
-  optional int32 sampling_interval = 6;
-  // Note: we do not have owner_package since that's already transmitted.
 }
