@@ -21056,6 +21056,8 @@ message AutofillPresentationEventReported {
         6;  // Session was prematurely committed. This can happen due to various
             // reasons, eg: app developers calling commit() earlier than when
             // they should.
+    NONE_SHOWN_FILL_REQUEST_FAILED =
+        7; // Autofill provider request failed. Different from timeout.
   }
 
   // Id number which increases for each subsequent request.
@@ -21092,6 +21094,17 @@ message AutofillPresentationEventReported {
 
   // How the dataset is supposed to be shown to the user
   optional AutofillDisplayPresentationType display_presentation_type = 9;
+
+  // Autofill Service Provider's uid
+  optional int32 autofill_service_uid = 10 [(is_uid) = true];
+
+  // Inline suggestion host's uid. Populated only when
+  // AutofillDisplayPresentationType = INLINE
+  optional int32 inline_suggestion_host_uid = 11 [(is_uid) = true];
+
+  // Whether a new request was triggered or alternatively served from cached
+  // response.
+  optional bool is_request_triggered = 12;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
