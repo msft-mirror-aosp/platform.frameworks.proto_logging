@@ -740,6 +740,8 @@ message Atom {
         MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
         MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
         NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
+        AdServicesMeasurementRegistrations ad_services_measurement_registrations =
+            512 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -935,6 +937,7 @@ message Atom {
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+        NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -20714,7 +20717,7 @@ message AdServicesApiCalled {
         GET_MEASUREMENT_API_STATUS = 19;
     }
 
-    optional AdServicesApiClassType api_class = 1;
+    optional AdServicesApiClassType api_class = 1 [deprecated = true];
 
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
@@ -20747,6 +20750,21 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+}
+
+/**
+ * Logs registration response size when registration URI is pinged.
+ */
+message AdServicesMeasurementRegistrations {
+    enum RegistrationType {
+        UNKNOWN_REGISTRATION = 0;
+        SOURCE = 1;
+        TRIGGER = 2;
+    }
+
+    optional RegistrationType type = 1;
+    optional int64 response_size_in_bytes = 2;
+    optional string adtech_url_domain_if_size_above_threshold = 3;
 }
 
 /**
@@ -21607,17 +21625,20 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
-// Next ID: 5
 message SandboxApiCalled {
+    // Next ID: 8
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
-        LOAD_SANDBOX_AND_SDK = 2;
         REQUEST_SURFACE_PACKAGE = 3;
-        SEND_DATA = 4;
         GET_LOADED_SDK_LIBRARIES_INFO = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
+        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
+        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+
+        LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
+        SEND_DATA = 4 [deprecated = true];
     }
     // The method which was called.
     optional Method method = 1;
@@ -21765,4 +21786,19 @@ message AdServicesSettingsUsageReported {
     }
 
     optional AdServiceSettingsName action = 2;
+}
+
+// Logs information about bpf maps in BpfNetMaps.
+//
+// Logged from:
+//   packages/modules/Connectivity/service/src/com/android/server/BpfNetMaps.java
+message NetworkBpfMapInfo {
+    // The size of cookie tag bpf map.
+    optional int32 cookie_tag_map_size = 1;
+
+    // The size of uid owner bpf map.
+    optional int32 uid_owner_map_size = 2;
+
+    // The size of uid permission bpf map.
+    optional int32 uid_permission_map_size = 3;
 }
