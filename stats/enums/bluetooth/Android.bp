@@ -33,7 +33,7 @@ cc_library_static {
         "smp/enums.proto",
     ],
     apex_available: [
-        "com.android.bluetooth",
+        "com.android.btservices",
     ],
     min_sdk_version: "30",
 }
