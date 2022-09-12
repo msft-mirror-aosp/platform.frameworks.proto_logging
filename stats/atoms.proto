@@ -16703,7 +16703,7 @@ message VmCreationRequested {
 
     optional ConfigType config_type = 7;
     optional int32 num_cpus = 8;
-    optional string cpu_affinity = 9;
+    optional string cpu_affinity = 9 [deprecated = true];
     optional int32 memory_mib = 10;
     optional string apexes = 11;
 
