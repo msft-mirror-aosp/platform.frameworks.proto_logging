@@ -937,6 +937,7 @@ message Atom {
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+        NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -18531,7 +18532,7 @@ message OdrefreshReported {
         // A placeholder for unknown values.
         TRIGGER_UNKNOWN = 0;
 
-        // ART apex version has changed since time artifacts were generated.
+        // ART APEX version has changed since time artifacts were generated.
         TRIGGER_APEX_VERSION_MISMATCH = 1;
 
         // Dex files on the boot classpath or system_server classpath have changed.
@@ -18553,10 +18554,12 @@ message OdrefreshReported {
         // Preparation for compilation.
         STAGE_PREPARATION = 20;
 
-        // Compilation of primary boot classpath extensions.
+        // Compilation of the boot classpath for the primary architecture
+        // ("primary boot classpath").
         STAGE_PRIMARY_BOOT_CLASSPATH = 30;
 
-        // Compilation of secondary boot classpath extensions.
+        // Compilation of the boot classpath for the secondary architecture
+        // ("secondary boot classpath"), if any.
         STAGE_SECONDARY_BOOT_CLASSPATH = 40;
 
         // Compilation of system_server classpath.
@@ -18596,13 +18599,15 @@ message OdrefreshReported {
 
     optional Status status = 4;
 
-    // Compilation time iof primary boot classpath extensions.
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath"), in seconds.
     optional int32 primary_bcp_compilation_seconds = 5;
 
-    // Compilation time of secondary boot classpath extensions.
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any, in seconds.
     optional int32 secondary_bcp_compilation_seconds = 6;
 
-    // Compilation time of system_server classpath.
+    // Compilation time of system_server classpath, in seconds.
     optional int32 system_server_compilation_seconds = 7;
 
     // Cache space at start of update.
@@ -18610,6 +18615,17 @@ message OdrefreshReported {
 
     // Cache space at end of update.
     optional int32 cache_space_free_end_mib = 9;
+
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath"), in milliseconds.
+    optional int32 primary_bcp_compilation_millis = 10;
+
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any, in milliseconds.
+    optional int32 secondary_bcp_compilation_millis = 11;
+
+    // Compilation time of system_server classpath, in milliseconds.
+    optional int32 system_server_compilation_millis = 12;
 };
 
 /*
@@ -21785,4 +21801,19 @@ message AdServicesSettingsUsageReported {
     }
 
     optional AdServiceSettingsName action = 2;
+}
+
+// Logs information about bpf maps in BpfNetMaps.
+//
+// Logged from:
+//   packages/modules/Connectivity/service/src/com/android/server/BpfNetMaps.java
+message NetworkBpfMapInfo {
+    // The size of cookie tag bpf map.
+    optional int32 cookie_tag_map_size = 1;
+
+    // The size of uid owner bpf map.
+    optional int32 uid_owner_map_size = 2;
+
+    // The size of uid permission bpf map.
+    optional int32 uid_permission_map_size = 3;
 }
