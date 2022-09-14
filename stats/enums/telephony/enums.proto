@@ -417,3 +417,13 @@ enum CallDuration {
   CALL_DURATION_LESS_THAN_ONE_HOUR = 5; // Call lasted between 30 minutes and 1 hour
   CALL_DURATION_MORE_THAN_ONE_HOUR = 6; // Call lasted more than 1 hour
 }
+
+// Short code SMS categories
+// See frameworks/base/telephony/java/android/telephony/SmsManager.java
+enum ShortCodeSmsEnum {
+    SMS_CATEGORY_NOT_SHORT_CODE = 0;
+    SMS_CATEGORY_FREE_SHORT_CODE = 1;
+    SMS_CATEGORY_STANDARD_SHORT_CODE = 2;
+    SMS_CATEGORY_POSSIBLE_PREMIUM_SHORT_CODE = 3;
+    SMS_CATEGORY_PREMIUM_SHORT_CODE = 4;
+}
