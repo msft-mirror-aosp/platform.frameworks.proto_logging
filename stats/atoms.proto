@@ -762,6 +762,7 @@ message Atom {
         MediametricsHeadTrackerDeviceSupportedReported mediametrics_headtrackerdevicesupported_reported = 511;
         AdServicesMeasurementRegistrations ad_services_measurement_registrations =
             512 [(module) = "adservices", (truncate_timestamp) = true];
+        HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22674,4 +22675,41 @@ message OutgoingShortCodeSms {
 
     /* Number of short code sms with the same configuration. */
     optional int32 short_code_sms_count = 3;
+}
+
+/**
+ * Logs information when a hearing aid is bonded
+ *
+ * Logged from:
+ *   frameworks/base/packages/SettingsLib/src/com/android/settingslib/bluetooth/
+ *   CachedBluetoothDevice.java
+ */
+message HearingAidInfoReported {
+    // The device mode of the bonded hearing aid
+    // Mode definition for hearing aids. See {@link BluetoothHearingAid}.
+    enum DeviceMode {
+        MODE_UNKNOWN = -1;
+        MONAURAL = 0;
+        BINAURAL = 1;
+    }
+    optional DeviceMode device_mode = 1;
+
+    // The device side of the bonded hearing aid
+    // Side definition for hearing aids. See {@link BluetoothHearingAid}.
+    enum DeviceSide {
+        SIDE_UNKNOWN = -1;
+        LEFT = 0;
+        RIGHT = 1;
+    }
+    optional DeviceSide device_side = 2;
+
+    // The entry page id where the bonding process starts
+    enum BondEntry {
+        PAGE_UNKNOWN = -1;
+        CONNECTED_DEVICES = 0;
+        ACCESSIBILITY_HEARING_AIDS = 1;
+        ACCESSIBILITY_HEARING_AID_PAIR_ANOTHER = 2;
+        BLUETOOTH = 3;
+    }
+    optional BondEntry bond_entry = 3;
 }
