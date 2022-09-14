@@ -1067,6 +1067,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_BATTERY_HISTORY_LOADED = 1801;
+
+    // Custom tag to log the count of shown apps when battery usage is opened.
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_USAGE_SHOWN_APP_COUNT = 1802;
+
+    // Custom tag to log the count of hidden apps when battery usage is opened.
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_BATTERY_USAGE_HIDDEN_APP_COUNT = 1803;
 }
 
 /**
