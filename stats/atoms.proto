@@ -10180,11 +10180,14 @@ message SplitscreenUIChanged {
     // The reason for entering splitscreen
     enum EnterReason {
         UNKNOWN_ENTER = 0;
-        OVERVIEW = 1;
+        OVERVIEW = 1; // Deprecated, use LAUNCHER
         DRAG_LEFT = 2;
         DRAG_TOP = 3;
         DRAG_RIGHT = 4;
         DRAG_BOTTOM = 5;
+        LAUNCHER = 6;
+        MULTI_INSTANCE = 7;
+        NOTIFICATIONS = 8;
     }
 
     // The reason for exiting splitscreen
