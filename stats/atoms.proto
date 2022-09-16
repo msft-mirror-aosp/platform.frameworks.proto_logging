@@ -763,6 +763,8 @@ message Atom {
         AdServicesMeasurementRegistrations ad_services_measurement_registrations =
             512 [(module) = "adservices", (truncate_timestamp) = true];
         HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
+        DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
+            514 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9505,10 +9507,10 @@ message NetworkDnsHandshakeReported {
   // The latency in microseconds of the entire handshake operation.
   optional int32 latency_micros = 6;
 
-  // Sent packets in bytes.
+  // Number of bytes sent in a handshake.
   optional int32 bytes_sent = 7;
 
-  // Received packets in bytes.
+  // Number of bytes received in a handshake.
   optional int32 bytes_received = 8;
 
   // Number of round-trips.
@@ -10416,7 +10418,8 @@ message BubbleDeveloperErrorReported {
 }
 
 /**
- * Logs that a constraint for a scheduled job has changed.
+ * Logs that a job-specific constraint for a scheduled job has changed.
+ * DeviceWideJobConstraintChanged will cover constraints that are normally the same for all jobs.
  *
  * Logged from:
  *     frameworks/base/services/core/java/com/android/server/job/controllers/JobStatus.java
@@ -10435,6 +10438,29 @@ message ScheduledJobConstraintChanged {
         SATISFIED = 2;
     }
     optional State state = 4;
+}
+
+/**
+ * Logs that a device-state-level JobScheduler constraint has changed. This doesn't take individual
+ * job or app characteristics into account. Individual jobs may have a different satisfaction value
+ * based on special policies. Individual job constraints (eg. connectivity or prefetch) are not
+ * logged in this atom.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/job/controllers/<*>.java
+ */
+message DeviceWideJobConstraintChanged {
+    optional com.android.server.job.ConstraintEnum constraint = 1;
+
+    enum State {
+        UNKNOWN = 0;
+        UNSATISFIED = 1;
+        SATISFIED = 2;
+    }
+    optional State state = 2 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -16130,6 +16156,9 @@ message MediaOutputOpInteractionReported {
 
     // Type of device that interaction with.
     optional android.app.settings.mediaoutput.MediumType target = 2;
+
+    // The package name of an application whose media session is being switched.
+    optional string media_session_package_name= 3;
 }
 
 /**
