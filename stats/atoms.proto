@@ -15844,6 +15844,9 @@ message MediaOutputOpInteractionReported {
 
     // Type of device that interaction with.
     optional android.app.settings.mediaoutput.MediumType target = 2;
+
+    // The package name of an application whose media session is being switched.
+    optional string media_session_package_name= 3;
 }
 
 /**
