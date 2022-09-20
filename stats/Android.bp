@@ -28,6 +28,7 @@ enum_protos = [
     "enums/debug/*.proto",
     "enums/hardware/**/*.proto",
     "enums/hotword/*.proto",
+    "enums/jank/*.proto",
     "enums/media/**/*.proto",
     "enums/mms/*.proto",
     "enums/nearby/*.proto",
