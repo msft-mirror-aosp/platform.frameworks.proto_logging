@@ -769,6 +769,7 @@ message Atom {
             514 [(module) = "framework"];
         AmbientModeChanged ambient_mode_changed_reported = 515 [(module) = "framework"];
         ANRLatencyReported anr_latency_reported = 516 [(module) = "framework"];
+        ResourceValueApiStatisticsReported resource_api_info = 517 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22733,4 +22734,38 @@ message AmbientModeChanged {
     }
 
     optional AmbientStateEnum state = 1;
+}
+
+
+/**
+ * Contains statistics about time spent fetching resource information from an APK.
+ * Logged from:
+ *   frameworks/base/core/java/android/content/res/ResourceTimer.java
+ */
+message ResourceValueApiStatisticsReported {
+
+  // The api that is being reported.
+  optional android.app.ResourceApiEnum api = 1;
+
+  // The total number of events recorded.
+  optional int32 event_count = 2;
+
+  // The total time spent in thie API.  The units are ns.
+  optional int64 cumulative_event_time_ns = 3;
+
+  // Four percentile values.  Units are in ns.  A value of zero means the percentile could not be
+  // computed.
+  optional int32 p50_ns = 4;
+  optional int32 p90_ns = 5;
+  optional int32 p95_ns = 6;
+  optional int32 p99_ns = 7;
+
+  // The five largest values recorded.  Units are in ns.  A value of zero means the value is
+  // missing (which means fewer than 5 events were recorded).  Values that exceed INT_MAX are
+  // capped at INT_MAX.
+  optional int32 l0_ns = 8;
+  optional int32 l1_ns = 9;
+  optional int32 l2_ns = 10;
+  optional int32 l3_ns = 11;
+  optional int32 l4_ns = 12;
 }
