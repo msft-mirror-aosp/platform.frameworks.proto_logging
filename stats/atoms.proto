@@ -1767,9 +1767,15 @@ message ScheduledJobStateChanged {
     optional string job_name = 2;
 
     enum State {
+        // A job started executing (passed through the STARTED state) and has finished.
         FINISHED = 0;
+        // A scheduled job has just started executing.
         STARTED = 1;
+        // An app just scheduled this job to be executed at some point in the future.
         SCHEDULED = 2;
+        // The job was SCHEDULED but cancelled before it started executing (so it never went
+        // through the STARTED state).
+        CANCELLED = 3;
     }
     optional State state = 3;
 
