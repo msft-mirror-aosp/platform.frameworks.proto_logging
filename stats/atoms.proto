@@ -24,6 +24,7 @@ option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
+import "frameworks/proto_logging/stats/enums/anr/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
@@ -766,6 +767,8 @@ message Atom {
         HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
         DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
             514 [(module) = "framework"];
+        AmbientModeChanged ambient_mode_changed_reported = 515 [(module) = "framework"];
+        ANRLatencyReported anr_latency_reported = 516 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22424,6 +22427,65 @@ message MobileDataDownloadFileGroupDownloadStatusReported {
   optional int32 days_since_last_log = 5;
 }
 
+/**
+ * Contains information about different method and code contention durations in
+ * the ANR code path
+ */
+message ANRLatencyReported {
+    /* Important durations */
+    // Total duration of the ANR (in ms)
+    optional int64 total_duration = 1;
+    // The duration between when the ANR is triggered and when the stacks are dumped
+    // (in ms)
+    optional int64 triggering_to_stack_dump_duration = 2;
+
+    /* Disjoint durations, each duration representing the time spent in the
+    method before calling the next one on the ANR chain */
+    // The duration between when the ANR is triggered and when appNotResponding starts.
+    optional int64 triggering_to_app_not_responding_duration = 3;
+    // The time taken by appNotResponding before the record is placed on the
+    // queue.
+    optional int64 app_not_responding_duration = 4;
+    // The time spent by the ANR record on the ANR queue.
+    optional int64 anr_record_placed_on_queue_duration = 5;
+    // The time from the start of the ANR processing by the ANR thread until the
+    // stacks are dumped.
+    optional int64 anr_processing_duration = 6;
+    // The time taken to dump the stacks.
+    optional int64 dump_stack_traces_duration = 7;
+
+    /* Helper methods */
+    // The time spent waiting on updateCpuStatsNow to return.
+    optional int64 update_cpu_stats_now_total_duration = 8;
+    // The time spent waiting on currentPsiStateReturned to return.
+    optional int64 current_psi_state_total_duration = 9;
+    // The time spent waiting on ProcessCpuTracker methods to return
+    optional int64 process_cpu_tracker_methods_total_duration = 10;
+    // The time spent waiting on CriticalEventLog#logLinesForTraceFile to return.
+    optional int64 critical_event_log_duration = 11;
+
+    /* Lock contention */
+    // The time spent waiting on the Global Lock.
+    optional int64 global_lock_total_contention = 12;
+    // The time spent waiting on the PID lock.
+    optional int64 pid_lock_total_contention = 13;
+    // The time spent waiting on the AMS lock.
+    optional int64 ams_lock_total_contention = 14;
+    // The time spent waiting on proc lock.
+    optional int64 proc_lock_total_contention = 15;
+    // The time spent waiting on the ANR record queue lock.
+    optional int64 anr_record_lock_total_contention = 16;
+
+    /* Misc */
+    // The size of the ANR queue before pushing the ANR.
+    optional int32 anr_queue_size_when_pushed = 17;
+    // The type of the ANR.
+    optional android.anr.AnrType anr_type = 18;
+    // The number of dumped processes.
+    optional int32 dumped_processes_count = 19;
+    // Next ID: 20
+}
+
 /** Shared data among MobileDataDownload statistics. Not meant to be a top level atom proto.*/
 message MobileDataDownloadFileGroupStats {
   // The name of the file group. This a string set server side used to retrieve
@@ -22649,3 +22711,26 @@ message HearingAidInfoReported {
     optional BondEntry bond_entry = 3;
 }
 
+/**
+ * Logs when Ambient/OFFLOAD Mode is entered or exited.
+ *
+ * Logged from:
+ *  1. package: vendor/google_clockwork/packages/Ambient/src/com/google/android/wearable/ambient
+ *  (possible class: AmbiactiveActivityManager.java)
+ *  2. package: vendor/google_clockwork/packages/Ambient/src/com/google/android/wearable/ambient/autoresume
+ *  (possible class: AmbientLiteFlowController.java)
+ *  3. package: frameworks/opt/wear/src/com/google/android/clockwork/displayoffload
+ *  (possible class: DisplayOffloadService.java)
+ */
+message AmbientModeChanged {
+    enum AmbientStateEnum {
+        AMBIENT_ENTER = 1;
+        AMBIENT_EXIT = 2;
+        AMBIENT_LITE_ENTER = 3;
+        AMBIENT_LITE_EXIT = 4;
+        OFFLOAD_ENTER = 5;
+        OFFLOAD_EXIT = 6;
+    }
+
+    optional AmbientStateEnum state = 1;
+}
