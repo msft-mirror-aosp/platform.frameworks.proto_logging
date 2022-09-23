@@ -1506,6 +1506,10 @@ message WifiSetupFailureCrashReported {
         SOFT_AP_FAILURE_WIFICOND = 9;
         // Hostapd error on WifiNative.setupInterfaceForSoftApMode
         SOFT_AP_FAILURE_HOSTAPD = 10;
+        // HAL error on WifiP2pNative.setupInterface
+        P2P_FAILURE_HAL = 11;
+        // Supplicant error on WifiP2pNative.setupInterface
+        P2P_FAILURE_SUPPLICANT = 12;
     }
     // Type of failure
     optional Type type= 1;
