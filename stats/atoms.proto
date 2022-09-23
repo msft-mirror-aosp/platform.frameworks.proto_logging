@@ -17,10 +17,13 @@
 syntax = "proto2";
 
 package android.os.statsd;
+
+option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
@@ -66,6 +69,9 @@ import "frameworks/proto_logging/stats/enums/stats/launcher/launcher.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/mobiledatadownload/enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/privacysignals/enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/style/style_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/sysui/notification_enums.proto";
@@ -701,12 +707,47 @@ message Atom {
         BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
+        SafetySourceStateCollected safety_source_state_collected = 471 [(module) = "permissioncontroller"];
+        SafetyCenterSystemEventReported safety_center_system_event_reported = 472 [(module) = "permissioncontroller"];
+        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller"];
+        BroadcastDeliveryEventReported broadcast_delivery_event_reported =
+                475 [(module) = "framework"];
+        ServiceRequestEventReported service_request_event_reported = 476 [(module) = "framework"];
+        ProviderAcquisitionEventReported provider_acquisition_event_reported =
+                477 [(module) = "framework"];
+        BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
+        CellBroadcastConfigUpdated cb_config_updated = 479 [(module) = "cellbroadcast"];
+        CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
+        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
+        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
+        JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
+        PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
+        PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
+        PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
+        SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
+        MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
+        AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
+        BackgroundFetchProcessReported background_fetch_process_reported =
+                496 [(module) = "adservices"];
+        UpdateCustomAudienceProcessReported update_custom_audience_process_reported =
+                497 [(module) = "adservices"];
+        RunAdBiddingProcessReported run_ad_bidding_process_reported = 498 [(module) = "adservices"];
+        RunAdScoringProcessReported run_ad_scoring_process_reported = 499 [(module) = "adservices"];
+        RunAdSelectionProcessReported run_ad_selection_process_reported =
+                500 [(module) = "adservices"];
+        RunAdBiddingPerCAProcessReported run_ad_bidding_per_ca_process_reported =
+                501 [(module) = "adservices"];
+        MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
+        MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
+        NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
+        AdServicesMeasurementRegistrations ad_services_measurement_registrations =
+            512 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10153
+    // Next: 10160
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -894,6 +935,9 @@ message Atom {
         TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
+        SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
+        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+        NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -901,6 +945,19 @@ message Atom {
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
 
     reserved 83, 10008, 10036, 10040, 10041;
+}
+
+message JSScriptEngineLatencyReported {
+    enum LatencyStat {
+      UNKNOWN = 0;
+      SANDBOX_INIT = 1;
+      ISOLATE_CREATE = 2;
+      JAVA_PROCESS_EXECUTION = 3;
+      WEBVIEW_PROCESS_EXECUTION = 4;
+    }
+
+    optional LatencyStat stat = 1;
+    optional int64 latency_millis = 2;
 }
 
 /**
@@ -1163,6 +1220,12 @@ message WifiHealthStatReported {
     optional bool is_cell_data_available = 3;
     // the Band bucket the connected network is on
     optional Band band = 4;
+    // the Signal strength in the range of [-126, 0)
+    optional int32 rssi = 5;
+    // estimated tx throughput in kbps
+    optional int32 tx_kbps = 6 [default = -1];
+    // estimated rx throughput in kbps
+    optional int32 rx_kbps = 7 [default = -1];
 }
 
 /**
@@ -1472,6 +1535,32 @@ message ProcessMemoryStatReported {
     }
     optional Type type = 7;
     optional int64 duration_millis = 8;
+
+    // Keep in sync with
+    // frameworks/base/services/core/java/com/android/server/am/ProcessProfileRecord.java
+    enum HostingComponentType {
+        HOSTING_COMPONENT_TYPE_EMPTY = 0x0;
+        HOSTING_COMPONENT_TYPE_SYSTEM = 0x0001;
+        HOSTING_COMPONENT_TYPE_PERSISTENT = 0x0002;
+        HOSTING_COMPONENT_TYPE_BACKUP = 0x0004;
+        HOSTING_COMPONENT_TYPE_INSTRUMENTATION = 0x0008;
+        HOSTING_COMPONENT_TYPE_ACTIVITY = 0x0010;
+        HOSTING_COMPONENT_TYPE_BROADCAST_RECEIVER = 0x0020;
+        HOSTING_COMPONENT_TYPE_PROVIDER = 0x0040;
+        HOSTING_COMPONENT_TYPE_STARTED_SERVICE = 0x0080;
+        HOSTING_COMPONENT_TYPE_FOREGROUND_SERVICE = 0x0100;
+        HOSTING_COMPONENT_TYPE_BOUND_SERVICE = 0x0200;
+    }
+
+    // The types of the components this process is hosting at the moment this
+    // snapshot is taken.
+    // See the available types in HostingComponentType above.
+    optional int32 current_hosting_component_types = 10;
+
+    // The historical types of the components this process is or was hosting
+    // since it's born.
+    // See the available types in HostingComponentType above.
+    optional int32 historical_hosting_component_types = 11;
 }
 
 /**
@@ -2456,6 +2545,9 @@ message BluetoothConnectionStateChanged {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 5;
+    // An index to group connection events by session. It's a counter generated by
+    // each profile. e.g. Gatt server generate such id to identify Gatt apps
+    optional int32 session_index = 6;
 }
 
 /**
@@ -3130,6 +3222,16 @@ message BluetoothDeviceInfoReported {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 8;
+    // A flag indicating if the MAC address of the remote device is public or
+    // random.
+    optional android.bluetooth.AddressTypeEnum address_type = 9;
+    // The first byte of MAC address
+    optional int32 byte1 = 10;
+    // The second byte of MAC address
+    optional int32 byte2 = 11;
+    // The third byte of MAC address
+    optional int32 byte3 = 12;
+
 }
 
 /**
@@ -3192,6 +3294,29 @@ message BluetoothSdpAttributeReported {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 5;
+}
+
+/**
+* Logs the user created Bluetooth device's name.
+* It is pushed at Bluetooth pairing and connection.
+* The metric will only be collected from dogfooders.
+*
+* Logged from:
+*     packages/modules/Bluetooth
+*/
+message BluetoothDeviceNameReported {
+   // An identifier that can be used to match events for this device.
+   // The incremental identifier is locally generated and guaranteed not derived
+   // from any globally unique hardware id.
+   // For paired devices, it stays consistent between Bluetooth toggling for the
+   // same remote device.
+   // For unpaired devices, it stays consistent within the same Bluetooth adapter
+   // session for the same remote device.
+   // Default: 0 if the device's metric id is unknown.
+   optional int32 metric_id = 1;
+
+   // Name of the Bluetooth device. It is created by the user.
+   optional string device_name = 2;
 }
 
 /**
@@ -4995,6 +5120,23 @@ message ForegroundServiceStateChanged {
     optional int32 short_name_hash = 14;
     // Whether this FGS package had permission to notify the user.
     optional bool fgs_has_notification_permission = 15;
+
+    // Keep in sync with frameworks/base/core/java/android/content/pm/ServiceInfo.java
+    enum ForegroundServiceType {
+        FOREGROUND_SERVICE_TYPE_NONE = 0;
+        FOREGROUND_SERVICE_TYPE_DATA_SYNC = 0x0001; // 1 << 0
+        FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK = 0x0002; // 1 << 1
+        FOREGROUND_SERVICE_TYPE_PHONE_CALL = 0x0004; //1 << 2
+        FOREGROUND_SERVICE_TYPE_LOCATION = 0x0008; // 1 << 3
+        FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE = 0x0010; // 1 << 4
+        FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION = 0x0020; // 1 << 5
+        FOREGROUND_SERVICE_TYPE_CAMERA = 0x0040; // 1 << 6
+        FOREGROUND_SERVICE_TYPE_MICROPHONE = 0x0080; // 1 << 7
+    }
+
+    // The foreground service types, must be one or a combination of the types
+    // in the ForegroundServiceType above.
+    optional int32 fgs_types = 16;
 }
 
 /**
@@ -5916,6 +6058,102 @@ message ServiceLaunchReported {
     optional string package_name = 2;
 
     optional string service_name = 3;
+}
+
+/**
+ * The type of process start. It's the same as ProcessStartTime.StartType but we
+ * can't re-type that for background compatibility.
+ */
+enum ProcessStartType {
+    PROCESS_START_TYPE_UNKNOWN = 0;
+    PROCESS_START_TYPE_WARM = 1;
+    PROCESS_START_TYPE_HOT = 2;
+    PROCESS_START_TYPE_COLD = 3;
+}
+
+/**
+ * Logs when a service request is made.
+ * Logged from:
+ *   services/core/java/com/android/server/am/ActiveServices.java
+ */
+message ServiceRequestEventReported {
+    /** The package uid of the service host. */
+    optional int32 uid = 1 [(is_uid) = true];
+
+    /** The package uid of the service launch request. */
+    optional int32 requester_uid = 2 [(is_uid) = true];
+
+    /** The action name of the service request. */
+    optional string action_name = 3;
+
+    /**
+     * The types of the requests to the service.
+     */
+    enum RequestType {
+        UNKNOWN = 0;
+        START = 1;
+        BIND = 2;
+    }
+
+    /** The type of the current request to the service.*/
+    optional RequestType request_type = 4;
+
+    /** Whether or not it's requested to start as a foreground service. */
+    optional bool fg_required = 5;
+
+    /** The start type of the host process. */
+    optional ProcessStartType proc_start_type = 6;
+}
+
+/**
+ * Logs indicating a broadcast is being delivered to a receiver.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/am/BroadcastQueue.java
+ */
+message BroadcastDeliveryEventReported {
+    /** The package uid of the broadcast receiver. */
+    optional int32 uid = 1 [(is_uid) = true];
+
+    /** The package uid of the broadcast sender. */
+    optional int32 sender_uid = 2 [(is_uid) = true];
+
+    /** The action name of the broadcast. */
+    optional string action_name = 3;
+
+    /**
+     * The types of the broadcast receivers.
+     */
+    enum ReceiverType {
+        UNKNOWN = 0;
+        RUNTIME = 1;
+        MANIFEST = 2;
+    }
+
+    /** The type of the current broadcast receiver. */
+    optional ReceiverType receiver_type = 4;
+
+    /** The start type of the host process. */
+    optional ProcessStartType proc_start_type = 5;
+}
+
+/**
+ * Logs indicating a client is requesting to acquire a provider,
+ * this doesn't include the case where the provider has been installed in the
+ * client's process space and it's just increasing a ref count.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/am/ContentProviderHelper.java
+ */
+message ProviderAcquisitionEventReported {
+    /** The package uid of the content provider host. */
+    optional int32 uid = 1 [(is_uid) = true];
+
+    /** The package uid of the content provider client who makes the request. */
+    optional int32 client_uid = 2 [(is_uid) = true];
+
+    /** The start type of the host process. */
+    optional ProcessStartType proc_start_type = 3;
 }
 
 /**
@@ -7346,6 +7584,9 @@ message ProcessMemorySnapshot {
     // GPU memory usage as measured by the kernel tracepoints
     // Equivalent to dumpsys gpu --gpumem
     optional int32 gpu_memory_kb = 9;
+
+    // Whether or not this process is hosting one or more foregound services.
+    optional bool has_foreground_services = 10;
 }
 
 /*
@@ -8948,6 +9189,20 @@ message NetworkDnsEventReported {
 }
 
 /**
+ * logs the number of DNS servers supported by the protocol
+ */
+message NetworkDnsServerSupportReported {
+    // The network type of the network
+    optional android.stats.dnsresolver.NetworkType network_type = 1;
+
+    // The private DNS mode of the network
+    optional android.stats.dnsresolver.PrivateDnsModes private_dns_modes = 2;
+
+    // Stores the state of all DNS servers for this network
+    optional android.stats.dnsresolver.Servers servers = 3 [(log_mode) = MODE_BYTES];
+}
+
+/**
  * The NetworkDnsHandshakeReported message describes a DoT or DoH handshake operation along with
  * its result, cause, network latency, TLS version, etc.
  *
@@ -9929,6 +10184,8 @@ message ProcessStartTime {
     // The process name.
     // Usually package name, "system" for system server.
     // Provided by ActivityManagerService.
+    // Do not fetch this field from device to save storage space, use uid field induced
+    // package name as process name.
     optional string process_name = 3;
 
     enum StartType {
@@ -9952,11 +10209,38 @@ message ProcessStartTime {
 
     // hostingType field in ProcessRecord, the component type such as "activity",
     // "service", "content provider", "broadcast" or other strings.
-    optional string hosting_type = 8;
+    // deprecatd by enum type field hosting_type_id to reduce storage space usage by
+    // string type.
+    // Do not fetch this field from device to save storage space.
+    optional string hosting_type = 8 [deprecated = true];
 
     // hostingNameStr field in ProcessRecord. The component class name that runs
     // in this process.
+    // Do not fetch this field from device to save storage space.
     optional string hosting_name = 9;
+
+    // Broadcast action name.
+    optional string broadcast_action_name = 10;
+
+    enum HostingTypeId {
+        HOSTING_TYPE_UNKNOWN = 0;
+        HOSTING_TYPE_ACTIVITY = 1;
+        HOSTING_TYPE_ADDED_APPLICATION = 2;
+        HOSTING_TYPE_BACKUP = 3;
+        HOSTING_TYPE_BROADCAST = 4;
+        HOSTING_TYPE_CONTENT_PROVIDER = 5;
+        HOSTING_TYPE_LINK_FAIL = 6;
+        HOSTING_TYPE_ON_HOLD = 7;
+        HOSTING_TYPE_NEXT_ACTIVITY = 8;
+        HOSTING_TYPE_NEXT_TOP_ACTIVITY = 9;
+        HOSTING_TYPE_RESTART = 10;
+        HOSTING_TYPE_SERVICE = 11;
+        HOSTING_TYPE_SYSTEM = 12;
+        HOSTING_TYPE_TOP_ACTIVITY = 13;
+        HOSTING_TYPE_EMPTY = 14;
+    }
+
+    optional HostingTypeId hosting_type_id = 11;
 }
 
 /**
@@ -10092,6 +10376,15 @@ message MediaCodecReported {
     optional int32 original_video_qp_p_max = 55;
     optional int32 original_video_qp_b_min = 56;
     optional int32 original_video_qp_b_max = 57;
+    optional int32 config_color_standard = 58;
+    optional int32 config_color_range = 59;
+    optional int32 config_color_transfer = 60;
+    optional int32 parsed_color_standard = 61;
+    optional int32 parsed_color_range = 62;
+    optional int32 parsed_color_transfer = 63;
+    optional int32 hdr_static_info = 64;
+    optional int32 hdr_10_plus_info = 65;
+    optional int32 hdr_format = 66;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -12071,7 +12364,7 @@ message AppSearchQueryStatsReported {
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 status_code = 5;
 
-    // Overall time used for query including estimated binder latency
+    // Overall time used for query which doesn't include estimated binder latency
     optional int32 total_latency_millis = 6;
 
     // Time used to rewrite the search spec.
@@ -13374,7 +13667,7 @@ message IntegrityRulesPushed {
  *
  * Logged from Cell Broadcast module and platform:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
- *   packages/apps/CellBroadcastReceiver/
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  *   frameworks/opt/telephony/src/java/com/android/internal/telephony/CellBroadcastServiceManager.java
  */
 message CellBroadcastMessageReported {
@@ -13396,31 +13689,60 @@ message CellBroadcastMessageReported {
 
     // GSM, CDMA, CDMA-SCP
     optional CbType type = 1;
-
     // The source of the report
     optional ReportSource source = 2;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
+    optional int32 serial_number = 3;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
+    optional int32 message_id = 4;
 }
 
 /**
- * Logs when a cell broadcast message is filtered out, or otherwise intentionally not sent to CBR.
+ * Logs when a cell broadcast message is filtered out,
+ * or otherwise intentionally not sent to CBR, or not shown to users for reason
  *
- * Logged from CellBroadcastService module:
+ * Logged from Cell Broadcast module:
  *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
  */
 message CellBroadcastMessageFiltered {
     enum FilterReason {
+        // shown message to the user
         NOT_FILTERED = 0;
+        // filtered message due to duplication (message body, service category, cross sim)
         DUPLICATE_MESSAGE = 1;
+        // filtered message due to outside of coordinate range
         GEOFENCED_MESSAGE = 2;
+        // filtered message due to not using for emergency alert but for update cell information on Setting Menu
         AREA_INFO_MESSAGE = 3;
+        // filtered message due to OEM set config value ‘filtered message for duplication’ as ‘true’
         DISABLED_BY_OEM = 4;
+        // when in ECBM(Emergency CallBack Mode) status
+        NOTSHOW_ECBM = 5;
+        // when user turn off preference of channel
+        NOTSHOW_USER_PREF = 6;
+        // when Empty content or Unsupported charset
+        NOTSHOW_EMPTY_BODY = 7;
+        // when language code in message is not same with preference of second language
+        NOTSHOW_MISMATCH_PREF_SECOND_LANG = 8;
+        // when user turn off preference of second language
+        NOTSHOW_PREF_SECONDLANG_OFF = 9;
+        // when language code in message is not same with device language setting
+        NOTSHOW_MISMATCH_DEVICE_LANG_SETTING = 10;
+        // when channel has feature ‘testing_mode = true’ and device is not in cb test_mode
+        NOTSHOW_MESSAGE_FOR_TESTMODE = 11;
+        // when the message contains ‘filter’ string from properties
+        NOTSHOW_FILTER_STRING = 12;
     }
 
     // GSM, CDMA, CDMA-SCP
     optional CellBroadcastMessageReported.CbType type = 1;
-
     // The source of the report
     optional FilterReason filter = 2;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
+    optional int32 serial_number = 3;
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
+    optional int32 message_id = 4;
 }
 
 /**
@@ -13452,9 +13774,122 @@ message CellBroadcastMessageError {
 
     // What kind of error occurred
     optional ErrorType type = 1;
-
     // Exception message (or log message) associated with the error (max 1000 chars)
     optional string exception_message = 2;
+}
+
+/**
+ * CellBroadcast channel range
+ * Refer from CellBroadcastConfigUpdated, CellBroadcastReceiverFeature
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastChannelRange {
+    optional int32 start = 1;
+    optional int32 end = 2;
+}
+/**
+ * CellBroadcast channel ranges
+ * Nested field for repeated
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastChannelRanges {
+    repeated CellBroadcastChannelRange channel_ranges = 1;
+}
+
+/**
+ * Logs when an channel configuration is updated with mcc-mnc
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastConfigUpdated  {
+    // mcc_mnc value of Network operator for the roaming case
+    optional string roaming_mcc_mnc = 1;
+    // The channel ranges to be updated logged as bytes
+    optional CellBroadcastChannelRanges channel_ranges = 2 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs when a cell broadcast message is activated with the feature below
+ * or when channel configuration is changed with the feature below
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice
+ */
+message CellBroadcastServiceFeatureChanged {
+    // Not for mainline devices, but for android-go devices, OEM can register package names.
+    // if there is a data then true otherwise false
+    optional bool overlay_additional_cbr_packages = 1;
+    // package name which will get area info message
+    // if there is a data except “com.android.settings” then true, or false
+    optional bool overlay_area_info_packages = 2;
+    // Reset Area Info when device goes out of service
+    optional bool reset_area_info = 3;
+}
+
+/**
+ * Logs when a cell broadcast message is activated with the feature below
+ * or when channel configuration is changed with the feature below
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellBroadcastReceiverFeatureChanged {
+    // Whether to enable alert handling during active voice call
+    optional bool alert_during_call = 1;
+    // Play alert sound in full volume regardless DND is on
+    // [none:0][all:Integer.MAX_VALUE][partial:4370 4380 50]
+    optional CellBroadcastChannelRanges override_dnd = 2 [(log_mode) = MODE_BYTES];
+    // Whether to Support roaming for attached network operator
+    optional bool roaming_support = 3;
+    // Whether to save alerts to sms inbox database
+    optional bool store_sms = 4;
+    // whether the device is in test mode through *#*#CMAS#*#*
+    optional bool testing_mode = 5;
+    // whether Text To Speech is on/off
+    optional bool tts_mode = 6;
+    // whether the device is able to enter test mode even on user build
+    optional bool testing_mode_on_user_build = 7;
+}
+
+/**
+ * Logs when exception is occurred in the device
+ *
+ * Logged from Cell Broadcast module:
+ *   packages/modules/CellBroadcastService/src/com/android/cellbroadcastservice/
+ *   packages/apps/CellBroadcastReceiver/
+ */
+message CellBroadcastModuleErrorReported {
+    enum ErrorType {
+        ERROR_UNKNOWN = 0;
+        ERROR_BAD_CONFIG = 1;
+        ERROR_DB_MIGRATION = 2;
+        ERROR_DEFAULT_RES = 3;
+        ERROR_ENABLE_CHANNEL = 4;
+        ERROR_GET_LOCATION = 5;
+        ERROR_MISSING_RES = 6;
+        ERROR_PLAY_FLASH = 7;
+        ERROR_PLAY_SOUND = 8;
+        ERROR_PLAY_TTS = 9;
+        ERROR_PREF_MIGRATION = 10;
+        ERROR_PROVIDER_INIT = 11;
+        ERROR_RESET_CHANNEL_R = 12;
+        ERROR_STATUS_BAR = 13;
+        ERROR_REMINDER_INTERVAL = 14;
+        ERROR_ICON_RESOURCE = 15;
+        ERROR_CHANNEL_RANGE_PARSE = 16;
+        ERROR_DB_INIT = 17;
+        ERROR_NOT_FOUND_DEFAULT_CBR_PKGS = 18;
+        ERROR_FOUND_MULTIPLE_CBR_PKGS = 19;
+    }
+
+    // The source of the report
+    optional CellBroadcastMessageReported.ReportSource source = 1;
+
+    // The error type
+    optional ErrorType type = 2;
 }
 
 /**
@@ -17150,6 +17585,28 @@ enum ArtDatumId {
     ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 26;
     ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC = 27;
     ART_DATUM_GC_TOTAL_COLLECTION_TIME_MS = 28;
+
+    // New metrics to support averages reported as sum (numerator) and count (denominator),
+    // in order to make it easier to be reported as Value Metrics.
+
+    // numerator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_GC_WORLD_STOP_TIME_US = 29;
+    // denominator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_GC_WORLD_STOP_COUNT = 30;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_SCANNED_BYTES = 31;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_FREED_BYTES = 32;
+    // denominator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_DURATION_MS = 33;
+    // numerator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_SCANNED_BYTES = 34;
+    // numerator from ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_FREED_BYTES = 35;
+    // denominator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_GC_FULL_HEAP_COLLECTION_DURATION_MS = 36;
 }
 
 // Indicates what class of thread the reported values apply to.
@@ -18031,6 +18488,7 @@ message AlarmScheduled {
         PERMISSION = 1;
         ALLOW_LIST = 2;
         CHANGE_DISABLED = 3;
+        POLICY_PERMISSION = 4;
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
@@ -18074,7 +18532,7 @@ message OdrefreshReported {
         // A placeholder for unknown values.
         TRIGGER_UNKNOWN = 0;
 
-        // ART apex version has changed since time artifacts were generated.
+        // ART APEX version has changed since time artifacts were generated.
         TRIGGER_APEX_VERSION_MISMATCH = 1;
 
         // Dex files on the boot classpath or system_server classpath have changed.
@@ -18096,10 +18554,12 @@ message OdrefreshReported {
         // Preparation for compilation.
         STAGE_PREPARATION = 20;
 
-        // Compilation of primary boot classpath extensions.
+        // Compilation of the boot classpath for the primary architecture
+        // ("primary boot classpath").
         STAGE_PRIMARY_BOOT_CLASSPATH = 30;
 
-        // Compilation of secondary boot classpath extensions.
+        // Compilation of the boot classpath for the secondary architecture
+        // ("secondary boot classpath"), if any.
         STAGE_SECONDARY_BOOT_CLASSPATH = 40;
 
         // Compilation of system_server classpath.
@@ -18139,13 +18599,15 @@ message OdrefreshReported {
 
     optional Status status = 4;
 
-    // Compilation time iof primary boot classpath extensions.
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath"), in seconds.
     optional int32 primary_bcp_compilation_seconds = 5;
 
-    // Compilation time of secondary boot classpath extensions.
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any, in seconds.
     optional int32 secondary_bcp_compilation_seconds = 6;
 
-    // Compilation time of system_server classpath.
+    // Compilation time of system_server classpath, in seconds.
     optional int32 system_server_compilation_seconds = 7;
 
     // Cache space at start of update.
@@ -18153,6 +18615,17 @@ message OdrefreshReported {
 
     // Cache space at end of update.
     optional int32 cache_space_free_end_mib = 9;
+
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath"), in milliseconds.
+    optional int32 primary_bcp_compilation_millis = 10;
+
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any, in milliseconds.
+    optional int32 secondary_bcp_compilation_millis = 11;
+
+    // Compilation time of system_server classpath, in milliseconds.
+    optional int32 system_server_compilation_millis = 12;
 };
 
 /*
@@ -18224,6 +18697,9 @@ message AppProcessDied {
 
     // The last known RSS (in kB) of the process before it dies, could be 0.
     optional int32 rss = 7;
+
+    // Whether or not this process is hosting one or more foregound services.
+    optional bool has_foreground_services = 8;
 }
 
 /**
@@ -19877,6 +20353,7 @@ message LauncherLatency {
     optional int32 package_id = 3;
     optional int64 latency_in_millis = 4;
     optional int32 type = 5;
+    optional int32 query_length = 6 [default = -1];
 }
 
 /*
@@ -20074,6 +20551,119 @@ message HotwordDetectorEvents {
 }
 
 /**
+ *  Logs for a background fetch process when the runBackgroundFetch() is called.
+ */
+message BackgroundFetchProcessReported {
+    optional int32 latency_in_millis = 1;
+    optional int32 num_of_eligible_to_update_cas = 2;
+    optional android.adservices.service.BackgroundFetchResultCode result_code = 3;
+}
+
+/**
+ *  Logs for an updating a single custom audience process when the updateCustomAudience() is called.
+ */
+message UpdateCustomAudienceProcessReported {
+    optional int32 latency_in_millis = 1;
+    optional android.adservices.service.UpdateCustomAudienceResultCode result_code = 2;
+    optional int32 data_size_of_ads_in_bytes = 3;
+    optional int32 num_of_ads = 4;
+}
+
+/**
+ * Logs for the bidding stage of an ad selection process when the getBuyersCustomAudience() or
+ * the runAdBidding() is called.
+ */
+message RunAdBiddingProcessReported {
+    /* Logs when the getBuyersCustomAudience() is called. */
+    optional int32 get_buyers_custom_audience_latency_in_millis = 1;
+    optional android.adservices.service.ResultCode get_buyers_custom_audience_result_code = 2;
+    optional int32 num_buyers_requested = 3;
+    optional int32 num_buyers_fetched = 4;
+
+    /* Logs when the runAdBidding() is called. */
+    optional int32 num_of_ads_entering_bidding = 5;
+    optional int32 num_of_cas_entering_bidding = 6;
+    optional int32 num_of_cas_post_bidding = 7;
+    optional float ratio_of_cas_selecting_rmkt_ads = 8;
+    optional int32 run_ad_bidding_latency_in_millis = 9;
+    optional android.adservices.service.ResultCode run_ad_bidding_result_code = 10;
+
+    /* Time from the start of the getBuyersCustomAudience() to the end of the runAdBidding(). */
+    optional int32 total_ad_bidding_stage_latency_in_millis = 11;
+}
+
+/**
+ * Logs for the scoring stage of an ad selection process when the runAdScoring() is called.
+ */
+message RunAdScoringProcessReported {
+    /* Logs when the getAdSelectionLogic() is called. */
+    optional int32 get_ad_selection_logic_latency_in_millis = 1;
+    optional android.adservices.service.ResultCode get_ad_selection_logic_result_code = 2;
+    optional android.adservices.service.ScriptType get_ad_selection_logic_script_type = 3;
+    optional int32 fetched_ad_selection_logic_script_size_in_bytes = 4;
+
+    /* Logs when the getTrustedScoringSignals() is called. */
+    optional int32 get_trusted_scoring_signals_latency_in_millis = 5;
+    optional android.adservices.service.ResultCode get_trusted_scoring_signals_result_code = 6;
+    optional int32 fetched_trusted_scoring_signals_data_size_in_bytes = 7;
+
+    /* Logs when the getAdScores() is called. */
+    // the total scoreAds script execution time when getAdScores() is called.
+    optional int32 score_ads_latency_in_millis = 8;
+    // the overall latency of the getAdScores().
+    optional int32 get_ad_scores_latency_in_millis = 9;
+    optional android.adservices.service.ResultCode get_ad_scores_result_code = 10;
+
+    optional int32 num_of_cas_entering_scoring = 11;
+    optional int32 num_of_remarketing_ads_entering_scoring = 12;
+    optional int32 num_of_contextual_ads_entering_scoring = 13;
+    // the overall latency of the runAdScoring process.
+    optional int32 run_ad_scoring_latency_in_millis = 14;
+    optional android.adservices.service.ResultCode run_ad_scoring_result_code = 15;
+}
+
+/* Logs for the ad selection process when the runAdSelection() is called.*/
+message RunAdSelectionProcessReported {
+    /* Logs for the persisting ad selection process. */
+    optional bool is_remarketing_ads_won = 1;
+    optional int32 ad_selection_entry_size_in_bytes = 2;
+    optional int32 persist_ad_selection_latency_in_millis = 3;
+    optional android.adservices.service.ResultCode persist_ad_selection_result_code = 4;
+
+    /* Logs for the overall runAdSelection process. */
+    optional int32 run_ad_selection_latency_in_millis = 5;
+    optional android.adservices.service.ResultCode run_ad_selection_result_code = 6;
+}
+
+/**
+ *  Logs for the bidding process on a single custom audience when the runAdBiddingPerCA() is called.
+ */
+message RunAdBiddingPerCAProcessReported {
+    optional int32 num_of_ads_for_bidding = 1;
+    optional int32 run_ad_bidding_per_ca_latency_in_millis = 2;
+    optional android.adservices.service.ResultCode run_ad_bidding_per_ca_result_code = 3;
+
+    /* Logs for the getting buyer's decision logic script process. */
+    optional int32 get_buyer_decision_logic_latency_in_millis = 4;
+    optional android.adservices.service.ResultCode get_buyer_decision_logic_result_code = 5;
+    optional android.adservices.service.ScriptType buyer_decision_logic_script_type = 6;
+    optional int32 fetched_buyer_decision_logic_script_size_in_bytes = 7;
+
+    /* Logs for the getting trusted bidding signals process. */
+    optional int32 num_of_keys_of_trusted_bidding_signals = 8;
+    optional int32 fetched_trusted_bidding_signals_data_size_in_bytes = 9;
+    optional int32 get_trusted_bidding_signals_latency_in_millis = 10;
+    optional android.adservices.service.ResultCode get_trusted_bidding_signals_result_code = 11;
+
+    /* Logs when runBidding() is called. */
+    // the total generateBids script execution time when runBidding() is called..
+    optional int32 generate_bids_latency_in_millis = 12;
+    // the overall latency of runBidding().
+    optional int32 run_bidding_latency_in_millis = 13;
+    optional android.adservices.service.ResultCode run_bidding_result_code = 14;
+}
+
+/**
  * Logs when an AdServices api is called.
  */
 message AdServicesApiCalled {
@@ -20083,34 +20673,66 @@ message AdServicesApiCalled {
     // Targeting
     //  * GetTopics()
     //
-    // Remarketing
-    //  * RegisterGroup()
-    //  * LeaveGroup()
-    //  * RunAuction()
+    // FLEDGE
+    //  * joinCustomAudience()
+    //  * leaveCustomAudience()
+    //  * overrideCustomAudienceRemoteInfo()
+    //  * removeCustomAudienceRemoteInfoOverride()
+    //  * resetAllCustomAudienceOverrides()
+    //  * selectAds()
+    //  * reportImpression()
+    //  * overrideAdSelectionConfigRemoteInfo()
+    //  * removeAdSelectionConfigRemoteInfoOverride()
+    //  * resetAllAdSelectionConfigRemoteOverrides()
     //
     // Measurement - client side
-    //   * register()
+    //   * register() : SOURCE
+    //   * register() : TRIGGER
     //   * deleteRegistrations()
+    //   * registerWebSource()
+    //   * registerWebTrigger()
+    //   * getMeasurementApiStatus()
+    //
+    // AdId
+    //   * GetAdId()
+    //
+    // AppsetId
+    //   * GetAppsetId()
 
 
     enum AdServicesApiClassType {
         UNKNOWN = 0;
         TARGETING = 1;
-        REMARKETING = 2;
+        FLEDGE = 2;
         MEASUREMENT = 3;
+        ADID = 4;
+        APPSETID = 5;
     }
 
     enum AdServicesApiName {
         API_NAME_UNKNOWN = 0;
         GET_TOPICS = 1;
-        REGISTER_GROUP = 2;
-        LEAVE_GROUP = 3;
-        RUN_AUCTION = 4;
-        REGISTER = 5;
+        JOIN_CUSTOM_AUDIENCE = 2;
+        LEAVE_CUSTOM_AUDIENCE = 3;
+        SELECT_ADS = 4;
+        REGISTER_SOURCE = 5;
         DELETE_REGISTRATIONS = 6;
+        REPORT_IMPRESSION = 7;
+        OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
+        REMOVE_CUSTOM_AUDIENCE_REMOTE_INFO_OVERRIDE = 9;
+        RESET_ALL_CUSTOM_AUDIENCE_OVERRIDES = 10;
+        OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
+        REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
+        RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
+        GET_ADID = 14;
+        GET_APPSETID = 15;
+        REGISTER_TRIGGER = 16;
+        REGISTER_WEB_SOURCE = 17;
+        REGISTER_WEB_TRIGGER = 18;
+        GET_MEASUREMENT_API_STATUS = 19;
     }
 
-    optional AdServicesApiClassType api_class = 1;
+    optional AdServicesApiClassType api_class = 1 [deprecated = true];
 
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
@@ -20143,6 +20765,21 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+}
+
+/**
+ * Logs registration response size when registration URI is pinged.
+ */
+message AdServicesMeasurementRegistrations {
+    enum RegistrationType {
+        UNKNOWN_REGISTRATION = 0;
+        SOURCE = 1;
+        TRIGGER = 2;
+    }
+
+    optional RegistrationType type = 1;
+    optional int64 response_size_in_bytes = 2;
+    optional string adtech_url_domain_if_size_above_threshold = 3;
 }
 
 /**
@@ -20327,6 +20964,7 @@ message AppBackgroundRestrictionsInfo {
         REASON_CARRIER_PRIVILEGED_APP = 321;
         REASON_DPO_PROTECTED_APP = 322;
         REASON_DISALLOW_APPS_CONTROL = 323;
+        REASON_ACTIVE_DEVICE_ADMIN = 324;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
@@ -20801,4 +21439,381 @@ message RemoteKeyProvisioningErrorCounts {
     // How many bytes of data have been sent that resulted in errors. These
     // bytes count against an error budget, so it's important to track.
     optional int32 error_bytes = 3;
+}
+
+// Logs the overall Safety State of the device (as cached by the Safety Center)
+message SafetyState {
+    // The overall severity level of the Safety Center.
+    optional android.stats.safetycenter.SafetySeverityLevel overall_severity_level = 1;
+
+    // The number of open issues in the Safety Center.
+    optional int64 open_issues_count = 2;
+
+    // The number of dismissed issues in the Safety Center.
+    optional int64 dismissed_issues_count = 3;
+}
+
+// Logs the state of an individual Safety Source when overall SafetyState is
+// collected.
+message SafetySourceStateCollected {
+    optional int64 encoded_safety_source_id = 1;
+
+    optional android.stats.safetycenter.SafetySourceProfileType safety_source_profile_type = 2;
+
+    // The severity level of this source.
+    optional android.stats.safetycenter.SafetySeverityLevel severity_level = 3;
+
+    // The number of open issues belonging to this Safety Source.
+    optional int64 open_issues_count = 4;
+
+    // The number of dismissed issues belonging to this Safety Source.
+    optional int64 dismissed_issues_count = 5;
+}
+
+// Logs system-health and performance related events from the Safety Center
+message SafetyCenterSystemEventReported {
+    enum EventType {
+        EVENT_TYPE_UNKNOWN = 0;
+        SINGLE_SOURCE_GET_NEW_DATA = 1;
+        SINGLE_SOURCE_RESCAN = 2;
+        COMPLETE_GET_NEW_DATA = 3;
+        COMPLETE_RESCAN = 4;
+        INLINE_ACTION = 5;
+    }
+    optional EventType event_type = 1;
+
+    // Unset if this event isn't source-specific.
+    optional int64 encoded_safety_source_id = 2;
+
+    // Unset if this event isn't source-specific.
+    optional android.stats.safetycenter.SafetySourceProfileType safety_source_profile_type = 3;
+
+    // Unset if this event isn't specific to an issue.
+    optional int64 encoded_issue_type_id = 4;
+
+    optional int64 duration_millis = 5;
+
+    enum Result {
+        RESULT_UNKNOWN = 0;
+        SUCCESS = 1;
+        TIMEOUT = 2;
+        ERROR = 3;
+    }
+    optional Result result = 6;
+}
+
+// Logs a user interaction with the Safety Center. Various fields may or may not be
+// set depending on the Action reported.
+message SafetyCenterInteractionReported {
+    // ID which identifies single session of user interacting with Safety Center.
+    optional int64 session_id = 1;
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+
+        SAFETY_CENTER_VIEWED = 1;
+        SAFETY_ISSUE_VIEWED = 2;
+
+        SCAN_INITIATED = 3;
+
+        ISSUE_PRIMARY_ACTION_CLICKED = 4;
+        ISSUE_SECONDARY_ACTION_CLICKED = 5;
+        ISSUE_DISMISS_CLICKED = 6;
+
+        MORE_ISSUES_CLICKED = 7;
+        ENTRY_CLICKED = 8;
+        ENTRY_ICON_ACTION_CLICKED = 9;
+        STATIC_ENTRY_CLICKED = 10;
+
+        PRIVACY_CONTROL_TOGGLE_CLICKED = 11;
+        SENSOR_PERMISSION_REVOKE_CLICKED = 12;
+        SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
+        REVIEW_SETTINGS_CLICKED = 14;
+    }
+
+    // Action taken in the Safety Center.
+    optional Action action = 2;
+
+    enum ViewType {
+        VIEW_TYPE_UNKNOWN = 0;
+        FULL = 1;
+        QUICK_SETTINGS = 2;
+    }
+
+    // Which view of the Safety Center this interaction occurred in.
+    optional ViewType view_type = 3;
+
+    enum NavigationSource {
+        SOURCE_UNKNOWN = 0;
+        NOTIFICATION = 1;
+        QUICK_SETTINGS_TILE = 2;
+        SETTINGS = 3;
+        SENSOR_INDICATOR = 4;
+    }
+
+    // Where the session was initiated from.
+    optional NavigationSource navigation_source = 4;
+
+    // Severity level of the particular issue or entry, or the overall Safety
+    // Center this interaction is associated with.
+    optional android.stats.safetycenter.SafetySeverityLevel severity_level = 5;
+
+    // The hashed ID of the Safety Source that this interaction was with performed with,
+    // or nothing if this event isn't source-specific.
+    optional int64 encoded_safety_source_id = 6;
+
+    // The kind of profile that this safety source originated from (sources from
+    // personal and work profiles may have the same source ID)
+    optional android.stats.safetycenter.SafetySourceProfileType safety_source_profile_type = 7;
+
+    // A hash of the loggable issue type ID that this interaction was performed with.
+    optional int64 encoded_issue_type_id = 8;
+
+    enum Sensor {
+        SENSOR_UNKNOWN = 0;
+        MICROPHONE = 1;
+        CAMERA = 2;
+        LOCATION = 3;
+    }
+
+    // Which sensor was associated with this interaction (if any).
+    optional Sensor sensor = 9;
+}
+
+message PrivacySignalNotificationInteraction {
+
+    enum Action {
+        UNKNOWN = 0;
+        NOTIFICATION_SHOWN = 1;
+        NOTIFICATION_CLICKED = 2;
+        DISMISSED = 3;
+    }
+
+    // Privacy source that triggered the notification
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    // Optional Uid of the package for which the notification was sent.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Action taken on the notification.
+    optional Action action = 3;
+
+    // Session Id to link the notification with the issue card.
+    optional int64 session_id = 4; // to map the notification and issue card interaction
+}
+
+message PrivacySignalIssueCardInteraction {
+
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        CARD_SHOWN = 1;
+        CARD_CLICKED = 2;
+        CARD_DISMISSED = 3;
+        CLICKED_CTA1 = 4;
+        CLICKED_CTA2 = 5;
+    }
+
+    // Privacy source  that pushed the issue card.
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    // Optional Uid of the package for which the issue card was sent.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Action taken on the issue card.
+    optional Action action = 3;
+
+    // Session Id to link the notification with the issue card.
+    optional int64 session_id = 4;
+}
+
+message PrivacySignalsJobFailure {
+
+    // Which privacy source for which the daily job failed.
+    optional android.stats.privacysignals.PrivacySource privacy_source = 1;
+
+    enum JobFailureReason {
+        REASON_UNKNOWN = 0;
+        TIMEOUT = 1;
+        COROUTINE_CANCELLED = 2;
+    }
+    optional JobFailureReason reason =2;
+}
+
+// Logs when an API call from app to sandbox process is made
+message SandboxApiCalled {
+    // Next ID: 8
+    enum Method {
+        METHOD_UNSPECIFIED = 0;
+        LOAD_SDK = 1;
+        REQUEST_SURFACE_PACKAGE = 3;
+        GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        SYNC_DATA_FROM_CLIENT = 6;
+        UNLOAD_SDK = 7;
+        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
+        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+
+        LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
+        SEND_DATA = 4 [deprecated = true];
+    }
+    // The method which was called.
+    optional Method method = 1;
+
+    enum Stage {
+        STAGE_UNSPECIFIED = 0;
+        APP_TO_SYSTEM_SERVER = 1;
+        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
+        LOAD_SANDBOX = 3;
+        SYSTEM_SERVER_TO_SANDBOX = 4;
+        SANDBOX = 5;
+        SDK = 6;
+        SANDBOX_TO_SYSTEM_SERVER = 7;
+        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
+        SYSTEM_SERVER_TO_APP = 9;
+    }
+    // The stage at which latency is being measured.
+    optional Stage stage = 4;
+
+    // The success status of the callback
+    optional bool success = 3;
+
+    //Time taken from the initiation of the API till the callback was received
+    optional int32 latency_millis = 2;
+}
+
+//Logs periodically the storage of SDKs used by the app
+message SandboxSdkStorage {
+
+    // Boolean value to specify if the storage belongs to SDK or is shared
+    optional bool shared = 1;
+
+    // Storage
+    optional int32 storage_kb = 2;
+}
+
+/**
+ * Logs stats on the download status of file groups. Provides information on
+ * download latency and download penetration.
+ */
+message MobileDataDownloadFileGroupDownloadStatusReported {
+  // The status of the file group on device: PENDING, DOWNLOADED, FAILED
+  optional android.stats.mobiledatadownload.DownloadStatus
+      file_group_download_status = 1;
+  // Timestamp of when this file group was added to the device.
+  optional int64 group_added_timestamp = 2;
+  // Timestamp of when MDD completed downloading the file group.
+  optional int64 group_downloaded_timestamp = 3;
+  // Stats specific to the file group
+  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
+  // Number of days since the last time the device attempted to log file group download status for any file group.
+  optional int32 days_since_last_log = 5;
+}
+
+/** Shared data among MobileDataDownload statistics. Not meant to be a top level atom proto.*/
+message MobileDataDownloadFileGroupStats {
+  // The name of the file group. This a string set server side used to retrieve
+  // the files. Does not contain PII.
+  optional string file_group_name = 1;
+  // Allows the clients to identify a file group based on a given set of
+  // properties. This string is set server side and does not contain PII.
+  optional string variant_id = 2;
+  // Identifier for the data file group created to identify the version of the
+  // file group.
+  optional int64 build_id = 3;
+  // The number of files in the file group.
+  optional int32 file_count = 4;
+  // Whether the file group has an account associated with it.
+  optional bool has_account = 5;
+  // Inverse of the sampling rate used to sample this event.
+  optional int32 sampling_interval = 6;
+  // Note: we do not have owner_package since that's already transmitted.
+}
+
+/**
+* Logs stats on the result of download attempts of file groups. Provides info on individual download attempts.
+*/
+message MobileDataDownloadDownloadResultReported {
+  // The result of the download attempt
+  optional android.stats.mobiledatadownload.DownloadResult download_result = 1;
+
+  // Specifies which file group the download attempt was for
+  optional MobileDataDownloadFileGroupStats file_group_stats = 2 [(log_mode) = MODE_BYTES];
+}
+
+/**
+* Logs stats on the amount of storage being used by file groups.
+*/
+message MobileDataDownloadFileGroupStorageStatsReported {
+  // Storage stats for all file groups in the MDD Instance
+  optional MobileDataDownloadStorageStats storage_stats = 1  [(log_mode) = MODE_BYTES];
+  // All the bytes used by mdd file groups
+  optional int64 total_mdd_bytes_used = 2;
+  // All the bytes used in the entire mdd directory
+  optional int64 total_mdd_directory_bytes_used = 3;
+}
+
+/**
+* Container for MobileDataDownloadFileGroupStorageStats
+*/
+message MobileDataDownloadStorageStats {
+    repeated MobileDataDownloadFileGroupStorageStats mobile_data_download_file_group_storage_stats = 1;
+}
+
+/**
+* Storage stats for a single file group. This is logged as a nested field and is not meant to be logged as a top level proto.
+*/
+message MobileDataDownloadFileGroupStorageStats {
+  // The total number of bytes used by this file group
+  optional int64 total_bytes_used = 1;
+  // The total number of inline file bytes used by this file group
+  optional int64 total_inline_bytes_used = 2;
+  // The number of bytes used for the downloaded version of the file group
+  optional int64 downloaded_group_bytes_used = 3;
+  // Specifies which file group this storage is associated with
+  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs when various Privacy Sandbox settings are used.
+ */
+message AdServicesSettingsUsageReported {
+    enum AdServiceSettingRegion {
+        REGION_UNSPECIFIED = 0;
+        EU = 1;
+        ROW = 2;
+    }
+
+    optional AdServiceSettingRegion region = 1;
+
+    enum AdServiceSettingsName {
+        ACTION_UNSPECIFIED = 0;
+        REQUESTED_NOTIFICATION = 1;
+        LANDING_PAGE_DISPLAYED = 2;
+        OPT_IN_SELECTED = 3;
+        OPT_OUT_SELECTED = 4;
+        MANAGE_TOPICS_SELECTED = 5;
+        MANAGE_APPS_SELECTED = 6;
+        RESET_TOPIC_SELECTED = 7;
+        RESET_APP_SELECTED = 8;
+        BLOCK_TOPIC_SELECTED = 9;
+        UNBLOCK_TOPIC_SELECTED = 10;
+        BLOCK_APP_SELECTED = 11;
+        UNBLOCK_APP_SELECTED = 12;
+    }
+
+    optional AdServiceSettingsName action = 2;
+}
+
+// Logs information about bpf maps in BpfNetMaps.
+//
+// Logged from:
+//   packages/modules/Connectivity/service/src/com/android/server/BpfNetMaps.java
+message NetworkBpfMapInfo {
+    // The size of cookie tag bpf map.
+    optional int32 cookie_tag_map_size = 1;
+
+    // The size of uid owner bpf map.
+    optional int32 uid_owner_map_size = 2;
+
+    // The size of uid permission bpf map.
+    optional int32 uid_permission_map_size = 3;
 }
