@@ -25,8 +25,8 @@ static void print_usage() {
     fprintf(stderr, "usage: stats-log-api-gen OPTIONS\n");
     fprintf(stderr, "\n");
     fprintf(stderr, "OPTIONS\n");
-    fprintf(stderr, "  --cpp FILENAME       the header file to output for write helpers\n");
-    fprintf(stderr, "  --header FILENAME    the cpp file to output for write helpers\n");
+    fprintf(stderr, "  --cpp FILENAME       the cpp file to output for write helpers\n");
+    fprintf(stderr, "  --header FILENAME    the header file to output for write helpers\n");
     fprintf(stderr, "  --help               this message\n");
     fprintf(stderr, "  --java FILENAME      the java file to output\n");
     fprintf(stderr, "  --rust FILENAME      the rust file to output\n");
