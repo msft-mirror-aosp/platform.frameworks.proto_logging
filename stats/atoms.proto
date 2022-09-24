@@ -772,6 +772,7 @@ message Atom {
             514 [(module) = "framework"];
         AmbientModeChanged ambient_mode_changed_reported = 515 [(module) = "framework"];
         ANRLatencyReported anr_latency_reported = 516 [(module) = "framework"];
+        ResourceValueApiStatisticsReported resource_api_info = 517 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1767,9 +1768,15 @@ message ScheduledJobStateChanged {
     optional string job_name = 2;
 
     enum State {
+        // A job started executing (passed through the STARTED state) and has finished.
         FINISHED = 0;
+        // A scheduled job has just started executing.
         STARTED = 1;
+        // An app just scheduled this job to be executed at some point in the future.
         SCHEDULED = 2;
+        // The job was SCHEDULED but cancelled before it started executing (so it never went
+        // through the STARTED state).
+        CANCELLED = 3;
     }
     optional State state = 3;
 
@@ -19102,6 +19109,10 @@ message OdrefreshReported {
 
         // Installation of artifacts failed.
         STATUS_INSTALL_FAILED = 7;
+
+        // Failed to access the dalvik-cache directory due to lack of
+        // permission.
+        STATUS_DALVIK_CACHE_PERMISSION_DENIED = 8;
     }
 
     optional Status status = 4;
@@ -21685,6 +21696,11 @@ message AutofillPresentationEventReported {
             // they should.
     NONE_SHOWN_FILL_REQUEST_FAILED =
         7; // Autofill provider request failed. Different from timeout.
+    NONE_SHOWN_NO_FOCUS =
+        8; // Autofill provider request was triggered pre-focus. User never
+           // focussed on autofillable fields. This can happen for FillDialog
+           // where we trigger fill request at layout time.
+
   }
 
   // Id number which increases for each subsequent request.
@@ -22736,4 +22752,38 @@ message AmbientModeChanged {
     }
 
     optional AmbientStateEnum state = 1;
+}
+
+
+/**
+ * Contains statistics about time spent fetching resource information from an APK.
+ * Logged from:
+ *   frameworks/base/core/java/android/content/res/ResourceTimer.java
+ */
+message ResourceValueApiStatisticsReported {
+
+  // The api that is being reported.
+  optional android.app.ResourceApiEnum api = 1;
+
+  // The total number of events recorded.
+  optional int32 event_count = 2;
+
+  // The total time spent in thie API.  The units are ns.
+  optional int64 cumulative_event_time_ns = 3;
+
+  // Four percentile values.  Units are in ns.  A value of zero means the percentile could not be
+  // computed.
+  optional int32 p50_ns = 4;
+  optional int32 p90_ns = 5;
+  optional int32 p95_ns = 6;
+  optional int32 p99_ns = 7;
+
+  // The five largest values recorded.  Units are in ns.  A value of zero means the value is
+  // missing (which means fewer than 5 events were recorded).  Values that exceed INT_MAX are
+  // capped at INT_MAX.
+  optional int32 l0_ns = 8;
+  optional int32 l1_ns = 9;
+  optional int32 l2_ns = 10;
+  optional int32 l3_ns = 11;
+  optional int32 l4_ns = 12;
 }
