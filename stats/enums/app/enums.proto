@@ -524,3 +524,13 @@ enum Importance {
     IMPORTANCE_EMPTY = 500;
     IMPORTANCE_GONE = 1000;
 }
+
+/**
+ * The Resource APIs that are monitored.
+ */
+enum ResourceApiEnum {
+
+  RESOURCE_API_NONE = 0;
+  RESOURCE_API_GET_VALUE = 1;
+  RESOURCE_API_RETRIEVE_ATTRIBUTES = 2;
+}
