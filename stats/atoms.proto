@@ -727,6 +727,8 @@ message Atom {
         MediametricsHeadTrackerDeviceEnabledReported mediametrics_headtrackerdeviceenabled_reported = 510;
         MediametricsHeadTrackerDeviceSupportedReported mediametrics_headtrackerdevicesupported_reported = 511;
         HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
+        DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
+            514 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -10220,7 +10222,8 @@ message BubbleDeveloperErrorReported {
 }
 
 /**
- * Logs that a constraint for a scheduled job has changed.
+ * Logs that a job-specific constraint for a scheduled job has changed.
+ * DeviceWideJobConstraintChanged will cover constraints that are normally the same for all jobs.
  *
  * Logged from:
  *     frameworks/base/services/core/java/com/android/server/job/controllers/JobStatus.java
@@ -10239,6 +10242,29 @@ message ScheduledJobConstraintChanged {
         SATISFIED = 2;
     }
     optional State state = 4;
+}
+
+/**
+ * Logs that a device-state-level JobScheduler constraint has changed. This doesn't take individual
+ * job or app characteristics into account. Individual jobs may have a different satisfaction value
+ * based on special policies. Individual job constraints (eg. connectivity or prefetch) are not
+ * logged in this atom.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/job/controllers/<*>.java
+ */
+message DeviceWideJobConstraintChanged {
+    optional com.android.server.job.ConstraintEnum constraint = 1;
+
+    enum State {
+        UNKNOWN = 0;
+        UNSATISFIED = 1;
+        SATISFIED = 2;
+    }
+    optional State state = 2 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
