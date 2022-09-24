@@ -85,6 +85,8 @@ enum InteractionType {
     TASKBAR_EXPAND = 61;
     TASKBAR_COLLAPSE = 62;
     SHADE_CLEAR_ALL = 63;
+    LAUNCHER_UNLOCK_ENTRANCE_ANIMATION = 64;
+    LOCKSCREEN_OCCLUSION = 65;
     reserved 2;
 }
 
