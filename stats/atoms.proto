@@ -9644,8 +9644,8 @@ message NetworkIpReachabilityMonitorReported {
 message SystemDefaultNetworkChanged {
     // Active transport types encoded as a 32 bit integer.
     // The integer will have n-th bit set if there was an active transport type of value n.
-    // Transport type values are defined in packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
-    optional int32 transportTypes = 1 [
+    // See packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 transport_types = 1 [
         (state_field_option).exclusive_state = true,
         (state_field_option).nested = false
     ];
