@@ -110,7 +110,7 @@ message Atom {
         // For StatsLog reasons, 1 is illegal and will not work. Must start at 2.
         BleScanStateChanged ble_scan_state_changed = 2
                 [(module) = "bluetooth", (module) = "statsdtest"];
-        ProcessStateChanged process_state_changed = 3 [(module) = "framework"];
+        ProcessStateChanged process_state_changed = 3 [(module) = "framework", deprecated = true];
         BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
