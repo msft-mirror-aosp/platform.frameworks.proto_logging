@@ -1546,6 +1546,10 @@ message WifiSetupFailureCrashReported {
         SOFT_AP_FAILURE_WIFICOND = 9;
         // Hostapd error on WifiNative.setupInterfaceForSoftApMode
         SOFT_AP_FAILURE_HOSTAPD = 10;
+        // HAL error on WifiP2pNative.setupInterface
+        P2P_FAILURE_HAL = 11;
+        // Supplicant error on WifiP2pNative.setupInterface
+        P2P_FAILURE_SUPPLICANT = 12;
     }
     // Type of failure
     optional Type type= 1;
@@ -19101,8 +19105,7 @@ message OdrefreshReported {
         // Dex2oat reported an error.
         STATUS_DEX2OAT_ERROR = 4;
 
-        // Time limit exceeded.
-        STATUS_TIME_LIMIT_EXCEEDED = 5;
+        reserved 5; // was STATUS_TIME_LIMIT_EXCEEDED
 
         // Failure creating staging area.
         STATUS_STAGING_FAILED = 6;
