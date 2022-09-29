@@ -791,7 +791,7 @@ message Atom {
         HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
         DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
             514 [(module) = "framework"];
-        AmbientModeChanged ambient_mode_changed_reported = 515 [(module) = "framework"];
+        AmbientModeChanged ambient_mode_changed = 515 [(module) = "framework"];
         ANRLatencyReported anr_latency_reported = 516 [(module) = "framework"];
         ResourceValueApiStatisticsReported resource_api_info = 517 [(module) = "framework"];
         SystemDefaultNetworkChanged system_default_network_changed =
@@ -22773,12 +22773,12 @@ message HearingAidInfoReported {
  * Logs when Ambient/OFFLOAD Mode is entered or exited.
  *
  * Logged from:
- *  1. package: vendor/google_clockwork/packages/Ambient/src/com/google/android/wearable/ambient
- *  (possible class: AmbiactiveActivityManager.java)
- *  2. package: vendor/google_clockwork/packages/Ambient/src/com/google/android/wearable/ambient/autoresume
- *  (possible class: AmbientLiteFlowController.java)
- *  3. package: frameworks/opt/wear/src/com/google/android/clockwork/displayoffload
- *  (possible class: DisplayOffloadService.java)
+ *  1. vendor/google_clockwork/packages/Ambient/src/com/google/
+ *     android/wearable/ambient/AmbientService.java
+ *  2. vendor/google_clockwork/packages/Ambient/src/com/google/android/
+ *     wearable/ambient/autoresume/AmbientLiteFlowController.java
+ *  3. frameworks/opt/wear/src/com/google/android/clockwork/
+ *     displayoffload/DisplayOffloadService.java
  */
 message AmbientModeChanged {
     enum AmbientStateEnum {
