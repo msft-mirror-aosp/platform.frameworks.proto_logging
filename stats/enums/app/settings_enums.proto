@@ -3485,6 +3485,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     TRANSPARENCY_METADATA = 1962;
+
+    // OPEN: Settings > Network & internet > Mobile network > ContactDiscovery
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_CONTACT_DISCOVERY = 1963;
 }
 
 // Battery Saver schedule types.
