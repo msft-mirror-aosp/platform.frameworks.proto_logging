@@ -796,6 +796,8 @@ message Atom {
         ResourceValueApiStatisticsReported resource_api_info = 517 [(module) = "framework"];
         SystemDefaultNetworkChanged system_default_network_changed =
             518 [(module) = "network_stack"];
+        IwlanSetupDataCallResultReported iwlan_setup_data_call_result_reported = 519 [(module) = "iwlan"];
+        IwlanPdnDisconnectedReasonReported iwlan_pdn_disconnected_reason_reported = 520 [(module) = "iwlan"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -6810,11 +6812,14 @@ message BootTimeEventElapsedTime {
         // Time when sys.boot_completed prop is set.
         // Logged from bootstat.
         BOOT_COMPLETE = 2;
-        // BOOT_COMPLETE for encrypted device.
+        // BOOT_COMPLETE for a device that uses full-disk encryption.  Note that
+        // no devices running Android 13 or later use full-disk encryption, as
+        // it has been replaced by file-based encryption.
         BOOT_COMPLETE_ENCRYPTION = 3;
-        // BOOT_COMPLETE for device with no encryption.
+        // BOOT_COMPLETE for a device that doesn't use full-disk encryption.
         BOOT_COMPLETE_NO_ENCRYPTION = 4;
-        // Adjusted BOOT_COMPLETE for encrypted device extracting decryption time.
+        // Adjusted BOOT_COMPLETE for a device that uses full-disk encryption,
+        // omitting the decryption time.
         BOOT_COMPLETE_POST_DECRYPT = 5;
         // BOOT_COMPLETE after factory reset.
         FACTORY_RESET_BOOT_COMPLETE = 6;
@@ -22828,4 +22833,90 @@ message ResourceValueApiStatisticsReported {
   optional int32 l2_ns = 10;
   optional int32 l3_ns = 11;
   optional int32 l4_ns = 12;
+}
+
+/**
+
+ * Logs when Iwlan responds the setup data call request.
+ *
+ * Logged from:
+ *   packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java
+ */
+message IwlanSetupDataCallResultReported {
+  enum IwlanError {
+    NO_ERROR = 0;
+    IKE_PROTOCOL_EXCEPTION = 1;
+    IKE_INTERNAL_IO_EXCEPTION = 2;
+    IKE_GENERIC_EXCEPTION = 3;
+    EPDG_SELECTOR_SERVER_SELECTION_FAILED = 4;
+    TUNNEL_TRANSFORM_FAILED = 5;
+    SIM_NOT_READY_EXCEPTION = 6;
+    NETWORK_FAILURE = 7;
+    UNKNOWN_EXCEPTION = 8;
+  }
+
+  // Setup data call apn type
+  // See go/apntypedefinition
+  optional int32 apn_type = 1;
+  // Is the request for handover
+  optional bool is_handover = 2;
+  // ePDG server address
+  optional string epdg_server_address = 3;
+  // If the request type is handover, record the source network type
+  // See
+  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/TelephonyManager.java;l=2906
+  optional int32 source_rat = 4;
+  // If the request type is handover, record the source network roaming status
+  optional bool is_cellular_roaming = 5;
+  // Is network connected
+  optional bool is_network_connected = 6;
+  // Default network transport type
+  // See
+  // https://source.corp.google.com/android/packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java;l=1099
+  optional int32 transport_type = 7;
+  // Setup result
+  optional int32 setup_request_result = 8;
+  // Iwlan error code if setup failed
+  optional IwlanError iwlan_error = 9;
+  // Data call fail cause
+  // See
+  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/DataFailCause.java;l=35
+  optional int32 data_call_fail_cause = 10;
+  // Setup request processing duration
+  optional int32 processing_duration_millis = 11;
+  // Time for doing ePDG server selection through DNS query of FQDNs
+  optional int32 epdg_server_selection_duration_millis = 12;
+  // Time for establishing IKE tunnel
+  optional int32 ike_tunnel_establishment_duration_millis = 13;
+  // Tunnel State
+  // See
+  // https://source.corp.google.com/android/packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java;l=213
+  optional int32 tunnel_state = 14;
+  // Handover failure mode
+  // See
+  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/data/DataCallResponse.java;l=83
+  optional int32 handover_failure_mode = 15;
+  // Retry duration
+  optional int32 retry_duration_millis = 16;
+}
+
+/**
+ * Logs when Iwlan reports IWLAN PDN disconnected without deactivation request.
+ *
+ * Logged from:
+ *   packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java
+ */
+message IwlanPdnDisconnectedReasonReported {
+  // Disconnection cause
+  // See
+  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/DataFailCause.java;l=35
+  optional int32 cause = 1;
+  // Is network connected
+  optional bool is_network_connected = 2;
+  // default network transport type
+  // See
+  // https://source.corp.google.com/android/packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java;l=97
+  optional int32 transport_type = 3;
+  // Wifi signal level
+  optional int32 wifi_signal_level = 4;
 }
