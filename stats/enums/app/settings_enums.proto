@@ -3490,6 +3490,60 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_CONTACT_DISCOVERY = 1963;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Create the mobile network database.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_CREATED = 1964;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Delete mobile network data to the mobile network database.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_DELETE_DATA = 1965;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Insert the framework's subscription info into subscription table.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_INSERT_SUB_INFO = 1966;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Insert the framework's UICC info into UICC table.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_INSERT_UICC_INFO = 1967;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Insert the mobile network info into mobile network table.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_INSERT_MOBILE_NETWORK_INFO = 1969;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Get the UICC info from framework's subscription info.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_GET_UICC_INFO = 1970;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Send the change of subscription entity to UI.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_NOTIFY_SUB_INFO_IS_CHANGED = 1971;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Send the change of UICC entity to UI.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_NOTIFY_UICC_INFO_IS_CHANGED = 1972;
+
+    // OPEN: Settings > Network & Internet
+    // ACTION: Send the change of mobile network entity to UI.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_MOBILE_NETWORK_DB_NOTIFY_MOBILE_NETWORK_INFO_IS_CHANGED = 1973;
 }
 
 // Battery Saver schedule types.
