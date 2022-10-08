@@ -1467,6 +1467,20 @@ message WifiP2pConnectionReported {
         GROUP_OWNER = 1;
         GROUP_CLIENT = 2;
     }
+    enum Band {
+        // Unknown band/frequency
+        BAND_UNKNOWN = 0;
+        // any band
+        BAND_AUTO = 1;
+        // With 2G band
+        BAND_2G = 2;
+        // With 5G band
+        BAND_5G = 3;
+        // With 6G band
+        BAND_6G = 4;
+        // With a specific frequency
+        BAND_FREQUENCY = 5;
+    }
     // Type of the connection.
     optional Type type = 1;
     // Duration to connect in millis.
@@ -1478,6 +1492,13 @@ message WifiP2pConnectionReported {
     // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
     // credential.
     optional GroupRole group_role = 5;
+    // Group band preference
+    optional Band band = 6;
+    // Group frequency in MHz if positive. Otherwise, no frequency preference.
+    optional int32 frequency_mhz = 7;
+    // STA mode channel frequency. 0 means unknown.
+    optional int32 sta_frequency_mhz = 8;
+    //
 }
 
 /**
@@ -9225,10 +9246,10 @@ message NetworkDnsHandshakeReported {
   // The latency in microseconds of the entire handshake operation.
   optional int32 latency_micros = 6;
 
-  // Sent packets in bytes.
+  // Number of bytes sent in a handshake.
   optional int32 bytes_sent = 7;
 
-  // Received packets in bytes.
+  // Number of bytes received in a handshake.
   optional int32 bytes_received = 8;
 
   // Number of round-trips.
