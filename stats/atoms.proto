@@ -799,6 +799,8 @@ message Atom {
         IwlanSetupDataCallResultReported iwlan_setup_data_call_result_reported = 519 [(module) = "iwlan"];
         IwlanPdnDisconnectedReasonReported iwlan_pdn_disconnected_reason_reported = 520 [(module) = "iwlan"];
         AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi"];
+        VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice"];
+        VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -17474,6 +17476,39 @@ message VmExited {
     optional DeathReason death_reason = 3;
     // Elapsed time between start and termination of a VM
     optional int64 elapsed_time_millis = 4;
+}
+
+/**
+ * Logs telemetry for Android Virtualization framework
+ *
+ * For every second while VM is running, an atom is pushed that records CPU time information of VM.
+ * Logged from: packages/modules/Virtualization/
+ */
+message VmCpuStatusReported {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional string vm_identifier = 2;
+
+    optional int64 cpu_time_user_millis = 3;
+    optional int64 cpu_time_nice_millis = 4;
+    optional int64 cpu_time_sys_millis = 5;
+    optional int64 cpu_time_idle_millis = 6;
+}
+
+/**
+ * Logs telemetry for Android Virtualization framework
+ *
+ * For every second while VM is running, an atom is pushed that records memory information of VM.
+ * Logged from: packages/modules/Virtualization/
+ */
+message VmMemStatusReported {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional string vm_identifier = 2;
+
+    optional int64 mem_total_kb = 3;
+    optional int64 mem_free_kb = 4;
+    optional int64 mem_available_kb = 5;
+    optional int64 mem_buffer_kb = 6;
+    optional int64 mem_cached_kb = 7;
 }
 
 /**
