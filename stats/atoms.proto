@@ -4213,6 +4213,21 @@ message SmartSpaceCardReported {
     optional int32 received_latency_millis = 11;
     // The sub cards.
     optional SmartSpaceSubcards subcards_info = 12 [(log_mode) = MODE_BYTES];
+    // Holds all the dimensions for this event. See go/ss-dimensional-logging for details.
+    optional SmartspaceCardDimensionalInfo dimensional_info = 13 [(log_mode) = MODE_BYTES];
+}
+
+// Holds all the dimensions tied to a Smartspace event.
+message SmartspaceCardDimensionalInfo {
+    repeated SmartspaceFeatureDimension feature_dimensions = 1;
+}
+
+message SmartspaceFeatureDimension {
+    // This maps to an enum value in Android System Intelligence.
+    optional int32 feature_dimension_id = 1;
+
+    // The value for this dimension.
+    optional int32 feature_dimension_value = 2;
 }
 
 /**
