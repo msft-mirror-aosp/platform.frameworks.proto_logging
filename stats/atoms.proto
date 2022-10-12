@@ -15252,6 +15252,9 @@ message DataCallSession {
     // For each int32, the lower 16 bits represent the source RAT while the upper 16 bits indicate
     // the target RAT of the failed handover.
     repeated int32 handover_failure_rat = 21;
+
+    // Whether the call is for internet on nonDDS due to auto data switch feature
+    optional bool is_non_dds = 22;
 }
 
 /**
@@ -15295,6 +15298,14 @@ message DataStallRecoveryReported {
 
     // The data stall recovered reason. Available from Android T.
     optional android.telephony.DataStallRecoveredReason reason = 10;
+
+    // Signal strength of the other phone if DSDS when stall happened.
+    // SIGNAL_STRENGTH_NONE_OR_UNKNOWN(0) if single SIM.
+    optional android.telephony.SignalStrengthEnum other_phone_signal_strength = 11;
+
+    // PS WWAN Network Registration state of the other phone if DSDS when stall happened.
+    // REGISTRATION_STATE_NOT_REGISTERED_OR_SEARCHING(0) if single SIM.
+    optional android.telephony.NetworkRegistrationState other_phone_reg_state = 12;
 }
 
 /**
