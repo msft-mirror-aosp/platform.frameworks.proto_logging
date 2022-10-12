@@ -22954,7 +22954,7 @@ message IwlanSetupDataCallResultReported {
   optional string epdg_server_address = 3;
   // If the request type is handover, record the source network type
   // See
-  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/TelephonyManager.java;l=2906
+  // frameworks/base/telephony/java/android/telephony/TelephonyManager.java
   optional int32 source_rat = 4;
   // If the request type is handover, record the source network roaming status
   optional bool is_cellular_roaming = 5;
@@ -22962,7 +22962,7 @@ message IwlanSetupDataCallResultReported {
   optional bool is_network_connected = 6;
   // Default network transport type
   // See
-  // https://source.corp.google.com/android/packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java;l=1099
+  // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
   optional int32 transport_type = 7;
   // Setup result
   optional int32 setup_request_result = 8;
@@ -22970,7 +22970,7 @@ message IwlanSetupDataCallResultReported {
   optional IwlanError iwlan_error = 9;
   // Data call fail cause
   // See
-  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/DataFailCause.java;l=35
+  // frameworks/base/telephony/java/android/telephony/DataFailCause.java
   optional int32 data_call_fail_cause = 10;
   // Setup request processing duration
   optional int32 processing_duration_millis = 11;
@@ -22980,11 +22980,11 @@ message IwlanSetupDataCallResultReported {
   optional int32 ike_tunnel_establishment_duration_millis = 13;
   // Tunnel State
   // See
-  // https://source.corp.google.com/android/packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java;l=213
+  // packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java
   optional int32 tunnel_state = 14;
   // Handover failure mode
   // See
-  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/data/DataCallResponse.java;l=83
+  // frameworks/base/telephony/java/android/telephony/data/DataCallResponse.java
   optional int32 handover_failure_mode = 15;
   // Retry duration
   optional int32 retry_duration_millis = 16;
@@ -22999,13 +22999,13 @@ message IwlanSetupDataCallResultReported {
 message IwlanPdnDisconnectedReasonReported {
   // Disconnection cause
   // See
-  // https://source.corp.google.com/android/frameworks/base/telephony/java/android/telephony/DataFailCause.java;l=35
+  // frameworks/base/telephony/java/android/telephony/DataFailCause.java
   optional int32 cause = 1;
   // Is network connected
   optional bool is_network_connected = 2;
   // default network transport type
   // See
-  // https://source.corp.google.com/android/packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java;l=97
+  // packages/services/Iwlan/src/com/google/android/iwlan/IwlanDataService.java
   optional int32 transport_type = 3;
   // Wifi signal level
   optional int32 wifi_signal_level = 4;
