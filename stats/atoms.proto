@@ -14236,6 +14236,9 @@ message VoiceCallSession {
 
     // Duration after the call was connected.
     optional android.telephony.CallDuration call_duration = 33;
+
+    // Last known Radio access technology (RAT).
+    optional android.telephony.NetworkTypeEnum last_known_rat = 34;
 }
 
 /**
