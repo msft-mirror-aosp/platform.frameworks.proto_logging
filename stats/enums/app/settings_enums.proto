@@ -3539,6 +3539,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_MOBILE_NETWORK_DB_NOTIFY_MOBILE_NETWORK_INFO_IS_CHANGED = 1973;
+
+    // OPEN: Settings > Security > Advanced Memory Protection (beta)
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_MEMTAG_CATEGORY = 1974;
 }
 
 // Battery Saver schedule types.
