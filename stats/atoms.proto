@@ -801,6 +801,7 @@ message Atom {
         AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi"];
         VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice"];
         VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice"];
+        PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -18132,6 +18133,79 @@ message AirplaneModeSessionReported {
     // Whether media profile was connected before entering airplane mode
     // Only applicable to the Bluetooth module
     optional bool media_profile_connected = 8;
+}
+
+/**
+ * Logs when a package installation session happens.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/pm/InstallPackageHelper.java
+ */
+message PackageInstallationSessionReported {
+    // Used to correlate with Play logging metrics
+    optional int32 sessionId = 1;
+    // Only logged for failed installations
+    optional string package_name = 2;
+
+    enum InstallType {
+        TYPE_UNKNOWN = 0;
+        FULL = 1;
+        REPLACE = 2;
+        UPDATE_SYSTEM = 3;
+        INHERIT = 4;
+        INSTALL_EXISTING_AS_USER = 5;
+        MOVE = 6;
+        INSTANT = 7;
+    }
+
+    optional InstallType install_type = 3;
+    // UID of the app that is successfully installed
+    repeated int32 uid = 4 [(is_uid) = true];
+    // Users that will have this package installed
+    repeated int32 user_ids = 5;
+    // Users that originally had this package installed if it already exists
+    repeated int32 original_user_ids = 6;
+    // PackageManager.INSTALL_FAILED_* error codes
+    optional int32 public_return_code = 7;
+    // Internal error codes that indicate detailed installation failures
+    optional int32 internal_error_code = 8;
+    // Total size of the new APKs in the current session
+    optional int64 apks_size_bytes = 9;
+    // Version code of the app
+    optional int64 version_code = 10;
+
+    message InstallStep {
+        enum Step {
+            STEP_UNKNOWN = 0;
+            PREPARE = 1;
+            SCAN = 2;
+            RECONCILE = 3;
+            COMMIT = 4;
+        }
+        optional Step step = 1;
+        optional int64 duration_millis = 2;
+    }
+
+    message RepeatedInstallSteps {
+        repeated InstallStep steps = 1;
+    }
+
+    // Duration spent on each step in the installation
+    optional RepeatedInstallSteps install_steps = 11 [(log_mode) = MODE_BYTES];
+    // Total duration can be greater than zero even if install failed
+    optional int64 total_duration_millis = 12;
+    // Installation flags including DONT_KILL
+    optional int32 install_flags = 13;
+    // UID of the package that initiates the installation
+    optional int32 installer_package_uid = 14 [(is_uid) = true];
+    // UID of the package that previously installed the app
+    optional int32 original_installer_package_uid = 15 [(is_uid) = true];
+    // Whether this is a staged installation
+    optional bool is_staged = 16;
+    // {@see android.content.pm.DataLoaderType}
+    optional int32 data_loader_type = 17;
+    // {@see android.content.pm.UserActionRequirement}
+    optional int32 user_action_required_type = 18;
 }
 
 /**
