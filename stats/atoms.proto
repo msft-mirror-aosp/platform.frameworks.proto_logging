@@ -4247,6 +4247,8 @@ message LauncherLayoutSnapshot {
 
   // List of attributes attached to the event.
   optional LauncherAttributes attributes = 19 [(log_mode) = MODE_BYTES];
+
+  optional bool is_kids_mode = 20;
 }
 
 /**
