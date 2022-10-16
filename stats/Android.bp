@@ -26,6 +26,7 @@ cc_library_host_shared {
     srcs: [
         "atoms.proto",
         "atom_field_options.proto",
+        "attribution_node.proto",
         "enums/**/*.proto",
         "message/*.proto",
     ],
@@ -43,6 +44,7 @@ filegroup {
     name: "libstats_atoms_proto",
     srcs: [
         "atoms.proto",
+        "attribution_node.proto",
     ],
 }
 
@@ -51,6 +53,7 @@ filegroup {
     srcs: [
         "atoms.proto",
         "atom_field_options.proto",
+        "attribution_node.proto",
     ],
 }
 
