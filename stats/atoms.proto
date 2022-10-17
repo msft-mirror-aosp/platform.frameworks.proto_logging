@@ -799,7 +799,7 @@ message Atom {
             518 [(module) = "network_stack"];
         IwlanSetupDataCallResultReported iwlan_setup_data_call_result_reported = 519 [(module) = "iwlan"];
         IwlanPdnDisconnectedReasonReported iwlan_pdn_disconnected_reason_reported = 520 [(module) = "iwlan"];
-        AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi"];
+        AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi", (module) = "bluetooth"];
         VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice"];
         VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice"];
         PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
