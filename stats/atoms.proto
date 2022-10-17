@@ -742,6 +742,7 @@ message Atom {
         NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         AdServicesMeasurementRegistrations ad_services_measurement_registrations =
             512 [(module) = "adservices", (truncate_timestamp) = true];
+        AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi", (module) = "bluetooth"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9158,22 +9159,41 @@ message AppCompacted {
   optional int64 after_zram_free_kilobytes = 18;
 }
 
+// Logs each upstream for a successful switch over
+message UpstreamEvent {
+  // Transport type of upstream network
+  optional android.stats.connectivity.UpstreamType upstream_type = 1;
+
+  // A time period that an upstream continued
+  optional int64 duration_millis = 2;
+}
+
+message UpstreamEvents {
+  repeated UpstreamEvent upstream_event = 1;
+}
+
 /**
  * Logs when a Tethering event occurs.
  *
  */
 message NetworkTetheringReported {
-  // tethering error code
+  // Tethering error code
   optional android.stats.connectivity.ErrorCode error_code = 1;
 
-  // tethering downstream type
+  // Tethering downstream type
   optional android.stats.connectivity.DownstreamType downstream_type = 2;
 
-  // transport type of upstream network
-  optional android.stats.connectivity.UpstreamType upstream_type = 3;
+  // Transport type of upstream network
+  optional android.stats.connectivity.UpstreamType upstream_type = 3 [deprecated = true];
 
-  // The user type of Tethering
+  // The user type of switching tethering
   optional android.stats.connectivity.UserType user_type= 4;
+
+  // Log each transport type of upstream network event
+  optional UpstreamEvents upstream_events = 5  [(log_mode) = MODE_BYTES];
+
+  // A time period that a downstreams exists
+  optional int64 duration_millis = 6;
 }
 
 /**
@@ -17464,6 +17484,40 @@ message WifiPnoScanReported {
 }
 
 /**
+ * Logs when an airplane mode session happens.
+ *
+ * Logged from:
+ *   packages/modules/Wifi/service/java/com/android/server/wifi/WifiMetrics.java
+ *   packages/modules/Bluetooth/service/java/com/android/server/bluetooth/BluetoothAirplaneModeListener.java
+ */
+message AirplaneModeSessionReported {
+    enum PackageName {
+        WIFI = 0;
+        BLUETOOTH = 1;
+    }
+    // Module recording the airplane mode session
+    optional PackageName package_name = 1;
+    // State of the module before entering airplane mode
+    // False - module off
+    // True - module on
+    optional bool previous_state = 2;
+    // State of the module at the beginning of airplane mode
+    optional bool entering_state = 3;
+    // State of the module at the end of airplane mode
+    optional bool exiting_state = 4;
+    // Whether the user has activated the feature by
+    // toggling the module in airplane mode
+    optional bool feature_active = 5;
+    // Whether the user toggled the module during current airplane mode
+    optional bool user_toggled = 6;
+    // Whether the user toggled the module within one minute
+    optional bool user_toggled_within_minute = 7;
+    // Whether media profile was connected before entering airplane mode
+    // Only applicable to the Bluetooth module
+    optional bool media_profile_connected = 8;
+}
+
+/**
  * Logs when the entitlement configuration of an IMS service is queried/updated.
  *
  * Logged from: ImsServiceEntitlement app
@@ -18612,8 +18666,7 @@ message OdrefreshReported {
         // Dex2oat reported an error.
         STATUS_DEX2OAT_ERROR = 4;
 
-        // Time limit exceeded.
-        STATUS_TIME_LIMIT_EXCEEDED = 5;
+        reserved 5; // was STATUS_TIME_LIMIT_EXCEEDED
 
         // Failure creating staging area.
         STATUS_STAGING_FAILED = 6;
