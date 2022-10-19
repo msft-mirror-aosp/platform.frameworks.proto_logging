@@ -805,6 +805,7 @@ message Atom {
         PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
         DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
+        NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -9454,6 +9455,48 @@ message NetworkTetheringReported {
 
   // A time period that a downstreams exists
   optional int64 duration_millis = 6;
+}
+
+/**
+ * Logs NSD(Network service discovery) client session
+ *
+ * Log from:
+ *     packages/modules/Connectivity/service-t/src/com/android/server/NsdService
+ */
+message NetworkNsdReported {
+  // Indicate if the device is using the legacy or the new implementation
+  optional bool is_legacy = 1;
+
+  // It is a random number to represent different clients. Each client is an app on the device.
+  optional int32 client_id = 2;
+
+  // It is a increment_number to represent different transactions.
+  // Each transaction is a request from an app client.
+  optional int32 transaction_id = 3;
+
+  // Indicate the service in resolution is a known service in the discovered services cache
+  optional bool is_known_service = 4;
+
+  // Record each NSD session type
+  optional android.stats.connectivity.NsdEventType type = 5;
+
+  // The process duration of the event in milli-second
+  optional int64 event_duration_millisec = 6;
+
+  // Record each mdns query result
+  optional android.stats.connectivity.MdnsQueryResult query_result = 7;
+
+  // Count of services in cache at the end of discovery
+  optional int32 found_service_count = 8;
+
+  // Count of found callback when discovery is stopped
+  optional int32 found_callback_count = 9;
+
+  // Count of lost callback when discovery is stopped
+  optional int32 lost_callback_count = 10;
+
+  // Record query service count before unregistered service
+  optional int32 replied_requests_count = 11;
 }
 
 /**
@@ -19404,6 +19447,56 @@ message OdrefreshReported {
 
     // Compilation time of system_server classpath, in milliseconds.
     optional int32 system_server_compilation_millis = 12;
+
+    enum ExecResultStatus {
+        // Unable to get the status.
+        EXEC_RESULT_STATUS_UNKNOWN = 0;
+        // Process exited normally with an exit code.
+        EXEC_RESULT_STATUS_EXITED = 1;
+        // Process terminated by a signal.
+        EXEC_RESULT_STATUS_SIGNALED = 2;
+        // Process timed out and killed.
+        EXEC_RESULT_STATUS_TIMED_OUT = 3;
+        // Failed to start the process.
+        EXEC_RESULT_STATUS_START_FAILED = 4;
+        // Process was not run.
+        EXEC_RESULT_STATUS_NOT_RUN = 5;
+    }
+
+    // Status for the compilation of the boot
+    // classpath for the primary architecture.
+    optional ExecResultStatus primary_bcp_dex2oat_result_status = 13;
+
+    // Exit code for the compilation of the boot classpath for the
+    // primary architecture if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 primary_bcp_dex2oat_result_exit_code = 14;
+
+    // Signal for the compilation of the boot classpath for the
+    // primary architecture if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 primary_bcp_dex2oat_result_signal = 15;
+
+    // Status for the compilation of the boot
+    // classpath for the secondary architecture.
+    optional ExecResultStatus secondary_bcp_dex2oat_result_status = 16;
+
+    // Exit code for the compilation of the boot classpath for the
+    // secondary architecture if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 secondary_bcp_dex2oat_result_exit_code = 17;
+
+    // Signal for the compilation of the boot classpath for the
+    // secondary architecture if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 secondary_bcp_dex2oat_result_signal = 18;
+
+    // Status for the compilation of the boot classpath for the system_server.
+    optional ExecResultStatus system_server_dex2oat_result_status = 19;
+
+    // Exit code for the compilation of the boot classpath for the
+    // system_server if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 system_server_dex2oat_result_exit_code = 20;
+
+    // Signal for the compilation of the boot classpath for the
+    // system_server if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 system_server_dex2oat_result_signal = 21;
 };
 
 /*
