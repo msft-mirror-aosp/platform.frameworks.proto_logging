@@ -21771,6 +21771,9 @@ message SandboxSdkStorage {
 
     // Storage
     optional int32 storage_kb = 2;
+
+    // Uid of the app that made a call to sandbox
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
