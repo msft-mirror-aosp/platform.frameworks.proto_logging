@@ -812,6 +812,7 @@ message Atom {
         BluetoothRemoteSupportedFeaturesReported bluetooth_remote_supported_features_reported = 531 [(module) = "bluetooth"];
         BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
         BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
+        BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -23544,4 +23545,23 @@ message NetworkSelectionPerformance {
 
     // The latency of selection issued in milli-second
     optional int32 selection_issued_latency_milli = 5;
+}
+
+/**
+ * Logs the Brightness Configuration pushed by the long term model. The Brightness Configuration is
+ * expressed as a curve where each point is a pair of ambient light (lux) and the corresponding
+ * screen brightness (nits).
+ *
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/display/DisplayManagerService.java
+ */
+message BrightnessConfigurationUpdated {
+    // Array of ambient light values (in lux) to define the configuration.
+    repeated float lux = 1;
+    // Array of screen brightness values (in nits) corresponding to the lux
+    // values above.
+    repeated float nits = 2;
+    // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
+    // "local:$PHYSICAL_ID".
+    optional string physical_display_id = 3;
 }
