@@ -85,6 +85,7 @@ enum InteractionType {
     SHADE_CLEAR_ALL = 63;
     LAUNCHER_UNLOCK_ENTRANCE_ANIMATION = 64;
     LOCKSCREEN_OCCLUSION = 65;
+    RECENTS_SCROLLING = 66;
     reserved 2;
 }
 
