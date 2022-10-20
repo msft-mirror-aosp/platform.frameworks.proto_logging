@@ -14935,6 +14935,9 @@ message OutgoingSms {
     // For CS technology:
     //  - GSM format: see GsmSmsErrorCode (3GPP 27.005 clause 3.2.5)
     //  - CDMA format: see CdmaSmsErrorCode (3GPP2 N.S0005 (IS-41-C) Table 171)
+    // The field error_code is used for up-to-Android-13 devices. From Android 14,
+    // network_error_code will be used. The field error_code will be deprecated when most devices
+    // use Android 14 or higher versions.
     optional int32 error_code = 5;
 
     // Whether the SMS was sent while roaming.
@@ -14972,6 +14975,14 @@ message OutgoingSms {
     // Number of messages with the same properties (see message_id, retry_id and latency_millis for
     // exceptions)
     optional int32 count = 15;
+
+    // Internal send error code
+    optional android.telephony.SmsSendErrorEnum send_error_code = 16;
+
+    // Network error code
+    // - SMS_FORMAT_3GPP format: see GsmSmsErrorCode (3GPP 27.005 clause 3.2.5)
+    // - SMS_FORMAT_3GPP2 format: see CdmaSmsErrorCode (3GPP2 N.S0005 (IS-41-C) Table 171)
+    optional int32 network_error_code = 17;
 }
 
 /**
