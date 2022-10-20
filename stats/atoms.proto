@@ -22844,6 +22844,8 @@ message CdmAssociationAction {
         DEVICE_PROFILE_APP_STREAMING = 2;
         DEVICE_PROFILE_AUTO_PROJECTION = 3;
         DEVICE_PROFILE_COMPUTER = 4;
+        DEVICE_PROFILE_GLASSES = 5;
+        DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
     }
 
     // Action taken on the CDM association been created by companion apps.
