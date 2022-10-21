@@ -844,6 +844,7 @@ message Atom {
             package_manager_apps_filter_cache_build_reported = 545 [(module) = "framework"];
         PackageManagerAppsFilterCacheUpdateReported
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
+        LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21388,6 +21389,33 @@ message LauncherLatency {
     optional int32 type = 5;
     optional int32 query_length = 6 [default = -1];
     optional int32 sub_event_type = 7;
+}
+
+/**
+ * Logs for Launcher Impression logging.
+ *
+ * Logged from:
+ *      vendor/unbundled_google/packages/NexusLauncher
+ */
+message LauncherImpressionEvent {
+    // The event id generated from go/uievents
+    optional int32 event_id = 1;
+    // The instance id to track multiple partial impression event.
+    optional int32 instance_id = 2;
+
+    // The state defines the surface where the impression is being logged.
+    optional int32 state = 3;
+    optional int32 query_length = 4 [default = -1];
+
+    // ResultType of the search result as defined in frameworks/libs/systemui/searchuilib/src/com/android/app/search/ResultType.java
+    repeated int32 result_type = 5;
+
+    // Number of results of corresponding result_type.
+    repeated int32 result_count = 6;
+
+    // If the corresponding result_type is above or below keyboard.
+    // If 50% of result is visible, then is_above_keyboard = true
+    repeated bool is_above_keyboard = 7;
 }
 
 /*
