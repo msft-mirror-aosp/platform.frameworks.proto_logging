@@ -290,6 +290,15 @@ enum ItemId {
     // TvSettings > Privacy > Ads > Ads by Google (WebView)
     PRIVACY_ADS_ADS_BY_GOOGLE = 0x14330000;
 
+    // TvSettings > Privacy > Microphone
+    PRIVACY_MICROPHONE = 0x14400000;
+
+    // TvSettings > Privacy > Microphone > Microphone access (toggle)
+    PRIVACY_MICROPHONE_ACCESS = 0x14410000;
+
+    // TvSettings > Privacy > Microphone > Microphone access on your remote (toggle)
+    PRIVACY_MICROPHONE_ACCESS_ON_REMOTE = 0x14420000;
+
     // TvSettings > Display & Sound
     DISPLAY_SOUND = 0x15000000;
 
