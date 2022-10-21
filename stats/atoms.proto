@@ -21568,7 +21568,7 @@ message HotwordDetectorEvents {
 message BackgroundFetchProcessReported {
     optional int32 latency_in_millis = 1;
     optional int32 num_of_eligible_to_update_cas = 2;
-    optional android.adservices.service.BackgroundFetchResultCode result_code = 3;
+    optional int32 result_code = 3;
 }
 
 /**
@@ -21576,7 +21576,7 @@ message BackgroundFetchProcessReported {
  */
 message UpdateCustomAudienceProcessReported {
     optional int32 latency_in_millis = 1;
-    optional android.adservices.service.UpdateCustomAudienceResultCode result_code = 2;
+    optional int32 result_code = 2;
     optional int32 data_size_of_ads_in_bytes = 3;
     optional int32 num_of_ads = 4;
 }
@@ -21588,7 +21588,7 @@ message UpdateCustomAudienceProcessReported {
 message RunAdBiddingProcessReported {
     /* Logs when the getBuyersCustomAudience() is called. */
     optional int32 get_buyers_custom_audience_latency_in_millis = 1;
-    optional android.adservices.service.ResultCode get_buyers_custom_audience_result_code = 2;
+    optional int32 get_buyers_custom_audience_result_code = 2;
     optional int32 num_buyers_requested = 3;
     optional int32 num_buyers_fetched = 4;
 
@@ -21598,7 +21598,7 @@ message RunAdBiddingProcessReported {
     optional int32 num_of_cas_post_bidding = 7;
     optional float ratio_of_cas_selecting_rmkt_ads = 8;
     optional int32 run_ad_bidding_latency_in_millis = 9;
-    optional android.adservices.service.ResultCode run_ad_bidding_result_code = 10;
+    optional int32 run_ad_bidding_result_code = 10;
 
     /* Time from the start of the getBuyersCustomAudience() to the end of the runAdBidding(). */
     optional int32 total_ad_bidding_stage_latency_in_millis = 11;
@@ -21610,13 +21610,13 @@ message RunAdBiddingProcessReported {
 message RunAdScoringProcessReported {
     /* Logs when the getAdSelectionLogic() is called. */
     optional int32 get_ad_selection_logic_latency_in_millis = 1;
-    optional android.adservices.service.ResultCode get_ad_selection_logic_result_code = 2;
+    optional int32 get_ad_selection_logic_result_code = 2;
     optional android.adservices.service.ScriptType get_ad_selection_logic_script_type = 3;
     optional int32 fetched_ad_selection_logic_script_size_in_bytes = 4;
 
     /* Logs when the getTrustedScoringSignals() is called. */
     optional int32 get_trusted_scoring_signals_latency_in_millis = 5;
-    optional android.adservices.service.ResultCode get_trusted_scoring_signals_result_code = 6;
+    optional int32 get_trusted_scoring_signals_result_code = 6;
     optional int32 fetched_trusted_scoring_signals_data_size_in_bytes = 7;
 
     /* Logs when the getAdScores() is called. */
@@ -21624,14 +21624,14 @@ message RunAdScoringProcessReported {
     optional int32 score_ads_latency_in_millis = 8;
     // the overall latency of the getAdScores().
     optional int32 get_ad_scores_latency_in_millis = 9;
-    optional android.adservices.service.ResultCode get_ad_scores_result_code = 10;
+    optional int32 get_ad_scores_result_code = 10;
 
     optional int32 num_of_cas_entering_scoring = 11;
     optional int32 num_of_remarketing_ads_entering_scoring = 12;
     optional int32 num_of_contextual_ads_entering_scoring = 13;
     // the overall latency of the runAdScoring process.
     optional int32 run_ad_scoring_latency_in_millis = 14;
-    optional android.adservices.service.ResultCode run_ad_scoring_result_code = 15;
+    optional int32 run_ad_scoring_result_code = 15;
 }
 
 /* Logs for the ad selection process when the runAdSelection() is called.*/
@@ -21640,11 +21640,11 @@ message RunAdSelectionProcessReported {
     optional bool is_remarketing_ads_won = 1;
     optional int32 ad_selection_entry_size_in_bytes = 2;
     optional int32 persist_ad_selection_latency_in_millis = 3;
-    optional android.adservices.service.ResultCode persist_ad_selection_result_code = 4;
+    optional int32 persist_ad_selection_result_code = 4;
 
     /* Logs for the overall runAdSelection process. */
     optional int32 run_ad_selection_latency_in_millis = 5;
-    optional android.adservices.service.ResultCode run_ad_selection_result_code = 6;
+    optional int32 run_ad_selection_result_code = 6;
 }
 
 /**
@@ -21653,11 +21653,11 @@ message RunAdSelectionProcessReported {
 message RunAdBiddingPerCAProcessReported {
     optional int32 num_of_ads_for_bidding = 1;
     optional int32 run_ad_bidding_per_ca_latency_in_millis = 2;
-    optional android.adservices.service.ResultCode run_ad_bidding_per_ca_result_code = 3;
+    optional int32 run_ad_bidding_per_ca_result_code = 3;
 
     /* Logs for the getting buyer's decision logic script process. */
     optional int32 get_buyer_decision_logic_latency_in_millis = 4;
-    optional android.adservices.service.ResultCode get_buyer_decision_logic_result_code = 5;
+    optional int32 get_buyer_decision_logic_result_code = 5;
     optional android.adservices.service.ScriptType buyer_decision_logic_script_type = 6;
     optional int32 fetched_buyer_decision_logic_script_size_in_bytes = 7;
 
@@ -21665,14 +21665,14 @@ message RunAdBiddingPerCAProcessReported {
     optional int32 num_of_keys_of_trusted_bidding_signals = 8;
     optional int32 fetched_trusted_bidding_signals_data_size_in_bytes = 9;
     optional int32 get_trusted_bidding_signals_latency_in_millis = 10;
-    optional android.adservices.service.ResultCode get_trusted_bidding_signals_result_code = 11;
+    optional int32 get_trusted_bidding_signals_result_code = 11;
 
     /* Logs when runBidding() is called. */
     // the total generateBids script execution time when runBidding() is called..
     optional int32 generate_bids_latency_in_millis = 12;
     // the overall latency of runBidding().
     optional int32 run_bidding_latency_in_millis = 13;
-    optional android.adservices.service.ResultCode run_bidding_result_code = 14;
+    optional int32 run_bidding_result_code = 14;
 }
 
 /**
