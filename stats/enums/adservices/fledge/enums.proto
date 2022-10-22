@@ -21,49 +21,10 @@ option java_outer_classname = "FledgeProtoEnums";
 option java_multiple_files = true;
 
 /**
- * runAdSelection process result types, primarily used in
- * “packages/modules/AdServices/adservices/service-core/java/com/an* droid/adservices/service/adselection/AdSelectionRunner.java"
- */
-enum ResultCode {
-  RUN_AD_SELECTION_STATUS_UNSET = 0;
-  RUN_AD_SELECTION_STATUS_SUCCESS = 1;
-  RUN_AD_SELECTION_STATUS_INTERNAL_ERROR = 2;
-  RUN_AD_SELECTION_STATUS_INVALID_ARGUMENT = 3;
-  RUN_AD_SELECTION_STATUS_UNAUTHORIZED = 4;
-  RUN_AD_SELECTION_STATUS_UNKNOWN_ERROR = 5;
-}
-
-/**
  * Script language type.
  */
 enum ScriptType {
   UNSET = 0;
   JAVASCRIPT = 1;
   WASM = 2;
-}
-
-/**
- * Background fetch job result type.
- */
-enum BackgroundFetchResultCode {
-  BACKGROUND_FETCH_UNSET = 0;
-  BACKGROUND_FETCH_SUCCESS = 1;
-  BACKGROUND_FETCH_UNKNOWN_ERROR = 2;
-  BACKGROUND_FETCH_INTERRUPTION_ERROR = 3;
-  BACKGROUND_FETCH_INTERNAL_ERROR = 4;
-  BACKGROUND_FETCH_TIME_OUT = 5;
-  BACKGROUND_FETCH_CONSTRAINT_CHANGES = 6;
-}
-
-/**
- * UpdateCustomAudience result type.
- */
-enum UpdateCustomAudienceResultCode {
-  UPDATE_CUSTOM_AUDIENCE_STATUS_UNSET = 0;
-  UPDATE_CUSTOM_AUDIENCE_STATUS_SUCCESS = 1;
-  UPDATE_CUSTOM_AUDIENCE_STATUS_UNKNOWN_ERROR = 2;
-  UPDATE_CUSTOM_AUDIENCE_STATUS_K_ANON_FAIL = 3;
-  UPDATE_CUSTOM_AUDIENCE_STATUS_NETWORK_CONNECT_TIMEOUT_FAILURE = 4;
-  UPDATE_CUSTOM_AUDIENCE_STATUS_NETWORK_READ_TIMEOUT_FAILURE = 5;
-  UPDATE_CUSTOM_AUDIENCE_STATUS_RESPONSE_VALIDATION_FAILURE = 6;
 }
