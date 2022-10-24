@@ -5609,9 +5609,17 @@ message ForegroundServiceStateChanged {
     // The foreground service types, must be one or a combination of the types
     // in the ForegroundServiceType above.
     optional int32 fgs_types = 16;
-
     // The result check code for the fgs type enforcement.
     optional android.app.FgsTypePolicyCheckEnum fgs_type_check_code = 17;
+    // If true, this FGS service is a delegate (instead of real FGS).
+    optional bool is_delegate = 18;
+    // The actual client app's uid.
+    optional int32 delegate_client_uid = 19 [(is_uid) = true];
+    // The service module that start/stop the delegate, could be
+    // MediaSessionService, VOIP, Camera, Audio, Location etc.
+    // The enum is defined in interface
+    // ForegroundServiceDelegationOptions.DelegationService
+    optional int32 delegation_service = 20;
 }
 
 /**
