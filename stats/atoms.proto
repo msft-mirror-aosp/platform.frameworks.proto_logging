@@ -813,6 +813,14 @@ message Atom {
         BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
         BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
         BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
+        AdServicesGetTopicsReported ad_services_get_topics_reported =
+            535 [(module) = "adservices", (truncate_timestamp) = true];
+        AdServicesEpochComputationGetTopTopicsReported
+            ad_services_epoch_computation_get_top_topics_reported =
+                536 [(module) = "adservices", (truncate_timestamp) = true];
+        AdServicesEpochComputationClassifierReported
+            ad_services_epoch_computation_classifier_reported =
+                537 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21673,6 +21681,84 @@ message RunAdBiddingPerCAProcessReported {
     // the overall latency of runBidding().
     optional int32 run_bidding_latency_in_millis = 13;
     optional int32 run_bidding_result_code = 14;
+}
+
+/**
+ * Logs for AdServices GetTopics API call.
+ */
+message AdServicesGetTopicsReported {
+    // List of topic ids returned.
+    repeated int32 topic_ids = 1;
+
+    // Number of filtered duplicate topics.
+    optional int32 duplicate_topic_count = 2;
+
+    // Number of filtered blocked topics.
+    optional int32 filtered_blocked_topic_count = 3;
+}
+
+/**
+ * Logs for AdServices Epoch computation GetTopTopics.
+ */
+message AdServicesEpochComputationGetTopTopicsReported {
+    // Number of top topics generated.
+    optional int32 top_topics_count = 1;
+
+    // Number of padded random topics generated.
+    optional int32 padded_random_topics_count = 2;
+
+    // Number of apps considered for calculating top topics.
+    optional int32 apps_considered_count = 3;
+
+    // Number of sdks that called Topics API in the epoch.
+    optional int32 sdks_considered_count = 4;
+}
+
+/**
+ * Logs for AdServices Epoch Computation Classifier.
+ * One atom should be logged for each app classification.
+ */
+message AdServicesEpochComputationClassifierReported {
+
+    // List of topics returned by the classifier for each app.
+    repeated int32 topic_ids = 1;
+
+    // Build id of the assets.
+    optional int32 build_id = 2;
+
+    // Version of the assets used.
+    optional string asset_version = 3;
+
+    // Type of the classifier used for classifying apps.
+    enum ClassifierType {
+       /** Unknown classifier option. */
+       UNKNOWN_CLASSIFIER = 0;
+       /** Only on-device classification. */
+       ON_DEVICE_CLASSIFIER = 1;
+       /** Only Precomputed classification. */
+       PRECOMPUTED_CLASSIFIER = 2;
+       /** Precomputed classification values are preferred over on-device classification values. */
+       PRECOMPUTED_THEN_ON_DEVICE_CLASSIFIER = 3;
+    }
+    optional ClassifierType classifier_type = 4;
+
+    // On Device classifier status.
+    enum OnDeviceClassifierStatus {
+       ON_DEVICE_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+       ON_DEVICE_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+       ON_DEVICE_CLASSIFIER_STATUS_SUCCESS = 2;
+       ON_DEVICE_CLASSIFIER_STATUS_FAILURE = 3;
+    }
+    optional OnDeviceClassifierStatus on_device_classifier_status = 5;
+
+    // Precomputed classifier status.
+    enum PrecomputedClassifierStatus {
+       PRECOMPUTED_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+       PRECOMPUTED_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+       PRECOMPUTED_CLASSIFIER_STATUS_SUCCESS = 2;
+       PRECOMPUTED_CLASSIFIER_STATUS_FAILURE = 3;
+    }
+    optional PrecomputedClassifierStatus precomputed_classifier_status = 6;
 }
 
 /**
