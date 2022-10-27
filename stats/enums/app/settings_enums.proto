@@ -3476,11 +3476,6 @@ enum PageId {
     // OS: U
     SETTINGS_KEYBOARDS_MODIFIER_KEYS = 1961;
 
-    // OPEN: Settings > Apps > App Info > App Details > MBA Metadata
-    // CATEGORY: SETTINGS
-    // OS: U
-    TRANSPARENCY_METADATA = 1962;
-
     // OPEN: Settings > Network & internet > Mobile network > ContactDiscovery
     // CATEGORY: SETTINGS
     // OS: U
