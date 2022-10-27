@@ -21914,7 +21914,7 @@ message SandboxApiCalled {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
-        GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
