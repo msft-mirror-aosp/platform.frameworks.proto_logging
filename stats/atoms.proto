@@ -21907,6 +21907,7 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
+// Next ID: 6
 message SandboxApiCalled {
     // Next ID: 8
     enum Method {
@@ -21945,6 +21946,9 @@ message SandboxApiCalled {
 
     //Time taken from the initiation of the API till the callback was received
     optional int32 latency_millis = 2;
+
+    // Uid of the app that made a call to sandbox
+    optional int32 uid = 5 [(is_uid) = true];
 }
 
 //Logs periodically the storage of SDKs used by the app
