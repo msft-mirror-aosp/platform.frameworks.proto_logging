@@ -45,6 +45,7 @@ import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto"
 import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/mms/enums.proto";
 import "frameworks/proto_logging/stats/enums/nearby/enums.proto";
@@ -347,7 +348,7 @@ message Atom {
         AssistGestureProgressReported assist_gesture_progress_reported = 176 [(module) = "sysui"];
         TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
         HiddenApiUsed hidden_api_used = 178 [(module) = "framework"];
-        StyleUIChanged style_ui_changed = 179 [(module) = "sysui"];
+        StyleUIChanged style_ui_changed = 179 [(module) = "sysui", (module) = "wallpaper"];
         PrivacyIndicatorsInteracted privacy_indicators_interacted =
                 180 [(module) = "permissioncontroller"];
         AppInstallOnExternalStorageReported app_install_on_external_storage_reported =
@@ -821,6 +822,22 @@ message Atom {
         AdServicesEpochComputationClassifierReported
             ad_services_epoch_computation_classifier_reported =
                 537 [(module) = "adservices", (truncate_timestamp) = true];
+        WearMediaOutputSwitcherLaunched wear_media_output_switcher_launched =
+            538 [(module) = "MediaOutputSwitcher"];
+        WearMediaOutputSwitcherFinished wear_media_output_switcher_finished =
+            539 [(module) = "MediaOutputSwitcher"];
+        WearMediaOutputSwitcherConnectionReported
+            wear_media_output_switcher_connection_reported =
+                540 [(module) = "MediaOutputSwitcher"];
+        WearMediaOutputSwitcherDeviceScanTriggered
+            wear_media_output_swicher_device_scan_triggered =
+                541 [(module) = "MediaOutputSwitcher"];
+        WearMediaOutputSwitcherDeviceScanLatency
+            wear_media_output_swicher_device_scan_latency =
+                542 [(module) = "MediaOutputSwitcher"];
+        WearMediaOutputSwitcherConnectDeviceLatency
+            wear_media_output_swicher_connect_device_latency =
+                543 [(module) = "MediaOutputSwitcher"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -18560,6 +18577,7 @@ enum ArtIsa {
     ART_ISA_X86_64 = 4;
     ART_ISA_MIPS = 5;
     ART_ISA_MIPS64 = 6;
+    ART_ISA_RISCV64 = 7;
 }
 
 message ArtDatumReported {
@@ -23655,4 +23673,105 @@ message BrightnessConfigurationUpdated {
     // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
     // "local:$PHYSICAL_ID".
     optional string physical_display_id = 3;
+}
+
+/**
+ * Logs data when wear media output switcher is launched.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherLaunched {
+    // Name of the media app package from where Output Switcher got triggered
+    // when user clicks on the 'play' button.
+    repeated string triggering_package_name = 1;
+
+    // The operation type for invoking the OutputSwitcher
+    optional com.google.android.wearable.media.OpType op_type = 2;
+
+    // The result of OutputSwticher launch.
+    optional com.google.android.wearable.media.LaunchResult result = 3;
+}
+
+/**
+ * Logs data when wear media output switcher is finished.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherFinished {
+    optional bool is_finished = 1;
+}
+
+/**
+ * Logs data when wear media output switcher operation is INITIATED
+ * or COMPLETED.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherConnectionReported {
+    // Type of the medium through which media is played
+    optional com.google.android.wearable.media.MediumType source = 1;
+    optional com.google.android.wearable.media.MediumType target  = 2;
+
+    // Reason for switching the media to different device
+    optional com.google.android.wearable.media.SwitchResultReason reason = 3;
+
+    // Current status of switching the media.
+    optional com.google.android.wearable.media.SwitchState state =4;
+
+    // Type of target device.
+    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 5;
+
+    // The operation type for invoking the OutputSwitcher
+    optional com.google.android.wearable.media.OpType op_type = 6;
+
+    optional bool is_retry = 7;
+}
+
+/**
+ * Logs data when wear media output switcher starts scanning
+ * for already paired devices.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherDeviceScanTriggered {
+    // The current status of the scanned device.
+    optional com.google.android.wearable.media.ScanState scan_state = 1;
+
+    // Name of the media app package from where Output Switcher got triggered
+    // when user clicks on the 'play' button.
+    repeated string triggering_package_name = 2;
+
+    optional com.google.android.wearable.media.OpType op_type = 3;
+}
+
+/**
+ * Logs the latency for scanning already paired devices.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherDeviceScanLatency {
+    // The latency of scanning already paired devices in milli-second
+    optional int64 latency_in_millis = 1;
+}
+
+/**
+ * Logs the latency in connecting to an already paired device.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherConnectDeviceLatency {
+    // The latency of connecting to an already paired device in milli-second.
+    optional int64 latency_in_millis = 1;
+
+    // Type of target medium.
+    optional com.google.android.wearable.media.MediumType target_device_medium_type = 2;
+
+    // Type of target device.
+    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 3;
 }
