@@ -838,6 +838,12 @@ message Atom {
         WearMediaOutputSwitcherConnectDeviceLatency
             wear_media_output_swicher_connect_device_latency =
                 543 [(module) = "MediaOutputSwitcher"];
+        PackageManagerSnapshotReported
+            package_manager_snapshot_reported = 544 [(module) = "framework"];
+        PackageManagerAppsFilterCacheBuildReported
+            package_manager_apps_filter_cache_build_reported = 545 [(module) = "framework"];
+        PackageManagerAppsFilterCacheUpdateReported
+            package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -15042,6 +15048,9 @@ message OutgoingSms {
     // For CS technology:
     //  - GSM format: see GsmSmsErrorCode (3GPP 27.005 clause 3.2.5)
     //  - CDMA format: see CdmaSmsErrorCode (3GPP2 N.S0005 (IS-41-C) Table 171)
+    // The field error_code is used for up-to-Android-13 devices. From Android 14,
+    // network_error_code will be used. The field error_code will be deprecated when most devices
+    // use Android 14 or higher versions.
     optional int32 error_code = 5;
 
     // Whether the SMS was sent while roaming.
@@ -15079,6 +15088,14 @@ message OutgoingSms {
     // Number of messages with the same properties (see message_id, retry_id and latency_millis for
     // exceptions)
     optional int32 count = 15;
+
+    // Internal send error code
+    optional android.telephony.SmsSendErrorEnum send_error_code = 16;
+
+    // Network error code
+    // - SMS_FORMAT_3GPP format: see GsmSmsErrorCode (3GPP 27.005 clause 3.2.5)
+    // - SMS_FORMAT_3GPP2 format: see CdmaSmsErrorCode (3GPP2 N.S0005 (IS-41-C) Table 171)
+    optional int32 network_error_code = 17;
 }
 
 /**
@@ -21370,6 +21387,7 @@ message LauncherLatency {
     optional int64 latency_in_millis = 4;
     optional int32 type = 5;
     optional int32 query_length = 6 [default = -1];
+    optional int32 sub_event_type = 7;
 }
 
 /*
@@ -22935,7 +22953,7 @@ message SandboxApiCalled {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
-        GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
@@ -23774,4 +23792,97 @@ message WearMediaOutputSwitcherConnectDeviceLatency {
 
     // Type of target device.
     optional com.google.android.wearable.media.MediaDeviceType target_device_type = 3;
+}
+
+/**
+ * Logs package manager snapshot performance.
+ *
+ * Logs from:
+ *   frameworks/base/services/core/java/com/android/server/pm/SnapshotStatistics.java
+ */
+message PackageManagerSnapshotReported {
+    // The histogram of snapshot rebuild latency in a period. Each bucket
+    // represents a range of rebuild latency such as less than 1 ms, and the
+    // value of the bucket is the number of snapshots in this range.
+    repeated int32 rebuild_latency_buckets= 1;
+
+    // The histogram of the snapshot usage in a period. Each bucket
+    // represents a range of snapshot uses such as less than 1, and the
+    // value is the number of snapshots in this range.
+    repeated int32 reuse_count_buckets = 2;
+
+    // The maximum rebuild latency in a period.
+    optional int64 max_rebuild_latency_us = 3;
+
+    // The maximum number of snapshot usage in a period.
+    optional int32 max_reuse_count = 4;
+
+    // The average rebuild latency for each snapshot in a period.
+    optional int64 rebuild_latency_us_avg = 5;
+
+    // The average snapshot usage for each snapshot in a period.
+    optional int32 reuse_count_avg = 6;
+
+    // The number of packages on the device.
+    optional int32 packages_count = 7;
+}
+
+/**
+ * Logs package manager apps filter cache built performance.
+ *
+ * Logs from:
+ *   frameworks/base/services/core/java/com/android/server/pm/AppsFilterImpl.java
+ */
+message PackageManagerAppsFilterCacheBuildReported {
+    // An event id to indicate the type of the cache building.
+    enum Event {
+        BOOT = 0;
+        USER_CREATED = 1;
+        USER_DELETED = 2;
+    }
+    optional Event event_type = 1;
+
+    // The time to build the cache in microseconds.
+    optional int64 build_cache_latency_us = 2;
+
+    // The number of users on the device.
+    optional int32 user_count = 3;
+
+    // The number of packages on the device.
+    optional int32 packages_count = 4;
+
+    // The size of the cache.
+    optional int32 cache_size_bytes = 5;
+}
+
+/**
+ * Logs package manager apps filter cache updated performance.
+ *
+ * Logs from:
+ *   frameworks/base/services/core/java/com/android/server/pm/AppsFilterImpl.java
+ */
+message PackageManagerAppsFilterCacheUpdateReported {
+    // An event id to indicate the type of cache updating.
+    enum Event {
+        PACKAGE_ADDED = 0;
+        PACKAGE_DELETED = 1;
+        PACKAGE_REPLACED = 2;
+        COMPAT_CHANGED = 3;
+    }
+    optional Event event_type = 1;
+
+    // The package's uid.
+    optional int32 uid = 2;
+
+    // The time to update the cache in microseconds.
+    optional int64 update_cache_latency_us = 3;
+
+    // The number of users on the device.
+    optional int32 user_count = 4;
+
+    // The number of packages on the device.
+    optional int32 packages_count = 5;
+
+    // The size of the cache.
+    optional int32 cache_size_bytes = 6;
 }
