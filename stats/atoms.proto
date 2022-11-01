@@ -23849,9 +23849,10 @@ message PackageManagerSnapshotReported {
 message PackageManagerAppsFilterCacheBuildReported {
     // An event id to indicate the type of the cache building.
     enum Event {
-        BOOT = 0;
-        USER_CREATED = 1;
-        USER_DELETED = 2;
+        UNSPECIFIED = 0;
+        BOOT = 1;
+        USER_CREATED = 2;
+        USER_DELETED = 3;
     }
     optional Event event_type = 1;
 
@@ -23877,15 +23878,16 @@ message PackageManagerAppsFilterCacheBuildReported {
 message PackageManagerAppsFilterCacheUpdateReported {
     // An event id to indicate the type of cache updating.
     enum Event {
-        PACKAGE_ADDED = 0;
-        PACKAGE_DELETED = 1;
-        PACKAGE_REPLACED = 2;
-        COMPAT_CHANGED = 3;
+        UNSPECIFIED = 0;
+        PACKAGE_ADDED = 1;
+        PACKAGE_DELETED = 2;
+        PACKAGE_REPLACED = 3;
+        COMPAT_CHANGED = 4;
     }
     optional Event event_type = 1;
 
     // The package's uid.
-    optional int32 uid = 2;
+    optional int32 uid = 2 [(is_uid) = true];
 
     // The time to update the cache in microseconds.
     optional int64 update_cache_latency_us = 3;
