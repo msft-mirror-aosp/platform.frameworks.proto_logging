@@ -20799,7 +20799,7 @@ message RunAdScoringProcessReported {
 message RunAdSelectionProcessReported {
     /* Logs for the persisting ad selection process. */
     optional bool is_remarketing_ads_won = 1;
-    optional int32 ad_selection_entry_size_in_bytes = 2;
+    optional int32 db_ad_selection_size_in_bytes = 2;
     optional int32 persist_ad_selection_latency_in_millis = 3;
     optional int32 persist_ad_selection_result_code = 4;
 
