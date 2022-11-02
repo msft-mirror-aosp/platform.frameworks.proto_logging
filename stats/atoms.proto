@@ -20850,7 +20850,7 @@ message AdServicesGetTopicsReported {
     optional int32 filtered_blocked_topic_count = 3;
 
     // Number of topic ids returned.
-    optional int32 topic_ids_count = 4;
+    optional int32 count_of_topic_ids = 4;
 }
 
 /**
