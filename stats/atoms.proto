@@ -13677,6 +13677,8 @@ message CameraStreamProto {
     optional int64 dynamic_range_profile = 14;
     // The stream use case
     optional int64 stream_use_case = 15;
+    // The color space
+    optional int32 color_space = 16;
 }
 
 /**
