@@ -23908,7 +23908,7 @@ message PackageManagerAppsFilterCacheUpdateReported {
 message OdsignReported {
     enum Status {
         // Unknown value.
-        STATUS_UNKNOWN = 0;
+        STATUS_UNSPECIFIED = 0;
         // All artifacts are generated and signed.
         STATUS_ALL_OK = 1;
         // Some artifacts are generated and signed, but odrefresh failed to generate the rest. See
