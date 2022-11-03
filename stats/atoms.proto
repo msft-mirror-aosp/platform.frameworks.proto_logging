@@ -14904,6 +14904,10 @@ message SupportedRadioAccessFamily {
 message DeviceTelephonyProperties {
     // True if the device adopts the data stack came out in T
     optional bool using_t_data_stack = 1;
+    // True if auto data switch is enabled on the device
+    optional bool auto_data_switch_enabled = 2;
+    // Number of time the user toggled the data switch feature since the last collection
+    optional int32 auto_data_switch_toggle_count = 3;
 }
 
 /**
