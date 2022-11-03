@@ -770,6 +770,7 @@ message Atom {
         BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         OdsignReported odsign_reported = 548 [(module) = "art"];
+        ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -22446,4 +22447,26 @@ message BrightnessConfigurationUpdated {
     // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
     // "local:$PHYSICAL_ID".
     optional string physical_display_id = 3;
+}
+
+/**
+ * Logs ART metrics that are device-specific (as opposed to app-specific ones logged by
+ * ArtDatumReported).
+ *
+ * Logged from:
+ *   art/runtime/metrics/statsd.cc
+ */
+message ArtDeviceDatumReported {
+    enum BootImageStatus {
+        // Unknown value.
+        STATUS_UNSPECIFIED = 0;
+        // Boot image(s) are fully usable.
+        STATUS_FULL = 1;
+        // Only the minimal boot image is usable.
+        STATUS_MINIMAL = 2;
+        // No boot image is usable.
+        STATUS_NONE = 3;
+    }
+
+    optional BootImageStatus boot_image_status = 1;
 }
