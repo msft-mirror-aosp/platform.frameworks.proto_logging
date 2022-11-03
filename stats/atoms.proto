@@ -22,6 +22,7 @@ option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
+import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
@@ -807,7 +808,7 @@ message Atom {
         DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
         NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
-        ExpressEventReported express_event_reported = 528 [(module) = "expresslog"];
+        ExpressEventReported express_event_reported = 528 [(module) = "framework", (module) = "expresslog"];
         BluetoothDisconnectionReasonReported bluetooth_disconnection_reason_reported = 529 [(module) = "bluetooth"];
         BluetoothLocalVersionsReported bluetooth_local_versions_reported = 530 [(module) = "bluetooth"];
         BluetoothRemoteSupportedFeaturesReported bluetooth_remote_supported_features_reported = 531 [(module) = "bluetooth"];
@@ -844,6 +845,7 @@ message Atom {
             package_manager_apps_filter_cache_build_reported = 545 [(module) = "framework"];
         PackageManagerAppsFilterCacheUpdateReported
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
+        LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1053,22 +1055,6 @@ message Atom {
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
     reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041, 21004, 21005;
 }
-
-/**
- * This proto represents a node of an attribution chain.
- * Note: All attribution chains are represented as a repeated field of type
- * AttributionNode. It is understood that in such arrays, the order is that
- * of calls, that is [A, B, C] if A calls B that calls C.
- */
-message AttributionNode {
-    // The uid for a given element in the attribution chain.
-    optional int32 uid = 1;
-
-    // The (optional) string tag for an element in the attribution chain. If the
-    // element has no tag, it is encoded as an empty string.
-    optional string tag = 2;
-}
-
 
 /*
  * *****************************************************************************
@@ -13691,6 +13677,8 @@ message CameraStreamProto {
     optional int64 dynamic_range_profile = 14;
     // The stream use case
     optional int64 stream_use_case = 15;
+    // The color space
+    optional int32 color_space = 16;
 }
 
 /**
@@ -18315,7 +18303,7 @@ message AirplaneModeSessionReported {
  */
 message PackageInstallationSessionReported {
     // Used to correlate with Play logging metrics
-    optional int32 sessionId = 1;
+    optional int32 session_id = 1;
     // Only logged for failed installations
     optional string package_name = 2;
 
@@ -18332,7 +18320,7 @@ message PackageInstallationSessionReported {
 
     optional InstallType install_type = 3;
     // UID of the app that is successfully installed
-    repeated int32 uid = 4 [(is_uid) = true];
+    optional int32 uid = 4 [(is_uid) = true];
     // Users that will have this package installed
     repeated int32 user_ids = 5;
     // Users that originally had this package installed if it already exists
@@ -18346,38 +18334,25 @@ message PackageInstallationSessionReported {
     // Version code of the app
     optional int64 version_code = 10;
 
-    message InstallStep {
-        enum Step {
-            STEP_UNKNOWN = 0;
-            PREPARE = 1;
-            SCAN = 2;
-            RECONCILE = 3;
-            COMMIT = 4;
-        }
-        optional Step step = 1;
-        optional int64 duration_millis = 2;
-    }
-
-    message RepeatedInstallSteps {
-        repeated InstallStep steps = 1;
-    }
-
-    // Duration spent on each step in the installation
-    optional RepeatedInstallSteps install_steps = 11 [(log_mode) = MODE_BYTES];
+    // List of install steps defined in
+    // frameworks/base/services/core/java/com/android/server/pm/PackageMetrics.java
+    repeated int32 install_steps = 11;
+    // Duration of each step in the installation; order must match install_steps
+    repeated int64 step_duration_millis = 12;
     // Total duration can be greater than zero even if install failed
-    optional int64 total_duration_millis = 12;
+    optional int64 total_duration_millis = 13;
     // Installation flags including DONT_KILL
-    optional int32 install_flags = 13;
+    optional int32 install_flags = 14;
     // UID of the package that initiates the installation
-    optional int32 installer_package_uid = 14 [(is_uid) = true];
+    optional int32 installer_package_uid = 15 [(is_uid) = true];
     // UID of the package that previously installed the app
-    optional int32 original_installer_package_uid = 15 [(is_uid) = true];
+    optional int32 original_installer_package_uid = 16 [(is_uid) = true];
     // Whether this is a staged installation
-    optional bool is_staged = 16;
+    optional bool is_staged = 17;
     // {@see android.content.pm.DataLoaderType}
-    optional int32 data_loader_type = 17;
+    optional int32 data_loader_type = 18;
     // {@see android.content.pm.UserActionRequirement}
-    optional int32 user_action_required_type = 18;
+    optional int32 user_action_required_type = 19;
 }
 
 /*
@@ -21390,6 +21365,33 @@ message LauncherLatency {
     optional int32 sub_event_type = 7;
 }
 
+/**
+ * Logs for Launcher Impression logging.
+ *
+ * Logged from:
+ *      vendor/unbundled_google/packages/NexusLauncher
+ */
+message LauncherImpressionEvent {
+    // The event id generated from go/uievents
+    optional int32 event_id = 1;
+    // The instance id to track multiple partial impression event.
+    optional int32 instance_id = 2;
+
+    // The state defines the surface where the impression is being logged.
+    optional int32 state = 3;
+    optional int32 query_length = 4 [default = -1];
+
+    // ResultType of the search result as defined in frameworks/libs/systemui/searchuilib/src/com/android/app/search/ResultType.java
+    repeated int32 result_type = 5;
+
+    // Number of results of corresponding result_type.
+    repeated int32 result_count = 6;
+
+    // If the corresponding result_type is above or below keyboard.
+    // If 50% of result is visible, then is_above_keyboard = true
+    repeated bool is_above_keyboard = 7;
+}
+
 /*
  * Logs changes to game state set by game applications via GameService.
  */
@@ -21682,7 +21684,7 @@ message RunAdScoringProcessReported {
 message RunAdSelectionProcessReported {
     /* Logs for the persisting ad selection process. */
     optional bool is_remarketing_ads_won = 1;
-    optional int32 ad_selection_entry_size_in_bytes = 2;
+    optional int32 db_ad_selection_size_in_bytes = 2;
     optional int32 persist_ad_selection_latency_in_millis = 3;
     optional int32 persist_ad_selection_result_code = 4;
 
@@ -21731,6 +21733,9 @@ message AdServicesGetTopicsReported {
 
     // Number of filtered blocked topics.
     optional int32 filtered_blocked_topic_count = 3;
+
+    // Number of topic ids returned.
+    optional int32 count_of_topic_ids = 4;
 }
 
 /**
@@ -23836,9 +23841,10 @@ message PackageManagerSnapshotReported {
 message PackageManagerAppsFilterCacheBuildReported {
     // An event id to indicate the type of the cache building.
     enum Event {
-        BOOT = 0;
-        USER_CREATED = 1;
-        USER_DELETED = 2;
+        UNSPECIFIED = 0;
+        BOOT = 1;
+        USER_CREATED = 2;
+        USER_DELETED = 3;
     }
     optional Event event_type = 1;
 
@@ -23864,15 +23870,16 @@ message PackageManagerAppsFilterCacheBuildReported {
 message PackageManagerAppsFilterCacheUpdateReported {
     // An event id to indicate the type of cache updating.
     enum Event {
-        PACKAGE_ADDED = 0;
-        PACKAGE_DELETED = 1;
-        PACKAGE_REPLACED = 2;
-        COMPAT_CHANGED = 3;
+        UNSPECIFIED = 0;
+        PACKAGE_ADDED = 1;
+        PACKAGE_DELETED = 2;
+        PACKAGE_REPLACED = 3;
+        COMPAT_CHANGED = 4;
     }
     optional Event event_type = 1;
 
     // The package's uid.
-    optional int32 uid = 2;
+    optional int32 uid = 2 [(is_uid) = true];
 
     // The time to update the cache in microseconds.
     optional int64 update_cache_latency_us = 3;
