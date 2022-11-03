@@ -846,6 +846,7 @@ message Atom {
         PackageManagerAppsFilterCacheUpdateReported
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
+        OdsignReported odsign_reported = 548 [(module) = "art"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -23896,4 +23897,36 @@ message PackageManagerAppsFilterCacheUpdateReported {
 
     // The size of the cache.
     optional int32 cache_size_bytes = 6;
+}
+
+/**
+ * Logs odsign metrics.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/pm/dex/OdsignStatsLogger.java
+ */
+message OdsignReported {
+    enum Status {
+        // Unknown value.
+        STATUS_UNKNOWN = 0;
+        // All artifacts are generated and signed.
+        STATUS_ALL_OK = 1;
+        // Some artifacts are generated and signed, but odrefresh failed to generate the rest. See
+        // odrefresh metrics for the odrefresh failure.
+        STATUS_PARTIAL_OK = 2;
+        // Odrefresh failed to generate any artifact. See odrefresh metrics for the odrefresh
+        // failure.
+        STATUS_ODREFRESH_FAILED = 3;
+        // Odsign failed when interacting with Keystore.
+        STATUS_KEYSTORE_FAILED = 4;
+        // Odsign failed when initializing certificate.
+        STATUS_CERT_FAILED = 5;
+        // Odsign failed when cleaning up existing artifacts. Note that odrefresh may also clean up
+        // existing artifacts, and failures about that are logged as `STATUS_ODREFRESH_FAILED`.
+        STATUS_CLEANUP_FAILED = 6;
+        // Odsign failed when signing artifacts.
+        STATUS_SIGNING_FAILED = 7;
+    }
+
+    optional Status status = 1;
 }
