@@ -50,6 +50,7 @@ import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/drm/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/midi/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/mms/enums.proto";
@@ -883,6 +884,8 @@ message Atom {
         UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
         adpf.PerformanceHintSessionReported performance_hint_session_reported = 574 [(module) = "framework"];
         adpf.ADPFSystemComponentReported adpf_system_component_reported = 575 [(module) = "framework"];
+        MediametricsMidiDeviceCloseReported mediametrics_midi_device_close_reported =
+            576 [(module) = "media_metrics"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -11281,6 +11284,49 @@ message MediametricsAudiotrackReported {
     // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
     // An empty string means no session id is set.
     optional string log_session_id = 6;
+}
+
+/**
+ * Track information about a MIDI Device.
+ * This is logged when device connections close or devices are disconnected.
+ * This is used to evaluate MIDI activity.
+ *
+ * Logged from
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsMidiDeviceCloseReported {
+    // The UID of the app or service that disconnects the device
+    optional int32 uid = 1;
+    // Device Id from MidiDeviceInfo. After a restart, this starts at 1 for the first device.
+    // This increments each time a new MIDI device is added.
+    // See Id in frameworks/base/media/java/android/media/midi/MidiDeviceInfo.java
+    optional int32 midi_device_id = 2;
+    // Input port count as defined in MidiDeviceInfo.java
+    optional int32 input_port_count = 3;
+    // Output port count as defined in MidiDeviceInfo.java
+    optional int32 output_port_count = 4;
+    // Type of device (USB, Virtual, Bluetooth)
+    optional android.media.midi.MidiDeviceInfoType device_type = 5;
+    // Whether the device is shared to other apps. Uses MidiDeviceInfo.isPrivate().
+    optional bool is_shared = 6;
+    // Whether Universal MIDI Packets are used for this device by default.
+    // Uses MidiDeviceInfo.getDefaultProtocol()
+    optional bool supports_ump = 7;
+    // Whether ALSA is used by this device.
+    // Checks whether MidiDeviceInfo.getProperties() contains PROPERTY_ALSA_CARD.
+    optional bool using_alsa = 8;
+    // Duration in nanoseconds in which there was an open device connection.
+    optional int64 duration_ns = 9;
+    // Number of times this device had an add device connection attempt.
+    optional int32 opened_count = 10;
+    // Number of times this device had a remove device connection attempt.
+    optional int32 closed_count = 11;
+    // Whether the device has disconnected.
+    optional bool device_disconnected = 12;
+    // Number of bytes passed from the input ports of the device.
+    optional int32 total_input_bytes = 13;
+    // Number of bytes passed from the output ports of the device.
+    optional int32 total_output_bytes = 14;
 }
 
 /**
