@@ -833,8 +833,8 @@ message Atom {
         WearMediaOutputSwitcherDeviceScanTriggered
             wear_media_output_swicher_device_scan_triggered =
                 541 [(module) = "MediaOutputSwitcher"];
-        WearMediaOutputSwitcherDeviceScanLatency
-            wear_media_output_swicher_device_scan_latency =
+        WearMediaOutputSwitcherPairedDeviceScanLatency
+            wear_media_output_swicher_paired_device_scan_latency =
                 542 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherConnectDeviceLatency
             wear_media_output_swicher_connect_device_latency =
@@ -847,6 +847,9 @@ message Atom {
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         OdsignReported odsign_reported = 548 [(module) = "art"];
+        WearMediaOutputSwitcherAllDevicesScanLatency
+            wear_media_output_switcher_all_devices_scan_latency =
+                549 [(module) = "MediaOutputSwitcher"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -23723,7 +23726,7 @@ message BrightnessConfigurationUpdated {
 message WearMediaOutputSwitcherLaunched {
     // Name of the media app package from where Output Switcher got triggered
     // when user clicks on the 'play' button.
-    repeated string triggering_package_name = 1;
+    optional string triggering_package_name = 1;
 
     // The operation type for invoking the OutputSwitcher
     optional com.google.android.wearable.media.OpType op_type = 2;
@@ -23739,7 +23742,8 @@ message WearMediaOutputSwitcherLaunched {
  * package: vendor/google_clockwork/packages/Media
  */
 message WearMediaOutputSwitcherFinished {
-    optional bool is_finished = 1;
+    optional bool user_did_some_activity = 1;
+    optional bool is_device_connected = 2;
 }
 
 /**
@@ -23755,10 +23759,10 @@ message WearMediaOutputSwitcherConnectionReported {
     optional com.google.android.wearable.media.MediumType target  = 2;
 
     // Reason for switching the media to different device
-    optional com.google.android.wearable.media.SwitchResultReason reason = 3;
+    optional com.google.android.wearable.media.ConnectionResultReason reason = 3;
 
     // Current status of switching the media.
-    optional com.google.android.wearable.media.SwitchState state =4;
+    optional com.google.android.wearable.media.ConnectionState state =4;
 
     // Type of target device.
     optional com.google.android.wearable.media.MediaDeviceType target_device_type = 5;
@@ -23767,6 +23771,10 @@ message WearMediaOutputSwitcherConnectionReported {
     optional com.google.android.wearable.media.OpType op_type = 6;
 
     optional bool is_retry = 7;
+
+    // For differentiating if the bluetooth device is connected from already
+    // paired device list or from the pair new device flow
+    optional bool is_already_paired = 8;
 }
 
 /**
@@ -23782,7 +23790,7 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
 
     // Name of the media app package from where Output Switcher got triggered
     // when user clicks on the 'play' button.
-    repeated string triggering_package_name = 2;
+    optional string triggering_package_name = 2;
 
     optional com.google.android.wearable.media.OpType op_type = 3;
 }
@@ -23793,8 +23801,19 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
  * Logged from:
  * package: vendor/google_clockwork/packages/Media
  */
-message WearMediaOutputSwitcherDeviceScanLatency {
+message WearMediaOutputSwitcherPairedDeviceScanLatency {
     // The latency of scanning already paired devices in milli-second
+    optional int64 latency_in_millis = 1;
+}
+
+/**
+ * Logs the latency for scanning all available devices.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherAllDevicesScanLatency {
+    // The latency of scanning all available devices in milli-second
     optional int64 latency_in_millis = 1;
 }
 
