@@ -41,3 +41,18 @@ java_library_static {
     sdk_version: "system_current",
     min_sdk_version: "30",
 }
+
+java_library_static {
+    name: "ConnectivityServiceprotos",
+    proto: {
+        type: "lite",
+    },
+    srcs: [
+        "connectivity_service.proto",
+    ],
+    apex_available: [
+        "com.android.tethering",
+    ],
+    sdk_version: "system_current",
+    min_sdk_version: "30",
+}
