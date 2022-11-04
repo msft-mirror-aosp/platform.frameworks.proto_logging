@@ -22,6 +22,7 @@ option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
+import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
@@ -974,22 +975,6 @@ message JSScriptEngineLatencyReported {
     optional LatencyStat stat = 1;
     optional int64 latency_millis = 2;
 }
-
-/**
- * This proto represents a node of an attribution chain.
- * Note: All attribution chains are represented as a repeated field of type
- * AttributionNode. It is understood that in such arrays, the order is that
- * of calls, that is [A, B, C] if A calls B that calls C.
- */
-message AttributionNode {
-    // The uid for a given element in the attribution chain.
-    optional int32 uid = 1;
-
-    // The (optional) string tag for an element in the attribution chain. If the
-    // element has no tag, it is encoded as an empty string.
-    optional string tag = 2;
-}
-
 
 /*
  * *****************************************************************************
@@ -18729,6 +18714,10 @@ message OdrefreshReported {
 
         // Installation of artifacts failed.
         STATUS_INSTALL_FAILED = 7;
+
+        // Failed to access the dalvik-cache directory due to lack of
+        // permission.
+        STATUS_DALVIK_CACHE_PERMISSION_DENIED = 8;
     }
 
     optional Status status = 4;
@@ -18760,6 +18749,56 @@ message OdrefreshReported {
 
     // Compilation time of system_server classpath, in milliseconds.
     optional int32 system_server_compilation_millis = 12;
+
+    enum ExecResultStatus {
+        // Unable to get the status.
+        EXEC_RESULT_STATUS_UNKNOWN = 0;
+        // Process exited normally with an exit code.
+        EXEC_RESULT_STATUS_EXITED = 1;
+        // Process terminated by a signal.
+        EXEC_RESULT_STATUS_SIGNALED = 2;
+        // Process timed out and killed.
+        EXEC_RESULT_STATUS_TIMED_OUT = 3;
+        // Failed to start the process.
+        EXEC_RESULT_STATUS_START_FAILED = 4;
+        // Process was not run.
+        EXEC_RESULT_STATUS_NOT_RUN = 5;
+    }
+
+    // Status for the compilation of the boot
+    // classpath for the primary architecture.
+    optional ExecResultStatus primary_bcp_dex2oat_result_status = 13;
+
+    // Exit code for the compilation of the boot classpath for the
+    // primary architecture if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 primary_bcp_dex2oat_result_exit_code = 14;
+
+    // Signal for the compilation of the boot classpath for the
+    // primary architecture if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 primary_bcp_dex2oat_result_signal = 15;
+
+    // Status for the compilation of the boot
+    // classpath for the secondary architecture.
+    optional ExecResultStatus secondary_bcp_dex2oat_result_status = 16;
+
+    // Exit code for the compilation of the boot classpath for the
+    // secondary architecture if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 secondary_bcp_dex2oat_result_exit_code = 17;
+
+    // Signal for the compilation of the boot classpath for the
+    // secondary architecture if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 secondary_bcp_dex2oat_result_signal = 18;
+
+    // Status for the compilation of the boot classpath for the system_server.
+    optional ExecResultStatus system_server_dex2oat_result_status = 19;
+
+    // Exit code for the compilation of the boot classpath for the
+    // system_server if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 system_server_dex2oat_result_exit_code = 20;
+
+    // Signal for the compilation of the boot classpath for the
+    // system_server if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 system_server_dex2oat_result_signal = 21;
 };
 
 /*
@@ -20760,7 +20799,7 @@ message RunAdScoringProcessReported {
 message RunAdSelectionProcessReported {
     /* Logs for the persisting ad selection process. */
     optional bool is_remarketing_ads_won = 1;
-    optional int32 ad_selection_entry_size_in_bytes = 2;
+    optional int32 db_ad_selection_size_in_bytes = 2;
     optional int32 persist_ad_selection_latency_in_millis = 3;
     optional int32 persist_ad_selection_result_code = 4;
 
@@ -20809,6 +20848,9 @@ message AdServicesGetTopicsReported {
 
     // Number of filtered blocked topics.
     optional int32 filtered_blocked_topic_count = 3;
+
+    // Number of topic ids returned.
+    optional int32 count_of_topic_ids = 4;
 }
 
 /**
@@ -21853,13 +21895,14 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
+// Next ID: 6
 message SandboxApiCalled {
     // Next ID: 8
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
-        GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
@@ -21891,6 +21934,9 @@ message SandboxApiCalled {
 
     //Time taken from the initiation of the API till the callback was received
     optional int32 latency_millis = 2;
+
+    // Uid of the app that made a call to sandbox
+    optional int32 uid = 5 [(is_uid) = true];
 }
 
 //Logs periodically the storage of SDKs used by the app
@@ -22042,7 +22088,7 @@ message NetworkBpfMapInfo {
  */
 message NetworkCountPerTransports {
     // the number of network count on each list of transports
-    repeated NetworkCountPerTransports network_count_per_transports = 1;
+    repeated NetworkCountForTransports network_count_for_transports = 1;
 }
 
 /**
