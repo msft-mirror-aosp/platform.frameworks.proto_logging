@@ -22,6 +22,7 @@ option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
+import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
@@ -55,6 +56,7 @@ import "frameworks/proto_logging/stats/enums/server/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/server/location/enums.proto";
 import "frameworks/proto_logging/stats/enums/service/enums.proto";
 import "frameworks/proto_logging/stats/enums/service/procstats_enum.proto";
+import "frameworks/proto_logging/stats/enums/stats/connectivity/connectivity_service.proto";
 import "frameworks/proto_logging/stats/enums/stats/connectivity/network_stack.proto";
 import "frameworks/proto_logging/stats/enums/stats/connectivity/tethering.proto";
 import "frameworks/proto_logging/stats/enums/stats/dnsresolver/dns_resolver.proto";
@@ -742,12 +744,24 @@ message Atom {
         NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         AdServicesMeasurementRegistrations ad_services_measurement_registrations =
             512 [(module) = "adservices", (truncate_timestamp) = true];
+        AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi", (module) = "bluetooth"];
+        DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
+        NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
+        NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
+        AdServicesGetTopicsReported ad_services_get_topics_reported =
+            535 [(module) = "adservices", (truncate_timestamp) = true];
+        AdServicesEpochComputationGetTopTopicsReported
+            ad_services_epoch_computation_get_top_topics_reported =
+                536 [(module) = "adservices", (truncate_timestamp) = true];
+        AdServicesEpochComputationClassifierReported
+            ad_services_epoch_computation_classifier_reported =
+                537 [(module) = "adservices", (truncate_timestamp) = true];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10160
+    // Next: 10165
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -937,6 +951,9 @@ message Atom {
         RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+        NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
+        ConnectivityStateSample connectivity_state_sample = 10163 [(module) = "connectivity"];
+        NetworkSelectionRematchReasonsInfo network_selection_rematch_reasons_info = 10164 [(module) = "connectivity"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -958,22 +975,6 @@ message JSScriptEngineLatencyReported {
     optional LatencyStat stat = 1;
     optional int64 latency_millis = 2;
 }
-
-/**
- * This proto represents a node of an attribution chain.
- * Note: All attribution chains are represented as a repeated field of type
- * AttributionNode. It is understood that in such arrays, the order is that
- * of calls, that is [A, B, C] if A calls B that calls C.
- */
-message AttributionNode {
-    // The uid for a given element in the attribution chain.
-    optional int32 uid = 1;
-
-    // The (optional) string tag for an element in the attribution chain. If the
-    // element has no tag, it is encoded as an empty string.
-    optional string tag = 2;
-}
-
 
 /*
  * *****************************************************************************
@@ -1466,6 +1467,20 @@ message WifiP2pConnectionReported {
         GROUP_OWNER = 1;
         GROUP_CLIENT = 2;
     }
+    enum Band {
+        // Unknown band/frequency
+        BAND_UNKNOWN = 0;
+        // any band
+        BAND_AUTO = 1;
+        // With 2G band
+        BAND_2G = 2;
+        // With 5G band
+        BAND_5G = 3;
+        // With 6G band
+        BAND_6G = 4;
+        // With a specific frequency
+        BAND_FREQUENCY = 5;
+    }
     // Type of the connection.
     optional Type type = 1;
     // Duration to connect in millis.
@@ -1477,6 +1492,13 @@ message WifiP2pConnectionReported {
     // Group role. This could be unknown with connect() call when the WifiConfig doesn't have the
     // credential.
     optional GroupRole group_role = 5;
+    // Group band preference
+    optional Band band = 6;
+    // Group frequency in MHz if positive. Otherwise, no frequency preference.
+    optional int32 frequency_mhz = 7;
+    // STA mode channel frequency. 0 means unknown.
+    optional int32 sta_frequency_mhz = 8;
+    //
 }
 
 /**
@@ -1505,6 +1527,10 @@ message WifiSetupFailureCrashReported {
         SOFT_AP_FAILURE_WIFICOND = 9;
         // Hostapd error on WifiNative.setupInterfaceForSoftApMode
         SOFT_AP_FAILURE_HOSTAPD = 10;
+        // HAL error on WifiP2pNative.setupInterface
+        P2P_FAILURE_HAL = 11;
+        // Supplicant error on WifiP2pNative.setupInterface
+        P2P_FAILURE_SUPPLICANT = 12;
     }
     // Type of failure
     optional Type type= 1;
@@ -9132,22 +9158,83 @@ message AppCompacted {
   optional int64 after_zram_free_kilobytes = 18;
 }
 
+// Logs each upstream for a successful switch over
+message UpstreamEvent {
+  // Transport type of upstream network
+  optional android.stats.connectivity.UpstreamType upstream_type = 1;
+
+  // A time period that an upstream continued
+  optional int64 duration_millis = 2;
+}
+
+message UpstreamEvents {
+  repeated UpstreamEvent upstream_event = 1;
+}
+
 /**
  * Logs when a Tethering event occurs.
  *
  */
 message NetworkTetheringReported {
-  // tethering error code
+  // Tethering error code
   optional android.stats.connectivity.ErrorCode error_code = 1;
 
-  // tethering downstream type
+  // Tethering downstream type
   optional android.stats.connectivity.DownstreamType downstream_type = 2;
 
-  // transport type of upstream network
-  optional android.stats.connectivity.UpstreamType upstream_type = 3;
+  // Transport type of upstream network
+  optional android.stats.connectivity.UpstreamType upstream_type = 3 [deprecated = true];
 
-  // The user type of Tethering
+  // The user type of switching tethering
   optional android.stats.connectivity.UserType user_type= 4;
+
+  // Log each transport type of upstream network event
+  optional UpstreamEvents upstream_events = 5  [(log_mode) = MODE_BYTES];
+
+  // A time period that a downstreams exists
+  optional int64 duration_millis = 6;
+}
+
+/**
+ * Logs NSD(Network service discovery) client session
+ *
+ * Log from:
+ *     packages/modules/Connectivity/service-t/src/com/android/server/NsdService
+ */
+message NetworkNsdReported {
+  // Indicate if the device is using the legacy or the new implementation
+  optional bool is_legacy = 1;
+
+  // It is a random number to represent different clients. Each client is an app on the device.
+  optional int32 client_id = 2;
+
+  // It is a increment_number to represent different transactions.
+  // Each transaction is a request from an app client.
+  optional int32 transaction_id = 3;
+
+  // Indicate the service in resolution is a known service in the discovered services cache
+  optional bool is_known_service = 4;
+
+  // Record each NSD session type
+  optional android.stats.connectivity.NsdEventType type = 5;
+
+  // The process duration of the event in milli-second
+  optional int64 event_duration_millisec = 6;
+
+  // Record each mdns query result
+  optional android.stats.connectivity.MdnsQueryResult query_result = 7;
+
+  // Count of services in cache at the end of discovery
+  optional int32 found_service_count = 8;
+
+  // Count of found callback when discovery is stopped
+  optional int32 found_callback_count = 9;
+
+  // Count of lost callback when discovery is stopped
+  optional int32 lost_callback_count = 10;
+
+  // Record query service count before unregistered service
+  optional int32 replied_requests_count = 11;
 }
 
 /**
@@ -9220,10 +9307,10 @@ message NetworkDnsHandshakeReported {
   // The latency in microseconds of the entire handshake operation.
   optional int32 latency_micros = 6;
 
-  // Sent packets in bytes.
+  // Number of bytes sent in a handshake.
   optional int32 bytes_sent = 7;
 
-  // Received packets in bytes.
+  // Number of bytes received in a handshake.
   optional int32 bytes_received = 8;
 
   // Number of round-trips.
@@ -17438,6 +17525,40 @@ message WifiPnoScanReported {
 }
 
 /**
+ * Logs when an airplane mode session happens.
+ *
+ * Logged from:
+ *   packages/modules/Wifi/service/java/com/android/server/wifi/WifiMetrics.java
+ *   packages/modules/Bluetooth/service/java/com/android/server/bluetooth/BluetoothAirplaneModeListener.java
+ */
+message AirplaneModeSessionReported {
+    enum PackageName {
+        WIFI = 0;
+        BLUETOOTH = 1;
+    }
+    // Module recording the airplane mode session
+    optional PackageName package_name = 1;
+    // State of the module before entering airplane mode
+    // False - module off
+    // True - module on
+    optional bool previous_state = 2;
+    // State of the module at the beginning of airplane mode
+    optional bool entering_state = 3;
+    // State of the module at the end of airplane mode
+    optional bool exiting_state = 4;
+    // Whether the user has activated the feature by
+    // toggling the module in airplane mode
+    optional bool feature_active = 5;
+    // Whether the user toggled the module during current airplane mode
+    optional bool user_toggled = 6;
+    // Whether the user toggled the module within one minute
+    optional bool user_toggled_within_minute = 7;
+    // Whether media profile was connected before entering airplane mode
+    // Only applicable to the Bluetooth module
+    optional bool media_profile_connected = 8;
+}
+
+/**
  * Logs when the entitlement configuration of an IMS service is queried/updated.
  *
  * Logged from: ImsServiceEntitlement app
@@ -18531,7 +18652,7 @@ message OdrefreshReported {
         // A placeholder for unknown values.
         TRIGGER_UNKNOWN = 0;
 
-        // ART apex version has changed since time artifacts were generated.
+        // ART APEX version has changed since time artifacts were generated.
         TRIGGER_APEX_VERSION_MISMATCH = 1;
 
         // Dex files on the boot classpath or system_server classpath have changed.
@@ -18553,10 +18674,12 @@ message OdrefreshReported {
         // Preparation for compilation.
         STAGE_PREPARATION = 20;
 
-        // Compilation of primary boot classpath extensions.
+        // Compilation of the boot classpath for the primary architecture
+        // ("primary boot classpath").
         STAGE_PRIMARY_BOOT_CLASSPATH = 30;
 
-        // Compilation of secondary boot classpath extensions.
+        // Compilation of the boot classpath for the secondary architecture
+        // ("secondary boot classpath"), if any.
         STAGE_SECONDARY_BOOT_CLASSPATH = 40;
 
         // Compilation of system_server classpath.
@@ -18584,25 +18707,30 @@ message OdrefreshReported {
         // Dex2oat reported an error.
         STATUS_DEX2OAT_ERROR = 4;
 
-        // Time limit exceeded.
-        STATUS_TIME_LIMIT_EXCEEDED = 5;
+        reserved 5; // was STATUS_TIME_LIMIT_EXCEEDED
 
         // Failure creating staging area.
         STATUS_STAGING_FAILED = 6;
 
         // Installation of artifacts failed.
         STATUS_INSTALL_FAILED = 7;
+
+        // Failed to access the dalvik-cache directory due to lack of
+        // permission.
+        STATUS_DALVIK_CACHE_PERMISSION_DENIED = 8;
     }
 
     optional Status status = 4;
 
-    // Compilation time iof primary boot classpath extensions.
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath"), in seconds.
     optional int32 primary_bcp_compilation_seconds = 5;
 
-    // Compilation time of secondary boot classpath extensions.
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any, in seconds.
     optional int32 secondary_bcp_compilation_seconds = 6;
 
-    // Compilation time of system_server classpath.
+    // Compilation time of system_server classpath, in seconds.
     optional int32 system_server_compilation_seconds = 7;
 
     // Cache space at start of update.
@@ -18610,6 +18738,67 @@ message OdrefreshReported {
 
     // Cache space at end of update.
     optional int32 cache_space_free_end_mib = 9;
+
+    // Compilation time of the boot classpath for the primary architecture
+    // ("primary boot classpath"), in milliseconds.
+    optional int32 primary_bcp_compilation_millis = 10;
+
+    // Compilation time of the boot classpath for the secondary architecture
+    // ("secondary boot classpath"), if any, in milliseconds.
+    optional int32 secondary_bcp_compilation_millis = 11;
+
+    // Compilation time of system_server classpath, in milliseconds.
+    optional int32 system_server_compilation_millis = 12;
+
+    enum ExecResultStatus {
+        // Unable to get the status.
+        EXEC_RESULT_STATUS_UNKNOWN = 0;
+        // Process exited normally with an exit code.
+        EXEC_RESULT_STATUS_EXITED = 1;
+        // Process terminated by a signal.
+        EXEC_RESULT_STATUS_SIGNALED = 2;
+        // Process timed out and killed.
+        EXEC_RESULT_STATUS_TIMED_OUT = 3;
+        // Failed to start the process.
+        EXEC_RESULT_STATUS_START_FAILED = 4;
+        // Process was not run.
+        EXEC_RESULT_STATUS_NOT_RUN = 5;
+    }
+
+    // Status for the compilation of the boot
+    // classpath for the primary architecture.
+    optional ExecResultStatus primary_bcp_dex2oat_result_status = 13;
+
+    // Exit code for the compilation of the boot classpath for the
+    // primary architecture if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 primary_bcp_dex2oat_result_exit_code = 14;
+
+    // Signal for the compilation of the boot classpath for the
+    // primary architecture if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 primary_bcp_dex2oat_result_signal = 15;
+
+    // Status for the compilation of the boot
+    // classpath for the secondary architecture.
+    optional ExecResultStatus secondary_bcp_dex2oat_result_status = 16;
+
+    // Exit code for the compilation of the boot classpath for the
+    // secondary architecture if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 secondary_bcp_dex2oat_result_exit_code = 17;
+
+    // Signal for the compilation of the boot classpath for the
+    // secondary architecture if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 secondary_bcp_dex2oat_result_signal = 18;
+
+    // Status for the compilation of the boot classpath for the system_server.
+    optional ExecResultStatus system_server_dex2oat_result_status = 19;
+
+    // Exit code for the compilation of the boot classpath for the
+    // system_server if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 system_server_dex2oat_result_exit_code = 20;
+
+    // Signal for the compilation of the boot classpath for the
+    // system_server if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 system_server_dex2oat_result_signal = 21;
 };
 
 /*
@@ -20540,7 +20729,7 @@ message HotwordDetectorEvents {
 message BackgroundFetchProcessReported {
     optional int32 latency_in_millis = 1;
     optional int32 num_of_eligible_to_update_cas = 2;
-    optional android.adservices.service.BackgroundFetchResultCode result_code = 3;
+    optional int32 result_code = 3;
 }
 
 /**
@@ -20548,7 +20737,7 @@ message BackgroundFetchProcessReported {
  */
 message UpdateCustomAudienceProcessReported {
     optional int32 latency_in_millis = 1;
-    optional android.adservices.service.UpdateCustomAudienceResultCode result_code = 2;
+    optional int32 result_code = 2;
     optional int32 data_size_of_ads_in_bytes = 3;
     optional int32 num_of_ads = 4;
 }
@@ -20560,7 +20749,7 @@ message UpdateCustomAudienceProcessReported {
 message RunAdBiddingProcessReported {
     /* Logs when the getBuyersCustomAudience() is called. */
     optional int32 get_buyers_custom_audience_latency_in_millis = 1;
-    optional android.adservices.service.ResultCode get_buyers_custom_audience_result_code = 2;
+    optional int32 get_buyers_custom_audience_result_code = 2;
     optional int32 num_buyers_requested = 3;
     optional int32 num_buyers_fetched = 4;
 
@@ -20570,7 +20759,7 @@ message RunAdBiddingProcessReported {
     optional int32 num_of_cas_post_bidding = 7;
     optional float ratio_of_cas_selecting_rmkt_ads = 8;
     optional int32 run_ad_bidding_latency_in_millis = 9;
-    optional android.adservices.service.ResultCode run_ad_bidding_result_code = 10;
+    optional int32 run_ad_bidding_result_code = 10;
 
     /* Time from the start of the getBuyersCustomAudience() to the end of the runAdBidding(). */
     optional int32 total_ad_bidding_stage_latency_in_millis = 11;
@@ -20582,13 +20771,13 @@ message RunAdBiddingProcessReported {
 message RunAdScoringProcessReported {
     /* Logs when the getAdSelectionLogic() is called. */
     optional int32 get_ad_selection_logic_latency_in_millis = 1;
-    optional android.adservices.service.ResultCode get_ad_selection_logic_result_code = 2;
+    optional int32 get_ad_selection_logic_result_code = 2;
     optional android.adservices.service.ScriptType get_ad_selection_logic_script_type = 3;
     optional int32 fetched_ad_selection_logic_script_size_in_bytes = 4;
 
     /* Logs when the getTrustedScoringSignals() is called. */
     optional int32 get_trusted_scoring_signals_latency_in_millis = 5;
-    optional android.adservices.service.ResultCode get_trusted_scoring_signals_result_code = 6;
+    optional int32 get_trusted_scoring_signals_result_code = 6;
     optional int32 fetched_trusted_scoring_signals_data_size_in_bytes = 7;
 
     /* Logs when the getAdScores() is called. */
@@ -20596,27 +20785,27 @@ message RunAdScoringProcessReported {
     optional int32 score_ads_latency_in_millis = 8;
     // the overall latency of the getAdScores().
     optional int32 get_ad_scores_latency_in_millis = 9;
-    optional android.adservices.service.ResultCode get_ad_scores_result_code = 10;
+    optional int32 get_ad_scores_result_code = 10;
 
     optional int32 num_of_cas_entering_scoring = 11;
     optional int32 num_of_remarketing_ads_entering_scoring = 12;
     optional int32 num_of_contextual_ads_entering_scoring = 13;
     // the overall latency of the runAdScoring process.
     optional int32 run_ad_scoring_latency_in_millis = 14;
-    optional android.adservices.service.ResultCode run_ad_scoring_result_code = 15;
+    optional int32 run_ad_scoring_result_code = 15;
 }
 
 /* Logs for the ad selection process when the runAdSelection() is called.*/
 message RunAdSelectionProcessReported {
     /* Logs for the persisting ad selection process. */
     optional bool is_remarketing_ads_won = 1;
-    optional int32 ad_selection_entry_size_in_bytes = 2;
+    optional int32 db_ad_selection_size_in_bytes = 2;
     optional int32 persist_ad_selection_latency_in_millis = 3;
-    optional android.adservices.service.ResultCode persist_ad_selection_result_code = 4;
+    optional int32 persist_ad_selection_result_code = 4;
 
     /* Logs for the overall runAdSelection process. */
     optional int32 run_ad_selection_latency_in_millis = 5;
-    optional android.adservices.service.ResultCode run_ad_selection_result_code = 6;
+    optional int32 run_ad_selection_result_code = 6;
 }
 
 /**
@@ -20625,11 +20814,11 @@ message RunAdSelectionProcessReported {
 message RunAdBiddingPerCAProcessReported {
     optional int32 num_of_ads_for_bidding = 1;
     optional int32 run_ad_bidding_per_ca_latency_in_millis = 2;
-    optional android.adservices.service.ResultCode run_ad_bidding_per_ca_result_code = 3;
+    optional int32 run_ad_bidding_per_ca_result_code = 3;
 
     /* Logs for the getting buyer's decision logic script process. */
     optional int32 get_buyer_decision_logic_latency_in_millis = 4;
-    optional android.adservices.service.ResultCode get_buyer_decision_logic_result_code = 5;
+    optional int32 get_buyer_decision_logic_result_code = 5;
     optional android.adservices.service.ScriptType buyer_decision_logic_script_type = 6;
     optional int32 fetched_buyer_decision_logic_script_size_in_bytes = 7;
 
@@ -20637,14 +20826,95 @@ message RunAdBiddingPerCAProcessReported {
     optional int32 num_of_keys_of_trusted_bidding_signals = 8;
     optional int32 fetched_trusted_bidding_signals_data_size_in_bytes = 9;
     optional int32 get_trusted_bidding_signals_latency_in_millis = 10;
-    optional android.adservices.service.ResultCode get_trusted_bidding_signals_result_code = 11;
+    optional int32 get_trusted_bidding_signals_result_code = 11;
 
     /* Logs when runBidding() is called. */
     // the total generateBids script execution time when runBidding() is called..
     optional int32 generate_bids_latency_in_millis = 12;
     // the overall latency of runBidding().
     optional int32 run_bidding_latency_in_millis = 13;
-    optional android.adservices.service.ResultCode run_bidding_result_code = 14;
+    optional int32 run_bidding_result_code = 14;
+}
+
+/**
+ * Logs for AdServices GetTopics API call.
+ */
+message AdServicesGetTopicsReported {
+    // List of topic ids returned.
+    repeated int32 topic_ids = 1;
+
+    // Number of filtered duplicate topics.
+    optional int32 duplicate_topic_count = 2;
+
+    // Number of filtered blocked topics.
+    optional int32 filtered_blocked_topic_count = 3;
+
+    // Number of topic ids returned.
+    optional int32 count_of_topic_ids = 4;
+}
+
+/**
+ * Logs for AdServices Epoch computation GetTopTopics.
+ */
+message AdServicesEpochComputationGetTopTopicsReported {
+    // Number of top topics generated.
+    optional int32 top_topics_count = 1;
+
+    // Number of padded random topics generated.
+    optional int32 padded_random_topics_count = 2;
+
+    // Number of apps considered for calculating top topics.
+    optional int32 apps_considered_count = 3;
+
+    // Number of sdks that called Topics API in the epoch.
+    optional int32 sdks_considered_count = 4;
+}
+
+/**
+ * Logs for AdServices Epoch Computation Classifier.
+ * One atom should be logged for each app classification.
+ */
+message AdServicesEpochComputationClassifierReported {
+
+    // List of topics returned by the classifier for each app.
+    repeated int32 topic_ids = 1;
+
+    // Build id of the assets.
+    optional int32 build_id = 2;
+
+    // Version of the assets used.
+    optional string asset_version = 3;
+
+    // Type of the classifier used for classifying apps.
+    enum ClassifierType {
+       /** Unknown classifier option. */
+       UNKNOWN_CLASSIFIER = 0;
+       /** Only on-device classification. */
+       ON_DEVICE_CLASSIFIER = 1;
+       /** Only Precomputed classification. */
+       PRECOMPUTED_CLASSIFIER = 2;
+       /** Precomputed classification values are preferred over on-device classification values. */
+       PRECOMPUTED_THEN_ON_DEVICE_CLASSIFIER = 3;
+    }
+    optional ClassifierType classifier_type = 4;
+
+    // On Device classifier status.
+    enum OnDeviceClassifierStatus {
+       ON_DEVICE_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+       ON_DEVICE_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+       ON_DEVICE_CLASSIFIER_STATUS_SUCCESS = 2;
+       ON_DEVICE_CLASSIFIER_STATUS_FAILURE = 3;
+    }
+    optional OnDeviceClassifierStatus on_device_classifier_status = 5;
+
+    // Precomputed classifier status.
+    enum PrecomputedClassifierStatus {
+       PRECOMPUTED_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+       PRECOMPUTED_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+       PRECOMPUTED_CLASSIFIER_STATUS_SUCCESS = 2;
+       PRECOMPUTED_CLASSIFIER_STATUS_FAILURE = 3;
+    }
+    optional PrecomputedClassifierStatus precomputed_classifier_status = 6;
 }
 
 /**
@@ -20714,6 +20984,7 @@ message AdServicesApiCalled {
         REGISTER_WEB_SOURCE = 17;
         REGISTER_WEB_TRIGGER = 18;
         GET_MEASUREMENT_API_STATUS = 19;
+        GET_TOPICS_PREVIEW_API = 20;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21624,13 +21895,14 @@ message PrivacySignalsJobFailure {
 }
 
 // Logs when an API call from app to sandbox process is made
+// Next ID: 6
 message SandboxApiCalled {
     // Next ID: 8
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
-        GET_LOADED_SDK_LIBRARIES_INFO = 5;
+        GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
@@ -21662,6 +21934,9 @@ message SandboxApiCalled {
 
     //Time taken from the initiation of the API till the callback was received
     optional int32 latency_millis = 2;
+
+    // Uid of the app that made a call to sandbox
+    optional int32 uid = 5 [(is_uid) = true];
 }
 
 //Logs periodically the storage of SDKs used by the app
@@ -21672,6 +21947,9 @@ message SandboxSdkStorage {
 
     // Storage
     optional int32 storage_kb = 2;
+
+    // Uid of the app that made a call to sandbox
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -21785,4 +22063,245 @@ message AdServicesSettingsUsageReported {
     }
 
     optional AdServiceSettingsName action = 2;
+}
+
+// Logs information about bpf maps in BpfNetMaps.
+//
+// Logged from:
+//   packages/modules/Connectivity/service/src/com/android/server/BpfNetMaps.java
+message NetworkBpfMapInfo {
+    // The size of cookie tag bpf map.
+    optional int32 cookie_tag_map_size = 1;
+
+    // The size of uid owner bpf map.
+    optional int32 uid_owner_map_size = 2;
+
+    // The size of uid permission bpf map.
+    optional int32 uid_permission_map_size = 3;
+}
+
+/**
+ * Logs the number of network count on each list of transports
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkCountPerTransports {
+    // the number of network count on each list of transports
+    repeated NetworkCountForTransports network_count_for_transports = 1;
+}
+
+/**
+ * Logs the number of network count and transport type
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkCountForTransports {
+    // Transport types of the network
+    optional int32 transport_types = 1;
+
+    // Number of networks for one list of transport types
+    optional int32 network_count = 2;
+}
+
+/**
+ * Logs a list of networks
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkList {
+    repeated NetworkDescription network_description = 1;
+}
+
+/**
+ * Logs connection duration in seconds and list of transports
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message ConnectionDurationForTransports {
+    // Transport types of the network
+    optional int32 transport_types = 1;
+
+    // Time duration that the device stays connected to the network
+    optional int32 duration_sec = 2;
+}
+
+/**
+ * Logs connection duration on each list of transports, in seconds
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message ConnectionDurationPerTransports {
+    repeated ConnectionDurationForTransports connection_duration_for_transports = 1;
+}
+
+/**
+ * Logs network request count & request type
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message RequestCountForType {
+    // The type of network request
+    optional android.stats.connectivity.RequestType request_type = 1;
+
+    // Number of network requests
+    optional int32 request_count = 2;
+}
+
+/**
+ * Logs network request count
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkRequestCount {
+    // Network request count for request type
+    repeated RequestCountForType request_count_for_type = 1;
+}
+
+/**
+ * Logs information about a network
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkDescription {
+    // The transport types of the network. A network may include multiple transport types.
+    // Each transfer type is represented by a different bit, defined in
+    // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 transport_types = 1;
+
+    // Indicates the network is metered, non-metered or temporarily-unmetered
+    optional android.stats.connectivity.MeteredState metered_state = 2;
+
+    // Indicates the network is validated, non-validated, partial or portal
+    optional android.stats.connectivity.ValidatedState validated_state = 3;
+
+    // Record the bitmask of all the policies applied to this score of network.
+    // Each policy is represented by a different bit, defined in
+    // packages/modules/Connectivity/service/src/com/android/server/connectivity/FullScore.java
+    optional int64 score_policies = 4;
+
+    // The capabilities of the network. A network may include multiple network capabilities.
+    // Each capability is represented by a different bit, defined in
+    // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int64 capabilities = 5;
+
+    // Bitfield representing the network's enterprise capability identifier, defined in
+    // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 enterprise_id = 6;
+}
+
+/**
+ * Pulls a list of NumberOfRematchesPerReason.
+ *
+ * Pulled from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NumberOfRematchesPerReason {
+    // Number of network rematches for each rematch reason
+    repeated NumberOfRematchesForReason number_of_rematches_per_reason= 1;
+}
+
+/**
+ * Logs number of network rematches for rematch reason
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NumberOfRematchesForReason {
+    // The reason of network rematch
+    optional android.stats.connectivity.RematchReason rematch_reason = 1;
+
+    // Number of network rematches
+    optional int32 rematch_count = 2;
+};
+
+/**
+ * Pulls information for connectivity stats.
+ *
+ * Pulled from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message ConnectivityStateSample {
+    // Number of networks per list of transports
+    optional NetworkCountPerTransports network_count_per_transports = 1
+    [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // This is a list of networks with their transports and the duration
+    optional ConnectionDurationPerTransports connection_duration_per_transports = 2
+    [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Number of requests per category
+    optional NetworkRequestCount network_request_count  = 3
+    [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Full list of network details (slice by transport / meteredness / internet+validated)
+    optional NetworkList networks = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+
+/**
+ * Pulls information for network selection rematch info.
+ *
+ * Pulled from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkSelectionRematchReasonsInfo {
+    // Number of rematch per rematch reason
+    optional NumberOfRematchesPerReason number_of_rematches_per_reason = 1
+    [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs rematch information for the default network
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message DefaultNetworkRematchInfo {
+    // The session id comes from each reboot, this is used to correlate the statistics of the
+    // networkselect on the same boot
+    optional int64 session_id = 1;
+
+    // The information of old device default network
+    optional NetworkDescription old_network = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // The information of new device default network
+    optional NetworkDescription new_network = 3 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // The reason of network rematch
+    optional android.stats.connectivity.RematchReason rematch_reason = 4;
+
+    // The time duration the device kept the old network as the default in seconds
+    optional int32 time_duration_on_old_network_sec = 5;
+}
+
+/**
+ * Logs network selection performance
+ *
+ * Logs from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message NetworkSelectionPerformance {
+    // Number of network requests
+    optional int32 number_of_network_requests = 1;
+
+    // List of networks right now
+    // (slice by transport / meteredness / internet+validated)
+    optional NetworkList networks = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // The latency of selection computed in milli-second
+    optional int32 selection_computed_latency_milli = 3;
+
+    // The latency of selection applied in milli-second
+    optional int32 selection_applied_latency_milli = 4;
+
+    // The latency of selection issued in milli-second
+    optional int32 selection_issued_latency_milli = 5;
 }
