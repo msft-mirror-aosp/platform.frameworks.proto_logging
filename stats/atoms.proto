@@ -21620,6 +21620,24 @@ message HotwordDetectorEvents {
         // Indicates that the system got the security exception when handling external
         // source detected callback.
         EXTERNAL_SOURCE_DETECT_SECURITY_EXCEPTION = 13;
+
+        // Indicates that the callback onStatusReported was not invoked successfully.
+        CALLBACK_ON_STATUS_REPORTED_EXCEPTION = 14;
+
+        // Indicates that the callback onError was not invoked successfully.
+        CALLBACK_ON_ERROR_EXCEPTION = 15;
+
+        // Indicates that the callback onRejected was not invoked successfully.
+        CALLBACK_ON_REJECTED_EXCEPTION = 16;
+
+        // Indicates that the callback onDetected was not invoked successfully.
+        CALLBACK_ON_DETECTED_EXCEPTION = 17;
+
+        // Indicates that the callback onProcessRestarted was not invoked successfully.
+        CALLBACK_ON_PROCESS_RESTARTED_EXCEPTION = 18;
+
+        // Indicates that the updateState was not invoked successfully.
+        CALL_UPDATE_STATE_EXCEPTION = 19;
     }
     optional Event event = 2;
 
