@@ -6496,6 +6496,9 @@ message ServiceRequestEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 6;
+
+    /** The process name who requests the service launch */
+    optional string request_process_name = 7;
 }
 
 /**
