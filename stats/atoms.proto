@@ -18326,52 +18326,53 @@ message PackageInstallationSessionReported {
     // Only logged for failed installations
     optional string package_name = 2;
 
-    enum InstallType {
-        TYPE_UNKNOWN = 0;
-        FULL = 1;
-        REPLACE = 2;
-        UPDATE_SYSTEM = 3;
-        INHERIT = 4;
-        INSTALL_EXISTING_AS_USER = 5;
-        MOVE = 6;
-        INSTANT = 7;
-    }
-
-    optional InstallType install_type = 3;
     // UID of the app that is successfully installed
-    optional int32 uid = 4 [(is_uid) = true];
+    optional int32 uid = 3 [(is_uid) = true];
     // Users that will have this package installed
-    repeated int32 user_ids = 5;
+    repeated int32 user_ids = 4;
+    // User types for the users listed above
+    repeated int32 user_types = 5;
     // Users that originally had this package installed if it already exists
     repeated int32 original_user_ids = 6;
+    // User types for original users
+    repeated int32 original_user_types = 7;
     // PackageManager.INSTALL_FAILED_* error codes
-    optional int32 public_return_code = 7;
+    optional int32 public_return_code = 8;
     // Internal error codes that indicate detailed installation failures
-    optional int32 internal_error_code = 8;
+    optional int32 internal_error_code = 9;
     // Total size of the new APKs in the current session
-    optional int64 apks_size_bytes = 9;
+    optional int64 apks_size_bytes = 10;
     // Version code of the app
-    optional int64 version_code = 10;
+    optional int64 version_code = 11;
 
     // List of install steps defined in
     // frameworks/base/services/core/java/com/android/server/pm/PackageMetrics.java
-    repeated int32 install_steps = 11;
+    repeated int32 install_steps = 12;
     // Duration of each step in the installation; order must match install_steps
-    repeated int64 step_duration_millis = 12;
+    repeated int64 step_duration_millis = 13;
     // Total duration can be greater than zero even if install failed
-    optional int64 total_duration_millis = 13;
+    optional int64 total_duration_millis = 14;
     // Installation flags including DONT_KILL
-    optional int32 install_flags = 14;
+    optional int32 install_flags = 15;
     // UID of the package that initiates the installation
-    optional int32 installer_package_uid = 15 [(is_uid) = true];
+    optional int32 installer_package_uid = 16 [(is_uid) = true];
     // UID of the package that previously installed the app
-    optional int32 original_installer_package_uid = 16 [(is_uid) = true];
-    // Whether this is a staged installation
-    optional bool is_staged = 17;
+    optional int32 original_installer_package_uid = 17 [(is_uid) = true];
     // {@see android.content.pm.DataLoaderType}
     optional int32 data_loader_type = 18;
     // {@see android.content.pm.UserActionRequirement}
     optional int32 user_action_required_type = 19;
+
+    // Install types might overlap, therefore using booleans for each type
+    // A regular new app install has every field as false.
+    optional bool is_instant = 20;
+    optional bool is_replace = 21;
+    optional bool is_system = 22;
+    optional bool is_inherit = 23;
+    optional bool is_installing_existing_as_user = 24;
+    optional bool is_move_install = 25;
+    // Whether this is a staged installation
+    optional bool is_staged = 26;
 }
 
 /*
