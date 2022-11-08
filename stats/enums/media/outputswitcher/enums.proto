@@ -21,8 +21,8 @@ option java_multiple_files = true;
 
 // Indicates the type of operation for invoking the OutputSwitcher.
 enum OpType {
-  OP_INITIATION = 0;
-  OP_TRANSFER = 1;
+  INITIATION = 0;
+  TRANSFER = 1;
 }
 
 // Indicates whether the OutputSwitcher is successfully launched or not.
@@ -31,26 +31,26 @@ enum LaunchResult {
   LAUNCH_OK = 1;
 }
 
-// Indicates the current state of media output connection.
-enum ConnectionState {
-  CONNECTION_INITIATED = 0;
-  CONNECTION_COMPLETED = 1;
-  CONNECTION_FAILED = 2;
+// Indicates the current state of media output switch.
+enum SwitchState {
+  SWITCH_INITIATED = 0;
+  SWITCH_COMPLETED = 1;
+  SWITCH_FAILED = 2;
 }
 
-// Indicates the result of connection to media device.
-enum ConnectionResultReason {
-  CONNECTIONRESULT_CONNECTION_TO_DEVICE_FAILED = 0;
-  CONNECTIONRESULT_DEVICE_IS_NOT_NEARBY = 1;
+// Indicates the result of switch/initiation of media.
+enum SwitchResultReason {
+  CONNECTION_TO_DEVICE_FAILED = 0;
+  DEVICE_IS_NOT_NEARBY = 1;
 }
 
 // Indicates the type of medium through which media is played.
 enum MediumType {
-  MEDIUMTYPE_BUILTIN_SPEAKER = 0;
-  MEDIUMTYPE_BLUETOOTH_A2DP = 1;
-  MEDIUMTYPE_CAST_OUTPUT = 2;
-  MEDIUMTYPE_PROPRIETARY_OUTPUT = 3;
-  MEDIUMTYPE_UNKNOWN = 4;
+  BUILTIN_SPEAKER = 0;
+  BLUETOOTH_A2DP = 1;
+  CAST_OUTPUT = 2;
+  PROPRIETARY_OUTPUT = 3;
+  UNKNOWN = 4;
 }
 
 // Indicates the scan state of list of available devices.
@@ -62,6 +62,6 @@ enum ScanState {
 
 // Indicates different types of media devices that Wear OutputSwitcher supports.
 enum MediaDeviceType {
-  MEDIADEVICETYPE_BLUETOOTH = 0;
-  MEDIADEVICETYPE_FASTPAIR = 1;
+  BLUETOOTH = 0;
+  FASTPAIR = 1;
 }
