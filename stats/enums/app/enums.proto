@@ -555,3 +555,15 @@ enum GameMode {
     GAME_MODE_BATTERY = 4;
     GAME_MODE_CUSTOM = 5;
 }
+
+/**
+ * The result code of foreground service type policy check.
+ */
+enum FgsTypePolicyCheckEnum {
+    FGS_TYPE_POLICY_CHECK_UNKNOWN = 0;
+    FGS_TYPE_POLICY_CHECK_OK = 1;
+    FGS_TYPE_POLICY_CHECK_DEPRECATED = 2;
+    FGS_TYPE_POLICY_CHECK_DISABLED = 3;
+    FGS_TYPE_POLICY_CHECK_PERMISSION_DENIED_PERMISSIVE = 4;
+    FGS_TYPE_POLICY_CHECK_PERMISSION_DENIED_ENFORCED = 5;
+}

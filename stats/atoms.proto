@@ -5606,6 +5606,9 @@ message ForegroundServiceStateChanged {
     // The foreground service types, must be one or a combination of the types
     // in the ForegroundServiceType above.
     optional int32 fgs_types = 16;
+
+    // The result check code for the fgs type enforcement.
+    optional android.app.FgsTypePolicyCheckEnum fgs_type_check_code = 17;
 }
 
 /**
