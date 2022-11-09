@@ -1625,7 +1625,8 @@ message WifiP2pConnectionReported {
     optional int32 frequency_mhz = 7;
     // STA mode channel frequency. 0 means unknown.
     optional int32 sta_frequency_mhz = 8;
-    //
+    // The uid of the app that initiates the connection.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
