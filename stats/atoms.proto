@@ -17,6 +17,8 @@
 syntax = "proto2";
 
 package android.os.statsd;
+
+option optimize_for = CODE_SIZE;
 option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
@@ -714,6 +716,7 @@ message Atom {
         // reserved 492
         DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
         ActivityActionBlocked activity_action_blocked = 495 [(module) = "framework"];
+        AmbientBrightnessStatsReported ambient_brightness_stats_reported = 507 [(module) = "framework"];
         MediametricsSpatializerCapabilitiesReported mediametrics_spatializercapabilities_reported = 508;
         MediametricsSpatializerDeviceEnabledReported mediametrics_spatializerdeviceenabled_reported = 509;
         MediametricsHeadTrackerDeviceEnabledReported mediametrics_headtrackerdeviceenabled_reported = 510;
@@ -728,6 +731,7 @@ message Atom {
         BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
         BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
+        BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -4361,6 +4365,8 @@ message StyleUIChanged {
     optional int32 first_wallpaper_apply_date_since_setup = 18;
     optional int32 app_launch_count = 19;
     optional int32 color_variant = 20;
+    optional int64 time_elapsed_millis = 21;
+    optional int32 effect_status_code = 22;
 }
 
 /**
@@ -21729,4 +21735,33 @@ message HearingAidInfoReported {
         BLUETOOTH = 3;
     }
     optional BondEntry bond_entry = 3;
+}
+
+// Logs daily ambient brightness stats.
+message AmbientBrightnessStatsReported {
+
+    // How much time was spent in each of the buckets, in seconds.
+    repeated float bucket_size_seconds = 1;
+
+    // Ambient brightness values for creating bucket boundaries from.
+    repeated float bucket_boundary_lux = 2;
+}
+
+/**
+ * Logs the Brightness Configuration pushed by the long term model. The Brightness Configuration is
+ * expressed as a curve where each point is a pair of ambient light (lux) and the corresponding
+ * screen brightness (nits).
+ *
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/display/DisplayManagerService.java
+ */
+message BrightnessConfigurationUpdated {
+    // Array of ambient light values (in lux) to define the configuration.
+    repeated float lux = 1;
+    // Array of screen brightness values (in nits) corresponding to the lux
+    // values above.
+    repeated float nits = 2;
+    // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
+    // "local:$PHYSICAL_ID".
+    optional string physical_display_id = 3;
 }
