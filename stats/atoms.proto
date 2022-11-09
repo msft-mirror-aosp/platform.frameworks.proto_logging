@@ -833,8 +833,8 @@ message Atom {
         WearMediaOutputSwitcherDeviceScanTriggered
             wear_media_output_swicher_device_scan_triggered =
                 541 [(module) = "MediaOutputSwitcher"];
-        WearMediaOutputSwitcherDeviceScanLatency
-            wear_media_output_swicher_device_scan_latency =
+        WearMediaOutputSwitcherPairedDeviceScanLatency
+            wear_media_output_swicher_paired_device_scan_latency =
                 542 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherConnectDeviceLatency
             wear_media_output_swicher_connect_device_latency =
@@ -847,6 +847,9 @@ message Atom {
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         OdsignReported odsign_reported = 548 [(module) = "art"];
+        WearMediaOutputSwitcherAllDevicesScanLatency
+            wear_media_output_switcher_all_devices_scan_latency =
+                549 [(module) = "MediaOutputSwitcher"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -15259,6 +15262,9 @@ message DataCallSession {
     // For each int32, the lower 16 bits represent the source RAT while the upper 16 bits indicate
     // the target RAT of the failed handover.
     repeated int32 handover_failure_rat = 21;
+
+    // Whether the call is for internet on nonDDS due to auto data switch feature
+    optional bool is_non_dds = 22;
 }
 
 /**
@@ -15302,6 +15308,14 @@ message DataStallRecoveryReported {
 
     // The data stall recovered reason. Available from Android T.
     optional android.telephony.DataStallRecoveredReason reason = 10;
+
+    // Signal strength of the other phone if DSDS when stall happened.
+    // SIGNAL_STRENGTH_NONE_OR_UNKNOWN(0) if single SIM.
+    optional android.telephony.SignalStrengthEnum other_phone_signal_strength = 11;
+
+    // PS WWAN Network Registration state of the other phone if DSDS when stall happened.
+    // REGISTRATION_STATE_NOT_REGISTERED_OR_SEARCHING(0) if single SIM.
+    optional android.telephony.NetworkRegistrationState other_phone_reg_state = 12;
 }
 
 /**
@@ -18312,52 +18326,53 @@ message PackageInstallationSessionReported {
     // Only logged for failed installations
     optional string package_name = 2;
 
-    enum InstallType {
-        TYPE_UNKNOWN = 0;
-        FULL = 1;
-        REPLACE = 2;
-        UPDATE_SYSTEM = 3;
-        INHERIT = 4;
-        INSTALL_EXISTING_AS_USER = 5;
-        MOVE = 6;
-        INSTANT = 7;
-    }
-
-    optional InstallType install_type = 3;
     // UID of the app that is successfully installed
-    optional int32 uid = 4 [(is_uid) = true];
+    optional int32 uid = 3 [(is_uid) = true];
     // Users that will have this package installed
-    repeated int32 user_ids = 5;
+    repeated int32 user_ids = 4;
+    // User types for the users listed above
+    repeated int32 user_types = 5;
     // Users that originally had this package installed if it already exists
     repeated int32 original_user_ids = 6;
+    // User types for original users
+    repeated int32 original_user_types = 7;
     // PackageManager.INSTALL_FAILED_* error codes
-    optional int32 public_return_code = 7;
+    optional int32 public_return_code = 8;
     // Internal error codes that indicate detailed installation failures
-    optional int32 internal_error_code = 8;
+    optional int32 internal_error_code = 9;
     // Total size of the new APKs in the current session
-    optional int64 apks_size_bytes = 9;
+    optional int64 apks_size_bytes = 10;
     // Version code of the app
-    optional int64 version_code = 10;
+    optional int64 version_code = 11;
 
     // List of install steps defined in
     // frameworks/base/services/core/java/com/android/server/pm/PackageMetrics.java
-    repeated int32 install_steps = 11;
+    repeated int32 install_steps = 12;
     // Duration of each step in the installation; order must match install_steps
-    repeated int64 step_duration_millis = 12;
+    repeated int64 step_duration_millis = 13;
     // Total duration can be greater than zero even if install failed
-    optional int64 total_duration_millis = 13;
+    optional int64 total_duration_millis = 14;
     // Installation flags including DONT_KILL
-    optional int32 install_flags = 14;
+    optional int32 install_flags = 15;
     // UID of the package that initiates the installation
-    optional int32 installer_package_uid = 15 [(is_uid) = true];
+    optional int32 installer_package_uid = 16 [(is_uid) = true];
     // UID of the package that previously installed the app
-    optional int32 original_installer_package_uid = 16 [(is_uid) = true];
-    // Whether this is a staged installation
-    optional bool is_staged = 17;
+    optional int32 original_installer_package_uid = 17 [(is_uid) = true];
     // {@see android.content.pm.DataLoaderType}
     optional int32 data_loader_type = 18;
     // {@see android.content.pm.UserActionRequirement}
     optional int32 user_action_required_type = 19;
+
+    // Install types might overlap, therefore using booleans for each type
+    // A regular new app install has every field as false.
+    optional bool is_instant = 20;
+    optional bool is_replace = 21;
+    optional bool is_system = 22;
+    optional bool is_inherit = 23;
+    optional bool is_installing_existing_as_user = 24;
+    optional bool is_move_install = 25;
+    // Whether this is a staged installation
+    optional bool is_staged = 26;
 }
 
 /*
@@ -21606,6 +21621,24 @@ message HotwordDetectorEvents {
         // Indicates that the system got the security exception when handling external
         // source detected callback.
         EXTERNAL_SOURCE_DETECT_SECURITY_EXCEPTION = 13;
+
+        // Indicates that the callback onStatusReported was not invoked successfully.
+        CALLBACK_ON_STATUS_REPORTED_EXCEPTION = 14;
+
+        // Indicates that the callback onError was not invoked successfully.
+        CALLBACK_ON_ERROR_EXCEPTION = 15;
+
+        // Indicates that the callback onRejected was not invoked successfully.
+        CALLBACK_ON_REJECTED_EXCEPTION = 16;
+
+        // Indicates that the callback onDetected was not invoked successfully.
+        CALLBACK_ON_DETECTED_EXCEPTION = 17;
+
+        // Indicates that the callback onProcessRestarted was not invoked successfully.
+        CALLBACK_ON_PROCESS_RESTARTED_EXCEPTION = 18;
+
+        // Indicates that the updateState was not invoked successfully.
+        CALL_UPDATE_STATE_EXCEPTION = 19;
     }
     optional Event event = 2;
 
@@ -23712,7 +23745,7 @@ message BrightnessConfigurationUpdated {
 message WearMediaOutputSwitcherLaunched {
     // Name of the media app package from where Output Switcher got triggered
     // when user clicks on the 'play' button.
-    repeated string triggering_package_name = 1;
+    optional string triggering_package_name = 1;
 
     // The operation type for invoking the OutputSwitcher
     optional com.google.android.wearable.media.OpType op_type = 2;
@@ -23728,7 +23761,8 @@ message WearMediaOutputSwitcherLaunched {
  * package: vendor/google_clockwork/packages/Media
  */
 message WearMediaOutputSwitcherFinished {
-    optional bool is_finished = 1;
+    optional bool user_did_some_activity = 1;
+    optional bool is_device_connected = 2;
 }
 
 /**
@@ -23744,10 +23778,10 @@ message WearMediaOutputSwitcherConnectionReported {
     optional com.google.android.wearable.media.MediumType target  = 2;
 
     // Reason for switching the media to different device
-    optional com.google.android.wearable.media.SwitchResultReason reason = 3;
+    optional com.google.android.wearable.media.ConnectionResultReason reason = 3;
 
     // Current status of switching the media.
-    optional com.google.android.wearable.media.SwitchState state =4;
+    optional com.google.android.wearable.media.ConnectionState state =4;
 
     // Type of target device.
     optional com.google.android.wearable.media.MediaDeviceType target_device_type = 5;
@@ -23756,6 +23790,10 @@ message WearMediaOutputSwitcherConnectionReported {
     optional com.google.android.wearable.media.OpType op_type = 6;
 
     optional bool is_retry = 7;
+
+    // For differentiating if the bluetooth device is connected from already
+    // paired device list or from the pair new device flow
+    optional bool is_already_paired = 8;
 }
 
 /**
@@ -23771,7 +23809,7 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
 
     // Name of the media app package from where Output Switcher got triggered
     // when user clicks on the 'play' button.
-    repeated string triggering_package_name = 2;
+    optional string triggering_package_name = 2;
 
     optional com.google.android.wearable.media.OpType op_type = 3;
 }
@@ -23782,8 +23820,19 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
  * Logged from:
  * package: vendor/google_clockwork/packages/Media
  */
-message WearMediaOutputSwitcherDeviceScanLatency {
+message WearMediaOutputSwitcherPairedDeviceScanLatency {
     // The latency of scanning already paired devices in milli-second
+    optional int64 latency_in_millis = 1;
+}
+
+/**
+ * Logs the latency for scanning all available devices.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherAllDevicesScanLatency {
+    // The latency of scanning all available devices in milli-second
     optional int64 latency_in_millis = 1;
 }
 
