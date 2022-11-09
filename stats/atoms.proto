@@ -21278,8 +21278,24 @@ message ApexInfoGathered {
     optional string package_name = 1;
     // the version code of the APEX
     optional int64 version_code = 2;
-    // the hex encoded SHA256 digest of the APEX file
-    optional string sha256_digest = 3;
+
+    // the hex encoded value of digest of the content of this APEX
+    // we are deprecating the use of this going forward
+    optional string content_digest = 3;
+
+    enum DigestAlgorithmType {
+        UNKNOWN = 0;
+        CHUNKED_SHA256 = 1;
+        CHUNKED_SHA512 = 2;
+        VERITY_CHUNKED_SHA256 = 3;
+        SHA256 = 4;
+    }
+
+    // the algorithm that the content digest is computed
+    optional DigestAlgorithmType algo_type = 4;
+
+    // the SHA256 digest(s) of the APEX's signer certificate(s)
+    repeated string signer_sha256_digest = 5;
 }
 
 /**
