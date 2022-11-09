@@ -30,6 +30,7 @@ import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
+import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/media_output_enum.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
@@ -851,6 +852,9 @@ message Atom {
             wear_media_output_switcher_all_devices_scan_latency =
                 549 [(module) = "MediaOutputSwitcher"];
         ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art"];
+        WsWatchFaceEdited ws_watch_face_edited = 551 [(module) = "wearservices"];
+        WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
+        WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -24003,4 +24007,50 @@ message ArtDeviceDatumReported {
     }
 
     optional BootImageStatus boot_image_status = 1;
+}
+
+/**
+* Logged during the watch face editing session in Wear Services
+* This atom will log the duration with SessionStateEnum#END.
+*
+* Logged from :
+* com/google/wear/services/watchfaces/editing/api/WatchFaceEditingApiImpl.java
+*/
+message WsWatchFaceEdited {
+   // Depicts the state of the session eg: START/END/ABORT.
+   optional android.app.wearservices.SessionStateEnum session_state = 1;
+
+   // Session duration for watch face editing.
+   optional int32 session_duration_millis = 2;
+}
+
+/**
+* Logged for watch face favorite feature in Wear Services.
+*
+* Logged from :
+* com/google/wear/services/watchfaces/api/WatchFacesApiImpl.java
+*/
+message WsWatchFaceFavouriteActionReported {
+   // Component package for watch face.
+   optional int32 component_package_uid = 1 [(is_uid) = true];
+
+   // Depicts the action for wf favorites eg: Add/Remove.
+   optional android.app.wearservices.ActionEnum favorite_action = 2;
+
+   // Depicts if the source of the favorite action is performed on watch or not.
+   optional bool is_source_watch = 3;
+}
+
+/**
+* Logged for the watch face set feature in Wear Services.
+*
+* Logged from :
+* com/google/wear/services/watchfaces/api/WatchFacesApiImpl.java
+*/
+message WsWatchFaceSetActionReported {
+   // Component package for watch face.
+   optional int32 component_package_uid = 1 [(is_uid) = true];
+
+  // Result for WF, whether it resulted in SAME/FAVORITE/FALLBACK
+  optional android.app.wearservices.SetResultEnum wf_set_result = 2;
 }
