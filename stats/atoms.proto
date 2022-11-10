@@ -858,6 +858,7 @@ message Atom {
         PackageUninstallationReported package_uninstallation_reported = 554 [(module) = "framework"];
         GameModeChanged game_mode_changed = 555 [(module) = "framework"];
         GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
+        BedtimeModeStateChanged bedtime_mode_state_changed = 557 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1662,6 +1663,36 @@ message WifiSetupFailureCrashReported {
     optional Type type= 1;
 }
 
+
+/*
+ * Logs metrics on bedtime mode state changed
+ *
+ * Logged From:
+ *  frameworks/opt/wear/src/com/google/android/clockwork/healthservices/BedtimeModeController.java
+*/
+message BedtimeModeStateChanged {
+    enum BedTimeModeState {
+        BEDTIME_OFF = 0;
+        BEDTIME_ON = 1;
+    }
+    // Log the bedtime mode state
+    optional BedTimeModeState bedtime_mode_state = 1;
+    enum State {
+        OFF = 0;
+        ON = 1;
+    }
+    // Current Wifi state when bedtime mode is toggled
+    optional State current_wifi_state = 2;
+
+    // Current LTE state when bedtime mode is toggled
+    optional State current_cellular_state = 3;
+
+    // Current BT state when bedtime mode is toggled
+    optional State current_bluetooth_state = 4;
+
+    // Current Battery level. Should be in [0, 100].
+    optional int32 battery_level = 5;
+}
 
 /**
  * Logs when memory stats of a process is reported.
