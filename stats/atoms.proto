@@ -855,6 +855,7 @@ message Atom {
         WsWatchFaceEdited ws_watch_face_edited = 551 [(module) = "wearservices"];
         WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
         WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
+        PackageUninstallationReported package_uninstallation_reported = 554 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -18380,6 +18381,28 @@ message PackageInstallationSessionReported {
     optional bool is_move_install = 25;
     // Whether this is a staged installation
     optional bool is_staged = 26;
+}
+
+message PackageUninstallationReported {
+    // UID of the package being uninstalled
+    optional int32 uid = 1 [(is_uid) = true];
+    // Users on which the package (or system app update) is uninstalled from
+    // If uninstall for all users, list all the user ids
+    repeated int32 user_ids = 2;
+    // Types of the users listed above. Order must match above.
+    repeated int32 user_types = 3;
+    // Users that originally had this package (or system app update) installed
+    repeated int32 original_user_ids = 4;
+    repeated int32 original_user_types = 5;
+    // Flags of uninstallation, including KEEP_DATA
+    optional int32 uninstall_flags = 6;
+    // PackageManager.DELETE_SUCCEEDED or PackageManager.DELETE_FAILED_*
+    optional int32 return_code = 7;
+    // Special uninstall types might overlap, therefore booleans
+    // An uninstall of a non-system app on all users should have all fields false
+    optional bool is_system = 8;
+    // When this is true, user_ids != original_user_ids
+    optional bool is_uninstall_for_users = 9;
 }
 
 /*
