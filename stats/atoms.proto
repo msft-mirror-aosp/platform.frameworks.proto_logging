@@ -1187,8 +1187,16 @@ message ScreenStateChanged {
  *
  * Logged from:
  *  - frameworks/base/services/core/java/com/android/server/wm/ActivityStarter.java
+ *  - frameworks/base/services/core/java/com/android/server/wm/ActivityClientController.java
  */
 message ActivityActionBlocked {
+    enum Action {
+        ACTION_UNSPECIFIED = 0;
+        ACTIVITY_START_SAME_TASK = 1;
+        ACTIVITY_START_DIFFERENT_TASK = 2;
+        ACTIVITY_START_NEW_TASK = 3;
+        FINISH_TASK = 4;
+    }
     optional int32 caller_uid = 1 [(is_uid) = true];
     optional string caller_activity_class_name = 2;
     optional int32 target_task_top_activity_uid = 3 [(is_uid) = true];
@@ -1198,6 +1206,10 @@ message ActivityActionBlocked {
     optional string target_activity_class_name = 7;
     optional string target_intent_action = 8;
     optional int32 target_intent_flags = 9;
+
+    optional Action action = 10;
+    optional int32 version = 11;
+    optional bool multi_window = 12;
 }
 
 /**
