@@ -1870,7 +1870,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 22
+ * Next tag: 31
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -1945,6 +1945,28 @@ message ScheduledJobStateChanged {
     // when a job is stopped and rescheduled for various reasons (lost network, constraints no
     // longer satisfied, etc). For periodic jobs, this value is reset after a successful run.
     optional int32 num_previous_attempts = 21;
+
+    // The deadline that the Job has
+    // This is only valid if has_deadline_constraint is true
+    // and for STARTED and FINISHED states
+    optional int64 deadline_ms = 22;
+
+    // True if the Job hit its deadline
+    optional bool is_deadline_constraint_satisfied = 23;
+
+    optional bool is_charging_constraint_satisfied = 24;
+
+    optional bool is_battery_not_low_constraint_satisfied = 25;
+
+    optional bool is_storage_not_low_constraint_satisfied = 26;
+
+    optional bool is_timing_delay_constraint_satisfied = 27;
+
+    optional bool is_idle_constraint_satisfied = 28;
+
+    optional bool is_connectivity_constraint_satisfied = 29;
+
+    optional bool is_content_trigger_constraint_satisfied = 30;
 }
 
 /**
