@@ -539,3 +539,17 @@ enum ResourceApiEnum {
   RESOURCE_API_GET_VALUE = 1;
   RESOURCE_API_RETRIEVE_ATTRIBUTES = 2;
 }
+
+/**
+ * The game modes used by GameManager.
+ *
+ * <p>Also see {@link android.app.GameManager#GameMode}.
+ */
+enum GameMode {
+    GAME_MODE_UNSPECIFIED = 0;
+    GAME_MODE_UNSUPPORTED = 1;
+    GAME_MODE_STANDARD = 2;
+    GAME_MODE_PERFORMANCE = 3;
+    GAME_MODE_BATTERY = 4;
+    GAME_MODE_CUSTOM = 5;
+}
