@@ -856,12 +856,14 @@ message Atom {
         WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
         WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
         PackageUninstallationReported package_uninstallation_reported = 554 [(module) = "framework"];
+        GameModeChanged game_mode_changed = 555 [(module) = "framework"];
+        GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10165
+    // Next: 10168
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1058,6 +1060,9 @@ message Atom {
         OutgoingShortCodeSms outgoing_short_code_sms = 10162 [(module) = "telephony"];
         ConnectivityStateSample connectivity_state_sample = 10163 [(module) = "connectivity"];
         NetworkSelectionRematchReasonsInfo network_selection_rematch_reasons_info = 10164 [(module) = "connectivity"];
+        GameModeInfo game_mode_info = 10165 [(module) = "framework"];
+        GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
+        GameModeListener game_mode_listener = 10167 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1187,8 +1192,16 @@ message ScreenStateChanged {
  *
  * Logged from:
  *  - frameworks/base/services/core/java/com/android/server/wm/ActivityStarter.java
+ *  - frameworks/base/services/core/java/com/android/server/wm/ActivityClientController.java
  */
 message ActivityActionBlocked {
+    enum Action {
+        ACTION_UNSPECIFIED = 0;
+        ACTIVITY_START_SAME_TASK = 1;
+        ACTIVITY_START_DIFFERENT_TASK = 2;
+        ACTIVITY_START_NEW_TASK = 3;
+        FINISH_TASK = 4;
+    }
     optional int32 caller_uid = 1 [(is_uid) = true];
     optional string caller_activity_class_name = 2;
     optional int32 target_task_top_activity_uid = 3 [(is_uid) = true];
@@ -1198,6 +1211,10 @@ message ActivityActionBlocked {
     optional string target_activity_class_name = 7;
     optional string target_intent_action = 8;
     optional int32 target_intent_flags = 9;
+
+    optional Action action = 10;
+    optional int32 version = 11;
+    optional bool multi_window = 12;
 }
 
 /**
@@ -1853,7 +1870,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 22
+ * Next tag: 31
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -1928,6 +1945,28 @@ message ScheduledJobStateChanged {
     // when a job is stopped and rescheduled for various reasons (lost network, constraints no
     // longer satisfied, etc). For periodic jobs, this value is reset after a successful run.
     optional int32 num_previous_attempts = 21;
+
+    // The deadline that the Job has
+    // This is only valid if has_deadline_constraint is true
+    // and for STARTED and FINISHED states
+    optional int64 deadline_ms = 22;
+
+    // True if the Job hit its deadline
+    optional bool is_deadline_constraint_satisfied = 23;
+
+    optional bool is_charging_constraint_satisfied = 24;
+
+    optional bool is_battery_not_low_constraint_satisfied = 25;
+
+    optional bool is_storage_not_low_constraint_satisfied = 26;
+
+    optional bool is_timing_delay_constraint_satisfied = 27;
+
+    optional bool is_idle_constraint_satisfied = 28;
+
+    optional bool is_connectivity_constraint_satisfied = 29;
+
+    optional bool is_content_trigger_constraint_satisfied = 30;
 }
 
 /**
@@ -13493,6 +13532,7 @@ message SurfaceflingerStatsLayerInfo {
          GAME_MODE_STANDARD = 2;
          GAME_MODE_PERFORMANCE = 3;
          GAME_MODE_BATTERY = 4;
+         GAME_MODE_CUSTOM = 5;
     }
 
     // Game mode that the layer was running at. Used to track user engagement
@@ -21483,6 +21523,76 @@ message GameStateChanged {
 
     // A developer-supplied enum, e.g. to indicate the current quality level.
     optional int32 quality = 7;
+}
+
+message GameModeChanged {
+    // UID of the game package.
+    optional int32 game_uid = 1 [(is_uid) = true];
+
+    // UID the caller package who made the game mode change.
+    optional int32 caller_uid = 2 [(is_uid) = true];
+
+    // Game mode previously set to.
+    optional android.app.GameMode game_mode_from = 3;
+
+    // Game mode currently set to.
+    optional android.app.GameMode game_mode_to = 4;
+}
+
+
+message GameModeConfigurationChanged {
+    // UID of the game package.
+    optional int32 game_uid = 1 [(is_uid) = true];
+
+    // UID the caller package who made the game mode config change.
+    optional int32 caller_uid = 2 [(is_uid) = true];
+
+    // Game mode of the configuration.
+    optional android.app.GameMode game_mode = 3;
+
+    // Scaling factor previously set for this game mode.
+    optional float scaling_factor_from = 4;
+
+    // Scaling factor currently set to for this game mode.
+    optional float scaling_factor_to = 5;
+
+    // FPS override previously set for this game mode.
+    optional int32 fps_override_from = 6;
+
+    // FPS override currently set for this game mode.
+    optional int32 fps_override_to = 7;
+}
+
+message GameModeInfo {
+    // UID of the game package.
+    optional int32 game_uid = 1 [(is_uid) = true];
+
+    // Game modes currently opted in by the game.
+    repeated android.app.GameMode opted_in_game_modes = 2;
+
+    // Game modes available to user for the game.
+    repeated android.app.GameMode available_game_modes = 3;
+}
+
+
+message GameModeConfiguration {
+    // UID of the game package.
+    optional int32 game_uid = 1 [(is_uid) = true];
+
+    // Game mode of the configuration.
+    optional android.app.GameMode game_mode = 2;
+
+    // FPS override previously set for this game mode.
+    optional int32 fps_override = 3;
+
+    // Scaling factor currently set to for this game mode.
+    optional float scaling_factor = 4;
+}
+
+
+message GameModeListener {
+    // Number of listeners currently registered in GameManagerService.
+    optional int32 count = 1;
 }
 
 /**
