@@ -22101,6 +22101,7 @@ message AdServicesApiCalled {
         REGISTER_WEB_TRIGGER = 18;
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
+        SELECT_ADS_FROM_OUTCOMES = 21;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
