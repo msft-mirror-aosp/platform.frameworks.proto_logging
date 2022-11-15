@@ -803,8 +803,8 @@ message Atom {
         IwlanSetupDataCallResultReported iwlan_setup_data_call_result_reported = 519 [(module) = "iwlan"];
         IwlanPdnDisconnectedReasonReported iwlan_pdn_disconnected_reason_reported = 520 [(module) = "iwlan"];
         AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi", (module) = "bluetooth"];
-        VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice"];
-        VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice"];
+        VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice", deprecated = true];
+        VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice", deprecated = true];
         PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
         DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
@@ -17759,12 +17759,15 @@ message VmExited {
 }
 
 /**
+ * (Deprecated)
  * Logs telemetry for Android Virtualization framework
  *
  * For every second while VM is running, an atom is pushed that records CPU time information of VM.
  * Logged from: packages/modules/Virtualization/
  */
 message VmCpuStatusReported {
+    option deprecated = true;
+
     optional int32 uid = 1 [(is_uid) = true];
     optional string vm_identifier = 2;
 
@@ -17775,12 +17778,15 @@ message VmCpuStatusReported {
 }
 
 /**
+ * (Deprecated)
  * Logs telemetry for Android Virtualization framework
  *
  * For every second while VM is running, an atom is pushed that records memory information of VM.
  * Logged from: packages/modules/Virtualization/
  */
 message VmMemStatusReported {
+    option deprecated = true;
+
     optional int32 uid = 1 [(is_uid) = true];
     optional string vm_identifier = 2;
 
@@ -21379,8 +21385,24 @@ message ApexInfoGathered {
     optional string package_name = 1;
     // the version code of the APEX
     optional int64 version_code = 2;
-    // the hex encoded SHA256 digest of the APEX file
-    optional string sha256_digest = 3;
+
+    // the hex encoded value of digest of the content of this APEX
+    // we are deprecating the use of this going forward
+    optional string content_digest = 3;
+
+    enum DigestAlgorithmType {
+        UNKNOWN = 0;
+        CHUNKED_SHA256 = 1;
+        CHUNKED_SHA512 = 2;
+        VERITY_CHUNKED_SHA256 = 3;
+        SHA256 = 4;
+    }
+
+    // the algorithm that the content digest is computed
+    optional DigestAlgorithmType algo_type = 4;
+
+    // the SHA256 digest(s) of the APEX's signer certificate(s)
+    repeated string signer_sha256_digest = 5;
 }
 
 /**
