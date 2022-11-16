@@ -11429,7 +11429,7 @@ message GpuStatsGlobalInfo {
  */
 message GpuDriverLoadingTime {
     // List of all the driver loading times for this app. The list size is
-    // capped at 50.
+    // capped at 16 (GpuStats::MAX_NUM_LOADING_TIMES).
     repeated int64 driver_loading_time = 1;
 }
 
@@ -11470,6 +11470,36 @@ message GpuStatsAppInfo {
 
     // ANGLE in use for the app.
     optional bool angle_in_use = 9;
+
+    // App created a GLES context.
+    // Introduced in Android 14.
+    optional bool created_gles_context = 10;
+
+    // App created a Vulkan device.
+    // Introduced in Android 14.
+    optional bool created_vulkan_device = 11;
+
+    // App created a Vulkan swapchain.
+    // Introduced in Android 14.
+    optional bool created_vulkan_swapchain = 12;
+
+    // Vulkan API version information from applicationInfo.
+    // Introduced in Android 14.
+    optional int32 vulkan_api_version = 13;
+
+    // Bitmask of enabled features when creating Vulkan devices.
+    // Introduced in Android 14.
+    optional int64 vulkan_device_features_enabled = 14;
+
+    // Hash values of enabled Vulkan instance extensions.
+    // The list size is capped at 100 (GpuStatsAppInfo::MAX_NUM_EXTENSIONS).
+    // Introduced in Android 14.
+    repeated int32 vulkan_instance_extensions_enabled = 15;
+
+    // Hash values of enabled Vulkan device extensions.
+    // The list size is capped at 100 (GpuStatsAppInfo::MAX_NUM_EXTENSIONS).
+    // Introduced in Android 14.
+    repeated int32 vulkan_device_extensions_enabled = 16;
 }
 
 /*
