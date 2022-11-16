@@ -5600,11 +5600,18 @@ message ForegroundServiceStateChanged {
         FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION = 0x0020; // 1 << 5
         FOREGROUND_SERVICE_TYPE_CAMERA = 0x0040; // 1 << 6
         FOREGROUND_SERVICE_TYPE_MICROPHONE = 0x0080; // 1 << 7
+        FOREGROUND_SERVICE_TYPE_HEALTH = 0x0100; // 1 << 8
+        FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING = 0x0200; // 1 << 9
+        FOREGROUND_SERVICE_TYPE_SYSTEM_EXEMPTED = 0x0400; // 1 << 10
+        FOREGROUND_SERVICE_TYPE_SPECIAL_USE = 0x40000000; // 1 << 30
     }
 
     // The foreground service types, must be one or a combination of the types
     // in the ForegroundServiceType above.
     optional int32 fgs_types = 16;
+
+    // The result check code for the fgs type enforcement.
+    optional android.app.FgsTypePolicyCheckEnum fgs_type_check_code = 17;
 }
 
 /**
