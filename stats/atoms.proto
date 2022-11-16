@@ -869,6 +869,7 @@ message Atom {
         WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
         GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
         ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
+        MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21566,6 +21567,54 @@ message ApexInfoGathered {
 
     // the SHA256 digest(s) of the APEX's signer certificate(s)
     repeated string signer_sha256_digest = 5;
+}
+
+/**
+ * MobileBundledApps (MBAs) include preloaded apps and apps that are installed in the background
+ * without user knowledge/consent.
+ *
+ * However, note that we will only be recording *updated* preloaded apps + dynamic MBAs.
+ *
+ * Pushed from:
+ *    frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message MobileBundledAppInfoGathered {
+    // MBA package names are determined by developers (which can include OEMs)
+    optional string package_name = 1;
+    // the package version code of the MBA
+    optional int64 version_code = 2;
+
+    enum DigestAlgorithmType {
+        UNKNOWN = 0;
+        CHUNKED_SHA256 = 1;
+        CHUNKED_SHA512 = 2;
+        VERITY_CHUNKED_SHA256 = 3;
+        SHA256 = 4;
+    }
+    // the hex encoded value of digest of the content of the MBA
+    optional string content_digest = 3;
+    // the algorithm that the content_digest is computed
+    optional DigestAlgorithmType algo_type = 4;
+    // the SHA256 digest(s) of the APEX's signer certificate(s)
+    repeated string signer_sha256_digest = 5;
+
+    enum MBAStatus {
+        ERROR = 0;
+        PRELOADED = 1;
+        UPDATED_PRELOAD = 2;
+        NEW_MBA = 3;
+        UPDATED_NEW_MBA = 4;
+    }
+    // whether or not the MBA is preloaded or dynamically installed
+    optional MBAStatus mba_status = 6;
+    // the package that initiated the installation of this MBA
+    optional string initiator = 7;
+    // the SHA256 digest(s) of the initiator's signer certificate(s)
+    repeated string initiator_signer_sha256_digest = 8;
+    // the package that installs this MBA
+    optional string installer = 9;
+    // the package on behalf of which initiator requested the installation of this MBA
+    optional string originator = 10;
 }
 
 /**
