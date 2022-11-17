@@ -24292,6 +24292,9 @@ message WsWatchFaceEdited {
 
    // Session duration for watch face editing.
    optional int32 session_duration_millis = 2;
+
+   // Enum to depict the source of the request. Values (PHONE, WATCH)
+   optional android.app.wearservices.RequestSource request_source = 3;
 }
 
 /**
@@ -24323,4 +24326,7 @@ message WsWatchFaceSetActionReported {
 
   // Result for WF, whether it resulted in SAME/FAVORITE/FALLBACK
   optional android.app.wearservices.SetResultEnum wf_set_result = 2;
+
+  // Enum to depict the source of the request. Values (PHONE, WATCH)
+   optional android.app.wearservices.RequestSource request_source = 3;
 }
