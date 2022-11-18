@@ -63,7 +63,7 @@ enum_protos = [
     "enums/telecomm/*.proto",
     "enums/telephony/*.proto",
     "enums/uwb/*.proto",
-    "enums/view/*.proto",
+    "enums/view/**/*.proto",
     "enums/wifi/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
@@ -87,6 +87,7 @@ atom_protos = [
     "atoms/hardware/biometrics/*.proto",
     "atoms/hotword/*.proto",
     "atoms/location/*.proto",
+    "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
 ]
 
