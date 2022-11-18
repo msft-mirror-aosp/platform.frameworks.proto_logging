@@ -6132,6 +6132,18 @@ message BiometricAcquired {
     optional android.hardware.biometrics.SessionTypeEnum session_type = 11;
     // If the AoD was on when this event occurred.
     optional bool is_aod = 12;
+    // If the display is on when this event occurred.
+    optional bool is_display_on = 13;
+    // The dock state when this event occurred.
+    optional android.server.DockStateEnum dock_state = 14;
+    // The orientation of the device when this event occurred
+    optional android.hardware.biometrics.OrientationEnum orientation = 15;
+    // The fold state of the device when this event occurred
+    optional android.hardware.biometrics.FoldStateEnum fold_state = 16;
+    // The order this event was processed by the framework, if part of a session
+    optional int32 session_order = 17;
+    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    optional android.hardware.biometrics.WakeReasonEnum wake_reason = 18;
 }
 
 /**
@@ -6180,6 +6192,18 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
     // If the AoD was on when this event occurred.
     optional bool is_aod = 13;
+    // If the display is on when this event occurred.
+    optional bool is_display_on = 14;
+    // The dock state when this event occurred.
+    optional android.server.DockStateEnum dock_state = 15;
+    // The orientation of the device when this event occurred
+    optional android.hardware.biometrics.OrientationEnum orientation = 16;
+    // The fold state of the device when this event occurred
+    optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
+    // The order this event was processed by the framework, if part of a session
+    optional int32 session_order = 18;
+    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
 }
 
 /**
@@ -6217,6 +6241,18 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
     // If the AoD was on when this event occurred.
     optional bool is_aod = 13;
+    // If the display is on when this event occurred.
+    optional bool is_display_on = 14;
+    // The dock state when this event occurred.
+    optional android.server.DockStateEnum dock_state = 15;
+    // The orientation of the device when this event occurred
+    optional android.hardware.biometrics.OrientationEnum orientation = 16;
+    // The fold state of the device when this event occurred
+    optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
+    // The order this event was processed by the framework, if part of a session
+    optional int32 session_order = 18;
+    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
 }
 
 /**
