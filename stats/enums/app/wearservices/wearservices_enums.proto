@@ -72,3 +72,16 @@ enum SetResultEnum {
   // Depicst if the favorite WF is set.
   SET_FAVORITE = 3;
 }
+
+// This enum depicts the source of request.
+// Next ID: 3
+enum RequestSource {
+  // Depicts the source as unknown.
+  SOURCE_UNKNOWN = 0;
+
+  // Depicts source as phone.
+  SOURCE_PHONE = 1;
+
+  // Depicts the source as watch.
+  SOURCE_WATCH = 2;
+}
