@@ -1632,7 +1632,8 @@ message WifiP2pConnectionReported {
     optional int32 frequency_mhz = 7;
     // STA mode channel frequency. 0 means unknown.
     optional int32 sta_frequency_mhz = 8;
-    //
+    // The uid of the app that initiates the connection.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
@@ -10452,6 +10453,8 @@ message PermissionGrantRequestResultReported {
         AUTO_ONE_TIME_PERMISSION_REVOKED = 15;
         // permission was automatically revoked for unused app
         AUTO_UNUSED_APP_PERMISSION_REVOKED = 16;
+        // the user selected media with the photo picker
+        PHOTOS_SELECTED = 17;
     }
     // The result of the permission grant
     optional Result result = 6;
@@ -12212,7 +12215,7 @@ message RuntimePermissionsUpgradeResult {
 }
 
 /**
-* Information about a buttons presented in GrantPermissionsActivty and choice made by user
+* Information about a buttons presented in GrantPermissionsActivity and choice made by user
 */
 message GrantPermissionsActivityButtonActions {
     // Permission granted as result of upgrade
@@ -12314,6 +12317,8 @@ message AppPermissionFragmentActionReported {
         GRANT_FINE_LOCATION = 7;
         // Switch button set to OFF for location accuracy
         REVOKE_FINE_LOCATION = 8;
+        // The user has selected photos/videos from the photo picker
+        PHOTOS_SELECTED = 9;
     }
 
     // Button pressed in the dialog
@@ -17822,6 +17827,13 @@ message VmExited {
     optional DeathReason death_reason = 3;
     // Elapsed time between start and termination of a VM
     optional int64 elapsed_time_millis = 4;
+
+    // Guest time for CPU usage
+    optional int64 guest_time_millis = 5;
+
+    // RSS for memory usage
+    optional int64 rss_vm_kb = 6;
+    optional int64 rss_crosvm_kb = 7;
 }
 
 /**
