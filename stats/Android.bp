@@ -95,7 +95,8 @@ atom_protos = [
     "atoms/placeholder/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
-    "atoms/devicelogs/*.proto"
+    "atoms/devicelogs/*.proto",
+    "atoms/kernel/*.proto",
 ]
 
 cc_library_host_shared {
