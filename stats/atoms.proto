@@ -15001,6 +15001,9 @@ message CellularServiceState {
     // call available). Voice and data RAT will be recorded as
     // NETWORK_TYPE_UNKNOWN in this case.
     optional bool is_emergency_only = 10;
+
+    // Whether internet pdn is up.
+    optional bool is_internet_pdn_up = 11;
 }
 
 /**
