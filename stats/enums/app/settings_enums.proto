@@ -3561,6 +3561,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     LONG_BACKGROUND_TASKS = 1975;
+
+    // OPEN: Settings > Apps > Special app access > Modify system settings
+    // CATEGORY: SETTINGS
+    // OS: U
+    MODIFY_SYSTEM_SETTINGS = 1976;
 }
 
 // Battery Saver schedule types.
