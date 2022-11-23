@@ -3571,6 +3571,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     FUELGAUGE_BATTERY_SAVER_SCHEDULE = 1977;
+
+    // OPEN: Settings > Apps > All apps > one of any app > Open by default
+    // CATEGORY: SETTINGS
+    // OS: U
+    PROGRESS_DIALOG = 1978;
+
+    // OPEN: Settings > Apps > All apps > one of any app > Open by default
+    // CATEGORY: SETTINGS
+    // OS: U
+    SUPPORTED_LINKS_DIALOG = 1979;
 }
 
 // Battery Saver schedule types.
