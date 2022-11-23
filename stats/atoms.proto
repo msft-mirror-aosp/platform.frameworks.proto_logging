@@ -866,6 +866,7 @@ message Atom {
         NfcTagTypeOccurred nfc_tag_type_occurred = 560 [(module) = "nfc"];
         NfcAIDConflictOccurred nfc_aid_conflict_occurred = 561 [(module) = "nfc"];
         NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
+        WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1072,6 +1073,7 @@ message Atom {
         GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
         GameModeListener game_mode_listener = 10167 [(module) = "framework"];
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
+        WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -24411,4 +24413,36 @@ message WsWatchFaceSetActionReported {
 
   // Enum to depict the source of the request. Values (PHONE, WATCH)
    optional android.app.wearservices.RequestSource request_source = 3;
+}
+
+/**
+* Logged when tile list is modified (go/wear-dd-wearservices-telemetry)
+*/
+message WsTileListChanged {
+    enum Event {
+        UNKNOWN = 0;
+        TILE_ADDED = 1;
+        TILE_REMOVED = 2;
+        TILE_MOVED = 3;
+    }
+    // Component package for the tile that is being changed.
+    optional int32 component_package_uid = 1 [(is_uid) = true];
+
+    // Class name for the tile.
+    optional string component_class_name = 2;
+
+    // The event in result of which tile list has changed.
+    optional Event event = 3;
+}
+
+/**
+* A snapshot of all visible tiles in the order they appear on the watch.
+* (go/wear-dd-wearservices-telemetry)
+*/
+message WsTileSnapshot {
+    // Component package for the tiles.
+    repeated int32 component_package_uid = 1 [(is_uid) = true];
+
+    // Class name for the tiles.
+    repeated string component_class_name = 2;
 }
