@@ -3566,6 +3566,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     MODIFY_SYSTEM_SETTINGS = 1976;
+
+    // OPEN: Settings > Battery > Battery Saver > Set a schedule
+    // CATEGORY: SETTINGS
+    // OS: U
+    FUELGAUGE_BATTERY_SAVER_SCHEDULE = 1977;
 }
 
 // Battery Saver schedule types.
