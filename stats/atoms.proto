@@ -834,13 +834,13 @@ message Atom {
             wear_media_output_switcher_connection_reported =
                 540 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherDeviceScanTriggered
-            wear_media_output_swicher_device_scan_triggered =
+            wear_media_output_switcher_device_scan_triggered =
                 541 [(module) = "MediaOutputSwitcher"];
-        WearMediaOutputSwitcherPairedDeviceScanLatency
-            wear_media_output_swicher_paired_device_scan_latency =
+        WearMediaOutputSwitcherFirstDeviceScanLatency
+            wear_media_output_switcher_first_device_scan_latency =
                 542 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherConnectDeviceLatency
-            wear_media_output_swicher_connect_device_latency =
+            wear_media_output_switcher_connect_device_latency =
                 543 [(module) = "MediaOutputSwitcher"];
         PackageManagerSnapshotReported
             package_manager_snapshot_reported = 544 [(module) = "framework"];
@@ -24097,8 +24097,8 @@ message WearMediaOutputSwitcherConnectionReported {
     optional com.google.android.wearable.media.MediumType source = 1;
     optional com.google.android.wearable.media.MediumType target  = 2;
 
-    // Reason for switching the media to different device
-    optional com.google.android.wearable.media.ConnectionResultReason reason = 3;
+    // Reason for the connection reported
+    optional com.google.android.wearable.media.ConnectionReportReason reason = 3;
 
     // Current status of switching the media.
     optional com.google.android.wearable.media.ConnectionState state =4;
@@ -24135,25 +24135,28 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
 }
 
 /**
- * Logs the latency for scanning already paired devices.
+ * Logs the latency for scanning the first device.
  *
  * Logged from:
  * package: vendor/google_clockwork/packages/Media
  */
-message WearMediaOutputSwitcherPairedDeviceScanLatency {
-    // The latency of scanning already paired devices in milli-second
-    optional int64 latency_in_millis = 1;
+message WearMediaOutputSwitcherFirstDeviceScanLatency {
+    // The latency of scanning the first device
+    optional int32 latency_in_millis = 1;
 }
 
 /**
- * Logs the latency for scanning all available devices.
+ * Logs the latency for scanning all devices.
  *
  * Logged from:
  * package: vendor/google_clockwork/packages/Media
  */
 message WearMediaOutputSwitcherAllDevicesScanLatency {
     // The latency of scanning all available devices in milli-second
-    optional int64 latency_in_millis = 1;
+    optional int32 latency_in_millis = 1;
+
+    // Type of target device.
+    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 2;
 }
 
 /**
@@ -24164,7 +24167,7 @@ message WearMediaOutputSwitcherAllDevicesScanLatency {
  */
 message WearMediaOutputSwitcherConnectDeviceLatency {
     // The latency of connecting to an already paired device in milli-second.
-    optional int64 latency_in_millis = 1;
+    optional int32 latency_in_millis = 1;
 
     // Type of target medium.
     optional com.google.android.wearable.media.MediumType target_device_medium_type = 2;
