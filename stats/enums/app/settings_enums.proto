@@ -3581,6 +3581,26 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SUPPORTED_LINKS_DIALOG = 1979;
+
+    // OPEN: Settings > Storage > option menu > Forget
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVATE_VOLUME_FORGET = 1980;
+
+    // OPEN: Settings > Storage > option menu > Format
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVATE_VOLUME_FORMAT = 1981;
+
+    // OPEN: Settings > Storage > option menu > Unmount
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVATE_VOLUME_UNMOUNT = 1982;
+
+    // OPEN: PublicVolumeSettingsActivity (android.provider.action.DOCUMENT_ROOT_SETTINGS action Intent)
+    // CATEGORY: SETTINGS
+    // OS: U
+    PUBLIC_VOLUME_SETTINGS = 1983;
 }
 
 // Battery Saver schedule types.
