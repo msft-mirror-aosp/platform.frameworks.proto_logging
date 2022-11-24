@@ -3566,6 +3566,41 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     MODIFY_SYSTEM_SETTINGS = 1976;
+
+    // OPEN: Settings > Battery > Battery Saver > Set a schedule
+    // CATEGORY: SETTINGS
+    // OS: U
+    FUELGAUGE_BATTERY_SAVER_SCHEDULE = 1977;
+
+    // OPEN: Settings > Apps > All apps > one of any app > Open by default
+    // CATEGORY: SETTINGS
+    // OS: U
+    PROGRESS_DIALOG = 1978;
+
+    // OPEN: Settings > Apps > All apps > one of any app > Open by default
+    // CATEGORY: SETTINGS
+    // OS: U
+    SUPPORTED_LINKS_DIALOG = 1979;
+
+    // OPEN: Settings > Storage > option menu > Forget
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVATE_VOLUME_FORGET = 1980;
+
+    // OPEN: Settings > Storage > option menu > Format
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVATE_VOLUME_FORMAT = 1981;
+
+    // OPEN: Settings > Storage > option menu > Unmount
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVATE_VOLUME_UNMOUNT = 1982;
+
+    // OPEN: PublicVolumeSettingsActivity (android.provider.action.DOCUMENT_ROOT_SETTINGS action Intent)
+    // CATEGORY: SETTINGS
+    // OS: U
+    PUBLIC_VOLUME_SETTINGS = 1983;
 }
 
 // Battery Saver schedule types.
