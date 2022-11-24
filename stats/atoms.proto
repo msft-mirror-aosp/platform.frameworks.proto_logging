@@ -834,13 +834,13 @@ message Atom {
             wear_media_output_switcher_connection_reported =
                 540 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherDeviceScanTriggered
-            wear_media_output_swicher_device_scan_triggered =
+            wear_media_output_switcher_device_scan_triggered =
                 541 [(module) = "MediaOutputSwitcher"];
-        WearMediaOutputSwitcherPairedDeviceScanLatency
-            wear_media_output_swicher_paired_device_scan_latency =
+        WearMediaOutputSwitcherFirstDeviceScanLatency
+            wear_media_output_switcher_first_device_scan_latency =
                 542 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherConnectDeviceLatency
-            wear_media_output_swicher_connect_device_latency =
+            wear_media_output_switcher_connect_device_latency =
                 543 [(module) = "MediaOutputSwitcher"];
         PackageManagerSnapshotReported
             package_manager_snapshot_reported = 544 [(module) = "framework"];
@@ -866,6 +866,7 @@ message Atom {
         NfcTagTypeOccurred nfc_tag_type_occurred = 560 [(module) = "nfc"];
         NfcAIDConflictOccurred nfc_aid_conflict_occurred = 561 [(module) = "nfc"];
         NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
+        WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1072,6 +1073,7 @@ message Atom {
         GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
         GameModeListener game_mode_listener = 10167 [(module) = "framework"];
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
+        WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -12979,6 +12981,8 @@ message AppSearchInitializeStatsReported {
 
 /**
  * Logs detailed stats for querying in AppSearch
+ *
+ * Next tag: 30
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13065,6 +13069,22 @@ message AppSearchQueryStatsReported {
 
     // How many snippets are calculated.
     optional int32 native_num_results_with_snippets = 24;
+
+    // Time passed while waiting to acquire the lock during Java function calls.
+    optional int32 java_lock_acquisition_latency_millis = 25;
+
+    // Time spent on ACL checking. This is the time spent filtering namespaces
+    // based on package permissions and Android permission access.
+    optional int32 acl_check_latency_millis = 26;
+
+    // Time passed while waiting to acquire the lock during native function calls.
+    optional int32 native_lock_acquisition_latency_millis = 27;
+
+    // Time used to send data across the JNI boundary from java to native side.
+    optional int32 java_to_native_jni_latency_millis = 28;
+
+    // Time used to send data across the JNI boundary from native to java side.
+    optional int32 native_to_java_jni_latency_millis = 29;
 }
 
 /**
@@ -22877,10 +22897,46 @@ message BackgroundDexoptJobEnded {
         // `BackgroundDexOptService.Status.STATUS_DEX_OPT_FAILED`.)
         STATUS_JOB_FINISHED = 1;
 
+        // The job is aborted by the job scheduler. The reason is logged in
+        // `cancellation_reason`.
         STATUS_ABORT_BY_CANCELLATION = 2;
+
+        // The job is aborted by itself because there is no space left. Note
+        // that this does NOT include cases where the job is aborted by the job
+        // scheduler due to no space left, which are logged as
+        // `STATUS_ABORT_BY_CANCELLATION` with `cancellation_reason` being
+        // `STOP_REASON_CONSTRAINT_STORAGE_NOT_LOW`.
         STATUS_ABORT_NO_SPACE_LEFT = 3;
+
+        // The job is aborted by itself because of thermal issues. Note that
+        // this does NOT include cases where the job is aborted by the job
+        // scheduler due to thermal issues, which are logged as
+        // `STATUS_ABORT_BY_CANCELLATION` with `cancellation_reason` being
+        // `STOP_REASON_DEVICE_STATE`.
+        //
+        // Only applies to the legacy dexopt job.
         STATUS_ABORT_THERMAL = 4;
+
+        // The job is aborted by itself because of unsatisfied battery level.
+        // Note that this does NOT include cases where the job is aborted by the
+        // job scheduler due to unsatisfied battery level, which are logged as
+        // `STATUS_ABORT_BY_CANCELLATION` with `cancellation_reason` being
+        // `STOP_REASON_CONSTRAINT_BATTERY_NOT_LOW`.
+        //
+        // Only applies to the legacy dexopt job.
         STATUS_ABORT_BATTERY = 5;
+
+        // The job is aborted by the API
+        // `ArtManagerLocal.cancelBackgroundDexoptJob`.
+        //
+        // Only applies to the background dexopt job in ART Service.
+        STATUS_ABORT_BY_API = 6;
+
+        // The job encountered a fatal error, such as a runtime exception. Note
+        // that this does NOT include cases where the job finishes normally with
+        // some dexopt failures on some apps, which are expected and logged as
+        // `STATUS_JOB_FINISHED`.
+        STATUS_FATAL_ERROR = 7;
     }
 
     optional Status status = 1;
@@ -24097,8 +24153,8 @@ message WearMediaOutputSwitcherConnectionReported {
     optional com.google.android.wearable.media.MediumType source = 1;
     optional com.google.android.wearable.media.MediumType target  = 2;
 
-    // Reason for switching the media to different device
-    optional com.google.android.wearable.media.ConnectionResultReason reason = 3;
+    // Reason for the connection reported
+    optional com.google.android.wearable.media.ConnectionReportReason reason = 3;
 
     // Current status of switching the media.
     optional com.google.android.wearable.media.ConnectionState state =4;
@@ -24135,25 +24191,28 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
 }
 
 /**
- * Logs the latency for scanning already paired devices.
+ * Logs the latency for scanning the first device.
  *
  * Logged from:
  * package: vendor/google_clockwork/packages/Media
  */
-message WearMediaOutputSwitcherPairedDeviceScanLatency {
-    // The latency of scanning already paired devices in milli-second
-    optional int64 latency_in_millis = 1;
+message WearMediaOutputSwitcherFirstDeviceScanLatency {
+    // The latency of scanning the first device
+    optional int32 latency_in_millis = 1;
 }
 
 /**
- * Logs the latency for scanning all available devices.
+ * Logs the latency for scanning all devices.
  *
  * Logged from:
  * package: vendor/google_clockwork/packages/Media
  */
 message WearMediaOutputSwitcherAllDevicesScanLatency {
     // The latency of scanning all available devices in milli-second
-    optional int64 latency_in_millis = 1;
+    optional int32 latency_in_millis = 1;
+
+    // Type of target device.
+    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 2;
 }
 
 /**
@@ -24164,7 +24223,7 @@ message WearMediaOutputSwitcherAllDevicesScanLatency {
  */
 message WearMediaOutputSwitcherConnectDeviceLatency {
     // The latency of connecting to an already paired device in milli-second.
-    optional int64 latency_in_millis = 1;
+    optional int32 latency_in_millis = 1;
 
     // Type of target medium.
     optional com.google.android.wearable.media.MediumType target_device_medium_type = 2;
@@ -24372,4 +24431,36 @@ message WsWatchFaceSetActionReported {
 
   // Enum to depict the source of the request. Values (PHONE, WATCH)
    optional android.app.wearservices.RequestSource request_source = 3;
+}
+
+/**
+* Logged when tile list is modified (go/wear-dd-wearservices-telemetry)
+*/
+message WsTileListChanged {
+    enum Event {
+        UNKNOWN = 0;
+        TILE_ADDED = 1;
+        TILE_REMOVED = 2;
+        TILE_MOVED = 3;
+    }
+    // Component package for the tile that is being changed.
+    optional int32 component_package_uid = 1 [(is_uid) = true];
+
+    // Class name for the tile.
+    optional string component_class_name = 2;
+
+    // The event in result of which tile list has changed.
+    optional Event event = 3;
+}
+
+/**
+* A snapshot of all visible tiles in the order they appear on the watch.
+* (go/wear-dd-wearservices-telemetry)
+*/
+message WsTileSnapshot {
+    // Component package for the tiles.
+    repeated int32 component_package_uid = 1 [(is_uid) = true];
+
+    // Class name for the tiles.
+    repeated string component_class_name = 2;
 }
