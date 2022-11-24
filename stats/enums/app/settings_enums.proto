@@ -3616,6 +3616,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_INSTANT_APP_INFO_ACTION = 1986;
+
+    // OPEN: Settings > Pick specific DDS SIM dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_SPECIFIC_DDS_SIM_PICKER = 1987;
 }
 
 // Battery Saver schedule types.
