@@ -3632,6 +3632,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_STORAGE_CATEGORY_WORK = 1988;
+
+    // OPEN: Settings > Apps > Cloned Apps
+    // CATEGORY: SETTINGS
+    // OS: U
+    CLONED_APPS = 1989;
 }
 
 // Battery Saver schedule types.
