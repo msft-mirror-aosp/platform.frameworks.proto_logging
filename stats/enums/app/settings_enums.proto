@@ -3621,6 +3621,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_SPECIFIC_DDS_SIM_PICKER = 1987;
+
+    // OPEN: Settings > Storage -> Work profile tab
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_STORAGE_CATEGORY_WORK = 1988;
 }
 
 // Battery Saver schedule types.
