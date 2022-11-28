@@ -3466,6 +3466,12 @@ enum PageId {
     // OS: T
     SUW_DREAM = 1935;
 
+    // OPEN: Settings > Connected devices > Connection preferences > NFC >
+    // Contactless payments > Default payment app
+    // CATEGORY: SETTINGS
+    // OS: T
+    NFC_DEFAULT_PAYMENT = 1936;
+
     // OPEN: Settings > System > Languages
     // CATEGORY: SETTINGS
     // OS: U
