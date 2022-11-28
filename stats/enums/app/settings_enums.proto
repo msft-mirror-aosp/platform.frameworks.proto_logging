@@ -1894,7 +1894,7 @@ enum PageId {
     // OPEN: Settings > Apps > Dialog that informs user to allow service access for app.
     DIALOG_SERVICE_ACCESS_WARNING = 557;
 
-    // OPEN: Settings > Apps > Dialog for app actions (such as force stop/clear data)
+    // OPEN: Settings > Apps > Dialog for app actions (such as force stop/disable)
     DIALOG_APP_INFO_ACTION = 558;
 
     // OPEN: Settings > Storage > Dialog for forgetting a storage device
@@ -3606,6 +3606,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     REBOOT_WITH_MTE_DIALOG = 1984;
+
+    // OPEN: Settings > Apps > All apps > one of any app > Dialog for base app actions
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_BASE_APP_INFO_ACTION = 1985;
+
+    // OPEN: Settings > Apps > All apps > one of any app > Dialog for clearing the instant app
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_INSTANT_APP_INFO_ACTION = 1986;
+
+    // OPEN: Settings > Pick specific DDS SIM dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_SPECIFIC_DDS_SIM_PICKER = 1987;
 }
 
 // Battery Saver schedule types.
