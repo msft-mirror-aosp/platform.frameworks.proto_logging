@@ -3647,6 +3647,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_MANAGE_PICTURE_IN_PICTURE_DETAIL = 1990;
+
+    // OPEN: Settings > Storage (When work profile exists)
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_STORAGE_PROFILE_SELECTOR = 1991;
 }
 
 // Battery Saver schedule types.
