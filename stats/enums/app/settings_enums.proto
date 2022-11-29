@@ -1092,6 +1092,18 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: S
     ACTION_USER_ADD = 1806;
+
+    // ACTION: Settings > Apps > Cloned Apps > Click on add icon to create clone
+    // app.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_CREATE_CLONE_APP = 1807;
+
+    // ACTION: Settings > Apps > Cloned Apps > Click on trash icon to delete
+    // clone app.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_DELETE_CLONE_APP = 1808;
 }
 
 /**
