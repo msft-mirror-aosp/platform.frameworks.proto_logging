@@ -867,6 +867,7 @@ message Atom {
         NfcAIDConflictOccurred nfc_aid_conflict_occurred = 561 [(module) = "nfc"];
         NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
         WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
+        GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -24465,4 +24466,30 @@ message WsTileSnapshot {
 
     // Class name for the tiles.
     repeated string component_class_name = 2;
+}
+/*
+* Logs calls to getType of a contentProvider, where the caller has potentially no access to
+* the provider.
+*
+* Logs from :
+* frameworks/base/services/core/java/com/android/server/am/ContentProviderHelper.java
+* frameworks/base/core/java/android/content/ContentProvider.java
+*/
+message GetTypeAccessedWithoutPermission{
+  // Indicator of the type of permission failure
+  enum FailureType{
+      AM_FRAMEWORK_PERMISSION = 0;
+      AM_CHECK_URI_PERMISSION = 1;
+      AM_ERROR = 2;
+      PROVIDER_FRAMEWORK_PERMISSION = 3;
+      PROVIDER_CHECK_URI_PERMISSION = 4;
+      PROVIDER_ERROR = 5;
+  }
+  optional FailureType location = 1;
+  // Name of the caller package
+  optional int32 calling_uid = 2 [(is_uid) = true];
+  // Name of the provider (authority) which is being accessed
+  optional string provider = 3;
+  // Type of the uri returned
+  optional string type = 4;
 }
