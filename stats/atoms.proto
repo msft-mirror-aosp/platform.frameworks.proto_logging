@@ -23629,24 +23629,26 @@ message OutgoingShortCodeSms {
  *
  * Logged from:
  *   frameworks/base/packages/SettingsLib/src/com/android/settingslib/bluetooth/
- *   CachedBluetoothDevice.java
+ *   LocalBluetoothProfileManager.java
  */
 message HearingAidInfoReported {
     // The device mode of the bonded hearing aid
-    // Mode definition for hearing aids. See {@link BluetoothHearingAid}.
+    // Mode definition for hearing aids. See {@link HearingAidInfo}
     enum DeviceMode {
         MODE_UNKNOWN = -1;
         MONAURAL = 0;
         BINAURAL = 1;
+        BANDED = 2;
     }
     optional DeviceMode device_mode = 1;
 
     // The device side of the bonded hearing aid
-    // Side definition for hearing aids. See {@link BluetoothHearingAid}.
+    // Side definition for hearing aids. See {@link HearingAidInfo}.
     enum DeviceSide {
         SIDE_UNKNOWN = -1;
         LEFT = 0;
         RIGHT = 1;
+        LEFT_AND_RIGHT = 2;
     }
     optional DeviceSide device_side = 2;
 
