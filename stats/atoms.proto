@@ -24555,12 +24555,13 @@ message WsTileSnapshot {
 message GetTypeAccessedWithoutPermission{
   // Indicator of the type of permission failure
   enum FailureType{
-      AM_FRAMEWORK_PERMISSION = 0;
-      AM_CHECK_URI_PERMISSION = 1;
-      AM_ERROR = 2;
-      PROVIDER_FRAMEWORK_PERMISSION = 3;
-      PROVIDER_CHECK_URI_PERMISSION = 4;
-      PROVIDER_ERROR = 5;
+      UNSPECIFIED = 0;
+      AM_FRAMEWORK_PERMISSION = 1;
+      AM_CHECK_URI_PERMISSION = 2;
+      AM_ERROR = 3;
+      PROVIDER_FRAMEWORK_PERMISSION = 4;
+      PROVIDER_CHECK_URI_PERMISSION = 5;
+      PROVIDER_ERROR = 6;
   }
   optional FailureType location = 1;
   // Name of the caller package
