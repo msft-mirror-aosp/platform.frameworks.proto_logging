@@ -1082,6 +1082,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_LONG_BACKGROUND_TASKS_TOGGLE = 1804;
+
+    // ACTION: Settings > Battery settings > Battery tip > Dock Defender tip
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTION_DOCK_DEFENDER_TIP = 1805;
 }
 
 /**
