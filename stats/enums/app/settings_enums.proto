@@ -3696,6 +3696,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     PRIVACY_CONTROLS = 1999;
+
+    // OPEN: Settings > System > Multi user > Add user > Grant admin privileges?
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_GRANT_USER_ADMIN = 2000;
+
+    // OPEN: Settings > System > Multi user > User > Grant admin privileges (Toggle off)
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_REVOKE_USER_ADMIN = 2001;
 }
 
 // Battery Saver schedule types.
