@@ -3642,6 +3642,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     CLONED_APPS = 1989;
+
+    // OPEN: Settings > Apps > Special app access > Picture-in-picture > on of any app
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_MANAGE_PICTURE_IN_PICTURE_DETAIL = 1990;
 }
 
 // Battery Saver schedule types.
