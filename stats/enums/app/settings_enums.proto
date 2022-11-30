@@ -3652,6 +3652,26 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_STORAGE_PROFILE_SELECTOR = 1991;
+
+    // OPEN: Settings > Location > Location Services > Bluetooth scanning
+    // CATEGORY: SETTINGS
+    // OS: U
+    LOCATION_SERVICES_BLUETOOTH_SCANNING = 1992;
+
+    // OPEN: Settings > Location > Location Services > Wi-Fi scanning
+    // CATEGORY: SETTINGS
+    // OS: U
+    LOCATION_SERVICES_WIFI_SCANNING = 1993;
+
+    // OPEN: Settings > Location > Location Services > Work
+    // CATEGORY: SETTINGS
+    // OS: U
+    LOCATION_SERVICES_FOR_WORK = 1994;
+
+    // OPEN: Settings > Location
+    // CATEGORY: SETTINGS
+    // OS: U
+    LOCATION_PERSONAL = 1995;
 }
 
 // Battery Saver schedule types.
