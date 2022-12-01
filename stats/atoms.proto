@@ -10188,6 +10188,8 @@ message SplitscreenUIChanged {
         ROOT_TASK_VANISHED = 6;
         APP_FINISHED = 7;
         APP_DOES_NOT_SUPPORT_MULTIWINDOW = 8;
+        CHILD_TASK_ENTER_PIP = 9;
+        RECREATE_SPLIT = 10;
     }
 
     // The event action
