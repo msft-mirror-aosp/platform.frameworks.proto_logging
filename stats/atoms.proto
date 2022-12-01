@@ -21832,8 +21832,8 @@ message GameModeInfo {
     // UID of the game package.
     optional int32 game_uid = 1 [(is_uid) = true];
 
-    // Game modes currently opted in by the game.
-    repeated android.app.GameMode opted_in_game_modes = 2;
+    // Game modes currently overridden by the game.
+    repeated android.app.GameMode overridden_game_modes = 2;
 
     // Game modes available to user for the game.
     repeated android.app.GameMode available_game_modes = 3;
