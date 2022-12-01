@@ -23,6 +23,7 @@ option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
+import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
@@ -113,7 +114,7 @@ message Atom {
         BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
-        GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
+        gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
         SyncStateChanged sync_state_changed = 7 [(module) = "framework", (module) = "statsdtest"];
         ScheduledJobStateChanged scheduled_job_state_changed =
                 8 [(module) = "framework", (module) = "statsdtest"];
@@ -727,6 +728,7 @@ message Atom {
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
+        UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         BackgroundFetchProcessReported background_fetch_process_reported =
@@ -748,6 +750,11 @@ message Atom {
         DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
         NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
+        BluetoothDisconnectionReasonReported bluetooth_disconnection_reason_reported = 529 [(module) = "bluetooth"];
+        BluetoothLocalVersionsReported bluetooth_local_versions_reported = 530 [(module) = "bluetooth"];
+        BluetoothRemoteSupportedFeaturesReported bluetooth_remote_supported_features_reported = 531 [(module) = "bluetooth"];
+        BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
+        BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
         AdServicesGetTopicsReported ad_services_get_topics_reported =
             535 [(module) = "adservices", (truncate_timestamp) = true];
         AdServicesEpochComputationGetTopTopicsReported
@@ -756,12 +763,15 @@ message Atom {
         AdServicesEpochComputationClassifierReported
             ad_services_epoch_computation_classifier_reported =
                 537 [(module) = "adservices", (truncate_timestamp) = true];
+        ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art"];
+        NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
+        NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10165
+    // Next: 10169
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -954,6 +964,7 @@ message Atom {
         NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
         ConnectivityStateSample connectivity_state_sample = 10163 [(module) = "connectivity"];
         NetworkSelectionRematchReasonsInfo network_selection_rematch_reasons_info = 10164 [(module) = "connectivity"];
+        NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1498,7 +1509,8 @@ message WifiP2pConnectionReported {
     optional int32 frequency_mhz = 7;
     // STA mode channel frequency. 0 means unknown.
     optional int32 sta_frequency_mhz = 8;
-    //
+    // The uid of the app that initiates the connection.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
@@ -1672,22 +1684,6 @@ message SensorStateChanged {
         ON = 1;
     }
     optional State state = 3;
-}
-
-/**
- * Logs when GPS state changes.
- *
- * Logged from:
- *   frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java
- */
-message GpsScanStateChanged {
-    repeated AttributionNode attribution_node = 1;
-
-    enum State {
-        OFF = 0;
-        ON = 1;
-    }
-    optional State state = 2;
 }
 
 /**
@@ -3689,6 +3685,81 @@ message BluetoothCodePathCounter {
 message BluetoothLeBatchScanReportDelay {
     optional int32 application_uid = 1;
     optional int64 application_report_delay_millis = 2;
+}
+
+message BluetoothLocalVersionsReported {
+    // Chip Manufacturer name
+    optional int32 lmp_manufacturer_name = 1;
+    // LMP Version
+    optional int32 lmp_version = 2;
+    // LMP Subversion
+    optional int32 lmp_subversion = 3;
+    // HCI Version
+    optional int32 hci_version = 4;
+    // HCI Revision
+    optional int32 hci_revision = 5;
+}
+
+message BluetoothRemoteSupportedFeaturesReported {
+    // An identifier that can be used to match events for this device.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired devices, it stays consistent between Bluetooth toggling for the
+    // same remote device.
+    // For unpaired devices, it stays consistent within the same Bluetooth adapter
+    // session for the same remote device.
+    // Default: 0 if the device's metric id is unknown.
+    optional int32 metric_id = 1;
+    // Page of the feature bit masks
+    optional int32 page = 2;
+    // Bit mask of features
+    optional int64 features_page2 = 3;
+    // Connection handle of this connection if available
+    // Range: 0x0000 - 0x0EFF (12 bits)
+    // Default: 0xFFFF if the handle is unknown
+    optional int32 connection_handle = 4;
+}
+
+message BluetoothLocalSupportedFeaturesReported {
+    // Page of the feature bit masks
+    optional int32 page_num = 1;
+    // Bit mask of features
+    optional int64 features_page = 2;
+}
+
+message BluetoothDisconnectionReasonReported {
+    // Disconnection reason
+    optional int32 reason = 1;
+    // An identifier that can be used to match events for this device.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired devices, it stays consistent between Bluetooth toggling for the
+    // same remote device.
+    // For unpaired devices, it stays consistent within the same Bluetooth adapter
+    // session for the same remote device.
+    // Default: 0 if the device's metric id is unknown.
+    optional int32 metric_id = 2;
+    // Connection handle of this connection if available
+    // Range: 0x0000 - 0x0EFF (12 bits)
+    // Default: 0xFFFF if the handle is unknown
+    optional int32 connection_handle = 3;
+}
+
+message BluetoothGattAppInfo {
+    // An index to group connection events by session. It's a counter generated by
+    // each profile. e.g. Gatt server generate such id to identify Gatt apps
+    optional int32 session_index = 1;
+    // An identifier that can be used to match events for this device.
+    // The incremental identifier is locally generated and guaranteed not derived
+    // from any globally unique hardware id.
+    // For paired devices, it stays consistent between Bluetooth toggling for the
+    // same remote device.
+    // For unpaired devices, it stays consistent within the same Bluetooth adapter
+    // session for the same remote device.
+    // Default: 0 if the device's metric id is unknown.
+    optional int32 metric_id = 2;
+    // UID of the GATT app
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -20065,6 +20136,28 @@ message UwbSessionClosed {
 }
 
 /*
+ * Logs details of start UWB ranging
+ * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
+ */
+message UwbStartRanging {
+    // UWB profiles
+    optional android.uwb.Profile profile = 1;
+    // Scrambled timestamp sequence (STS) Type
+    optional android.uwb.Sts sts = 2;
+    // Was it an initiator as opposed to responder?
+    optional bool is_initiator = 3;
+    // Was it a controller as opposed to controlee?
+    optional bool is_controller = 4;
+    // Was the connection done by the app as opposed to by the framework?
+    optional bool is_framework_initiated = 5;
+    // Was it out-of-band connection as opposed to in-band connection?
+    // Note that this field is ignored if is_framework_initiated is false.
+    optional bool is_out_of_band = 6;
+    // The status code of ranging start.
+    optional android.uwb.RangingStatus status = 7;
+}
+
+/*
  * Log that the ranging measurement is received
  * Logged from packages/modules/Uwb/service/java/com/android/server/uwb/UwbMetrics.java
  */
@@ -20985,6 +21078,7 @@ message AdServicesApiCalled {
         REGISTER_WEB_TRIGGER = 18;
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
+        SELECT_ADS_FROM_OUTCOMES = 21;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22304,4 +22398,89 @@ message NetworkSelectionPerformance {
 
     // The latency of selection issued in milli-second
     optional int32 selection_issued_latency_milli = 5;
+}
+
+message NetworkSliceRequestCountSample {
+    // Bitfield representing the network's capability(e.g. NET_CAPABILITY_PRIORITIZE_LATENCY),
+    // defined in packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int64 slice_id = 1;
+
+    // Bitfield representing the network's enterprise capability identifier
+    // (e.g. NET_ENTERPRISE_ID_1), defined in
+    // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 enterprise_id = 2;
+
+    // number of request for this slice
+    optional int32 request_count = 3;
+
+    // number of apps with outstanding request(s) for this slice
+    optional int32 distinct_app_count = 4;
+}
+
+message NetworkSliceSessionEnded {
+    // Bitfield representing the network's capability(e.g. NET_CAPABILITY_PRIORITIZE_LATENCY),
+    // defined in packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int64 slice_id = 1;
+
+    // Bitfield representing the network's enterprise capability identifier
+    // (e.g. NET_ENTERPRISE_ID_1), defined in
+    // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 enterprise_id = 2;
+
+    // Number of bytes received at the device on this slice id
+    optional int64 rx_bytes = 3;
+
+    // Number of bytes transmitted by the device on this slice id
+    optional int64 tx_bytes = 4;
+
+    // Number of apps that have used this slice
+    optional int32 number_of_apps = 5;
+
+    // How long(in seconds) this slice has been connected
+    optional int32 slice_connection_duration_sec = 6;
+}
+
+message NetworkSliceDailyDataUsageReported {
+    // Bitfield representing the network's capability(e.g. NET_CAPABILITY_PRIORITIZE_LATENCY),
+    // defined in packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int64 slice_id = 1;
+
+    // Bitfield representing the network's enterprise capability identifier
+    // (e.g. NET_ENTERPRISE_ID_1), defined in
+    // packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+    optional int32 enterprise_id = 2;
+
+    // Number of bytes received at the device on this slice id
+    optional int64 rx_bytes = 3;
+
+    // Number of bytes transmitted by the device on this slice id
+    optional int64 tx_bytes = 4;
+
+    // Number of apps that have used this slice
+    optional int32 number_of_apps = 5;
+
+    // How long(in seconds) this slice has been connected
+    optional int32 slice_connection_duration_sec = 6;
+}
+
+/**
+ * Logs ART metrics that are device-specific (as opposed to app-specific ones logged by
+ * ArtDatumReported).
+ *
+ * Logged from:
+ *   art/runtime/metrics/statsd.cc
+ */
+message ArtDeviceDatumReported {
+    enum BootImageStatus {
+        // Unknown value.
+        STATUS_UNSPECIFIED = 0;
+        // Boot image(s) are fully usable.
+        STATUS_FULL = 1;
+        // Only the minimal boot image is usable.
+        STATUS_MINIMAL = 2;
+        // No boot image is usable.
+        STATUS_NONE = 3;
+    }
+
+    optional BootImageStatus boot_image_status = 1;
 }
