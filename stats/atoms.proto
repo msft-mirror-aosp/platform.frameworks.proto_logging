@@ -870,6 +870,7 @@ message Atom {
         GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
         ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
         MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
+        WsWatchFaceComplicationSetChanged ws_watch_face_complication_set_changed = 567 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1077,6 +1078,7 @@ message Atom {
         GameModeListener game_mode_listener = 10167 [(module) = "framework"];
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
         WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
+        WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -24569,10 +24571,9 @@ message WsWatchFaceSetActionReported {
 */
 message WsTileListChanged {
     enum Event {
-        UNKNOWN = 0;
+        EVENT_UNKNOWN = 0;
         TILE_ADDED = 1;
         TILE_REMOVED = 2;
-        TILE_MOVED = 3;
     }
     // Component package for the tile that is being changed.
     optional int32 component_package_uid = 1 [(is_uid) = true];
@@ -24582,6 +24583,16 @@ message WsTileListChanged {
 
     // The event in result of which tile list has changed.
     optional Event event = 3;
+
+    enum RequestSource {
+        SOURCE_UNKNOWN = 0;
+        SOURCE_PHONE = 1;
+        SOURCE_WATCH = 2;
+    }
+
+    // Where a tile has been changed from. When changed on the companion equals
+    // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
+    optional RequestSource request_source = 4;
 }
 
 /**
@@ -24589,8 +24600,8 @@ message WsTileListChanged {
 * (go/wear-dd-wearservices-telemetry)
 */
 message WsTileSnapshot {
-    // Component package for the tiles.
-    repeated int32 component_package_uid = 1 [(is_uid) = true];
+    // Component package name for the tiles.
+    repeated string component_package_name = 1;
 
     // Class name for the tiles.
     repeated string component_class_name = 2;
@@ -24622,3 +24633,48 @@ message GetTypeAccessedWithoutPermission{
   // Type of the uri returned
   optional string type = 4;
 }
+
+/** Logged when a complication is changed on a watch face. */
+message WsWatchFaceComplicationSetChanged {
+  enum Event {
+    EVENT_UNKNOWN = 0;
+    COMPLICATION_ADDED = 1;
+    COMPLICATION_REMOVED = 2;
+  }
+  // Complication component package uid.
+  optional int32 complication_component_package_uid = 1 [(is_uid) = true];
+
+  // Complication component class name.
+  optional string complication_component_class_name = 2;
+
+  // Watch face package uid
+  optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+
+  optional Event event = 4;
+
+  enum RequestSource {
+    SOURCE_UNKNOWN = 0;
+    SOURCE_PHONE = 1;
+    SOURCE_WATCH = 2;
+  }
+
+  // Where a complication has been changed from. When changed on the companion equals
+  // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
+  optional RequestSource request_source = 5;
+}
+
+/** Snapshot of all active complications on the current watch face.
+*   (go/wear-dd-wearservices-telemetry)
+*/
+message WsActiveWatchFaceComplicationSetSnapshot {
+  // Complication package name.
+  repeated string complication_component_package_name = 1;
+
+  // Complication component class name.
+  repeated string complication_component_class_name = 2;
+
+  // Active watch face package uid.
+  optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+}
+
+
