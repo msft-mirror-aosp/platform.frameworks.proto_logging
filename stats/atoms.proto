@@ -48,6 +48,7 @@ import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto"
 import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/drm/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/mms/enums.proto";
@@ -870,6 +871,13 @@ message Atom {
         GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
         ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
         MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
+        WsWatchFaceComplicationSetChanged ws_watch_face_complication_set_changed = 567 [(module) = "wearservices"];
+        MediaDrmCreated media_drm_created = 568 [(module) = "media_metrics"];
+        MediaDrmErrored media_drm_errored = 569 [(module) = "media_metrics"];
+        MediaDrmSessionOpened media_drm_session_opened = 570
+            [(module) = "media_metrics"];
+        MediaDrmSessionClosed media_drm_session_closed = 571
+            [(module) = "media_metrics"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1077,6 +1085,7 @@ message Atom {
         GameModeListener game_mode_listener = 10167 [(module) = "framework"];
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
         WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
+        WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -22044,6 +22053,45 @@ message HotwordDetectorEvents {
 
         // Indicates that the updateState was not invoked successfully.
         CALL_UPDATE_STATE_EXCEPTION = 19;
+
+        // Indicates that the audio egress starts.
+        AUDIO_EGRESS_START = 20;
+
+        // Indicates that the audio egress ends.
+        AUDIO_EGRESS_END = 21;
+
+        // Indicates that the audio egress got interrupted exception.
+        AUDIO_EGRESS_INTERRUPTED_EXCEPTION = 22;
+
+        // Indicates that the client is not granted permission to access audio egress.
+        AUDIO_EGRESS_NO_PERMISSION = 23;
+
+        // Indicates that the client is inactive over a period of time.
+        AUDIO_EGRESS_INACTIVE_CLIENT = 24;
+
+        // Indicates that the HotwordDetectionService is inactive over a period
+        // of time.
+        AUDIO_EGRESS_INACTIVE_HOTWORD_DETECTION_SERVICE = 25;
+
+        // Indicates that the list of audio stream is empty.
+        AUDIO_EGRESS_EMPTY_AUDIO_STREAM_LIST = 26;
+
+        // Indicates that there is no data from the system audio stream.
+        AUDIO_EGRESS_SOURCE_IS_EMPTY = 27;
+
+        // Indicates that the copy buffer size the client sets is illegal.
+        AUDIO_EGRESS_ILLEGAL_COPY_BUFFER_SIZE = 28;
+
+        // Indicates that the audio egress is closed with error from the system.
+        AUDIO_EGRESS_CLOSE_ERROR_FROM_SYSTEM = 29;
+
+        // Indicates that the audio egress is closed with error from the client
+        // side.
+        AUDIO_EGRESS_CLOSE_ERROR_FROM_CLIENT = 30;
+
+        // Indicates that the audio egress is closed with error from the
+        // HotwordDetectionService.
+        AUDIO_EGRESS_CLOSE_ERROR_FROM_HOTWORD_DETECTION_SERVICE = 31;
     }
     optional Event event = 2;
 
@@ -24569,10 +24617,9 @@ message WsWatchFaceSetActionReported {
 */
 message WsTileListChanged {
     enum Event {
-        UNKNOWN = 0;
+        EVENT_UNKNOWN = 0;
         TILE_ADDED = 1;
         TILE_REMOVED = 2;
-        TILE_MOVED = 3;
     }
     // Component package for the tile that is being changed.
     optional int32 component_package_uid = 1 [(is_uid) = true];
@@ -24582,6 +24629,16 @@ message WsTileListChanged {
 
     // The event in result of which tile list has changed.
     optional Event event = 3;
+
+    enum RequestSource {
+        SOURCE_UNKNOWN = 0;
+        SOURCE_PHONE = 1;
+        SOURCE_WATCH = 2;
+    }
+
+    // Where a tile has been changed from. When changed on the companion equals
+    // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
+    optional RequestSource request_source = 4;
 }
 
 /**
@@ -24589,8 +24646,8 @@ message WsTileListChanged {
 * (go/wear-dd-wearservices-telemetry)
 */
 message WsTileSnapshot {
-    // Component package for the tiles.
-    repeated int32 component_package_uid = 1 [(is_uid) = true];
+    // Component package name for the tiles.
+    repeated string component_package_name = 1;
 
     // Class name for the tiles.
     repeated string component_class_name = 2;
@@ -24621,4 +24678,126 @@ message GetTypeAccessedWithoutPermission{
   optional string provider = 3;
   // Type of the uri returned
   optional string type = 4;
+}
+
+/** Logged when a complication is changed on a watch face. */
+message WsWatchFaceComplicationSetChanged {
+  enum Event {
+    EVENT_UNKNOWN = 0;
+    COMPLICATION_ADDED = 1;
+    COMPLICATION_REMOVED = 2;
+  }
+  // Complication component package uid.
+  optional int32 complication_component_package_uid = 1 [(is_uid) = true];
+
+  // Complication component class name.
+  optional string complication_component_class_name = 2;
+
+  // Watch face package uid
+  optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+
+  optional Event event = 4;
+
+  enum RequestSource {
+    SOURCE_UNKNOWN = 0;
+    SOURCE_PHONE = 1;
+    SOURCE_WATCH = 2;
+  }
+
+  // Where a complication has been changed from. When changed on the companion equals
+  // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
+  optional RequestSource request_source = 5;
+}
+
+/** Snapshot of all active complications on the current watch face.
+*   (go/wear-dd-wearservices-telemetry)
+*/
+message WsActiveWatchFaceComplicationSetSnapshot {
+  // Complication package name.
+  repeated string complication_component_package_name = 1;
+
+  // Complication component class name.
+  repeated string complication_component_class_name = 2;
+
+  // Active watch face package uid.
+  optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+}
+
+/**
+ * Logs when a MediaDrm object is created.
+ *
+ * Logged from:
+ *   frameworks/av/drm/libmediadrm/DrmHal.cpp
+ */
+message MediaDrmCreated {
+  // UUID of the crypto scheme.
+  optional int64 uuid_lsb = 1;
+  optional int64 uuid_msb = 2;
+  // Randomly generated, globally unique 128 bit random number tied
+  // to a MediaDrm object; it has no device or user association.
+  optional int64 object_nonce_lsb = 3;
+  optional int64 object_nonce_msb = 4;
+  // Version code if MediaDrm plugin is on an apex.
+  optional int64 apex_version = 5;
+}
+
+/**
+ * Logs when a MediaDrm object encountered an error.
+ *
+ * Logged from:
+ *   frameworks/av/drm/libmediadrm/DrmHal.cpp
+ */
+message MediaDrmErrored {
+  // Randomly generated, globally unique 128 bit random number tied
+  // to a MediaDrm object; it has no device or user association.
+  optional int64 object_nonce_lsb = 1;
+  optional int64 object_nonce_msb = 2;
+  // Randomly generated, globally unique 128 bit random number tied
+  // to a MediaDrm session; it has no device or user association.
+  optional int64 session_nonce_lsb = 3;
+  optional int64 session_nonce_msb = 4;
+  // The API that triggered the error.
+  optional android.media.drm.DrmApi api = 5;
+  // The encountered framework error.
+  optional android.media.drm.Status error_code = 6;
+  // Underlying plugin-specific (content decryption module) error.
+  optional int32 cdm_err = 7;
+  // Underlying OEM-specific error.
+  optional int32 oem_err = 8;
+}
+
+/**
+ * Logs when a MediaDrm session is opened.
+ *
+ * Logged from:
+ *   frameworks/av/drm/libmediadrm/DrmHal.cpp
+ */
+message MediaDrmSessionOpened {
+  // Randomly generated, globally unique 128 bit random number tied
+  // to a MediaDrm object; it has no device or user association.
+  optional int64 object_nonce_lsb = 1;
+  optional int64 object_nonce_msb = 2;
+  // Randomly generated, globally unique 128 bit random number tied
+  // to a MediaDrm session; it has no device or user association.
+  optional int64 session_nonce_lsb = 3;
+  optional int64 session_nonce_msb = 4;
+  // Input security level to MediaDrm#openSession.
+  optional android.media.drm.SecurityLevel requested_security_level = 5;
+  // Actual security level of the opened session.
+  optional android.media.drm.SecurityLevel opened_security_level = 6;
+}
+
+/**
+ * Logs when a MediaDrm session is closed.
+ *
+ * Logged from:
+ *   frameworks/av/drm/libmediadrm/DrmHal.cpp
+ */
+message MediaDrmSessionClosed {
+  // Randomly generated, globally unique 128 bit random number tied
+  // to a MediaDrm session; it has no device or user association.
+  optional int64 session_nonce_lsb = 1;
+  optional int64 session_nonce_msb = 2;
+  // Duration between session open-close in ms.
+  optional int64 session_lifespan_ms = 3;
 }
