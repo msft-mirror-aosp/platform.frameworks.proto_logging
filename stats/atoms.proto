@@ -22053,6 +22053,45 @@ message HotwordDetectorEvents {
 
         // Indicates that the updateState was not invoked successfully.
         CALL_UPDATE_STATE_EXCEPTION = 19;
+
+        // Indicates that the audio egress starts.
+        AUDIO_EGRESS_START = 20;
+
+        // Indicates that the audio egress ends.
+        AUDIO_EGRESS_END = 21;
+
+        // Indicates that the audio egress got interrupted exception.
+        AUDIO_EGRESS_INTERRUPTED_EXCEPTION = 22;
+
+        // Indicates that the client is not granted permission to access audio egress.
+        AUDIO_EGRESS_NO_PERMISSION = 23;
+
+        // Indicates that the client is inactive over a period of time.
+        AUDIO_EGRESS_INACTIVE_CLIENT = 24;
+
+        // Indicates that the HotwordDetectionService is inactive over a period
+        // of time.
+        AUDIO_EGRESS_INACTIVE_HOTWORD_DETECTION_SERVICE = 25;
+
+        // Indicates that the list of audio stream is empty.
+        AUDIO_EGRESS_EMPTY_AUDIO_STREAM_LIST = 26;
+
+        // Indicates that there is no data from the system audio stream.
+        AUDIO_EGRESS_SOURCE_IS_EMPTY = 27;
+
+        // Indicates that the copy buffer size the client sets is illegal.
+        AUDIO_EGRESS_ILLEGAL_COPY_BUFFER_SIZE = 28;
+
+        // Indicates that the audio egress is closed with error from the system.
+        AUDIO_EGRESS_CLOSE_ERROR_FROM_SYSTEM = 29;
+
+        // Indicates that the audio egress is closed with error from the client
+        // side.
+        AUDIO_EGRESS_CLOSE_ERROR_FROM_CLIENT = 30;
+
+        // Indicates that the audio egress is closed with error from the
+        // HotwordDetectionService.
+        AUDIO_EGRESS_CLOSE_ERROR_FROM_HOTWORD_DETECTION_SERVICE = 31;
     }
     optional Event event = 2;
 
