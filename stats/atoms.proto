@@ -24303,10 +24303,10 @@ message WearMediaOutputSwitcherLaunched {
     optional string triggering_package_name = 1;
 
     // The operation type for invoking the OutputSwitcher
-    optional com.google.android.wearable.media.OpType op_type = 2;
+    optional com.google.android.wearable.media.routing.OpType op_type = 2;
 
     // The result of OutputSwticher launch.
-    optional com.google.android.wearable.media.LaunchResult result = 3;
+    optional com.google.android.wearable.media.routing.LaunchResult result = 3;
 }
 
 /**
@@ -24329,20 +24329,20 @@ message WearMediaOutputSwitcherFinished {
  */
 message WearMediaOutputSwitcherConnectionReported {
     // Type of the medium through which media is played
-    optional com.google.android.wearable.media.MediumType source = 1;
-    optional com.google.android.wearable.media.MediumType target  = 2;
+    optional com.google.android.wearable.media.routing.MediumType source = 1;
+    optional com.google.android.wearable.media.routing.MediumType target  = 2;
 
     // Reason for the connection reported
-    optional com.google.android.wearable.media.ConnectionReportReason reason = 3;
+    optional com.google.android.wearable.media.routing.ConnectionReportReason reason = 3;
 
     // Current status of switching the media.
-    optional com.google.android.wearable.media.ConnectionState state =4;
+    optional com.google.android.wearable.media.routing.ConnectionState state =4;
 
     // Type of target device.
-    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 5;
+    optional com.google.android.wearable.media.routing.MediaDeviceType target_device_type = 5;
 
     // The operation type for invoking the OutputSwitcher
-    optional com.google.android.wearable.media.OpType op_type = 6;
+    optional com.google.android.wearable.media.routing.OpType op_type = 6;
 
     optional bool is_retry = 7;
 
@@ -24360,13 +24360,13 @@ message WearMediaOutputSwitcherConnectionReported {
  */
 message WearMediaOutputSwitcherDeviceScanTriggered {
     // The current status of the scanned device.
-    optional com.google.android.wearable.media.ScanState scan_state = 1;
+    optional com.google.android.wearable.media.routing.ScanState scan_state = 1;
 
     // Name of the media app package from where Output Switcher got triggered
     // when user clicks on the 'play' button.
     optional string triggering_package_name = 2;
 
-    optional com.google.android.wearable.media.OpType op_type = 3;
+    optional com.google.android.wearable.media.routing.OpType op_type = 3;
 }
 
 /**
@@ -24391,7 +24391,7 @@ message WearMediaOutputSwitcherAllDevicesScanLatency {
     optional int32 latency_in_millis = 1;
 
     // Type of target device.
-    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 2;
+    optional com.google.android.wearable.media.routing.MediaDeviceType target_device_type = 2;
 }
 
 /**
@@ -24405,10 +24405,10 @@ message WearMediaOutputSwitcherConnectDeviceLatency {
     optional int32 latency_in_millis = 1;
 
     // Type of target medium.
-    optional com.google.android.wearable.media.MediumType target_device_medium_type = 2;
+    optional com.google.android.wearable.media.routing.MediumType target_device_medium_type = 2;
 
     // Type of target device.
-    optional com.google.android.wearable.media.MediaDeviceType target_device_type = 3;
+    optional com.google.android.wearable.media.routing.MediaDeviceType target_device_type = 3;
 }
 
 /**
