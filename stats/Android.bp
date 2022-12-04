@@ -85,9 +85,8 @@ atom_protos = [
 cc_library_host_shared {
     name: "libstats_proto_host",
     srcs: [
-        ":libstats_atoms_proto",
         "atom_field_options.proto",
-
+        ":libstats_atoms_proto",
         ":libstats_atom_message_protos",
     ] + enum_protos,
 
