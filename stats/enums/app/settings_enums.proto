@@ -3672,6 +3672,14 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     LOCATION_PERSONAL = 1995;
+
+    // OPEN: Settings > Location > See All
+    // CATEGORY: SETTINGS
+    // OS: U
+    LOCATION_RECENT_ACCESS_ALL = 1996;
+
+    // OPEN: Settings > Network & internet > Calls & SMS.
+    NETWORK_PROVIDER_CALLS_SMS = 1997;
 }
 
 // Battery Saver schedule types.
