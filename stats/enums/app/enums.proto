@@ -515,6 +515,12 @@ enum AppExitSubReasonCode {
      * reason is {@link #REASON_OTHER}.
      */
     SUBREASON_UNDELIVERED_BROADCAST = 26;
+
+    /**
+     * The process was killed because its associated SDK sandbox process (where it had loaded SDKs)
+     * had died; this would be set only when the reason is {@link #REASON_DEPENDENCY_DIED}.
+     */
+    SUBREASON_SDK_SANDBOX_DIED = 27;
 }
 
 /**
