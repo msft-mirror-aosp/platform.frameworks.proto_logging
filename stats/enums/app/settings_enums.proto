@@ -3672,11 +3672,6 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     LOCATION_PERSONAL = 1995;
-
-    // OPEN: Settings > Location > See All
-    // CATEGORY: SETTINGS
-    // OS: U
-    LOCATION_RECENT_ACCESS_ALL = 1996;
 }
 
 // Battery Saver schedule types.

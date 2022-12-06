@@ -16,7 +16,7 @@
 
 syntax = "proto2";
 
-package com.google.android.wearable.media.routing;
+package com.google.android.wearable.media;
 option java_multiple_files = true;
 
 // Indicates the type of operation for invoking the OutputSwitcher.
