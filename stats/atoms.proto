@@ -24621,8 +24621,8 @@ message WsWatchFaceFavouriteActionReported {
    // Depicts the action for wf favorites eg: Add/Remove.
    optional android.app.wearservices.ActionEnum favorite_action = 2;
 
-   // Depicts if the source of the favorite action is performed on watch or not.
-   optional bool is_source_watch = 3;
+   // Enum to depict the source of the request. Values (PHONE, WATCH)
+   optional android.app.wearservices.RequestSource request_source = 3;
 }
 
 /**
