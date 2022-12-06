@@ -1087,6 +1087,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DOCK_DEFENDER_TIP = 1805;
+
+    // ACTION: Settings > User > Add user
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_USER_ADD = 1806;
 }
 
 /**
