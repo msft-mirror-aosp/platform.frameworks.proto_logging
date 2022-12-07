@@ -1087,6 +1087,8 @@ message Atom {
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
         WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
         WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
+        ProcessState process_state = 10171 [(module) = "framework"];
+        ProcessAssociation process_association = 10172 [(module) = "framework"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1270,6 +1272,62 @@ message ProcessStateChanged {
     optional int64 version = 5;
     // The state, from frameworks/proto_logging/stats/enums/app/enums.proto.
     optional android.app.ProcessStateEnum state = 4;
+}
+
+/**
+ * Logs how long a process was in each of the states.
+ */
+message ProcessState {
+  optional int32 uid = 1 [(is_uid) = true];
+  optional string process_name = 2;
+
+  // Measurement period. Can be used as denominator.
+  // The gauge duration is not representative because we want uptime and also
+  // the measurement usually ends at a time earlier than pull time.
+  optional int32 measurement_start_uptime_seconds = 3;
+  optional int32 measurement_end_uptime_seconds = 4;
+  optional int32 measurement_duration_uptime_seconds = 5;
+
+  // Individual state breakdowns, summing up to total process runtime.
+  // Flattening (instead of a dimensions - value pair) for two reasons:
+  // 1. Makes metric filtering possible (can pull the entire process data based
+  //    on a specific value.
+  // 2. More efficient to encode (proto id serves as dimension).
+  optional int32 top_seconds = 6;
+  optional int32 fgs_seconds = 7;
+  optional int32 bound_top_seconds = 8;
+  optional int32 bound_fgs_seconds = 9;
+  optional int32 important_foreground_seconds = 10;
+  optional int32 cached_seconds = 11;
+  optional int32 frozen_seconds = 12;
+  optional int32 other_seconds = 13;
+}
+
+/**
+ * Logs association between processes.
+ */
+message ProcessAssociation {
+  optional int32 client_uid = 1 [(is_uid) = true];
+
+  // If we only care about the package name name we do not need to upload this
+  // (even though we should add it to the atom for filtering / sharding)
+  optional string client_process = 2;
+
+  optional int32 service_uid = 3 [(is_uid) = true];
+
+  optional string service_name = 4;
+
+  // Measurement period. Can be used as denominator.
+  // The gauge duration is not representative because we want uptime and also
+  // the measurement usually ends at a time earlier than pull time.
+  optional int32 measurement_start_uptime_seconds = 5;
+  optional int32 measurement_end_uptime_seconds = 6;
+  optional int32 measurement_duration_uptime_seconds = 7;
+
+  optional int32 duration_seconds = 8;
+
+  // Number of times this association was established.
+  optional int32 count = 9;
 }
 
 /**
