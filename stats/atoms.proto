@@ -878,6 +878,7 @@ message Atom {
             [(module) = "media_metrics"];
         MediaDrmSessionClosed media_drm_session_closed = 571
             [(module) = "media_metrics"];
+        UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -10377,6 +10378,18 @@ message NfcAIDConflictOccurred {
  *     packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java
 */
 message NfcReaderConflictOccurred {
+}
+
+/**
+ * Logs when user changed screen resolution
+ * Logged from:
+ *     packages/apps/Settings/src/com/android/settings/display/ScreenResolutionFragment.java
+*/
+message UserSelectedResolution {
+    optional int32 display_id = 1;
+    // display resolution
+    optional int32 width = 2;
+    optional int32 height = 3;
 }
 
 /**
@@ -24608,8 +24621,8 @@ message WsWatchFaceFavouriteActionReported {
    // Depicts the action for wf favorites eg: Add/Remove.
    optional android.app.wearservices.ActionEnum favorite_action = 2;
 
-   // Depicts if the source of the favorite action is performed on watch or not.
-   optional bool is_source_watch = 3;
+   // Enum to depict the source of the request. Values (PHONE, WATCH)
+   optional android.app.wearservices.RequestSource request_source = 3;
 }
 
 /**
