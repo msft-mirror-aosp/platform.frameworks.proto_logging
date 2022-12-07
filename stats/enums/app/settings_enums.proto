@@ -1087,6 +1087,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: T
     ACTION_DOCK_DEFENDER_TIP = 1805;
+
+    // ACTION: Settings > User > Add user
+    // CATEGORY: SETTINGS
+    // OS: S
+    ACTION_USER_ADD = 1806;
 }
 
 /**
@@ -3680,6 +3685,12 @@ enum PageId {
 
     // OPEN: Settings > Network & internet > Calls & SMS.
     NETWORK_PROVIDER_CALLS_SMS = 1997;
+
+    // OPEN: Settings > System > Reset options > Reset Bluetooth & Wi-Fi >
+    //       (confirmation dialog) > Reset
+    // CATEGORY: SETTINGS
+    // OS: U
+    RESET_BLUETOOTH_WIFI_CONFIRM = 1998;
 }
 
 // Battery Saver schedule types.
