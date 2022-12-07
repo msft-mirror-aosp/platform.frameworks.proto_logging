@@ -879,6 +879,7 @@ message Atom {
         MediaDrmSessionClosed media_drm_session_closed = 571
             [(module) = "media_metrics"];
         UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
+        UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -24835,4 +24836,37 @@ message MediaDrmSessionClosed {
   optional int64 session_nonce_msb = 2;
   // Duration between session open-close in ms.
   optional int64 session_lifespan_ms = 3;
+}
+
+message UnsafeIntentEventReported {
+    enum EventType {
+        UNKNOWN = 0;
+        // When a component is matched with a null action.
+        NULL_ACTION_MATCH = 1;
+        // When a non-exported internal component is matched.
+        INTERNAL_NON_EXPORTED_COMPONENT_MATCH = 2;
+        // When an explicit intent does not match
+        // an external component intent filter.
+        EXPLICIT_INTENT_FILTER_UNMATCH = 3;
+        // When a mutable pending intent for an implicit intent is retrieved
+        NEW_MUTABLE_IMPLICIT_PENDING_INTENT_RETRIEVED = 4;
+    }
+    // Type of matching event.
+    optional EventType event_type = 1;
+    // The calling UID.
+    optional int32 calling_uid = 2;
+    // The component name of the intent.
+    optional string component_name = 3;
+    // The package name of the intent.
+    optional string package_name = 4;
+    // The action of the intent.
+    optional string action = 5;
+    // List of categories of the intent.
+    repeated string categories = 6;
+    // Data type of the intent.
+    optional string data_type = 7;
+    // Data scheme of the intent.
+    optional string data_scheme = 8;
+    // Is the unsafe intent event blocked by the system.
+    optional bool is_blocked = 9;
 }
