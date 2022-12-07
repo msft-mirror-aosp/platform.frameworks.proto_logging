@@ -10340,6 +10340,7 @@ message SplitscreenUIChanged {
         APP_DOES_NOT_SUPPORT_MULTIWINDOW = 8;
         CHILD_TASK_ENTER_PIP = 9;
         RECREATE_SPLIT = 10;
+        FULLSCREEN_SHORTCUT = 11;
     }
 
     // The event action
