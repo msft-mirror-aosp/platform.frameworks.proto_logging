@@ -2629,6 +2629,27 @@ message CallStateChanged {
 
     // True if call is emergency call.
     optional bool emergency_call = 5;
+
+    // UID of the package that has initiated the call.
+    optional int32 uid = 6 [(is_uid) = true];
+
+    // Elapsed time between CALL_STATE_ACTIVE to CALL_STATE_DISCONNECTED.
+    // This value is only applicable when the call_state is DISCONNECTED,
+    // 0 otherwise.
+    optional int32 duration_seconds = 7;
+
+    // Number of all existing calls when this call is created.
+    optional int32 existing_call_count = 8;
+
+    // Number of existing calls held by this call.
+    // This value is set after a call is actually held, 0 otherwise.
+    optional int32 held_call_count = 9;
+
+    // The reason the call hasn't been started by device condition.
+    // This value is only applicable when the call_state is DISCONNECTED,
+    // and should always be NONE if the call_state is not DISCONNECTED.
+    // From frameworks/base/core/proto/android/telecomm/enums.proto.
+    optional android.telecom.CallFailureCauseEnum start_fail_cause = 10;
 }
 
 /*
