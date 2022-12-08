@@ -11708,6 +11708,45 @@ message SystemMemory {
 
     // Total shmem allocations
     optional int32 shmem_kb = 10;
+
+    // Total usable memory
+    optional int32 total_kb = 11;
+
+    // Memory not in use
+    optional int32 free_kb = 12;
+
+    // Memory available for starting new applications without swapping
+    optional int32 available_kb = 13;
+
+    // Memory in active use
+    optional int32 active_kb = 14;
+
+    // Memory not in active use (swappable/reclaimable)
+    optional int32 inactive_kb = 15;
+
+    // Anonymous memory in active use
+    optional int32 active_anon_kb = 16;
+
+    // Anonymous memory not in active use
+    optional int32 inactive_anon_kb = 17;
+
+    // Page cache memory in active use
+    optional int32 active_file_kb = 18;
+
+    // Page cache memory not in active use
+    optional int32 inactive_file_kb = 19;
+
+    // Total swap
+    optional int32 swap_total_kb = 20;
+
+    // Free swap
+    optional int32 swap_free_kb = 21;
+
+    // Total amount of CMA reserved for the kernel
+    optional int32 cma_total_kb = 22;
+
+    // CMA free for the kernel to use
+    optional int32 cma_free_kb = 23;
 }
 
 /*
