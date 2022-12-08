@@ -4705,6 +4705,11 @@ message SettingsUIChanged {
      * The new value of the changed preference.
      */
     optional int64 changed_preference_int_value = 5;
+
+    /**
+     * Data about elapsed time since setup wizard finished.
+     */
+    optional int64 elapsed_time_millis = 6;
 }
 
 /**
