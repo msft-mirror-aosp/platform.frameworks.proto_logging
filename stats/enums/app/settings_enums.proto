@@ -3691,6 +3691,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     RESET_BLUETOOTH_WIFI_CONFIRM = 1998;
+
+    // OPEN: Settings > Privacy & Security > Privacy Controls
+    // CATEGORY: SETTINGS
+    // OS: U
+    PRIVACY_CONTROLS = 1999;
 }
 
 // Battery Saver schedule types.
