@@ -23868,6 +23868,24 @@ message AdServicesSettingsUsageReported {
         UNBLOCK_TOPIC_SELECTED = 10;
         BLOCK_APP_SELECTED = 11;
         UNBLOCK_APP_SELECTED = 12;
+        // Measurement page and data reset
+        MANAGE_MEASUREMENT_SELECTED = 13;
+        RESET_MEASUREMENT_SELECTED = 14;
+        // GA consent page
+        TOPICS_OPT_IN_SELECTED = 15;
+        TOPICS_OPT_OUT_SELECTED = 16;
+        FLEDGE_OPT_IN_SELECTED = 17;
+        FLEDGE_OPT_OUT_SELECTED = 18;
+        MEASUREMENT_OPT_IN_SELECTED = 19;
+        MEASUREMENT_OPT_OUT_SELECTED = 20;
+        // Notification and landing page for kids policy
+        GA_UX_NOTIFICATION_REQUESTED = 21;
+        GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        NOTIFICATION_OPT_IN_SELECTED = 24;
+        NOTIFICATION_OPT_OUT_SELECTED = 25;
+        NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
     }
 
     optional AdServiceSettingsName action = 2;
