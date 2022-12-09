@@ -23,6 +23,7 @@ option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
+import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
@@ -880,6 +881,8 @@ message Atom {
             [(module) = "media_metrics"];
         UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
         UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
+        adpf.PerformanceHintSessionReported performance_hint_session_reported = 574 [(module) = "framework"];
+        adpf.ADPFSystemComponentReported adpf_system_component_reported = 575 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
