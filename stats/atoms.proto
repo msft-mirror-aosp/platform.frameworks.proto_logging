@@ -17875,6 +17875,17 @@ enum ArtIsa {
     ART_ISA_MIPS64 = 6;
 }
 
+// Indicates the GC collector type.
+enum ArtGcCollectorType {
+    ART_GC_COLLECTOR_TYPE_UNKNOWN = 0;
+    ART_GC_COLLECTOR_TYPE_MARK_SWEEP = 1;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_MARK_SWEEP = 2;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_MARK_COMPACT = 3;
+    ART_GC_COLLECTOR_TYPE_SEMI_SPACE = 4;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_COPYING = 5;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_COPYING_BACKGROUND = 6;
+}
+
 message ArtDatumReported {
     // The session ID is used to correlate this report with others from the same ART instance.
     optional int64 session_id = 1;
@@ -17908,6 +17919,9 @@ message ArtDatumReported {
 
     // The ISA of the device.
     optional ArtIsa isa = 11;
+
+    // The Garbage Collector used in the Android Runtime.
+    optional ArtGcCollectorType gc = 12;
 }
 
 // ArtDatumDeltaReported is the same as ArtDatumReported, except for the kind field
@@ -17945,6 +17959,9 @@ message ArtDatumDeltaReported {
 
     // The ISA of the device.
     optional ArtIsa isa = 11;
+
+    // The Garbage Collector used in the Android Runtime.
+    optional ArtGcCollectorType gc = 12;
 }
 
 /**
@@ -22231,6 +22248,24 @@ message AdServicesSettingsUsageReported {
         UNBLOCK_TOPIC_SELECTED = 10;
         BLOCK_APP_SELECTED = 11;
         UNBLOCK_APP_SELECTED = 12;
+        // Measurement page and data reset
+        MANAGE_MEASUREMENT_SELECTED = 13;
+        RESET_MEASUREMENT_SELECTED = 14;
+        // GA consent page
+        TOPICS_OPT_IN_SELECTED = 15;
+        TOPICS_OPT_OUT_SELECTED = 16;
+        FLEDGE_OPT_IN_SELECTED = 17;
+        FLEDGE_OPT_OUT_SELECTED = 18;
+        MEASUREMENT_OPT_IN_SELECTED = 19;
+        MEASUREMENT_OPT_OUT_SELECTED = 20;
+        // Notification and landing page for kids policy
+        GA_UX_NOTIFICATION_REQUESTED = 21;
+        GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        NOTIFICATION_OPT_IN_SELECTED = 24;
+        NOTIFICATION_OPT_OUT_SELECTED = 25;
+        NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
     }
 
     optional AdServiceSettingsName action = 2;
