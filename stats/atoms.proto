@@ -23,6 +23,7 @@ option java_package = "com.android.os";
 option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
+import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
@@ -49,6 +50,7 @@ import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/drm/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/midi/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/mms/enums.proto";
@@ -879,6 +881,11 @@ message Atom {
         MediaDrmSessionClosed media_drm_session_closed = 571
             [(module) = "media_metrics"];
         UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
+        UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
+        adpf.PerformanceHintSessionReported performance_hint_session_reported = 574 [(module) = "framework"];
+        adpf.ADPFSystemComponentReported adpf_system_component_reported = 575 [(module) = "framework"];
+        MediametricsMidiDeviceCloseReported mediametrics_midi_device_close_reported =
+            576 [(module) = "media_metrics"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -11280,6 +11287,49 @@ message MediametricsAudiotrackReported {
 }
 
 /**
+ * Track information about a MIDI Device.
+ * This is logged when device connections close or devices are disconnected.
+ * This is used to evaluate MIDI activity.
+ *
+ * Logged from
+ *   frameworks/av/services/mediametrics/AudioAnalytics.cpp
+ */
+message MediametricsMidiDeviceCloseReported {
+    // The UID of the app or service that disconnects the device
+    optional int32 uid = 1;
+    // Device Id from MidiDeviceInfo. After a restart, this starts at 1 for the first device.
+    // This increments each time a new MIDI device is added.
+    // See Id in frameworks/base/media/java/android/media/midi/MidiDeviceInfo.java
+    optional int32 midi_device_id = 2;
+    // Input port count as defined in MidiDeviceInfo.java
+    optional int32 input_port_count = 3;
+    // Output port count as defined in MidiDeviceInfo.java
+    optional int32 output_port_count = 4;
+    // Type of device (USB, Virtual, Bluetooth)
+    optional android.media.midi.MidiDeviceInfoType device_type = 5;
+    // Whether the device is shared to other apps. Uses MidiDeviceInfo.isPrivate().
+    optional bool is_shared = 6;
+    // Whether Universal MIDI Packets are used for this device by default.
+    // Uses MidiDeviceInfo.getDefaultProtocol()
+    optional bool supports_ump = 7;
+    // Whether ALSA is used by this device.
+    // Checks whether MidiDeviceInfo.getProperties() contains PROPERTY_ALSA_CARD.
+    optional bool using_alsa = 8;
+    // Duration in nanoseconds in which there was an open device connection.
+    optional int64 duration_ns = 9;
+    // Number of times this device had an add device connection attempt.
+    optional int32 opened_count = 10;
+    // Number of times this device had a remove device connection attempt.
+    optional int32 closed_count = 11;
+    // Whether the device has disconnected.
+    optional bool device_disconnected = 12;
+    // Number of bytes passed from the input ports of the device.
+    optional int32 total_input_bytes = 13;
+    // Number of bytes passed from the output ports of the device.
+    optional int32 total_output_bytes = 14;
+}
+
+/**
  * Track information about DRM framework performance
  * Logged from
  *   frameworks/av/drm/libmediadrm/DrmHal.cpp
@@ -18930,6 +18980,14 @@ enum ArtGcCollectorType {
     ART_GC_COLLECTOR_TYPE_CONCURRENT_COPYING_BACKGROUND = 6;
 }
 
+// Indicates support for userfaultfd and minor fault mode.
+enum ArtUffdSupport {
+    ART_UFFD_SUPPORT_UNKNOWN = 0;
+    ART_UFFD_SUPPORT_UFFD_NOT_SUPPORTED = 1;
+    ART_UFFD_SUPPORT_MINOR_FAULT_MODE_NOT_SUPPORTED = 2;
+    ART_UFFD_SUPPORT_MINOR_FAULT_MODE_SUPPORTED = 3;
+}
+
 message ArtDatumReported {
     // The session ID is used to correlate this report with others from the same ART instance.
     optional int64 session_id = 1;
@@ -18966,6 +19024,9 @@ message ArtDatumReported {
 
     // The Garbage Collector used in the Android Runtime.
     optional ArtGcCollectorType gc = 12;
+
+    // The support for userfaultfd and minor fault mode.
+    optional ArtUffdSupport uffd_support = 13;
 }
 
 // ArtDatumDeltaReported is the same as ArtDatumReported, except for the kind field
@@ -19006,6 +19067,9 @@ message ArtDatumDeltaReported {
 
     // The Garbage Collector used in the Android Runtime.
     optional ArtGcCollectorType gc = 12;
+
+    // The support for userfaultfd and minor fault mode.
+    optional ArtUffdSupport uffd_support = 13;
 }
 
 /**
@@ -23853,6 +23917,24 @@ message AdServicesSettingsUsageReported {
         UNBLOCK_TOPIC_SELECTED = 10;
         BLOCK_APP_SELECTED = 11;
         UNBLOCK_APP_SELECTED = 12;
+        // Measurement page and data reset
+        MANAGE_MEASUREMENT_SELECTED = 13;
+        RESET_MEASUREMENT_SELECTED = 14;
+        // GA consent page
+        TOPICS_OPT_IN_SELECTED = 15;
+        TOPICS_OPT_OUT_SELECTED = 16;
+        FLEDGE_OPT_IN_SELECTED = 17;
+        FLEDGE_OPT_OUT_SELECTED = 18;
+        MEASUREMENT_OPT_IN_SELECTED = 19;
+        MEASUREMENT_OPT_OUT_SELECTED = 20;
+        // Notification and landing page for kids policy
+        GA_UX_NOTIFICATION_REQUESTED = 21;
+        GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        NOTIFICATION_OPT_IN_SELECTED = 24;
+        NOTIFICATION_OPT_OUT_SELECTED = 25;
+        NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
     }
 
     optional AdServiceSettingsName action = 2;
@@ -24901,4 +24983,37 @@ message MediaDrmSessionClosed {
   optional int64 session_nonce_msb = 2;
   // Duration between session open-close in ms.
   optional int64 session_lifespan_ms = 3;
+}
+
+message UnsafeIntentEventReported {
+    enum EventType {
+        UNKNOWN = 0;
+        // When a component is matched with a null action.
+        NULL_ACTION_MATCH = 1;
+        // When a non-exported internal component is matched.
+        INTERNAL_NON_EXPORTED_COMPONENT_MATCH = 2;
+        // When an explicit intent does not match
+        // an external component intent filter.
+        EXPLICIT_INTENT_FILTER_UNMATCH = 3;
+        // When a mutable pending intent for an implicit intent is retrieved
+        NEW_MUTABLE_IMPLICIT_PENDING_INTENT_RETRIEVED = 4;
+    }
+    // Type of matching event.
+    optional EventType event_type = 1;
+    // The calling UID.
+    optional int32 calling_uid = 2;
+    // The component name of the intent.
+    optional string component_name = 3;
+    // The package name of the intent.
+    optional string package_name = 4;
+    // The action of the intent.
+    optional string action = 5;
+    // List of categories of the intent.
+    repeated string categories = 6;
+    // Data type of the intent.
+    optional string data_type = 7;
+    // Data scheme of the intent.
+    optional string data_scheme = 8;
+    // Is the unsafe intent event blocked by the system.
+    optional bool is_blocked = 9;
 }
