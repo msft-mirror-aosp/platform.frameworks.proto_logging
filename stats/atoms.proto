@@ -883,7 +883,6 @@ message Atom {
         UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
         UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
         adpf.PerformanceHintSessionReported performance_hint_session_reported = 574 [(module) = "framework"];
-        adpf.ADPFSystemComponentReported adpf_system_component_reported = 575 [(module) = "framework"];
         MediametricsMidiDeviceCloseReported mediametrics_midi_device_close_reported =
             576 [(module) = "media_metrics"];
         // StatsdStats tracks platform atoms with ids upto 750.
@@ -895,7 +894,7 @@ message Atom {
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
-    // Next: 10169
+    // Next: 10174
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1100,6 +1099,7 @@ message Atom {
         WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
         ProcessState process_state = 10171 [(module) = "framework"];
         ProcessAssociation process_association = 10172 [(module) = "framework"];
+        adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
     }
 
     // Pulled atom extensions.

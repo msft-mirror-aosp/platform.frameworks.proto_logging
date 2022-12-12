@@ -10,8 +10,8 @@ option java_multiple_files = true;
  */
 
 message PerformanceHintSessionReported {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
+    // UID of the package.
+    optional int32 package_uid = 1 [(is_uid) = true];
 
     // Unique ID of the hint session.
     optional int64 session_id = 2;
@@ -19,14 +19,14 @@ message PerformanceHintSessionReported {
     // Hint session target duration, in nanoseconds.
     optional int64 target_duration_ns = 3;
 
-    // Thread IDs creating the session.
-    repeated int32 tids = 4;
+    // Number of threads affected by this session
+    optional int32 tid_count = 4;
 }
 
-message ADPFSystemComponentReported {
-    // True if SurfaceFlinger is enabled on the device.
-    optional bool surfaceflinger_enabled = 1;
+message ADPFSystemComponentInfo {
+    // True if SurfaceFlinger CPU hint is enabled on the device.
+    optional bool surfaceflinger_cpu_hint_enabled = 1;
 
-    // True if HWUI if enabled on the device.
-    optional bool hwui_enabled = 2;
+    // True if HWUI hint is enabled on the device.
+    optional bool hwui_hint_enabled = 2;
 }
