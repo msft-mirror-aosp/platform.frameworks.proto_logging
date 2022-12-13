@@ -3711,6 +3711,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DISPLAY_DEVICE_STATE_AUTO_ROTATE_SETTINGS = 2002;
+
+    // OPEN: Settings > System > Touchpad
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_KEYBOARDS_TOUCHPAD = 2003;
+
+    // OPEN: Settings > System > Touchpad > Touchpad gestures
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_KEYBOARDS_TOUCHPAD_GESTURE = 2004;
 }
 
 // Battery Saver schedule types.
