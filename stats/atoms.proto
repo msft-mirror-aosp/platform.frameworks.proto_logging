@@ -1686,6 +1686,10 @@ message WifiP2pConnectionReported {
         USER_REJECT = 6;
         // New connection request is issued before ending previous connecting request.
         NEW_CONNECTION_ATTEMPT = 7;
+        // Group has been removed
+        GROUP_REMOVED = 8;
+        // Creating group failed
+        CREATE_GROUP_FAILED = 9;
     }
     enum GroupRole {
         GROUP_UNKNOWN = 0;
