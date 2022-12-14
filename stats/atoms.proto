@@ -24,6 +24,7 @@ option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
@@ -862,8 +863,8 @@ message Atom {
         WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
         WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
         PackageUninstallationReported package_uninstallation_reported = 554 [(module) = "framework"];
-        GameModeChanged game_mode_changed = 555 [(module) = "framework"];
-        GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
+        agif.GameModeChanged game_mode_changed = 555 [(module) = "framework"];
+        agif.GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
         BedtimeModeStateChanged bedtime_mode_state_changed = 557 [(module) = "framework"];
         NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
         NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
@@ -1095,9 +1096,9 @@ message Atom {
         OutgoingShortCodeSms outgoing_short_code_sms = 10162 [(module) = "telephony"];
         ConnectivityStateSample connectivity_state_sample = 10163 [(module) = "connectivity"];
         NetworkSelectionRematchReasonsInfo network_selection_rematch_reasons_info = 10164 [(module) = "connectivity"];
-        GameModeInfo game_mode_info = 10165 [(module) = "framework"];
-        GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
-        GameModeListener game_mode_listener = 10167 [(module) = "framework"];
+        agif.GameModeInfo game_mode_info = 10165 [(module) = "framework"];
+        agif.GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
+        agif.GameModeListener game_mode_listener = 10167 [(module) = "framework"];
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
         WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
         WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
@@ -22114,76 +22115,6 @@ message GameStateChanged {
 
     // A developer-supplied enum, e.g. to indicate the current quality level.
     optional int32 quality = 7;
-}
-
-message GameModeChanged {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // UID the caller package who made the game mode change.
-    optional int32 caller_uid = 2 [(is_uid) = true];
-
-    // Game mode previously set to.
-    optional android.app.GameMode game_mode_from = 3;
-
-    // Game mode currently set to.
-    optional android.app.GameMode game_mode_to = 4;
-}
-
-
-message GameModeConfigurationChanged {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // UID the caller package who made the game mode config change.
-    optional int32 caller_uid = 2 [(is_uid) = true];
-
-    // Game mode of the configuration.
-    optional android.app.GameMode game_mode = 3;
-
-    // Scaling factor previously set for this game mode.
-    optional float scaling_factor_from = 4;
-
-    // Scaling factor currently set to for this game mode.
-    optional float scaling_factor_to = 5;
-
-    // FPS override previously set for this game mode.
-    optional int32 fps_override_from = 6;
-
-    // FPS override currently set for this game mode.
-    optional int32 fps_override_to = 7;
-}
-
-message GameModeInfo {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // Game modes currently overridden by the game.
-    repeated android.app.GameMode overridden_game_modes = 2;
-
-    // Game modes available to user for the game.
-    repeated android.app.GameMode available_game_modes = 3;
-}
-
-
-message GameModeConfiguration {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // Game mode of the configuration.
-    optional android.app.GameMode game_mode = 2;
-
-    // FPS override previously set for this game mode.
-    optional int32 fps_override = 3;
-
-    // Scaling factor currently set to for this game mode.
-    optional float scaling_factor = 4;
-}
-
-
-message GameModeListener {
-    // Number of listeners currently registered in GameManagerService.
-    optional int32 count = 1;
 }
 
 /**
