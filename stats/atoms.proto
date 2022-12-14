@@ -779,6 +779,8 @@ message Atom {
         NfcTagTypeOccurred nfc_tag_type_occurred = 560 [(module) = "nfc"];
         NfcAIDConflictOccurred nfc_aid_conflict_occurred = 561 [(module) = "nfc"];
         NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
+        HotwordAudioEgressEventReported hotword_audio_egress_event_reported =
+                578 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21113,6 +21115,9 @@ message HotwordDetectionServiceInitResultReported {
         CALLBACK_INIT_STATE_UNKNOWN_TIMEOUT = 4;
     }
     optional Result result = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -21137,6 +21142,9 @@ message HotwordDetectionServiceRestarted {
         CRASH = 3;
     }
     optional Reason reason = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -21185,6 +21193,9 @@ message HotwordDetectorKeyphraseTriggered {
     }
     // What result after detecting.
     optional Result result = 2;
+
+    // The UID for which assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -22709,4 +22720,69 @@ message ArtDeviceDatumReported {
     }
 
     optional BootImageStatus boot_image_status = 1;
+}
+
+/**
+ * Logs information related to audio egress in hotword.
+ */
+message HotwordAudioEgressEventReported {
+    // The type of detector.
+    optional android.hotword.HotwordDetectorType detector_type = 1;
+
+    // The type of event.
+    enum Event {
+        // UNKNOWN value.
+        UNKNOWN = 0;
+
+        // Indicates that the audio egress started.
+        STARTED = 1;
+
+        // Indicates that the audio egress ended.
+        ENDED = 2;
+
+        // Indicates that the audio egress got interrupted exception.
+        INTERRUPTED_EXCEPTION = 3;
+
+        // Indicates that the client is not granted permission to access audio egress.
+        NO_PERMISSION = 4;
+
+        // Indicates that the client is inactive over a period of time.
+        INACTIVE_CLIENT = 5;
+
+        // Indicates that the HotwordDetectionService is inactive over a period
+        // of time.
+        INACTIVE_HOTWORD_DETECTION_SERVICE = 6;
+
+        // Indicates that the list of audio stream is empty.
+        EMPTY_AUDIO_STREAM_LIST = 7;
+
+        // Indicates that there is no data from the system audio stream.
+        SOURCE_IS_EMPTY = 8;
+
+        // Indicates that the copy buffer size the client sets is illegal.
+        ILLEGAL_COPY_BUFFER_SIZE = 9;
+
+        // Indicates that the audio egress is closed with error from the system.
+        CLOSE_ERROR_FROM_SYSTEM = 10;
+
+        // Indicates that the audio egress is closed with error from the client side.
+        CLOSE_ERROR_FROM_CLIENT = 11;
+
+        // Indicates that the audio egress is closed with error from the
+        // HotwordDetectionService.
+        CLOSE_ERROR_FROM_HOTWORD_DETECTION_SERVICE = 12;
+   }
+    optional Event event = 2;
+
+    // The UID for which the assistant application is active.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // The number of bytes egressed in audio stream
+    optional int32 egressed_stream_size_bytes = 4;
+
+    // The number of bytes egressed in metadata bundle
+    optional int32 egressed_metadata_bundle_size_bytes = 5;
+
+    // The count of audio streams
+    optional int32 stream_count = 6;
 }
