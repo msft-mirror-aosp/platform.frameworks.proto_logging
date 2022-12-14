@@ -15687,6 +15687,15 @@ message DataStallRecoveryReported {
     // PS WWAN Network Registration state of the other phone if DSDS when stall happened.
     // REGISTRATION_STATE_NOT_REGISTERED_OR_SEARCHING(0) if single SIM.
     optional android.telephony.NetworkRegistrationState other_phone_reg_state = 12;
+
+    // PS WWAN Network Registration state of the default phone when data stall.
+    optional android.telephony.NetworkRegistrationState phone_reg_state = 13;
+
+    // collect the first validation after recovery when data stall occurs.
+    optional bool is_first_validation_after_recovery = 14;
+
+    // The phone id when doing the recovery action.
+    optional int32 phone_id = 15;
 }
 
 /**
