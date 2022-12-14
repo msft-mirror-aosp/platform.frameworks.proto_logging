@@ -2605,6 +2605,9 @@ message CallStateChanged {
     // True if call is external. External calls are calls on connected Wear
     // devices but show up in Telecom so the user can pull them onto the device.
     optional bool external_call = 4;
+
+    // True if call is emergency call.
+    optional bool emergency_call = 5;
 }
 
 /**
