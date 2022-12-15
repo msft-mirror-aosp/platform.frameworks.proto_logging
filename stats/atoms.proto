@@ -28,6 +28,7 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/credentials/credentials_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/expresslog/expresslog_atoms.proto";
@@ -938,6 +939,8 @@ message Atom {
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
         display.ScreenBrightnessChangedV2 screen_brightness_changed_v2 = 597 [(module) = "framework"];
+        corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
+            network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
