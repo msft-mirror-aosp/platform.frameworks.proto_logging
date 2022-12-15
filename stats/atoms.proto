@@ -1339,6 +1339,8 @@ message ProcessAssociation {
 
   optional string service_name = 4;
 
+  optional string service_process = 10;
+
   // Measurement period. Can be used as denominator.
   // The gauge duration is not representative because we want uptime and also
   // the measurement usually ends at a time earlier than pull time.
