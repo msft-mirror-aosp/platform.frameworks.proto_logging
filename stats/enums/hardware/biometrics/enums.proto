@@ -76,3 +76,22 @@ enum TouchTypeEnum {
     // still be on the sensor.
     TOUCH_TYPE_CANCEL = 3;
 }
+
+enum OrientationEnum {
+    ORIENTATION_UNKNOWN = 0;
+    ORIENTATION_0 = 1;
+    ORIENTATION_90 = 2;
+    ORIENTATION_180 = 3;
+    ORIENTATION_270 = 4;
+}
+
+enum FoldStateEnum {
+    FOLD_UNKNOWN = 0;
+    FOLD_OPEN = 1;
+    FOLD_CLOSED = 2;
+    FOLD_HALF_OPEN = 3;
+}
+
+enum WakeReasonEnum {
+    WAKE_REASON_UNKNOWN = 0;
+}
