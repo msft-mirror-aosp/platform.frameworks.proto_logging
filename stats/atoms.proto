@@ -889,6 +889,8 @@ message Atom {
         hardware.biometrics.BiometricTouchReported biometric_touch_reported = 577 [(module) = "sysui"];
         hotword.HotwordAudioEgressEventReported hotword_audio_egress_event_reported = 578
             [(module) = "framework"];
+        AppSearchSchemaMigrationStatsReported
+          app_search_schema_migration_stats_reported = 579 [(module) = "appsearch"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -898,7 +900,7 @@ message Atom {
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
-    // Next: 10174
+    // Next: 10175
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1104,6 +1106,7 @@ message Atom {
         ProcessState process_state = 10171 [(module) = "framework"];
         ProcessAssociation process_association = 10172 [(module) = "framework"];
         adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
+        NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
     }
 
     // Pulled atom extensions.
@@ -4713,6 +4716,11 @@ message SettingsUIChanged {
      * The new value of the changed preference.
      */
     optional int64 changed_preference_int_value = 5;
+
+    /**
+     * Data about elapsed time since setup wizard finished.
+     */
+    optional int64 elapsed_time_millis = 6;
 }
 
 /**
@@ -6104,6 +6112,77 @@ message NotificationChannelModified {
     optional bool is_conversation_demoted = 9;
     // whether this conversation is marked as being a priority
     optional bool is_conversation_priority = 10;
+}
+
+/**
+ * Snapshot of notification memory use aggregated per-package and per-style.
+ * One message for each notification style of each package showing notifications.
+ * Logged from
+ *    frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/logging
+ */
+ message NotificationMemoryUse {
+    // UID if the application (can be mapped to package and version)
+    optional int32 uid = 1;
+    // Integer enum value showing aggregated notification style.
+    optional int32 style = 2;
+    // Number of notifications that were aggregated into this metric.
+    optional int32 count = 3;
+    // Number of notifications with actually inflated views in this metric.
+    optional int32 countWithInflatedViews = 4;
+    // Memory use of small icon Bitmaps in KB.
+    optional int32 smallIconObject = 5;
+    // Count of notifications with small icons as bitmaps.
+    optional int32 smallIconBitmapCount = 6;
+    // Memory use of large icon Bitmaps in KB.
+    optional int32 largeIconObject = 7;
+    // Count of notifications with large icons as bitmaps.
+    optional int32 largeIconBitmapCount = 8;
+    // Memory use of big picture style Bitmaps in KB.
+    optional int32 bigPictureObject = 9;
+    // Count of notifications with big picture images as bitmaps.
+    optional int32 bigPictureBitmapCount = 10;
+    // Complete memory use of extras in Notification object, in KB.
+    optional int32 extras = 11;
+    // Memory use of extenders in KB.
+    optional int32 extenders = 12;
+    // Combined memory use of small icon drawables in views, in KB.
+    optional int32 smallIconViews = 13;
+    // Combined memory use of large icon drawables in views, in KB.
+    optional int32 largeIconViews = 14;
+    // Combined memory use of system icon drawables in views, in KB.
+    optional int32 systemIconViews = 15;
+    // Combined memory use of style drawables (e.g. BigPicture) in views, in KB.
+    optional int32 styleViews = 16;
+    // Combined memory use of custom view drawables in views, in KB.
+    optional int32 customViews = 17;
+    // Extra memory used due to usage of software bitmaps, in KB.
+    optional int32 softwareBitmaps = 18;
+    // How many notifications were actually ever shown to the user.
+    optional int32 seenCount = 19;
+}
+
+/**
+ * Logged when notification are dismissed. If multiple notifications are dismissed together,
+ * this is only logged once per style per UID.
+ * Logged from
+ *    frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/logging
+ */
+message NotificationDismissed {
+    // UID if the application (can be mapped to package and version)
+    optional int32 uid = 1 [(is_uid) = true];
+    // Integer enum value showing aggregated notification style.
+    optional android.stats.sysui.NotificationStyle style = 2;
+    // Reason for dismissal, based on REASON_ constants in
+    // frameworks/base/core/java/android/service/notification/NotificationListenerService.java
+    optional int32 reason = 3;
+    // Number of notifications dismissed.
+    optional int32 count = 4;
+    // Memory use of Notification object being dismissed, in KB.
+    optional int32 notificationObjectMemoryUse = 5;
+    // Memory use of Notification views being dismissed, in KB.
+    optional int32 notificationViewMemoryUse = 6;
+    // Current memory use of SystemUI, RSS Anon in KB.
+    optional int32 systemUiMemoryUse = 7;
 }
 
 /**
@@ -13408,7 +13487,7 @@ message AppSearchOptimizeStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 20
+ * Next tag: 26
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -13450,29 +13529,107 @@ message AppSearchSetSchemaStatsReported {
     // Number of backwards-incompatible schema type changes
     optional int32 backwards_incompatible_type_change_count = 11;
 
-    // Whether schema migration is executed during setting schema
-    optional bool has_schema_migration = 12;
+    // Time used for verifying the incoming call.
+    optional int32  verify_incoming_call_latency_millis = 12;
+
+    // Time used for creating or waiting the user executor.
+    optional int32  executor_acquisition_latency_millis = 13;
+
+    // Time used for rebuilding objects from bundles.
+    optional int32  rebuild_from_bundle_latency_millis = 14;
+
+    // Time passed while waiting to acquire the lock during Java function calls.
+    optional int32  java_lock_acquisition_latency_millis = 15;
+
+    // Time used for the rewrite schema to proto.
+    optional int32  rewrite_schema_latency_millis = 16;
+
+    // Overall time used for the native function call.
+    optional int32  total_native_latency_millis = 17;
+
+    // Time used for the apply visibility settings function call.
+    optional int32  visibility_setting_latency_millis = 18;
+
+    // Time used for the dispatch change notification function call.
+    optional int32  dispatch_change_notifications_latency_millis = 19;
+
+    // Time used for the optimization function call.
+    optional int32  mOptimize_latency_millis = 20;
+
+    /** Whether this package is observed. */
+    optional bool is_package_observed = 21;
+
+    /** Time used for the get old schema. */
+    optional int32  get_old_schema_latency_millis = 22;
+
+    /** Time used for the get registered observer function call. */
+    optional int32  get_observer_latency_millis = 23;
+
+    /** Time used for the preparing change notification action. */
+    optional int32  preparing_change_notification_latency_millis = 24;
+
+    // Type of the SetSchema call relative to SchemaMigration case.
+    // This is in sync with
+    // packages/modules/AppSearch/service/java/com/android/server/appsearch/external/localstorage/stats/SetSchemaStats.java
+    optional int32 schema_migration_call_type = 25;
+}
+
+/**
+ * Logs detailed stats for schema migration in AppSearch.
+ *
+ * stats pushed from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 15
+ */
+message AppSearchSchemaMigrationStatsReported {
+    // The sampling interval for this specific type of stats
+    // For example, sampling_interval=10 means that one out of every 10 stats was logged.
+    optional int32 sampling_interval = 1;
+
+    // # of previous skipped sample for this specific type of stats
+    // We can't push atoms too closely, so some samples might be skipped
+    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+    // For example, the true count of an event could be estimated as:
+    //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
+    optional int32 num_skipped_sample = 2;
+
+    // Package UID of the application.
+    optional int32 uid = 3 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch
+    optional int32 database = 4;
+
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchResult.java
+    optional int32 status_code = 5;
+
+    // Overall time used for setting schema including the binder latency
+    optional int32 total_latency_millis = 6;
 
     // Overall time used for getting schema during schema migration
-    optional int32 schema_migration_get_schema_latency_millis = 13;
+    optional int32 schema_migration_get_schema_latency_millis = 7;
 
     // Overall time used for querying and transforming documents during schema migration
-    optional int32 schema_migration_query_and_transform_latency_millis = 14;
+    optional int32 schema_migration_query_and_transform_latency_millis = 8;
 
     // Overall time used for first setSchema during schema migration
-    optional int32 schema_migration_first_set_schema_latency_millis = 15;
+    optional int32 schema_migration_first_set_schema_latency_millis = 9;
 
     // Overall time used for second setSchema during schema migration
-    optional int32 schema_migration_second_set_schema_latency_millis = 16;
+    optional int32 schema_migration_second_set_schema_latency_millis = 10;
 
     // Overall time used for saving documents during schema migration
-    optional int32 schema_migration_save_document_latency_millis = 17;
+    optional int32 schema_migration_save_document_latency_millis = 11;
 
-    // Number of migrated documents during schema migration
-    optional int32 schema_migration_migrated_document_count = 18;
+    // Number of document that need to be migrated to another version
+    optional int32 total_need_migrated_document_count = 12;
 
-    // Number of saved documents during schema migration
-    optional int32 schema_migration_saved_document_count = 19;
+    // Number of successfully migrated and saved in Icing
+    optional int32 total_success_migrated_document_count = 13;
+
+    // Number of migration failure during schema migration
+    optional int32 schema_migration_failure_count = 14;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -15211,6 +15368,9 @@ message CellularServiceState {
     // call available). Voice and data RAT will be recorded as
     // NETWORK_TYPE_UNKNOWN in this case.
     optional bool is_emergency_only = 10;
+
+    // Whether internet pdn is up.
+    optional bool is_internet_pdn_up = 11;
 }
 
 /**
