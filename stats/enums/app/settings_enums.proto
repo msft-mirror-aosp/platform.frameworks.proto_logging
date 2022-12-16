@@ -3721,6 +3721,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_KEYBOARDS_TOUCHPAD_GESTURE = 2004;
+
+    // OPEN: Settings > Privacy & Security > More Settings
+    // CATEGORY: SETTINGS
+    // OS: U
+    MORE_SECURITY_PRIVACY_SETTINGS = 2005;
 }
 
 // Battery Saver schedule types.
