@@ -24,6 +24,7 @@ option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
@@ -862,8 +863,8 @@ message Atom {
         WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
         WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
         PackageUninstallationReported package_uninstallation_reported = 554 [(module) = "framework"];
-        GameModeChanged game_mode_changed = 555 [(module) = "framework"];
-        GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
+        agif.GameModeChanged game_mode_changed = 555 [(module) = "framework"];
+        agif.GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
         BedtimeModeStateChanged bedtime_mode_state_changed = 557 [(module) = "framework"];
         NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
         NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
@@ -1097,9 +1098,9 @@ message Atom {
         OutgoingShortCodeSms outgoing_short_code_sms = 10162 [(module) = "telephony"];
         ConnectivityStateSample connectivity_state_sample = 10163 [(module) = "connectivity"];
         NetworkSelectionRematchReasonsInfo network_selection_rematch_reasons_info = 10164 [(module) = "connectivity"];
-        GameModeInfo game_mode_info = 10165 [(module) = "framework"];
-        GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
-        GameModeListener game_mode_listener = 10167 [(module) = "framework"];
+        agif.GameModeInfo game_mode_info = 10165 [(module) = "framework"];
+        agif.GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
+        agif.GameModeListener game_mode_listener = 10167 [(module) = "framework"];
         NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
         WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
         WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
@@ -1338,6 +1339,8 @@ message ProcessAssociation {
   optional int32 service_uid = 3 [(is_uid) = true];
 
   optional string service_name = 4;
+
+  optional string service_process = 10;
 
   // Measurement period. Can be used as denominator.
   // The gauge duration is not representative because we want uptime and also
@@ -6217,6 +6220,18 @@ message BiometricAcquired {
     optional android.hardware.biometrics.SessionTypeEnum session_type = 11;
     // If the AoD was on when this event occurred.
     optional bool is_aod = 12;
+    // If the display is on when this event occurred.
+    optional bool is_display_on = 13;
+    // The dock state when this event occurred.
+    optional android.server.DockStateEnum dock_state = 14;
+    // The orientation of the device when this event occurred
+    optional android.hardware.biometrics.OrientationEnum orientation = 15;
+    // The fold state of the device when this event occurred
+    optional android.hardware.biometrics.FoldStateEnum fold_state = 16;
+    // The order this event was processed by the framework, if part of a session
+    optional int32 session_order = 17;
+    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    optional android.hardware.biometrics.WakeReasonEnum wake_reason = 18;
 }
 
 /**
@@ -6265,6 +6280,18 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
     // If the AoD was on when this event occurred.
     optional bool is_aod = 13;
+    // If the display is on when this event occurred.
+    optional bool is_display_on = 14;
+    // The dock state when this event occurred.
+    optional android.server.DockStateEnum dock_state = 15;
+    // The orientation of the device when this event occurred
+    optional android.hardware.biometrics.OrientationEnum orientation = 16;
+    // The fold state of the device when this event occurred
+    optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
+    // The order this event was processed by the framework, if part of a session
+    optional int32 session_order = 18;
+    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
 }
 
 /**
@@ -6302,6 +6329,18 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.SessionTypeEnum session_type = 12;
     // If the AoD was on when this event occurred.
     optional bool is_aod = 13;
+    // If the display is on when this event occurred.
+    optional bool is_display_on = 14;
+    // The dock state when this event occurred.
+    optional android.server.DockStateEnum dock_state = 15;
+    // The orientation of the device when this event occurred
+    optional android.hardware.biometrics.OrientationEnum orientation = 16;
+    // The fold state of the device when this event occurred
+    optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
+    // The order this event was processed by the framework, if part of a session
+    optional int32 session_order = 18;
+    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
 }
 
 /**
@@ -15855,6 +15894,15 @@ message DataStallRecoveryReported {
     // PS WWAN Network Registration state of the other phone if DSDS when stall happened.
     // REGISTRATION_STATE_NOT_REGISTERED_OR_SEARCHING(0) if single SIM.
     optional android.telephony.NetworkRegistrationState other_phone_reg_state = 12;
+
+    // PS WWAN Network Registration state of the default phone when data stall.
+    optional android.telephony.NetworkRegistrationState phone_reg_state = 13;
+
+    // collect the first validation after recovery when data stall occurs.
+    optional bool is_first_validation_after_recovery = 14;
+
+    // The phone id when doing the recovery action.
+    optional int32 phone_id = 15;
 }
 
 /**
@@ -22204,76 +22252,6 @@ message GameStateChanged {
     optional int32 quality = 7;
 }
 
-message GameModeChanged {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // UID the caller package who made the game mode change.
-    optional int32 caller_uid = 2 [(is_uid) = true];
-
-    // Game mode previously set to.
-    optional android.app.GameMode game_mode_from = 3;
-
-    // Game mode currently set to.
-    optional android.app.GameMode game_mode_to = 4;
-}
-
-
-message GameModeConfigurationChanged {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // UID the caller package who made the game mode config change.
-    optional int32 caller_uid = 2 [(is_uid) = true];
-
-    // Game mode of the configuration.
-    optional android.app.GameMode game_mode = 3;
-
-    // Scaling factor previously set for this game mode.
-    optional float scaling_factor_from = 4;
-
-    // Scaling factor currently set to for this game mode.
-    optional float scaling_factor_to = 5;
-
-    // FPS override previously set for this game mode.
-    optional int32 fps_override_from = 6;
-
-    // FPS override currently set for this game mode.
-    optional int32 fps_override_to = 7;
-}
-
-message GameModeInfo {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // Game modes currently overridden by the game.
-    repeated android.app.GameMode overridden_game_modes = 2;
-
-    // Game modes available to user for the game.
-    repeated android.app.GameMode available_game_modes = 3;
-}
-
-
-message GameModeConfiguration {
-    // UID of the game package.
-    optional int32 game_uid = 1 [(is_uid) = true];
-
-    // Game mode of the configuration.
-    optional android.app.GameMode game_mode = 2;
-
-    // FPS override previously set for this game mode.
-    optional int32 fps_override = 3;
-
-    // Scaling factor currently set to for this game mode.
-    optional float scaling_factor = 4;
-}
-
-
-message GameModeListener {
-    // Number of listeners currently registered in GameManagerService.
-    optional int32 count = 1;
-}
-
 /**
  *  Logs for a background fetch process when the runBackgroundFetch() is called.
  */
@@ -22988,6 +22966,34 @@ message AutofillPresentationEventReported {
   // Whether a new request was triggered or alternatively served from cached
   // response.
   optional bool is_request_triggered = 12;
+
+  // Timestamps are in milliseconds, relative to when the Session was created
+  // For example, if timestamp has a value = 100, the event was triggered
+  // 100ms after the session was created.
+  // Since these are relative to Session creation, you can subtract events to
+  // get the latency duration between events.
+  // t1 = 100
+  // t2 = 300
+  // duration = t2 - t1 = 200ms
+  // ------------------------------------------------------------------------
+  // Timestamp of when FillRequest is sent to Autofill provider
+  // This is also the latency of when a field is focused to Framework sending a FillRequest
+  optional int32 fill_request_sent_timestamp_ms = 13;
+
+  // Timestamp of when Autofill provider returns a FillResponse
+  // The latency of the Autofill provider IPC can be calculated
+  // by fillResponseReceivedTimestampMs - fillRequestSentTimestampMs
+  optional int32 fill_response_received_timestamp_ms = 14;
+
+  // Timestamp of when FillResponse is sent to the IME/Dropdown handler/Fill Dialog UI
+  // The latency of processing provider FillResponse to when suggestions are sent to be rendered
+  // can be calculated by suggestionSentTimestampMs - fillResponseReceivedTimestampMs
+  optional int32 suggestion_sent_timestamp_ms = 15;
+
+  // Timestamp of when the suggestion is shown
+  // The latency of showing suggestions can be calculated by
+  // suggestionPresentedTimestampMs - suggestionSentTimestampMs
+  optional int32 suggestion_presented_timestamp_ms = 16;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
