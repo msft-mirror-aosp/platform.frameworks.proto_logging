@@ -740,7 +740,7 @@ message Atom {
     }
 
     // Pulled events will start at field 10000.
-    // Next: 10161
+    // Next: 10175
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -931,6 +931,7 @@ message Atom {
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
         MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
+        NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
     }
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5776,6 +5777,77 @@ message NotificationChannelModified {
     optional bool is_conversation_demoted = 9;
     // whether this conversation is marked as being a priority
     optional bool is_conversation_priority = 10;
+}
+
+/**
+ * Snapshot of notification memory use aggregated per-package and per-style.
+ * One message for each notification style of each package showing notifications.
+ * Logged from
+ *    frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/logging
+ */
+ message NotificationMemoryUse {
+    // UID if the application (can be mapped to package and version)
+    optional int32 uid = 1;
+    // Integer enum value showing aggregated notification style.
+    optional int32 style = 2;
+    // Number of notifications that were aggregated into this metric.
+    optional int32 count = 3;
+    // Number of notifications with actually inflated views in this metric.
+    optional int32 countWithInflatedViews = 4;
+    // Memory use of small icon Bitmaps in KB.
+    optional int32 smallIconObject = 5;
+    // Count of notifications with small icons as bitmaps.
+    optional int32 smallIconBitmapCount = 6;
+    // Memory use of large icon Bitmaps in KB.
+    optional int32 largeIconObject = 7;
+    // Count of notifications with large icons as bitmaps.
+    optional int32 largeIconBitmapCount = 8;
+    // Memory use of big picture style Bitmaps in KB.
+    optional int32 bigPictureObject = 9;
+    // Count of notifications with big picture images as bitmaps.
+    optional int32 bigPictureBitmapCount = 10;
+    // Complete memory use of extras in Notification object, in KB.
+    optional int32 extras = 11;
+    // Memory use of extenders in KB.
+    optional int32 extenders = 12;
+    // Combined memory use of small icon drawables in views, in KB.
+    optional int32 smallIconViews = 13;
+    // Combined memory use of large icon drawables in views, in KB.
+    optional int32 largeIconViews = 14;
+    // Combined memory use of system icon drawables in views, in KB.
+    optional int32 systemIconViews = 15;
+    // Combined memory use of style drawables (e.g. BigPicture) in views, in KB.
+    optional int32 styleViews = 16;
+    // Combined memory use of custom view drawables in views, in KB.
+    optional int32 customViews = 17;
+    // Extra memory used due to usage of software bitmaps, in KB.
+    optional int32 softwareBitmaps = 18;
+    // How many notifications were actually ever shown to the user.
+    optional int32 seenCount = 19;
+}
+
+/**
+ * Logged when notification are dismissed. If multiple notifications are dismissed together,
+ * this is only logged once per style per UID.
+ * Logged from
+ *    frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/logging
+ */
+message NotificationDismissed {
+    // UID if the application (can be mapped to package and version)
+    optional int32 uid = 1 [(is_uid) = true];
+    // Integer enum value showing aggregated notification style.
+    optional android.stats.sysui.NotificationStyle style = 2;
+    // Reason for dismissal, based on REASON_ constants in
+    // frameworks/base/core/java/android/service/notification/NotificationListenerService.java
+    optional int32 reason = 3;
+    // Number of notifications dismissed.
+    optional int32 count = 4;
+    // Memory use of Notification object being dismissed, in KB.
+    optional int32 notificationObjectMemoryUse = 5;
+    // Memory use of Notification views being dismissed, in KB.
+    optional int32 notificationViewMemoryUse = 6;
+    // Current memory use of SystemUI, RSS Anon in KB.
+    optional int32 systemUiMemoryUse = 7;
 }
 
 /**
