@@ -1473,6 +1473,10 @@ message WifiP2pConnectionReported {
         USER_REJECT = 6;
         // New connection request is issued before ending previous connecting request.
         NEW_CONNECTION_ATTEMPT = 7;
+        // Group has been removed
+        GROUP_REMOVED = 8;
+        // Creating group failed
+        CREATE_GROUP_FAILED = 9;
     }
     enum GroupRole {
         GROUP_UNKNOWN = 0;
@@ -17886,6 +17890,14 @@ enum ArtGcCollectorType {
     ART_GC_COLLECTOR_TYPE_CONCURRENT_COPYING_BACKGROUND = 6;
 }
 
+// Indicates support for userfaultfd and minor fault mode.
+enum ArtUffdSupport {
+    ART_UFFD_SUPPORT_UNKNOWN = 0;
+    ART_UFFD_SUPPORT_UFFD_NOT_SUPPORTED = 1;
+    ART_UFFD_SUPPORT_MINOR_FAULT_MODE_NOT_SUPPORTED = 2;
+    ART_UFFD_SUPPORT_MINOR_FAULT_MODE_SUPPORTED = 3;
+}
+
 message ArtDatumReported {
     // The session ID is used to correlate this report with others from the same ART instance.
     optional int64 session_id = 1;
@@ -17922,6 +17934,9 @@ message ArtDatumReported {
 
     // The Garbage Collector used in the Android Runtime.
     optional ArtGcCollectorType gc = 12;
+
+    // The support for userfaultfd and minor fault mode.
+    optional ArtUffdSupport uffd_support = 13;
 }
 
 // ArtDatumDeltaReported is the same as ArtDatumReported, except for the kind field
@@ -17962,6 +17977,9 @@ message ArtDatumDeltaReported {
 
     // The Garbage Collector used in the Android Runtime.
     optional ArtGcCollectorType gc = 12;
+
+    // The support for userfaultfd and minor fault mode.
+    optional ArtUffdSupport uffd_support = 13;
 }
 
 /**
