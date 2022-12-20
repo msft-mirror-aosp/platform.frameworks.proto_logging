@@ -3726,6 +3726,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     MORE_SECURITY_PRIVACY_SETTINGS = 2005;
+
+    // OPEN: Settings > About phone > Device name > confrim dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_DEVICENAME_WARNING = 2006;
 }
 
 // Battery Saver schedule types.
