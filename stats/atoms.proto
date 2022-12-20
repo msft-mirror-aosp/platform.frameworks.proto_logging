@@ -28,6 +28,7 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
@@ -892,6 +893,7 @@ message Atom {
             [(module) = "framework"];
         AppSearchSchemaMigrationStatsReported
           app_search_schema_migration_stats_reported = 579 [(module) = "appsearch"];
+        location.LocationEnabledStateChanged location_enabled_state_changed = 580 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
