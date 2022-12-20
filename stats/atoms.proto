@@ -734,6 +734,7 @@ message Atom {
         BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
         LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
+        PerformanceHintSessionReported performance_hint_session_reported = 574 [(module) = "framework"];
         HotwordAudioEgressEventReported hotword_audio_egress_event_reported = 578 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -931,6 +932,7 @@ message Atom {
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
         MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
+        ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
         NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
     }
 
@@ -22088,4 +22090,30 @@ message HotwordAudioEgressEventReported {
 
     // The count of audio streams
     optional int32 stream_count = 6;
+}
+
+/**
+ * Logs information related to Android Dynamic Performance Framework (ADPF).
+ */
+
+message PerformanceHintSessionReported {
+    // UID of the package.
+    optional int32 package_uid = 1 [(is_uid) = true];
+
+    // Unique ID of the hint session.
+    optional int64 session_id = 2;
+
+    // Hint session target duration, in nanoseconds.
+    optional int64 target_duration_ns = 3;
+
+    // Number of threads affected by this session
+    optional int32 tid_count = 4;
+}
+
+message ADPFSystemComponentInfo {
+    // True if SurfaceFlinger CPU hint is enabled on the device.
+    optional bool surfaceflinger_cpu_hint_enabled = 1;
+
+    // True if HWUI hint is enabled on the device.
+    optional bool hwui_hint_enabled = 2;
 }
