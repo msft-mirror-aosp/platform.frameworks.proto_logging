@@ -313,21 +313,6 @@ enum Action {
     // VALUE: The package name of the app
     ACTION_SETTINGS_CLEAR_INSTANT_APP = 923;
 
-    // OPEN: Assist Gesture training intro in Settings
-    // CATEGORY: SETTINGS
-    // OS: O DR
-    SETTINGS_ASSIST_GESTURE_TRAINING_INTRO = 991;
-
-    // OPEN: Assist Gesture training enrolling in Settings
-    // CATEGORY: SETTINGS
-    // OS: O DR
-    SETTINGS_ASSIST_GESTURE_TRAINING_ENROLLING = 992;
-
-    // OPEN: Assist Gesture training finished in Settings
-    // CATEGORY: SETTINGS
-    // OS: O DR
-    SETTINGS_ASSIST_GESTURE_TRAINING_FINISHED = 993;
-
     // ACTION: Update default app from Settings
     ACTION_SETTINGS_UPDATE_DEFAULT_APP = 1000;
 
@@ -2218,6 +2203,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: O DR
     SETTINGS_CHOOSE_LOCK_DIALOG = 990;
+
+    // OPEN: Assist Gesture training intro in Settings
+    // CATEGORY: SETTINGS
+    // OS: O DR
+    SETTINGS_ASSIST_GESTURE_TRAINING_INTRO = 991;
+
+    // OPEN: Assist Gesture training enrolling in Settings
+    // CATEGORY: SETTINGS
+    // OS: O DR
+    SETTINGS_ASSIST_GESTURE_TRAINING_ENROLLING = 992;
+
+    // OPEN: Assist Gesture training finished in Settings
+    // CATEGORY: SETTINGS
+    // OS: O DR
+    SETTINGS_ASSIST_GESTURE_TRAINING_FINISHED = 993;
 
     // OPEN: Settings > System > Languages & input > Assist gesture
     // CATEGORY: SETTINGS
