@@ -313,21 +313,6 @@ enum Action {
     // VALUE: The package name of the app
     ACTION_SETTINGS_CLEAR_INSTANT_APP = 923;
 
-    // OPEN: Assist Gesture training intro in Settings
-    // CATEGORY: SETTINGS
-    // OS: O DR
-    SETTINGS_ASSIST_GESTURE_TRAINING_INTRO = 991;
-
-    // OPEN: Assist Gesture training enrolling in Settings
-    // CATEGORY: SETTINGS
-    // OS: O DR
-    SETTINGS_ASSIST_GESTURE_TRAINING_ENROLLING = 992;
-
-    // OPEN: Assist Gesture training finished in Settings
-    // CATEGORY: SETTINGS
-    // OS: O DR
-    SETTINGS_ASSIST_GESTURE_TRAINING_FINISHED = 993;
-
     // ACTION: Update default app from Settings
     ACTION_SETTINGS_UPDATE_DEFAULT_APP = 1000;
 
@@ -1088,10 +1073,57 @@ enum Action {
     // OS: T
     ACTION_DOCK_DEFENDER_TIP = 1805;
 
-    // ACTION: Settings > User > Add user
+    // ACTION: Settings > System > Multi User > Add user
     // CATEGORY: SETTINGS
-    // OS: S
+    // OS: U
     ACTION_USER_ADD = 1806;
+
+    // ACTION: Settings > Apps > Cloned Apps > Click on add icon to create clone
+    // app.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_CREATE_CLONE_APP = 1807;
+
+    // ACTION: Settings > Apps > Cloned Apps > Click on trash icon to delete
+    // clone app.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_DELETE_CLONE_APP = 1808;
+
+    // ACTION: Settings > System > Multi User > User > Remove user
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_REMOVE_USER = 1809;
+
+    // ACTION: Settings > System > Multi User > Guest User > Remove user
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_REMOVE_GUEST_USER = 1810;
+
+    // ACTION: Settings > System > Multi User > Restricted User > Remove user
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_REMOVE_RESTRICTED_USER = 1811;
+
+    // ACTION: Settings > System > Multi User > Restricted User > Remove user
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_SWITCH_TO_RESTRICTED_USER = 1812;
+
+    // ACTION: Settings > System > Multi User > Restricted User > Remove user
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_SWITCH_TO_USER = 1813;
+
+    // ACTION: Settings > System > Multi User > User > enable call
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_ENABLE_USER_CALL = 1814;
+
+    // ACTION: Settings > System > Multi User > User > disable call
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_DISABLE_USER_CALL = 1815;
 }
 
 /**
@@ -2218,6 +2250,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: O DR
     SETTINGS_CHOOSE_LOCK_DIALOG = 990;
+
+    // OPEN: Assist Gesture training intro in Settings
+    // CATEGORY: SETTINGS
+    // OS: O DR
+    SETTINGS_ASSIST_GESTURE_TRAINING_INTRO = 991;
+
+    // OPEN: Assist Gesture training enrolling in Settings
+    // CATEGORY: SETTINGS
+    // OS: O DR
+    SETTINGS_ASSIST_GESTURE_TRAINING_ENROLLING = 992;
+
+    // OPEN: Assist Gesture training finished in Settings
+    // CATEGORY: SETTINGS
+    // OS: O DR
+    SETTINGS_ASSIST_GESTURE_TRAINING_FINISHED = 993;
 
     // OPEN: Settings > System > Languages & input > Assist gesture
     // CATEGORY: SETTINGS
@@ -3726,6 +3773,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     MORE_SECURITY_PRIVACY_SETTINGS = 2005;
+
+    // OPEN: Settings > About phone > Device name > confrim dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_DEVICENAME_WARNING = 2006;
 }
 
 // Battery Saver schedule types.
