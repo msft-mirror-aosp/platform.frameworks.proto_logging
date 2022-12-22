@@ -16622,6 +16622,8 @@ message DisplayWakeReported {
     //     else reference wake_up_reason to
     //     services/core/java/com/android/server/power/Notifier.java#onWakeUp
     optional int32 wake_up_reason = 1;
+    // UID that caused the display to wake
+    optional int32 uid = 2 [(is_uid) = true];
 }
 
 /**
