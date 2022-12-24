@@ -29,6 +29,7 @@ import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
@@ -894,6 +895,7 @@ message Atom {
         AppSearchSchemaMigrationStatsReported
           app_search_schema_migration_stats_reported = 579 [(module) = "appsearch"];
         location.LocationEnabledStateChanged location_enabled_state_changed = 580 [(module) = "framework"];
+        view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -16622,6 +16624,8 @@ message DisplayWakeReported {
     //     else reference wake_up_reason to
     //     services/core/java/com/android/server/power/Notifier.java#onWakeUp
     optional int32 wake_up_reason = 1;
+    // UID that caused the display to wake
+    optional int32 uid = 2 [(is_uid) = true];
 }
 
 /**
