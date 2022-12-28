@@ -34,11 +34,41 @@ TEST(ApiGenVendorAtomTest, AtomIdConstantsTest) {
 /**
  * Tests native auto generated code for specific vendor atom contains proper enums
  */
-TEST(ApiGenVendorAtomTest, AtomEnumsConstantsTest) {
-    EXPECT_EQ(VENDOR_ATOM1__TYPE__VENDOR_ATOM1_TYPE_UNKNOWN, 0);
-    EXPECT_EQ(VENDOR_ATOM1__TYPE__VENDOR_ATOM1_TYPE_1, 1);
-    EXPECT_EQ(VENDOR_ATOM1__TYPE__VENDOR_ATOM1_TYPE_2, 2);
-    EXPECT_EQ(VENDOR_ATOM1__TYPE__VENDOR_ATOM1_TYPE_3, 3);
+TEST(ApiGenVendorAtomTest, AtomEnumTest) {
+    EXPECT_EQ(VendorAtom1::TYPE_UNKNOWN, 0);
+    EXPECT_EQ(VendorAtom1::TYPE_1, 1);
+    EXPECT_EQ(VendorAtom1::TYPE_2, 2);
+    EXPECT_EQ(VendorAtom1::TYPE_3, 3);
+
+    EXPECT_EQ(VendorAtom1::ANOTHER_TYPE_UNKNOWN, 0);
+    EXPECT_EQ(VendorAtom1::ANOTHER_TYPE_1, 1);
+    EXPECT_EQ(VendorAtom1::ANOTHER_TYPE_2, 2);
+    EXPECT_EQ(VendorAtom1::ANOTHER_TYPE_3, 3);
+
+    EXPECT_EQ(VendorAtom2::TYPE_UNKNOWN, 0);
+    EXPECT_EQ(VendorAtom2::TYPE_1, 1);
+    EXPECT_EQ(VendorAtom2::TYPE_2, 2);
+    EXPECT_EQ(VendorAtom2::TYPE_3, 3);
+
+    EXPECT_EQ(VendorAtom2::ANOTHER_TYPE_UNKNOWN, 0);
+    EXPECT_EQ(VendorAtom2::ANOTHER_TYPE_1, 1);
+    EXPECT_EQ(VendorAtom2::ANOTHER_TYPE_2, 2);
+    EXPECT_EQ(VendorAtom2::ANOTHER_TYPE_3, 3);
+
+    typedef void (*Atom1FuncWithEnum)(VendorAtom1::EnumType arg);
+    typedef void (*Atom1FuncWithEnum2)(VendorAtom1::EnumType2 arg);
+    typedef void (*Atom2FuncWithEnum)(VendorAtom2::EnumType arg);
+    typedef void (*Atom2FuncWithEnum2)(VendorAtom2::EnumType2 arg);
+
+    Atom1FuncWithEnum f1 = nullptr;
+    Atom1FuncWithEnum2 f2 = nullptr;
+    Atom2FuncWithEnum f3 = nullptr;
+    Atom2FuncWithEnum2 f4 = nullptr;
+
+    EXPECT_EQ(f1, nullptr);
+    EXPECT_EQ(f2, nullptr);
+    EXPECT_EQ(f3, nullptr);
+    EXPECT_EQ(f4, nullptr);
 }
 
 }  // namespace stats_log_api_gen
