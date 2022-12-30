@@ -15496,6 +15496,8 @@ message DeviceTelephonyProperties {
     optional bool auto_data_switch_enabled = 2;
     // Number of time the user toggled the data switch feature since the last collection
     optional int32 auto_data_switch_toggle_count = 3;
+    // True if work profile is enabled on the device
+    optional bool has_managed_profile_dedicated_sub = 4;
 }
 
 /**
@@ -15599,6 +15601,9 @@ message IncomingSms {
 
     // Number of messages with the same properties (see message_id for exception)
     optional int32 count = 15;
+
+    // Whether the message was received with an enterprise profile.
+    optional bool is_managed_profile = 16;
 }
 
 /**
@@ -15676,6 +15681,9 @@ message OutgoingSms {
     // - SMS_FORMAT_3GPP format: see GsmSmsErrorCode (3GPP 27.005 clause 3.2.5)
     // - SMS_FORMAT_3GPP2 format: see CdmaSmsErrorCode (3GPP2 N.S0005 (IS-41-C) Table 171)
     optional int32 network_error_code = 17;
+
+    // Whether the message was sent with an enterprise profile.
+    optional bool is_managed_profile = 18;
 }
 
 /**
@@ -23560,6 +23568,9 @@ message IncomingMms {
 
     // Whether MmsService or carrier app downloaded the MMS from the network.
     optional bool handled_by_carrier_app = 11;
+
+    // Whether the MMS was received with an enterprise profile.
+    optional bool is_managed_profile = 12;
 }
 
 /**
@@ -23610,6 +23621,9 @@ message OutgoingMms {
 
     // Whether MmsService or carrier app uploaded the MMS to the network.
     optional bool handled_by_carrier_app = 12;
+
+    // Whether the MMS was sent with an enterprise profile.
+    optional bool is_managed_profile = 13;
 }
 
 message PrivacySignalNotificationInteraction {
