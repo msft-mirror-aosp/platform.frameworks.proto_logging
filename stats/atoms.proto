@@ -911,6 +911,8 @@ message Atom {
         credentials.CredentialManagerApiCalled credential_manager_api_called = 585 [(module) = "framework"];
         providers.mediaprovider.MediaProviderVolumeRecoveryReported
             media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
+        hardware.biometrics.BiometricPropertiesCollected
+            biometric_properties_collected = 587 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
