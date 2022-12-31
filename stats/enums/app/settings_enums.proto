@@ -3778,6 +3778,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_DEVICENAME_WARNING = 2006;
+
+    // OPEN: Settings > System > Language & input > Regional preferences
+    // CATEGORY: SETTINGS
+    // OS: U
+    REGIONAL_PREFERENCE = 2007;
 }
 
 // Battery Saver schedule types.
