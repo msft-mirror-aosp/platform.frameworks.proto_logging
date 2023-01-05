@@ -3774,7 +3774,7 @@ enum PageId {
     // OS: U
     MORE_SECURITY_PRIVACY_SETTINGS = 2005;
 
-    // OPEN: Settings > About phone > Device name > confrim dialog
+    // OPEN: Settings > About phone > Device name > confirm dialog
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_DEVICENAME_WARNING = 2006;
@@ -3783,6 +3783,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     REGIONAL_PREFERENCE = 2007;
+
+    // OPEN: Settings > Pick SIM dialog > Choose default data SIM
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_AUTO_DATA_SWITCH = 2008;
 }
 
 // Battery Saver schedule types.
