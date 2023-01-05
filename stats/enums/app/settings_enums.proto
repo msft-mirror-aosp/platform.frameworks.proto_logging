@@ -3803,6 +3803,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     FIRST_DAY_OF_WEEK_PREFERENCE = 2011;
+
+    // OPEN: Settings > System > Language & input > Regional preferences > Numbers
+    // CATEGORY: SETTINGS
+    // OS: U
+    NUMBERING_SYSTEM_LANGUAGE_SELECTION_PREFERENCE = 2012;
+
+    // OPEN: Settings > System > Language & input > Regional preferences > Numbers -> Languages
+    // CATEGORY: SETTINGS
+    // OS: U
+    NUMBERING_SYSTEM_NUMBER_FORMAT_SELECTION_PREFERENCE = 2013;
 }
 
 // Battery Saver schedule types.
