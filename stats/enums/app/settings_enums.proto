@@ -1124,6 +1124,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_DISABLE_USER_CALL = 1815;
+
+    // Custom tag to log the total screen-on time when battery usage is opened.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_BATTERY_USAGE_SCREEN_ON_TIME = 1816;
+
+    // Custom tag to log the total foreground time when battery usage is opened.
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_BATTERY_USAGE_FOREGROUND_USAGE_TIME = 1817;
 }
 
 /**
