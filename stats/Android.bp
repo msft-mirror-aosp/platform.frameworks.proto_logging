@@ -86,6 +86,7 @@ atom_protos = [
     "atoms/gps/*.proto",
     "atoms/hardware/biometrics/*.proto",
     "atoms/hotword/*.proto",
+    "atoms/locale/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",

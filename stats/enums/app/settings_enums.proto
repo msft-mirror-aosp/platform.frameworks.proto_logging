@@ -3788,6 +3788,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_AUTO_DATA_SWITCH = 2008;
+
+    // OPEN: Settings > System > Language & input > Regional preferences > Temperature
+    // CATEGORY: SETTINGS
+    // OS: U
+    TEMPERATURE_PREFERENCE = 2009;
+
+    // OPEN: Settings > System > Language & input > Regional preferences > Calendar
+    // CATEGORY: SETTINGS
+    // OS: U
+    CALENDAR_PREFERENCE = 2010;
+
+    // OPEN: Settings > System > Language & input > Regional preferences > First day of week
+    // CATEGORY: SETTINGS
+    // OS: U
+    FIRST_DAY_OF_WEEK_PREFERENCE = 2011;
 }
 
 // Battery Saver schedule types.
