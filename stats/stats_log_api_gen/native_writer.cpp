@@ -575,7 +575,39 @@ int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl&
                                   const string& cppNamespace) {
     write_stats_log_header_preamble(out, cppNamespace, false);
     write_native_atom_constants(out, atoms, attributionDecl);
-    write_native_atom_enums(out, atoms);
+
+    for (AtomDeclSet::const_iterator atomIt = atoms.decls.begin(); atomIt != atoms.decls.end();
+         atomIt++) {
+        fprintf(out, "class %s final {\n", (*atomIt)->message.c_str());
+        fprintf(out, "public:\n\n");
+
+        set<string> processedEnums;
+        for (vector<AtomField>::const_iterator field = (*atomIt)->fields.begin();
+             field != (*atomIt)->fields.end(); field++) {
+            // there might be N fields with the same enum type
+            // avoid duplication definitions
+            if (processedEnums.find(field->enumTypeName) != processedEnums.end()) {
+                continue;
+            }
+            processedEnums.insert(field->enumTypeName);
+            if (field->javaType == JAVA_TYPE_ENUM || field->javaType == JAVA_TYPE_ENUM_ARRAY) {
+                fprintf(out, "enum %s {\n", field->enumTypeName.c_str());
+                size_t i = 0;
+                for (map<int, string>::const_iterator value = field->enumValues.begin();
+                     value != field->enumValues.end(); value++) {
+                    fprintf(out, "    %s = %d", make_constant_name(value->second).c_str(),
+                            value->first);
+                    char const* const comma = (i == field->enumValues.size() - 1) ? "" : ",";
+                    fprintf(out, "%s\n", comma);
+                    i++;
+                }
+                fprintf(out, "};\n");
+            }
+        }
+
+        fprintf(out, "};\n\n");
+    }
+
     write_stats_log_header_epilogue(out, cppNamespace);
 
     return 0;
