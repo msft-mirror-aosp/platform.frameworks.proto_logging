@@ -26,21 +26,49 @@ message Atom {
 }
 
 message VendorAtom1 {
-    enum VendorAtom1Type {
-        VENDOR_ATOM1_TYPE_UNKNOWN = 0;
-        VENDOR_ATOM1_TYPE_1 = 1;
-        VENDOR_ATOM1_TYPE_2 = 2;
-        VENDOR_ATOM1_TYPE_3 = 3;
+    enum EnumType {
+        TYPE_UNKNOWN = 0;
+        TYPE_1 = 1;
+        TYPE_2 = 2;
+        TYPE_3 = 3;
     }
+
+    enum EnumType2 {
+        ANOTHER_TYPE_UNKNOWN = 0;
+        ANOTHER_TYPE_1 = 1;
+        ANOTHER_TYPE_2 = 2;
+        ANOTHER_TYPE_3 = 3;
+    }
+
     optional string reverse_domain_name = 1;
-    optional VendorAtom1Type type = 2;
-    optional int32 int_value32 = 3;
-    optional int64 int_value64 = 4;
-    optional float float_value = 5;
-    optional bool bool_value = 6;
+    optional EnumType enumField1 = 2;
+    optional EnumType enumField2 = 3;
+    optional int32 int_value32 = 4;
+    optional int64 int_value64 = 5;
+    optional float float_value = 6;
+    optional bool bool_value = 7;
+    optional EnumType2 enumField3 = 8;
+    optional EnumType2 enumField4 = 9;
 }
 
 message VendorAtom2 {
+    enum EnumType {
+        TYPE_UNKNOWN = 0;
+        TYPE_1 = 1;
+        TYPE_2 = 2;
+        TYPE_3 = 3;
+    }
+
+    enum EnumType2 {
+        ANOTHER_TYPE_UNKNOWN = 0;
+        ANOTHER_TYPE_1 = 1;
+        ANOTHER_TYPE_2 = 2;
+        ANOTHER_TYPE_3 = 3;
+    }
+
     optional string reverse_domain_name = 1;
-    optional int32 int_value = 2;
+    optional EnumType enumField1 = 2;
+    optional EnumType enumField2 = 3;
+    optional EnumType2 enumField3 = 4;
+    optional EnumType2 enumField4 = 5;
 }
