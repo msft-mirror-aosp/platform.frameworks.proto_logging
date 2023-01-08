@@ -39,9 +39,10 @@ enum WifiModeEnum {
     WIFI_MODE_SCAN_ONLY = 2 [deprecated=true];
 
     /**
+     * Deprecated. Refer {@link com.android.server.wifi.WifiManager#WIFI_MODE_FULL_HIGH_PERF}.
      * Wi-Fi will not go to power save.
      */
-    WIFI_MODE_FULL_HIGH_PERF = 3;
+    WIFI_MODE_FULL_HIGH_PERF = 3 [deprecated=true];
 
     /**
      * Wi-Fi will operate with a priority to achieve low latency.
