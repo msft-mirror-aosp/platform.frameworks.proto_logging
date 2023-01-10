@@ -83,6 +83,7 @@ atom_protos = [
     "attribution_node.proto",
     "atoms/adpf/*.proto",
     "atoms/agif/*.proto",
+    "atoms/art/*.proto",
     "atoms/gps/*.proto",
     "atoms/hardware/biometrics/*.proto",
     "atoms/hotword/*.proto",
