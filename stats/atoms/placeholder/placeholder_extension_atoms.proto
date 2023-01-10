@@ -24,6 +24,12 @@ import "frameworks/proto_logging/stats/attribution_node.proto";
 
 // This file contains sample extension atoms for reference.
 
+extend Atom {
+    optional Atom9999 atom_9999 = 9999 [(module) = "placeholder"];
+
+    optional Atom99999 atom_99999 = 99999 [(module) = "placeholder"];
+}
+
 message Atom9999 {
     repeated AttributionNode attribution_node = 1;
     optional int32 uid = 2 [(is_uid) = true];
@@ -43,8 +49,3 @@ message Atom99999 {
     optional string label = 1;
 }
 
-extend Atom {
-    optional Atom9999 atom_9999 = 9999 [(module) = "placeholder"];
-
-    optional Atom99999 atom_99999 = 99999 [(module) = "placeholder"];
-}
