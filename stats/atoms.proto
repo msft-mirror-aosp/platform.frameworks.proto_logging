@@ -24238,6 +24238,9 @@ message WsWatchFaceEdited {
 
    // Enum to depict the source of the request. Values (PHONE, WATCH)
    optional android.app.wearservices.RequestSource request_source = 3;
+
+   // Component package for watch face.
+   optional int32 component_package_uid = 4 [(is_uid) = true];
 }
 
 /**
