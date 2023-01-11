@@ -29,6 +29,7 @@ import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/grammaticalinflection/grammatical_inflection.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/locale/locale_atoms.proto";
@@ -903,12 +904,13 @@ message Atom {
         view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
         locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
+        grammaticalinflection.ApplicationGrammaticalInflectionChanged grammatical_inflection_changed = 584 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pushed atom extensions.
-    // The atom definitions are under atoms/<feature>/<feature>_atoms.proto
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1122,7 +1124,7 @@ message Atom {
     }
 
     // Pulled atom extensions.
-    // The atom definitions are under atoms/<feature>/<feature>_atoms.proto
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
