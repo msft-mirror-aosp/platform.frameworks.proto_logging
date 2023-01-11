@@ -16544,6 +16544,8 @@ message MultiUserInfo {
     optional int32 max_supported_users = 1;
     // Whether multi user setting is on.
     optional bool multi_user_setting_on = 2;
+    // Whether device supports multiuser and owner have no restriction in adding users.
+    optional bool supports_adding_full_users = 3;
 }
 
 /**
