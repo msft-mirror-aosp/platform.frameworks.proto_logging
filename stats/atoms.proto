@@ -28,6 +28,7 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/credentials/credentials_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/grammaticalinflection/grammatical_inflection.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
@@ -906,6 +907,7 @@ message Atom {
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
         locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
         grammaticalinflection.ApplicationGrammaticalInflectionChanged grammatical_inflection_changed = 584 [(module) = "framework"];
+        credentials.CredentialManagerApiCalled credential_manager_api_called = 585 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
