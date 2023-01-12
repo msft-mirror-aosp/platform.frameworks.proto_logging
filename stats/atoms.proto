@@ -111,6 +111,7 @@ import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/otaupdate/updateengine_enums.proto";
 import "frameworks/proto_logging/stats/message/mediametrics_message.proto";
+import "frameworks/proto_logging/stats/atoms/devicelogs/device_logs_atoms.proto";
 
 /**
  * The primary atom class. This message defines all of the available
@@ -1127,6 +1128,7 @@ message Atom {
         ProcessAssociation process_association = 10172 [(module) = "framework"];
         adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
         NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
+        devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 10175 [(module) = "sysui"];
     }
 
     // Pulled atom extensions.

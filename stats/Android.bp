@@ -94,7 +94,8 @@ atom_protos = [
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
     "atoms/usb/*.proto",
-    "atoms/providers/mediaprovider/*.proto"
+    "atoms/providers/mediaprovider/*.proto",
+    "atoms/devicelogs/*.proto"
 ]
 
 cc_library_host_shared {
