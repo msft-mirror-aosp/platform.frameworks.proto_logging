@@ -978,6 +978,8 @@ message Atom {
     extensions 628; // WsCallDurationReported ws_call_duration_reported
     extensions 629; // WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported
     extensions 630; // WsCallInteractionReported ws_call_interaction_reported
+    extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
+    extensions 632; // BalAllowed bal_allowed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
