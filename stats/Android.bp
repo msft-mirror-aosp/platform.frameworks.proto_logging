@@ -93,7 +93,8 @@ atom_protos = [
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
-    "atoms/usb/*.proto"
+    "atoms/usb/*.proto",
+    "atoms/providers/mediaprovider/*.proto"
 ]
 
 cc_library_host_shared {
