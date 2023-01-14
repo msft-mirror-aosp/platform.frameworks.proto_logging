@@ -2182,6 +2182,8 @@ message ScheduledJobStateChanged {
     optional bool is_connectivity_constraint_satisfied = 29;
 
     optional bool is_content_trigger_constraint_satisfied = 30;
+
+    optional int64 job_start_latency_ms = 31;
 }
 
 /**
