@@ -111,7 +111,8 @@ message Atom {
         BleScanStateChanged ble_scan_state_changed = 2
                 [(module) = "bluetooth", (module) = "statsdtest"];
         ProcessStateChanged process_state_changed = 3 [(module) = "framework"];
-        BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
+        BleScanResultReceived ble_scan_result_received = 4
+            [(module) = "bluetooth", (module) = "statsdtest"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
         gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
@@ -1287,6 +1288,12 @@ message WifiConnectionResultReported {
         FAILURE_NETWORK_DISCONNECTION = 6;
         FAILURE_ROAM_TIMEOUT = 7;
         FAILURE_WRONG_PASSWORD = 8;
+        FAILURE_CONNECT_NETWORK_FAILED = 9;
+        FAILURE_NEW_CONNECTION_ATTEMPT = 10;
+        FAILURE_REDUNDANT_CONNECTION_ATTEMPT = 11;
+        FAILURE_NETWORK_NOT_FOUND = 12;
+        FAILURE_NO_RESPONSE = 13;
+        FAILURE_OTHERS = 14;
     }
 
     enum Trigger {
