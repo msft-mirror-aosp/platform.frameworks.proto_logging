@@ -70,3 +70,48 @@ optional int64 gesture_start = 10;
 optional bool is_aod = 11;
 }
 
+/**
+ * Logs biometric sensor properties when boot completed.
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ */
+message BiometricPropertiesCollected {
+    // The ID of the biometric sensor whose properties are being collected.
+    optional int32 sensor_id = 1;
+
+    // The biometric modality of the sensor (i.e. face, fingerprint, iris).
+    optional android.hardware.biometrics.ModalityEnum modality = 2;
+
+    // The specific type of the sensor.
+    optional android.hardware.biometrics.SensorTypeEnum sensor_type = 3;
+
+    // The biometric strength of the sensor.
+    optional android.hardware.biometrics.StrengthEnum sensor_strength = 4;
+
+    // The following is a list of component information for the subsystems that
+    // pertain to the sensor. None of the component info is a device identifier
+    // since every device of a given model and build share the same info.
+    // An identifier uniquely identifying a subsystem. It must not be an empty
+    // string.
+    optional string component_info_component_id = 5;
+
+    // The hardware version of a biometric subsystem. For example,
+    // <vendor>/<model>/<revision>. If there is no hardware version for this
+    // component, it must be empty.
+    optional string component_info_hardware_version = 6;
+
+    // The firmware version of a biometric subsystem. If there's no firmware
+    // version for this component, it must be empty.
+    optional string component_info_firmware_version = 7;
+
+    // The serial number of a biometric subsystem. If there's no serial number
+    // for this component, it must be empty.
+    optional string component_info_serial_number = 8;
+
+    // The software version of a biometric subsystem. For example,
+    // <vendor>/<version>/<revision>. If there's no software version for this
+    // component, it must be empty.
+    optional string component_info_software_version = 9;
+}
+

@@ -94,7 +94,8 @@ atom_protos = [
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
     "atoms/usb/*.proto",
-    "atoms/providers/mediaprovider/*.proto"
+    "atoms/providers/mediaprovider/*.proto",
+    "atoms/devicelogs/*.proto"
 ]
 
 cc_library_host_shared {
@@ -122,6 +123,13 @@ filegroup {
     name: "libstats_internal_protos",
     srcs: [
         ":libstats_atoms_proto",
+        "atom_field_options.proto",
+    ],
+}
+
+filegroup {
+    name: "libstats_atom_options_protos",
+    srcs: [
         "atom_field_options.proto",
     ],
 }
