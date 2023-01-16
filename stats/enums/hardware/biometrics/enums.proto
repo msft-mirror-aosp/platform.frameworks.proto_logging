@@ -95,3 +95,31 @@ enum FoldStateEnum {
 enum WakeReasonEnum {
     WAKE_REASON_UNKNOWN = 0;
 }
+
+enum StrengthEnum {
+    STRENGTH_UNKNOWN = 0;
+    // A sensor that meets the requirements for Class 1 biometrics as defined in
+    // the CDD. This does not correspond to a public
+    // BiometricManager.Authenticators constant. Sensors of this strength are
+    // not available to applications via the public API surface.
+    STRENGTH_CONVENIENCE = 1;
+    // A sensor that meets the requirements for Class 2 biometrics as defined in
+    // the CDD. Corresponds to BiometricManager.Authenticators.BIOMETRIC_WEAK.
+    STRENGTH_WEAK = 2;
+    // A sensor that meets the requirements for Class 3 biometrics as defined in
+    // the CDD. Corresponds to BiometricManager.Authenticators.BIOMETRIC_STRONG.
+    // Notably, this is the only strength that allows generation of
+    // HardwareAuthToken(s).
+    STRENGTH_STRONG = 3;
+}
+
+enum SensorTypeEnum {
+    SENSOR_UNKNOWN = 0;
+    SENSOR_FP_REAR = 1;
+    SENSOR_FP_UDFPS_ULTRASONIC = 2;
+    SENSOR_FP_UDFPS_OPTICAL = 3;
+    SENSOR_FP_POWER_BUTTON = 4;
+    SENSOR_FP_HOME_BUTTON = 5;
+    SENSOR_FACE_RGB = 6;
+    SENSOR_FACE_IR = 7;
+}
