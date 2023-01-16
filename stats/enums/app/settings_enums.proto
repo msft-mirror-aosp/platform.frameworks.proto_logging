@@ -3559,6 +3559,11 @@ enum PageId {
     // OS: T
     NFC_DEFAULT_PAYMENT = 1936;
 
+    // OPEN: Active Unlock Enroll (if there is no face or fingerprint enrolled)
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTIVE_UNLOCK_REQUIRE_BIOMETRIC_SETUP = 1940;
+
     // OPEN: Settings > System > Languages
     // CATEGORY: SETTINGS
     // OS: U
