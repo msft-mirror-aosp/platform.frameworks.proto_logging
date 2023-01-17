@@ -930,6 +930,8 @@ message Atom {
         expresslog.ExpressHistogramSampleReported express_histogram_sample_reported = 593 [(module) = "framework", (module) = "expresslog"];
         wear.media.MediaSessionUpdated media_session_updated = 594 [(module) = "wearmedia"];
         wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595 [(module) = "framework"];
+        wearservices.WsNotificationUpdated ws_notification_updated = 596
+            [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }

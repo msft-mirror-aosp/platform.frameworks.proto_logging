@@ -117,3 +117,47 @@ enum RestoreAction {
   // Depicts that a restore attempt did not succeed
   RESTORE_FAILED = 3;
 }
+
+// Describes an action triggered by a notification update.
+// Next ID: 4
+enum NotificationUpdateAction {
+  // Unknown notification action
+  NOTIFICATION_ACTION_UNKNOWN = 0;
+
+  // Notification posted
+  NOTIFICATION_ACTION_POST = 1;
+
+  // Notification dismissed by the user
+  NOTIFICATION_ACTION_DISMISS = 2;
+
+  // Notification removed by the source
+  NOTIFICATION_ACTION_REMOVE = 3;
+}
+
+// Importance of the notification after this update.
+// Next ID: 8
+enum NotificationImportance {
+  // Importance not known
+  NOTIFICATION_IMPORTANCE_UNKNOWN = 0;
+
+  // Importance set as NotificationManager#IMPORTANCE_UNSPECIFIED
+  NOTIFICATION_IMPORTANCE_UNSPECIFIED = 1;
+
+  // Importance set as NotificationManager#IMPORTANCE_NONE
+  NOTIFICATION_IMPORTANCE_NONE = 2;
+
+  // Importance set as NotificationManager#IMPORTANCE_MIN
+  NOTIFICATION_IMPORTANCE_MIN = 3;
+
+  // Importance set as NotificationManager#IMPORTANCE_LOW
+  NOTIFICATION_IMPORTANCE_LOW = 4;
+
+  // Importance set as NotificationManager#IMPORTANCE_DEFAULT
+  NOTIFICATION_IMPORTANCE_DEFAULT = 5;
+
+  // Importance set as NotificationManager#IMPORTANCE_HIGH
+  NOTIFICATION_IMPORTANCE_HIGH = 6;
+
+  // Importance set as NotificationManager#IMPORTANCE_MAX
+  NOTIFICATION_IMPORTANCE_MAX = 7;
+}
