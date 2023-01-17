@@ -932,6 +932,7 @@ message Atom {
         wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595 [(module) = "framework"];
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
+        display.ScreenBrightnessChangedV2 screen_brightness_changes_v2 = 597 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }

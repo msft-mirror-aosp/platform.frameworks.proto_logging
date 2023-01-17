@@ -27,6 +27,7 @@ enum_protos = [
     "enums/app/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/debug/*.proto",
+    "enums/display/*.proto",
     "enums/hardware/**/*.proto",
     "enums/hotword/*.proto",
     "enums/jank/*.proto",
