@@ -1131,6 +1131,7 @@ message Atom {
         adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
         NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
         devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 10175 [(module) = "sysui"];
+        WsFavouriteWatchFaceListSnapshot ws_favourite_watch_face_list_snapshot = 10176 [(module) = "wearservices"];
     }
 
     // Pulled atom extensions.
@@ -24511,4 +24512,11 @@ message UnsafeIntentEventReported {
     optional string data_scheme = 8;
     // Is the unsafe intent event blocked by the system.
     optional bool is_blocked = 9;
+}
+
+/**
+ * Snapshot of all favorite watch faces from the watch.
+ */
+message WsFavouriteWatchFaceListSnapshot {
+  repeated string watch_face_package_name = 1;
 }
