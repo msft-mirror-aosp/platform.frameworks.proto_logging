@@ -52,8 +52,7 @@ enum ActionEnum {
   // Depicts a REMOVE action.
   ACTION_REMOVE = 2;
 
-  // Depicts a SET action.
-  ACTION_SET = 3;
+  reserved 3;
 }
 
 // This enum depicts the possible result of watchface set
