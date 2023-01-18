@@ -24366,23 +24366,30 @@ message GetTypeAccessedWithoutPermission{
   optional string type = 4;
 }
 
-/** Logged when a complication is changed on a watch face. */
+/** Logged when a complication is changed on a watch face. Both
+  data for complication that is being placed in the complication
+  slot (we call is new here) and for complication that is being
+  replaced (we call is old) is reported.
+*/
 message WsWatchFaceComplicationSetChanged {
-  enum Event {
-    EVENT_UNKNOWN = 0;
-    COMPLICATION_ADDED = 1;
-    COMPLICATION_REMOVED = 2;
-  }
-  // Complication component package uid.
-  optional int32 complication_component_package_uid = 1 [(is_uid) = true];
-
-  // Complication component class name.
-  optional string complication_component_class_name = 2;
-
   // Watch face package uid
-  optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
 
-  optional Event event = 4;
+  // Complication component package uid for complication that is being replaced.
+  // Equals to -1 if new complication is placed on previously empty slot.
+  optional int32 old_complication_component_package_uid = 2 [(is_uid) = true];
+
+  // Complication component class name for complication that is being replaced.
+  // Equals to empty string if new complication is placed on previously empty slot.
+  optional string old_complication_component_class_name = 3;
+
+  // Complication component package uid for new complication.
+  // Equals to -1 if complication is removed from complication slot.
+  optional int32 new_complication_component_package_uid = 4 [(is_uid) = true];
+
+  // Complication component class name for new complication.
+  // Equals to empty string if complication is removed from complication slot.
+  optional string new_complication_component_class_name = 5;
 
   enum RequestSource {
     SOURCE_UNKNOWN = 0;
@@ -24392,7 +24399,7 @@ message WsWatchFaceComplicationSetChanged {
 
   // Where a complication has been changed from. When changed on the companion equals
   // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-  optional RequestSource request_source = 5;
+  optional RequestSource request_source = 6;
 }
 
 /** Snapshot of all active complications on the current watch face.
