@@ -16051,6 +16051,8 @@ message PinStorageEvent {
         PIN_DECRYPTION_ERROR = 8;
         // Error while encrypting the PIN
         PIN_ENCRYPTION_ERROR = 9;
+        // Attempted to decrypt the PIN with a null/missing encryption key.
+        PIN_ENCRYPTION_KEY_MISSING = 10;
     }
     optional Event event = 1;
 
