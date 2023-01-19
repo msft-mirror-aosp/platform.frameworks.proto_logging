@@ -24036,8 +24036,7 @@ message BrightnessConfigurationUpdated {
  * package: vendor/google_clockwork/packages/Media
  */
 message WearMediaOutputSwitcherLaunched {
-    // Name of the media app package from where Output Switcher got triggered
-    // when user clicks on the 'play' button.
+    // Name of the media app package from where Output Switcher got triggered.
     optional string triggering_package_name = 1;
 
     // The operation type for invoking the OutputSwitcher
@@ -24085,7 +24084,7 @@ message WearMediaOutputSwitcherConnectionReported {
     optional bool is_retry = 7;
 
     // For differentiating if the bluetooth device is connected from already
-    // paired device list or from the pair new device flow
+    // paired device list or from the bluetooth settings flow.
     optional bool is_already_paired = 8;
 }
 
@@ -24100,8 +24099,7 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
     // The current status of the scanned device.
     optional com.google.android.wearable.media.routing.ScanState scan_state = 1;
 
-    // Name of the media app package from where Output Switcher got triggered
-    // when user clicks on the 'play' button.
+    // Name of the media app package from where Output Switcher got triggered.
     optional string triggering_package_name = 2;
 
     optional com.google.android.wearable.media.routing.OpType op_type = 3;
