@@ -923,6 +923,7 @@ message Atom {
             [(module) = "wearservices"];
         wearservices.WsRestoreActionReported ws_restore_action_reported = 591
             [(module) = "wearservices"];
+        devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 592 [(module) = "sysui"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -1139,7 +1140,6 @@ message Atom {
         ProcessAssociation process_association = 10172 [(module) = "framework"];
         adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
         NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
-        devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 10175 [(module) = "sysui"];
         WsFavouriteWatchFaceListSnapshot ws_favourite_watch_face_list_snapshot = 10176 [(module) = "wearservices"];
     }
 
