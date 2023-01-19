@@ -16439,6 +16439,8 @@ message UserLifecycleJourneyReported {
         USER_CREATE = 4; // A user creation journey
         USER_STOP = 5; // A user stop journey
         USER_REMOVE = 6; // A user removal journey
+        GRANT_ADMIN = 7; // An admin grant journey
+        REVOKE_ADMIN = 8; // An admin revocation journey
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -16492,6 +16494,8 @@ message UserLifecycleEventOccurred {
         UNLOCKED_USER = 6; // Indicates that this is a user unlocked event
         STOP_USER = 7; // Indicates that this is a user stop event
         REMOVE_USER = 8; // Indicates that this is a user removal event
+        GRANT_ADMIN = 9; // Indicates that this is an admin privileges grant event
+        REVOKE_ADMIN = 10; // Indicates that this is an admin privileges revocation event
     }
     optional Event event = 3;
 
@@ -16499,6 +16503,8 @@ message UserLifecycleEventOccurred {
         NONE = 0; // Indicates the associated event has no start/end defined
         BEGIN = 1;
         FINISH = 2;
+        CANCEL = 3;
+        ERROR = 4;
     }
     optional State state = 4; // Represents the state of an event (beginning/ending)
 }
