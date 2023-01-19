@@ -3823,6 +3823,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     NUMBERING_SYSTEM_NUMBER_FORMAT_SELECTION_PREFERENCE = 2013;
+
+    // OPEN: Settings > Developer Options > Snoop Logger Filters
+    // CATEGORY: SETTINGS
+    SETTINGS_SNOOP_LOGGER_DASHBOARD = 2014;
 }
 
 // Battery Saver schedule types.

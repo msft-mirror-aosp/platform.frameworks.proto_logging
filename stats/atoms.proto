@@ -33,6 +33,7 @@ import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/grammaticalinflection/grammatical_inflection.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/kernel/kernel_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/locale/locale_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
@@ -914,6 +915,8 @@ message Atom {
             media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         hardware.biometrics.BiometricPropertiesCollected
             biometric_properties_collected = 587 [(module) = "framework"];
+        kernel.KernelWakeupAttributed kernel_wakeup_attributed = 588 [(module) = "framework"];
+
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -15515,7 +15518,8 @@ message SupportedRadioAccessFamily {
  */
 message DeviceTelephonyProperties {
     // True if the device adopts the data stack came out in T
-    optional bool using_t_data_stack = 1;
+    // Deprecated since U, where legacy stack has been removed
+    optional bool using_t_data_stack = 1 [deprecated = true];
     // True if auto data switch is enabled on the device
     optional bool auto_data_switch_enabled = 2;
     // Number of time the user toggled the data switch feature since the last collection
@@ -24363,23 +24367,30 @@ message GetTypeAccessedWithoutPermission{
   optional string type = 4;
 }
 
-/** Logged when a complication is changed on a watch face. */
+/** Logged when a complication is changed on a watch face. Both
+  data for complication that is being placed in the complication
+  slot (we call is new here) and for complication that is being
+  replaced (we call is old) is reported.
+*/
 message WsWatchFaceComplicationSetChanged {
-  enum Event {
-    EVENT_UNKNOWN = 0;
-    COMPLICATION_ADDED = 1;
-    COMPLICATION_REMOVED = 2;
-  }
-  // Complication component package uid.
-  optional int32 complication_component_package_uid = 1 [(is_uid) = true];
-
-  // Complication component class name.
-  optional string complication_component_class_name = 2;
-
   // Watch face package uid
-  optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
 
-  optional Event event = 4;
+  // Complication component package uid for complication that is being replaced.
+  // Equals to -1 if new complication is placed on previously empty slot.
+  optional int32 old_complication_component_package_uid = 2 [(is_uid) = true];
+
+  // Complication component class name for complication that is being replaced.
+  // Equals to empty string if new complication is placed on previously empty slot.
+  optional string old_complication_component_class_name = 3;
+
+  // Complication component package uid for new complication.
+  // Equals to -1 if complication is removed from complication slot.
+  optional int32 new_complication_component_package_uid = 4 [(is_uid) = true];
+
+  // Complication component class name for new complication.
+  // Equals to empty string if complication is removed from complication slot.
+  optional string new_complication_component_class_name = 5;
 
   enum RequestSource {
     SOURCE_UNKNOWN = 0;
@@ -24389,7 +24400,7 @@ message WsWatchFaceComplicationSetChanged {
 
   // Where a complication has been changed from. When changed on the companion equals
   // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-  optional RequestSource request_source = 5;
+  optional RequestSource request_source = 6;
 }
 
 /** Snapshot of all active complications on the current watch face.
