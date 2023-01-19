@@ -114,6 +114,7 @@ import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier
 import "frameworks/proto_logging/stats/enums/stats/otaupdate/updateengine_enums.proto";
 import "frameworks/proto_logging/stats/message/mediametrics_message.proto";
 import "frameworks/proto_logging/stats/atoms/devicelogs/device_logs_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/wearservices/wearservices_atoms.proto";
 
 /**
  * The primary atom class. This message defines all of the available
@@ -918,6 +919,10 @@ message Atom {
             biometric_properties_collected = 587 [(module) = "framework"];
         kernel.KernelWakeupAttributed kernel_wakeup_attributed = 588 [(module) = "framework"];
         display.ScreenStateChangedV2 screen_state_changed_v2 = 589 [(module) = "framework"];
+        wearservices.WsBackupActionReported ws_backup_action_reported = 590
+            [(module) = "wearservices"];
+        wearservices.WsRestoreActionReported ws_restore_action_reported = 591
+            [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
