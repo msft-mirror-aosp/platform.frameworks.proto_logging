@@ -19919,8 +19919,20 @@ message FdtrackEventOccurred {
  * frameworks/base/apex/jobscheduler/service/java/com/android/server/alarm/MetricsHelper.java
  */
 message AlarmBatchDelivered {
+    // The total number of alarms delivered in the batch.
     optional int32 num_alarms = 1;
+
+    // The number of wakeup alarms delivered in the batch.
     optional int32 wakeups = 2;
+
+    // A list of uids receiving the alarm delivery.
+    repeated int32 uids = 3 [(is_uid) = true];
+
+    // The number of alarms delivered to each of the {@link uids} above.
+    repeated int32 num_alarms_per_uid = 4;
+
+    // The number of wakeup alarms delivered to each of the {@link uids} above.
+    repeated int32 num_wakeups_per_uid = 5;
 }
 
 /**
