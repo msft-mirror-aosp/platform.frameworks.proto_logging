@@ -116,6 +116,7 @@ import "frameworks/proto_logging/stats/enums/stats/otaupdate/updateengine_enums.
 import "frameworks/proto_logging/stats/message/mediametrics_message.proto";
 import "frameworks/proto_logging/stats/atoms/devicelogs/device_logs_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/wearservices/wearservices_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/wear/media/wear_media_atoms.proto";
 
 /**
  * The primary atom class. This message defines all of the available
@@ -926,7 +927,8 @@ message Atom {
             [(module) = "wearservices"];
         devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 592 [(module) = "sysui"];
         expresslog.ExpressHistogramSampleReported express_histogram_sample_reported = 593 [(module) = "framework", (module) = "expresslog"];
-        // StatsdStats tracks platform atoms with ids upto 750.
+        wear.media.MediaSessionUpdated media_session_updated = 594 [(module) = "wearmedia"];
+        // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
