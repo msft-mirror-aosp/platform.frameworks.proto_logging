@@ -85,3 +85,35 @@ enum RequestSource {
   // Depicts the source as watch.
   SOURCE_WATCH = 2;
 }
+
+// This enum depicts an action taken during a backup attempt
+// Next ID: 4
+enum BackupAction {
+  // Depicts an unknown backup action
+  BACKUP_UNKNOWN_ACTION = 0;
+
+  // Depicts that a backup attempt has begun
+  BACKUP_STARTED = 1;
+
+  // Depicts that a backup attempt succeeded
+  BACKUP_SUCCEEDED = 2;
+
+  // Depicts that a backup attempt did not succeed
+  BACKUP_FAILED = 3;
+}
+
+// This enum depicts an action taken during a restore attempt
+// Next ID: 4
+enum RestoreAction {
+  // Depicts an unknown restore action
+  RESTORE_UNKNOWN_ACTION = 0;
+
+  // Depicts that a restore attempt has begun
+  RESTORE_STARTED = 1;
+
+  // Depicts that a restore attempt succeeded
+  RESTORE_SUCCEEDED = 2;
+
+  // Depicts that a restore attempt did not succeed
+  RESTORE_FAILED = 3;
+}
