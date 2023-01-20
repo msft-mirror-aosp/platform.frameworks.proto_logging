@@ -85,6 +85,7 @@ atom_protos = [
     "atoms/agif/*.proto",
     "atoms/art/*.proto",
     "atoms/credentials/*.proto",
+    "atoms/display/*.proto",
     "atoms/gps/*.proto",
     "atoms/grammaticalinflection/*.proto",
     "atoms/hardware/biometrics/*.proto",
@@ -95,7 +96,9 @@ atom_protos = [
     "atoms/placeholder/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
-    "atoms/devicelogs/*.proto"
+    "atoms/devicelogs/*.proto",
+    "atoms/kernel/*.proto",
+    "atoms/wearservices/*.proto",
 ]
 
 cc_library_host_shared {
