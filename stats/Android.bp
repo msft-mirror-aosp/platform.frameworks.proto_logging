@@ -86,6 +86,7 @@ atom_protos = [
     "atoms/art/*.proto",
     "atoms/credentials/*.proto",
     "atoms/display/*.proto",
+    "atoms/expresslog/*.proto",
     "atoms/gps/*.proto",
     "atoms/grammaticalinflection/*.proto",
     "atoms/hardware/biometrics/*.proto",
