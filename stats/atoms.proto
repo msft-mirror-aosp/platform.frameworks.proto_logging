@@ -28,6 +28,7 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/autofill/autofill_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/credentials/credentials_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/expresslog/expresslog_atoms.proto";
@@ -938,6 +939,11 @@ message Atom {
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
         display.ScreenBrightnessChangedV2 screen_brightness_changes_v2 = 597 [(module) = "framework"];
+        autofill.AutofillUiEventReported autofill_ui_event_reported = 600 [(module) = "framework"];
+        autofill.AutofillFillRequestReported autofill_fill_request_reported = 601 [(module) = "framework"];
+        autofill.AutofillFillResponseReported autofill_fill_response_reported = 602 [(module) = "framework"];
+        autofill.AutofillSaveEventReported autofill_save_event_reported = 603 [(module) = "framework"];
+        autofill.AutofillSessionCommitted autofill_session_committed = 604 [(module) = "framework"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -21875,7 +21881,8 @@ message AutofillPresentationEventReported {
         8; // Autofill provider request was triggered pre-focus. User never
            // focussed on autofillable fields. This can happen for FillDialog
            // where we trigger fill request at layout time.
-
+    NONE_SHOWN_VIEW_FOCUSED_BEFORE_FILL_DIALOG_RESPONSE =
+        9; // Users focus a field before the fill dialogs response is returned.
   }
 
   // Id number which increases for each subsequent request.
@@ -21951,6 +21958,18 @@ message AutofillPresentationEventReported {
   // The latency of showing suggestions can be calculated by
   // suggestionPresentedTimestampMs - suggestionSentTimestampMs
   optional int32 suggestion_presented_timestamp_ms = 16;
+
+  // The index of the dataset that a user selected. -1 if not selected.
+  optional int32 selected_dataset_id = 17;
+
+  // True if the user dismissed the fill UI.
+  optional bool dialog_dismissed = 18;
+
+  // True if the user clicked the negative CTA button.
+  optional bool negative_cta_button_clicked = 19;
+
+  // True if the user clicked the positive CTA button.
+  optional bool positive_cta_button_clicked = 20;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
