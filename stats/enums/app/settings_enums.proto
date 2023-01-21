@@ -1134,6 +1134,26 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_BATTERY_USAGE_FOREGROUND_USAGE_TIME = 1817;
+
+    // Action: Settings > System > Multiple users > Add user > OK > Give this user admin privileges
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_GRANT_ADMIN_FROM_SETTINGS_CREATION_DIALOG = 1818;
+
+    // Action: Settings > System > Multiple users > Add user > OK > Don't give user admin privileges
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_NOT_GRANT_ADMIN_FROM_SETTINGS_CREATION_DIALOG = 1819;
+
+    // Action: Settings > System > Multiple users > User > Give this user admin privileges > Toggle on
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_GRANT_ADMIN_FROM_SETTINGS = 1820;
+
+    // Action: Settings > System > Multiple users > User > Give this user admin privileges > Toggle off
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_REVOKE_ADMIN_FROM_SETTINGS = 1821;
 }
 
 /**
