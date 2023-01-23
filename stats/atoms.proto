@@ -24573,5 +24573,5 @@ message UnsafeIntentEventReported {
  * Snapshot of all favorite watch faces from the watch.
  */
 message WsFavouriteWatchFaceListSnapshot {
-  repeated string watch_face_package_name = 1;
+  repeated string watch_face_component_name = 1;
 }
