@@ -772,6 +772,11 @@ message Atom {
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
+    // Pushed atom extensions.
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
+    extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
+
     // Pulled events will start at field 10000.
     // Next: 10169
     oneof pulled {
@@ -21051,7 +21056,8 @@ message RunAdBiddingPerCAProcessReported {
 }
 
 /**
- * Logs for AdServices GetTopics API call.
+ * Logs for AdServices GetTopics API call on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatGetTopicsReported for R+ logging.
  */
 message AdServicesGetTopicsReported {
     // List of topic ids returned.
@@ -21085,12 +21091,14 @@ message AdServicesEpochComputationGetTopTopicsReported {
 }
 
 /**
- * Logs for AdServices Epoch Computation Classifier.
+ * Logs for AdServices Epoch Computation Classifier on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatEpochComputationClassifierReported for R+ logging.
  * One atom should be logged for each app classification.
  */
 message AdServicesEpochComputationClassifierReported {
 
-    // List of topics returned by the classifier for each app.
+    // List of topics returned by the classifier for each app. The classification
+    // does not depend on the user's usage of the app.
     repeated int32 topic_ids = 1;
 
     // Build id of the assets.
