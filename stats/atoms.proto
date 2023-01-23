@@ -22076,6 +22076,7 @@ message AdServicesApiCalled {
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
+    //  * setAppInstallAdvertisers()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -22124,6 +22125,7 @@ message AdServicesApiCalled {
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
+        SET_APP_INSTALL_ADVERTISERS = 22;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
