@@ -16132,6 +16132,7 @@ message UserLifecycleJourneyReported {
     optional UserType user_type = 5;
     // What are the flags attached to the target user
     optional int32 user_flags = 6;
+    optional int32 error_code = 7;
 }
 
 /**
@@ -16173,6 +16174,7 @@ message UserLifecycleEventOccurred {
         ERROR = 4;
     }
     optional State state = 4; // Represents the state of an event (beginning/ending)
+    optional int32 error_code = 5;
 }
 
 /**
