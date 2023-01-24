@@ -24421,6 +24421,9 @@ message WsActiveWatchFaceComplicationSetSnapshot {
   // Complication component class name.
   repeated string complication_component_class_name = 2;
 
+  // Complication type.
+  repeated int32 complication_type = 4;
+
   // Active watch face package uid.
   optional int32 watch_face_package_uid = 3 [(is_uid) = true];
 }
