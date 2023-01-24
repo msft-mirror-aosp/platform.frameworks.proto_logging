@@ -40,6 +40,7 @@ import "frameworks/proto_logging/stats/atoms/locale/locale_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/wearsysui/wearsysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/sysui/sysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
@@ -62,7 +63,6 @@ import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
-import "frameworks/proto_logging/stats/enums/hardware/sensor/assist/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/drm/enums.proto";
@@ -93,7 +93,6 @@ import "frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_e
 import "frameworks/proto_logging/stats/enums/stats/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/hdmi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/intelligence/enums.proto";
-import "frameworks/proto_logging/stats/enums/stats/launcher/launcher.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
@@ -162,7 +161,7 @@ message Atom {
         ExcessiveCpuUsageReported excessive_cpu_usage_reported = 16 [(module) = "framework"];
         CachedKillReported cached_kill_reported = 17 [(module) = "framework"];
         ProcessMemoryStatReported process_memory_stat_reported = 18 [(module) = "framework"];
-        LauncherUIChanged launcher_event = 19 [(module) = "sysui"];
+        sysui.LauncherUIChanged launcher_event = 19 [(module) = "sysui"];
         BatterySaverModeStateChanged battery_saver_mode_state_changed =
                 20 [(module) = "framework", (module) = "statsdtest"];
         DeviceIdleModeStateChanged device_idle_mode_state_changed = 21 [(module) = "framework"];
@@ -218,9 +217,10 @@ message Atom {
                 = 60 [(module) = "framework"];
         CallStateChanged call_state_changed =
                 61 [(module) = "telecom", (truncate_timestamp) = true];
-        KeyguardStateChanged keyguard_state_changed = 62 [(module) = "sysui"];
-        KeyguardBouncerStateChanged keyguard_bouncer_state_changed = 63 [(module) = "sysui"];
-        KeyguardBouncerPasswordEntered keyguard_bouncer_password_entered = 64 [(module) = "sysui"];
+        sysui.KeyguardStateChanged keyguard_state_changed = 62 [(module) = "sysui"];
+        sysui.KeyguardBouncerStateChanged keyguard_bouncer_state_changed = 63 [(module) = "sysui"];
+        sysui.KeyguardBouncerPasswordEntered keyguard_bouncer_password_entered =
+                64 [(module) = "sysui"];
         AppDied app_died = 65 [(module) = "framework"];
         ResourceConfigurationChanged resource_configuration_changed = 66 [(module) = "framework"];
         BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "framework"];
@@ -370,9 +370,11 @@ message Atom {
         DeviceIdentifierAccessDenied device_identifier_access_denied =
                 172 [(module) = "telephony_common"];
         BubbleDeveloperErrorReported bubble_developer_error_reported = 173 [(module) = "framework"];
-        AssistGestureStageReported assist_gesture_stage_reported = 174 [(module) = "sysui"];
-        AssistGestureFeedbackReported assist_gesture_feedback_reported = 175 [(module) = "sysui"];
-        AssistGestureProgressReported assist_gesture_progress_reported = 176 [(module) = "sysui"];
+        sysui.AssistGestureStageReported assist_gesture_stage_reported = 174 [(module) = "sysui"];
+        sysui.AssistGestureFeedbackReported assist_gesture_feedback_reported =
+                175 [(module) = "sysui"];
+        sysui.AssistGestureProgressReported assist_gesture_progress_reported =
+                176 [(module) = "sysui"];
         TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
         HiddenApiUsed hidden_api_used = 178 [(module) = "framework"];
         StyleUIChanged style_ui_changed = 179 [(module) = "sysui", (module) = "wallpaper"];
@@ -447,7 +449,7 @@ message Atom {
         ConversationActionsEvent conversation_actions_event = 221  [(module) = "textclassifier"];
         LanguageDetectionEvent language_detection_event = 222  [(module) = "textclassifier"];
         ExclusionRectStateChanged exclusion_rect_state_changed = 223 [(module) = "framework"];
-        BackGesture back_gesture_reported_reported = 224 [(module) = "sysui"];
+        sysui.BackGesture back_gesture_reported_reported = 224 [(module) = "sysui"];
         UpdateEngineUpdateAttemptReported update_engine_update_attempt_reported =
                 225 [(module) = "update_engine"];
         UpdateEngineSuccessfulUpdateReported update_engine_successful_update_reported =
@@ -473,7 +475,7 @@ message Atom {
         BootTimeEventErrorCode boot_time_event_error_code_reported = 242 [(module) = "framework"];
         UserspaceRebootReported userspace_reboot_reported = 243 [(module) = "framework"];
         NotificationReported notification_reported = 244 [(module) = "framework"];
-        NotificationPanelReported notification_panel_reported = 245 [(module) = "sysui"];
+        sysui.NotificationPanelReported notification_panel_reported = 245 [(module) = "sysui"];
         NotificationChannelModified notification_channel_modified = 246 [(module) = "framework"];
         IntegrityCheckResultReported integrity_check_result_reported = 247 [(module) = "framework"];
         IntegrityRulesPushed integrity_rules_pushed = 248 [(module) = "framework"];
@@ -499,7 +501,7 @@ message Atom {
             (module) = "mediaprovider"
         ];
         TvSettingsUIInteracted tvsettings_ui_interacted = 261 [(module) = "tv_settings"];
-        LauncherStaticLayout launcher_snapshot = 262 [(module) = "sysui"];
+        sysui.LauncherStaticLayout launcher_snapshot = 262 [(module) = "sysui"];
         PackageInstallerV2Reported package_installer_v2_reported = 263 [(module) = "framework"];
         UserLifecycleJourneyReported user_lifecycle_journey_reported = 264 [(module) = "framework"];
         UserLifecycleEventOccurred user_lifecycle_event_occurred = 265 [(module) = "framework"];
@@ -521,7 +523,7 @@ message Atom {
         AudioPowerUsageDataReported audio_power_usage_data_reported =
             275 [(module) = "media_metrics"];
         TvTunerStateChanged tv_tuner_state_changed = 276 [(module) = "framework"];
-        MediaOutputOpSwitchReported mediaoutput_op_switch_reported =
+        sysui.MediaOutputOpSwitchReported mediaoutput_op_switch_reported =
             277 [(module) = "sysui"];
         CellBroadcastMessageFiltered cb_message_filtered =
             278 [(module) = "cellbroadcast"];
@@ -564,7 +566,7 @@ message Atom {
         KeystoreKeyEventReported keystore_key_event_reported = 302;
         NetworkTetheringReported  network_tethering_reported =
             303 [(module) = "network_tethering"];
-        ImeTouchReported ime_touch_reported = 304 [(module) = "sysui"];
+        sysui.ImeTouchReported ime_touch_reported = 304 [(module) = "sysui"];
         UIInteractionFrameInfoReported ui_interaction_frame_info_reported =
             305 [(module) = "framework"];
         UIActionLatencyReported ui_action_latency_reported = 306 [(module) = "framework"];
@@ -619,10 +621,10 @@ message Atom {
             346 [(module) = "framework"];
         AppSearchCallStatsReported app_search_call_stats_reported = 347 [(module) = "appsearch"];
         AppSearchPutDocumentStatsReported app_search_put_document_stats_reported = 348 [(module) = "appsearch"];
-        DeviceControlChanged device_control_changed = 349 [(module) = "sysui"];
+        sysui.DeviceControlChanged device_control_changed = 349 [(module) = "sysui"];
         DeviceStateChanged device_state_changed = 350 [(module) = "framework"];
         InputDeviceRegistered inputdevice_registered = 351 [(module) = "framework"];
-        SmartSpaceCardReported smartspace_card_reported = 352 [(module) = "sysui"];
+        sysui.SmartSpaceCardReported smartspace_card_reported = 352 [(module) = "sysui"];
         AuthPromptAuthenticateInvoked auth_prompt_authenticate_invoked = 353 [(module) = "framework"];
         AuthManagerCanAuthenticateInvoked auth_manager_can_authenticate_invoked = 354 [(module) = "framework"];
         AuthEnrollActionInvoked auth_enroll_action_invoked = 355 [(module) = "framework"];
@@ -665,7 +667,8 @@ message Atom {
             390 [(module) = "bluetooth"];
         BluetoothLeBatchScanReportDelay bluetooth_le_batch_scan_report_delay =
             392 [(module) = "bluetooth"];
-        AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed = 393 [(module) = "sysui"];
+        sysui.AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed =
+            393 [(module) = "sysui"];
         NeuralNetworksCompilationCompleted neuralnetworks_compilation_completed = 394
             [(module) = "neuralnetworks"];
         NeuralNetworksExecutionCompleted neuralnetworks_execution_completed = 395
@@ -707,7 +710,7 @@ message Atom {
         TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
         MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported =
             425 [(module) = "media_metrics"];
-        LauncherLatency launcher_latency = 426 [(module) = "sysui"];
+        sysui.LauncherLatency launcher_latency = 426 [(module) = "sysui"];
         DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
         WifiP2pConnectionReported wifi_p2p_connection_reported = 428 [(module) = "wifi"];
         GameStateChanged game_state_changed = 429 [(module) = "framework"];
@@ -741,7 +744,7 @@ message Atom {
         LeAudioConnectionSessionReported le_audio_connection_session_reported = 447 [(module) = "bluetooth"];
         LeAudioBroadcastSessionReported le_audio_broadcast_session_reported = 448 [(module) = "bluetooth"];
         DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
-        TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
+        sysui.TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
         CdmAssociationAction cdm_association_action = 451 [(module) = "framework"];
         MagnificationTripleTapAndHoldActivatedSessionReported magnification_triple_tap_and_hold_activated_session_reported =
             452 [(module) = "framework"];
@@ -759,7 +762,8 @@ message Atom {
         RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "remoteprovisioner"];
         RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "remoteprovisioner"];
         RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
-        MediaOutputOpInteractionReported mediaoutput_op_interaction_report = 466 [(module) = "sysui"];
+        sysui.MediaOutputOpInteractionReported mediaoutput_op_interaction_report =
+            466 [(module) = "sysui"];
         art.BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
@@ -871,7 +875,7 @@ message Atom {
             package_manager_apps_filter_cache_build_reported = 545 [(module) = "framework"];
         PackageManagerAppsFilterCacheUpdateReported
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
-        LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
+        sysui.LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
         art.OdsignReported odsign_reported = 548 [(module) = "art"];
         WearMediaOutputSwitcherAllDevicesScanLatency
             wear_media_output_switcher_all_devices_scan_latency =
@@ -1055,7 +1059,7 @@ message Atom {
         ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
         PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
         UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
-        LauncherLayoutSnapshot launcher_layout_snapshot = 10108
+        sysui.LauncherLayoutSnapshot launcher_layout_snapshot = 10108
             [(module) = "sysui"];
         GlobalHibernatedApps global_hibernated_apps = 10109 [(module) = "framework"];
         InputEventLatencySketch input_event_latency_sketch = 10110 [(module) = "input"];
@@ -1145,7 +1149,7 @@ message Atom {
         ProcessState process_state = 10171 [(module) = "framework"];
         ProcessAssociation process_association = 10172 [(module) = "framework"];
         adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
-        NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
+        sysui.NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
         WsFavouriteWatchFaceListSnapshot ws_favourite_watch_face_list_snapshot = 10176 [(module) = "wearservices"];
     }
 
@@ -2609,81 +2613,6 @@ message CallStateChanged {
     // True if call is external. External calls are calls on connected Wear
     // devices but show up in Telecom so the user can pull them onto the device.
     optional bool external_call = 4;
-}
-
-/**
- * Logs keyguard state. The keyguard is the lock screen.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarKeyguardViewManager.java
- */
-message KeyguardStateChanged {
-    enum State {
-        UNKNOWN = 0;
-        // The keyguard is hidden when the phone is unlocked.
-        HIDDEN = 1;
-        // The keyguard is shown when the phone is locked (screen turns off).
-        SHOWN= 2;
-        // The keyguard is occluded when something is overlaying the keyguard.
-        // Eg. Opening the camera while on the lock screen.
-        OCCLUDED = 3;
-    }
-    optional State state = 1;
-}
-
-/**
- * Logs keyguard bouncer state. The bouncer is a part of the keyguard, and
- * prompts the user to enter a password (pattern, pin, etc).
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/KeyguardBouncer.java
- */
-
-message KeyguardBouncerStateChanged {
-    enum State {
-        UNKNOWN = 0;
-        // Bouncer is hidden, either as a result of successfully entering the
-        // password, screen timing out, or user going back to lock screen.
-        HIDDEN = 1;
-        // The user is being prompted to enter the password and the keyguard is NOT in one
-        // handed mode.
-        SHOWN = 2;
-        // The user is being prompted to enter the password and the keyguard shows in one
-        // handed mode and left aligned.
-        SHOWN_LEFT = 3;
-        // The user is being prompted to enter the password and the keyguard shows in one
-        // handed mode and right aligned.
-        SHOWN_RIGHT = 4;
-        // The keyguard switches to the left side while it is in one handed mode.
-        SWITCH_LEFT = 5;
-        // The keyguard switches to the right side while it is in one handed mode.
-        SWITCH_RIGHT = 6;
-    }
-    optional State state = 1;
-}
-
-/**
- * Logs the result of entering a password into the keyguard bouncer.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
- */
-message KeyguardBouncerPasswordEntered {
-    enum BouncerResult {
-        UNKNOWN = 0;
-        // The password entered was incorrect.
-        FAILURE = 1;
-        // The password entered was correct.
-        SUCCESS = 2;
-    }
-    optional BouncerResult result = 1;
-
-    enum BouncerSide {
-        DEFAULT = 0;
-        LEFT = 1;
-        RIGHT = 2;
-    }
-    optional BouncerSide side = 2;
 }
 
 /*
@@ -4347,39 +4276,6 @@ message PhoneStateChanged {
     optional State state = 1;
 }
 
-message BackGesture {
-    enum BackType {
-        DEFAULT_BACK_TYPE = 0;
-        COMPLETED = 1;
-        COMPLETED_REJECTED = 2; // successful because coming from rejected area
-        INCOMPLETE_EXCLUDED = 3; // would have been successful but in the exclusion area
-        INCOMPLETE = 4;  // Unsuccessful, for reasons other than below.
-        INCOMPLETE_FAR_FROM_EDGE = 5;  // Unsuccessful, far from the edge.
-        INCOMPLETE_MULTI_TOUCH = 6;  // Unsuccessful, multi touch.
-        INCOMPLETE_LONG_PRESS = 7;  // Unsuccessful, long press.
-        INCOMPLETE_VERTICAL_MOVE = 8;  // Unsuccessful, move vertically.
-    }
-    optional BackType type = 1;
-
-    optional int32 y_coordinate = 2 [deprecated = true]; // y coordinate for ACTION_DOWN event
-    optional int32 start_x = 4;  // X coordinate for ACTION_DOWN event.
-    optional int32 start_y = 5;  // Y coordinate for ACTION_DOWN event.
-    optional int32 end_x = 6;   // X coordinate for ACTION_MOVE event.
-    optional int32 end_y = 7;  // Y coordinate for ACTION_MOVE event.
-    optional int32 left_boundary = 8;  // left edge width + left inset
-    optional int32 right_boundary = 9;  // screen width - (right edge width + right inset)
-    // The score between 0 and 1 which is the prediction output for the Back Gesture model.
-    optional float ml_model_score = 10;
-    optional string package_name = 11;  // The name of the top 100 most used package by all users.
-
-    enum WindowHorizontalLocation {
-        DEFAULT_LOCATION = 0;
-        LEFT = 1;
-        RIGHT = 2;
-    }
-    optional WindowHorizontalLocation x_location = 3 [deprecated = true];
-}
-
 message ExclusionRectStateChanged {
     optional string component_name = 1;    // if not available, simply packageName
     optional int32 requested_height = 2;   // px
@@ -4394,310 +4290,6 @@ message ExclusionRectStateChanged {
     optional bool landscape = 5;
     optional bool splitscreen = 6 [deprecated = true];
     optional int32 duration_millis = 7;
-}
-
-/**
- * Logs when IME is on.
- *
- * Logged from: /packages/SystemUI/src/com/android/systemui/
-                statusbar/phone/NavigationBarView.java
- *
- */
-message ImeTouchReported {
-    optional int32 x_coordinate = 1;  // X coordinate for ACTION_DOWN event.
-    optional int32 y_coordinate = 2;  // Y coordinate for ACTION_DOWN event.
-}
-
-/**
- * Logs when Launcher (HomeScreen) UI has changed or was interacted.
- *
- * Logged from:
- *   packages/apps/Launcher3
- */
-message LauncherUIChanged {
-    optional android.stats.launcher.LauncherAction action = 1 [deprecated = true];
-    optional android.stats.launcher.LauncherState src_state = 2;
-    optional android.stats.launcher.LauncherState dst_state = 3;
-    optional android.stats.launcher.LauncherExtension extension = 4 [(log_mode) = MODE_BYTES, deprecated = true];
-    optional bool is_swipe_up_enabled = 5 [deprecated = true];
-
-    // The event id (e.g., app launch, drag and drop, long press)
-    optional int32 event_id = 6;
-    // The event's source or target id (e.g., icon, task, button)
-    optional int32 target_id = 7;
-    // If the target needs to be tracked, use this id field
-    optional int32 instance_id = 8;
-    optional int32 uid = 9 [(is_uid) = true];
-    optional string package_name = 10;
-    optional string component_name = 11;
-
-    // (x, y) coordinate and the index information of the target on the container
-    optional int32 grid_x = 12 [default = -1];
-    optional int32 grid_y = 13 [default = -1];
-    optional int32 page_id = 14 [default = -2];
-
-    // e.g., folder icon's (x, y) location and index information on the workspace
-    optional int32 grid_x_parent = 15 [default = -1];
-    optional int32 grid_y_parent = 16 [default = -1];
-    optional int32 page_id_parent = 17 [default = -2];
-
-    // e.g., SEARCHBOX_ALLAPPS, FOLDER_WORKSPACE
-    optional int32 hierarchy = 18;
-
-    optional bool is_work_profile = 19;
-
-    // Used to store the predicted rank of the target
-    optional int32 rank = 20 [default = -1];
-
-    // e.g., folderLabelState can be captured in the following two fields
-    optional int32 from_state = 21;
-    optional int32 to_state = 22;
-
-    // e.g., autofilled or suggested texts that are not user entered
-    optional string edittext = 23;
-
-    // e.g., number of contents inside a container (e.g., icons inside a folder)
-    optional int32 cardinality = 24;
-
-    // Used to store features of the target (e.g. widget is reconfigurable, etc)
-    optional int32 features = 25;
-
-    // Used to store on-device search related features of the target
-    // (e.g. spell-corrected query etc)
-    optional int32 search_attributes = 26;
-
-    // List of attributes attached to the event.
-    optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
-}
-
-message LauncherAttributes{
-
-  // Integer value of item attribute enum
-  // (e.g. SUGGESTED_LABEL, ALL_APPS_SEARCH_RESULT_SETTING etc)
-  repeated int32 item_attributes = 1;
-}
-
-message SmartSpaceCardReported {
-    // Different SmartSpace cards.
-    // DEPRECATED CardType enum. Use SmartspaceTarget.mFeatureType, which matches the list from:
-    // google3/java/com/google/android/apps/miphone/aiai/echo/smartspace/Constants.kt
-    enum CardType {
-        option deprecated = true;
-        UNKNOWN_CARD = 0;
-        COMMUTE = 1;
-        CALENDAR = 2;
-        FLIGHT = 3;
-        WEATHER = 4;
-        WEATHER_ALERT = 5;
-        AT_A_STORE_SHOPPING_LIST = 6;
-        AT_A_STORE_LOYALTY_CARD = 7;
-        HEADPHONE_RESUME_MEDIA = 8;
-        HEADPHONE_MEDIA_RECOMMENDATIONS = 9;
-        TIMER = 10;
-        STOPWATCH = 11;
-        FITNESS_ACTIVITY = 12;
-        UPCOMING_REMINDER = 13;
-        UPCOMING_BEDTIME = 14;
-        TIME_TO_LEAVE = 15;
-        PACKAGE_DELIVERED = 16;
-        TIPS = 17;
-        DOORBELL = 18;
-        CROSS_DEVICE_TIMER = 19;
-    }
-
-    // The surface that SmartSpace card is shown.
-    enum DisplaySurface {
-        DEFAULT_SURFACE = 0;
-        HOMESCREEN = 1;
-        LOCKSCREEN = 2;
-        AOD = 3;
-        SHADE = 4;
-        DREAM_OVERLAY = 5;
-    }
-
-    // The event id (e.g., impression, click, longpress, dismiss)
-    optional int32 event_id = 1;
-    // Uniquely identifies a card. Should persist through updates.
-    optional int32 instance_id = 2;
-    // Uniquely identifies one of the possible types of the SmartSpace cards.
-    // Deprecated. Please read card_type_id instead.
-    optional CardType card_type = 3 [deprecated = true];
-    // Location of the card when the event occurred.
-    optional DisplaySurface display_surface = 4;
-    // The position of the card in the carousel when the event occurred.
-    optional int32 rank = 5;
-    // The number of cards shown to the user.
-    optional int32 cardinality = 6;
-    // Uniquely identifies one of the possible types of the SmartSpace cards.
-    // To replace card_type. See go/smartspace-aster-metrics#card-type-id.
-    optional int32 card_type_id = 7;
-    // The app that the Smartspace card is tied to.
-    optional int32 uid = 8 [(is_uid) = true];
-    // This represents the interacted subaction for the given card.
-    optional int32 interacted_subcard_rank = 9;
-    // This represents the number of displayed subactions on the given card when a subaction click
-    // occurred.
-    optional int32 interacted_subcard_cardinality = 10;
-    // The time it takes in ms from smartspace target is created to sysui receives
-    // the target.
-    optional int32 received_latency_millis = 11;
-    // The sub cards.
-    optional SmartSpaceSubcards subcards_info = 12 [(log_mode) = MODE_BYTES];
-    // Holds all the dimensions for this event. See go/ss-dimensional-logging for details.
-    optional SmartspaceCardDimensionalInfo dimensional_info = 13 [(log_mode) = MODE_BYTES];
-}
-
-// Holds all the dimensions tied to a Smartspace event.
-message SmartspaceCardDimensionalInfo {
-    repeated SmartspaceFeatureDimension feature_dimensions = 1;
-}
-
-message SmartspaceFeatureDimension {
-    // This maps to an enum value in Android System Intelligence.
-    optional int32 feature_dimension_id = 1;
-
-    // The value for this dimension.
-    optional int32 feature_dimension_value = 2;
-}
-
-/**
- * This message represents information about any SmartSpace subcards.
- * Logged from
- *   vendor/unbundled_google/packages/SystemUIGoogle/bcsmartspace/src/com/google/android/systemui/smartspace/BcSmartspaceLogger.java
- *   vendor/unbundled_google/packages/NexusLauncher/src/com/google/android/apps/nexuslauncher/qsb/SmartspaceViewContainer.java
- * Next Tag: 3
- */
-message SmartSpaceSubcards {
-    // List of subcards.
-    repeated SmartSpaceCardMetadata subcards = 1;
-    // The index of the clicked subcard, if applicable.
-    // This index is 1 indexed as opposed to 0 indexed due to sint32 encoding
-    // limitation when using -1 as a default.
-    // Default will be 0 to denote that no subcard was clicked.
-    // Please note this has no information about whether the primary card was
-    // clicked or not. Basically if this has the value 0, just ignore this field.
-    optional int32 clicked_subcard_index = 2;
-}
-
-/**
- * This message represents metadata for a SmartSpace card.
- * Logged from
- *   vendor/unbundled_google/packages/SystemUIGoogle/bcsmartspace/src/com/google/android/systemui/smartspace/BcSmartspaceLogger.java
- *   vendor/unbundled_google/packages/NexusLauncher/src/com/google/android/apps/nexuslauncher/qsb/SmartspaceViewContainer.java
- * Next Tag: 3
- */
-message SmartSpaceCardMetadata {
-    // Uniquely identifies a card. Should persist through updates.
-    optional int32 instance_id = 1;
-    // The type of the card.
-    optional int32 card_type_id = 2;
-}
-
-/**
- * Used for snapshot of the HomeScreen UI elements
- *
- * Logged from:
- *   packages/apps/Launcher3
- */
-message LauncherStaticLayout {
-    // The event id (e.g., snapshot, drag and drop)
-    optional int32 event_id = 1;
-    // The event's source or target id (e.g., icon, shortcut, widget)
-    optional int32 target_id = 2;
-    // If the target needs to be tracked, use this id field
-    optional int32 instance_id = 3;
-    optional int32 uid = 4 [(is_uid) = true];
-    optional string package_name = 5;
-    optional string component_name = 6;
-
-    // (x, y) coordinate and the index information of the target on the container
-    optional int32 grid_x = 7 [default = -1];
-    optional int32 grid_y = 8 [default = -1];
-    optional int32 page_id = 9 [default = -2];
-
-    // e.g., folder icon's (x, y) location and index information on the workspace
-    // e.g., when used with widgets target, use these values for (span_x, span_y)
-    optional int32 grid_x_parent = 10 [default = -1];
-    optional int32 grid_y_parent = 11 [default = -1];
-    optional int32 page_id_parent = 12 [default = -2];
-
-    // UNKNOWN = 0
-    // HOTSEAT = 1
-    // WORKSPACE = 2
-    // FOLDER_HOTSEAT = 3
-    // FOLDER_WORKSPACE = 4
-    optional int32 hierarchy = 13;
-
-    optional bool is_work_profile = 14;
-
-    // e.g., PIN, WIDGET TRAY, APPS TRAY, PREDICTION
-    optional int32 origin = 15;
-
-    // e.g., number of icons inside a folder
-    optional int32 cardinality = 16;
-
-    // e.g., (x, y) span of the widget inside homescreen grid system
-    optional int32 span_x = 17 [default = 1];
-    optional int32 span_y = 18 [default = 1];
-
-    // Used to store features of the target (e.g. widget is reconfigurable, etc)
-    optional int32 features = 19;
-
-    // List of attributes attached to the event.
-    optional LauncherAttributes attributes = 20 [(log_mode) = MODE_BYTES];
-}
-
-/**
- * Used for logging launcher static elements using pulled atom.
- *
- * Logged from:
- *   packages/apps/Launcher3
- */
-message LauncherLayoutSnapshot {
-  // The event id (e.g., snapshot, drag and drop)
-  optional int32 event_id = 1;
-  // The event's source or target id (e.g., icon, shortcut, widget)
-  optional int32 item_id = 2;
-  // If the target needs to be tracked, use this id field
-  optional int32 instance_id = 3;
-  optional int32 uid = 4 [(is_uid) = true];
-  optional string package_name = 5;
-  optional string component_name = 6;
-
-  // (x, y) coordinate and the index information of the target on the container
-  optional int32 grid_x = 7 [default = -1];
-  optional int32 grid_y = 8 [default = -1];
-  optional int32 page_id = 9 [default = -2];
-
-  // e.g., folder icon's (x, y) location and index information on the workspace
-  // e.g., when used with widgets target, use these values for (span_x, span_y)
-  optional int32 grid_x_parent = 10 [default = -1];
-  optional int32 grid_y_parent = 11 [default = -1];
-  optional int32 page_id_parent = 12 [default = -2];
-
-  // UNKNOWN = 0
-  // HOTSEAT = 1
-  // WORKSPACE = 2
-  // FOLDER_HOTSEAT = 3
-  // FOLDER_WORKSPACE = 4
-  optional int32 container_id = 13;
-
-  optional bool is_work_profile = 14;
-
-  // e.g., PIN, WIDGET TRAY, APPS TRAY, PREDICTION
-  optional int32 attribute_id = 15;
-
-  // e.g., number of icons inside a folder
-  optional int32 cardinality = 16;
-
-  // e.g., (x, y) span of the widget inside homescreen grid system
-  optional int32 span_x = 17 [default = 1];
-  optional int32 span_y = 18 [default = 1];
-
-  // List of attributes attached to the event.
-  optional LauncherAttributes attributes = 19 [(log_mode) = MODE_BYTES];
-
-  optional bool is_kids_mode = 20;
 }
 
 /**
@@ -6091,49 +5683,6 @@ message NotificationReported {
     optional int64 timeout_millis = 24;
 }
 
-message Notification {
-    // The notifying app's uid and package.
-    optional int32 uid = 1 [(is_uid) = true];
-    optional string package_name = 2;
-    // A small system-assigned identifier for the notification.
-    optional int32 instance_id = 3;
-
-    // Grouping information.
-    optional int32 group_instance_id = 4;
-    optional bool is_group_summary = 5;
-
-    // The section of the shade that the notification is in.
-    // See SystemUI Notifications.proto.
-    enum NotificationSection {
-        SECTION_UNKNOWN = 0;
-        SECTION_HEADS_UP = 1;
-        SECTION_MEDIA_CONTROLS = 2;
-        SECTION_PEOPLE = 3;
-        SECTION_ALERTING = 4;
-        SECTION_SILENT = 5;
-        SECTION_FOREGROUND_SERVICE = 6;
-    }
-    optional NotificationSection section = 6;
-}
-
-message NotificationList {
-    repeated Notification notifications = 1;  // An ordered sequence of notifications.
-}
-
-/**
- * Reports a notification panel was displayed, e.g. from the lockscreen or status bar.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/
- */
-message NotificationPanelReported {
-    // The event_id (as for UiEventReported).
-    optional int32 event_id = 1;
-    optional int32 num_notifications = 2;
-    // The notifications in the panel, in the order that they appear there.
-    optional NotificationList notifications = 3 [(log_mode) = MODE_BYTES];
-}
-
 /**
  * Reports a notification channel, or channel group, was created, updated, or deleted.
  *
@@ -6160,53 +5709,6 @@ message NotificationChannelModified {
     optional bool is_conversation_demoted = 9;
     // whether this conversation is marked as being a priority
     optional bool is_conversation_priority = 10;
-}
-
-/**
- * Snapshot of notification memory use aggregated per-package and per-style.
- * One message for each notification style of each package showing notifications.
- * Logged from
- *    frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/notification/logging
- */
- message NotificationMemoryUse {
-    // UID if the application (can be mapped to package and version)
-    optional int32 uid = 1;
-    // Integer enum value showing aggregated notification style.
-    optional int32 style = 2;
-    // Number of notifications that were aggregated into this metric.
-    optional int32 count = 3;
-    // Number of notifications with actually inflated views in this metric.
-    optional int32 countWithInflatedViews = 4;
-    // Memory use of small icon Bitmaps in KB.
-    optional int32 smallIconObject = 5;
-    // Count of notifications with small icons as bitmaps.
-    optional int32 smallIconBitmapCount = 6;
-    // Memory use of large icon Bitmaps in KB.
-    optional int32 largeIconObject = 7;
-    // Count of notifications with large icons as bitmaps.
-    optional int32 largeIconBitmapCount = 8;
-    // Memory use of big picture style Bitmaps in KB.
-    optional int32 bigPictureObject = 9;
-    // Count of notifications with big picture images as bitmaps.
-    optional int32 bigPictureBitmapCount = 10;
-    // Complete memory use of extras in Notification object, in KB.
-    optional int32 extras = 11;
-    // Memory use of extenders in KB.
-    optional int32 extenders = 12;
-    // Combined memory use of small icon drawables in views, in KB.
-    optional int32 smallIconViews = 13;
-    // Combined memory use of large icon drawables in views, in KB.
-    optional int32 largeIconViews = 14;
-    // Combined memory use of system icon drawables in views, in KB.
-    optional int32 systemIconViews = 15;
-    // Combined memory use of style drawables (e.g. BigPicture) in views, in KB.
-    optional int32 styleViews = 16;
-    // Combined memory use of custom view drawables in views, in KB.
-    optional int32 customViews = 17;
-    // Extra memory used due to usage of software bitmaps, in KB.
-    optional int32 softwareBitmaps = 18;
-    // How many notifications were actually ever shown to the user.
-    optional int32 seenCount = 19;
 }
 
 /**
@@ -11708,38 +11210,6 @@ message TrainInfo {
     optional Status status = 4;
 }
 
-/**
- * Logs the gesture stage changed event.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/
- */
-message AssistGestureStageReported {
-    optional android.hardware.sensor.assist.AssistGestureStageEnum gesture_stage = 1;
-}
-
-/**
- * Logs the feedback type.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/
- */
-message AssistGestureFeedbackReported {
-    // Whether or not the gesture was used.
-    optional android.hardware.sensor.assist.AssistGestureFeedbackEnum feedback_type = 1;
-}
-
-/**
- * Logs the progress.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/
- */
-message AssistGestureProgressReported {
-    // [0,100] progress for the assist gesture.
-    optional int32 progress = 1;
-}
-
 /*
  * Information about the time zone data on a device.
  */
@@ -16608,26 +16078,6 @@ message AccessibilityServiceReported {
 }
 
 /**
- * Logs when accessibility floating menu changed its position by user.
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/src/com/android/systemui/accessibility/floatingmenu
- */
-message AccessibilityFloatingMenuUIChanged {
-    // Normalized screen position of the accessibility floating menu. The range is between 0 and 1.
-    optional float normalized_x_position = 1;
-    optional float normalized_y_position = 2;
-
-    enum Orientation {
-        UNKNOWN = 0;
-        PORTRAIT = 1;
-        LANDSCAPE = 2;
-    }
-    // Orientation of the device when accessibility floating menu changed.
-    optional Orientation orientation = 3;
-}
-
-/**
  * Pulls accessibility shortcuts status.
  *
  * Pulled from:
@@ -16960,67 +16410,6 @@ message BytesTransferByTagAndMetered {
     optional int64 tx_bytes = 6;
 
     optional int64 tx_packets = 7;
-}
-
-/*
- * Logs when the Media Output Switcher finishes a media switch operation.
- *
- * Logged from:
- *  packages/SystemUI/src/com/android/systemui/media/dialog/MediaOutputMetricLogger.java
- */
-message MediaOutputOpSwitchReported {
-    // Source medium type before switching.
-    optional android.app.settings.mediaoutput.MediumType source = 1;
-
-    // Target medium type after switching.
-    optional android.app.settings.mediaoutput.MediumType target = 2;
-
-    // The result of switching.
-    optional android.app.settings.mediaoutput.SwitchResult result = 3;
-
-    // The detail code of a switching result.
-    optional android.app.settings.mediaoutput.SubResult subresult = 4;
-
-    /*
-     * The package name of a pre-installed app, whose media session is being switched.
-     */
-    optional string media_session_package_name = 5;
-
-    // The amount of available wired devices when a switching is being performed.
-    optional int32 available_wired_device_count = 6;
-
-    // The amount of available Bluetooth devices a switching is being performed.
-    optional int32 available_bt_device_count = 7;
-
-    // The amount of available remote devices when a switching is being performed.
-    optional int32 available_remote_device_count = 8;
-
-    // The amount of applied devices within a remote dynamic group after a switching is done.
-    optional int32 applied_device_count_within_remote_group = 9;
-}
-
-/*
- * Logs when the user interact with Media Output Switcher.
- *
- * Logged from:
- *  packages/SystemUI/src/com/android/systemui/media/dialog/MediaOutputMetricLogger.java
- */
-message MediaOutputOpInteractionReported {
-    /** * The type of interaction with the output switch dialog. */
-    enum InteractionType {
-        EXPANSION = 0;
-        ADJUST_VOLUME = 1;
-        STOP_CASTING = 2;
-    }
-
-    // Type of interaction.
-    optional InteractionType interaction_type = 1;
-
-    // Type of device that interaction with.
-    optional android.app.settings.mediaoutput.MediumType target = 2;
-
-    // The package name of an application whose media session is being switched.
-    optional string media_session_package_name= 3;
 }
 
 /**
@@ -19535,25 +18924,6 @@ message MagnificationFollowTypingFocusActivatedSessionReported {
 }
 
 /*
- * Reports a device controls user interaction
- *
- * Logged from:
- *   frameworks/base/packages/SystemUI/src/com/android/systemui/controls/ControlsMetricsLoggerImpl.kt
- */
-message DeviceControlChanged {
-    // The event_id
-    optional int32 event_id = 1;
-    // An identifier to tie together multiple logs relating to the same controls session
-    optional int32 instance_id = 2;
-    // The type of device the user has interacted with (android.service.controls.DeviceTypes)
-    optional int32 device_type = 3;
-    // The service app uid.
-    optional int32 uid = 4 [(is_uid) = true];
-    // Is the device locked while the action started
-    optional bool is_locked = 5;
-}
-
-/*
  * Logged when hardware based user-configurable device state changes.
  *
  * Logged from:
@@ -21777,51 +21147,6 @@ message PendingIntentsPerPackage {
     optional int32 pending_intent_total_bundle_size_kb = 3;
 }
 
-/**
- * Logs for Launcher latency. Uses KLL to reduce the data pression
- *
- * Logged from:
- *      vendor/unbundled_google/packages/NexusLauncher
- */
-message LauncherLatency {
-    // The event id generated from go/uievents
-    optional int32 event_id = 1;
-    // The instance id to track multiple partial durations or parellel running durations
-    optional int32 instance_id = 2;
-    optional int32 package_id = 3;
-    optional int64 latency_in_millis = 4;
-    optional int32 type = 5;
-    optional int32 query_length = 6 [default = -1];
-    optional int32 sub_event_type = 7;
-}
-
-/**
- * Logs for Launcher Impression logging.
- *
- * Logged from:
- *      vendor/unbundled_google/packages/NexusLauncher
- */
-message LauncherImpressionEvent {
-    // The event id generated from go/uievents
-    optional int32 event_id = 1;
-    // The instance id to track multiple partial impression event.
-    optional int32 instance_id = 2;
-
-    // The state defines the surface where the impression is being logged.
-    optional int32 state = 3;
-    optional int32 query_length = 4 [default = -1];
-
-    // ResultType of the search result as defined in frameworks/libs/systemui/searchuilib/src/com/android/app/search/ResultType.java
-    repeated int32 result_type = 5;
-
-    // Number of results of corresponding result_type.
-    repeated int32 result_count = 6;
-
-    // If the corresponding result_type is above or below keyboard.
-    // If 50% of result is visible, then is_above_keyboard = true
-    repeated bool is_above_keyboard = 7;
-}
-
 /*
  * Logs changes to game state set by game applications via GameService.
  */
@@ -22474,27 +21799,6 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
     optional int32 upgrade_failed_to_version = 3;
     optional FailureCode failure_code = 4;
 }
-
-/**
- * Logs for task manager events
- *
- * Logged from SystemUI
- */
-message TaskManagerEventReported {
-
-    enum Event {
-        VIEWED = 1;
-        STOPPED = 2;
-    }
-
-    optional int32 uid = 1 [(is_uid) = true];
-
-    optional Event event = 2;
-
-    optional int64 time_running_ms = 3;
-}
-
-
 
 /** Log for autofill events. This captures events till the view goes out of
  * focus. For each auttofilled view going out of focus, and coming back, a
