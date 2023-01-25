@@ -21655,12 +21655,16 @@ message ApexInfoGathered {
  *
  * Pushed from:
  *    frameworks/base/services/core/java/com/android/server/BinaryTransparencyService.java
+ *
+ * Next ID: 12
  */
 message MobileBundledAppInfoGathered {
     // MBA package names are determined by developers (which can include OEMs)
     optional string package_name = 1;
     // the package version code of the MBA
     optional int64 version_code = 2;
+    // the split name (empty if it's the base)
+    optional string split_name = 11;
 
     enum DigestAlgorithmType {
         UNKNOWN = 0;
