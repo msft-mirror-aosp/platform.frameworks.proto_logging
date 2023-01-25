@@ -6845,6 +6845,9 @@ message ServiceRequestEventReported {
 
     /** The process name who requests the service launch */
     optional string request_process_name = 7;
+
+    /** The service component name, here consists of the class name part only */
+    optional string service_component_name = 8;
 }
 
 /**
