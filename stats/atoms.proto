@@ -38,6 +38,7 @@ import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/kernel/kernel_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/locale/locale_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/media/media_drm_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/wearsysui/wearsysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
@@ -894,11 +895,11 @@ message Atom {
         art.ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
         MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
         WsWatchFaceComplicationSetChanged ws_watch_face_complication_set_changed = 567 [(module) = "wearservices"];
-        MediaDrmCreated media_drm_created = 568 [(module) = "media_metrics"];
-        MediaDrmErrored media_drm_errored = 569 [(module) = "media_metrics"];
-        MediaDrmSessionOpened media_drm_session_opened = 570
+        media.MediaDrmCreated media_drm_created = 568 [(module) = "media_metrics"];
+        media.MediaDrmErrored media_drm_errored = 569 [(module) = "media_metrics"];
+        media.MediaDrmSessionOpened media_drm_session_opened = 570
             [(module) = "media_metrics"];
-        MediaDrmSessionClosed media_drm_session_closed = 571
+        media.MediaDrmSessionClosed media_drm_session_closed = 571
             [(module) = "media_metrics"];
         UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
         UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
@@ -24428,121 +24429,6 @@ message WsActiveWatchFaceComplicationSetSnapshot {
 
   // Active watch face package uid.
   optional int32 watch_face_package_uid = 3 [(is_uid) = true];
-}
-
-/**
- * Logs when a MediaDrm object is created.
- *
- * Logged from:
- *   frameworks/av/drm/libmediadrm/DrmHal.cpp
- */
-message MediaDrmCreated {
-  // Crypto scheme & UUID.
-  // Please see https://dashif.org/identifiers/content_protection/.
-  optional android.media.drm.DrmScheme scheme = 1;
-  optional int64 uuid_lsb = 2;
-  optional int64 uuid_msb = 3;
-  // App uid.
-  optional int32 uid = 4 [(is_uid) = true];
-  // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
-  optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
-}
-
-/**
- * Logs when a MediaDrm object encountered an error.
- *
- * Logged from:
- *   frameworks/av/drm/libmediadrm/DrmHal.cpp
- */
-message MediaDrmErrored {
-  // Crypto scheme & UUID.
-  // Please see https://dashif.org/identifiers/content_protection/.
-  optional android.media.drm.DrmScheme scheme = 1;
-  optional int64 uuid_lsb = 2;
-  optional int64 uuid_msb = 3;
-  // App uid.
-  optional int32 uid = 4 [(is_uid) = true];
-  // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
-  optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
-  // Base64 encoding of a randomly generated, globally unique 128 bit number
-  // tied to a MediaDrm object; it has no device or user association.
-  optional string object_nonce = 7;
-  // Base64 encoding of a randomly generated, globally unique 128 bit number
-  // tied to a MediaDrm session; it has no device or user association.
-  optional string session_nonce = 8;
-  // Security level of the opened session.
-  optional android.media.drm.SecurityLevel security_level = 9;
-  // The API that triggered the error.
-  optional android.media.drm.DrmApi api = 10;
-  // The encountered framework error.
-  optional android.media.drm.Status error_code = 11;
-  // Underlying plugin-specific (content decryption module) error.
-  optional int32 cdm_err = 12;
-  // Underlying OEM-specific error.
-  optional int32 oem_err = 13;
-  // Plugin-specific (cdm) error context.
-  optional int32 error_context = 14;
-}
-
-/**
- * Logs when a MediaDrm session is opened.
- *
- * Logged from:
- *   frameworks/av/drm/libmediadrm/DrmHal.cpp
- */
-message MediaDrmSessionOpened {
-  // Crypto scheme & UUID.
-  // Please see https://dashif.org/identifiers/content_protection/.
-  optional android.media.drm.DrmScheme scheme = 1;
-  optional int64 uuid_lsb = 2;
-  optional int64 uuid_msb = 3;
-  // App uid.
-  optional int32 uid = 4 [(is_uid) = true];
-  // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
-  optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
-  // Base64 encoding of a randomly generated, globally unique 128 bit number
-  // tied to a MediaDrm object; it has no device or user association.
-  optional string object_nonce = 7;
-  // Input security level to MediaDrm#openSession.
-  optional android.media.drm.SecurityLevel requested_security_level = 8;
-  // Actual security level of the opened session.
-  optional android.media.drm.SecurityLevel opened_security_level = 9;
-}
-
-/**
- * Logs when a MediaDrm session is closed.
- *
- * Logged from:
- *   frameworks/av/drm/libmediadrm/DrmHal.cpp
- */
-message MediaDrmSessionClosed {
-  // Crypto scheme & UUID.
-  // Please see https://dashif.org/identifiers/content_protection/.
-  optional android.media.drm.DrmScheme scheme = 1;
-  optional int64 uuid_lsb = 2;
-  optional int64 uuid_msb = 3;
-  // App uid.
-  optional int32 uid = 4 [(is_uid) = true];
-  // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
-  optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
-  // Base64 encoding of a randomly generated, globally unique 128 bit number
-  // tied to a MediaDrm object; it has no device or user association.
-  optional int64 object_nonce  = 7;
-  // Base64 encoding of a randomly generated, globally unique 128 bit number
-  // tied to a MediaDrm session; it has no device or user association.
-  optional int64 session_nonce = 8;
-  // Security level of the opened session.
-  optional android.media.drm.SecurityLevel opened_security_level = 9;
-  // Duration between session open-close in ms.
-  optional int64 session_lifespan_ms = 10;
 }
 
 message UnsafeIntentEventReported {

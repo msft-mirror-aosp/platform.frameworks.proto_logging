@@ -101,7 +101,8 @@ atom_protos = [
     "atoms/devicelogs/*.proto",
     "atoms/kernel/*.proto",
     "atoms/wearservices/*.proto",
-    "atoms/wear/media/*.proto"
+    "atoms/wear/media/*.proto",
+    "atoms/media/*.proto",
 ]
 
 cc_library_host_shared {
