@@ -22293,6 +22293,9 @@ message AdServicesSettingsUsageReported {
         NOTIFICATION_OPT_OUT_SELECTED = 25;
         NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
         PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        CONFIRMATION_PAGE_DISPLAYED = 28;
+        NOTIFICATION_DISABLED = 29;
+        GA_UX_NOTIFICATION_DISABLED = 30;
     }
 
     optional AdServiceSettingsName action = 2;
