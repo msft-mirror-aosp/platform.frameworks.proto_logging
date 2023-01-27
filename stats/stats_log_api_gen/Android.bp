@@ -116,11 +116,29 @@ genrule {
     ],
 }
 
+genrule {
+    name: "test_vendor_atoms_with_module.h",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --header $(genDir)/test_vendor_atoms_with_module.h --module test --namespace android,VendorAtomsModule --vendor-proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+    out: [
+        "test_vendor_atoms_with_module.h",
+    ],
+    srcs: [
+        "test_vendor_atoms.proto",
+    ],
+}
+
 cc_library_static {
     name: "libtestvendoratoms",
     host_supported: true,
-    generated_headers: ["test_vendor_atoms.h"],
-    export_generated_headers: ["test_vendor_atoms.h"],
+    generated_headers: [
+        "test_vendor_atoms.h",
+        "test_vendor_atoms_with_module.h",
+    ],
+    export_generated_headers: [
+        "test_vendor_atoms.h",
+        "test_vendor_atoms_with_module.h",
+    ],
 }
 
 // ==========================================================
