@@ -16,7 +16,8 @@
 
 #include <gtest/gtest.h>
 
-#include "test_vendor_atoms.h"
+#include <test_vendor_atoms.h>
+#include <test_vendor_atoms_with_module.h>
 
 namespace android {
 namespace stats_log_api_gen {
@@ -29,6 +30,7 @@ using namespace android::VendorAtoms;
 TEST(ApiGenVendorAtomTest, AtomIdConstantsTest) {
     EXPECT_EQ(VENDOR_ATOM1, 105501);
     EXPECT_EQ(VENDOR_ATOM2, 105502);
+    EXPECT_EQ(VENDOR_ATOM4, 105504);
 }
 
 /**
@@ -55,6 +57,9 @@ TEST(ApiGenVendorAtomTest, AtomEnumTest) {
     EXPECT_EQ(VendorAtom2::ANOTHER_TYPE_2, 2);
     EXPECT_EQ(VendorAtom2::ANOTHER_TYPE_3, 3);
 
+    EXPECT_EQ(VendorAtom4::TYPE_UNKNOWN, 0);
+    EXPECT_EQ(VendorAtom4::TYPE_1, 1);
+
     typedef void (*Atom1FuncWithEnum)(VendorAtom1::EnumType arg);
     typedef void (*Atom1FuncWithEnum2)(VendorAtom1::EnumType2 arg);
     typedef void (*Atom2FuncWithEnum)(VendorAtom2::EnumType arg);
@@ -69,6 +74,12 @@ TEST(ApiGenVendorAtomTest, AtomEnumTest) {
     EXPECT_EQ(f2, nullptr);
     EXPECT_EQ(f3, nullptr);
     EXPECT_EQ(f4, nullptr);
+}
+
+TEST(ApiGenVendorAtomTest, AtomIdModuleTest) {
+    EXPECT_EQ(VendorAtomsModule::VENDOR_ATOM4, 105504);
+    EXPECT_EQ(VendorAtomsModule::VendorAtom4::TYPE_UNKNOWN, 0);
+    EXPECT_EQ(VendorAtomsModule::VendorAtom4::TYPE_1, 1);
 }
 
 }  // namespace stats_log_api_gen
