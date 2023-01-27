@@ -104,6 +104,7 @@ atom_protos = [
     "atoms/wearservices/*.proto",
     "atoms/wear/media/*.proto",
     "atoms/media/*.proto",
+    "atoms/adservices/*.proto",
 ]
 
 cc_library_host_shared {
