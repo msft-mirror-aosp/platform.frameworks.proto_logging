@@ -15240,6 +15240,7 @@ message AppStandbyBucketChanged {
 *
 * Logged from:
 *   frameworks/base/core/java/com/android/internal/app/ChooserActivity.java
+*   packages/modules/IntentResolver/java/src/com/android/intentresolver/ChooserActivity.java
 */
 message SharesheetStarted {
     // The event_id (as for UiEventReported).
@@ -15278,6 +15279,10 @@ message SharesheetStarted {
     }
     // The intent being processed (only SEND and SEND_MULTIPLE are system sharesheet)
     optional ResolverActivityIntent intent_type = 9;
+    // The number of custom actions that the calling app has provided.
+    optional int32 num_provided_custom_actions = 10;
+    // True if the calling app has provided an action for media reselection.
+    optional bool reselection_action_provided = 11;
 }
 
 /**
@@ -15285,6 +15290,7 @@ message SharesheetStarted {
  *
  * Logged from:
  *   frameworks/base/core/java/com/android/internal/app/ChooserActivity.java (sharesheet)
+ *   packages/modules/IntentResolver/java/src/com/android/intentresolver/ChooserActivity.java
  */
 message RankingSelected {
     // The event_id (as for UiEventReported).
