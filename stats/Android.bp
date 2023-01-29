@@ -97,6 +97,7 @@ atom_protos = [
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/sysui/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
     "atoms/devicelogs/*.proto",
@@ -104,6 +105,7 @@ atom_protos = [
     "atoms/wearservices/*.proto",
     "atoms/wear/media/*.proto",
     "atoms/media/*.proto",
+    "atoms/adservices/*.proto",
 ]
 
 cc_library_host_shared {
