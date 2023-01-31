@@ -1154,6 +1154,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_REVOKE_ADMIN_FROM_SETTINGS = 1821;
+
+    // Custom tag to log selected item change of the spinner in battery usage page
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_BATTERY_USAGE_SPINNER = 1822;
 }
 
 /**
