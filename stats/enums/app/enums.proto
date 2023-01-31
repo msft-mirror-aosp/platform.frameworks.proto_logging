@@ -545,6 +545,12 @@ enum AppExitSubReasonCode {
      * had died; this would be set only when the reason is {@link #REASON_DEPENDENCY_DIED}.
      */
     SUBREASON_SDK_SANDBOX_DIED = 27;
+
+    /**
+     * The process was killed because it was an SDK sandbox process that was either not usable or
+     * was no longer being used; this would be set only when the reason is {@link #REASON_OTHER}.
+     */
+     SUBREASON_SDK_SANDBOX_NOT_NEEDED = 28;
 }
 
 /**
