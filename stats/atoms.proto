@@ -948,6 +948,7 @@ message Atom {
         autofill.AutofillFillResponseReported autofill_fill_response_reported = 605 [(module) = "framework"];
         autofill.AutofillSaveEventReported autofill_save_event_reported = 606 [(module) = "framework"];
         autofill.AutofillSessionCommitted autofill_session_committed = 607 [(module) = "framework"];
+        wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
