@@ -949,7 +949,7 @@ message Atom {
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
-    // Next: 10175
+    // Next: 10177
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1156,6 +1156,7 @@ message Atom {
         ProcessAssociation process_association = 10172 [(module) = "framework"];
         adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
         sysui.NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
+        display.HdrCapabilities hdr_capabilities = 10175 [(module) = "framework"];
         WsFavouriteWatchFaceListSnapshot ws_favourite_watch_face_list_snapshot = 10176 [(module) = "wearservices"];
     }
 
