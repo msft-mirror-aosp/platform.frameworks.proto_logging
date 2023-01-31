@@ -941,6 +941,7 @@ message Atom {
         display.ScreenBrightnessChangedV2 screen_brightness_changed_v2 = 597 [(module) = "framework"];
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
+        wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
