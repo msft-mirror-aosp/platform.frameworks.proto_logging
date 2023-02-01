@@ -21,6 +21,7 @@ package android.os.statsd.display;
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/display/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
+import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 
 option java_package = "com.android.os.display";
 option java_multiple_files = true;
@@ -98,3 +99,34 @@ message ScreenBrightnessChangedV2 {
     // Detail of hbm mode.
     optional android.display.DisplayHBMModeEnum hbm_mode = 14;
 }
+
+/**
+ * Logs the HDR capabilities of a device:
+ * - Has the user disabled the HDR conversion?
+ * - Has the user chosen to force convert to an HDR output format, and to which format?
+ * - Does the device have the 4k30Hz Dolby Vision issue?
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/stats/pull/StatsPullAtomService.java
+ */
+message HdrCapabilities {
+    message HdrOutputCapability {
+        optional int32 source_type = 1;
+        optional int32 output_type = 2;
+        optional int32 latency = 3;
+    }
+
+    message HdrOutputCapabilities {
+        repeated HdrOutputCapability hdr_output_capabilities = 1;
+    }
+
+    // The HDR capabilities of the device
+    optional HdrOutputCapabilities device_hdr_output_capabilities = 1 [(log_mode) = MODE_BYTES];
+    // Whether the user has disabled HDR conversion
+    optional bool has_user_disabled_hdr_conversion = 2;
+    // The format to which user chose to force HDR conversion.
+    optional android.stats.mediametrics.HdrFormat force_hdr_format = 3;
+    // Whether the device has 4k30 Hz Dolby Vision issue
+    optional bool has_4k30_dolby_vision_issue = 4;
+}
+
