@@ -111,7 +111,8 @@ message Atom {
         BleScanStateChanged ble_scan_state_changed = 2
                 [(module) = "bluetooth", (module) = "statsdtest"];
         ProcessStateChanged process_state_changed = 3 [(module) = "framework"];
-        BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
+        BleScanResultReceived ble_scan_result_received = 4
+            [(module) = "bluetooth", (module) = "statsdtest"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
         gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
@@ -771,6 +772,11 @@ message Atom {
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
+    // Pushed atom extensions.
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
+    extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
+
     // Pulled events will start at field 10000.
     // Next: 10169
     oneof pulled {
@@ -1287,6 +1293,12 @@ message WifiConnectionResultReported {
         FAILURE_NETWORK_DISCONNECTION = 6;
         FAILURE_ROAM_TIMEOUT = 7;
         FAILURE_WRONG_PASSWORD = 8;
+        FAILURE_CONNECT_NETWORK_FAILED = 9;
+        FAILURE_NEW_CONNECTION_ATTEMPT = 10;
+        FAILURE_REDUNDANT_CONNECTION_ATTEMPT = 11;
+        FAILURE_NETWORK_NOT_FOUND = 12;
+        FAILURE_NO_RESPONSE = 13;
+        FAILURE_OTHERS = 14;
     }
 
     enum Trigger {
@@ -21044,7 +21056,8 @@ message RunAdBiddingPerCAProcessReported {
 }
 
 /**
- * Logs for AdServices GetTopics API call.
+ * Logs for AdServices GetTopics API call on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatGetTopicsReported for R+ logging.
  */
 message AdServicesGetTopicsReported {
     // List of topic ids returned.
@@ -21078,12 +21091,14 @@ message AdServicesEpochComputationGetTopTopicsReported {
 }
 
 /**
- * Logs for AdServices Epoch Computation Classifier.
+ * Logs for AdServices Epoch Computation Classifier on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatEpochComputationClassifierReported for R+ logging.
  * One atom should be logged for each app classification.
  */
 message AdServicesEpochComputationClassifierReported {
 
-    // List of topics returned by the classifier for each app.
+    // List of topics returned by the classifier for each app. The classification
+    // does not depend on the user's usage of the app.
     repeated int32 topic_ids = 1;
 
     // Build id of the assets.
@@ -21145,6 +21160,7 @@ message AdServicesApiCalled {
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
+    //  * setAppInstallAdvertisers()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21193,6 +21209,7 @@ message AdServicesApiCalled {
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
+        SET_APP_INSTALL_ADVERTISERS = 22;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22286,6 +22303,9 @@ message AdServicesSettingsUsageReported {
         NOTIFICATION_OPT_OUT_SELECTED = 25;
         NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
         PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        CONFIRMATION_PAGE_DISPLAYED = 28;
+        NOTIFICATION_DISABLED = 29;
+        GA_UX_NOTIFICATION_DISABLED = 30;
     }
 
     optional AdServiceSettingsName action = 2;
