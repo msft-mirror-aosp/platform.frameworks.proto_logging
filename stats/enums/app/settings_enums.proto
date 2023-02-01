@@ -3862,6 +3862,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_DEVELOPMENT_MEMTAG_CATEGORY = 2015;
+
+    // OPEN: Settings > Apps > Special app access > NFC Tag App Preference
+    // CATEGORY: SETTINGS
+    // OS: U
+    CONFIG_NFC_TAG_APP_PREF = 2016;
+
 }
 
 // Battery Saver schedule types.
