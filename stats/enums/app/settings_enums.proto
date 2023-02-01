@@ -1154,6 +1154,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_REVOKE_ADMIN_FROM_SETTINGS = 1821;
+
+    // Custom tag to log selected item change of the spinner in battery usage page
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_BATTERY_USAGE_SPINNER = 1822;
 }
 
 /**
@@ -3558,6 +3563,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: T
     NFC_DEFAULT_PAYMENT = 1936;
+
+    // OPEN: Active Unlock Enroll (if there is no face or fingerprint enrolled)
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTIVE_UNLOCK_REQUIRE_BIOMETRIC_SETUP = 1940;
 
     // OPEN: Settings > System > Languages
     // CATEGORY: SETTINGS
