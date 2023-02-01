@@ -104,6 +104,25 @@ enum ProcessStateEnum {
     PROCESS_STATE_NONEXISTENT = 1019;
 }
 
+// frameworks/base/services/core/java/com/android/server/am/OomAdjuster.java
+// Proto enum equivalents for "OomAdjReason"
+enum OomChangeReasonEnum {
+    OOM_ADJ_REASON_UNKNOWN_TO_PROTO = -1;
+    OOM_ADJ_REASON_NONE = 0;
+    OOM_ADJ_REASON_ACTIVITY = 1;
+    OOM_ADJ_REASON_FINISH_RECEIVER = 2;
+    OOM_ADJ_REASON_START_RECEIVER = 3;
+    OOM_ADJ_REASON_BIND_SERVICE = 4;
+    OOM_ADJ_REASON_UNBIND_SERVICE = 5;
+    OOM_ADJ_REASON_START_SERVICE = 6;
+    OOM_ADJ_REASON_GET_PROVIDER = 7;
+    OOM_ADJ_REASON_REMOVE_PROVIDER = 8;
+    OOM_ADJ_REASON_UI_VISIBILITY = 9;
+    OOM_ADJ_REASON_ALLOWLIST = 10;
+    OOM_ADJ_REASON_PROCESS_BEGIN = 11;
+    OOM_ADJ_REASON_PROCESS_END = 12;
+}
+
 // AppOpsManager.java - operation ids for logging
 enum AppOpEnum {
     APP_OP_NONE = -1;
@@ -228,7 +247,19 @@ enum AppOpEnum {
     APP_OP_ESTABLISH_VPN_MANAGER = 118;
     APP_OP_ACCESS_RESTRICTED_SETTINGS = 119;
     APP_OP_RECEIVE_AMBIENT_TRIGGER_AUDIO = 120;
+    APP_OP_RECEIVE_EXPLICIT_USER_INTERACTION_AUDIO = 121;
+    APP_OP_RUN_LONG_JOBS = 122;
     APP_OP_READ_MEDIA_VISUAL_USER_SELECTED = 123;
+    APP_OP_SYSTEM_EXEMPT_FROM_APP_STANDBY = 124;
+    APP_OP_SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS = 125;
+    APP_OP_READ_WRITE_HEALTH_DATA = 126;
+    APP_OP_FOREGROUND_SERVICE_SPECIAL_USE = 127;
+    APP_OP_SYSTEM_EXEMPT_FROM_POWER_RESTRICTIONS = 128;
+    APP_OP_SYSTEM_EXEMPT_FROM_FGS_BG_START_WHILE_IN_USE_PERMISSION_RESTRICTION = 129;
+    APP_OP_SYSTEM_EXEMPT_FROM_FGS_STOP_BUTTON = 130;
+    APP_OP_CAPTURE_CONSENTLESS_BUGREPORT_ON_USERDEBUG_BUILD = 131;
+    APP_OP_BODY_SENSORS_WRIST_TEMPERATURE = 132;
+    APP_OP_USE_FULL_SCREEN_INTENT = 133;
 }
 
 /**
@@ -481,6 +512,18 @@ enum AppExitSubReasonCode {
      * {@link #REASON_USER_REQUESTED}.
      */
     SUBREASON_PACKAGE_UPDATE = 25;
+
+    /**
+     * The process was killed because of undelivered broadcasts; this would be set only when the
+     * reason is {@link #REASON_OTHER}.
+     */
+    SUBREASON_UNDELIVERED_BROADCAST = 26;
+
+    /**
+     * The process was killed because its associated SDK sandbox process (where it had loaded SDKs)
+     * had died; this would be set only when the reason is {@link #REASON_DEPENDENCY_DIED}.
+     */
+    SUBREASON_SDK_SANDBOX_DIED = 27;
 }
 
 /**
@@ -505,4 +548,40 @@ enum Importance {
     IMPORTANCE_BACKGROUND = 400;
     IMPORTANCE_EMPTY = 500;
     IMPORTANCE_GONE = 1000;
+}
+
+/**
+ * The Resource APIs that are monitored.
+ */
+enum ResourceApiEnum {
+
+  RESOURCE_API_NONE = 0;
+  RESOURCE_API_GET_VALUE = 1;
+  RESOURCE_API_RETRIEVE_ATTRIBUTES = 2;
+}
+
+/**
+ * The game modes used by GameManager.
+ *
+ * <p>Also see {@link android.app.GameManager#GameMode}.
+ */
+enum GameMode {
+    GAME_MODE_UNSPECIFIED = 0;
+    GAME_MODE_UNSUPPORTED = 1;
+    GAME_MODE_STANDARD = 2;
+    GAME_MODE_PERFORMANCE = 3;
+    GAME_MODE_BATTERY = 4;
+    GAME_MODE_CUSTOM = 5;
+}
+
+/**
+ * The result code of foreground service type policy check.
+ */
+enum FgsTypePolicyCheckEnum {
+    FGS_TYPE_POLICY_CHECK_UNKNOWN = 0;
+    FGS_TYPE_POLICY_CHECK_OK = 1;
+    FGS_TYPE_POLICY_CHECK_DEPRECATED = 2;
+    FGS_TYPE_POLICY_CHECK_DISABLED = 3;
+    FGS_TYPE_POLICY_CHECK_PERMISSION_DENIED_PERMISSIVE = 4;
+    FGS_TYPE_POLICY_CHECK_PERMISSION_DENIED_ENFORCED = 5;
 }

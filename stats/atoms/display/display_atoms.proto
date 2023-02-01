@@ -1,0 +1,100 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.display;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/display/enums.proto";
+import "frameworks/proto_logging/stats/enums/view/enums.proto";
+
+option java_package = "com.android.os.display";
+option java_multiple_files = true;
+
+/**
+ * Logs when the screen state changes on devices with multiple displays.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/DisplayPowerController.java
+ *   frameworks/base/services/core/java/com/android/server/display/DisplayPowerController2.java
+ */
+message ScreenStateChangedV2 {
+    // New screen state, from frameworks/proto_logging/stats/enums/view/enums.proto.
+    optional android.view.DisplayStateEnum state = 1
+            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
+    optional int32 display_id = 2 [(state_field_option).primary_field = true];
+}
+
+/**
+ * Logs detailed brightness events when brightness changed.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/DisplayPowerController.java
+ *   frameworks/base/services/core/java/com/android/server/display/DisplayPowerController2.java
+ */
+message ScreenBrightnessChangedV2 {
+    // Hashed display id
+    optional int32 display_id = 1;
+
+    // Display brightness in nits.
+    optional float brightness_nits = 2;
+
+    // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/enums.proto.
+    optional android.display.DisplayBrightnessRangeEnum bucket_index = 3;
+
+    // Brightness is at maximum allowable value regarding to current context
+    optional bool brightness_at_max = 4;
+
+    // Estimated ambient light, in lux.
+    optional float ambient_lux = 5;
+
+    // Whether the short term model was active at the time of the event.
+    optional bool short_term_model_active = 6;
+
+    // The factor to adjust the screen brightness in low power mode in the range
+    // 0 (screen off) to 1 (no change).
+    // If not applied, this is set to -1.
+    optional float power_brightness_factor = 7;
+
+    // The level of Reduce Bright Colors (RBC) intensity, the range is [0, 100].
+    // If RBC is not enabled, this is set to -1;
+    optional int32 reduce_bright_colors_strength = 8;
+
+    // Max nits value when High Brightness Mode (HBM) is enabled.
+    // If HBM is not enabled, this is set to -1;
+    optional float hbm_current_max = 9;
+
+    // Thermal throttling cap.
+    // If thermal throttling not enabled, this is -1.
+    optional float thermal_throttling_cap = 10;
+
+    // Whether adaptive brightness is enabled.
+    optional bool adaptive_brightness_enabled = 11;
+
+    // Reason that triggered the brightness event to occur.
+    optional android.display.DisplayBrightnessChangeReasonEnum reason = 12;
+
+    // Bitmap to represent modifier that have changed the value of brightness.
+    // MODIFIER_DIMMED = 0x1;
+    // MODIFIER_LOW_POWER = 0x2;
+    // MODIFIER_HDR = 0x4;
+    // MODIFIER_THROTTLED = 0x8;
+    optional int32 modifier = 13;
+
+    // Detail of hbm mode.
+    optional android.display.DisplayHBMModeEnum hbm_mode = 14;
+}

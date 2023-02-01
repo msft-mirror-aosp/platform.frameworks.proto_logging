@@ -1,3 +1,4 @@
+//
 // Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +14,28 @@
 // limitations under the License.
 //
 
-
-filegroup {
-    name: "libstats_gps_atom_protos",
-    srcs: [
-        "gps_atoms.proto",
-    ],
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+cc_library_host_shared {
+    name: "libexpressconfig_proto_host",
+    srcs: [
+        "express_config.proto",
+    ],
+
+    proto: {
+        type: "full",
+        export_proto_headers: true,
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
+}
+
+filegroup {
+    name: "metric_config_files",
+    srcs: [
+        "catalog/*.cfg",
+    ],
+}
