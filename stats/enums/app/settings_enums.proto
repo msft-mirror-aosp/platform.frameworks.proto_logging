@@ -1154,6 +1154,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_REVOKE_ADMIN_FROM_SETTINGS = 1821;
+
+    // Custom tag to log selected item change of the spinner in battery usage page
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_BATTERY_USAGE_SPINNER = 1822;
 }
 
 /**
@@ -3559,6 +3564,11 @@ enum PageId {
     // OS: T
     NFC_DEFAULT_PAYMENT = 1936;
 
+    // OPEN: Active Unlock Enroll (if there is no face or fingerprint enrolled)
+    // CATEGORY: SETTINGS
+    // OS: T
+    ACTIVE_UNLOCK_REQUIRE_BIOMETRIC_SETUP = 1940;
+
     // OPEN: Settings > System > Languages
     // CATEGORY: SETTINGS
     // OS: U
@@ -3852,6 +3862,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_DEVELOPMENT_MEMTAG_CATEGORY = 2015;
+
+    // OPEN: Settings > Apps > Special app access > NFC Tag App Preference
+    // CATEGORY: SETTINGS
+    // OS: U
+    CONFIG_NFC_TAG_APP_PREF = 2016;
+
 }
 
 // Battery Saver schedule types.
