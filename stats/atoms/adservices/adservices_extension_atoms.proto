@@ -1,0 +1,109 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.adservices;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.adservices";
+option java_multiple_files = true;
+
+extend Atom {
+  optional AdServicesBackCompatGetTopicsReported
+      ad_services_back_compat_get_topics_reported = 598
+        [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesBackCompatEpochComputationClassifierReported
+      ad_services_back_compat_epoch_computation_classifier_reported = 599
+          [(module) = "adservices", (truncate_timestamp) = true];
+}
+
+/**
+ * Represents a list of topic IDs.
+ */
+message AdServicesTopicIds {
+  repeated int32 topic_id = 1;
+}
+
+/**
+ * Logs for AdServices GetTopics API call on R+.
+ * This atom closely mimics AdServicesGetTopicsReported (for T+ logging) and
+ * avoids usage of field types (e.g. repeated) that aren't supported on R/S.
+ */
+message AdServicesBackCompatGetTopicsReported {
+  // See b/266626836 for why topic_ids is not a field yet.
+
+  // Number of filtered duplicate topics.
+  optional int32 duplicate_topic_count = 1;
+
+  // Number of filtered blocked topics.
+  optional int32 filtered_blocked_topic_count = 2;
+
+  // Number of topic ids returned.
+  optional int32 count_of_topic_ids = 3;
+}
+
+/**
+ * Logs for AdServices Epoch Computation Classifier on R+.
+ * One atom should be logged for each app classification.
+ * This atom closely mimics AdServicesEpochComputationClassifierReported (for T+ logging)
+ * and avoids usage of field types (e.g. repeated) that can't be supported on R/S.
+ */
+message AdServicesBackCompatEpochComputationClassifierReported {
+  // List of topics returned by the classifier for each app. The classification
+  // does not depend on the user's usage of the app.
+  optional AdServicesTopicIds topic_ids = 1 [(log_mode) = MODE_BYTES];
+
+  // Build id of the assets.
+  optional int32 build_id = 2;
+
+  // Version of the assets used.
+  optional string asset_version = 3;
+
+  // Type of the classifier used for classifying apps.
+  enum ClassifierType {
+    /** Unknown classifier option. */
+    UNKNOWN_CLASSIFIER = 0;
+    /** Only on-device classification. */
+    ON_DEVICE_CLASSIFIER = 1;
+    /** Only Precomputed classification. */
+    PRECOMPUTED_CLASSIFIER = 2;
+    /** Precomputed classification values are preferred over on-device classification values. */
+    PRECOMPUTED_THEN_ON_DEVICE_CLASSIFIER = 3;
+  }
+  optional ClassifierType classifier_type = 4;
+
+  // On Device classifier status.
+  enum OnDeviceClassifierStatus {
+    ON_DEVICE_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+    ON_DEVICE_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+    ON_DEVICE_CLASSIFIER_STATUS_SUCCESS = 2;
+    ON_DEVICE_CLASSIFIER_STATUS_FAILURE = 3;
+  }
+  optional OnDeviceClassifierStatus on_device_classifier_status = 5;
+
+  // Precomputed classifier status.
+  enum PrecomputedClassifierStatus {
+    PRECOMPUTED_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+    PRECOMPUTED_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+    PRECOMPUTED_CLASSIFIER_STATUS_SUCCESS = 2;
+    PRECOMPUTED_CLASSIFIER_STATUS_FAILURE = 3;
+  }
+  optional PrecomputedClassifierStatus precomputed_classifier_status = 6;
+}
