@@ -23794,6 +23794,12 @@ message WsWatchFaceComplicationSetChanged {
   // Where a complication has been changed from. When changed on the companion equals
   // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
   optional RequestSource request_source = 6;
+
+  // Old complication type.
+  optional int32 old_complication_type = 7;
+
+  // New complication type.
+  optional int32 new_complication_type = 8;
 }
 
 /** Snapshot of all active complications on the current watch face.
