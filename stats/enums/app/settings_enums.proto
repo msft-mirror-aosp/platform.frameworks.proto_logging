@@ -3868,6 +3868,11 @@ enum PageId {
     // OS: U
     CONFIG_NFC_TAG_APP_PREF = 2016;
 
+    // Open: Settings : Apps > Special App Access > Device & app notifications > Not allowed > allow
+    // CATEGORY: SETTINGS
+    // OS: U
+    // Pre-U, shared DIALOG_SERVICE_ACCESS_WARNING with the VR Listeners approval dialog
+    DIALOG_NOTIFICATION_ACCESS_GRANT = 2017;
 }
 
 // Battery Saver schedule types.
