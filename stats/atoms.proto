@@ -20831,6 +20831,9 @@ message PerSimStatus {
     // Indicates the unmetered networks
     // Bitmask is encoded as TelephonyManager#NetworkTypeBitMask.
     optional int64 unmetered_networks = 17;
+
+    // Indicates whether VoNR is enabled
+    optional bool vonr_enabled = 18;
 }
 
 /*
