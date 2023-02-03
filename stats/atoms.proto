@@ -28,6 +28,7 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/credentials/credentials_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/expresslog/expresslog_atoms.proto";
@@ -938,6 +939,9 @@ message Atom {
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
         display.ScreenBrightnessChangedV2 screen_brightness_changed_v2 = 597 [(module) = "framework"];
+        corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
+            network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
+        wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -2624,6 +2628,27 @@ message CallStateChanged {
 
     // True if call is emergency call.
     optional bool emergency_call = 5;
+
+    // UID of the package that has initiated the call.
+    optional int32 uid = 6 [(is_uid) = true];
+
+    // Elapsed time between CALL_STATE_ACTIVE to CALL_STATE_DISCONNECTED.
+    // This value is only applicable when the call_state is DISCONNECTED,
+    // 0 otherwise.
+    optional int32 duration_seconds = 7;
+
+    // Number of all existing calls when this call is created.
+    optional int32 existing_call_count = 8;
+
+    // Number of existing calls held by this call.
+    // This value is set after a call is actually held, 0 otherwise.
+    optional int32 held_call_count = 9;
+
+    // The reason the call hasn't been started by device condition.
+    // This value is only applicable when the call_state is DISCONNECTED,
+    // and should always be NONE if the call_state is not DISCONNECTED.
+    // From frameworks/base/core/proto/android/telecomm/enums.proto.
+    optional android.telecom.CallFailureCauseEnum start_fail_cause = 10;
 }
 
 /*
@@ -18763,6 +18788,18 @@ message MediametricsAAudioStreamReported {
 
     // The mode of sharing the device requested by the client.
     optional SharingMode sharing_requested = 18;
+
+    // Android U
+    // The format used by the audio hardware.
+    optional int32 format_hardware = 19;
+
+    // Android U
+    // The channel count used by the audio hardware.
+    optional int32 channel_count_hardware = 20;
+
+    // Android U
+    // The sample rate used by the audio hardware.
+    optional int32 sample_rate_hardware = 21;
 }
 
 /**
