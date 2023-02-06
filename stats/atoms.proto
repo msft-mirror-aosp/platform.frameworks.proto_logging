@@ -5725,6 +5725,9 @@ message NotificationReported {
     optional bool is_foreground_service = 23;
     // Fields to know about the timeout for notifications.
     optional int64 timeout_millis = 24;
+
+    // Field for tracking whether the notification is non-dismissible
+    optional bool is_non_dismissible = 25;
 }
 
 /**
