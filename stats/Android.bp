@@ -67,6 +67,7 @@ enum_protos = [
     "enums/telephony/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
+    "enums/wear/media/*.proto",
     "enums/wifi/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
