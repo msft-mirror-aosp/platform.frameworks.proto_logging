@@ -329,6 +329,10 @@ enum AppExitReasonCode {
      * Application process was killed because of the user request, for example,
      * user clicked the "Force stop" button of the application in the Settings,
      * or swiped away the application from Recents.
+     * <p>
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE}, one of the uses of this 
+     * reason was indicate that an app was killed due to it being updated or any of its component states
+     * have changed without {@link android.content.pm.PackageManager#DONT_KILL_APP}
      */
     REASON_USER_REQUESTED = 10;
 
@@ -356,6 +360,23 @@ enum AppExitReasonCode {
      * sync binder transactions while being frozen.
      */
     REASON_FREEZER = 14;
+
+     /**
+     * Application process was killed because the app was uninstalled, disabled, or any of its
+     * component states have changed without {@link android.content.pm.PackageManager#DONT_KILL_APP}
+     * <p>
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE},
+     * {@link #REASON_USER_REQUESTED} was used to indicate that an app was updated.
+     */
+    REASON_PACKAGE_STATE_CHANGE = 15;
+
+    /**
+     * Application process was killed because it was updated.
+     * <p>
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE},
+     * {@link #REASON_USER_REQUESTED} was used to indicate that an app was updated.
+     */
+    REASON_PACKAGE_UPDATED = 16;
 }
 
 /**
@@ -509,9 +530,9 @@ enum AppExitSubReasonCode {
 
     /**
      * The process was killed because of package update; this would be set only when the reason is
-     * {@link #REASON_USER_REQUESTED}.
+     * {@link #REASON_PACKAGE_STATE_CHANGE}.
      */
-    SUBREASON_PACKAGE_UPDATE = 25;
+    SUBREASON_PACKAGE_UPDATED = 25;
 
     /**
      * The process was killed because of undelivered broadcasts; this would be set only when the
