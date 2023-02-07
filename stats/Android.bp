@@ -80,6 +80,7 @@ atom_protos = [
     "attribution_node.proto",
     "atoms/gps/*.proto",
     "atoms/adservices/*.proto",
+    "atoms/providers/mediaprovider/*.proto",
 ]
 
 cc_library_host_shared {
