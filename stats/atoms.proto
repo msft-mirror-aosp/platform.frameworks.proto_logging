@@ -24,6 +24,7 @@ option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
@@ -111,7 +112,8 @@ message Atom {
         BleScanStateChanged ble_scan_state_changed = 2
                 [(module) = "bluetooth", (module) = "statsdtest"];
         ProcessStateChanged process_state_changed = 3 [(module) = "framework"];
-        BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
+        BleScanResultReceived ble_scan_result_received = 4
+            [(module) = "bluetooth", (module) = "statsdtest"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
         gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
@@ -767,9 +769,16 @@ message Atom {
         NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
         NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
         ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
+        providers.mediaprovider.MediaProviderVolumeRecoveryReported
+            media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
+
+    // Pushed atom extensions.
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
+    extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
 
     // Pulled events will start at field 10000.
     // Next: 10169
@@ -21050,7 +21059,8 @@ message RunAdBiddingPerCAProcessReported {
 }
 
 /**
- * Logs for AdServices GetTopics API call.
+ * Logs for AdServices GetTopics API call on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatGetTopicsReported for R+ logging.
  */
 message AdServicesGetTopicsReported {
     // List of topic ids returned.
@@ -21084,12 +21094,14 @@ message AdServicesEpochComputationGetTopTopicsReported {
 }
 
 /**
- * Logs for AdServices Epoch Computation Classifier.
+ * Logs for AdServices Epoch Computation Classifier on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatEpochComputationClassifierReported for R+ logging.
  * One atom should be logged for each app classification.
  */
 message AdServicesEpochComputationClassifierReported {
 
-    // List of topics returned by the classifier for each app.
+    // List of topics returned by the classifier for each app. The classification
+    // does not depend on the user's usage of the app.
     repeated int32 topic_ids = 1;
 
     // Build id of the assets.
@@ -21151,6 +21163,7 @@ message AdServicesApiCalled {
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
+    //  * setAppInstallAdvertisers()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21199,6 +21212,7 @@ message AdServicesApiCalled {
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
+        SET_APP_INSTALL_ADVERTISERS = 22;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22111,16 +22125,19 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 8
+    // Next ID: 11
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
+        // Api used by Apps via SdkSandboxManager
         GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
         REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+        // Api used by SDKs in the sandbox via SdkSandboxController
+        GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
@@ -22292,6 +22309,9 @@ message AdServicesSettingsUsageReported {
         NOTIFICATION_OPT_OUT_SELECTED = 25;
         NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
         PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        CONFIRMATION_PAGE_DISPLAYED = 28;
+        NOTIFICATION_DISABLED = 29;
+        GA_UX_NOTIFICATION_DISABLED = 30;
     }
 
     optional AdServiceSettingsName action = 2;
