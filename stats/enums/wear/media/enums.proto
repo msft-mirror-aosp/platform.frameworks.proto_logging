@@ -22,19 +22,21 @@ option java_multiple_files = true;
 
 // Indicates the type of action for controlling the media session.
 enum MediaAction {
-  PLAY = 0;
-  PAUSE = 1;
-  SKIP_NEXT = 2;
-  SKIP_PREV = 3;
-  RESUME = 4;
-  VOLUME_INCREASE = 5;
-  VOLUME_DECREASE = 6;
+  UNKNOWN_ACTION = 0;
+  PLAY = 1;
+  PAUSE = 2;
+  SKIP_NEXT = 3;
+  SKIP_PREV = 4;
+  RESUME = 5;
+  VOLUME_INCREASE = 6;
+  VOLUME_DECREASE = 7;
 }
 
 // Indicates the type of launch source
 enum LaunchSource {
-  ONGOING_ACTIVITY = 0;
-  LAUNCHER = 1;
-  AUTO_LAUNCH = 2;
-  RECENT_APPS = 3;
+  UNKNOWN_SOURCE = 0;
+  ONGOING_ACTIVITY = 1;
+  LAUNCHER = 2;
+  AUTO_LAUNCH = 3;
+  RECENT_APPS = 4;
 }
