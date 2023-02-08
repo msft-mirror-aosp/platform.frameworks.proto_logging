@@ -79,11 +79,14 @@ enum RequestSource {
   // Depicts the source as unknown.
   SOURCE_UNKNOWN = 0;
 
-  // Depicts source as phone.
-  SOURCE_PHONE = 1;
+  // Depicts source as Android phone.
+  SOURCE_PHONE_ANDROID = 1;
+
+  // Depicts source as iOS phone.
+  SOURCE_PHONE_IOS = 2;
 
   // Depicts the source as watch.
-  SOURCE_WATCH = 2;
+  SOURCE_WATCH = 3;
 }
 
 // This enum depicts an action taken during a backup attempt
