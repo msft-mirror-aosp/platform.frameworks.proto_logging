@@ -960,6 +960,8 @@ message Atom {
     extensions 600; // MediaCodecReclaimRequestCompleted media_codec_reclaim_request_completed
     extensions 608; // MediaActionReported media_action_reported
     extensions 609; // MediaControlsLaunched media_controls_launched
+    extensions 610; // LockscreenShortcutSelected lockscreen_shortcut_selected
+    extensions 611; // LockscreenShortcutTriggered lockscreen_shortcut_triggered
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
