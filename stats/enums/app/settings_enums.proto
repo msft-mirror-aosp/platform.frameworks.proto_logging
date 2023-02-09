@@ -3908,3 +3908,13 @@ enum BatterySaverScheduleType {
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_ROUTINE = 2;
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_PERCENTAGE = 3;
 }
+
+// Settings SPA category types of the from source.
+enum ScenarioCategory {
+    // SPA pages navigating
+    BROWSE = 0;
+    // SPA page launched by “Search Result”
+    SEARCH = 1;
+    // SPA page launched by “Intent”
+    EXTERNAL = 2;
+}

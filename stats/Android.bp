@@ -105,6 +105,7 @@ atom_protos = [
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
