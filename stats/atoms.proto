@@ -23813,15 +23813,9 @@ message WsTileListChanged {
     // The event in result of which tile list has changed.
     optional Event event = 3;
 
-    enum RequestSource {
-        SOURCE_UNKNOWN = 0;
-        SOURCE_PHONE = 1;
-        SOURCE_WATCH = 2;
-    }
-
     // Where a tile has been changed from. When changed on the companion equals
-    // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-    optional RequestSource request_source = 4;
+    // to the phone source, otherwise watch source if it's changed from the watch.
+    optional android.app.wearservices.RequestSource request_source = 4;
 }
 
 /**
@@ -23888,15 +23882,9 @@ message WsWatchFaceComplicationSetChanged {
   // Equals to empty string if complication is removed from complication slot.
   optional string new_complication_component_class_name = 5;
 
-  enum RequestSource {
-    SOURCE_UNKNOWN = 0;
-    SOURCE_PHONE = 1;
-    SOURCE_WATCH = 2;
-  }
-
   // Where a complication has been changed from. When changed on the companion equals
   // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-  optional RequestSource request_source = 6;
+  optional android.app.wearservices.RequestSource request_source = 6;
 
   // Old complication type.
   optional int32 old_complication_type = 7;
