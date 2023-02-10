@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 package android.os.statsd.adpf;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
