@@ -980,6 +980,7 @@ message Atom {
     extensions 630; // WsCallInteractionReported ws_call_interaction_reported
     extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
     extensions 632; // BalAllowed bal_allowed
+    extensions 633; // EmergencyStateChanged emergency_state_changed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
