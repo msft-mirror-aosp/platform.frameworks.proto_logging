@@ -1164,6 +1164,17 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_INCOMPATIBLE_CHARGING_TIP = 1823;
+
+    // ACTION: Settings > Network & Internet > SIMs > non-data SIM -> Toggle Switch Mobile Data automatically
+    // SUBTYPE: false is disabled, true is enabled
+    // OS: U
+    // CATEGORY: SETTINGS
+    ACTION_UPDATE_CROSS_SIM_CALLING_ON_AUTO_DATA_SWITCH_EVENT = 1824;
+
+    // ACTION: SIM setup dialog on Settings > Network & Internet > SIMs > Enable 2nd SIM, or inserting 2nd SIM
+    // SUBTYPE: false is disabled, true is enabled
+    // OS: U
+    ACTION_UPDATE_CROSS_SIM_CALLING_ON_2ND_SIM_ENABLE = 1825;
 }
 
 /**
