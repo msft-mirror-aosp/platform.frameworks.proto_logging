@@ -970,6 +970,9 @@ message Atom {
     extensions 620; // WearPowerAnomalyServiceOperationalStatsReported wear_power_anomaly_service_operational_stats_reported
     extensions 621; // WearPowerAnomalyServiceEventStatsReported wear_power_anomaly_service_event_stats_reported
     extensions 622; // SettingsSpaReported settings_spa_reported
+    extensions 623; // HealthConnectUiImpression health_connect_ui_impression
+    extensions 624; // HealthConnectUiInteraction health_connect_ui_interaction
+    extensions 625; // HealthConnectAppOpenedReported health_connect_app_opened_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
