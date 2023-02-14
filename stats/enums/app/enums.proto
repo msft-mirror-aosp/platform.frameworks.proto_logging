@@ -260,6 +260,7 @@ enum AppOpEnum {
     APP_OP_CAPTURE_CONSENTLESS_BUGREPORT_ON_USERDEBUG_BUILD = 131;
     APP_OP_BODY_SENSORS_WRIST_TEMPERATURE = 132;
     APP_OP_USE_FULL_SCREEN_INTENT = 133;
+    APP_OP_SYSTEM_EXEMPT_FROM_HIBERNATION = 134;
 }
 
 /**
@@ -361,7 +362,7 @@ enum AppExitReasonCode {
      */
     REASON_FREEZER = 14;
 
-     /**
+    /**
      * Application process was killed because the app was uninstalled, disabled, or any of its
      * component states have changed without {@link android.content.pm.PackageManager#DONT_KILL_APP}
      * <p>
