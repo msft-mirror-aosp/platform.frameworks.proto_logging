@@ -1341,6 +1341,7 @@ message ActivityActionBlocked {
     optional Action action = 10;
     optional int32 version = 11;
     optional bool multi_window = 12;
+    optional int32 bal_code = 13;
 }
 
 /**
