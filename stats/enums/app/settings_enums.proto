@@ -3889,6 +3889,16 @@ enum PageId {
     // OS: U
     // Pre-U, shared DIALOG_SERVICE_ACCESS_WARNING with the VR Listeners approval dialog
     DIALOG_NOTIFICATION_ACCESS_GRANT = 2017;
+
+    // Open: LE audio broadcast dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_LE_AUDIO_BROADCAST = 2018;
+
+    // Open: LE audio broadcast dialog > Find a broadcast
+    // CATEGORY: SETTINGS
+    // OS: U
+    LE_AUDIO_BROADCAST_FIND_BROADCAST = 2019;
 }
 
 // Battery Saver schedule types.
