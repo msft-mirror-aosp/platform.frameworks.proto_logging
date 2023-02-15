@@ -54,7 +54,6 @@ import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
-import "frameworks/proto_logging/stats/enums/app/media_output_enum.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
@@ -68,7 +67,6 @@ import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
-import "frameworks/proto_logging/stats/enums/media/drm/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/midi/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
@@ -948,6 +946,7 @@ message Atom {
         autofill.AutofillFillResponseReported autofill_fill_response_reported = 605 [(module) = "framework"];
         autofill.AutofillSaveEventReported autofill_save_event_reported = 606 [(module) = "framework"];
         autofill.AutofillSessionCommitted autofill_session_committed = 607 [(module) = "framework"];
+        wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -959,6 +958,26 @@ message Atom {
     extensions 600; // MediaCodecReclaimRequestCompleted media_codec_reclaim_request_completed
     extensions 608; // MediaActionReported media_action_reported
     extensions 609; // MediaControlsLaunched media_controls_launched
+    extensions 611; // LockscreenShortcutSelected lockscreen_shortcut_selected
+    extensions 612; // LockscreenShortcutTriggered lockscreen_shortcut_triggered
+    extensions 613; // BluetoothHashedDeviceNameReported bluetooth_hashed_device_name_reported
+    extensions 614; // BluetoothL2capCocClientConnection bluetooth_l2cap_coc_client_connection
+    extensions 615; // BluetoothL2capCocServerConnection bluetooth_l2cap_coc_server_connection
+    extensions 616; // HealthConnectApiCalled health_connect_api_called
+    extensions 617; // HealthConnectUsageStats health_usage_stats
+    extensions 618; // HealthConnectStorageStats health_connect_storage_stats
+    extensions 619; // WearAdaptiveSuspendStatsReported wear_adaptive_suspend_stats_reported
+    extensions 620; // WearPowerAnomalyServiceOperationalStatsReported wear_power_anomaly_service_operational_stats_reported
+    extensions 621; // WearPowerAnomalyServiceEventStatsReported wear_power_anomaly_service_event_stats_reported
+    extensions 622; // SettingsSpaReported settings_spa_reported
+    extensions 623; // HealthConnectUiImpression health_connect_ui_impression
+    extensions 624; // HealthConnectUiInteraction health_connect_ui_interaction
+    extensions 625; // HealthConnectAppOpenedReported health_connect_app_opened_reported
+    extensions 626; // WsIncomingCallActionReported ws_incoming_call_action_reported
+    extensions 627; // WsCallDisconnectionReported ws_call_disconnection_reported
+    extensions 628; // WsCallDurationReported ws_call_duration_reported
+    extensions 629; // WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported
+    extensions 630; // WsCallInteractionReported ws_call_interaction_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1327,6 +1346,7 @@ message ActivityActionBlocked {
     optional Action action = 10;
     optional int32 version = 11;
     optional bool multi_window = 12;
+    optional int32 bal_code = 13;
 }
 
 /**
@@ -5725,6 +5745,9 @@ message NotificationReported {
     optional bool is_foreground_service = 23;
     // Fields to know about the timeout for notifications.
     optional int64 timeout_millis = 24;
+
+    // Field for tracking whether the notification is non-dismissible
+    optional bool is_non_dismissible = 25;
 }
 
 /**
@@ -21490,6 +21513,7 @@ message AdServicesApiCalled {
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //  * setAppInstallAdvertisers()
+    //  * reportInteraction()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21539,6 +21563,7 @@ message AdServicesApiCalled {
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
         SET_APP_INSTALL_ADVERTISERS = 22;
+        REPORT_INTERACTION = 23;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22863,52 +22888,122 @@ message DisplayBrightnessChanged {
  * Logs when various Privacy Sandbox settings are used.
  */
 message AdServicesSettingsUsageReported {
+    // Region of the user who interacted with AdServicesSettings UI.
     enum AdServiceSettingRegion {
+        // fallback when getDeviceRegion call failed.
         REGION_UNSPECIFIED = 0;
+        // European Union user (based on isoCountryInfo).
         EU = 1;
+        // Non-European Union user (based on isoCountryInfo).
         ROW = 2;
     }
-
+    // Region where the device was used.
     optional AdServiceSettingRegion region = 1;
 
+    // UI settings page action performed by the user.
     enum AdServiceSettingsName {
+        // fallback when getAction call failed.
         ACTION_UNSPECIFIED = 0;
+        // notification was requested to be sent to the user.
         REQUESTED_NOTIFICATION = 1;
+        // the notification landing page was displayed.
         LANDING_PAGE_DISPLAYED = 2;
+        // user opt-in for PP API.
         OPT_IN_SELECTED = 3;
+        // user opt-out of PP API.
         OPT_OUT_SELECTED = 4;
+        // the topics page was displayed.
         MANAGE_TOPICS_SELECTED = 5;
+        // the fledge page was displayed.
         MANAGE_APPS_SELECTED = 6;
+        // user reset topics.
         RESET_TOPIC_SELECTED = 7;
+        /// user reset fledge apps.
         RESET_APP_SELECTED = 8;
+        // user blocked topics.
         BLOCK_TOPIC_SELECTED = 9;
+        // user unblocked topics.
         UNBLOCK_TOPIC_SELECTED = 10;
+        // user blocked fledge apps.
         BLOCK_APP_SELECTED = 11;
+        // user unblocked fledge apps.
         UNBLOCK_APP_SELECTED = 12;
-        // Measurement page and data reset
+        // Measurement page and data reset.
         MANAGE_MEASUREMENT_SELECTED = 13;
         RESET_MEASUREMENT_SELECTED = 14;
-        // GA consent page
+        // user opt-in to topics.
         TOPICS_OPT_IN_SELECTED = 15;
+        // user opt-out of topics.
         TOPICS_OPT_OUT_SELECTED = 16;
+        // user opt-in to fledge.
         FLEDGE_OPT_IN_SELECTED = 17;
+        // user opt-out of fledge.
         FLEDGE_OPT_OUT_SELECTED = 18;
+        // user opt-in to measurement.
         MEASUREMENT_OPT_IN_SELECTED = 19;
+        // user opt-out of measurement.
         MEASUREMENT_OPT_OUT_SELECTED = 20;
         // Notification and landing page for kids policy
+        // notification was requested for GA  user.
         GA_UX_NOTIFICATION_REQUESTED = 21;
+        // GA landing page was displayed.
         GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        // GA confirmation page was displayed.
         GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        // GA version of opt_in/out selected.
+        // opt-in for GA user.
         NOTIFICATION_OPT_IN_SELECTED = 24;
+        // opt-out for GA user.
         NOTIFICATION_OPT_OUT_SELECTED = 25;
+        // user selected manage settings in consent notification.
         NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        // the privacy sandbox settings page was displayed.
         PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        // the confirmation page was displayed for a user.
         CONFIRMATION_PAGE_DISPLAYED = 28;
+        // notification was blocked by a user.
         NOTIFICATION_DISABLED = 29;
+        // notification was blocked by a GA user.
         GA_UX_NOTIFICATION_DISABLED = 30;
     }
-
+    // UI action performed by user.
     optional AdServiceSettingsName action = 2;
+
+    enum AdServicesSettingsDefaultConsent {
+        // fallback when getDefaultConsent failed.
+        CONSENT_UNSPECIFIED = 0;
+        // user was opted-in to PP API by default.
+        PP_API_DEFAULT_OPT_IN = 1;
+        // user was opted-out of PP API by default.
+        PP_API_DEFAULT_OPT_OUT = 2;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_IN = 3;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_OUT = 4;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_IN = 5;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_OUT = 6;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_IN = 7;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_OUT = 8;
+    }
+    // AdServices consents of a user when consent notification was first sent.
+    optional AdServicesSettingsDefaultConsent default_consent = 3;
+
+    // AdId state of a user when consent notification was first sent.
+    enum AdServicesSettingsDefaultAdIdState {
+        // fallback when getDefaultAdId failed.
+        STATE_UNSPECIFIED = 0;
+        // AdId was not zeroed-out when user first received consent notification.
+        AD_ID_ENABLED = 1;
+        // AdId was zeroed-out when user first received consent notification.
+        AD_ID_DISABLED = 2;
+    }
+
+    optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
+
 }
 
 // Logs daily ambient brightness stats.
@@ -23731,15 +23826,9 @@ message WsTileListChanged {
     // The event in result of which tile list has changed.
     optional Event event = 3;
 
-    enum RequestSource {
-        SOURCE_UNKNOWN = 0;
-        SOURCE_PHONE = 1;
-        SOURCE_WATCH = 2;
-    }
-
     // Where a tile has been changed from. When changed on the companion equals
-    // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-    optional RequestSource request_source = 4;
+    // to the phone source, otherwise watch source if it's changed from the watch.
+    optional android.app.wearservices.RequestSource request_source = 4;
 }
 
 /**
@@ -23806,15 +23895,9 @@ message WsWatchFaceComplicationSetChanged {
   // Equals to empty string if complication is removed from complication slot.
   optional string new_complication_component_class_name = 5;
 
-  enum RequestSource {
-    SOURCE_UNKNOWN = 0;
-    SOURCE_PHONE = 1;
-    SOURCE_WATCH = 2;
-  }
-
   // Where a complication has been changed from. When changed on the companion equals
   // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-  optional RequestSource request_source = 6;
+  optional android.app.wearservices.RequestSource request_source = 6;
 
   // Old complication type.
   optional int32 old_complication_type = 7;

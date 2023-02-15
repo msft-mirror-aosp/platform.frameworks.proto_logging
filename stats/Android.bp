@@ -31,6 +31,7 @@ enum_protos = [
     "enums/debug/*.proto",
     "enums/display/*.proto",
     "enums/hardware/**/*.proto",
+    "enums/healthfitness/**/*.proto",
     "enums/hotword/*.proto",
     "enums/jank/*.proto",
     "enums/media/**/*.proto",
@@ -88,6 +89,7 @@ atom_protos = [
     "atoms/adpf/*.proto",
     "atoms/agif/*.proto",
     "atoms/art/*.proto",
+    "atoms/bluetooth/*.proto",
     "atoms/corenetworking/**/*.proto",
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
@@ -96,12 +98,14 @@ atom_protos = [
     "atoms/gps/*.proto",
     "atoms/grammaticalinflection/*.proto",
     "atoms/hardware/biometrics/*.proto",
+    "atoms/healthfitness/**/*.proto",
     "atoms/hotword/*.proto",
     "atoms/locale/*.proto",
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
@@ -111,6 +115,7 @@ atom_protos = [
     "atoms/wear/media/*.proto",
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
+    "atoms/wearpas/*.proto",
 ]
 
 cc_library_host_shared {

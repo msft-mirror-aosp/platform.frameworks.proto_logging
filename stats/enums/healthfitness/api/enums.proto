@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 The Android Open Source Project
+ * Copyright (C) 2022 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,26 @@
 
 syntax = "proto2";
 
-package com.google.android.wearable.media.sessions;
+package android.healthfitness.api;
 
+option java_outer_classname = "HealthConnectApiEnums";
 option java_multiple_files = true;
 
-// Indicates the type of action for controlling the media session.
-enum MediaAction {
-  UNKNOWN_ACTION = 0;
-  PLAY = 1;
-  PAUSE = 2;
-  SKIP_NEXT = 3;
-  SKIP_PREV = 4;
-  RESUME = 5;
-  VOLUME_INCREASE = 6;
-  VOLUME_DECREASE = 7;
+enum ApiMethod {
+  API_METHOD_UNKNOWN = 0;
+  DELETE_DATA = 1;
+  GET_CHANGES = 2;
+  GET_CHANGES_TOKEN = 3;
+  GET_GRANTED_PERMISSIONS = 4;
+  INSERT_DATA = 5;
+  READ_AGGREGATED_DATA = 6;
+  READ_DATA = 7;
+  REVOKE_ALL_PERMISSIONS = 8;
+  UPDATE_DATA = 9;
 }
 
-// Indicates the type of launch source
-enum LaunchSource {
-  UNKNOWN_SOURCE = 0;
-  ONGOING_ACTIVITY = 1;
-  LAUNCHER = 2;
-  AUTO_LAUNCH = 3;
-  RECENT_APPS = 4;
+enum ApiStatus {
+  STATUS_UNKNOWN = 0;
+  SUCCESS = 1;
+  ERROR = 2;
 }
