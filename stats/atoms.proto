@@ -985,6 +985,7 @@ message Atom {
     extensions 634; // QualifiedRatListChanged qualified_rat_list_changed
     extensions 635; // QnsImsCallDropStats qns_ims_call_drop_stats
     extensions 636; // QnsFallbackRestrictionChanged qns_fallback_restriction_changed
+    extensions 637; // EmergencyNumberDialed emergency_number_dialed
     extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
     extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
     extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
@@ -998,7 +999,7 @@ message Atom {
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
-    // Next: 10177
+    // Next: 10182
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1214,6 +1215,7 @@ message Atom {
     extensions 10177; // QnsRatPreferenceMismatchInfo qns_rat_preference_mismatch_info
     extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
     extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
+    extensions 10180; // EmergencyNumbersInfo emergency_numbers_info
     extensions 10181; // MteState mte_state
     extensions 99999; // Atom99999 atom_99999
 
