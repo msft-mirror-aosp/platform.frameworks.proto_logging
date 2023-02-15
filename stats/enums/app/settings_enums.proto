@@ -3899,6 +3899,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     LE_AUDIO_BROADCAST_FIND_BROADCAST = 2019;
+
+    // OPEN: Settings > Apps > Special app access > Turn screen on
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_TURN_SCREEN_ON_ACCESS = 2020;
 }
 
 // Battery Saver schedule types.
