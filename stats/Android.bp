@@ -118,7 +118,9 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
+    "atoms/telecomm/*.proto",
     "atoms/telephony/qns/*.proto",
+    "atoms/telephony/*.proto",
 ]
 
 cc_library_host_shared {
