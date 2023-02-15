@@ -66,13 +66,16 @@ message HealthConnectStorageStats {
   // Size of database
   optional int64 database_size = 1;
 
+  // Total number of instant records in the database.
+  optional int64 instant_data_count = 2;
+
   // Total number of interval records in the database.
-  optional int64 interval_data_count = 2;
+  optional int64 interval_data_count = 3;
 
   // Total number of series records in the database.
-  optional int64 series_data_count = 3;
+  optional int64 series_data_count = 4;
 
   // Total number of changelog counts.
-  optional int64 changelog_count = 4;
+  optional int64 changelog_count = 5;
 
 }
