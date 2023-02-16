@@ -30,16 +30,16 @@ extend Atom {
   optional WsIncomingCallActionReported ws_incoming_call_action_reported = 626
       [(module) = "wearservices_metrics"];
 
-  optional WSCallDisconnectionReported ws_call_disconnection_reported = 627
+  optional WsCallDisconnectionReported ws_call_disconnection_reported = 627
       [(module) = "wearservices_metrics"];
 
-  optional WSCallDurationReported ws_call_duration_reported = 628
+  optional WsCallDurationReported ws_call_duration_reported = 628
       [(module) = "wearservices_metrics"];
 
-  optional WSCallUserExperienceLatencyReported ws_call_user_experience_latency_reported = 629
+  optional WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported = 629
       [(module) = "wearservices_metrics"];
 
-  optional WSCallInteractionReported ws_call_interaction_reported = 630
+  optional WsCallInteractionReported ws_call_interaction_reported = 630
       [(module) = "wearservices_metrics"];
 }
 
@@ -67,7 +67,7 @@ message WsIncomingCallActionReported {
  * Logged from package :
  * vendor/google_clockwork_partners/packages/WearServices
  */
-message WSCallDisconnectionReported {
+message WsCallDisconnectionReported {
 
   // Depicts Disconnection reason.
   // Values: (DISCONNECT_REASON_ERROR, DISCONNECT_REASON_REJECTED, etc)
@@ -87,7 +87,7 @@ message WSCallDisconnectionReported {
  * Logged from package :
  * vendor/google_clockwork_partners/packages/WearServices
  */
-message WSCallDurationReported {
+message WsCallDurationReported {
 
   // Depicts the type of call.
   // Values: (CALL_TYPE_INCOMING, CALL_TYPE_OUTGOING)
@@ -116,7 +116,7 @@ message WSCallDurationReported {
  * Logged from package :
  * vendor/google_clockwork_partners/packages/WearServices
  */
-message WSCallUserExperienceLatencyReported {
+message WsCallUserExperienceLatencyReported {
 
   // Depicts for what action the latency is being reported.
   // Values: (LATENCY_ACTION_CALL_CREATION, LATENCY_ACTION_RING,
@@ -138,7 +138,7 @@ message WSCallUserExperienceLatencyReported {
  * Logged from package :
  * vendor/google_clockwork_partners/packages/WearServices
  */
-message WSCallInteractionReported {
+message WsCallInteractionReported {
 
   // Depicts user interaction during the call.
   // Values: (CALL_INTERACTION_VOLUME_INCREASE,

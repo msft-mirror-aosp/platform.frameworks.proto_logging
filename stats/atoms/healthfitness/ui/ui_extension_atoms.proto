@@ -16,35 +16,35 @@
 
 syntax = "proto2";
 
-package android.os.statsd.healthconnect.api;
+package android.os.statsd.healthfitness.api;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/healthconnect/ui/enums.proto";
+import "frameworks/proto_logging/stats/enums/healthfitness/ui/enums.proto";
 
 option java_multiple_files = true;
-option java_package = "com.android.os.healthconnect.ui";
+option java_package = "com.android.os.healthfitness.ui";
 
 extend Atom {
-    optional HealthConnectUiImpression health_connect_ui_impression = 623 [(module) = "healthconnect"];
+    optional HealthConnectUiImpression health_connect_ui_impression = 623 [(module) = "healthfitness"];
 
-    optional HealthConnectUiInteraction health_connect_ui_interaction = 624 [(module) = "healthconnect"];
+    optional HealthConnectUiInteraction health_connect_ui_interaction = 624 [(module) = "healthfitness"];
 
-    optional HealthConnectAppOpenedReported health_connect_app_opened_reported = 625 [(module) = "healthconnect"];
+    optional HealthConnectAppOpenedReported health_connect_app_opened_reported = 625 [(module) = "healthfitness"];
 
 }
 
 message HealthConnectUiImpression {
-    optional android.healthconnect.ui.PageId page = 1;
-    optional android.healthconnect.ui.ElementId element = 2;
+    optional android.healthfitness.ui.PageId page = 1;
+    optional android.healthfitness.ui.ElementId element = 2;
 }
 
 message HealthConnectUiInteraction {
-    optional android.healthconnect.ui.PageId page = 1;
-    optional android.healthconnect.ui.ElementId element = 2;
-    optional android.healthconnect.ui.Action action = 3;
+    optional android.healthfitness.ui.PageId page = 1;
+    optional android.healthfitness.ui.ElementId element = 2;
+    optional android.healthfitness.ui.Action action = 3;
 }
 
 message HealthConnectAppOpenedReported {
-    optional android.healthconnect.ui.Source source = 1;
+    optional android.healthfitness.ui.Source source = 1;
 }
