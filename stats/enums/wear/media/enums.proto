@@ -39,4 +39,5 @@ enum LaunchSource {
   LAUNCHER = 2;
   AUTO_LAUNCH = 3;
   RECENT_APPS = 4;
+  COMPLICATION = 5;
 }

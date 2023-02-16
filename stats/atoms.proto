@@ -974,10 +974,12 @@ message Atom {
     extensions 624; // HealthConnectUiInteraction health_connect_ui_interaction
     extensions 625; // HealthConnectAppOpenedReported health_connect_app_opened_reported
     extensions 626; // WsIncomingCallActionReported ws_incoming_call_action_reported
-    extensions 627; // WSCallDisconnectionReported ws_call_disconnection_reported
-    extensions 628; // WSCallDurationReported ws_call_duration_reported
-    extensions 629; // WSCallUserExperienceLatencyReported ws_call_user_experience_latency_reported
-    extensions 630; // WSCallInteractionReported ws_call_interaction_reported
+    extensions 627; // WsCallDisconnectionReported ws_call_disconnection_reported
+    extensions 628; // WsCallDurationReported ws_call_duration_reported
+    extensions 629; // WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported
+    extensions 630; // WsCallInteractionReported ws_call_interaction_reported
+    extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
+    extensions 632; // BalAllowed bal_allowed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
