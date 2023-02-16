@@ -16,7 +16,7 @@
 
 syntax = "proto2";
 
-package android.healthconnect.api;
+package android.healthfitness.api;
 
 option java_outer_classname = "HealthConnectApiEnums";
 option java_multiple_files = true;
