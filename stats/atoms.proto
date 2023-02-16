@@ -5102,6 +5102,9 @@ message AppStartOccurred {
 
     // The oom adj score of the launching activity prior to the launch.
     optional int32 process_oom_adj = 24;
+
+    // The stopped state (if any) the package was in before the launch
+    optional PackageStoppedState package_stopped_state = 25;
 }
 
 message AppStartCanceled {
@@ -6383,6 +6386,15 @@ enum ProcessStartType {
 }
 
 /**
+ * The stopped state of a package.
+ */
+enum PackageStoppedState {
+    PACKAGE_STATE_UNKNOWN = 0;
+    PACKAGE_STATE_NORMAL = 1; // The package is not in any stopped state
+    PACKAGE_STATE_STOPPED = 2; // ApplicationInfo.FLAG_STOPPED
+}
+
+/**
  * Logs when a service request is made.
  * Logged from:
  *   services/core/java/com/android/server/am/ActiveServices.java
@@ -6420,6 +6432,9 @@ message ServiceRequestEventReported {
 
     /** The service component name, here consists of the class name part only */
     optional string service_component_name = 8;
+
+    /** The state the package was in when the service was requested */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6461,6 +6476,9 @@ message BroadcastDeliveryEventReported {
 
     /** The delay in ms from dispatch to finish the handling of this intent. */
     optional int64 finish_delay = 8;
+
+    /** The stopped state (if any) the package was in before the broadcast was delivered */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6480,6 +6498,9 @@ message ProviderAcquisitionEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 3;
+
+    /** The stopped state (if any) the package was in when acquiring the provider */
+    optional PackageStoppedState package_stopped_state = 4;
 }
 
 /**
