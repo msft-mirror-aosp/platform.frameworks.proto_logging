@@ -21953,6 +21953,40 @@ message SafetySourceStateCollected {
 
     // The number of dismissed issues belonging to this Safety Source.
     optional int64 dismissed_issues_count = 5;
+
+    optional int64 duplicate_filtered_out_issues_count = 6;
+
+    enum SourceState {
+        SOURCE_STATE_UNKNOWN = 0;
+        DATA_PROVIDED = 1;
+        NO_DATA_PROVIDED = 2;
+        REFRESH_TIMEOUT = 3;
+        REFRESH_ERROR = 4;
+        SOURCE_ERROR = 5;
+        SOURCE_CLEARED = 6;
+    }
+    optional SourceState source_state = 7;
+
+    // Indicates the reason for which this event was collected.
+    enum CollectionType {
+        COLLECTION_TYPE_UNKNOWN = 0;
+        AUTOMATIC = 1;
+        SOURCE_UPDATED = 2;
+    }
+    optional CollectionType collection_type = 8;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNKNOWN = 0;
+        SELF_INITIATED = 1;
+        REFRESH_RESPONSE = 2;
+    }
+    optional UpdateType update_type = 9;
+
+    optional int64 refresh_reason = 10;
+
+    optional bool data_changed = 11;
+
+    optional int64 last_updated_elapsed_time_millis = 12;
 }
 
 // Logs system-health and performance related events from the Safety Center
@@ -21985,6 +22019,10 @@ message SafetyCenterSystemEventReported {
         ERROR = 3;
     }
     optional Result result = 6;
+
+    optional int64 refresh_reason = 7;
+
+    optional bool data_changed = 8;
 }
 
 // Logs a user interaction with the Safety Center. Various fields may or may not be
@@ -22014,6 +22052,12 @@ message SafetyCenterInteractionReported {
         SENSOR_PERMISSION_REVOKE_CLICKED = 12;
         SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
         REVIEW_SETTINGS_CLICKED = 14;
+
+        NOTIFICATION_POSTED = 15;
+        NOTIFICATION_DISMISSED = 16;
+
+        STATUS_VIEWED = 17;
+        ENTRY_VIEWED = 18;
     }
 
     // Action taken in the Safety Center.
@@ -22063,6 +22107,15 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+
+    optional int64 encoded_safety_sources_group_id = 10;
+
+    enum IssueState {
+        ISSUE_STATE_UNKNOWN = 0;
+        ACTIVE = 1;
+        DISMISSED = 2;
+    }
+    optional IssueState issue_state = 11;
 }
 
 message PrivacySignalNotificationInteraction {
