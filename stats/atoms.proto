@@ -980,6 +980,7 @@ message Atom {
     extensions 630; // WsCallInteractionReported ws_call_interaction_reported
     extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
     extensions 632; // BalAllowed bal_allowed
+    extensions 633; // EmergencyStateChanged emergency_state_changed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -5101,6 +5102,9 @@ message AppStartOccurred {
 
     // The oom adj score of the launching activity prior to the launch.
     optional int32 process_oom_adj = 24;
+
+    // The stopped state (if any) the package was in before the launch
+    optional PackageStoppedState package_stopped_state = 25;
 }
 
 message AppStartCanceled {
@@ -6382,6 +6386,15 @@ enum ProcessStartType {
 }
 
 /**
+ * The stopped state of a package.
+ */
+enum PackageStoppedState {
+    PACKAGE_STATE_UNKNOWN = 0;
+    PACKAGE_STATE_NORMAL = 1; // The package is not in any stopped state
+    PACKAGE_STATE_STOPPED = 2; // ApplicationInfo.FLAG_STOPPED
+}
+
+/**
  * Logs when a service request is made.
  * Logged from:
  *   services/core/java/com/android/server/am/ActiveServices.java
@@ -6419,6 +6432,9 @@ message ServiceRequestEventReported {
 
     /** The service component name, here consists of the class name part only */
     optional string service_component_name = 8;
+
+    /** The state the package was in when the service was requested */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6460,6 +6476,9 @@ message BroadcastDeliveryEventReported {
 
     /** The delay in ms from dispatch to finish the handling of this intent. */
     optional int64 finish_delay = 8;
+
+    /** The stopped state (if any) the package was in before the broadcast was delivered */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6479,6 +6498,9 @@ message ProviderAcquisitionEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 3;
+
+    /** The stopped state (if any) the package was in when acquiring the provider */
+    optional PackageStoppedState package_stopped_state = 4;
 }
 
 /**
@@ -22348,6 +22370,40 @@ message SafetySourceStateCollected {
 
     // The number of dismissed issues belonging to this Safety Source.
     optional int64 dismissed_issues_count = 5;
+
+    optional int64 duplicate_filtered_out_issues_count = 6;
+
+    enum SourceState {
+        SOURCE_STATE_UNKNOWN = 0;
+        DATA_PROVIDED = 1;
+        NO_DATA_PROVIDED = 2;
+        REFRESH_TIMEOUT = 3;
+        REFRESH_ERROR = 4;
+        SOURCE_ERROR = 5;
+        SOURCE_CLEARED = 6;
+    }
+    optional SourceState source_state = 7;
+
+    // Indicates the reason for which this event was collected.
+    enum CollectionType {
+        COLLECTION_TYPE_UNKNOWN = 0;
+        AUTOMATIC = 1;
+        SOURCE_UPDATED = 2;
+    }
+    optional CollectionType collection_type = 8;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNKNOWN = 0;
+        SELF_INITIATED = 1;
+        REFRESH_RESPONSE = 2;
+    }
+    optional UpdateType update_type = 9;
+
+    optional int64 refresh_reason = 10;
+
+    optional bool data_changed = 11;
+
+    optional int64 last_updated_elapsed_time_millis = 12;
 }
 
 // Logs system-health and performance related events from the Safety Center
@@ -22380,6 +22436,10 @@ message SafetyCenterSystemEventReported {
         ERROR = 3;
     }
     optional Result result = 6;
+
+    optional int64 refresh_reason = 7;
+
+    optional bool data_changed = 8;
 }
 
 // Logs a user interaction with the Safety Center. Various fields may or may not be
@@ -22409,6 +22469,12 @@ message SafetyCenterInteractionReported {
         SENSOR_PERMISSION_REVOKE_CLICKED = 12;
         SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
         REVIEW_SETTINGS_CLICKED = 14;
+
+        NOTIFICATION_POSTED = 15;
+        NOTIFICATION_DISMISSED = 16;
+
+        STATUS_VIEWED = 17;
+        ENTRY_VIEWED = 18;
     }
 
     // Action taken in the Safety Center.
@@ -22458,6 +22524,15 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+
+    optional int64 encoded_safety_sources_group_id = 10;
+
+    enum IssueState {
+        ISSUE_STATE_UNKNOWN = 0;
+        ACTIVE = 1;
+        DISMISSED = 2;
+    }
+    optional IssueState issue_state = 11;
 }
 
 /**
