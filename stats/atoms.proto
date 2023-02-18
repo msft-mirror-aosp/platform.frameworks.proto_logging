@@ -5359,9 +5359,11 @@ message ForegroundServiceStateChanged {
     optional string short_name = 2;
 
     enum State {
+    	  UNKNOWN_STATE = 0;
         ENTER = 1;
         EXIT = 2;
         DENIED = 3;
+        API_CALL = 4; // this event is to annotate API call.
     }
     optional State state = 3;
 
@@ -5425,6 +5427,34 @@ message ForegroundServiceStateChanged {
     // The enum is defined in interface
     // ForegroundServiceDelegationOptions.DelegationService
     optional int32 delegation_service = 20;
+
+    enum ApiJourneyState {
+    	  UNKNOWN_JOURNEY_STATE = 0;
+        ENTER_WITH_FGS = 1;
+        EXIT_WITH_FGS = 2;
+        EXIT_WITHOUT_FGS = 3;
+        PAUSE = 4;
+        RESUME = 5;
+    }
+
+    optional ApiJourneyState api_state = 21;
+
+    enum ApiType {
+    	  UNKNOWN_API_TYPE = 0;
+        CAMERA = 1;
+        BLUETOOTH = 2;
+        LOCATION = 3;
+        MEDIA_PLAYBACK = 4;
+        AUDIO = 5;
+        MICROPHONE = 6;
+        PHONE_CALL = 7;
+        USB = 8;
+        CDM = 9;
+    }
+
+    repeated ApiType api_type = 22;
+
+    repeated int64 api_timestamp = 23;
 }
 
 /**
