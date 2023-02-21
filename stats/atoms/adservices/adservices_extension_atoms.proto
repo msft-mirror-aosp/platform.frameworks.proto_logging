@@ -32,6 +32,9 @@ extend Atom {
   optional AdServicesBackCompatEpochComputationClassifierReported
       ad_services_back_compat_epoch_computation_classifier_reported = 599
           [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementDebugKeys
+      ad_services_measurement_debug_keys = 640
+        [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -107,3 +110,23 @@ message AdServicesBackCompatEpochComputationClassifierReported {
   }
   optional PrecomputedClassifierStatus precomputed_classifier_status = 6;
 }
+
+/**
+ * Logs debug keys match state when measurement reports are being generated.
+ */
+message AdServicesMeasurementDebugKeys {
+  enum AttributionType {
+    UNKNOWN = 0;
+    APP_APP = 1;
+    APP_WEB = 2;
+    WEB_APP = 3;
+    WEB_WEB = 4;
+  }
+
+  optional string adtech_enrollment_id = 1;
+  optional AttributionType attribution_type = 2;
+  optional bool is_matched = 3;
+  optional int64 join_key_hash = 4;
+  optional int64 join_key_hash_limit = 5;
+}
+
