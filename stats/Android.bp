@@ -122,6 +122,7 @@ atom_protos = [
     "atoms/wearpas/*.proto",
     "atoms/telephony/qns/*.proto",
     "atoms/memory_safety/*.proto",
+    "atoms/wifi/*.proto",
 ]
 
 cc_library_host_shared {
