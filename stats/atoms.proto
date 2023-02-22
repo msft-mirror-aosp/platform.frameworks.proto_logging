@@ -15934,8 +15934,8 @@ message SharesheetStarted {
     optional ResolverActivityIntent intent_type = 9;
     // The number of custom actions that the calling app has provided.
     optional int32 num_provided_custom_actions = 10;
-    // True if the calling app has provided an action for media reselection.
-    optional bool reselection_action_provided = 11;
+    // True if the calling app has provided an action for share modification.
+    optional bool modify_share_action_provided = 11;
 }
 
 /**
