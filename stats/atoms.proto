@@ -18887,6 +18887,10 @@ message MediametricsAAudioStreamReported {
     // Android U
     // The sample rate used by the audio hardware.
     optional int32 sample_rate_hardware = 21;
+
+    // Android U
+    // The UID of the client.
+    optional int32 uid = 22 [(is_uid) = true];
 }
 
 /**
