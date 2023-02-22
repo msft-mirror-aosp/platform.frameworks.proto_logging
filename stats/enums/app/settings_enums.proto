@@ -3454,6 +3454,12 @@ enum PageId {
     // OS: T
     BATTERY_OPTIMIZED_APPS_LIST = 1931;
 
+    // OPEN: Settings -> Developer Options -> Enable full NFC Snoop or verbose
+    // Log > NfcRebootDialog
+    // CATEGORY: SETTINGS
+    // OS: T
+    DIALOG_NFC_ENABLE_DETAIL_LOG = 1932;
+
     // OPEN: SUW choose a screen saver
     // OS: T
     SUW_DREAM = 1935;
