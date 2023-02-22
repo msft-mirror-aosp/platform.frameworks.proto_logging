@@ -985,6 +985,8 @@ message Atom {
     extensions 635; // QnsImsCallDropStats qns_ims_call_drop_stats
     extensions 636; // QnsFallbackRestrictionChanged qns_fallback_restriction_changed
     extensions 637; // EmergencyNumberDialed emergency_number_dialed
+    extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
+    extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
