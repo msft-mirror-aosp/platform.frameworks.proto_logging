@@ -1164,6 +1164,17 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_INCOMPATIBLE_CHARGING_TIP = 1823;
+
+    // ACTION: Settings > Network & Internet > SIMs > non-data SIM -> Toggle Switch Mobile Data automatically
+    // SUBTYPE: false is disabled, true is enabled
+    // OS: U
+    // CATEGORY: SETTINGS
+    ACTION_UPDATE_CROSS_SIM_CALLING_ON_AUTO_DATA_SWITCH_EVENT = 1824;
+
+    // ACTION: SIM setup dialog on Settings > Network & Internet > SIMs > Enable 2nd SIM, or inserting 2nd SIM
+    // SUBTYPE: false is disabled, true is enabled
+    // OS: U
+    ACTION_UPDATE_CROSS_SIM_CALLING_ON_2ND_SIM_ENABLE = 1825;
 }
 
 /**
@@ -3878,6 +3889,26 @@ enum PageId {
     // OS: U
     // Pre-U, shared DIALOG_SERVICE_ACCESS_WARNING with the VR Listeners approval dialog
     DIALOG_NOTIFICATION_ACCESS_GRANT = 2017;
+
+    // Open: LE audio broadcast dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_LE_AUDIO_BROADCAST = 2018;
+
+    // Open: LE audio broadcast dialog > Find a broadcast
+    // CATEGORY: SETTINGS
+    // OS: U
+    LE_AUDIO_BROADCAST_FIND_BROADCAST = 2019;
+
+    // OPEN: Settings > Apps > Special app access > Turn screen on
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_TURN_SCREEN_ON_ACCESS = 2020;
+
+    // OPEN: Settings > Connected Devices > Stylus > (click on the USI stylus link for the device)
+    // CATEGORY: SETTINGS
+    // OS: U
+    USI_DEVICE_DETAILS = 2021;
 }
 
 // Battery Saver schedule types.
@@ -3886,4 +3917,14 @@ enum BatterySaverScheduleType {
     BATTERY_SAVER_SCHEDULE_TYPE_NO_SCHEDULE = 1;
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_ROUTINE = 2;
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_PERCENTAGE = 3;
+}
+
+// Settings SPA category types of the from source.
+enum ScenarioCategory {
+    // SPA pages navigating
+    BROWSE = 0;
+    // SPA page launched by “Search Result”
+    SEARCH = 1;
+    // SPA page launched by “Intent”
+    EXTERNAL = 2;
 }

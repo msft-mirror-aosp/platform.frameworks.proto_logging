@@ -966,6 +966,21 @@ message Atom {
     extensions 616; // HealthConnectApiCalled health_connect_api_called
     extensions 617; // HealthConnectUsageStats health_usage_stats
     extensions 618; // HealthConnectStorageStats health_connect_storage_stats
+    extensions 619; // WearAdaptiveSuspendStatsReported wear_adaptive_suspend_stats_reported
+    extensions 620; // WearPowerAnomalyServiceOperationalStatsReported wear_power_anomaly_service_operational_stats_reported
+    extensions 621; // WearPowerAnomalyServiceEventStatsReported wear_power_anomaly_service_event_stats_reported
+    extensions 622; // SettingsSpaReported settings_spa_reported
+    extensions 623; // HealthConnectUiImpression health_connect_ui_impression
+    extensions 624; // HealthConnectUiInteraction health_connect_ui_interaction
+    extensions 625; // HealthConnectAppOpenedReported health_connect_app_opened_reported
+    extensions 626; // WsIncomingCallActionReported ws_incoming_call_action_reported
+    extensions 627; // WsCallDisconnectionReported ws_call_disconnection_reported
+    extensions 628; // WsCallDurationReported ws_call_duration_reported
+    extensions 629; // WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported
+    extensions 630; // WsCallInteractionReported ws_call_interaction_reported
+    extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
+    extensions 632; // BalAllowed bal_allowed
+    extensions 633; // EmergencyStateChanged emergency_state_changed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1334,6 +1349,7 @@ message ActivityActionBlocked {
     optional Action action = 10;
     optional int32 version = 11;
     optional bool multi_window = 12;
+    optional int32 bal_code = 13;
 }
 
 /**
@@ -2169,6 +2185,8 @@ message ScheduledJobStateChanged {
     optional bool is_connectivity_constraint_satisfied = 29;
 
     optional bool is_content_trigger_constraint_satisfied = 30;
+
+    optional int64 job_start_latency_ms = 31;
 }
 
 /**
@@ -5086,6 +5104,9 @@ message AppStartOccurred {
 
     // The oom adj score of the launching activity prior to the launch.
     optional int32 process_oom_adj = 24;
+
+    // The stopped state (if any) the package was in before the launch
+    optional PackageStoppedState package_stopped_state = 25;
 }
 
 message AppStartCanceled {
@@ -5340,9 +5361,11 @@ message ForegroundServiceStateChanged {
     optional string short_name = 2;
 
     enum State {
+    	  UNKNOWN_STATE = 0;
         ENTER = 1;
         EXIT = 2;
         DENIED = 3;
+        API_CALL = 4; // this event is to annotate API call.
     }
     optional State state = 3;
 
@@ -5406,6 +5429,34 @@ message ForegroundServiceStateChanged {
     // The enum is defined in interface
     // ForegroundServiceDelegationOptions.DelegationService
     optional int32 delegation_service = 20;
+
+    enum ApiJourneyState {
+    	  UNKNOWN_JOURNEY_STATE = 0;
+        ENTER_WITH_FGS = 1;
+        EXIT_WITH_FGS = 2;
+        EXIT_WITHOUT_FGS = 3;
+        PAUSE = 4;
+        RESUME = 5;
+    }
+
+    optional ApiJourneyState api_state = 21;
+
+    enum ApiType {
+    	  UNKNOWN_API_TYPE = 0;
+        CAMERA = 1;
+        BLUETOOTH = 2;
+        LOCATION = 3;
+        MEDIA_PLAYBACK = 4;
+        AUDIO = 5;
+        MICROPHONE = 6;
+        PHONE_CALL = 7;
+        USB = 8;
+        CDM = 9;
+    }
+
+    repeated ApiType api_type = 22;
+
+    repeated int64 api_timestamp = 23;
 }
 
 /**
@@ -6367,6 +6418,15 @@ enum ProcessStartType {
 }
 
 /**
+ * The stopped state of a package.
+ */
+enum PackageStoppedState {
+    PACKAGE_STATE_UNKNOWN = 0;
+    PACKAGE_STATE_NORMAL = 1; // The package is not in any stopped state
+    PACKAGE_STATE_STOPPED = 2; // ApplicationInfo.FLAG_STOPPED
+}
+
+/**
  * Logs when a service request is made.
  * Logged from:
  *   services/core/java/com/android/server/am/ActiveServices.java
@@ -6404,6 +6464,9 @@ message ServiceRequestEventReported {
 
     /** The service component name, here consists of the class name part only */
     optional string service_component_name = 8;
+
+    /** The state the package was in when the service was requested */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6445,6 +6508,9 @@ message BroadcastDeliveryEventReported {
 
     /** The delay in ms from dispatch to finish the handling of this intent. */
     optional int64 finish_delay = 8;
+
+    /** The stopped state (if any) the package was in before the broadcast was delivered */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6464,6 +6530,9 @@ message ProviderAcquisitionEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 3;
+
+    /** The stopped state (if any) the package was in when acquiring the provider */
+    optional PackageStoppedState package_stopped_state = 4;
 }
 
 /**
@@ -15867,8 +15936,8 @@ message SharesheetStarted {
     optional ResolverActivityIntent intent_type = 9;
     // The number of custom actions that the calling app has provided.
     optional int32 num_provided_custom_actions = 10;
-    // True if the calling app has provided an action for media reselection.
-    optional bool reselection_action_provided = 11;
+    // True if the calling app has provided an action for share modification.
+    optional bool modify_share_action_provided = 11;
 }
 
 /**
@@ -21500,6 +21569,7 @@ message AdServicesApiCalled {
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //  * setAppInstallAdvertisers()
+    //  * reportInteraction()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21549,6 +21619,7 @@ message AdServicesApiCalled {
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
         SET_APP_INSTALL_ADVERTISERS = 22;
+        REPORT_INTERACTION = 23;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22331,6 +22402,40 @@ message SafetySourceStateCollected {
 
     // The number of dismissed issues belonging to this Safety Source.
     optional int64 dismissed_issues_count = 5;
+
+    optional int64 duplicate_filtered_out_issues_count = 6;
+
+    enum SourceState {
+        SOURCE_STATE_UNKNOWN = 0;
+        DATA_PROVIDED = 1;
+        NO_DATA_PROVIDED = 2;
+        REFRESH_TIMEOUT = 3;
+        REFRESH_ERROR = 4;
+        SOURCE_ERROR = 5;
+        SOURCE_CLEARED = 6;
+    }
+    optional SourceState source_state = 7;
+
+    // Indicates the reason for which this event was collected.
+    enum CollectionType {
+        COLLECTION_TYPE_UNKNOWN = 0;
+        AUTOMATIC = 1;
+        SOURCE_UPDATED = 2;
+    }
+    optional CollectionType collection_type = 8;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNKNOWN = 0;
+        SELF_INITIATED = 1;
+        REFRESH_RESPONSE = 2;
+    }
+    optional UpdateType update_type = 9;
+
+    optional int64 refresh_reason = 10;
+
+    optional bool data_changed = 11;
+
+    optional int64 last_updated_elapsed_time_millis = 12;
 }
 
 // Logs system-health and performance related events from the Safety Center
@@ -22363,6 +22468,10 @@ message SafetyCenterSystemEventReported {
         ERROR = 3;
     }
     optional Result result = 6;
+
+    optional int64 refresh_reason = 7;
+
+    optional bool data_changed = 8;
 }
 
 // Logs a user interaction with the Safety Center. Various fields may or may not be
@@ -22392,6 +22501,12 @@ message SafetyCenterInteractionReported {
         SENSOR_PERMISSION_REVOKE_CLICKED = 12;
         SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
         REVIEW_SETTINGS_CLICKED = 14;
+
+        NOTIFICATION_POSTED = 15;
+        NOTIFICATION_DISMISSED = 16;
+
+        STATUS_VIEWED = 17;
+        ENTRY_VIEWED = 18;
     }
 
     // Action taken in the Safety Center.
@@ -22441,6 +22556,15 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+
+    optional int64 encoded_safety_sources_group_id = 10;
+
+    enum IssueState {
+        ISSUE_STATE_UNKNOWN = 0;
+        ACTIVE = 1;
+        DISMISSED = 2;
+    }
+    optional IssueState issue_state = 11;
 }
 
 /**

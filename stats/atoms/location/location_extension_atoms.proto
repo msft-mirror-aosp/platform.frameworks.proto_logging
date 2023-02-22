@@ -16,28 +16,26 @@
 
 syntax = "proto2";
 
-package com.google.android.wearable.media.sessions;
+package android.os.statsd.location;
 
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.location";
 option java_multiple_files = true;
 
-// Indicates the type of action for controlling the media session.
-enum MediaAction {
-  UNKNOWN_ACTION = 0;
-  PLAY = 1;
-  PAUSE = 2;
-  SKIP_NEXT = 3;
-  SKIP_PREV = 4;
-  RESUME = 5;
-  VOLUME_INCREASE = 6;
-  VOLUME_DECREASE = 7;
+extend Atom {
+  optional EmergencyStateChanged emergency_state_changed = 633
+      [(module) = "framework"];
 }
 
-// Indicates the type of launch source
-enum LaunchSource {
-  UNKNOWN_SOURCE = 0;
-  ONGOING_ACTIVITY = 1;
-  LAUNCHER = 2;
-  AUTO_LAUNCH = 3;
-  RECENT_APPS = 4;
-  COMPLICATION = 5;
+/**
+ * Logs when emergency state changes
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/location/LocationManagerService.java
+ */
+message EmergencyStateChanged {
+  optional bool is_in_emergency = 1
+      [(state_field_option).exclusive_state = true];
 }
