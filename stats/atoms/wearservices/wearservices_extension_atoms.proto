@@ -28,19 +28,19 @@ option java_multiple_files = true;
 extend Atom {
 
   optional WsIncomingCallActionReported ws_incoming_call_action_reported = 626
-      [(module) = "wearservices_metrics"];
+      [(module) = "wearservices"];
 
   optional WsCallDisconnectionReported ws_call_disconnection_reported = 627
-      [(module) = "wearservices_metrics"];
+      [(module) = "wearservices"];
 
   optional WsCallDurationReported ws_call_duration_reported = 628
-      [(module) = "wearservices_metrics"];
+      [(module) = "wearservices"];
 
   optional WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported = 629
-      [(module) = "wearservices_metrics"];
+      [(module) = "wearservices"];
 
   optional WsCallInteractionReported ws_call_interaction_reported = 630
-      [(module) = "wearservices_metrics"];
+      [(module) = "wearservices"];
 }
 
 /**
