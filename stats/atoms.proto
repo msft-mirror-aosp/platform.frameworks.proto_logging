@@ -779,6 +779,8 @@ message Atom {
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
+    extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
+    extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
 
     // Pulled events will start at field 10000.
     // Next: 10169
