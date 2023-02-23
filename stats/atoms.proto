@@ -22520,6 +22520,8 @@ message SafetyCenterInteractionReported {
 
         STATUS_VIEWED = 17;
         ENTRY_VIEWED = 18;
+
+        ISSUE_RESOLVED = 19;
     }
 
     // Action taken in the Safety Center.
@@ -22529,6 +22531,12 @@ message SafetyCenterInteractionReported {
         VIEW_TYPE_UNKNOWN = 0;
         FULL = 1;
         QUICK_SETTINGS = 2;
+        SUBPAGE = 3;
+
+        // Prefix required to distinguish from NavigationSource.NOTIFICATION (since
+        // proto enums use C++ scoping rules, enum value names must be unique within
+        // the enum's enclosing type, not just the enum itself).
+        VIEW_TYPE_NOTIFICATION = 4;
     }
 
     // Which view of the Safety Center this interaction occurred in.
@@ -22540,6 +22548,10 @@ message SafetyCenterInteractionReported {
         QUICK_SETTINGS_TILE = 2;
         SETTINGS = 3;
         SENSOR_INDICATOR = 4;
+
+        // Set for navigations that start from within Safety Center. e.g. when a subpage
+        // is opened from the main Safety Center page instead of from a notification.
+        SAFETY_CENTER = 5;
     }
 
     // Where the session was initiated from.
