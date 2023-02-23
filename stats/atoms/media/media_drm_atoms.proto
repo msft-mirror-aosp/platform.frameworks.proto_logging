@@ -23,8 +23,8 @@ message MediaDrmCreated {
   optional int32 uid = 4 [(is_uid) = true];
   // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
   optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
+  // MediaDrm#PROPERTY_VERSION.
+  optional string version = 6;
 }
 
 /**
@@ -43,8 +43,8 @@ message MediaDrmErrored {
   optional int32 uid = 4 [(is_uid) = true];
   // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
   optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
+  // MediaDrm#PROPERTY_VERSION.
+  optional string version = 6;
   // Base64 encoding of a randomly generated, globally unique 128 bit number
   // tied to a MediaDrm object; it has no device or user association.
   optional string object_nonce = 7;
@@ -81,8 +81,8 @@ message MediaDrmSessionOpened {
   optional int32 uid = 4 [(is_uid) = true];
   // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
   optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
+  // MediaDrm#PROPERTY_VERSION.
+  optional string version = 6;
   // Base64 encoding of a randomly generated, globally unique 128 bit number
   // tied to a MediaDrm object; it has no device or user association.
   optional string object_nonce = 7;
@@ -108,8 +108,8 @@ message MediaDrmSessionClosed {
   optional int32 uid = 4 [(is_uid) = true];
   // DRM library (MediaDrm, NdkMediaDrm, or MediaPlayer).
   optional android.media.drm.IDrmFrontend frontend = 5;
-  // Version code if MediaDrm plugin is on an apex.
-  optional int64 apex_version = 6;
+  // MediaDrm#PROPERTY_VERSION.
+  optional string version = 6;
   // Base64 encoding of a randomly generated, globally unique 128 bit number
   // tied to a MediaDrm object; it has no device or user association.
   optional int64 object_nonce  = 7;
