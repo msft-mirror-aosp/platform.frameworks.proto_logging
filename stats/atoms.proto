@@ -981,6 +981,9 @@ message Atom {
     extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
     extensions 632; // BalAllowed bal_allowed
     extensions 633; // EmergencyStateChanged emergency_state_changed
+    extensions 634; // QualifiedRatListChanged qualified_rat_list_changed
+    extensions 635; // QnsImsCallDropStats qns_ims_call_drop_stats
+    extensions 636; // QnsFallbackRestrictionChanged qns_fallback_restriction_changed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1197,6 +1200,9 @@ message Atom {
 
     // Pulled atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 10177; // QnsRatPreferenceMismatchInfo qns_rat_preference_mismatch_info
+    extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
+    extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -2185,6 +2191,8 @@ message ScheduledJobStateChanged {
     optional bool is_connectivity_constraint_satisfied = 29;
 
     optional bool is_content_trigger_constraint_satisfied = 30;
+
+    optional int64 job_start_latency_ms = 31;
 }
 
 /**
@@ -15934,8 +15942,8 @@ message SharesheetStarted {
     optional ResolverActivityIntent intent_type = 9;
     // The number of custom actions that the calling app has provided.
     optional int32 num_provided_custom_actions = 10;
-    // True if the calling app has provided an action for media reselection.
-    optional bool reselection_action_provided = 11;
+    // True if the calling app has provided an action for share modification.
+    optional bool modify_share_action_provided = 11;
 }
 
 /**
@@ -18885,6 +18893,10 @@ message MediametricsAAudioStreamReported {
     // Android U
     // The sample rate used by the audio hardware.
     optional int32 sample_rate_hardware = 21;
+
+    // Android U
+    // The UID of the client.
+    optional int32 uid = 22 [(is_uid) = true];
 }
 
 /**
@@ -20954,6 +20966,9 @@ message PerSimStatus {
     // Indicates the unmetered networks
     // Bitmask is encoded as TelephonyManager#NetworkTypeBitMask.
     optional int64 unmetered_networks = 17;
+
+    // Indicates whether VoNR is enabled
+    optional bool vonr_enabled = 18;
 }
 
 /*
@@ -22505,6 +22520,8 @@ message SafetyCenterInteractionReported {
 
         STATUS_VIEWED = 17;
         ENTRY_VIEWED = 18;
+
+        ISSUE_RESOLVED = 19;
     }
 
     // Action taken in the Safety Center.
@@ -22514,6 +22531,12 @@ message SafetyCenterInteractionReported {
         VIEW_TYPE_UNKNOWN = 0;
         FULL = 1;
         QUICK_SETTINGS = 2;
+        SUBPAGE = 3;
+
+        // Prefix required to distinguish from NavigationSource.NOTIFICATION (since
+        // proto enums use C++ scoping rules, enum value names must be unique within
+        // the enum's enclosing type, not just the enum itself).
+        VIEW_TYPE_NOTIFICATION = 4;
     }
 
     // Which view of the Safety Center this interaction occurred in.
@@ -22525,6 +22548,10 @@ message SafetyCenterInteractionReported {
         QUICK_SETTINGS_TILE = 2;
         SETTINGS = 3;
         SENSOR_INDICATOR = 4;
+
+        // Set for navigations that start from within Safety Center. e.g. when a subpage
+        // is opened from the main Safety Center page instead of from a notification.
+        SAFETY_CENTER = 5;
     }
 
     // Where the session was initiated from.

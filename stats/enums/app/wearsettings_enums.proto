@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 408
+// Next ID: 409
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -223,6 +223,7 @@ enum ItemId {
   ESIM_TEST_UTIL = 359;
   ESIM_TEST_VOICE_TWINNING_STATE = 362;
   FACTORY_RESET = 193;
+  FONT_BOLD_TEXT = 408;
   GESTURES_TILT_TO_BRIGHT = 344;
   GESTURES_TILT_TO_WAKE = 260;
   GESTURES_TOUCH_TO_WAKE = 320;
