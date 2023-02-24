@@ -66,7 +66,6 @@ enum_protos = [
     "enums/system/**/*.proto",
     "enums/telecomm/*.proto",
     "enums/telephony/*.proto",
-    "enums/telephony/qns/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
     "enums/wear/media/*.proto",
@@ -118,7 +117,6 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
-    "atoms/telephony/qns/*.proto",
 ]
 
 cc_library_host_shared {
