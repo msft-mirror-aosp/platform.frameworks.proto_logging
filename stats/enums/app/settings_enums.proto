@@ -3919,12 +3919,16 @@ enum BatterySaverScheduleType {
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_PERCENTAGE = 3;
 }
 
-// Settings SPA category types of the from source.
-enum ScenarioCategory {
-    // SPA pages navigating
-    BROWSE = 0;
-    // SPA page launched by “Search Result”
-    SEARCH = 1;
-    // SPA page launched by “Intent”
-    EXTERNAL = 2;
+// Settings SPA session type of the from source.
+enum SessionType {
+    // The client app doesn't set session source.
+    SESSION_UNKNOWN = 0;
+    // The session start from opening the Settings app.
+    BROWSE = 1;
+    // The session start from Settings Search result.
+    SEARCH = 2;
+    // The session start from other app via Intent.
+    EXTERNAL = 3;
+    // The session start from the Slice invoking.
+    SLICE_TYPE = 4;
 }
