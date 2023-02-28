@@ -1205,6 +1205,7 @@ message Atom {
     extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
     extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
     extensions 10180; // EmergencyNumbersInfo emergency_numbers_info
+    extensions 10181; // MteState mte_state
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
