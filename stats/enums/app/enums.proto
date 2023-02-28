@@ -121,6 +121,7 @@ enum OomChangeReasonEnum {
     OOM_ADJ_REASON_ALLOWLIST = 10;
     OOM_ADJ_REASON_PROCESS_BEGIN = 11;
     OOM_ADJ_REASON_PROCESS_END = 12;
+    OOM_ADJ_REASON_SHORT_FGS_TIMEOUT = 13;
 }
 
 // AppOpsManager.java - operation ids for logging
