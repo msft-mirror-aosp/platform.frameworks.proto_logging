@@ -15110,6 +15110,12 @@ message SimSlotState {
     // Number of active eSIM profiles.
     // This number is always equal to or less than the number of SIMs.
     optional int32 esim_count = 3;
+
+    // Number of active eSIM slots in the device.
+    optional int32 active_esim_slot_count = 4;
+
+    // Number of active slots using Multiple Enabled Profiles in the device.
+    optional int32 active_mep_slot_count = 5;
 }
 
 /**
@@ -15142,6 +15148,8 @@ message DeviceTelephonyProperties {
     optional int32 auto_data_switch_toggle_count = 3;
     // True if work profile is enabled on the device
     optional bool has_managed_profile_dedicated_sub = 4;
+    // Number of SIM slots with support for Multiple Enabled Profiles on the device
+    optional int32 mep_supported_slot_count = 5;
 }
 
 /**
