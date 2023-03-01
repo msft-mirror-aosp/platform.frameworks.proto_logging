@@ -168,7 +168,7 @@ message QnsFallbackRestrictionChanged {
 }
 
 /*
- * Logs time taken from update of RAT preference until successful handover completion. pushed
+ * Logs time taken from update of RAT preference until successful handover completion. pulled
  *
  * Logged from:
  *      packages/modules/Telephony/services/QualifiedNetworksService
@@ -176,7 +176,7 @@ message QnsFallbackRestrictionChanged {
 message QnsHandoverTimeMillis {
 
   // Time in milliseconds from QNS RAT update to successful HO completion
-  optional int32 time_for_ho_success = 1;
+  optional int32 time_millis_for_ho_success = 1;
 
   // Index of sim slot
   optional int32 sim_slot_index = 2;
@@ -196,8 +196,8 @@ message QnsRatPreferenceMismatchInfo {
   // Count of handover failed.
   optional int32 handover_fail_count = 2;
 
-  // Duration of this mismatch.
-  optional int32 duration_of_mismatch = 3;
+  // Duration in milliseconds of this mismatch.
+  optional int32 duration_millis_of_mismatch = 3;
 
   // Carrier id
   optional int32 carrier_id = 4;
