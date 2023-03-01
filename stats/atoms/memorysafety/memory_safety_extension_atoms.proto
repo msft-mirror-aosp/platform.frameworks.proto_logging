@@ -19,9 +19,9 @@ syntax = "proto2";
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 
-package android.os.statsd.memory_safety;
+package android.os.statsd.memorysafety;
 
-option java_package = "com.android.os.memory_safety";
+option java_package = "com.android.os.memorysafety";
 option java_multiple_files = true;
 
 extend Atom {
@@ -30,8 +30,9 @@ extend Atom {
 
 message MteState {
     enum State {
-        OFF = 0;
-        ON = 1;
+        UNKNOWN = 0;
+        OFF = 1;
+        ON = 2;
     }
     optional State state = 1;
 }
