@@ -121,7 +121,7 @@ atom_protos = [
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
     "atoms/telephony/qns/*.proto",
-    "atoms/memory_safety/*.proto",
+    "atoms/memorysafety/*.proto",
     "atoms/wifi/*.proto",
 ]
 
