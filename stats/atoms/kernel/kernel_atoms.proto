@@ -42,6 +42,7 @@ message KernelWakeupAttributed {
     enum Reason {
         UNKNOWN = 0;
         ALARM = 1;
+        WIFI = 2;
     }
 
     optional Reason reason = 2;
