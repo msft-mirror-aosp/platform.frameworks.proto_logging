@@ -985,6 +985,8 @@ message Atom {
     extensions 634; // QualifiedRatListChanged qualified_rat_list_changed
     extensions 635; // QnsImsCallDropStats qns_ims_call_drop_stats
     extensions 636; // QnsFallbackRestrictionChanged qns_fallback_restriction_changed
+    extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
+    extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1837,6 +1839,8 @@ message WifiP2pConnectionReported {
     optional int32 sta_frequency_mhz = 8;
     // The uid of the app that initiates the connection.
     optional int32 uid = 9 [(is_uid) = true];
+    // if the country code is in the world mode
+    optional bool is_country_code_world_mode = 10;
 }
 
 /**
