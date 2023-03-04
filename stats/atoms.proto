@@ -1004,6 +1004,7 @@ message Atom {
     extensions 653; // CredentialManagerFinalPhase credential_manager_final_phase
     extensions 654; // ExerciseRouteApiCalled exercise_route_api_called
     extensions 655; // PluginInitialized plugin_initialized
+    extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
