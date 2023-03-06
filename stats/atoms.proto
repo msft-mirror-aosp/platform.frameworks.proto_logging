@@ -995,6 +995,7 @@ message Atom {
     extensions 647; // AppDataSharingUpdatesNotificationInteraction app_data_sharing_updates_notification_interaction
     extensions 648; // AppDataSharingUpdatesFragmentViewed app_data_sharing_updates_fragment_viewed
     extensions 649; // AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported
+    extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
