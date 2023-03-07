@@ -532,8 +532,12 @@ enum AppExitSubReasonCode {
     /**
      * The process was killed because of package update; this would be set only when the reason is
      * {@link #REASON_PACKAGE_STATE_CHANGE}.
+     *
+     * @deprecated starting {@link android.os.Build.VERSION_CODES#TIRAMISU},
+     * an app being killed due to a package update will have the reason
+     * {@link #REASON_PACKAGE_UPDATED}
      */
-    SUBREASON_PACKAGE_UPDATED = 25;
+    SUBREASON_PACKAGE_UPDATE = 25;
 
     /**
      * The process was killed because of undelivered broadcasts; this would be set only when the
