@@ -24,6 +24,7 @@ option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
@@ -111,7 +112,8 @@ message Atom {
         BleScanStateChanged ble_scan_state_changed = 2
                 [(module) = "bluetooth", (module) = "statsdtest"];
         ProcessStateChanged process_state_changed = 3 [(module) = "framework"];
-        BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
+        BleScanResultReceived ble_scan_result_received = 4
+            [(module) = "bluetooth", (module) = "statsdtest"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
         gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
@@ -766,9 +768,19 @@ message Atom {
         ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art"];
         NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
         NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
+        ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
+        providers.mediaprovider.MediaProviderVolumeRecoveryReported
+            media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
+
+    // Pushed atom extensions.
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
+    extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
+    extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
+    extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
 
     // Pulled events will start at field 10000.
     // Next: 10169
@@ -1286,6 +1298,12 @@ message WifiConnectionResultReported {
         FAILURE_NETWORK_DISCONNECTION = 6;
         FAILURE_ROAM_TIMEOUT = 7;
         FAILURE_WRONG_PASSWORD = 8;
+        FAILURE_CONNECT_NETWORK_FAILED = 9;
+        FAILURE_NEW_CONNECTION_ATTEMPT = 10;
+        FAILURE_REDUNDANT_CONNECTION_ATTEMPT = 11;
+        FAILURE_NETWORK_NOT_FOUND = 12;
+        FAILURE_NO_RESPONSE = 13;
+        FAILURE_OTHERS = 14;
     }
 
     enum Trigger {
@@ -1472,6 +1490,10 @@ message WifiP2pConnectionReported {
         USER_REJECT = 6;
         // New connection request is issued before ending previous connecting request.
         NEW_CONNECTION_ATTEMPT = 7;
+        // Group has been removed
+        GROUP_REMOVED = 8;
+        // Creating group failed
+        CREATE_GROUP_FAILED = 9;
     }
     enum GroupRole {
         GROUP_UNKNOWN = 0;
@@ -1511,6 +1533,8 @@ message WifiP2pConnectionReported {
     optional int32 sta_frequency_mhz = 8;
     // The uid of the app that initiates the connection.
     optional int32 uid = 9 [(is_uid) = true];
+    // if the country code is in the world mode
+    optional bool is_country_code_world_mode = 10;
 }
 
 /**
@@ -17800,6 +17824,45 @@ enum ArtDatumId {
     ART_DATUM_GC_FULL_HEAP_COLLECTION_DURATION_MS = 36;
 }
 
+// Indicates which kind of measurement ART is reporting as increments / deltas.
+// Next ID: 37
+enum ArtDatumDeltaId {
+    ART_DATUM_DELTA_INVALID = 0;
+
+    // These IDs are the equivalent of the ArtDatumId values,
+    // but for reporting increments / deltas.
+    ART_DATUM_DELTA_CLASS_VERIFICATION_COUNT = 16;
+    ART_DATUM_DELTA_CLASS_VERIFICATION_TIME_MICROS = 8;
+    ART_DATUM_DELTA_CLASS_LOADING_TIME_MICROS = 9;
+    ART_DATUM_DELTA_GC_FULL_HEAP_COLLECTION_COUNT = 5;
+    ART_DATUM_DELTA_GC_TOTAL_BYTES_ALLOCATED = 17;
+    ART_DATUM_DELTA_GC_TOTAL_COLLECTION_TIME_MS = 28;
+    ART_DATUM_DELTA_GC_YOUNG_GENERATION_COLLECTION_COUNT = 3;
+    ART_DATUM_DELTA_JIT_METHOD_COMPILE_COUNT = 21;
+    ART_DATUM_DELTA_JIT_METHOD_COMPILE_TIME_MICROS = 6;
+
+    // numerator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_DELTA_GC_WORLD_STOP_TIME_US = 29;
+    // denominator from ART_DATUM_GC_WORLD_STOP_TIME_AVG_MICROS
+    ART_DATUM_DELTA_GC_WORLD_STOP_COUNT = 30;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_DELTA_GC_YOUNG_GENERATION_COLLECTION_SCANNED_BYTES = 31;
+    // numerator from ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_DELTA_GC_YOUNG_GENERATION_COLLECTION_FREED_BYTES = 32;
+    // denominator from ART_DATUM_GC_YOUNG_GENERATION_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_YOUNG_GENERATION_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_DELTA_GC_YOUNG_GENERATION_COLLECTION_DURATION_MS = 33;
+    // numerator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_DELTA_GC_FULL_HEAP_COLLECTION_SCANNED_BYTES = 34;
+    // numerator from ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_DELTA_GC_FULL_HEAP_COLLECTION_FREED_BYTES = 35;
+    // denominator from ART_DATUM_GC_FULL_HEAP_TRACING_THROUGHPUT_AVG_MB_PER_SEC
+    // and ART_DATUM_GC_FULL_HEAP_COLLECTION_THROUGHPUT_AVG_MB_PER_SEC
+    ART_DATUM_DELTA_GC_FULL_HEAP_COLLECTION_DURATION_MS = 36;
+
+    reserved 1, 2, 4, 7, 10, 11, 12, 13, 14, 15, 18, 19, 20, 22, 23, 24, 25, 26, 27;
+}
+
 // Indicates what class of thread the reported values apply to.
 enum ArtThreadType {
     ART_THREAD_UNKNOWN = 0;
@@ -17835,6 +17898,25 @@ enum ArtIsa {
     ART_ISA_MIPS64 = 6;
 }
 
+// Indicates the GC collector type.
+enum ArtGcCollectorType {
+    ART_GC_COLLECTOR_TYPE_UNKNOWN = 0;
+    ART_GC_COLLECTOR_TYPE_MARK_SWEEP = 1;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_MARK_SWEEP = 2;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_MARK_COMPACT = 3;
+    ART_GC_COLLECTOR_TYPE_SEMI_SPACE = 4;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_COPYING = 5;
+    ART_GC_COLLECTOR_TYPE_CONCURRENT_COPYING_BACKGROUND = 6;
+}
+
+// Indicates support for userfaultfd and minor fault mode.
+enum ArtUffdSupport {
+    ART_UFFD_SUPPORT_UNKNOWN = 0;
+    ART_UFFD_SUPPORT_UFFD_NOT_SUPPORTED = 1;
+    ART_UFFD_SUPPORT_MINOR_FAULT_MODE_NOT_SUPPORTED = 2;
+    ART_UFFD_SUPPORT_MINOR_FAULT_MODE_SUPPORTED = 3;
+}
+
 message ArtDatumReported {
     // The session ID is used to correlate this report with others from the same ART instance.
     optional int64 session_id = 1;
@@ -17868,6 +17950,55 @@ message ArtDatumReported {
 
     // The ISA of the device.
     optional ArtIsa isa = 11;
+
+    // The Garbage Collector used in the Android Runtime.
+    optional ArtGcCollectorType gc = 12;
+
+    // The support for userfaultfd and minor fault mode.
+    optional ArtUffdSupport uffd_support = 13;
+}
+
+// ArtDatumDeltaReported is the same as ArtDatumReported, except for the kind field
+// (ArtDatumDeltaId here, ArtDatumId for ArtDatumReported)
+message ArtDatumDeltaReported {
+    // The session ID is used to correlate this report with others from the same ART instance.
+    optional int64 session_id = 1;
+
+    // The UID of the app that ART is running on behalf of.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // What compiler filter the APK or DEX file was compiled with.
+    optional ArtCompileFilter compile_filter = 3;
+
+    // Why the package was compiled the way it was.
+    optional ArtCompilationReason compilation_reason = 4;
+
+    // The number of milliseconds since the ART runtime instance was started.
+    optional int64 timestamp_millis = 5;
+
+    // What kind of thread (UI or background) this metric corresponds to.
+    optional ArtThreadType thread_type = 6;
+
+    // Which counter this is that is being reported.
+    optional ArtDatumDeltaId kind = 7;
+
+    // The value of the counter.
+    optional int64 value = 8;
+
+    // The type of dex metadata
+    optional ArtDexMetadataType dex_metadata_type = 9;
+
+    // The type of the APK file.
+    optional ArtApkType apk_type = 10;
+
+    // The ISA of the device.
+    optional ArtIsa isa = 11;
+
+    // The Garbage Collector used in the Android Runtime.
+    optional ArtGcCollectorType gc = 12;
+
+    // The support for userfaultfd and minor fault mode.
+    optional ArtUffdSupport uffd_support = 13;
 }
 
 /**
@@ -20095,6 +20226,8 @@ message UwbSessionInitiated {
     optional int32 latency_ms = 9;
     // Initialization latency in step size of 200 ms if is_discovered_by_framework is true.
     optional int32 latency_200ms = 10;
+    // The uid of the app that initiates the connection.
+    optional int32 uid = 11 [(is_uid) = true];
 }
 
 /*
@@ -20930,7 +21063,8 @@ message RunAdBiddingPerCAProcessReported {
 }
 
 /**
- * Logs for AdServices GetTopics API call.
+ * Logs for AdServices GetTopics API call on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatGetTopicsReported for R+ logging.
  */
 message AdServicesGetTopicsReported {
     // List of topic ids returned.
@@ -20964,12 +21098,14 @@ message AdServicesEpochComputationGetTopTopicsReported {
 }
 
 /**
- * Logs for AdServices Epoch Computation Classifier.
+ * Logs for AdServices Epoch Computation Classifier on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatEpochComputationClassifierReported for R+ logging.
  * One atom should be logged for each app classification.
  */
 message AdServicesEpochComputationClassifierReported {
 
-    // List of topics returned by the classifier for each app.
+    // List of topics returned by the classifier for each app. The classification
+    // does not depend on the user's usage of the app.
     repeated int32 topic_ids = 1;
 
     // Build id of the assets.
@@ -21031,6 +21167,8 @@ message AdServicesApiCalled {
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
+    //  * setAppInstallAdvertisers()
+    //  * reportInteraction()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21079,6 +21217,8 @@ message AdServicesApiCalled {
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
+        SET_APP_INSTALL_ADVERTISERS = 22;
+        REPORT_INTERACTION = 23;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21817,6 +21957,40 @@ message SafetySourceStateCollected {
 
     // The number of dismissed issues belonging to this Safety Source.
     optional int64 dismissed_issues_count = 5;
+
+    optional int64 duplicate_filtered_out_issues_count = 6;
+
+    enum SourceState {
+        SOURCE_STATE_UNKNOWN = 0;
+        DATA_PROVIDED = 1;
+        NO_DATA_PROVIDED = 2;
+        REFRESH_TIMEOUT = 3;
+        REFRESH_ERROR = 4;
+        SOURCE_ERROR = 5;
+        SOURCE_CLEARED = 6;
+    }
+    optional SourceState source_state = 7;
+
+    // Indicates the reason for which this event was collected.
+    enum CollectionType {
+        COLLECTION_TYPE_UNKNOWN = 0;
+        AUTOMATIC = 1;
+        SOURCE_UPDATED = 2;
+    }
+    optional CollectionType collection_type = 8;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNKNOWN = 0;
+        SELF_INITIATED = 1;
+        REFRESH_RESPONSE = 2;
+    }
+    optional UpdateType update_type = 9;
+
+    optional int64 refresh_reason = 10;
+
+    optional bool data_changed = 11;
+
+    optional int64 last_updated_elapsed_time_millis = 12;
 }
 
 // Logs system-health and performance related events from the Safety Center
@@ -21849,6 +22023,10 @@ message SafetyCenterSystemEventReported {
         ERROR = 3;
     }
     optional Result result = 6;
+
+    optional int64 refresh_reason = 7;
+
+    optional bool data_changed = 8;
 }
 
 // Logs a user interaction with the Safety Center. Various fields may or may not be
@@ -21878,6 +22056,12 @@ message SafetyCenterInteractionReported {
         SENSOR_PERMISSION_REVOKE_CLICKED = 12;
         SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
         REVIEW_SETTINGS_CLICKED = 14;
+
+        NOTIFICATION_POSTED = 15;
+        NOTIFICATION_DISMISSED = 16;
+
+        STATUS_VIEWED = 17;
+        ENTRY_VIEWED = 18;
     }
 
     // Action taken in the Safety Center.
@@ -21927,6 +22111,15 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+
+    optional int64 encoded_safety_sources_group_id = 10;
+
+    enum IssueState {
+        ISSUE_STATE_UNKNOWN = 0;
+        ACTIVE = 1;
+        DISMISSED = 2;
+    }
+    optional IssueState issue_state = 11;
 }
 
 message PrivacySignalNotificationInteraction {
@@ -21991,16 +22184,19 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 8
+    // Next ID: 11
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
+        // Api used by Apps via SdkSandboxManager
         GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
         REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+        // Api used by SDKs in the sandbox via SdkSandboxController
+        GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
@@ -22132,31 +22328,122 @@ message MobileDataDownloadFileGroupStorageStats {
  * Logs when various Privacy Sandbox settings are used.
  */
 message AdServicesSettingsUsageReported {
+    // Region of the user who interacted with AdServicesSettings UI.
     enum AdServiceSettingRegion {
+        // fallback when getDeviceRegion call failed.
         REGION_UNSPECIFIED = 0;
+        // European Union user (based on isoCountryInfo).
         EU = 1;
+        // Non-European Union user (based on isoCountryInfo).
         ROW = 2;
     }
-
+    // Region where the device was used.
     optional AdServiceSettingRegion region = 1;
 
+    // UI settings page action performed by the user.
     enum AdServiceSettingsName {
+        // fallback when getAction call failed.
         ACTION_UNSPECIFIED = 0;
+        // notification was requested to be sent to the user.
         REQUESTED_NOTIFICATION = 1;
+        // the notification landing page was displayed.
         LANDING_PAGE_DISPLAYED = 2;
+        // user opt-in for PP API.
         OPT_IN_SELECTED = 3;
+        // user opt-out of PP API.
         OPT_OUT_SELECTED = 4;
+        // the topics page was displayed.
         MANAGE_TOPICS_SELECTED = 5;
+        // the fledge page was displayed.
         MANAGE_APPS_SELECTED = 6;
+        // user reset topics.
         RESET_TOPIC_SELECTED = 7;
+        /// user reset fledge apps.
         RESET_APP_SELECTED = 8;
+        // user blocked topics.
         BLOCK_TOPIC_SELECTED = 9;
+        // user unblocked topics.
         UNBLOCK_TOPIC_SELECTED = 10;
+        // user blocked fledge apps.
         BLOCK_APP_SELECTED = 11;
+        // user unblocked fledge apps.
         UNBLOCK_APP_SELECTED = 12;
+        // Measurement page and data reset.
+        MANAGE_MEASUREMENT_SELECTED = 13;
+        RESET_MEASUREMENT_SELECTED = 14;
+        // user opt-in to topics.
+        TOPICS_OPT_IN_SELECTED = 15;
+        // user opt-out of topics.
+        TOPICS_OPT_OUT_SELECTED = 16;
+        // user opt-in to fledge.
+        FLEDGE_OPT_IN_SELECTED = 17;
+        // user opt-out of fledge.
+        FLEDGE_OPT_OUT_SELECTED = 18;
+        // user opt-in to measurement.
+        MEASUREMENT_OPT_IN_SELECTED = 19;
+        // user opt-out of measurement.
+        MEASUREMENT_OPT_OUT_SELECTED = 20;
+        // Notification and landing page for kids policy
+        // notification was requested for GA  user.
+        GA_UX_NOTIFICATION_REQUESTED = 21;
+        // GA landing page was displayed.
+        GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        // GA confirmation page was displayed.
+        GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        // GA version of opt_in/out selected.
+        // opt-in for GA user.
+        NOTIFICATION_OPT_IN_SELECTED = 24;
+        // opt-out for GA user.
+        NOTIFICATION_OPT_OUT_SELECTED = 25;
+        // user selected manage settings in consent notification.
+        NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        // the privacy sandbox settings page was displayed.
+        PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        // the confirmation page was displayed for a user.
+        CONFIRMATION_PAGE_DISPLAYED = 28;
+        // notification was blocked by a user.
+        NOTIFICATION_DISABLED = 29;
+        // notification was blocked by a GA user.
+        GA_UX_NOTIFICATION_DISABLED = 30;
+    }
+    // UI action performed by user.
+    optional AdServiceSettingsName action = 2;
+
+    enum AdServicesSettingsDefaultConsent {
+        // fallback when getDefaultConsent failed.
+        CONSENT_UNSPECIFIED = 0;
+        // user was opted-in to PP API by default.
+        PP_API_DEFAULT_OPT_IN = 1;
+        // user was opted-out of PP API by default.
+        PP_API_DEFAULT_OPT_OUT = 2;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_IN = 3;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_OUT = 4;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_IN = 5;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_OUT = 6;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_IN = 7;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_OUT = 8;
+    }
+    // AdServices consents of a user when consent notification was first sent.
+    optional AdServicesSettingsDefaultConsent default_consent = 3;
+
+    // AdId state of a user when consent notification was first sent.
+    enum AdServicesSettingsDefaultAdIdState {
+        // fallback when getDefaultAdId failed.
+        STATE_UNSPECIFIED = 0;
+        // AdId was not zeroed-out when user first received consent notification.
+        AD_ID_ENABLED = 1;
+        // AdId was zeroed-out when user first received consent notification.
+        AD_ID_DISABLED = 2;
     }
 
-    optional AdServiceSettingsName action = 2;
+    optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
+
 }
 
 // Logs information about bpf maps in BpfNetMaps.
