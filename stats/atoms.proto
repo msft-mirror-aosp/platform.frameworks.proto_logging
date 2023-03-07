@@ -19546,6 +19546,8 @@ message InputEventLatencySketch {
 // Each pull creates multiple atoms. One for each incremental package.
 message InstalledIncrementalPackage {
     optional int32 uid = 1 [(is_uid) = true];
+    optional bool is_loading = 2;
+    optional int64 loading_completed_timestamp = 3;
 }
 
 /**
