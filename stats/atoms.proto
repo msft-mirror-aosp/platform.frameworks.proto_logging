@@ -108,6 +108,7 @@ import "frameworks/proto_logging/stats/enums/stats/wm/enums.proto";
 import "frameworks/proto_logging/stats/enums/system/security/keystore2/enums.proto";
 import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
+import "frameworks/proto_logging/stats/enums/transparency/enums.proto";
 import "frameworks/proto_logging/stats/enums/uwb/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
@@ -21108,16 +21109,8 @@ message ApexInfoGathered {
     // we are deprecating the use of this going forward
     optional string content_digest = 3;
 
-    enum DigestAlgorithmType {
-        UNKNOWN = 0;
-        CHUNKED_SHA256 = 1;
-        CHUNKED_SHA512 = 2;
-        VERITY_CHUNKED_SHA256 = 3;
-        SHA256 = 4;
-    }
-
     // the algorithm that the content digest is computed
-    optional DigestAlgorithmType algo_type = 4;
+    optional com.android.os.transparency.DigestAlgorithmType algo_type = 4;
 
     // the SHA256 digest(s) of the APEX's signer certificate(s)
     repeated string signer_sha256_digest = 5;
@@ -21142,17 +21135,10 @@ message MobileBundledAppInfoGathered {
     // the split name (empty if it's the base)
     optional string split_name = 11;
 
-    enum DigestAlgorithmType {
-        UNKNOWN = 0;
-        CHUNKED_SHA256 = 1;
-        CHUNKED_SHA512 = 2;
-        VERITY_CHUNKED_SHA256 = 3;
-        SHA256 = 4;
-    }
     // the hex encoded value of digest of the content of the MBA
     optional string content_digest = 3;
     // the algorithm that the content_digest is computed
-    optional DigestAlgorithmType algo_type = 4;
+    optional com.android.os.transparency.DigestAlgorithmType algo_type = 4;
     // the SHA256 digest(s) of the APEX's signer certificate(s)
     repeated string signer_sha256_digest = 5;
 

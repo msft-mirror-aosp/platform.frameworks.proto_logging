@@ -73,6 +73,7 @@ enum_protos = [
     "enums/telephony/*.proto",
     "enums/telephony/qns/*.proto",
     "enums/telephony/satellite/*.proto",
+    "enums/transparency/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
     "enums/wear/media/*.proto",
