@@ -28,8 +28,11 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/autofill/autofill_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/credentials/credentials_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/expresslog/expresslog_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/grammaticalinflection/grammatical_inflection.proto";
@@ -52,7 +55,6 @@ import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
-import "frameworks/proto_logging/stats/enums/app/media_output_enum.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
@@ -66,7 +68,6 @@ import "frameworks/proto_logging/stats/enums/debug/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
-import "frameworks/proto_logging/stats/enums/media/drm/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/midi/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/enums.proto";
@@ -938,6 +939,15 @@ message Atom {
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
         display.ScreenBrightnessChangedV2 screen_brightness_changed_v2 = 597 [(module) = "framework"];
+        corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
+            network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
+        wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
+        autofill.AutofillUiEventReported autofill_ui_event_reported = 603 [(module) = "framework"];
+        autofill.AutofillFillRequestReported autofill_fill_request_reported = 604 [(module) = "framework"];
+        autofill.AutofillFillResponseReported autofill_fill_response_reported = 605 [(module) = "framework"];
+        autofill.AutofillSaveEventReported autofill_save_event_reported = 606 [(module) = "framework"];
+        autofill.AutofillSessionCommitted autofill_session_committed = 607 [(module) = "framework"];
+        wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
@@ -947,6 +957,38 @@ message Atom {
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 600; // MediaCodecReclaimRequestCompleted media_codec_reclaim_request_completed
+    extensions 608; // MediaActionReported media_action_reported
+    extensions 609; // MediaControlsLaunched media_controls_launched
+    extensions 611; // LockscreenShortcutSelected lockscreen_shortcut_selected
+    extensions 612; // LockscreenShortcutTriggered lockscreen_shortcut_triggered
+    extensions 613; // BluetoothHashedDeviceNameReported bluetooth_hashed_device_name_reported
+    extensions 614; // BluetoothL2capCocClientConnection bluetooth_l2cap_coc_client_connection
+    extensions 615; // BluetoothL2capCocServerConnection bluetooth_l2cap_coc_server_connection
+    extensions 616; // HealthConnectApiCalled health_connect_api_called
+    extensions 617; // HealthConnectUsageStats health_usage_stats
+    extensions 618; // HealthConnectStorageStats health_connect_storage_stats
+    extensions 619; // WearAdaptiveSuspendStatsReported wear_adaptive_suspend_stats_reported
+    extensions 620; // WearPowerAnomalyServiceOperationalStatsReported wear_power_anomaly_service_operational_stats_reported
+    extensions 621; // WearPowerAnomalyServiceEventStatsReported wear_power_anomaly_service_event_stats_reported
+    extensions 622; // SettingsSpaReported settings_spa_reported
+    extensions 623; // HealthConnectUiImpression health_connect_ui_impression
+    extensions 624; // HealthConnectUiInteraction health_connect_ui_interaction
+    extensions 625; // HealthConnectAppOpenedReported health_connect_app_opened_reported
+    extensions 626; // WsIncomingCallActionReported ws_incoming_call_action_reported
+    extensions 627; // WsCallDisconnectionReported ws_call_disconnection_reported
+    extensions 628; // WsCallDurationReported ws_call_duration_reported
+    extensions 629; // WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported
+    extensions 630; // WsCallInteractionReported ws_call_interaction_reported
+    extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
+    extensions 632; // BalAllowed bal_allowed
+    extensions 633; // EmergencyStateChanged emergency_state_changed
+    extensions 634; // QualifiedRatListChanged qualified_rat_list_changed
+    extensions 635; // QnsImsCallDropStats qns_ims_call_drop_stats
+    extensions 636; // QnsFallbackRestrictionChanged qns_fallback_restriction_changed
+    extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
+    extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
+    extensions 641; // MediaCodecStarted media_codec_started
+    extensions 642; // MediaCodecStopped media_codec_stopped
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1041,7 +1083,7 @@ message Atom {
                 10082 [(module) = "framework", (truncate_timestamp) = true];
         BytesTransferByTagAndMetered bytes_transfer_by_tag_and_metered =
                 10083 [(module) = "framework", (truncate_timestamp) = true];
-        DNDModeProto dnd_mode_rule = 10084 [(module) = "framework"];
+        dnd.DNDModeProto dnd_mode_rule = 10084 [(module) = "framework"];
         GeneralExternalStorageAccessStats general_external_storage_access_stats =
             10085 [(module) = "mediaprovider"];
         IncomingSms incoming_sms = 10086 [(module) = "telephony"];
@@ -1163,6 +1205,10 @@ message Atom {
 
     // Pulled atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 10177; // QnsRatPreferenceMismatchInfo qns_rat_preference_mismatch_info
+    extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
+    extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
+    extensions 10181; // MteState mte_state
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1315,6 +1361,7 @@ message ActivityActionBlocked {
     optional Action action = 10;
     optional int32 version = 11;
     optional bool multi_window = 12;
+    optional int32 bal_code = 13;
 }
 
 /**
@@ -1794,6 +1841,8 @@ message WifiP2pConnectionReported {
     optional int32 sta_frequency_mhz = 8;
     // The uid of the app that initiates the connection.
     optional int32 uid = 9 [(is_uid) = true];
+    // if the country code is in the world mode
+    optional bool is_country_code_world_mode = 10;
 }
 
 /**
@@ -2150,6 +2199,8 @@ message ScheduledJobStateChanged {
     optional bool is_connectivity_constraint_satisfied = 29;
 
     optional bool is_content_trigger_constraint_satisfied = 30;
+
+    optional int64 job_start_latency_ms = 31;
 }
 
 /**
@@ -2624,6 +2675,27 @@ message CallStateChanged {
 
     // True if call is emergency call.
     optional bool emergency_call = 5;
+
+    // UID of the package that has initiated the call.
+    optional int32 uid = 6 [(is_uid) = true];
+
+    // Elapsed time between CALL_STATE_ACTIVE to CALL_STATE_DISCONNECTED.
+    // This value is only applicable when the call_state is DISCONNECTED,
+    // 0 otherwise.
+    optional int32 duration_seconds = 7;
+
+    // Number of all existing calls when this call is created.
+    optional int32 existing_call_count = 8;
+
+    // Number of existing calls held by this call.
+    // This value is set after a call is actually held, 0 otherwise.
+    optional int32 held_call_count = 9;
+
+    // The reason the call hasn't been started by device condition.
+    // This value is only applicable when the call_state is DISCONNECTED,
+    // and should always be NONE if the call_state is not DISCONNECTED.
+    // From frameworks/base/core/proto/android/telecomm/enums.proto.
+    optional android.telecom.CallFailureCauseEnum start_fail_cause = 10;
 }
 
 /*
@@ -5046,6 +5118,9 @@ message AppStartOccurred {
 
     // The oom adj score of the launching activity prior to the launch.
     optional int32 process_oom_adj = 24;
+
+    // The stopped state (if any) the package was in before the launch
+    optional PackageStoppedState package_stopped_state = 25;
 }
 
 message AppStartCanceled {
@@ -5300,9 +5375,11 @@ message ForegroundServiceStateChanged {
     optional string short_name = 2;
 
     enum State {
+    	  UNKNOWN_STATE = 0;
         ENTER = 1;
         EXIT = 2;
         DENIED = 3;
+        API_CALL = 4; // this event is to annotate API call.
     }
     optional State state = 3;
 
@@ -5366,6 +5443,34 @@ message ForegroundServiceStateChanged {
     // The enum is defined in interface
     // ForegroundServiceDelegationOptions.DelegationService
     optional int32 delegation_service = 20;
+
+    enum ApiJourneyState {
+    	  UNKNOWN_JOURNEY_STATE = 0;
+        ENTER_WITH_FGS = 1;
+        EXIT_WITH_FGS = 2;
+        EXIT_WITHOUT_FGS = 3;
+        PAUSE = 4;
+        RESUME = 5;
+    }
+
+    optional ApiJourneyState api_state = 21;
+
+    enum ApiType {
+    	  UNKNOWN_API_TYPE = 0;
+        CAMERA = 1;
+        BLUETOOTH = 2;
+        LOCATION = 3;
+        MEDIA_PLAYBACK = 4;
+        AUDIO = 5;
+        MICROPHONE = 6;
+        PHONE_CALL = 7;
+        USB = 8;
+        CDM = 9;
+    }
+
+    repeated ApiType api_type = 22;
+
+    repeated int64 api_timestamp = 23;
 }
 
 /**
@@ -5692,6 +5797,9 @@ message NotificationReported {
     optional bool is_foreground_service = 23;
     // Fields to know about the timeout for notifications.
     optional int64 timeout_millis = 24;
+
+    // Field for tracking whether the notification is non-dismissible
+    optional bool is_non_dismissible = 25;
 }
 
 /**
@@ -6324,6 +6432,15 @@ enum ProcessStartType {
 }
 
 /**
+ * The stopped state of a package.
+ */
+enum PackageStoppedState {
+    PACKAGE_STATE_UNKNOWN = 0;
+    PACKAGE_STATE_NORMAL = 1; // The package is not in any stopped state
+    PACKAGE_STATE_STOPPED = 2; // ApplicationInfo.FLAG_STOPPED
+}
+
+/**
  * Logs when a service request is made.
  * Logged from:
  *   services/core/java/com/android/server/am/ActiveServices.java
@@ -6361,6 +6478,9 @@ message ServiceRequestEventReported {
 
     /** The service component name, here consists of the class name part only */
     optional string service_component_name = 8;
+
+    /** The state the package was in when the service was requested */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6402,6 +6522,9 @@ message BroadcastDeliveryEventReported {
 
     /** The delay in ms from dispatch to finish the handling of this intent. */
     optional int64 finish_delay = 8;
+
+    /** The stopped state (if any) the package was in before the broadcast was delivered */
+    optional PackageStoppedState package_stopped_state = 9;
 }
 
 /**
@@ -6421,6 +6544,9 @@ message ProviderAcquisitionEventReported {
 
     /** The start type of the host process. */
     optional ProcessStartType proc_start_type = 3;
+
+    /** The stopped state (if any) the package was in when acquiring the provider */
+    optional PackageStoppedState package_stopped_state = 4;
 }
 
 /**
@@ -8563,76 +8689,6 @@ message PackageNotificationChannelPreferences {
     optional bool is_demoted_conversation = 9;
     // Indicates if the channel is a conversation that was marked as important by the user.
     optional bool is_important_conversation = 10;
-}
-
-/**
- * Atom that represents an item in the list of Do Not Disturb rules, pulled from
- * NotificationManagerService.java.
- */
-message DNDModeProto {
-    enum Mode {
-        ROOT_CONFIG = -1;  // Used to distinguish the config (one per user) from the rules.
-        ZEN_MODE_OFF = 0;
-        ZEN_MODE_IMPORTANT_INTERRUPTIONS = 1;
-        ZEN_MODE_NO_INTERRUPTIONS = 2;
-        ZEN_MODE_ALARMS = 3;
-    }
-    optional int32 user = 1;  // Android user ID (0, 1, 10, ...)
-    optional bool enabled = 2;  // true for ROOT_CONFIG if a manualRule is enabled
-    optional bool channels_bypassing = 3; // only valid for ROOT_CONFIG
-    optional Mode zen_mode = 4;
-    // id is one of the system default rule IDs, or empty
-    // May also be "MANUAL_RULE" to indicate app-activation of the manual rule.
-    optional string id = 5;
-    optional int32 uid = 6 [(is_uid) = true]; // currently only SYSTEM_UID or 0 for other
-    optional DNDPolicyProto policy = 7 [(log_mode) = MODE_BYTES];
-}
-
-/**
- * Atom that represents a Do Not Disturb policy, an optional detail proto for DNDModeProto.
- */
-message DNDPolicyProto {
-    enum State {
-        STATE_UNSET = 0;
-        STATE_ALLOW = 1;
-        STATE_DISALLOW = 2;
-    }
-    optional State calls = 1;
-    optional State repeat_callers = 2;
-    optional State messages = 3;
-    optional State conversations = 4;
-    optional State reminders = 5;
-    optional State events = 6;
-    optional State alarms = 7;
-    optional State media = 8;
-    optional State system = 9;
-    optional State fullscreen = 10;
-    optional State lights = 11;
-    optional State peek = 12;
-    optional State status_bar = 13;
-    optional State badge = 14;
-    optional State ambient = 15;
-    optional State notification_list = 16;
-
-    enum PeopleType {
-        PEOPLE_UNSET = 0;
-        PEOPLE_ANYONE = 1;
-        PEOPLE_CONTACTS = 2;
-        PEOPLE_STARRED = 3;
-        PEOPLE_NONE = 4;
-    }
-
-    optional PeopleType allow_calls_from = 17;
-    optional PeopleType allow_messages_from = 18;
-
-    enum ConversationType {
-        CONV_UNSET = 0;
-        CONV_ANYONE = 1;
-        CONV_IMPORTANT = 2;
-        CONV_NONE = 3;
-    }
-
-    optional ConversationType allow_conversations_from = 19;
 }
 
 /**
@@ -10811,6 +10867,11 @@ message MediaCodecReported {
     optional int32 hdr_static_info = 64;
     optional int32 hdr10_plus_info = 65;
     optional int32 hdr_format = 66;
+    // Randomly generated Codec ID for:
+    // - correlating MediaCodecStarted and MediaCodecStopped for
+    // more codec configuration parameters.
+    // @since U
+    optional int64 codec_id = 67;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -15824,8 +15885,8 @@ message SharesheetStarted {
     optional ResolverActivityIntent intent_type = 9;
     // The number of custom actions that the calling app has provided.
     optional int32 num_provided_custom_actions = 10;
-    // True if the calling app has provided an action for media reselection.
-    optional bool reselection_action_provided = 11;
+    // True if the calling app has provided an action for share modification.
+    optional bool modify_share_action_provided = 11;
 }
 
 /**
@@ -18665,28 +18726,10 @@ message AudioDevice {
  */
 message MediametricsAAudioStreamReported {
     // The implementation of aaudio.
-    enum CallerPath {
-        CALLER_PATH_UNKNOWN = 0;
-        CALLER_PATH_LEGACY = 1;
-        CALLER_PATH_MMAP = 2;
-    }
-    optional CallerPath path = 1;
+    optional android.media.audio.CallerPath path = 1;
 
     // The direction of the stream.
-    // See aaudio_direction_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
-    // The Direction values are different from aaudio_direction_t to avoid having 0 at the first
-    // value since first value will be used as default value.
-    // See lookup<AAUDIO_DIRECTION> in frameworks/av/services/mediametrics/AudioTypes.cpp
-    // for conversion from aaudio_direction_t to Direction.
-    enum Direction {
-        // The direction is unknown.
-        DIRECTION_UNKNOWN = 0;
-        // Audio data will travel out of the device.
-        DIRECTION_OUTPUT = 1;
-        // Audio data will travel into the device.
-        DIRECTION_INPUT = 2;
-    }
-    optional Direction direction = 2;
+    optional android.media.audio.Direction direction = 2;
 
     // The amount read or written in one shot by the Mixer or DSP.
     optional int32 frames_per_burst = 3;
@@ -18699,38 +18742,13 @@ message MediametricsAAudioStreamReported {
     // Total frames transferred (written or read)
     optional int64 total_frames_transferred = 7;
 
-    // The performance mode.
-    // See aaudio_performance_mode_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
-    enum PerformanceMode {
-        // The performance mode is unknown.
-        PERFORMANCE_MODE_UNKNOWN = 0;
-        // No particular performance mode needs. Default.
-        PERFORMANCE_MODE_NONE = 10;
-        // Extending battery life is more important than low latency.
-        PERFORMANCE_MODE_POWER_SAVING = 11;
-        // Reducing latency is more important than battery life.
-        PERFORMANCE_MODE_LOW_LATENCY = 12;
-    }
     // The performance mode requested by the applications.
-    optional PerformanceMode perf_mode_requested = 8;
+    optional android.media.audio.PerformanceMode perf_mode_requested = 8;
     // The actual performance mode used by aaudio.
-    optional PerformanceMode perf_mode_actual = 9;
+    optional android.media.audio.PerformanceMode perf_mode_actual = 9;
 
     // The mode requested for sharing the device
-    // See aaudio_sharing_mode_t in frameworks/av/media/libaaudio/include/aaudio/AAudio.h
-    // The SharingMode values are different from aaudio_direction_t to avoid having 0 at the first
-    // value since first value will be used as default value.
-    // See lookup<AAUDIO_SHARING_MODE> in frameworks/av/services/mediametrics/AudioTypes.cpp
-    // for conversion from aaudio_sharing_mode_t to SharingMode.
-    enum SharingMode {
-        // The sharing mode is unknown
-        SHARING_MODE_UNKNOWN = 0;
-        // This will be the only stream using a particular source or sink.
-        SHARING_MODE_EXCLUSIVE = 1;
-        // Multiple application will be mixed by the AAudio server.
-        SHARING_MODE_SHARED = 2;
-    }
-    optional SharingMode sharing = 10;
+    optional android.media.audio.SharingMode sharing = 10;
 
     // Approximate number of glitches.
     // Underrun on output stream. Overrun on input stream.
@@ -18750,19 +18768,26 @@ message MediametricsAAudioStreamReported {
     optional int32 sample_rate = 16;
 
     // The content type of the aaudio stream.
-    // An enumeration from system/media/audio/include/system/audio-hal-enums.h audio_content_type_t
-    enum ContentType {
-        CONTENT_TYPE_UNKNOWN = 0;
-        CONTENT_TYPE_SPEECH = 1;
-        CONTENT_TYPE_MUSIC = 2;
-        CONTENT_TYPE_MOVIE = 3;
-        CONTENT_TYPE_SONIFICATION = 4;
-        CONTENT_TYPE_INVALID = -1;
-    }
-    optional ContentType content_type = 17;
+    optional android.media.audio.ContentType content_type = 17;
 
     // The mode of sharing the device requested by the client.
-    optional SharingMode sharing_requested = 18;
+    optional android.media.audio.SharingMode sharing_requested = 18;
+
+    // Android U
+    // The format used by the audio hardware.
+    optional int32 format_hardware = 19;
+
+    // Android U
+    // The channel count used by the audio hardware.
+    optional int32 channel_count_hardware = 20;
+
+    // Android U
+    // The sample rate used by the audio hardware.
+    optional int32 sample_rate_hardware = 21;
+
+    // Android U
+    // The UID of the client.
+    optional int32 uid = 22 [(is_uid) = true];
 }
 
 /**
@@ -21445,6 +21470,7 @@ message AdServicesApiCalled {
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //  * setAppInstallAdvertisers()
+    //  * reportInteraction()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21494,6 +21520,7 @@ message AdServicesApiCalled {
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
         SET_APP_INSTALL_ADVERTISERS = 22;
+        REPORT_INTERACTION = 23;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21876,7 +21903,8 @@ message AutofillPresentationEventReported {
         8; // Autofill provider request was triggered pre-focus. User never
            // focussed on autofillable fields. This can happen for FillDialog
            // where we trigger fill request at layout time.
-
+    NONE_SHOWN_VIEW_FOCUSED_BEFORE_FILL_DIALOG_RESPONSE =
+        9; // Users focus a field before the fill dialogs response is returned.
   }
 
   // Id number which increases for each subsequent request.
@@ -21952,6 +21980,18 @@ message AutofillPresentationEventReported {
   // The latency of showing suggestions can be calculated by
   // suggestionPresentedTimestampMs - suggestionSentTimestampMs
   optional int32 suggestion_presented_timestamp_ms = 16;
+
+  // The index of the dataset that a user selected. -1 if not selected.
+  optional int32 selected_dataset_id = 17;
+
+  // True if the user dismissed the fill UI.
+  optional bool dialog_dismissed = 18;
+
+  // True if the user clicked the negative CTA button.
+  optional bool negative_cta_button_clicked = 19;
+
+  // True if the user clicked the positive CTA button.
+  optional bool positive_cta_button_clicked = 20;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
@@ -22263,6 +22303,40 @@ message SafetySourceStateCollected {
 
     // The number of dismissed issues belonging to this Safety Source.
     optional int64 dismissed_issues_count = 5;
+
+    optional int64 duplicate_filtered_out_issues_count = 6;
+
+    enum SourceState {
+        SOURCE_STATE_UNKNOWN = 0;
+        DATA_PROVIDED = 1;
+        NO_DATA_PROVIDED = 2;
+        REFRESH_TIMEOUT = 3;
+        REFRESH_ERROR = 4;
+        SOURCE_ERROR = 5;
+        SOURCE_CLEARED = 6;
+    }
+    optional SourceState source_state = 7;
+
+    // Indicates the reason for which this event was collected.
+    enum CollectionType {
+        COLLECTION_TYPE_UNKNOWN = 0;
+        AUTOMATIC = 1;
+        SOURCE_UPDATED = 2;
+    }
+    optional CollectionType collection_type = 8;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNKNOWN = 0;
+        SELF_INITIATED = 1;
+        REFRESH_RESPONSE = 2;
+    }
+    optional UpdateType update_type = 9;
+
+    optional int64 refresh_reason = 10;
+
+    optional bool data_changed = 11;
+
+    optional int64 last_updated_elapsed_time_millis = 12;
 }
 
 // Logs system-health and performance related events from the Safety Center
@@ -22295,6 +22369,10 @@ message SafetyCenterSystemEventReported {
         ERROR = 3;
     }
     optional Result result = 6;
+
+    optional int64 refresh_reason = 7;
+
+    optional bool data_changed = 8;
 }
 
 // Logs a user interaction with the Safety Center. Various fields may or may not be
@@ -22324,6 +22402,14 @@ message SafetyCenterInteractionReported {
         SENSOR_PERMISSION_REVOKE_CLICKED = 12;
         SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
         REVIEW_SETTINGS_CLICKED = 14;
+
+        NOTIFICATION_POSTED = 15;
+        NOTIFICATION_DISMISSED = 16;
+
+        STATUS_VIEWED = 17;
+        ENTRY_VIEWED = 18;
+
+        ISSUE_RESOLVED = 19;
     }
 
     // Action taken in the Safety Center.
@@ -22333,6 +22419,12 @@ message SafetyCenterInteractionReported {
         VIEW_TYPE_UNKNOWN = 0;
         FULL = 1;
         QUICK_SETTINGS = 2;
+        SUBPAGE = 3;
+
+        // Prefix required to distinguish from NavigationSource.NOTIFICATION (since
+        // proto enums use C++ scoping rules, enum value names must be unique within
+        // the enum's enclosing type, not just the enum itself).
+        VIEW_TYPE_NOTIFICATION = 4;
     }
 
     // Which view of the Safety Center this interaction occurred in.
@@ -22344,6 +22436,10 @@ message SafetyCenterInteractionReported {
         QUICK_SETTINGS_TILE = 2;
         SETTINGS = 3;
         SENSOR_INDICATOR = 4;
+
+        // Set for navigations that start from within Safety Center. e.g. when a subpage
+        // is opened from the main Safety Center page instead of from a notification.
+        SAFETY_CENTER = 5;
     }
 
     // Where the session was initiated from.
@@ -22373,6 +22469,15 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+
+    optional int64 encoded_safety_sources_group_id = 10;
+
+    enum IssueState {
+        ISSUE_STATE_UNKNOWN = 0;
+        ACTIVE = 1;
+        DISMISSED = 2;
+    }
+    optional IssueState issue_state = 11;
 }
 
 /**
@@ -22805,52 +22910,122 @@ message DisplayBrightnessChanged {
  * Logs when various Privacy Sandbox settings are used.
  */
 message AdServicesSettingsUsageReported {
+    // Region of the user who interacted with AdServicesSettings UI.
     enum AdServiceSettingRegion {
+        // fallback when getDeviceRegion call failed.
         REGION_UNSPECIFIED = 0;
+        // European Union user (based on isoCountryInfo).
         EU = 1;
+        // Non-European Union user (based on isoCountryInfo).
         ROW = 2;
     }
-
+    // Region where the device was used.
     optional AdServiceSettingRegion region = 1;
 
+    // UI settings page action performed by the user.
     enum AdServiceSettingsName {
+        // fallback when getAction call failed.
         ACTION_UNSPECIFIED = 0;
+        // notification was requested to be sent to the user.
         REQUESTED_NOTIFICATION = 1;
+        // the notification landing page was displayed.
         LANDING_PAGE_DISPLAYED = 2;
+        // user opt-in for PP API.
         OPT_IN_SELECTED = 3;
+        // user opt-out of PP API.
         OPT_OUT_SELECTED = 4;
+        // the topics page was displayed.
         MANAGE_TOPICS_SELECTED = 5;
+        // the fledge page was displayed.
         MANAGE_APPS_SELECTED = 6;
+        // user reset topics.
         RESET_TOPIC_SELECTED = 7;
+        /// user reset fledge apps.
         RESET_APP_SELECTED = 8;
+        // user blocked topics.
         BLOCK_TOPIC_SELECTED = 9;
+        // user unblocked topics.
         UNBLOCK_TOPIC_SELECTED = 10;
+        // user blocked fledge apps.
         BLOCK_APP_SELECTED = 11;
+        // user unblocked fledge apps.
         UNBLOCK_APP_SELECTED = 12;
-        // Measurement page and data reset
+        // Measurement page and data reset.
         MANAGE_MEASUREMENT_SELECTED = 13;
         RESET_MEASUREMENT_SELECTED = 14;
-        // GA consent page
+        // user opt-in to topics.
         TOPICS_OPT_IN_SELECTED = 15;
+        // user opt-out of topics.
         TOPICS_OPT_OUT_SELECTED = 16;
+        // user opt-in to fledge.
         FLEDGE_OPT_IN_SELECTED = 17;
+        // user opt-out of fledge.
         FLEDGE_OPT_OUT_SELECTED = 18;
+        // user opt-in to measurement.
         MEASUREMENT_OPT_IN_SELECTED = 19;
+        // user opt-out of measurement.
         MEASUREMENT_OPT_OUT_SELECTED = 20;
         // Notification and landing page for kids policy
+        // notification was requested for GA  user.
         GA_UX_NOTIFICATION_REQUESTED = 21;
+        // GA landing page was displayed.
         GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        // GA confirmation page was displayed.
         GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        // GA version of opt_in/out selected.
+        // opt-in for GA user.
         NOTIFICATION_OPT_IN_SELECTED = 24;
+        // opt-out for GA user.
         NOTIFICATION_OPT_OUT_SELECTED = 25;
+        // user selected manage settings in consent notification.
         NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        // the privacy sandbox settings page was displayed.
         PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        // the confirmation page was displayed for a user.
         CONFIRMATION_PAGE_DISPLAYED = 28;
+        // notification was blocked by a user.
         NOTIFICATION_DISABLED = 29;
+        // notification was blocked by a GA user.
         GA_UX_NOTIFICATION_DISABLED = 30;
     }
-
+    // UI action performed by user.
     optional AdServiceSettingsName action = 2;
+
+    enum AdServicesSettingsDefaultConsent {
+        // fallback when getDefaultConsent failed.
+        CONSENT_UNSPECIFIED = 0;
+        // user was opted-in to PP API by default.
+        PP_API_DEFAULT_OPT_IN = 1;
+        // user was opted-out of PP API by default.
+        PP_API_DEFAULT_OPT_OUT = 2;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_IN = 3;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_OUT = 4;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_IN = 5;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_OUT = 6;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_IN = 7;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_OUT = 8;
+    }
+    // AdServices consents of a user when consent notification was first sent.
+    optional AdServicesSettingsDefaultConsent default_consent = 3;
+
+    // AdId state of a user when consent notification was first sent.
+    enum AdServicesSettingsDefaultAdIdState {
+        // fallback when getDefaultAdId failed.
+        STATE_UNSPECIFIED = 0;
+        // AdId was not zeroed-out when user first received consent notification.
+        AD_ID_ENABLED = 1;
+        // AdId was zeroed-out when user first received consent notification.
+        AD_ID_DISABLED = 2;
+    }
+
+    optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
+
 }
 
 // Logs daily ambient brightness stats.
@@ -23673,15 +23848,9 @@ message WsTileListChanged {
     // The event in result of which tile list has changed.
     optional Event event = 3;
 
-    enum RequestSource {
-        SOURCE_UNKNOWN = 0;
-        SOURCE_PHONE = 1;
-        SOURCE_WATCH = 2;
-    }
-
     // Where a tile has been changed from. When changed on the companion equals
-    // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-    optional RequestSource request_source = 4;
+    // to the phone source, otherwise watch source if it's changed from the watch.
+    optional android.app.wearservices.RequestSource request_source = 4;
 }
 
 /**
@@ -23748,15 +23917,15 @@ message WsWatchFaceComplicationSetChanged {
   // Equals to empty string if complication is removed from complication slot.
   optional string new_complication_component_class_name = 5;
 
-  enum RequestSource {
-    SOURCE_UNKNOWN = 0;
-    SOURCE_PHONE = 1;
-    SOURCE_WATCH = 2;
-  }
-
   // Where a complication has been changed from. When changed on the companion equals
   // to SOURCE_PHONE, otherwise if it's changed from the watch SOURCE_WATCH.
-  optional RequestSource request_source = 6;
+  optional android.app.wearservices.RequestSource request_source = 6;
+
+  // Old complication type.
+  optional int32 old_complication_type = 7;
+
+  // New complication type.
+  optional int32 new_complication_type = 8;
 }
 
 /** Snapshot of all active complications on the current watch face.

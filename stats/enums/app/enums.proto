@@ -121,6 +121,7 @@ enum OomChangeReasonEnum {
     OOM_ADJ_REASON_ALLOWLIST = 10;
     OOM_ADJ_REASON_PROCESS_BEGIN = 11;
     OOM_ADJ_REASON_PROCESS_END = 12;
+    OOM_ADJ_REASON_SHORT_FGS_TIMEOUT = 13;
 }
 
 // AppOpsManager.java - operation ids for logging
@@ -248,15 +249,15 @@ enum AppOpEnum {
     APP_OP_ACCESS_RESTRICTED_SETTINGS = 119;
     APP_OP_RECEIVE_AMBIENT_TRIGGER_AUDIO = 120;
     APP_OP_RECEIVE_EXPLICIT_USER_INTERACTION_AUDIO = 121;
-    APP_OP_RUN_LONG_JOBS = 122;
+    APP_OP_RUN_USER_INITIATED_JOBS = 122;
     APP_OP_READ_MEDIA_VISUAL_USER_SELECTED = 123;
-    APP_OP_SYSTEM_EXEMPT_FROM_APP_STANDBY = 124;
+    APP_OP_SYSTEM_EXEMPT_FROM_SUSPENSION = 124;
     APP_OP_SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS = 125;
     APP_OP_READ_WRITE_HEALTH_DATA = 126;
     APP_OP_FOREGROUND_SERVICE_SPECIAL_USE = 127;
     APP_OP_SYSTEM_EXEMPT_FROM_POWER_RESTRICTIONS = 128;
-    APP_OP_SYSTEM_EXEMPT_FROM_FGS_BG_START_WHILE_IN_USE_PERMISSION_RESTRICTION = 129;
-    APP_OP_SYSTEM_EXEMPT_FROM_FGS_STOP_BUTTON = 130;
+    APP_OP_SYSTEM_EXEMPT_FROM_HIBERNATION = 129;
+    APP_OP_SYSTEM_EXEMPT_FROM_ACTIVITY_BG_START_RESTRICTION = 130;
     APP_OP_CAPTURE_CONSENTLESS_BUGREPORT_ON_USERDEBUG_BUILD = 131;
     APP_OP_BODY_SENSORS_WRIST_TEMPERATURE = 132;
     APP_OP_USE_FULL_SCREEN_INTENT = 133;
@@ -329,6 +330,10 @@ enum AppExitReasonCode {
      * Application process was killed because of the user request, for example,
      * user clicked the "Force stop" button of the application in the Settings,
      * or swiped away the application from Recents.
+     * <p>
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE}, one of the uses of this 
+     * reason was indicate that an app was killed due to it being updated or any of its component states
+     * have changed without {@link android.content.pm.PackageManager#DONT_KILL_APP}
      */
     REASON_USER_REQUESTED = 10;
 
@@ -356,6 +361,23 @@ enum AppExitReasonCode {
      * sync binder transactions while being frozen.
      */
     REASON_FREEZER = 14;
+
+    /**
+     * Application process was killed because the app was uninstalled, disabled, or any of its
+     * component states have changed without {@link android.content.pm.PackageManager#DONT_KILL_APP}
+     * <p>
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE},
+     * {@link #REASON_USER_REQUESTED} was used to indicate that an app was updated.
+     */
+    REASON_PACKAGE_STATE_CHANGE = 15;
+
+    /**
+     * Application process was killed because it was updated.
+     * <p>
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE},
+     * {@link #REASON_USER_REQUESTED} was used to indicate that an app was updated.
+     */
+    REASON_PACKAGE_UPDATED = 16;
 }
 
 /**
@@ -509,7 +531,11 @@ enum AppExitSubReasonCode {
 
     /**
      * The process was killed because of package update; this would be set only when the reason is
-     * {@link #REASON_USER_REQUESTED}.
+     * {@link #REASON_PACKAGE_STATE_CHANGE}.
+     *
+     * @deprecated starting {@link android.os.Build.VERSION_CODES#TIRAMISU},
+     * an app being killed due to a package update will have the reason
+     * {@link #REASON_PACKAGE_UPDATED}
      */
     SUBREASON_PACKAGE_UPDATE = 25;
 
@@ -524,6 +550,12 @@ enum AppExitSubReasonCode {
      * had died; this would be set only when the reason is {@link #REASON_DEPENDENCY_DIED}.
      */
     SUBREASON_SDK_SANDBOX_DIED = 27;
+
+    /**
+     * The process was killed because it was an SDK sandbox process that was either not usable or
+     * was no longer being used; this would be set only when the reason is {@link #REASON_OTHER}.
+     */
+     SUBREASON_SDK_SANDBOX_NOT_NEEDED = 28;
 }
 
 /**

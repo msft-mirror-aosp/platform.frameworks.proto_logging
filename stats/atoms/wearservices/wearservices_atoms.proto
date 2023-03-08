@@ -50,9 +50,8 @@ message WsRestoreActionReported {
 
 /** Logged when a notification is updated in the WearServices application. */
 message WsNotificationUpdated {
-  // UID of the package name that created this notification event, calculated by
-  // PackageManager#getPackageUid.
-  optional int32 source_package_uid = 1 [(is_uid) = true];
+  // Package name of the application that created the notification event.
+  optional string package_name = 1;
 
   // Notification action that this event represents.
   optional android.app.wearservices.NotificationUpdateAction update_action = 2;
@@ -64,3 +63,29 @@ message WsNotificationUpdated {
   optional android.app.wearservices.NotificationImportance importance = 4;
 }
 
+/**
+ * Atom used to log the wear time for Wearables.
+ *
+ * Logged from package :
+ * vendor/google_clockwork_partners/packages/WearServices
+ */
+message WsWearTimeSession {
+    optional int64 session_duration_millis = 1;
+}
+
+/** Logged when a complication is tapped by the user. */
+message WsComplicationTapped {
+  // UID of the package name hosting the complication, calculated by
+  // PackageManager#getPackageUid.
+  optional int32 wf_component_package_uid = 1 [(is_uid) = true];
+
+  // Package uid for the provider component for complication.
+  optional int32 provider_component_package_uid = 2 [(is_uid) = true];
+
+  // Class name for the provider component.
+  optional string provider_class_name = 3;
+
+  // Type of the complication. Valid values are listed in
+  // androidx.wear.watchface.complications.data.ComplicationType.
+  optional int32 type = 4;
+}

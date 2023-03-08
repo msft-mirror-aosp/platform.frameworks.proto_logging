@@ -1159,6 +1159,22 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: U
     ACTION_BATTERY_USAGE_SPINNER = 1822;
+
+    // ACTION: Settings > Battery settings > Battery tip > Incompatible charging
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACTION_INCOMPATIBLE_CHARGING_TIP = 1823;
+
+    // ACTION: Settings > Network & Internet > SIMs > non-data SIM -> Toggle Switch Mobile Data automatically
+    // SUBTYPE: false is disabled, true is enabled
+    // OS: U
+    // CATEGORY: SETTINGS
+    ACTION_UPDATE_CROSS_SIM_CALLING_ON_AUTO_DATA_SWITCH_EVENT = 1824;
+
+    // ACTION: SIM setup dialog on Settings > Network & Internet > SIMs > Enable 2nd SIM, or inserting 2nd SIM
+    // SUBTYPE: false is disabled, true is enabled
+    // OS: U
+    ACTION_UPDATE_CROSS_SIM_CALLING_ON_2ND_SIM_ENABLE = 1825;
 }
 
 /**
@@ -3868,6 +3884,41 @@ enum PageId {
     // OS: U
     CONFIG_NFC_TAG_APP_PREF = 2016;
 
+    // Open: Settings : Apps > Special App Access > Device & app notifications > Not allowed > allow
+    // CATEGORY: SETTINGS
+    // OS: U
+    // Pre-U, shared DIALOG_SERVICE_ACCESS_WARNING with the VR Listeners approval dialog
+    DIALOG_NOTIFICATION_ACCESS_GRANT = 2017;
+
+    // Open: LE audio broadcast dialog
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_LE_AUDIO_BROADCAST = 2018;
+
+    // Open: LE audio broadcast dialog > Find a broadcast
+    // CATEGORY: SETTINGS
+    // OS: U
+    LE_AUDIO_BROADCAST_FIND_BROADCAST = 2019;
+
+    // OPEN: Settings > Apps > Special app access > Turn screen on
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_TURN_SCREEN_ON_ACCESS = 2020;
+
+    // OPEN: Settings > Connected Devices > Stylus > (click on the USI stylus link for the device)
+    // CATEGORY: SETTINGS
+    // OS: U
+    USI_DEVICE_DETAILS = 2021;
+
+    // OPEN: Settings > System > Language and input > Languages > (Select a new locale to be system default)
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_SYSTEM_LOCALE_CHANGE = 2022;
+
+    // OPEN: Settings > System > Language and input > Languages > (Select a unavailable locale)
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_SYSTEM_LOCALE_UNAVAILABLE = 2023;
 }
 
 // Battery Saver schedule types.
@@ -3876,4 +3927,18 @@ enum BatterySaverScheduleType {
     BATTERY_SAVER_SCHEDULE_TYPE_NO_SCHEDULE = 1;
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_ROUTINE = 2;
     BATTERY_SAVER_SCHEDULE_TYPE_BASED_ON_PERCENTAGE = 3;
+}
+
+// Settings SPA session type of the from source.
+enum SessionType {
+    // The client app doesn't set session source.
+    SESSION_UNKNOWN = 0;
+    // The session start from opening the Settings app.
+    BROWSE = 1;
+    // The session start from Settings Search result.
+    SEARCH = 2;
+    // The session start from other app via Intent.
+    EXTERNAL = 3;
+    // The session start from the Slice invoking.
+    SLICE_TYPE = 4;
 }
