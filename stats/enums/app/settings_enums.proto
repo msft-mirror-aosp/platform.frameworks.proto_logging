@@ -3909,6 +3909,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     USI_DEVICE_DETAILS = 2021;
+
+    // OPEN: Settings > System > Language and input > Languages > (Select a new locale to be system default)
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_SYSTEM_LOCALE_CHANGE = 2022;
+
+    // OPEN: Settings > System > Language and input > Languages > (Select a unavailable locale)
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_SYSTEM_LOCALE_UNAVAILABLE = 2023;
 }
 
 // Battery Saver schedule types.
