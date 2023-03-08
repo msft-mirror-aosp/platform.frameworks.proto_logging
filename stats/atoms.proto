@@ -987,6 +987,8 @@ message Atom {
     extensions 636; // QnsFallbackRestrictionChanged qns_fallback_restriction_changed
     extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
     extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
+    extensions 641; // MediaCodecStarted media_codec_started
+    extensions 642; // MediaCodecStopped media_codec_stopped
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -10865,6 +10867,11 @@ message MediaCodecReported {
     optional int32 hdr_static_info = 64;
     optional int32 hdr10_plus_info = 65;
     optional int32 hdr_format = 66;
+    // Randomly generated Codec ID for:
+    // - correlating MediaCodecStarted and MediaCodecStopped for
+    // more codec configuration parameters.
+    // @since U
+    optional int64 codec_id = 67;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
