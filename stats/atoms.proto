@@ -15167,6 +15167,9 @@ message DataStallRecoveryReported {
 
     // The phone id when doing the recovery action.
     optional int32 phone_id = 15;
+
+    // The elapsed time of current action.
+    optional int32 duration_millis_of_current_action = 16;
 }
 
 /**
