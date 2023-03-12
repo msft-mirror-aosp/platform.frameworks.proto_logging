@@ -993,6 +993,11 @@ message Atom {
     extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
     extensions 641; // MediaCodecStarted media_codec_started
     extensions 642; // MediaCodecStopped media_codec_stopped
+    extensions 645; // PermissionRationaleDialogViewed permission_rationale_dialog_viewed
+    extensions 646; // PermissionRationaleDialogActionReported permission_rationale_dialog_action_reported
+    extensions 647; // AppDataSharingUpdatesNotificationInteraction app_data_sharing_updates_notification_interaction
+    extensions 648; // AppDataSharingUpdatesFragmentViewed app_data_sharing_updates_fragment_viewed
+    extensions 649; // AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -10291,6 +10296,9 @@ message PermissionGrantRequestResultReported {
     }
     // The result of the permission grant
     optional Result result = 6;
+
+    // Whether Permission Rationale was shown on grant dialog
+    optional bool permission_rationale_shown = 7;
 }
 
 /**
@@ -12164,6 +12172,9 @@ message GrantPermissionsActivityButtonActions {
     // Selected precision of the location permission - bit flags indicate which
     // locations were chosen
     optional int32 selected_precision = 8;
+
+    // Whether Permission Rationale was shown on grant permission activity
+    optional bool permission_rationale_shown = 9;
 }
 
 /**
@@ -12240,6 +12251,8 @@ message AppPermissionFragmentActionReported {
         REVOKE_FINE_LOCATION = 8;
         // The user has selected photos/videos from the photo picker
         PHOTOS_SELECTED = 9;
+        // User selects Permission Rationale label
+        PERMISSION_RATIONALE = 10;
     }
 
     // Button pressed in the dialog
@@ -12261,6 +12274,9 @@ message AppPermissionFragmentViewed {
 
     // Permission group viewed
     optional string permission_group_name = 4;
+
+    // Whether Permission Rationale was shown on app permission fragment
+    optional bool permission_rationale_shown = 5;
 }
 
 /**
