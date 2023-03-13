@@ -781,6 +781,7 @@ message Atom {
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
     extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
+    extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
 
     // Pulled events will start at field 10000.
     // Next: 10169
