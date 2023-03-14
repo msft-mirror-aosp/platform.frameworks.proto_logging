@@ -47,6 +47,12 @@ message HealthConnectApiCalled {
 
   // Total API call duration in milliseconds.
   optional int64 duration_millis = 4;
+
+  // Number of records being inserted/updated etc. (If any)
+  optional int32 number_of_records = 5;
+
+  // Type of rate limiting being used (If any)
+  optional android.healthfitness.api.RateLimit rate_limit = 6;
 }
 
 // Track if users are connecting apps with Health Connect
