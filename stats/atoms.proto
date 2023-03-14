@@ -2108,7 +2108,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 31
+ * Next tag: 34
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2173,6 +2173,11 @@ message ScheduledJobStateChanged {
     optional bool is_requested_expedited_job = 15;
     // True if the job is running as an expedited job. Only valid for STARTED and FINISHED states.
     optional bool is_running_as_expedited_job = 16;
+
+    // True if the app has requested this run as a user initiated job.
+    optional bool is_requested_as_user_initiated_job = 32;
+    // True if the job is running as a user initiated job. Only valid for STARTED/FINISHED states.
+    optional bool is_running_as_user_initiated_job = 33;
 
     // The priority set by the app (via JobInfo.Builder.setPriority()).
     optional int32 requested_priority = 19;
