@@ -20960,6 +20960,32 @@ message ApplicationLocalesChanged {
     }
 
     optional Status status = 5;
+
+    // The caller where changes application locales.
+    enum Caller {
+        // A placeholder for unknown value.
+        CALLER_UNKNOWN = 0;
+
+        // The change was called from the delegate.
+        CALLER_DELEGATE = 1;
+
+        // The change was called from Apps.
+        CALLER_APPS = 2;
+
+        // The change was called from the system due to backup and restore.
+        CALLER_BACKUP_RESTORE = 3;
+
+        // The change was called from the system when the app languages
+        // feature or the set per-app locales was changed from opt-in to
+        // opt-out.
+        CALLER_APP_UPDATE_LOCALES_CHANGE = 4;
+
+        // The change was called from the system due to the dynamic locales
+        // change.
+        CALLER_DYNAMIC_LOCALES_CHANGE = 5;
+    }
+
+    optional Caller caller = 6;
 }
 
 /* Logs when the display HBM state changes.
