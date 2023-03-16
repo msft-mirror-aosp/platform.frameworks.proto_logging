@@ -811,6 +811,7 @@ message Atom {
     extensions 615; // BluetoothL2capCocServerConnection bluetooth_l2cap_coc_server_connection
     extensions 631; // FullScreenIntentLaunched full_screen_intent_launched
     extensions 632; // BalAllowed bal_allowed
+    extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
