@@ -3919,6 +3919,27 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_SYSTEM_LOCALE_UNAVAILABLE = 2023;
+
+    // OPEN: Settings > Accessibility > Hearing devices
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCESSIBILITY_HEARING_AID_SETTINGS = 2024;
+
+    // OPEN: Settings > Accessibility > Hearing devices > Pair new device
+    // CATEGORY: SETTINGS
+    // OS: U
+    HEARING_AID_PAIRING = 2025;
+
+    // OPEN: Settings > Connected devices > (click on details link for a paired device) > Audio output
+    // CATEGORY: SETTINGS
+    // OS: U
+    BLUETOOTH_AUDIO_ROUTING = 2026;
+
+    // OPEN: Settings > Accessibility > Flash notifications
+    // OPEN: Settings > Notifications > Flash notifications
+    // CATEGORY: SETTINGS
+    // OS: U
+    FLASH_NOTIFICATION_SETTINGS = 2027;
 }
 
 // Battery Saver schedule types.

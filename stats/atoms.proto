@@ -13944,6 +13944,11 @@ message CameraActionEvent {
     // Video stabilization mode
     // Original type: uint8_t
     optional int32 video_stabilization_mode = 21 [default = -1];
+
+    // Identifier to correlate different Action events to each other
+    // Not unique. Must be used with build fingerprint to generate a
+    // good enough identifier.
+    optional int64 log_id = 22;
 }
 
 /**
@@ -19570,6 +19575,8 @@ message InputEventLatencySketch {
 // Each pull creates multiple atoms. One for each incremental package.
 message InstalledIncrementalPackage {
     optional int32 uid = 1 [(is_uid) = true];
+    optional bool is_loading = 2;
+    optional int64 loading_completed_timestamp = 3;
 }
 
 /**
