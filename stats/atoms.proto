@@ -1856,6 +1856,9 @@ message WifiP2pConnectionReported {
     optional int32 uid = 9 [(is_uid) = true];
     // if the country code is in the world mode
     optional bool is_country_code_world_mode = 10;
+    // fallback to negotiation if device receives invitation response status code "information is
+    // currently unavailable"
+    optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
 }
 
 /**
