@@ -5920,7 +5920,7 @@ message BiometricAcquired {
     optional android.hardware.biometrics.FoldStateEnum fold_state = 16;
     // The order this event was processed by the framework, if part of a session
     optional int32 session_order = 17;
-    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    // An associated device wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 18;
 }
 
@@ -5980,8 +5980,10 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
     // The order this event was processed by the framework, if part of a session
     optional int32 session_order = 18;
-    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    // An associated device wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
+    // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
+    repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
 }
 
 /**
@@ -6029,8 +6031,10 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
     // The order this event was processed by the framework, if part of a session
     optional int32 session_order = 18;
-    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    // An associated device wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
+    // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
+    repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
 }
 
 /**
