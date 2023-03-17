@@ -30,7 +30,6 @@ import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/autofill/autofill_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/credentials/credentials_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/expresslog/expresslog_atoms.proto";
@@ -921,7 +920,6 @@ message Atom {
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
         locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
         grammaticalinflection.ApplicationGrammaticalInflectionChanged grammatical_inflection_changed = 584 [(module) = "framework"];
-        credentials.CredentialManagerApiCalled credential_manager_api_called = 585 [(module) = "framework"];
         providers.mediaprovider.MediaProviderVolumeRecoveryReported
             media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         hardware.biometrics.BiometricPropertiesCollected
@@ -954,6 +952,7 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 585; // CredentialManagerApiCalled credential_manager_api_called
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 600; // MediaCodecReclaimRequestCompleted media_codec_reclaim_request_completed
@@ -995,6 +994,10 @@ message Atom {
     extensions 647; // AppDataSharingUpdatesNotificationInteraction app_data_sharing_updates_notification_interaction
     extensions 648; // AppDataSharingUpdatesFragmentViewed app_data_sharing_updates_fragment_viewed
     extensions 649; // AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported
+    extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
+    extensions 651; // CredentialManagerInitialPhase credential_manager_init_phase
+    extensions 652; // CredentialManagerCandidatePhase credential_manager_candidate_phase
+    extensions 653; // CredentialManagerFinalPhase credential_manager_final_phase
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1215,6 +1218,12 @@ message Atom {
     extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
     extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
     extensions 10181; // MteState mte_state
+    extensions 10182; // SatelliteController satellite_controller
+    extensions 10183; // SatelliteSession satellite_session
+    extensions 10184; // SatelliteIncomingDatagram satellite_incoming_datagram
+    extensions 10185; // SatelliteOutgoingDatagram satellite_outgoing_datagram
+    extensions 10186; // SatelliteProvision satellite_provision
+    extensions 10187; // SatelliteSosMessageRecommender satellite_sos_message_recommender
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1849,6 +1858,9 @@ message WifiP2pConnectionReported {
     optional int32 uid = 9 [(is_uid) = true];
     // if the country code is in the world mode
     optional bool is_country_code_world_mode = 10;
+    // fallback to negotiation if device receives invitation response status code "information is
+    // currently unavailable"
+    optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
 }
 
 /**
@@ -2108,7 +2120,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 31
+ * Next tag: 34
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2173,6 +2185,11 @@ message ScheduledJobStateChanged {
     optional bool is_requested_expedited_job = 15;
     // True if the job is running as an expedited job. Only valid for STARTED and FINISHED states.
     optional bool is_running_as_expedited_job = 16;
+
+    // True if the app has requested this run as a user initiated job.
+    optional bool is_requested_as_user_initiated_job = 32;
+    // True if the job is running as a user initiated job. Only valid for STARTED/FINISHED states.
+    optional bool is_running_as_user_initiated_job = 33;
 
     // The priority set by the app (via JobInfo.Builder.setPriority()).
     optional int32 requested_priority = 19;
