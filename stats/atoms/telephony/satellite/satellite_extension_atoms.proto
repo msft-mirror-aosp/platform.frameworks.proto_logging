@@ -79,6 +79,8 @@ message SatelliteController {
   // The amount of battery consumption, while the satellite state is on.
   // excluded while in charging state rounded to percent.
   optional int32 total_battery_consumption_percent = 16;
+  // The total duration of the battery being charged while satellite modem is on
+  optional int32 total_battery_charged_time_sec = 17;
 }
 
 /**
