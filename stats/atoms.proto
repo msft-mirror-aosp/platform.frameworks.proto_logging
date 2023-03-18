@@ -2202,9 +2202,8 @@ message ScheduledJobStateChanged {
     // longer satisfied, etc). For periodic jobs, this value is reset after a successful run.
     optional int32 num_previous_attempts = 21;
 
-    // The deadline that the Job has
-    // This is only valid if has_deadline_constraint is true
-    // and for STARTED and FINISHED states
+    // The deadline that the Job has requested.
+    // This is only valid if has_deadline_constraint is true.
     optional int64 deadline_ms = 22;
 
     // True if the Job hit its deadline
