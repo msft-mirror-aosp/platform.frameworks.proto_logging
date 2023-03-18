@@ -1668,6 +1668,10 @@ message WifiConnectionResultReported {
     optional bool network_used = 8;
     // Time taken from the last successful connection (or device boot if that's the first one).
     optional int32 time_since_last_connection_seconds = 9;
+    // Whether the connection is carrier wifi.
+    optional bool is_carrier_wifi = 10;
+    // Whether the OOB pseeudonym is enabled for the current connection.
+    optional bool is_oob_pseudonym_enabled = 11;
 }
 
 /**
