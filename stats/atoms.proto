@@ -23073,6 +23073,78 @@ message AdServicesSettingsUsageReported {
         NOTIFICATION_DISABLED = 29;
         // notification was blocked by a GA user.
         GA_UX_NOTIFICATION_DISABLED = 30;
+        // notification was displayed to a user.
+        NOTIFICATION_DISPLAYED = 31;
+        // notification was displayed to a GA user.
+        GA_UX_NOTIFICATION_DISPLAYED = 32;
+        // user clicked on the more button on the landing page.
+        LANDING_PAGE_MORE_BUTTON_CLICKED = 33;
+        // GA user clicked on the more button on the landing page.
+        GA_UX_LANDING_PAGE_MORE_BUTTON_CLICKED = 34;
+        // user clicked the additional info button on the landing page.
+        LANDING_PAGE_ADDITIONAL_INFO_CLICKED = 35;
+        // GA user clicked the additional info button on the landing page.
+        GA_UX_LANDING_PAGE_ADDITIONAL_INFO_CLICKED = 36;
+        // user scrolled the landing page.
+        LANDING_PAGE_SCROLLED = 37;
+        // GA user scrolled the landing page.
+        GA_UX_LANDING_PAGE_SCROLLED = 38;
+        // user scrolled to the bottom of the landing page.
+        LANDING_PAGE_SCROLLED_TO_BOTTOM = 39;
+        // GA user scrolled to the bottom of the landing page.
+        GA_UX_LANDING_PAGE_SCROLLED_TO_BOTTOM = 40;
+        // user clicked the settings button on the landing page.
+        LANDING_PAGE_SETTINGS_BUTTON_CLICKED = 41;
+        // GA user clicked the settings button on the landing page.
+        GA_UX_LANDING_PAGE_SETTINGS_BUTTON_CLICKED = 42;
+        // user clicked the got it button on the landing page.
+        LANDING_PAGE_GOT_IT_BUTTON_CLICKED = 43;
+        // GA user clicked the got it button on the landing page.
+        GA_UX_LANDING_PAGE_GOT_IT_BUTTON_CLICKED = 44;
+        // user clicked opt-out on the landing page.
+        LANDING_PAGE_OPT_OUT_CLICKED = 45;
+        // GA user clicked opt-out on the landing page.
+        GA_UX_LANDING_PAGE_OPT_OUT_CLICKED = 46;
+        // user dismissed the landing page.
+        LANDING_PAGE_DISMISSED = 47;
+        // GA user dismissed the landing page.
+        GA_UX_LANDING_PAGE_DISMISSED = 48;
+        // user opt-in from the landing page.
+        LANDING_PAGE_OPT_IN = 49;
+        // GA user opt-in from the landing page.
+        GA_UX_LANDING_PAGE_OPT_IN = 50;
+        // user clicked settings on the opt-in confirmation page.
+        OPT_IN_CONFIRMATION_PAGE_SETTINGS_CLICKED = 51;
+        // GA user clicked settings on the opt-in confirmation page.
+        GA_UX_OPT_IN_CONFIRMATION_PAGE_SETTINGS_CLICKED = 52;
+        // user clicked settings on the opt-out confirmation page.
+        OPT_OUT_CONFIRMATION_PAGE_SETTINGS_CLICKED = 53;
+        // GA user clicked settings on the opt-out confirmation page.
+        GA_UX_OPT_OUT_CONFIRMATION_PAGE_SETTINGS_CLICKED = 54;
+        // user clicked got it on the opt-in confirmation page.
+        OPT_IN_CONFIRMATION_PAGE_GOT_IT_CLICKED = 55;
+        // GA user clicked got it on the opt-in confirmation page.
+        GA_UX_OPT_IN_CONFIRMATION_PAGE_GOT_IT_CLICKED = 56;
+        // user clicked got it on the opt-out confirmation page.
+        OPT_OUT_CONFIRMATION_PAGE_GOT_IT_CLICKED = 57;
+        // GA user clicked got it on the opt-out confirmation page.
+        GA_UX_OPT_OUT_CONFIRMATION_PAGE_GOT_IT_CLICKED = 58;
+        // user dismissed confirmation page.
+        CONFIRMATION_PAGE_DISMISSED = 59;
+        // GA user dismissed confirmation page.
+        GA_UX_CONFIRMATION_PAGE_DISMISSED = 60;
+        // user clicked more info on the opt in confirmation page.
+        OPT_IN_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 61;
+        // user clicked more info on the opt out confirmation page.
+        OPT_OUT_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 62;
+        // GA user clicked more info on the opt in confirmation page.
+        GA_UX_OPT_IN_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 63;
+        // GA user clicked more info on the opt out confirmation page.
+        GA_UX_OPT_OUT_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 64;
+        // GA user clicked opt out on the landing page.
+        GA_UX_LANDING_PAGE_OPT_OUT = 65;
+        // user clicked opt out on the landing page.
+        LANDING_PAGE_OPT_OUT = 66;
     }
     // UI action performed by user.
     optional AdServiceSettingsName action = 2;
@@ -23110,8 +23182,25 @@ message AdServicesSettingsUsageReported {
         AD_ID_DISABLED = 2;
     }
 
+    // Default ad id state when consent notification was first sent.
     optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
 
+    // Type of AdService feature running on device.
+    enum PrivacySandboxFeatureType {
+        // fallback when getFeature failed.
+        FEATURE_UNSPECIFIED = 0;
+        // the first consent feature is enabled.
+        PRIVACY_SANDBOX_FIRST_CONSENT = 1;
+        // the reconsent feature is enabled.
+        PRIVACY_SANDBOX_RECONSENT = 2;
+        // privacy sandbox is not yet supported on the device.
+        PRIVACY_SANDBOX_UNSUPPORTED = 3;
+        // privacy sandbox is already running on the device.
+        PRIVACY_SANDBOX_ALREADY_RUNNING = 4;
+    }
+
+    // Privacy sandbox feature currently running on the device.
+    optional PrivacySandboxFeatureType feature_type = 5;
 }
 
 // Logs daily ambient brightness stats.
