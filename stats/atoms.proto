@@ -6516,6 +6516,12 @@ message ServiceRequestEventReported {
 
     /** The state the package was in when the service was requested */
     optional PackageStoppedState package_stopped_state = 9;
+
+    /** The package name of the service host */
+    optional string package_name = 10;
+
+    /** The package name of the service lunch request */
+    optional string requester_package_name = 11;
 }
 
 /**
@@ -6560,6 +6566,12 @@ message BroadcastDeliveryEventReported {
 
     /** The stopped state (if any) the package was in before the broadcast was delivered */
     optional PackageStoppedState package_stopped_state = 9;
+
+    /** The package name of the broadcast receiver */
+    optional string package_name = 10;
+
+    /** The package name of the broadcast sender */
+    optional string sender_package_name = 11;
 }
 
 /**
@@ -6582,6 +6594,12 @@ message ProviderAcquisitionEventReported {
 
     /** The stopped state (if any) the package was in when acquiring the provider */
     optional PackageStoppedState package_stopped_state = 4;
+
+    /** The package name of the content provider host. */
+    optional string package_name = 5;
+
+    /** The package name of the content provider client who makes the request. */
+    optional string client_package_name = 6;
 }
 
 /**
