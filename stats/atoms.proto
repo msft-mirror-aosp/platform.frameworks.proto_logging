@@ -991,6 +991,7 @@ message Atom {
     extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
     extensions 641; // MediaCodecStarted media_codec_started
     extensions 642; // MediaCodecStopped media_codec_stopped
+    extensions 643; // HealthConnectApiInvoked health_connect_api_invoked
     extensions 645; // PermissionRationaleDialogViewed permission_rationale_dialog_viewed
     extensions 646; // PermissionRationaleDialogActionReported permission_rationale_dialog_action_reported
     extensions 647; // AppDataSharingUpdatesNotificationInteraction app_data_sharing_updates_notification_interaction
@@ -1000,6 +1001,7 @@ message Atom {
     extensions 651; // CredentialManagerInitialPhase credential_manager_init_phase
     extensions 652; // CredentialManagerCandidatePhase credential_manager_candidate_phase
     extensions 653; // CredentialManagerFinalPhase credential_manager_final_phase
+    extensions 654; // ExerciseRouteApiCalled exercise_route_api_called
     extensions 655; // PluginInitialized plugin_initialized
     extensions 9999; // Atom9999 atom_9999
 
@@ -5925,7 +5927,7 @@ message BiometricAcquired {
     optional android.hardware.biometrics.FoldStateEnum fold_state = 16;
     // The order this event was processed by the framework, if part of a session
     optional int32 session_order = 17;
-    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    // An associated device wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 18;
 }
 
@@ -5985,8 +5987,10 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
     // The order this event was processed by the framework, if part of a session
     optional int32 session_order = 18;
-    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    // An associated device wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
+    // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
+    repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
 }
 
 /**
@@ -6034,8 +6038,10 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.FoldStateEnum fold_state = 17;
     // The order this event was processed by the framework, if part of a session
     optional int32 session_order = 18;
-    // An associated wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
+    // An associated device wake up reason for this event, or UNKNOWN if the event was not triggered due to a wake up event.
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
+    // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
+    repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
 }
 
 /**
@@ -6510,6 +6516,12 @@ message ServiceRequestEventReported {
 
     /** The state the package was in when the service was requested */
     optional PackageStoppedState package_stopped_state = 9;
+
+    /** The package name of the service host */
+    optional string package_name = 10;
+
+    /** The package name of the service lunch request */
+    optional string requester_package_name = 11;
 }
 
 /**
@@ -6554,6 +6566,12 @@ message BroadcastDeliveryEventReported {
 
     /** The stopped state (if any) the package was in before the broadcast was delivered */
     optional PackageStoppedState package_stopped_state = 9;
+
+    /** The package name of the broadcast receiver */
+    optional string package_name = 10;
+
+    /** The package name of the broadcast sender */
+    optional string sender_package_name = 11;
 }
 
 /**
@@ -6576,6 +6594,12 @@ message ProviderAcquisitionEventReported {
 
     /** The stopped state (if any) the package was in when acquiring the provider */
     optional PackageStoppedState package_stopped_state = 4;
+
+    /** The package name of the content provider host. */
+    optional string package_name = 5;
+
+    /** The package name of the content provider client who makes the request. */
+    optional string client_package_name = 6;
 }
 
 /**
@@ -17947,6 +17971,7 @@ message IsolatedCompilationEnded {
         RESULT_COMPILATION_FAILED = 5;
         RESULT_UNEXPECTED_COMPILATION_RESULT = 6;
         RESULT_COMPOSD_DIED = 7;
+        RESULT_FAILED_TO_ENABLE_FSVERITY = 8;
     }
     // Time between compilation job starts to when it ends.
     // Note: this does not include the time between compilation job being scheduled (or when apex is staged)
