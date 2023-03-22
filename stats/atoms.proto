@@ -56,6 +56,7 @@ import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
+import "frameworks/proto_logging/stats/enums/autofill/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
@@ -22094,6 +22095,16 @@ message AutofillPresentationEventReported {
 
   // True if the user clicked the positive CTA button.
   optional bool positive_cta_button_clicked = 20;
+
+  optional autofill.AuthenticationType authentication_type = 21;
+
+  optional autofill.AuthenticationResult authentication_result = 22;
+
+  // From response received to authentication UI displayed to the user.
+  optional int64 latency_authentication_ui_display_millis = 23;
+
+  // From the user finishing authentication to the dataset is displayed to the user.
+  optional int64 latency_dataset_display_millis = 24;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
