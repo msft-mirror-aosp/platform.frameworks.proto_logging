@@ -143,7 +143,7 @@ message SatelliteSosMessageRecommender {
   // Whether the Dialer is notified with the event DISPLAY_SOS_MESSAGE.
   optional bool is_display_sos_message_sent = 1;
   // Number of times the timer is started.
-  optional int32 count_of_timer_is_started = 2;
+  optional int32 count_of_timer_started = 2;
   // Whether IMS is registered.
   optional bool is_ims_registered = 3;
   // The cellular service state.
