@@ -54,6 +54,8 @@ const char* java_type_name(java_type_t type);
 
 bool is_repeated_field(java_type_t type);
 
+bool is_primitive_field(java_type_t type);
+
 // Common Native helpers
 void write_namespace(FILE* out, const string& cppNamespaces);
 

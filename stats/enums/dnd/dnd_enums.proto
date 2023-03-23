@@ -54,3 +54,10 @@ enum ConversationType {
   CONV_IMPORTANT = 2;
   CONV_NONE = 3;
 }
+
+// Enum used in DNDStateChanged to identify the type of rule that changed.
+enum RuleType {
+  UNKNOWN_RULE = 0;
+  MANUAL_RULE = 1;
+  AUTOMATIC_RULE = 2;
+}

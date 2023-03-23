@@ -61,6 +61,15 @@ enum AutofillDisplayPresentationType {
   DIALOG = 3;  // aka Bottom-sheet dialog
 }
 
+enum FillResponseStatus {
+  RESPONSE_STATUS_UNKNOWN = 0;
+  RESPONSE_STATUS_FAILURE = 1;
+  RESPONSE_STATUS_SUCCESS = 2;
+  RESPONSE_STATUS_CANCELLED = 3;
+  RESPONSE_STATUS_TIMEOUT = 4;
+  RESPONSE_STATUS_SESSION_DESTROYED = 5;
+}
+
 enum AuthenticationType {
   AUTHENTICATION_TYPE_UNKNOWN = 0;
   DATASET_AUTHENTICATION = 1;
