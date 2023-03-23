@@ -1006,6 +1006,7 @@ message Atom {
     extensions 657; // DNDStateChanged dnd_state_changed
     extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
     extensions 659; // AuotifllFieldClassificationEventReported autofill_field_classification_event_reported
+    extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
