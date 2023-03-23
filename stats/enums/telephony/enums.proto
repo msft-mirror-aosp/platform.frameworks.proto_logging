@@ -535,3 +535,71 @@ enum SmsSendErrorEnum {
     SMS_SEND_ERROR_RIL_DEVICE_IN_USE = 136;
     SMS_SEND_ERROR_RIL_ABORTED = 137;
 }
+
+/**
+ * enum for service category of emergency numbers
+ */
+enum ServiceCategory {
+    // Emergency Service Category UNSPECIFIED
+    EMERGENCY_SERVICE_CATEGORY_UNSPECIFIED = 0;
+
+    // Emergency Service Category for Police
+    EMERGENCY_SERVICE_CATEGORY_POLICE = 1;
+
+    // Emergency Service Category for Ambulance
+    EMERGENCY_SERVICE_CATEGORY_AMBULANCE = 2;
+
+    // Emergency Service Category for Fire Brigade
+    EMERGENCY_SERVICE_CATEGORY_FIRE_BRIGADE = 3;
+
+    // Emergency Service Category for Marine Guard
+    EMERGENCY_SERVICE_CATEGORY_MARINE_GUARD = 4;
+
+    // Emergency Service Category for Mountain Rescue
+    EMERGENCY_SERVICE_CATEGORY_MOUNTAIN_RESCUE = 5;
+
+    // Emergency Service Category for Manually Initiated eCall
+    EMERGENCY_SERVICE_CATEGORY_MIEC = 6;
+
+    // Emergency Service Category for Automatically Initiated eCall
+    EMERGENCY_SERVICE_CATEGORY_AIEC = 7;
+}
+
+/**
+ * enum for source of emergency numbers
+ */
+enum Source {
+    // emergency number is from the network signalling.
+    EMERGENCY_NUMBER_SOURCE_NETWORK_SIGNALING = 0;
+
+    // emergency number is from the SIM
+    EMERGENCY_NUMBER_SOURCE_SIM = 1;
+
+    // emergency number is from the platform-maintained database
+    EMERGENCY_NUMBER_SOURCE_DATABASE = 2;
+
+    // emergency number is from the modem config
+    EMERGENCY_NUMBER_SOURCE_MODEM_CONFIG = 3;
+
+    // emergency number is available as default
+    EMERGENCY_NUMBER_SOURCE_DEFAULT = 4;
+}
+
+/**
+ * enum for call route of emergency numbers
+ */
+enum CallRoute {
+
+    /**
+     * Indicated the framework does not know whether an emergency call should be placed using
+     * emergency or normal call routing. This means the underlying radio or IMS implementation is
+     * free to determine for itself how to route the call.
+     */
+    EMERGENCY_CALL_ROUTE_UNKNOWN = 0;
+
+    // Emergency call to handle through emergency routing.
+    EMERGENCY_CALL_ROUTE_EMERGENCY = 1;
+
+    // Emergency call to handle through normal routing
+    EMERGENCY_CALL_ROUTE_NORMAL = 2;
+}
