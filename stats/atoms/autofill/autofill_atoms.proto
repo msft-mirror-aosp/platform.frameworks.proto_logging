@@ -95,14 +95,16 @@ message AutofillFillResponseReported {
   // Timestamp of when Autofill provider returns a FillResponse
   // Latency of Autofill provider = fillResponseReceivedTimestampMs -
   // fillRequestSentTimestampMs
-  optional int32 latency_fill_response_received_millis = 7;
-  optional AuthenticationType authentication_type = 8;
-  optional AuthenticationResult authentication_result = 9;
-  optional int64 authentication_failure_reason = 10;
+  optional int32 latency_fill_response_received_millis = 7 [deprecated = true];
+  optional AuthenticationType authentication_type = 8 [deprecated = true];
+  optional AuthenticationResult authentication_result = 9 [deprecated = true];
+  optional int64 authentication_failure_reason = 10 [deprecated = true];
   // From response received to authentication UI displayed to the user.
-  optional int64 latency_authentication_ui_display_millis = 11;
+  optional int64 latency_authentication_ui_display_millis = 11 [deprecated = true];
   // From the user finishing authentication to the dataset is displayed to the user.
-  optional int64 latency_dataset_display_millis = 12;
+  optional int64 latency_dataset_display_millis = 12 [deprecated = true];
+  // The result of Autofill response.
+  optional FillResponseStatus response_status = 13;
 }
 
 /**
