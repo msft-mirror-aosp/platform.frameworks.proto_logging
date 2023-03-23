@@ -777,6 +777,8 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 528; // ExpressEventReported express_event_reported
+    extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 613; // BluetoothHashedDeviceNameReported bluetooth_hashed_device_name_reported
@@ -785,8 +787,10 @@ message Atom {
     extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
     extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
     extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
+    extensions 644; // ExpressUidEventReported express_uid_event_reported
     extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
     extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
+    extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
