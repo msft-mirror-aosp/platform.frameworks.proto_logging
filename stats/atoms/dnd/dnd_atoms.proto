@@ -41,7 +41,8 @@ message DNDModeProto {
 }
 
 /**
- * Message that represents a Do Not Disturb policy, an optional detail proto for DNDModeProto.
+ * Message that represents a Do Not Disturb policy, an optional detail proto for DNDModeProto
+ * and DNDStateChanged.
  */
 message DNDPolicyProto {
     optional android.stats.dnd.State calls = 1;
