@@ -786,6 +786,8 @@ message Atom {
     extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
     extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
     extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
+    extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
+    extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
     // Next: 10169
@@ -1341,6 +1343,10 @@ message WifiConnectionResultReported {
     optional bool network_used = 8;
     // Time taken from the last successful connection (or device boot if that's the first one).
     optional int32 time_since_last_connection_seconds = 9;
+    // Whether the connection is carrier wifi.
+    optional bool is_carrier_wifi = 10;
+    // Whether the OOB pseeudonym is enabled for the current connection.
+    optional bool is_oob_pseudonym_enabled = 11;
 }
 
 /**
