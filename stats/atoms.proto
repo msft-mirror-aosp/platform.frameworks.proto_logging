@@ -28,7 +28,6 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/autofill/autofill_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
@@ -938,11 +937,6 @@ message Atom {
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
-        autofill.AutofillUiEventReported autofill_ui_event_reported = 603 [(module) = "framework"];
-        autofill.AutofillFillRequestReported autofill_fill_request_reported = 604 [(module) = "framework"];
-        autofill.AutofillFillResponseReported autofill_fill_response_reported = 605 [(module) = "framework"];
-        autofill.AutofillSaveEventReported autofill_save_event_reported = 606 [(module) = "framework"];
-        autofill.AutofillSessionCommitted autofill_session_committed = 607 [(module) = "framework"];
         wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -956,6 +950,11 @@ message Atom {
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 600; // MediaCodecReclaimRequestCompleted media_codec_reclaim_request_completed
+    extensions 603; // AutofillUiEventReported autofill_ui_event_reported
+    extensions 604; // AutofillFillRequestReported autofill_fill_request_reported
+    extensions 605; // AutofillFillResponseReported autofill_fill_response_reported
+    extensions 606; // AutofillSaveEventReported autofill_save_event_reported
+    extensions 607; // AutofillSessionCommitted autofill_session_committed
     extensions 608; // MediaActionReported media_action_reported
     extensions 609; // MediaControlsLaunched media_controls_launched
     extensions 611; // LockscreenShortcutSelected lockscreen_shortcut_selected
@@ -1006,6 +1005,7 @@ message Atom {
     extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
     extensions 657; // DNDStateChanged dnd_state_changed
     extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
+    extensions 659; // AuotifllFieldClassificationEventReported autofill_field_classification_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
