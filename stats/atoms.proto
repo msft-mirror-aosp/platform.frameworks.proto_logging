@@ -14867,7 +14867,33 @@ message AppFreezeChanged {
         PROCESS_END = 12;
     }
 
-    optional OomAdjReason unfreeze_reason = 5;
+    // Deprecated, use unfreeze_reason_v2.
+    optional OomAdjReason unfreeze_reason = 5 [ deprecated = true ];
+
+    // The list of reason should be kept in sync with @UnfreezeReason in CachedAppOptimizer.java.
+    enum UnfreezeReason {
+        UFR_NONE = 0;
+        UFR_ACTIVITY = 1;
+        UFR_FINISH_RECEIVER = 2;
+        UFR_START_RECEIVER = 3;
+        UFR_BIND_SERVICE = 4;
+        UFR_UNBIND_SERVICE = 5;
+        UFR_START_SERVICE = 6;
+        UFR_GET_PROVIDER = 7;
+        UFR_REMOVE_PROVIDER = 8;
+        UFR_UI_VISIBILITY = 9;
+        UFR_ALLOWLIST = 10;
+        UFR_PROCESS_BEGIN = 11;
+        UFR_PROCESS_END = 12;
+        UFR_TRIM_MEMORY = 13;
+        UFR_PING = 15;
+        UFR_FILE_LOCKS = 16;
+        UFR_FILE_LOCK_CHECK_FAILURE = 17;
+        UFR_BINDER_TXNS = 18;
+        UFR_FEATURE_FLAGS = 19;
+    }
+
+    optional UnfreezeReason unfreeze_reason_v2 = 6;
 }
 
 /**
