@@ -36,15 +36,28 @@ const char DEFAULT_CPP_HEADER_IMPORT[] = "statslog.h";
 const int API_LEVEL_CURRENT = 10000;
 const int API_Q = 29;
 const int API_R = 30;
+const int API_S = 31;
+const int API_S_V2 = 32;
 const int API_T = 33;
+const int API_U = 34;
 
 const int JAVA_MODULE_REQUIRES_FLOAT = 0x01;
 const int JAVA_MODULE_REQUIRES_ATTRIBUTION = 0x02;
 
+struct AnnotationStruct {
+    string name;
+    int minApiLevel;
+    AnnotationStruct(string name, int minApiLevel) : name(name), minApiLevel(minApiLevel) {};
+};
+
 void build_non_chained_decl_map(const Atoms& atoms,
                                 std::map<int, AtomDeclSet::const_iterator>* decl_map);
 
-const map<AnnotationId, string>& get_annotation_id_constants();
+const map<AnnotationId, AnnotationStruct>& get_annotation_id_constants();
+
+string get_java_build_version_code(int minApiLevel);
+
+string get_restriction_category_str(int annotationValue);
 
 string make_constant_name(const string& str);
 
@@ -86,6 +99,12 @@ public:
         fprintf(stderr, "[Error] %s:%d:%d - %s\n", filename.c_str(), line, column, message.c_str());
     }
 };
+
+bool contains_restricted(const AtomDeclSet& atomDeclSet);
+
+bool requires_api_needed(const AtomDeclSet& atomDeclSet);
+
+int get_min_api_level(const AtomDeclSet& atomDeclSet);
 
 }  // namespace stats_log_api_gen
 }  // namespace android
