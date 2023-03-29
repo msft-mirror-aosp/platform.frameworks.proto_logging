@@ -7984,6 +7984,9 @@ message ProcessMemorySnapshot {
 
     // Whether or not this process is hosting one or more foregound services.
     optional bool has_foreground_services = 10;
+
+    // The current rss memory in shared space.
+    optional int32 shmem_kb = 11;
 }
 
 /*
