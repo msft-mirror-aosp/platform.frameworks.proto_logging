@@ -1022,6 +1022,8 @@ message Atom {
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
+    extensions 680; // SoftApStarted softap_started
+    extensions 681; // SoftApStopped softap_stopped
     extensions 684; // MediaCodecRendered media_codec_rendered
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
