@@ -997,9 +997,9 @@ message Atom {
     extensions 648; // AppDataSharingUpdatesFragmentViewed app_data_sharing_updates_fragment_viewed
     extensions 649; // AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported
     extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
-    extensions 651; // CredentialManagerInitialPhase credential_manager_init_phase
-    extensions 652; // CredentialManagerCandidatePhase credential_manager_candidate_phase
-    extensions 653; // CredentialManagerFinalPhase credential_manager_final_phase
+    extensions 651; // CredentialManagerInitialPhaseReported credential_manager_init_phase_reported
+    extensions 652; // CredentialManagerCandidatePhaseReported credential_manager_candidate_phase_reported
+    extensions 653; // CredentialManagerFinalPhaseReported credential_manager_final_phase_reported
     extensions 654; // ExerciseRouteApiCalled exercise_route_api_called
     extensions 655; // PluginInitialized plugin_initialized
     extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
