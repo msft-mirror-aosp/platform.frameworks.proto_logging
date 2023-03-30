@@ -81,6 +81,8 @@ atom_protos = [
     "atoms/gps/*.proto",
     "atoms/adservices/*.proto",
     "atoms/providers/mediaprovider/*.proto",
+    "atoms/wifi/*.proto",
+    "atoms/bluetooth/*.proto",
 ]
 
 cc_library_host_shared {
