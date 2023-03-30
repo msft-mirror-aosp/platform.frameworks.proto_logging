@@ -21182,6 +21182,7 @@ message AdServicesApiCalled {
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //  * setAppInstallAdvertisers()
     //  * reportInteraction()
+    //  * updateAdCounterHistogram()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21232,6 +21233,7 @@ message AdServicesApiCalled {
         SELECT_ADS_FROM_OUTCOMES = 21;
         SET_APP_INSTALL_ADVERTISERS = 22;
         REPORT_INTERACTION = 23;
+        UPDATE_AD_COUNTER_HISTOGRAM = 24;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
