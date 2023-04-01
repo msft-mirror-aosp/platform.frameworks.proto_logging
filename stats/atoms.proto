@@ -1006,6 +1006,7 @@ message Atom {
     extensions 657; // DNDStateChanged dnd_state_changed
     extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
     extensions 659; // AuotifllFieldClassificationEventReported autofill_field_classification_event_reported
+    extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -2133,7 +2134,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 34
+ * Next tag: 39
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2193,6 +2194,7 @@ message ScheduledJobStateChanged {
     optional bool has_connectivity_constraint = 13;
     optional bool has_content_trigger_constraint = 14;
     optional bool is_prefetch = 18;
+    optional bool is_periodic = 34;
 
     // True if the app has requested this run as an expedited job.
     optional bool is_requested_expedited_job = 15;
@@ -2218,6 +2220,10 @@ message ScheduledJobStateChanged {
     // This is only valid if has_deadline_constraint is true.
     optional int64 deadline_ms = 22;
 
+    // The delay that the Job has requested.
+    // This is only valid if has_timing_delay_constraint is true.
+    optional int64 delay_ms = 35;
+
     // True if the Job hit its deadline
     optional bool is_deadline_constraint_satisfied = 23;
 
@@ -2235,7 +2241,27 @@ message ScheduledJobStateChanged {
 
     optional bool is_content_trigger_constraint_satisfied = 30;
 
+    // The amount of time that elapsed between the job being scheduled (state = SCHEDULED)
+    // and it being started (state = STARTED). Persisted jobs loaded at boot are considered
+    // to be scheduled at boot, so all values are within the current boot cycle. Periodic
+    // and other rescheduled jobs are considered to be newly scheduled and therefore this
+    // value reflects the time since the most recent (re)schedule.
+    // This is only valid for the STARTED and FINISHED states.
     optional int64 job_start_latency_ms = 31;
+
+    // The amount of data the app estimated it would download.
+    // This is only valid if has_connectivity_constraint is true.
+    // If the job has JobWorkItems attached, this value will include the estimates from the items.
+    optional int64 estimated_download_bytes = 36;
+
+    // The amount of data the app estimated it would upload.
+    // This is only valid if has_connectivity_constraint is true.
+    // If the job has JobWorkItems attached, this value will include the estimates from the items.
+    optional int64 estimated_upload_bytes = 37;
+
+    // The number of JobWorkItems the app has attached to this job but not completed
+    // (by calling JobParameters.completeWork()).
+    optional int32 num_uncompleted_work_items = 38;
 }
 
 /**
@@ -21606,6 +21632,7 @@ message AdServicesApiCalled {
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //  * setAppInstallAdvertisers()
     //  * reportInteraction()
+    //  * updateAdCounterHistogram()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21656,6 +21683,7 @@ message AdServicesApiCalled {
         SELECT_ADS_FROM_OUTCOMES = 21;
         SET_APP_INSTALL_ADVERTISERS = 22;
         REPORT_INTERACTION = 23;
+        UPDATE_AD_COUNTER_HISTOGRAM = 24;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22803,7 +22831,7 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 11
+    // Next ID: 14
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
@@ -22814,6 +22842,9 @@ message SandboxApiCalled {
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
         REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+        REGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 11;
+        UNREGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 12;
+        GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
         // Api used by SDKs in the sandbox via SdkSandboxController
         GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
 
@@ -23256,6 +23287,10 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_UNSUPPORTED = 3;
         // privacy sandbox is already running on the device.
         PRIVACY_SANDBOX_ALREADY_RUNNING = 4;
+        // the first consent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_FIRST_CONSENT_FF = 5;
+        // the reconsent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_RECONSENT_FF = 6;
     }
 
     // Privacy sandbox feature currently running on the device.
