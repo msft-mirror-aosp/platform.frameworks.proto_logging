@@ -60,6 +60,13 @@ static void write_annotations(FILE* out, int argIndex,
                         resetState = annotation->value.intValue;
                     } else if (ANNOTATION_ID_DEFAULT_STATE == annotation->annotationId) {
                         defaultState = annotation->value.intValue;
+                    } else if (ANNOTATION_ID_RESTRICTION_CATEGORY == annotation->annotationId) {
+                        fprintf(out, "        %saddInt32Annotation(%s%s%s,\n",
+                                methodPrefix.c_str(), methodSuffix.c_str(), constantPrefix.c_str(),
+                                annotationConstant.c_str());
+                        fprintf(out, "                                       %s%s);\n",
+                                constantPrefix.c_str(),
+                                get_restriction_category_str(annotation->value.intValue).c_str());
                     } else {
                         fprintf(out, "        %saddInt32Annotation(%s%s%s, %d);\n",
                                 methodPrefix.c_str(), methodSuffix.c_str(), constantPrefix.c_str(),
