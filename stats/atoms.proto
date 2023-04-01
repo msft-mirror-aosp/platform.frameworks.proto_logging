@@ -23300,6 +23300,10 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_UNSUPPORTED = 3;
         // privacy sandbox is already running on the device.
         PRIVACY_SANDBOX_ALREADY_RUNNING = 4;
+        // the first consent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_FIRST_CONSENT_FF = 5;
+        // the reconsent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_RECONSENT_FF = 6;
     }
 
     // Privacy sandbox feature currently running on the device.
