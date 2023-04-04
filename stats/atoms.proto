@@ -1008,6 +1008,7 @@ message Atom {
     extensions 659; // AuotifllFieldClassificationEventReported autofill_field_classification_event_reported
     extensions 660; // TestExtensionAtomReported test_extension_atom_reported
     extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
+    extensions 662; // AdServicesErrorReported ad_services_error_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
