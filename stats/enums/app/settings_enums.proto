@@ -3940,6 +3940,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     FLASH_NOTIFICATION_SETTINGS = 2027;
+
+    // OPEN: Settings > Add fingerprint > Error dialog in split mode
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_ADD_FINGERPRINT_ERROR_IN_SPLIT_MODE = 2028;
 }
 
 // Battery Saver schedule types.
