@@ -98,6 +98,8 @@ enum SaveUiNotShownReason {
   NO_SAVE_REASON_NO_VALUE_CHANGED = 5;
   NO_SAVE_REASON_FIELD_VALIDATION_FAILED = 6;
   NO_SAVE_REASON_DATASET_MATCH = 7;
+  NO_SAVE_REASON_WITH_DONT_SAVE_ON_FINISH_FLAG = 8;
+  NO_SAVE_REASON_SESSION_DESTROYED = 9;
 }
 
 // Determines the reason for committing the autofill Session.
