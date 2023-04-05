@@ -23,7 +23,8 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 option java_package = "com.android.os.input";
 option java_multiple_files = true;
 
-/* Logs input device information when input device is registered with Android device.
+/**
+ * Logs input device information when input device is registered with Android device.
  * Reported at when a new input device is found by EventHub.
  *
  * Logged from:
@@ -45,6 +46,37 @@ message InputDeviceRegistered {
     optional string obfuscated_id = 6;
     // The Input Device Classes
     optional int32 device_classes = 7;
+}
+
+/**
+ * Logs basic timing information about touch events.
+ * Reported at most every 5 minutes while device is being interacted with.
+ *
+ * Logged from:
+ *   frameworks/native/services/inputflinger
+ */
+message TouchEventReported {
+    /**
+     * The fields latency_{min|max|mean|stdev} represent minimum, maximum, mean,
+     * and the standard deviation of the time spent processing touchscreen events
+     * in the kernel and inputflinger. The units are microseconds.
+     *
+     * On supported devices, the starting point is taken during the hard interrupt inside the
+     * kernel touch driver. On all other devices, the starting point is taken inside
+     * the kernel's input event subsystem upon receipt of the input event.
+     * The ending point is taken inside InputDispatcher, just after the input event
+     * is sent to the app.
+     */
+    // Minimum value
+    optional float latency_min_micros = 1;
+    // Maximum value
+    optional float latency_max_micros = 2;
+    // Average value
+    optional float latency_mean_micros = 3;
+    // Standard deviation
+    optional float latency_stdev_micros = 4;
+    // Number of touch events (input_event) in this report
+    optional int32 count = 5;
 }
 
 /**
@@ -93,6 +125,37 @@ message SlowInputEventReported {
     // Since the last time this atom was reported, how many slow events did not get reported
     // due to rate limiting?
     optional int32 num_skipped_slow_events_since_last_report = 10;
+}
+
+/**
+ * Logs gesture classification and timing information for touch events.
+ *
+ * Logged from:
+ *   frameworks/base/core/java/android/view/GestureDetector.java
+ *   frameworks/base/core/java/android/view/View.java
+ */
+message TouchGestureClassified {
+    // The source of the classification (e.g. Java class name).
+    optional string source = 1;
+
+    enum Classification {
+        UNKNOWN_CLASSIFICATION = 0;
+        SINGLE_TAP = 1;
+        DOUBLE_TAP = 2;
+        LONG_PRESS = 3;
+        DEEP_PRESS = 4;
+        SCROLL = 5;
+    }
+    // The classification of the gesture.
+    optional Classification classification = 2;
+
+    // The interval from the start of a touch event stream until the
+    // classification was made.
+    optional int32 latency_millis = 3;
+
+    // The distance from the location of the first touch event to the
+    // location of the touch event when the classification was made.
+    optional float displacement_px = 4;
 }
 
 /**
