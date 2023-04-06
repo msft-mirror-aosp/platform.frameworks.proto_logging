@@ -84,7 +84,7 @@ import "frameworks/proto_logging/stats/enums/service/enums.proto";
 import "frameworks/proto_logging/stats/enums/service/procstats_enum.proto";
 import "frameworks/proto_logging/stats/enums/stats/connectivity/connectivity_service.proto";
 import "frameworks/proto_logging/stats/enums/stats/connectivity/network_stack.proto";
-import "frameworks/proto_logging/stats/enums/stats/connectivity/tethering.proto";
+import "frameworks/proto_logging/stats/enums/stTIMEats/connectivity/tethering.proto";
 import "frameworks/proto_logging/stats/enums/stats/dnsresolver/dns_resolver.proto";
 import "frameworks/proto_logging/stats/enums/stats/devicepolicy/device_policy.proto";
 import "frameworks/proto_logging/stats/enums/stats/devicepolicy/device_policy_enums.proto";
@@ -5436,11 +5436,12 @@ message ForegroundServiceStateChanged {
     optional string short_name = 2;
 
     enum State {
-    	  UNKNOWN_STATE = 0;
+        UNKNOWN_STATE = 0;
         ENTER = 1;
         EXIT = 2;
         DENIED = 3;
         API_CALL = 4; // this event is to annotate API call.
+        TIMED_OUT = 5; // SHORT_SERVICE timed out.
     }
     optional State state = 3;
 
