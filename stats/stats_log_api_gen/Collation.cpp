@@ -604,6 +604,13 @@ static int collate_from_field_descriptor(const FieldDescriptor* atomField, const
     }
 
     if (atomField->options().HasExtension(os::statsd::restriction_category)) {
+        if (atomType == ATOM_TYPE_PULLED) {
+            print_error(atomField,
+                        "Restricted atoms cannot be pulled: '%s'\n",
+                        atomField->name().c_str());
+            errorCount++;
+            return errorCount;
+        }
         const int restrictionCategory = atomField->options()
                                         .GetExtension(os::statsd::restriction_category);
         atomDecl.get()->restricted = true;
