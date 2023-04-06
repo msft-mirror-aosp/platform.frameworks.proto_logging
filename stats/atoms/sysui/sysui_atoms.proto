@@ -205,6 +205,14 @@ message LauncherUIChanged {
 
     // List of attributes attached to the event.
     optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
+
+    // Specifies the input type of the event.
+    enum InputType {
+        UNKNOWN = 0;
+        TOUCH = 1;
+        TRACKPAD = 2;
+    }
+    optional InputType input_type = 28;
 }
 
 message LauncherAttributes {
