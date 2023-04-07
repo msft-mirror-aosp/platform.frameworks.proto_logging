@@ -5436,11 +5436,12 @@ message ForegroundServiceStateChanged {
     optional string short_name = 2;
 
     enum State {
-    	  UNKNOWN_STATE = 0;
+        UNKNOWN_STATE = 0;
         ENTER = 1;
         EXIT = 2;
         DENIED = 3;
         API_CALL = 4; // this event is to annotate API call.
+        TIMED_OUT = 5; // SHORT_SERVICE timed out.
     }
     optional State state = 3;
 

@@ -138,6 +138,10 @@ cc_library_host_shared {
         ":libstats_atom_message_protos",
     ] + enum_protos + atom_protos,
 
+    cflags: [
+        "-Wno-deprecated-declarations",
+    ],
+
     proto: {
         type: "full",
         export_proto_headers: true,
