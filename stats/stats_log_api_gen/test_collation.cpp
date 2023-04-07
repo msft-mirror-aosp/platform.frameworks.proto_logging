@@ -119,6 +119,7 @@ protected:
             mBadRestrictedAtoms2 = BadRestrictedAtoms2::descriptor();
             mBadRestrictedAtoms3 = BadRestrictedAtoms3::descriptor();
             mBadRestrictedAtoms4 = BadRestrictedAtoms4::descriptor();
+            mBadRestrictedAtoms5 = BadRestrictedAtoms5::descriptor();
         } else {
             mEvent = mFileDescriptor->FindMessageTypeByName("Event");
             mIntAtom = mFileDescriptor->FindMessageTypeByName("IntAtom");
@@ -145,6 +146,7 @@ protected:
             mBadRestrictedAtoms2 = mFileDescriptor->FindMessageTypeByName("BadRestrictedAtoms2");
             mBadRestrictedAtoms3 = mFileDescriptor->FindMessageTypeByName("BadRestrictedAtoms3");
             mBadRestrictedAtoms4 = mFileDescriptor->FindMessageTypeByName("BadRestrictedAtoms4");
+            mBadRestrictedAtoms5 = mFileDescriptor->FindMessageTypeByName("BadRestrictedAtoms5");
         }
     }
 
@@ -173,6 +175,7 @@ protected:
     const Descriptor* mBadRestrictedAtoms2;
     const Descriptor* mBadRestrictedAtoms3;
     const Descriptor* mBadRestrictedAtoms4;
+    const Descriptor* mBadRestrictedAtoms5;
 };
 
 INSTANTIATE_TEST_SUITE_P(ProtoProvider, CollationTest, testing::Values(true, false));
@@ -611,7 +614,7 @@ TEST_P(CollationTest, CollateGoodRestrictedAtoms) {
 
     EXPECT_EQ(0, errorCount);
     ASSERT_EQ(1ul, atoms.signatureInfoMap.size());
-    ASSERT_EQ(1ul, atoms.pulledAtomsSignatureInfoMap.size());
+    ASSERT_EQ(0ul, atoms.pulledAtomsSignatureInfoMap.size());
 
     EXPECT_MAP_CONTAINS_SIGNATURE(atoms.signatureInfoMap, JAVA_TYPE_LONG,
                                                           JAVA_TYPE_LONG,
@@ -622,15 +625,7 @@ TEST_P(CollationTest, CollateGoodRestrictedAtoms) {
                                                           JAVA_TYPE_INT,
                                                           JAVA_TYPE_FLOAT,
                                                           JAVA_TYPE_INT);
-    EXPECT_MAP_CONTAINS_SIGNATURE(atoms.pulledAtomsSignatureInfoMap, JAVA_TYPE_LONG,
-                                                                     JAVA_TYPE_LONG,
-                                                                     JAVA_TYPE_INT,
-                                                                     JAVA_TYPE_BOOLEAN,
-                                                                     JAVA_TYPE_STRING,
-                                                                     JAVA_TYPE_INT,
-                                                                     JAVA_TYPE_INT,
-                                                                     JAVA_TYPE_FLOAT,
-                                                                     JAVA_TYPE_INT);
+
     // Validate signatureInfoMap
     FieldNumberToAtomDeclSet fieldNumberToAtomDeclSet = atoms.signatureInfoMap.begin()->second;
     ASSERT_EQ(10ul, fieldNumberToAtomDeclSet.size());
@@ -731,44 +726,8 @@ TEST_P(CollationTest, CollateGoodRestrictedAtoms) {
     atomDeclSetIt++;
     EXPECT_EQ(atomDeclSet->end(), atomDeclSetIt);
 
-    // Validate pulledAtomsSignatureInfoMap
-    fieldNumberToAtomDeclSet = atoms.pulledAtomsSignatureInfoMap.begin()->second;
-    ASSERT_EQ(10ul, fieldNumberToAtomDeclSet.size());
-    atomDeclSet = &fieldNumberToAtomDeclSet[ATOM_ID_FIELD_NUMBER];
-    ASSERT_EQ(2ul, atomDeclSet->size());
-    atomDeclSetIt = atomDeclSet->begin();
-
-    atomDecl = atomDeclSetIt->get();
-    EXPECT_EQ(10001, atomDecl->code);
-    EXPECT_EQ("pulled_atom_10001", atomDecl->name);
-    EXPECT_EQ("GoodRestrictedAtom", atomDecl->message);
-    fieldNumberToAnnotations = atomDecl->fieldNumberToAnnotations;
-    ASSERT_EQ(10ul, fieldNumberToAnnotations.size());
-    annotationSet = &fieldNumberToAnnotations[ATOM_ID_FIELD_NUMBER];
-    ASSERT_EQ(1ul, annotationSet->size());
-    annotation = annotationSet->begin()->get();
-    EXPECT_EQ(ANNOTATION_ID_RESTRICTION_CATEGORY, annotation->annotationId);
-    EXPECT_EQ(ANNOTATION_TYPE_INT, annotation->type);
-    EXPECT_EQ(os::statsd::RESTRICTION_AUTHENTICATION, annotation->value.intValue);
-    atomDeclSetIt++;
-
-    atomDecl = atomDeclSetIt->get();
-    EXPECT_EQ(10002, atomDecl->code);
-    EXPECT_EQ("pulled_atom_10002", atomDecl->name);
-    EXPECT_EQ("GoodRestrictedAtom", atomDecl->message);
-    fieldNumberToAnnotations = atomDecl->fieldNumberToAnnotations;
-    ASSERT_EQ(10ul, fieldNumberToAnnotations.size());
-    annotationSet = &fieldNumberToAnnotations[ATOM_ID_FIELD_NUMBER];
-    ASSERT_EQ(1ul, annotationSet->size());
-    annotation = annotationSet->begin()->get();
-    EXPECT_EQ(ANNOTATION_ID_RESTRICTION_CATEGORY, annotation->annotationId);
-    EXPECT_EQ(ANNOTATION_TYPE_INT, annotation->type);
-    EXPECT_EQ(os::statsd::RESTRICTION_FRAUD_AND_ABUSE, annotation->value.intValue);
-    atomDeclSetIt++;
-    EXPECT_EQ(atomDeclSet->end(), atomDeclSetIt);
-
     // Validate decls
-    ASSERT_EQ(4ul, atoms.decls.size());
+    ASSERT_EQ(2ul, atoms.decls.size());
     AtomDeclSet::const_iterator atomIt = atoms.decls.begin();
 
     EXPECT_EQ(1, (*atomIt)->code);
@@ -797,32 +756,6 @@ TEST_P(CollationTest, CollateGoodRestrictedAtoms) {
     EXPECT_EQ(ANNOTATION_TYPE_INT, annotation->type);
     EXPECT_EQ(os::statsd::RESTRICTION_SYSTEM_INTELLIGENCE, annotation->value.intValue);
     atomIt++;
-
-    EXPECT_EQ(10001, (*atomIt)->code);
-    EXPECT_EQ("pulled_atom_10001", (*atomIt)->name);
-    EXPECT_EQ("GoodRestrictedAtom", (*atomIt)->message);
-    fieldNumberToAnnotations = (*atomIt)->fieldNumberToAnnotations;
-    ASSERT_EQ(10ul, fieldNumberToAnnotations.size());
-    annotationSet = &fieldNumberToAnnotations[ATOM_ID_FIELD_NUMBER];
-    ASSERT_EQ(1ul, annotationSet->size());
-    annotation = annotationSet->begin()->get();
-    EXPECT_EQ(ANNOTATION_ID_RESTRICTION_CATEGORY, annotation->annotationId);
-    EXPECT_EQ(ANNOTATION_TYPE_INT, annotation->type);
-    EXPECT_EQ(os::statsd::RESTRICTION_AUTHENTICATION, annotation->value.intValue);
-    atomIt++;
-
-    EXPECT_EQ(10002, (*atomIt)->code);
-    EXPECT_EQ("pulled_atom_10002", (*atomIt)->name);
-    EXPECT_EQ("GoodRestrictedAtom", (*atomIt)->message);
-    fieldNumberToAnnotations = (*atomIt)->fieldNumberToAnnotations;
-    ASSERT_EQ(10ul, fieldNumberToAnnotations.size());
-    annotationSet = &fieldNumberToAnnotations[ATOM_ID_FIELD_NUMBER];
-    ASSERT_EQ(1ul, annotationSet->size());
-    annotation = annotationSet->begin()->get();
-    EXPECT_EQ(ANNOTATION_ID_RESTRICTION_CATEGORY, annotation->annotationId);
-    EXPECT_EQ(ANNOTATION_TYPE_INT, annotation->type);
-    EXPECT_EQ(os::statsd::RESTRICTION_FRAUD_AND_ABUSE, annotation->value.intValue);
-    atomIt++;
     EXPECT_EQ(atoms.decls.end(), atomIt);
 
     // Validate non_chained_decls
@@ -849,6 +782,10 @@ TEST_P(CollationTest, CollateBadRestrictedAtoms) {
     // Field restriction option on top level atom field
     errorCount = collate_atoms(mBadRestrictedAtoms4, DEFAULT_MODULE_NAME, &atoms);
     EXPECT_EQ(1, errorCount);
+
+    // Pulled restricted atoms
+    errorCount = collate_atoms(mBadRestrictedAtoms5, DEFAULT_MODULE_NAME, &atoms);
+    EXPECT_EQ(2, errorCount);
 }
 
 }  // namespace stats_log_api_gen
