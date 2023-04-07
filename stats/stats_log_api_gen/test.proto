@@ -336,10 +336,6 @@ message GoodRestrictedAtoms {
         [(android.os.statsd.restriction_category) = RESTRICTION_DIAGNOSTIC];
     optional GoodRestrictedAtom pushed_atom_2 = 2
         [(android.os.statsd.restriction_category) = RESTRICTION_SYSTEM_INTELLIGENCE];
-    optional GoodRestrictedAtom pulled_atom_10001 = 10001
-        [(android.os.statsd.restriction_category) = RESTRICTION_AUTHENTICATION];
-    optional GoodRestrictedAtom pulled_atom_10002 = 10002
-        [(android.os.statsd.restriction_category) = RESTRICTION_FRAUD_AND_ABUSE];
 }
 
 // Nonprimitive fields
@@ -362,6 +358,14 @@ message BadRestrictedAtoms3 {
 message BadRestrictedAtoms4 {
     optional IntAtom pushed_atom_1 = 1
         [(android.os.statsd.field_restriction_option).peripheral_device_info = true];
+}
+
+// Restricted pulled atoms
+message BadRestrictedAtoms5 {
+    optional GoodRestrictedAtom pulled_atom_10001 = 10001
+        [(android.os.statsd.restriction_category) = RESTRICTION_AUTHENTICATION];
+    optional GoodRestrictedAtom pulled_atom_10002 = 10002
+        [(android.os.statsd.restriction_category) = RESTRICTION_FRAUD_AND_ABUSE];
 }
 
 message ExtensionAtoms {
