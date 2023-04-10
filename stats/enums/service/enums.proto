@@ -49,6 +49,7 @@ enum ContaminantPresenceStatus {
 }
 
 enum ComplianceWarning {
+    COMPLIANCE_WARNING_UNSPECIFIED = 0;
     COMPLIANCE_WARNING_DEBUG_ACCESSORY = 1;
     COMPLIANCE_WARNING_BC_1_2 = 2;
     COMPLIANCE_WARNING_MISSING_RP = 3;

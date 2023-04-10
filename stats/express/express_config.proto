@@ -25,11 +25,36 @@ option java_multiple_files = true;
 enum MetricUnit {
     UNIT_UNKNOWN = 0;
     UNIT_COUNT = 1;
+    UNIT_TIME_MILLIS = 2;
 }
 
 enum MetricType {
     METRIC_TYPE_UNKNOWN = 0;
     COUNTER = 1;
+    HISTOGRAM = 2;
+    COUNTER_WITH_UID = 3;
+    HISTOGRAM_WITH_UID = 4;
+}
+
+message HistogramOptions {
+
+    message UniformBinningOptions {
+        optional int32 count = 1;
+        optional float min = 2;
+        optional float max = 3;
+    }
+
+    message ScaledBinningOptions  {
+        optional int32 count = 1;
+        optional float min = 2;
+        optional float first_bin_width = 3;
+        optional float scale = 4;
+    }
+
+    oneof options {
+        UniformBinningOptions uniform_bins = 1;
+        ScaledBinningOptions scaled_bins = 2;
+    }
 }
 
 message ExpressMetric {
@@ -44,6 +69,10 @@ message ExpressMetric {
     repeated string owner_email = 5;
 
     optional MetricUnit unit = 6;
+
+    oneof options {
+        HistogramOptions histogram_options = 7;
+    }
 }
 
 message ExpressMetricConfigFile {
