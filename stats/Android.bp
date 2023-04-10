@@ -122,7 +122,7 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
-    "atoms/statsd_internal/*.proto",
+    "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
     "atoms/telephony/qns/*.proto",
     "atoms/telephony/*.proto",
