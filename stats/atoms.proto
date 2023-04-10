@@ -14933,6 +14933,16 @@ message AppFreezeChanged {
         UFR_FILE_LOCK_CHECK_FAILURE = 17;
         UFR_BINDER_TXNS = 18;
         UFR_FEATURE_FLAGS = 19;
+        UFR_SHORT_FGS_TIMEOUT = 20;
+        UFR_SYSTEM_INIT = 21;
+        UFR_BACKUP = 22;
+        UFR_SHELL = 23;
+        UFR_REMOVE_TASK = 24;
+        UFR_UID_IDLE = 25;
+        UFR_STOP_SERVICE = 26;
+        UFR_EXECUTING_SERVICE = 27;
+        UFR_RESTRICTION_CHANGE = 28;
+        UFR_COMPONENT_DISABLED = 29;
     }
 
     optional UnfreezeReason unfreeze_reason_v2 = 6;
