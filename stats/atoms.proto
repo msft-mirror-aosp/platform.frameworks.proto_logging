@@ -28,11 +28,9 @@ import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/autofill/autofill_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/expresslog/expresslog_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/grammaticalinflection/grammatical_inflection.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
@@ -840,7 +838,6 @@ message Atom {
         DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
         NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
-        expresslog.ExpressEventReported express_event_reported = 528 [(module) = "framework", (module) = "expresslog"];
         BluetoothDisconnectionReasonReported bluetooth_disconnection_reason_reported = 529 [(module) = "bluetooth"];
         BluetoothLocalVersionsReported bluetooth_local_versions_reported = 530 [(module) = "bluetooth"];
         BluetoothRemoteSupportedFeaturesReported bluetooth_remote_supported_features_reported = 531 [(module) = "bluetooth"];
@@ -932,7 +929,6 @@ message Atom {
         wearservices.WsRestoreActionReported ws_restore_action_reported = 591
             [(module) = "wearservices"];
         devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 592 [(module) = "sysui"];
-        expresslog.ExpressHistogramSampleReported express_histogram_sample_reported = 593 [(module) = "framework", (module) = "expresslog"];
         wear.media.MediaSessionUpdated media_session_updated = 594 [(module) = "wearmedia"];
         wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595 [(module) = "framework"];
         wearservices.WsNotificationUpdated ws_notification_updated = 596
@@ -941,24 +937,24 @@ message Atom {
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
-        autofill.AutofillUiEventReported autofill_ui_event_reported = 603 [(module) = "framework"];
-        autofill.AutofillFillRequestReported autofill_fill_request_reported = 604 [(module) = "framework"];
-        autofill.AutofillFillResponseReported autofill_fill_response_reported = 605 [(module) = "framework"];
-        autofill.AutofillSaveEventReported autofill_save_event_reported = 606 [(module) = "framework"];
-        autofill.AutofillSessionCommitted autofill_session_committed = 607 [(module) = "framework"];
         wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
-        expresslog.ExpressUidEventReported express_uid_event_reported =
-            644 [(module) = "framework", (module) = "expresslog"];
         // StatsdStats tracks platform atoms with ids up to 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 528; // ExpressEventReported express_event_reported
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
+    extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 600; // MediaCodecReclaimRequestCompleted media_codec_reclaim_request_completed
+    extensions 603; // AutofillUiEventReported autofill_ui_event_reported
+    extensions 604; // AutofillFillRequestReported autofill_fill_request_reported
+    extensions 605; // AutofillFillResponseReported autofill_fill_response_reported
+    extensions 606; // AutofillSaveEventReported autofill_save_event_reported
+    extensions 607; // AutofillSessionCommitted autofill_session_committed
     extensions 608; // MediaActionReported media_action_reported
     extensions 609; // MediaControlsLaunched media_controls_launched
     extensions 611; // LockscreenShortcutSelected lockscreen_shortcut_selected
@@ -994,19 +990,23 @@ message Atom {
     extensions 641; // MediaCodecStarted media_codec_started
     extensions 642; // MediaCodecStopped media_codec_stopped
     extensions 643; // HealthConnectApiInvoked health_connect_api_invoked
+    extensions 644; // ExpressUidEventReported express_uid_event_reported
     extensions 645; // PermissionRationaleDialogViewed permission_rationale_dialog_viewed
     extensions 646; // PermissionRationaleDialogActionReported permission_rationale_dialog_action_reported
     extensions 647; // AppDataSharingUpdatesNotificationInteraction app_data_sharing_updates_notification_interaction
     extensions 648; // AppDataSharingUpdatesFragmentViewed app_data_sharing_updates_fragment_viewed
     extensions 649; // AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported
     extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
-    extensions 651; // CredentialManagerInitialPhase credential_manager_init_phase
-    extensions 652; // CredentialManagerCandidatePhase credential_manager_candidate_phase
-    extensions 653; // CredentialManagerFinalPhase credential_manager_final_phase
+    extensions 651; // CredentialManagerInitialPhaseReported credential_manager_init_phase_reported
+    extensions 652; // CredentialManagerCandidatePhaseReported credential_manager_candidate_phase_reported
+    extensions 653; // CredentialManagerFinalPhaseReported credential_manager_final_phase_reported
     extensions 654; // ExerciseRouteApiCalled exercise_route_api_called
     extensions 655; // PluginInitialized plugin_initialized
     extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
     extensions 657; // DNDStateChanged dnd_state_changed
+    extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
+    extensions 659; // AuotifllFieldClassificationEventReported autofill_field_classification_event_reported
+    extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -2134,7 +2134,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 34
+ * Next tag: 39
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2194,6 +2194,7 @@ message ScheduledJobStateChanged {
     optional bool has_connectivity_constraint = 13;
     optional bool has_content_trigger_constraint = 14;
     optional bool is_prefetch = 18;
+    optional bool is_periodic = 34;
 
     // True if the app has requested this run as an expedited job.
     optional bool is_requested_expedited_job = 15;
@@ -2219,6 +2220,10 @@ message ScheduledJobStateChanged {
     // This is only valid if has_deadline_constraint is true.
     optional int64 deadline_ms = 22;
 
+    // The delay that the Job has requested.
+    // This is only valid if has_timing_delay_constraint is true.
+    optional int64 delay_ms = 35;
+
     // True if the Job hit its deadline
     optional bool is_deadline_constraint_satisfied = 23;
 
@@ -2236,7 +2241,27 @@ message ScheduledJobStateChanged {
 
     optional bool is_content_trigger_constraint_satisfied = 30;
 
+    // The amount of time that elapsed between the job being scheduled (state = SCHEDULED)
+    // and it being started (state = STARTED). Persisted jobs loaded at boot are considered
+    // to be scheduled at boot, so all values are within the current boot cycle. Periodic
+    // and other rescheduled jobs are considered to be newly scheduled and therefore this
+    // value reflects the time since the most recent (re)schedule.
+    // This is only valid for the STARTED and FINISHED states.
     optional int64 job_start_latency_ms = 31;
+
+    // The amount of data the app estimated it would download.
+    // This is only valid if has_connectivity_constraint is true.
+    // If the job has JobWorkItems attached, this value will include the estimates from the items.
+    optional int64 estimated_download_bytes = 36;
+
+    // The amount of data the app estimated it would upload.
+    // This is only valid if has_connectivity_constraint is true.
+    // If the job has JobWorkItems attached, this value will include the estimates from the items.
+    optional int64 estimated_upload_bytes = 37;
+
+    // The number of JobWorkItems the app has attached to this job but not completed
+    // (by calling JobParameters.completeWork()).
+    optional int32 num_uncompleted_work_items = 38;
 }
 
 /**
@@ -5411,11 +5436,12 @@ message ForegroundServiceStateChanged {
     optional string short_name = 2;
 
     enum State {
-    	  UNKNOWN_STATE = 0;
+        UNKNOWN_STATE = 0;
         ENTER = 1;
         EXIT = 2;
         DENIED = 3;
         API_CALL = 4; // this event is to annotate API call.
+        TIMED_OUT = 5; // SHORT_SERVICE timed out.
     }
     optional State state = 3;
 
@@ -7983,6 +8009,9 @@ message ProcessMemorySnapshot {
 
     // Whether or not this process is hosting one or more foregound services.
     optional bool has_foreground_services = 10;
+
+    // The current rss memory in shared space.
+    optional int32 shmem_kb = 11;
 }
 
 /*
@@ -14049,7 +14078,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 52.
+    // Next id: 53.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -14099,6 +14128,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_START_TRACING_INVALID_SESSION_STATE = 36;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_FILTER = 47;
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
+        PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -14871,7 +14901,33 @@ message AppFreezeChanged {
         PROCESS_END = 12;
     }
 
-    optional OomAdjReason unfreeze_reason = 5;
+    // Deprecated, use unfreeze_reason_v2.
+    optional OomAdjReason unfreeze_reason = 5 [ deprecated = true ];
+
+    // The list of reason should be kept in sync with @UnfreezeReason in CachedAppOptimizer.java.
+    enum UnfreezeReason {
+        UFR_NONE = 0;
+        UFR_ACTIVITY = 1;
+        UFR_FINISH_RECEIVER = 2;
+        UFR_START_RECEIVER = 3;
+        UFR_BIND_SERVICE = 4;
+        UFR_UNBIND_SERVICE = 5;
+        UFR_START_SERVICE = 6;
+        UFR_GET_PROVIDER = 7;
+        UFR_REMOVE_PROVIDER = 8;
+        UFR_UI_VISIBILITY = 9;
+        UFR_ALLOWLIST = 10;
+        UFR_PROCESS_BEGIN = 11;
+        UFR_PROCESS_END = 12;
+        UFR_TRIM_MEMORY = 13;
+        UFR_PING = 15;
+        UFR_FILE_LOCKS = 16;
+        UFR_FILE_LOCK_CHECK_FAILURE = 17;
+        UFR_BINDER_TXNS = 18;
+        UFR_FEATURE_FLAGS = 19;
+    }
+
+    optional UnfreezeReason unfreeze_reason_v2 = 6;
 }
 
 /**
@@ -21577,6 +21633,7 @@ message AdServicesApiCalled {
     //  * resetAllAdSelectionConfigRemoteOverrides()
     //  * setAppInstallAdvertisers()
     //  * reportInteraction()
+    //  * updateAdCounterHistogram()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21627,6 +21684,7 @@ message AdServicesApiCalled {
         SELECT_ADS_FROM_OUTCOMES = 21;
         SET_APP_INSTALL_ADVERTISERS = 22;
         REPORT_INTERACTION = 23;
+        UPDATE_AD_COUNTER_HISTOGRAM = 24;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22774,7 +22832,7 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 11
+    // Next ID: 14
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
@@ -22785,6 +22843,9 @@ message SandboxApiCalled {
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
         REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+        REGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 11;
+        UNREGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 12;
+        GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
         // Api used by SDKs in the sandbox via SdkSandboxController
         GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
 
@@ -23227,6 +23288,10 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_UNSUPPORTED = 3;
         // privacy sandbox is already running on the device.
         PRIVACY_SANDBOX_ALREADY_RUNNING = 4;
+        // the first consent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_FIRST_CONSENT_FF = 5;
+        // the reconsent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_RECONSENT_FF = 6;
     }
 
     // Privacy sandbox feature currently running on the device.
