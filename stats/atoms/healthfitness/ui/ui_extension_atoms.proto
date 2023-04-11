@@ -16,7 +16,7 @@
 
 syntax = "proto2";
 
-package android.os.statsd.healthfitness.api;
+package android.os.statsd.healthfitness.ui;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
