@@ -100,6 +100,7 @@ atom_protos = [
     "atoms/corenetworking/**/*.proto",
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
+    "atoms/cronet/*.proto",
     "atoms/display/*.proto",
     "atoms/dnd/*.proto",
     "atoms/expresslog/*.proto",
