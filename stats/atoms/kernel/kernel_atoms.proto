@@ -35,6 +35,7 @@ message KernelWakeupAttributed {
     enum Type {
         TYPE_UNKNOWN = 0;
         TYPE_IRQ = 1;
+        TYPE_ABNORMAL = 2;
     }
 
     // The type of kernel wakeup.
@@ -44,6 +45,7 @@ message KernelWakeupAttributed {
         UNKNOWN = 0;
         ALARM = 1;
         WIFI = 2;
+        SOUND_TRIGGER = 3;
     }
 
     optional Reason reason = 2;
