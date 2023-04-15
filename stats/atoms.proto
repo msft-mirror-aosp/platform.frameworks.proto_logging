@@ -760,9 +760,9 @@ message Atom {
         SystemServerPreWatchdogOccurred system_server_pre_watchdog_occurred = 460 [(module) = "framework"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
-        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "remoteprovisioner"];
-        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "remoteprovisioner"];
-        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
+        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "rkpd"];
+        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "rkpd"];
+        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "rkpd"];
         sysui.MediaOutputOpInteractionReported mediaoutput_op_interaction_report =
             466 [(module) = "sysui"];
         art.BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
@@ -1011,6 +1011,9 @@ message Atom {
     extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
     extensions 662; // AdServicesErrorReported ad_services_error_reported
     extensions 663; // AdServicesBackgroundJobsExecutionReported ad_services_background_jobs_execution_reported
+    extensions 664; // RkpdPoolStats rkpd_pool_stats
+    extensions 665; // RkpdClientOperation rkpd_client_operation
+    extensions 666;  // RestrictedBluetoothDeviceNameReported restricted_bluetooth_device_name_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1126,7 +1129,7 @@ message Atom {
         GnssPowerStats gnss_power_stats = 10101 [(module) = "framework"];
         TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
         Keystore2StorageStats keystore2_storage_stats = 10103 [(module) = "framework"];
-        RkpPoolStats rkp_pool_stats = 10104 [(module) = "framework"];
+        RkpPoolStats rkp_pool_stats = 10104 [deprecated = true];
         ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
         PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
         UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
@@ -1201,7 +1204,7 @@ message Atom {
         UserInfo user_info = 10152 [(module) = "framework"];
         TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
-        RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
+        RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [deprecated = true];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
@@ -9463,13 +9466,21 @@ message AppCompactedV2 {
   optional android.app.OomChangeReasonEnum oom_change_reason = 8;
 }
 
-// Logs each upstream for a successful switch over
+/**
+ * Represents an event that logs information about a successful switch to an upstream network.
+ */
 message UpstreamEvent {
-  // Transport type of upstream network
+  // Indicates the transport type of network.
   optional android.stats.connectivity.UpstreamType upstream_type = 1;
 
-  // A time period that an upstream continued
+  // The duration of network usage.
   optional int64 duration_millis = 2;
+
+  // The amount of data received from tethered clients.
+  optional int64 tx_bytes = 3;
+
+  // The amount of data received from remote.
+  optional int64 rx_bytes = 4;
 }
 
 message UpstreamEvents {
@@ -17366,6 +17377,8 @@ message RkpErrorStats {
 
 
 /**
+ * Deprecated in U. Use RkpdPoolStats instead.
+ *
  * Logs: Status of the attestation key pool related to
  * Remote Key Provisioning (RKP).
  * Logged from: system/security/keystore2
@@ -17398,7 +17411,6 @@ message RkpPoolStats {
      * The total number of attestation keys.
      */
     optional int32 total = 5;
-
 }
 
 /**
@@ -22171,7 +22183,7 @@ message TelephonyAnomalyDetected {
 // completely out of attestation keys.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningAttempt {
     // The reason for the provisioning attempt.
     enum Cause {
@@ -22213,13 +22225,19 @@ message RemoteKeyProvisioningAttempt {
 
     // Indicates success or failure of the provisioning attempt.
     optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 6;
+
+    // A digest of the root key that certified the provisioned certificates
+    optional string root_cert_fingerprint = 7;
+
+    // The depth of the cert chains issued to the device
+    optional int32 cert_chain_length = 8;
 }
 
 // Logs that correlate remote key provisioning status with the active
 // network for the given provisioning attempt.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningNetworkInfo {
     // The network transport, according ConnectivityManager::getActiveNetwork().
     optional android.stats.connectivity.TransportType transport_type = 1;
@@ -22235,7 +22253,7 @@ message RemoteKeyProvisioningNetworkInfo {
 // taking to perform various sub-tasks. This is intended to be used with KLL metrics.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningTiming {
     // Time spent waiting on the RKP service to reply.
     optional int32 server_wait_millis = 1;
@@ -22260,11 +22278,13 @@ message RemoteKeyProvisioningTiming {
     optional string remotely_provisioned_component = 6;
 }
 
+// Deprecated in U.
+//
 // Counters that track how many errors we're seeing on the device for the
 // given boot.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningErrorCounts {
     // The total number of RKP attempts there have been this boot.
     optional int32 total_count = 1;
