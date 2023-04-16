@@ -20,6 +20,7 @@ package android.os.statsd.adservices;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 
 option java_package = "com.android.os.adservices";
 option java_multiple_files = true;
@@ -35,6 +36,12 @@ extend Atom {
   optional AdServicesMeasurementDebugKeys
       ad_services_measurement_debug_keys = 640
         [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesErrorReported
+      ad_services_error_reported = 662
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesBackgroundJobsExecutionReported
+      ad_services_background_jobs_execution_reported = 663
+        [(module) = "adservices"];
 }
 
 /**
@@ -130,3 +137,87 @@ message AdServicesMeasurementDebugKeys {
   optional int64 join_key_hash_limit = 5;
 }
 
+/**
+ * Logs AdServices errors/exceptions.
+ */
+message AdServicesErrorReported {
+  // Enum representing an error/exception.  These errors can be common to all
+  // PPAPIs or specific to a particular API. We will group enums in blocks of
+  // 1000 like this below:
+  // - Common errors: 1-1000
+  // - Topics errors: 1001-2000
+  // - Measurement errors: 2001-3000
+  // - Fledge errors: 3001-4000
+  // - UX errors: 4001-5000
+  enum ErrorCode {
+    ERROR_CODE_UNSPECIFIED = 0;
+    DATABASE_READ_EXCEPTION = 1;
+    DATABASE_WRITE_EXCEPTION = 2;
+    API_REMOTE_EXCEPTION = 3;
+
+    // UX errors
+    CONSENT_REVOKED_ERROR = 4001;
+  }
+  // Enum representing an error/exception.
+  optional ErrorCode error_code = 1;
+
+  enum PpapiName {
+    PPAPI_NAME_UNSPECIFIED = 0;
+    TOPICS = 1;
+    MEASUREMENT = 2;
+    FLEDGE = 3;
+  }
+  // Name of the PPAPI if possible where error is occurring.
+  optional PpapiName ppapi_name = 2;
+
+  // Name of the class where we catch the exception or log the error.
+  optional string class_name = 3;
+
+  // Name of the method where we catch the exception or log the error.
+  optional string method_name = 4;
+
+  // Line number where we catch the exception or log the error.
+  optional int32 line_number = 5;
+
+  // The fully qualified name of the last encountered exception.
+  optional string last_observed_exception_name = 6;
+}
+
+/** Logs background job Stats to monitor the stability of Rubidium background jobs. */
+message AdServicesBackgroundJobsExecutionReported {
+  // A unique identifier for a background job
+  optional int32 job_id = 1;
+
+  // Time interval from the start to the end of an execution of a background job.
+  // It is on a milli-second basis.
+  optional int32 execution_duration_ms = 2;
+
+  // Time interval from the start of previous execution to the start of current execution of
+  // a background job. It is on a second basis.
+  optional int32 execution_frequency_second = 3;
+
+  // Type of the result code that implies different execution results.
+  enum ExecutionResultCode {
+     /** Unspecified result code. */
+     UNSPECIFIED_CODE = 0;
+     /** Successful execution. */
+     SUCCESSFUL = 1;
+     /** Failed execution with retrying the job. */
+     FAILED_WITH_RETRY = 2;
+     /** Failed execution without retrying the job. */
+     FAILED_WITHOUT_RETRY = 3;
+     /** OnJobStop() is invoked with retrying the job. */
+     ONSTOP_CALLED_WITH_RETRY = 4;
+     /** OnJobStop() is invoked without retrying the job. */
+     ONSTOP_CALLED_WITHOUT_RETRY = 5;
+     /** The execution is halted by system or device, leaving an open-ended start.. */
+     HALTED_BY_DEVICE = 6;
+  }
+  optional ExecutionResultCode execution_result_code = 4;
+
+  // The publicly returned reason onStopJob() was called.
+  // This is only applicable when the state is FINISHED, but may be undefined if
+  // JobService.onStopJob() was never called for the job.
+  // The default value is STOP_REASON_UNDEFINED.
+  optional android.app.job.StopReasonEnum public_stop_reason = 5;
+}
