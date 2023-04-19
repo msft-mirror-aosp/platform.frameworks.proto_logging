@@ -20,3 +20,98 @@ package android.adservices;
 // Recommended setup in go/java-proto-names
 option java_outer_classname = "AdservicesProtoEnums";
 option java_multiple_files = true;
+
+/**
+ * Type of the classifier used for classifying apps.
+ */
+enum ClassifierType {
+  /** Unknown classifier option. */
+  UNKNOWN_CLASSIFIER = 0;
+  /** Only on-device classification. */
+  ON_DEVICE_CLASSIFIER = 1;
+  /** Only Precomputed classification. */
+  PRECOMPUTED_CLASSIFIER = 2;
+  /** Precomputed classification values are preferred over on-device classification values. */
+  PRECOMPUTED_THEN_ON_DEVICE_CLASSIFIER = 3;
+}
+
+/**
+ * On Device classifier status.
+ */
+enum OnDeviceClassifierStatus {
+  ON_DEVICE_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+  ON_DEVICE_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+  ON_DEVICE_CLASSIFIER_STATUS_SUCCESS = 2;
+  ON_DEVICE_CLASSIFIER_STATUS_FAILURE = 3;
+}
+
+/**
+ * Precomputed classifier status.
+ */
+enum PrecomputedClassifierStatus {
+  PRECOMPUTED_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+  PRECOMPUTED_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+  PRECOMPUTED_CLASSIFIER_STATUS_SUCCESS = 2;
+  PRECOMPUTED_CLASSIFIER_STATUS_FAILURE = 3;
+}
+
+/**
+ * Attribution types.
+ */
+enum AttributionType {
+  UNKNOWN = 0;
+  APP_APP = 1;
+  APP_WEB = 2;
+  WEB_APP = 3;
+  WEB_WEB = 4;
+}
+
+/**
+ * Enum representing an error/exception.  These errors can be common to all
+ * PPAPIs or specific to a particular API. We will group enums in blocks of
+ * 1000 like this below:
+ * - Common errors: 1-1000
+ * - Topics errors: 1001-2000
+ * - Measurement errors: 2001-3000
+ * - Fledge errors: 3001-4000
+ * - UX errors: 4001-5000
+ */
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;
+  DATABASE_READ_EXCEPTION = 1;
+  DATABASE_WRITE_EXCEPTION = 2;
+  API_REMOTE_EXCEPTION = 3;
+
+  // UX errors
+  CONSENT_REVOKED_ERROR = 4001;
+}
+
+/**
+ * Adservices API names.
+ */
+enum PpapiName {
+  PPAPI_NAME_UNSPECIFIED = 0;
+  TOPICS = 1;
+  MEASUREMENT = 2;
+  FLEDGE = 3;
+}
+
+/**
+ * Type of the result code that implies different execution results of Adservices background jobs.
+ */
+enum ExecutionResultCode {
+  /** Unspecified result code. */
+  UNSPECIFIED_CODE = 0;
+  /** Successful execution. */
+  SUCCESSFUL = 1;
+  /** Failed execution with retrying the job. */
+  FAILED_WITH_RETRY = 2;
+  /** Failed execution without retrying the job. */
+  FAILED_WITHOUT_RETRY = 3;
+  /** OnJobStop() is invoked with retrying the job. */
+  ONSTOP_CALLED_WITH_RETRY = 4;
+  /** OnJobStop() is invoked without retrying the job. */
+  ONSTOP_CALLED_WITHOUT_RETRY = 5;
+  /** The execution is halted by system or device, leaving an open-ended start.. */
+  HALTED_BY_DEVICE = 6;
+}
