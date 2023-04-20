@@ -27,6 +27,8 @@ option java_package = "com.android.os.statsd";
 extend Atom {
     optional TestExtensionAtomReported test_extension_atom_reported =
             660 [(module) = "cts", (module) = "statsdtest"];
+    optional TestRestrictedAtomReported test_restricted_atom_reported = 672
+    [(module) = "cts", (android.os.statsd.restriction_category) = RESTRICTION_DIAGNOSTIC];
 }
 
 message TestExtensionAtomNestedMessage {
@@ -55,4 +57,13 @@ message TestExtensionAtomReported {
     repeated string repeated_string_field = 12;
     repeated bool repeated_boolean_field = 13;
     repeated State repeated_enum_field = 14;
+}
+
+/* Test restricted atom, is not logged anywhere */
+message TestRestrictedAtomReported {
+    optional int32 int_field = 1;
+    optional int64 long_field = 2;
+    optional float float_field = 3;
+    optional string string_field = 4;
+    optional bool boolean_field = 5;
 }
