@@ -132,6 +132,7 @@ atom_protos = [
     "atoms/wifi/*.proto",
     "atoms/telephony/satellite/*.proto",
     "atoms/automotive/caruilib/*.proto",
+    "atoms/uwb/*.proto",
 ]
 
 cc_library_host_shared {
