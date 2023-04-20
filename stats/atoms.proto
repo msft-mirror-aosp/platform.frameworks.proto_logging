@@ -184,7 +184,7 @@ message Atom {
         PluggedStateChanged plugged_state_changed = 32
                 [(module) = "framework", (module) = "statsdtest"];
         InteractiveStateChanged interactive_state_changed = 33 [(module) = "framework"];
-        TouchEventReported touch_event_reported = 34;
+        input.TouchEventReported touch_event_reported = 34;
         WakeupAlarmOccurred wakeup_alarm_occurred = 35 [(module) = "framework"];
         KernelWakeupReported kernel_wakeup_reported = 36 [(module) = "framework"];
         WifiLockStateChanged wifi_lock_state_changed = 37 [(module) = "wifi"];
@@ -376,7 +376,7 @@ message Atom {
                 175 [(module) = "sysui"];
         sysui.AssistGestureProgressReported assist_gesture_progress_reported =
                 176 [(module) = "sysui"];
-        TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
+        input.TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
         HiddenApiUsed hidden_api_used = 178 [(module) = "framework"];
         StyleUIChanged style_ui_changed = 179 [(module) = "sysui", (module) = "wallpaper"];
         PrivacyIndicatorsInteracted privacy_indicators_interacted =
@@ -4496,68 +4496,6 @@ message SettingsUIChanged {
      * Data about elapsed time since setup wizard finished.
      */
     optional int64 elapsed_time_millis = 6;
-}
-
-/**
- * Logs basic timing information about touch events.
- * Reported at most every 5 minutes while device is being interacted with.
- *
- * Logged from:
- *   frameworks/native/services/inputflinger
- */
-message TouchEventReported {
-    /**
-     * The fields latency_{min|max|mean|stdev} represent minimum, maximum, mean,
-     * and the standard deviation of the time spent processing touchscreen events
-     * in the kernel and inputflinger. The units are microseconds.
-     *
-     * On supported devices, the starting point is taken during the hard interrupt inside the
-     * kernel touch driver. On all other devices, the starting point is taken inside
-     * the kernel's input event subsystem upon receipt of the input event.
-     * The ending point is taken inside InputDispatcher, just after the input event
-     * is sent to the app.
-     */
-    // Minimum value
-    optional float latency_min_micros = 1;
-    // Maximum value
-    optional float latency_max_micros = 2;
-    // Average value
-    optional float latency_mean_micros = 3;
-    // Standard deviation
-    optional float latency_stdev_micros = 4;
-    // Number of touch events (input_event) in this report
-    optional int32 count = 5;
-}
-
-/**
- * Logs gesture classification and timing information for touch events.
- *
- * Logged from:
- *   frameworks/base/core/java/android/view/GestureDetector.java
- *   frameworks/base/core/java/android/view/View.java
- */
-message TouchGestureClassified {
-    // The source of the classification (e.g. Java class name).
-    optional string source = 1;
-
-    enum Classification {
-        UNKNOWN_CLASSIFICATION = 0;
-        SINGLE_TAP = 1;
-        DOUBLE_TAP = 2;
-        LONG_PRESS = 3;
-        DEEP_PRESS = 4;
-        SCROLL = 5;
-    }
-    // The classification of the gesture.
-    optional Classification classification = 2;
-
-    // The interval from the start of a touch event stream until the
-    // classification was made.
-    optional int32 latency_millis = 3;
-
-    // The distance from the location of the first touch event to the
-    // location of the touch event when the classification was made.
-    optional float displacement_px = 4;
 }
 
 /**
