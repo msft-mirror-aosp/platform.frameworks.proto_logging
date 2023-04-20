@@ -46,6 +46,8 @@ message KernelWakeupAttributed {
         ALARM = 1;
         WIFI = 2;
         SOUND_TRIGGER = 3;
+        SENSOR = 4;
+        CELLULAR_DATA = 5;
     }
 
     optional Reason reason = 2;
