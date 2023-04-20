@@ -1014,6 +1014,11 @@ message Atom {
     extensions 664; // RkpdPoolStats rkpd_pool_stats
     extensions 665; // RkpdClientOperation rkpd_client_operation
     extensions 666;  // RestrictedBluetoothDeviceNameReported restricted_bluetooth_device_name_reported
+    extensions 667; // CredentialManagerAverageCandidateReported credential_manager_average_reported
+    extensions 668; // CredentialManagerFinalNoUidReported credential_manager_finalnouid_reported
+    extensions 669; // CredentialManagerGetProviderReported credential_manager_get_reported
+    extensions 670; // CredentialManagerBrowsedAuthenticationClicked credential_manager_auth_click_reported
+    extensions 671; // CredentialManagerApiV2Called credential_manager_apiv2_called
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1241,6 +1246,7 @@ message Atom {
     extensions 10185; // SatelliteOutgoingDatagram satellite_outgoing_datagram
     extensions 10186; // SatelliteProvision satellite_provision
     extensions 10187; // SatelliteSosMessageRecommender satellite_sos_message_recommender
+    extensions 10188; // UwbActivityInfo uwb_activity_info
     extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
     extensions 99999; // Atom99999 atom_99999
 
