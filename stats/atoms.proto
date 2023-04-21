@@ -10848,6 +10848,15 @@ message MediaCodecReported {
     // more codec configuration parameters.
     // @since U
     optional int64 codec_id = 67;
+    optional int32 array_mode = 68;
+    optional int32 operation_mode = 69;
+    optional int32 output_surface = 70;
+    optional int32 app_max_input_size = 71;
+    optional int32 used_max_input_size = 72;
+    optional int32 codec_max_input_size = 73;
+    optional int32 flush_count = 74;
+    optional int32 set_surface_count = 75;
+    optional int32 resolution_change_count = 76;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
