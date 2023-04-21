@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 The Android Open Source Project
+ * Copyright (C) 2023 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,22 @@ syntax = "proto2";
 
 package android.os.statsd.autofill;
 
+import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/autofill/enums.proto";
 
 option java_package = "com.android.os.autofill";
 option java_multiple_files = true;
 
+extend Atom {
+    optional AutofillUiEventReported autofill_ui_event_reported = 603 [(module) = "framework"];
+    optional AutofillFillRequestReported autofill_fill_request_reported = 604 [(module) = "framework"];
+    optional AutofillFillResponseReported autofill_fill_response_reported = 605 [(module) = "framework"];
+    optional AutofillSaveEventReported autofill_save_event_reported = 606 [(module) = "framework"];
+    optional AutofillSessionCommitted autofill_session_committed = 607 [(module) = "framework"];
+    optional AutofillFieldClassificationEventReported autofill_field_classification_event_reported =
+            659 [(module) = "framework"];
+}
 /**
  * Log Autofill related system UI events.
  *
@@ -95,14 +105,21 @@ message AutofillFillResponseReported {
   // Timestamp of when Autofill provider returns a FillResponse
   // Latency of Autofill provider = fillResponseReceivedTimestampMs -
   // fillRequestSentTimestampMs
-  optional int32 latency_fill_response_received_millis = 7;
-  optional AuthenticationType authentication_type = 8;
-  optional AuthenticationResult authentication_result = 9;
-  optional int64 authentication_failure_reason = 10;
+  optional int32 latency_fill_response_received_millis = 7 [deprecated = true];
+  optional AuthenticationType authentication_type = 8 [deprecated = true];
+  optional AuthenticationResult authentication_result = 9 [deprecated = true];
+  optional int64 authentication_failure_reason = 10 [deprecated = true];
   // From response received to authentication UI displayed to the user.
-  optional int64 latency_authentication_ui_display_millis = 11;
+  optional int64 latency_authentication_ui_display_millis = 11 [deprecated = true];
   // From the user finishing authentication to the dataset is displayed to the user.
-  optional int64 latency_dataset_display_millis = 12;
+  optional int64 latency_dataset_display_millis = 12 [deprecated = true];
+  // The result of Autofill response.
+  optional FillResponseStatus response_status = 13;
+  // Time taken to process the datasets.
+  // For eg: In case of PCC detection, we need to merge the datasets to be
+  // shown for presentataion. This encapsulates the time taken for preparing
+  // final eligible datasets to be shown.
+  optional int64 latency_response_processing_millis = 14;
 }
 
 /**
@@ -159,4 +176,13 @@ message AutofillSessionCommitted {
   optional AutofillCommitReason commit_reason = 4;
   // Duration of session: Time from session start to session end
   optional int64 session_duration_millis = 5;
+}
+
+/**
+* Logs Fieldclassification event. This event is captured after the request
+* for the classification service has been made.
+*/
+message AutofillFieldClassificationEventReported {
+    // Latency of the request to the field classification service.
+    optional int64 latency_millis = 1;
 }

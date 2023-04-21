@@ -858,6 +858,9 @@ enum ItemId {
     // TvSettings > System > Power & Energy > Eco settings
     SYSTEM_POWER_AND_ENERGY_ECO_SETTINGS = 0x17E10000;
 
+    // TvSettings > System > Power & Energy > Energy Modes
+    SYSTEM_POWER_AND_ENERGY_ENERGY_MODES = 0x17E20000;
+
     // TvSettings > System > Accessibility
     SYSTEM_A11Y = 0x17800000;
 

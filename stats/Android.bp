@@ -22,6 +22,7 @@ package {
 }
 
 enum_protos = [
+    "enums/adservices/common/*.proto",
     "enums/adservices/fledge/*.proto",
     "enums/anr/*.proto",
     "enums/app/**/*.proto",
@@ -30,6 +31,7 @@ enum_protos = [
     "enums/corenetworking/**/*.proto",
     "enums/debug/*.proto",
     "enums/display/*.proto",
+    "enums/dnd/*.proto",
     "enums/hardware/**/*.proto",
     "enums/healthfitness/**/*.proto",
     "enums/hotword/*.proto",
@@ -66,6 +68,8 @@ enum_protos = [
     "enums/system/**/*.proto",
     "enums/telecomm/*.proto",
     "enums/telephony/*.proto",
+    "enums/telephony/qns/*.proto",
+    "enums/telephony/satellite/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
     "enums/wear/media/*.proto",
@@ -94,6 +98,7 @@ atom_protos = [
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
     "atoms/display/*.proto",
+    "atoms/dnd/*.proto",
     "atoms/expresslog/*.proto",
     "atoms/framework/*.proto",
     "atoms/gps/*.proto",
@@ -101,11 +106,14 @@ atom_protos = [
     "atoms/hardware/biometrics/*.proto",
     "atoms/healthfitness/**/*.proto",
     "atoms/hotword/*.proto",
+    "atoms/input/*.proto",
     "atoms/locale/*.proto",
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
+    "atoms/permissioncontroller/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/rkpd/*.proto",
     "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
     "atoms/usb/*.proto",
@@ -117,6 +125,15 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
+    "atoms/statsd/*.proto",
+    "atoms/telecomm/*.proto",
+    "atoms/telephony/qns/*.proto",
+    "atoms/telephony/*.proto",
+    "atoms/memorysafety/*.proto",
+    "atoms/wifi/*.proto",
+    "atoms/telephony/satellite/*.proto",
+    "atoms/automotive/caruilib/*.proto",
+    "atoms/uwb/*.proto",
 ]
 
 cc_library_host_shared {
@@ -125,6 +142,10 @@ cc_library_host_shared {
         "atom_field_options.proto",
         ":libstats_atom_message_protos",
     ] + enum_protos + atom_protos,
+
+    cflags: [
+        "-Wno-deprecated-declarations",
+    ],
 
     proto: {
         type: "full",

@@ -31,6 +31,10 @@ extend Atom {
   optional HealthConnectUsageStats health_connect_usage_stats = 617 [(module) = "healthfitness"];
 
   optional HealthConnectStorageStats health_connect_storage_stats = 618 [(module) = "healthfitness"];
+
+  optional HealthConnectApiInvoked health_connect_api_invoked = 643 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional ExerciseRouteApiCalled exercise_route_api_called = 654 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 }
 
 // Track HealthDataService API operations.
@@ -47,6 +51,12 @@ message HealthConnectApiCalled {
 
   // Total API call duration in milliseconds.
   optional int64 duration_millis = 4;
+
+  // Number of records being inserted/updated etc. (If any)
+  optional int32 number_of_records = 5;
+
+  // Type of rate limiting being used (If any)
+  optional android.healthfitness.api.RateLimit rate_limit = 6;
 }
 
 // Track if users are connecting apps with Health Connect
@@ -77,5 +87,58 @@ message HealthConnectStorageStats {
 
   // Total number of changelog counts.
   optional int64 changelog_count = 5;
+
+}
+
+// Track when ExerciseRoute is being read/written.
+message ExerciseRouteApiCalled {
+
+  // Read/write.
+  optional android.healthfitness.api.Operation operation = 1;
+
+  // Package name of the client that invoked the API.
+  optional string package_name = 2;
+
+  // Number of records under operation
+  optional int32 number_of_records = 3;
+
+}
+
+// Track Health Connect API operations stats.
+message HealthConnectApiInvoked {
+
+  // API method invoked.
+  optional android.healthfitness.api.ApiMethod api_method = 1;
+
+  // Status whether the API call executed successfully or not.
+  optional android.healthfitness.api.ApiStatus api_status = 2;
+
+  // Only relevant when status == ERROR;
+  optional int32 error_code = 3;
+
+  // Total API call duration in milliseconds.
+  optional int64 duration_millis = 4;
+
+  // Package name of the client that invoked the API.
+  optional string package_name = 5;
+
+  // Data types under consideration in the API call (if any)
+  optional android.healthfitness.api.DataType data_type_one = 6
+  [(field_restriction_option).health_connect = true];
+
+  optional android.healthfitness.api.DataType data_type_two = 7
+  [(field_restriction_option).health_connect = true];
+
+  optional android.healthfitness.api.DataType data_type_three = 8
+  [(field_restriction_option).health_connect = true];
+
+  optional android.healthfitness.api.DataType data_type_four = 9
+  [(field_restriction_option).health_connect = true];
+
+  optional android.healthfitness.api.DataType data_type_five = 10
+  [(field_restriction_option).health_connect = true];
+
+  optional android.healthfitness.api.DataType data_type_six = 11
+  [(field_restriction_option).health_connect = true];
 
 }

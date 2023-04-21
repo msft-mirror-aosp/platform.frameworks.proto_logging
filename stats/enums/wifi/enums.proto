@@ -111,3 +111,37 @@ enum WifiBandBucket {
     // Frequencies in the range of [6875, 7125) GHz
     BAND_6G_HIGH = 7;
 }
+
+// Status of various Aware operations
+enum AwareStatus {
+    // unknown status
+    ST_UNKNOWN = 0;
+    // NAN operation succeeded
+    ST_SUCCESS = 1;
+    // NAN Discovery Engine/Host driver failures
+    ST_INTERNAL_FAILURE = 2;
+    // NAN OTA failures
+    ST_PROTOCOL_FAILURE = 3;
+    // The publish/subscribe discovery session id is invalid
+    ST_INVALID_SESSION_ID = 4;
+    // Out of resources to fufill request
+    ST_NO_RESOURCES_AVAILABLE = 5;
+    // Invalid arguments passed
+    ST_INVALID_ARGS = 6;
+    // Invalid peer id
+    ST_INVALID_PEER_ID = 7;
+    // Invalid NAN data-path (ndp) id
+    ST_INVALID_NDP_ID = 8;
+    // Attempting to enable NAN when not available, e.g. wifi is disabled
+    ST_NAN_NOT_ALLOWED = 9;
+    // Over the air ACK not received
+    ST_NO_OTA_ACK = 10;
+    // Attempting to enable NAN when already enabled
+    ST_ALREADY_ENABLED = 11;
+    // Can't queue tx followup message foor transmission
+    ST_FOLLOWUP_TX_QUEUE_FULL = 12;
+    // Unsupported concurrency of NAN and another feature - NAN disabled
+    ST_UNSUPPORTED_CONCURRENCY = 13;
+    // Other failures
+    ST_GENERIC_FAILURE = 14;
+}
