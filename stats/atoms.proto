@@ -2148,7 +2148,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 39
+ * Next tag: 40
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2276,6 +2276,9 @@ message ScheduledJobStateChanged {
     // The number of JobWorkItems the app has attached to this job but not completed
     // (by calling JobParameters.completeWork()).
     optional int32 num_uncompleted_work_items = 38;
+
+    // Proc state of the UID of the logged event
+    optional android.app.ProcessStateEnum proc_state = 39 [default = PROCESS_STATE_UNKNOWN];
 }
 
 /**
