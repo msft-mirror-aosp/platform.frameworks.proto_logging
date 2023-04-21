@@ -1025,7 +1025,7 @@ message Atom {
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 677; // MediaSessionStateChanged media_session_state_changed
     extensions 678; // IkeSessionTerminated ike_session_terminated
-
+    extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
