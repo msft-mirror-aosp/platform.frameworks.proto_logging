@@ -1175,6 +1175,24 @@ enum Action {
     // SUBTYPE: false is disabled, true is enabled
     // OS: U
     ACTION_UPDATE_CROSS_SIM_CALLING_ON_2ND_SIM_ENABLE = 1825;
+
+    // ACTION: Settings > System > Languages > Regional preferences > Temperature > Set the
+    // preferred temperature unit.
+    // VALUE: temperature unit
+    // OS: U
+    ACTION_SET_TEMPERATURE_UNIT = 1826;
+
+    // ACTION: Settings > System > Languages > Regional preferences > First day of week > Set the
+    // preferred first day of week.
+    // VALUE: first day of week.
+    // OS: U
+    ACTION_SET_FIRST_DAY_OF_WEEK = 1827;
+
+    // ACTION: Settings > System > Languages > Regional preferences > First day of week > Set the
+    // preferred numbers preferences
+    // VALUE: numbers preferences.
+    // OS: U
+    ACTION_SET_NUMBERS_PREFERENCES = 1828;
 }
 
 /**
