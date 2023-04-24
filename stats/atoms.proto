@@ -25,9 +25,6 @@ option java_outer_classname = "AtomsProto";
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
@@ -597,7 +594,6 @@ message Atom {
         PerfettoTrigger perfetto_trigger = 329 [(module) = "perfetto"];
         TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
         ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
-        art.ArtDatumReported art_datum_reported = 332 [(module) = "art"];
         DeviceRotated device_rotated = 333 [(module) = "framework"];
         SimSpecificSettingsRestored sim_specific_settings_restored = 334
             [(module) = "telephony"];
@@ -638,7 +634,6 @@ message Atom {
         FdtrackEventOccurred fdtrack_event_occurred = 364 [(module) = "framework"];
         TimeoutAutoExtendedReported timeout_auto_extended_reported = 365
             [(module) = "framework"];
-        art.OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
         CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car"];
@@ -765,7 +760,6 @@ message Atom {
         RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "rkpd"];
         sysui.MediaOutputOpInteractionReported mediaoutput_op_interaction_report =
             466 [(module) = "sysui"];
-        art.BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         DockStateChanged dock_state_changed = 470 [(module) = "framework"];
@@ -876,11 +870,9 @@ message Atom {
         PackageManagerAppsFilterCacheUpdateReported
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
         sysui.LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
-        art.OdsignReported odsign_reported = 548 [(module) = "art"];
         WearMediaOutputSwitcherAllDevicesScanLatency
             wear_media_output_switcher_all_devices_scan_latency =
                 549 [(module) = "MediaOutputSwitcher"];
-        art.ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art"];
         WsWatchFaceEdited ws_watch_face_edited = 551 [(module) = "wearservices"];
         WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
         WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
@@ -895,7 +887,6 @@ message Atom {
         NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
         WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
         GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
-        art.ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
         MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
         WsWatchFaceComplicationSetChanged ws_watch_face_complication_set_changed = 567 [(module) = "wearservices"];
         media.MediaDrmCreated media_drm_created = 568 [(module) = "media_metrics"];
@@ -945,7 +936,13 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 332; // ArtDatumReported art_datum_reported
+    extensions 366; // OdrefreshReported odrefresh_reported
+    extensions 467; // BackgroundDexoptJobEnded background_dexopt_job_ended
     extensions 528; // ExpressEventReported express_event_reported
+    extensions 548; // OdsignReported odsign_reported
+    extensions 550; // ArtDeviceDatumReported art_device_datum_reported
+    extensions 565; // ArtDatumDeltaReported art_datum_delta_reported
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
     extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
