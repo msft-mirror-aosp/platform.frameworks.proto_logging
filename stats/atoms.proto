@@ -1275,9 +1275,8 @@ message Atom {
  *     underscore_separated name as defined in Atom.
  *   - If an atom represents work that can be attributed to an app, there can
  *     be exactly one AttributionChain field. It must be field number 1.
- *   - A field that is a uid should be a string field, tagged with the [xxx]
- *     annotation. The generated code on android will be represented by UIDs,
- *     and those UIDs will be translated in xxx to those strings.
+ *   - A field that is a uid should be an int32 field, tagged with the
+ *     [(is_uid) = true] annotation.
  *
  * CONVENTIONS:
  *   - Events are past tense. e.g. ScreenStateChanged, not ScreenStateChange.
