@@ -1017,6 +1017,7 @@ message Atom {
     extensions 669; // CredentialManagerGetProviderReported credential_manager_get_reported
     extensions 670; // CredentialManagerBrowsedAuthenticationClicked credential_manager_auth_click_reported
     extensions 671; // CredentialManagerApiV2Called credential_manager_apiv2_called
+    extensions 672; // TestRestrictedAtomReported test_restricted_atom_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
