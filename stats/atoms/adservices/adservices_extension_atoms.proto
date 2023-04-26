@@ -35,6 +35,9 @@ extend Atom {
   optional AdServicesMeasurementDebugKeys
       ad_services_measurement_debug_keys = 640
         [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesErrorReported
+      ad_services_error_reported = 662
+        [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -130,3 +133,48 @@ message AdServicesMeasurementDebugKeys {
   optional int64 join_key_hash_limit = 5;
 }
 
+/**
+ * Logs AdServices errors/exceptions.
+ */
+message AdServicesErrorReported {
+  // Enum representing an error/exception.  These errors can be common to all
+  // PPAPIs or specific to a particular API. We will group enums in blocks of
+  // 1000 like this below:
+  // - Common errors: 1-1000
+  // - Topics errors: 1001-2000
+  // - Measurement errors: 2001-3000
+  // - Fledge errors: 3001-4000
+  // - UX errors: 4001-5000
+  enum ErrorCode {
+    ERROR_CODE_UNSPECIFIED = 0;
+    DATABASE_READ_EXCEPTION = 1;
+    DATABASE_WRITE_EXCEPTION = 2;
+    API_REMOTE_EXCEPTION = 3;
+
+    // UX errors
+    CONSENT_REVOKED_ERROR = 4001;
+  }
+  // Enum representing an error/exception.
+  optional ErrorCode error_code = 1;
+
+  enum PpapiName {
+    PPAPI_NAME_UNSPECIFIED = 0;
+    TOPICS = 1;
+    MEASUREMENT = 2;
+    FLEDGE = 3;
+  }
+  // Name of the PPAPI if possible where error is occurring.
+  optional PpapiName ppapi_name = 2;
+
+  // Name of the class where we catch the exception or log the error.
+  optional string class_name = 3;
+
+  // Name of the method where we catch the exception or log the error.
+  optional string method_name = 4;
+
+  // Line number where we catch the exception or log the error.
+  optional int32 line_number = 5;
+
+  // The fully qualified name of the last encountered exception.
+  optional string last_observed_exception_name = 6;
+}
