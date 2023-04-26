@@ -61,6 +61,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/leaudio/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
+import "frameworks/proto_logging/stats/enums/display/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
@@ -925,7 +926,7 @@ message Atom {
         wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595 [(module) = "framework"];
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
-        display.ScreenBrightnessChangedV2 screen_brightness_changed_v2 = 597 [(module) = "framework"];
+        // reserved 597
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
@@ -1016,6 +1017,7 @@ message Atom {
     extensions 669; // CredentialManagerGetProviderReported credential_manager_get_reported
     extensions 670; // CredentialManagerBrowsedAuthenticationClicked credential_manager_auth_click_reported
     extensions 671; // CredentialManagerApiV2Called credential_manager_apiv2_called
+    extensions 672; // TestRestrictedAtomReported test_restricted_atom_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -1250,7 +1252,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 83, 360 to 363, 492, 597, 10008, 10036, 10040, 10041, 21004, 21005;
 }
 
 /*
@@ -10847,6 +10849,15 @@ message MediaCodecReported {
     // more codec configuration parameters.
     // @since U
     optional int64 codec_id = 67;
+    optional int32 array_mode = 68;
+    optional int32 operation_mode = 69;
+    optional int32 output_surface = 70;
+    optional int32 app_max_input_size = 71;
+    optional int32 used_max_input_size = 72;
+    optional int32 codec_max_input_size = 73;
+    optional int32 flush_count = 74;
+    optional int32 set_surface_count = 75;
+    optional int32 resolution_change_count = 76;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -22913,8 +22924,53 @@ message DisplayBrightnessChanged {
     // Whether adaptive brightness is enabled.
     optional bool adaptive_brightness_enabled = 10;
 
+    // Historical: replaced by entire_reason after 2023-04-10
+    optional Reason reason = 11 [deprecated = true];
+
     // Reason that triggered the brightness event to occur.
-    optional Reason reason = 11;
+    optional android.display.DisplayBrightnessChangeReasonEnum entire_reason = 12;
+
+    // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/enums.proto.
+    optional android.display.DisplayBrightnessRangeEnum bucket_index = 13;
+
+    // Brightness is at maximum allowable value regarding the current context.
+    optional bool brightness_at_max = 14;
+
+    // Whether HBM mode is enabled due to sunlight
+    optional bool hbm_mode_sunlight = 15;
+
+    // Whether HBM mode is enabled due to HDR
+    optional bool hbm_mode_hdr = 16;
+
+    // Whether modified by low power mode.
+    optional bool modified_by_low_power_mode = 17;
+
+    // Value defined in frameworks/base/core/java/android/hardware/display/BrightnessInfo.java
+    // BRIGHTNESS_MAX_REASON_NONE = 0
+    // BRIGHTNESS_MAX_REASON_THERMAL = 1
+    // BRIGHTNESS_MAX_REASON_* defined in the future
+    optional int32 throttling_reason = 18;
+
+    // Whether modified by dimming.
+    optional bool modified_by_dimming = 19;
+
+    // Whether Reduce Bright Colors (RBC) is enabled.
+    optional bool rbc_enabled = 20;
+
+    // Whether ambient lux is invalid.
+    optional bool ambient_lux_invalid = 21;
+
+    // Whether doze scale applied for auto brightness.
+    optional bool doze_scale_applied = 22;
+
+    // Whether the value is set by the user.
+    optional bool set_by_user = 23;
+
+    // Whether idle mode is active.
+    optional bool idle_mode_active= 24;
+
+    // Whether low power mode is enabled.
+    optional bool low_power_mode_enabled= 25;
 }
 
 
