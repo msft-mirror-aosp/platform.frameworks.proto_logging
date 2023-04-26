@@ -1023,6 +1023,7 @@ message Atom {
     extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 677; // MediaSessionStateChanged media_session_state_changed
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
