@@ -22,6 +22,7 @@ package {
 }
 
 enum_protos = [
+    "enums/adservices/common/*.proto",
     "enums/adservices/fledge/*.proto",
     "enums/app/**/*.proto",
     "enums/contexthub/*.proto",
@@ -80,6 +81,7 @@ atom_protos = [
     "attribution_node.proto",
     "atoms/gps/*.proto",
     "atoms/adservices/*.proto",
+    "atoms/expresslog/*.proto",
     "atoms/providers/mediaprovider/*.proto",
     "atoms/wifi/*.proto",
     "atoms/bluetooth/*.proto",

@@ -777,6 +777,8 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 528; // ExpressEventReported express_event_reported
+    extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
     extensions 613; // BluetoothHashedDeviceNameReported bluetooth_hashed_device_name_reported
@@ -785,8 +787,12 @@ message Atom {
     extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
     extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
     extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
+    extensions 644; // ExpressUidEventReported express_uid_event_reported
     extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
     extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
+    extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
+    extensions 662; // AdServicesErrorReported ad_services_error_reported
+    extensions 663; // AdServicesBackgroundJobsExecutionReported ad_services_background_jobs_execution_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -9266,13 +9272,21 @@ message AppCompacted {
   optional int64 after_zram_free_kilobytes = 18;
 }
 
-// Logs each upstream for a successful switch over
+/**
+ * Represents an event that logs information about a successful switch to an upstream network.
+ */
 message UpstreamEvent {
-  // Transport type of upstream network
+  // Indicates the transport type of network.
   optional android.stats.connectivity.UpstreamType upstream_type = 1;
 
-  // A time period that an upstream continued
+  // The duration of network usage.
   optional int64 duration_millis = 2;
+
+  // The amount of data received from tethered clients.
+  optional int64 tx_bytes = 3;
+
+  // The amount of data received from remote.
+  optional int64 rx_bytes = 4;
 }
 
 message UpstreamEvents {
@@ -20241,6 +20255,10 @@ message UwbSessionInitiated {
     optional int32 latency_200ms = 10;
     // The uid of the app that initiates the connection.
     optional int32 uid = 11 [(is_uid) = true];
+    // Ranging interval of the session in ms.
+    optional int32 ranging_interval_ms = 12;
+    // How many ongoing session when current session is initiated?
+    optional int32 parallel_session_count = 13;
 }
 
 /*
