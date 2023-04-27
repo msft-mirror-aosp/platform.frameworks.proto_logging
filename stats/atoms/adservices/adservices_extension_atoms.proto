@@ -151,11 +151,11 @@ message AdServicesBackgroundJobsExecutionReported {
 
   // Time interval from the start to the end of an execution of a background job.
   // It is on a milli-second basis.
-  optional int32 execution_duration_ms = 2;
+  optional int32 execution_latency_ms = 2;
 
   // Time interval from the start of previous execution to the start of current execution of
-  // a background job. It is on a second basis.
-  optional int32 execution_frequency_second = 3;
+  // a background job. It is on a minute basis.
+  optional int32 execution_period_minute = 3;
 
   // Type of the result code that implies different execution results of Adservices background jobs.
   optional android.adservices.ExecutionResultCode execution_result_code = 4;
