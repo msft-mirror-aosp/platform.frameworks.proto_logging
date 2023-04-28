@@ -26,6 +26,7 @@ option java_package = "com.android.os.framework";
 extend Atom {
     optional FullScreenIntentLaunched full_screen_intent_launched = 631 [(module) = "framework"];
     optional BalAllowed bal_allowed = 632 [(module) = "framework"];
+    optional CachedAppsHighWaterMark cached_apps_high_watermark = 10189 [(module) = "framework"];
 }
 
 /**
@@ -58,4 +59,46 @@ message BalAllowed {
         BAL_ALLOW_FOREGROUND = 9;
         BAL_ALLOW_SDK_SANDBOX = 10;
     }
+}
+
+/**
+ * Logs the cached apps high water mark.
+ */
+message CachedAppsHighWaterMark {
+  // The high water mark of the number of cached apps.
+  optional int32 cached_app_high_watermark = 1;
+
+  // The uptime (in seconds) at the high watermark.
+  // Note this is going to be pull metrics, so we'll need the timestamp here.
+  optional int32 uptime_in_seconds = 2;
+
+  // The number of binder proxy at that high water mark.
+  optional int32 binder_proxy_snapshot = 3;
+
+  // Free physical memory (in kb) on device.
+  optional int32 free_in_kb = 4;
+
+  // Cched physical memory (in kb) on device.
+  optional int32 cached_in_kb = 5;
+
+  // zram (in kb) on device.
+  optional int32 zram_in_kb = 6;
+
+  // Kernel memory (in kb) on device.
+  optional int32 kernel_in_kb = 7;
+
+  // The number of apps in frozen state.
+  optional int32 num_frozen_apps = 8;
+
+  // The longest frozen time (now - last_frozen) in current frozen apps.
+  optional int32 longest_frozen_time_in_seconds = 9;
+
+  // The shortest frozen time (now - last_frozen) in current frozen apps.
+  optional int32 shortest_frozen_time_in_seconds = 10;
+
+  // The mean frozen time (now - last_frozen) in current frozen apps.
+  optional int32 mean_frozen_time_in_seconds = 11;
+
+  // The average frozen time (now - last_frozen) in current frozen apps.
+  optional int32 average_frozen_time_in_seconds = 12;
 }

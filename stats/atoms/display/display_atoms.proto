@@ -41,91 +41,27 @@ message ScreenStateChangedV2 {
 }
 
 /**
- * Logs detailed brightness events when brightness changed.
- *
- * Logged from:
- *   frameworks/base/services/core/java/com/android/server/display/DisplayPowerController.java
- *   frameworks/base/services/core/java/com/android/server/display/DisplayPowerController2.java
- */
-message ScreenBrightnessChangedV2 {
-    // Hashed display id
-    optional int32 display_id = 1;
-
-    // Brightness in nits.
-    optional float brightness_nits = 2;
-
-    // Original brightness in nits before any modifiers(dimming/throttling/low-power-mode).
-    optional float original_brightness_nits = 3;
-
-    // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/enums.proto.
-    optional android.display.DisplayBrightnessRangeEnum bucket_index = 4;
-
-    // Brightness is at maximum allowable value regarding to current context
-    optional bool brightness_at_max = 5;
-
-    // Whether the value is set by user
-    optional bool set_by_user = 6;
-
-    // Reason that triggered the brightness event to occur.
-    optional android.display.DisplayBrightnessChangeReasonEnum reason = 7;
-
-    // Detail of hbm mode.
-    optional android.display.DisplayHBMModeEnum hbm_mode = 8;
-
-    // Whether modified by low power mode.
-    optional bool modified_by_low_power_mode = 9;
-
-    // Whether modified by thermal throttling.
-    optional bool modified_by_throttling = 10;
-
-    // Whether Reduce Bright Colors (RBC) is enabled.
-    optional bool rbc_enabled = 11;
-
-    // Estimated ambient light, in lux.
-    optional float ambient_lux = 12;
-
-    // Whether the short term model was active at the time of the event.
-    optional bool short_term_model_active = 13;
-
-    // The factor to adjust the screen brightness in low power mode in the range
-    // 0 (screen off) to 1 (no change).
-    optional float power_brightness_factor = 14;
-
-    // The level of Reduce Bright Colors (RBC) intensity, the range is [0, 100].
-    optional int32 reduce_bright_colors_strength = 15;
-
-    // Max nits value when High Brightness Mode (HBM) is enabled.
-    // If HBM is not enabled, it returns the max nits in normal mode.
-    optional float hbm_current_max = 16;
-
-    // Thermal throttling cap.
-    optional float thermal_throttling_cap = 17;
-
-    // Whether adaptive brightness is enabled.
-    optional bool adaptive_brightness_enabled = 18;
-}
-
-/**
  * Logs the HDR capabilities of a device:
+ * - The supported HDR conversion formats?
  * - Has the user disabled the HDR conversion?
  * - Has the user chosen to force convert to an HDR output format, and to which format?
  * - Does the device have the 4k30Hz Dolby Vision issue?
+ * - Does the device support HDR output control?
  *
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/stats/pull/StatsPullAtomService.java
  */
 message HdrCapabilities {
     message HdrOutputCapability {
-        optional int32 source_type = 1;
         optional int32 output_type = 2;
-        optional int32 latency = 3;
+        reserved 1, 3;
     }
 
     message HdrOutputCapabilities {
         repeated HdrOutputCapability hdr_output_capabilities = 1;
     }
 
-    // The HDR capabilities of the device
+    // The HDR conversion capabilities of the device
     optional HdrOutputCapabilities device_hdr_output_capabilities = 1 [(log_mode) = MODE_BYTES];
     // Whether the user has disabled HDR conversion
     optional bool has_user_disabled_hdr_conversion = 2;
@@ -133,5 +69,7 @@ message HdrCapabilities {
     optional android.stats.mediametrics.HdrFormat force_hdr_format = 3;
     // Whether the device has 4k30 Hz Dolby Vision issue
     optional bool has_4k30_dolby_vision_issue = 4;
+    // Whether the device supports HDR output control
+    optional bool device_supports_hdr_output_control = 5;
 }
 

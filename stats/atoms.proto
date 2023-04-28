@@ -25,9 +25,6 @@ option java_outer_classname = "AtomsProto";
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/agif/agif_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/art/art_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/art/background_dexopt_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/art/odrefresh_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connectivity_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
@@ -64,6 +61,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/leaudio/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
+import "frameworks/proto_logging/stats/enums/display/enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
@@ -184,7 +182,7 @@ message Atom {
         PluggedStateChanged plugged_state_changed = 32
                 [(module) = "framework", (module) = "statsdtest"];
         InteractiveStateChanged interactive_state_changed = 33 [(module) = "framework"];
-        TouchEventReported touch_event_reported = 34;
+        input.TouchEventReported touch_event_reported = 34;
         WakeupAlarmOccurred wakeup_alarm_occurred = 35 [(module) = "framework"];
         KernelWakeupReported kernel_wakeup_reported = 36 [(module) = "framework"];
         WifiLockStateChanged wifi_lock_state_changed = 37 [(module) = "wifi"];
@@ -376,7 +374,7 @@ message Atom {
                 175 [(module) = "sysui"];
         sysui.AssistGestureProgressReported assist_gesture_progress_reported =
                 176 [(module) = "sysui"];
-        TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
+        input.TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
         HiddenApiUsed hidden_api_used = 178 [(module) = "framework"];
         StyleUIChanged style_ui_changed = 179 [(module) = "sysui", (module) = "wallpaper"];
         PrivacyIndicatorsInteracted privacy_indicators_interacted =
@@ -597,7 +595,6 @@ message Atom {
         PerfettoTrigger perfetto_trigger = 329 [(module) = "perfetto"];
         TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
         ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
-        art.ArtDatumReported art_datum_reported = 332 [(module) = "art"];
         DeviceRotated device_rotated = 333 [(module) = "framework"];
         SimSpecificSettingsRestored sim_specific_settings_restored = 334
             [(module) = "telephony"];
@@ -638,7 +635,6 @@ message Atom {
         FdtrackEventOccurred fdtrack_event_occurred = 364 [(module) = "framework"];
         TimeoutAutoExtendedReported timeout_auto_extended_reported = 365
             [(module) = "framework"];
-        art.OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
         CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car"];
@@ -760,12 +756,11 @@ message Atom {
         SystemServerPreWatchdogOccurred system_server_pre_watchdog_occurred = 460 [(module) = "framework"];
         TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
         LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
-        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "remoteprovisioner"];
-        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "remoteprovisioner"];
-        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "remoteprovisioner"];
+        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "rkpd"];
+        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "rkpd"];
+        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "rkpd"];
         sysui.MediaOutputOpInteractionReported mediaoutput_op_interaction_report =
             466 [(module) = "sysui"];
-        art.BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
         SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
         AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
         DockStateChanged dock_state_changed = 470 [(module) = "framework"];
@@ -876,11 +871,9 @@ message Atom {
         PackageManagerAppsFilterCacheUpdateReported
             package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
         sysui.LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
-        art.OdsignReported odsign_reported = 548 [(module) = "art"];
         WearMediaOutputSwitcherAllDevicesScanLatency
             wear_media_output_switcher_all_devices_scan_latency =
                 549 [(module) = "MediaOutputSwitcher"];
-        art.ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art"];
         WsWatchFaceEdited ws_watch_face_edited = 551 [(module) = "wearservices"];
         WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
         WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
@@ -895,7 +888,6 @@ message Atom {
         NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
         WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
         GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
-        art.ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
         MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
         WsWatchFaceComplicationSetChanged ws_watch_face_complication_set_changed = 567 [(module) = "wearservices"];
         media.MediaDrmCreated media_drm_created = 568 [(module) = "media_metrics"];
@@ -934,7 +926,7 @@ message Atom {
         wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595 [(module) = "framework"];
         wearservices.WsNotificationUpdated ws_notification_updated = 596
             [(module) = "wearservices"];
-        display.ScreenBrightnessChangedV2 screen_brightness_changed_v2 = 597 [(module) = "framework"];
+        // reserved 597
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
@@ -945,7 +937,13 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 332; // ArtDatumReported art_datum_reported
+    extensions 366; // OdrefreshReported odrefresh_reported
+    extensions 467; // BackgroundDexoptJobEnded background_dexopt_job_ended
     extensions 528; // ExpressEventReported express_event_reported
+    extensions 548; // OdsignReported odsign_reported
+    extensions 550; // ArtDeviceDatumReported art_device_datum_reported
+    extensions 565; // ArtDatumDeltaReported art_datum_delta_reported
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
     extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
@@ -1011,10 +1009,19 @@ message Atom {
     extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
     extensions 662; // AdServicesErrorReported ad_services_error_reported
     extensions 663; // AdServicesBackgroundJobsExecutionReported ad_services_background_jobs_execution_reported
+    extensions 664; // RkpdPoolStats rkpd_pool_stats
+    extensions 665; // RkpdClientOperation rkpd_client_operation
+    extensions 666;  // RestrictedBluetoothDeviceNameReported restricted_bluetooth_device_name_reported
+    extensions 667; // CredentialManagerAverageCandidateReported credential_manager_average_reported
+    extensions 668; // CredentialManagerFinalNoUidReported credential_manager_finalnouid_reported
+    extensions 669; // CredentialManagerGetProviderReported credential_manager_get_reported
+    extensions 670; // CredentialManagerBrowsedAuthenticationClicked credential_manager_auth_click_reported
+    extensions 671; // CredentialManagerApiV2Called credential_manager_apiv2_called
+    extensions 672; // TestRestrictedAtomReported test_restricted_atom_reported
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
-    // Next: 10182
+    // Next: 10190
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1126,7 +1133,7 @@ message Atom {
         GnssPowerStats gnss_power_stats = 10101 [(module) = "framework"];
         TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
         Keystore2StorageStats keystore2_storage_stats = 10103 [(module) = "framework"];
-        RkpPoolStats rkp_pool_stats = 10104 [(module) = "framework"];
+        RkpPoolStats rkp_pool_stats = 10104 [deprecated = true];
         ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
         PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
         UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
@@ -1201,7 +1208,7 @@ message Atom {
         UserInfo user_info = 10152 [(module) = "framework"];
         TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
         DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
-        RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [(module) = "remoteprovisioner"];
+        RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [deprecated = true];
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
@@ -1238,12 +1245,14 @@ message Atom {
     extensions 10185; // SatelliteOutgoingDatagram satellite_outgoing_datagram
     extensions 10186; // SatelliteProvision satellite_provision
     extensions 10187; // SatelliteSosMessageRecommender satellite_sos_message_recommender
+    extensions 10188; // UwbActivityInfo uwb_activity_info
+    extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 83, 360 to 363, 492, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 83, 360 to 363, 492, 597, 10008, 10036, 10040, 10041, 21004, 21005;
 }
 
 /*
@@ -4485,68 +4494,6 @@ message SettingsUIChanged {
      * Data about elapsed time since setup wizard finished.
      */
     optional int64 elapsed_time_millis = 6;
-}
-
-/**
- * Logs basic timing information about touch events.
- * Reported at most every 5 minutes while device is being interacted with.
- *
- * Logged from:
- *   frameworks/native/services/inputflinger
- */
-message TouchEventReported {
-    /**
-     * The fields latency_{min|max|mean|stdev} represent minimum, maximum, mean,
-     * and the standard deviation of the time spent processing touchscreen events
-     * in the kernel and inputflinger. The units are microseconds.
-     *
-     * On supported devices, the starting point is taken during the hard interrupt inside the
-     * kernel touch driver. On all other devices, the starting point is taken inside
-     * the kernel's input event subsystem upon receipt of the input event.
-     * The ending point is taken inside InputDispatcher, just after the input event
-     * is sent to the app.
-     */
-    // Minimum value
-    optional float latency_min_micros = 1;
-    // Maximum value
-    optional float latency_max_micros = 2;
-    // Average value
-    optional float latency_mean_micros = 3;
-    // Standard deviation
-    optional float latency_stdev_micros = 4;
-    // Number of touch events (input_event) in this report
-    optional int32 count = 5;
-}
-
-/**
- * Logs gesture classification and timing information for touch events.
- *
- * Logged from:
- *   frameworks/base/core/java/android/view/GestureDetector.java
- *   frameworks/base/core/java/android/view/View.java
- */
-message TouchGestureClassified {
-    // The source of the classification (e.g. Java class name).
-    optional string source = 1;
-
-    enum Classification {
-        UNKNOWN_CLASSIFICATION = 0;
-        SINGLE_TAP = 1;
-        DOUBLE_TAP = 2;
-        LONG_PRESS = 3;
-        DEEP_PRESS = 4;
-        SCROLL = 5;
-    }
-    // The classification of the gesture.
-    optional Classification classification = 2;
-
-    // The interval from the start of a touch event stream until the
-    // classification was made.
-    optional int32 latency_millis = 3;
-
-    // The distance from the location of the first touch event to the
-    // location of the touch event when the classification was made.
-    optional float displacement_px = 4;
 }
 
 /**
@@ -9463,13 +9410,21 @@ message AppCompactedV2 {
   optional android.app.OomChangeReasonEnum oom_change_reason = 8;
 }
 
-// Logs each upstream for a successful switch over
+/**
+ * Represents an event that logs information about a successful switch to an upstream network.
+ */
 message UpstreamEvent {
-  // Transport type of upstream network
+  // Indicates the transport type of network.
   optional android.stats.connectivity.UpstreamType upstream_type = 1;
 
-  // A time period that an upstream continued
+  // The duration of network usage.
   optional int64 duration_millis = 2;
+
+  // The amount of data received from tethered clients.
+  optional int64 tx_bytes = 3;
+
+  // The amount of data received from remote.
+  optional int64 rx_bytes = 4;
 }
 
 message UpstreamEvents {
@@ -10894,6 +10849,15 @@ message MediaCodecReported {
     // more codec configuration parameters.
     // @since U
     optional int64 codec_id = 67;
+    optional int32 array_mode = 68;
+    optional int32 operation_mode = 69;
+    optional int32 output_surface = 70;
+    optional int32 app_max_input_size = 71;
+    optional int32 used_max_input_size = 72;
+    optional int32 codec_max_input_size = 73;
+    optional int32 flush_count = 74;
+    optional int32 set_surface_count = 75;
+    optional int32 resolution_change_count = 76;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -17366,6 +17330,8 @@ message RkpErrorStats {
 
 
 /**
+ * Deprecated in U. Use RkpdPoolStats instead.
+ *
  * Logs: Status of the attestation key pool related to
  * Remote Key Provisioning (RKP).
  * Logged from: system/security/keystore2
@@ -17398,7 +17364,6 @@ message RkpPoolStats {
      * The total number of attestation keys.
      */
     optional int32 total = 5;
-
 }
 
 /**
@@ -20627,6 +20592,10 @@ message UwbSessionInitiated {
     optional int32 latency_200ms = 10;
     // The uid of the app that initiates the connection.
     optional int32 uid = 11 [(is_uid) = true];
+    // Ranging interval of the session in ms.
+    optional int32 ranging_interval_ms = 12;
+    // How many ongoing session when current session is initiated?
+    optional int32 parallel_session_count = 13;
 }
 
 /*
@@ -20859,6 +20828,9 @@ message PerSimStatus {
     // Indicates the unmetered networks
     // Bitmask is encoded as TelephonyManager#NetworkTypeBitMask.
     optional int64 unmetered_networks = 17;
+
+    // Indicates whether VoNR is enabled
+    optional bool vonr_enabled = 18;
 }
 
 /*
@@ -22171,7 +22143,7 @@ message TelephonyAnomalyDetected {
 // completely out of attestation keys.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningAttempt {
     // The reason for the provisioning attempt.
     enum Cause {
@@ -22213,13 +22185,19 @@ message RemoteKeyProvisioningAttempt {
 
     // Indicates success or failure of the provisioning attempt.
     optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 6;
+
+    // A digest of the root key that certified the provisioned certificates
+    optional string root_cert_fingerprint = 7;
+
+    // The depth of the cert chains issued to the device
+    optional int32 cert_chain_length = 8;
 }
 
 // Logs that correlate remote key provisioning status with the active
 // network for the given provisioning attempt.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningNetworkInfo {
     // The network transport, according ConnectivityManager::getActiveNetwork().
     optional android.stats.connectivity.TransportType transport_type = 1;
@@ -22235,7 +22213,7 @@ message RemoteKeyProvisioningNetworkInfo {
 // taking to perform various sub-tasks. This is intended to be used with KLL metrics.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningTiming {
     // Time spent waiting on the RKP service to reply.
     optional int32 server_wait_millis = 1;
@@ -22260,11 +22238,13 @@ message RemoteKeyProvisioningTiming {
     optional string remotely_provisioned_component = 6;
 }
 
+// Deprecated in U.
+//
 // Counters that track how many errors we're seeing on the device for the
 // given boot.
 //
 // Logged from:
-//   packages/apps/RemoteProvisioner/src/com/android/remoteprovisioner/
+//   packages/modules/RemoteKeyProvisioning
 message RemoteKeyProvisioningErrorCounts {
     // The total number of RKP attempts there have been this boot.
     optional int32 total_count = 1;
@@ -22944,8 +22924,53 @@ message DisplayBrightnessChanged {
     // Whether adaptive brightness is enabled.
     optional bool adaptive_brightness_enabled = 10;
 
+    // Historical: replaced by entire_reason after 2023-04-10
+    optional Reason reason = 11 [deprecated = true];
+
     // Reason that triggered the brightness event to occur.
-    optional Reason reason = 11;
+    optional android.display.DisplayBrightnessChangeReasonEnum entire_reason = 12;
+
+    // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/enums.proto.
+    optional android.display.DisplayBrightnessRangeEnum bucket_index = 13;
+
+    // Brightness is at maximum allowable value regarding the current context.
+    optional bool brightness_at_max = 14;
+
+    // Whether HBM mode is enabled due to sunlight
+    optional bool hbm_mode_sunlight = 15;
+
+    // Whether HBM mode is enabled due to HDR
+    optional bool hbm_mode_hdr = 16;
+
+    // Whether modified by low power mode.
+    optional bool modified_by_low_power_mode = 17;
+
+    // Value defined in frameworks/base/core/java/android/hardware/display/BrightnessInfo.java
+    // BRIGHTNESS_MAX_REASON_NONE = 0
+    // BRIGHTNESS_MAX_REASON_THERMAL = 1
+    // BRIGHTNESS_MAX_REASON_* defined in the future
+    optional int32 throttling_reason = 18;
+
+    // Whether modified by dimming.
+    optional bool modified_by_dimming = 19;
+
+    // Whether Reduce Bright Colors (RBC) is enabled.
+    optional bool rbc_enabled = 20;
+
+    // Whether ambient lux is invalid.
+    optional bool ambient_lux_invalid = 21;
+
+    // Whether doze scale applied for auto brightness.
+    optional bool doze_scale_applied = 22;
+
+    // Whether the value is set by the user.
+    optional bool set_by_user = 23;
+
+    // Whether idle mode is active.
+    optional bool idle_mode_active= 24;
+
+    // Whether low power mode is enabled.
+    optional bool low_power_mode_enabled= 25;
 }
 
 

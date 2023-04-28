@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
- syntax = "proto2";
+syntax = "proto2";
 
-package android.os.statsd.statsd.internal;
+package android.os.statsd.statsd;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/attribution_node.proto";
 
-option java_package = "com.android.os.statsd.statsd.internal";
+option java_package = "com.android.os.statsd";
 
 extend Atom {
     optional TestExtensionAtomReported test_extension_atom_reported =
             660 [(module) = "cts", (module) = "statsdtest"];
+    optional TestRestrictedAtomReported test_restricted_atom_reported = 672
+    [(module) = "cts", (android.os.statsd.restriction_category) = RESTRICTION_DIAGNOSTIC];
 }
 
 message TestExtensionAtomNestedMessage {
-    optional int32 int_field = 2;
-    optional int64 long_field = 3;
-    optional float float_field = 4;
-    optional string string_field = 5;
-    optional bool boolean_field = 6;
+    repeated int64 long_field = 1;
 }
 
 /* Test atom, is not logged anywhere */
@@ -51,14 +49,21 @@ message TestExtensionAtomReported {
         ON = 2;
     }
     optional State state = 7;
-    optional TrainExperimentIds bytes_field = 8 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional TestExtensionAtomNestedMessage bytes_field =
+            8 [(android.os.statsd.log_mode) = MODE_BYTES];
     repeated int32 repeated_int_field = 9;
     repeated int64 repeated_long_field = 10;
     repeated float repeated_float_field = 11;
     repeated string repeated_string_field = 12;
     repeated bool repeated_boolean_field = 13;
     repeated State repeated_enum_field = 14;
+}
 
-    optional TestExtensionAtomNestedMessage nested_message_field =
-            15 [(android.os.statsd.log_mode) = MODE_BYTES];
+/* Test restricted atom, is not logged anywhere */
+message TestRestrictedAtomReported {
+    optional int32 int_field = 1;
+    optional int64 long_field = 2;
+    optional float float_field = 3;
+    optional string string_field = 4;
+    optional bool boolean_field = 5;
 }
