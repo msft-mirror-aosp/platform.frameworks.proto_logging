@@ -1220,7 +1220,7 @@ enum Action {
     ACTION_REORDER_LANGUAGE = 1833;
 
     // ACTION: Settings > System > Languages > System Languages > Change system language
-    // VALUE: language.
+    // VALUE: 1 for language changed, 0 for not changed
     // OS: U
     ACTION_CHANGE_LANGUAGE = 1834;
 }
