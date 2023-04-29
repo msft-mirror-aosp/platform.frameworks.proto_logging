@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 
 option java_package = "com.android.os.adservices";
 option java_multiple_files = true;
@@ -43,6 +44,19 @@ extend Atom {
   optional AdServicesBackgroundJobsExecutionReported
       ad_services_background_jobs_execution_reported = 663
         [(module) = "adservices"];
+
+  optional AdServicesMeasurementDelayedSourceRegistration
+      ad_services_measurement_delayed_source_registration = 673
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementAttribution
+      ad_services_measurement_attribution = 674
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementJobs
+      ad_services_measurement_jobs = 675
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementWipeout
+      ad_services_measurement_wipeout = 676
+        [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -130,18 +144,18 @@ message AdServicesErrorReported {
   optional string last_observed_exception_name = 6;
 }
 
-/** Logs background job Stats to monitor the stability of Rubidium background jobs. */
+/** Logs background job stats to monitor the stability of Rubidium background jobs. */
 message AdServicesBackgroundJobsExecutionReported {
   // A unique identifier for a background job
   optional int32 job_id = 1;
 
   // Time interval from the start to the end of an execution of a background job.
   // It is on a milli-second basis.
-  optional int32 execution_duration_ms = 2;
+  optional int32 execution_latency_ms = 2;
 
   // Time interval from the start of previous execution to the start of current execution of
-  // a background job. It is on a second basis.
-  optional int32 execution_frequency_second = 3;
+  // a background job. It is on a minute basis.
+  optional int32 execution_period_minute = 3;
 
   // Type of the result code that implies different execution results of Adservices background jobs.
   optional android.adservices.ExecutionResultCode execution_result_code = 4;
@@ -151,4 +165,42 @@ message AdServicesBackgroundJobsExecutionReported {
   // JobService.onStopJob() was never called for the job.
   // The default value is STOP_REASON_UNDEFINED.
   optional android.app.job.StopReasonEnum public_stop_reason = 5;
+}
+
+/**
+ * Logs when an AdServices delayed source is fetched and registered.
+ */
+message AdServicesMeasurementDelayedSourceRegistration {
+  optional android.adservices.service.measurement.DelayedSourceRegistrationStatus registration_status = 1;
+  // delay (in milliseconds) between a source registration and a previously registered trigger with matching attribution destination
+  optional int64 missed_source_delay_millis = 2;
+}
+
+/**
+ * Logs when an AdServices trigger is attributed to a source.
+ */
+message AdServicesMeasurementAttribution {
+  optional android.adservices.service.measurement.SourceType source_type = 1;
+  optional android.adservices.service.measurement.AttributionSurfaceCombination attribution_surface_combination = 2;
+  optional android.adservices.service.measurement.Status status = 3;
+  optional android.adservices.service.measurement.AttributionFailureType failure_type = 4;
+  optional bool is_source_derived = 5;
+  optional bool is_install_attribution = 6;
+  // delay (in milliseconds) between trigger registration and a trigger becoming attributed.
+  optional int64 trigger_to_attribution_delay_millis = 7;
+}
+
+/**
+ * Logs AdServices job finish status
+ */
+message AdServicesMeasurementJobs {
+  optional android.adservices.service.measurement.Status status = 1;
+  optional android.adservices.service.measurement.JobType job_type = 2;
+}
+
+/**
+ * Logs when AdServices deletion API is called.
+ */
+message AdServicesMeasurementWipeout {
+  optional android.adservices.service.measurement.WipeoutCause wipeout_cause = 1;
 }
