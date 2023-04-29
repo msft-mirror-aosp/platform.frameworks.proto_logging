@@ -45,6 +45,7 @@ import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
@@ -1018,6 +1019,10 @@ message Atom {
     extensions 670; // CredentialManagerBrowsedAuthenticationClicked credential_manager_auth_click_reported
     extensions 671; // CredentialManagerApiV2Called credential_manager_apiv2_called
     extensions 672; // TestRestrictedAtomReported test_restricted_atom_reported
+    extensions 673; // AdServicesMeasurementDelayedSourceRegistration ad_services_measurement_delayed_source_registration
+    extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
+    extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
+    extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
@@ -2147,7 +2152,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 39
+ * Next tag: 40
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2275,6 +2280,9 @@ message ScheduledJobStateChanged {
     // The number of JobWorkItems the app has attached to this job but not completed
     // (by calling JobParameters.completeWork()).
     optional int32 num_uncompleted_work_items = 38;
+
+    // Proc state of the UID of the logged event
+    optional android.app.ProcessStateEnum proc_state = 39 [default = PROCESS_STATE_UNKNOWN];
 }
 
 /**
@@ -21558,6 +21566,10 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+    optional android.adservices.service.measurement.ReportUploadFailureType failure_type = 3;
+    optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
+    // delay (in milliseconds) between scheduled delivery time and actual delivery time.
+    optional int64 reporting_delay_millis = 5;
 }
 
 /**
@@ -21573,6 +21585,12 @@ message AdServicesMeasurementRegistrations {
     optional RegistrationType type = 1;
     optional int64 response_size_in_bytes = 2;
     optional string adtech_url_domain_if_size_above_threshold = 3;
+    optional android.adservices.service.measurement.SourceType source_type = 4;
+    optional android.adservices.service.measurement.RegistrationSurfaceType surface_type = 5;
+    optional android.adservices.service.measurement.Status status = 6;
+    optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
+    // delay (in milliseconds) between registration queue request and the time it gets processed
+    optional int64 registration_delay_millis = 8;
 }
 
 /**
