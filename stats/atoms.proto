@@ -5420,6 +5420,23 @@ message ForegroundServiceStateChanged {
     repeated ApiType api_type = 22;
 
     repeated int64 api_timestamp = 23;
+
+    // Keep it in sync with ActivityManager.ProcessCapability.
+    enum ProcessCapability {
+        PROCESS_CAPABILITY_NONE = 0;
+        PROCESS_CAPABILITY_FOREGROUND_LOCATION = 1;
+        PROCESS_CAPABILITY_FOREGROUND_CAMERA = 2;
+        PROCESS_CAPABILITY_FOREGROUND_MICROPHONE = 4;
+        PROCESS_CAPABILITY_POWER_RESTRICTED_NETWORK = 8;
+        PROCESS_CAPABILITY_BFSL = 16;
+        PROCESS_CAPABILITY_USER_RESTRICTED_NETWORK = 32;
+    }
+
+    optional android.app.ProcessStateEnum serviceUidState = 24 [default = PROCESS_STATE_UNKNOWN];
+    optional ProcessCapability serviceUidCapabilities = 25;
+
+    optional android.app.ProcessStateEnum callintUidState = 26 [default = PROCESS_STATE_UNKNOWN];
+    optional ProcessCapability callintUidCapabilities = 27;
 }
 
 /**
