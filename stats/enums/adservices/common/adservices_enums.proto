@@ -166,6 +166,8 @@ enum PpapiName {
   TOPICS = 1;
   MEASUREMENT = 2;
   FLEDGE = 3;
+  AD_ID = 4;
+  APP_SET_ID = 5;
 }
 
 /**
