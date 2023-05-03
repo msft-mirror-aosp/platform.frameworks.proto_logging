@@ -166,6 +166,8 @@ enum PpapiName {
   TOPICS = 1;
   MEASUREMENT = 2;
   FLEDGE = 3;
+  AD_ID = 4;
+  APP_SET_ID = 5;
 }
 
 /**
@@ -184,6 +186,9 @@ enum ExecutionResultCode {
   ONSTOP_CALLED_WITH_RETRY = 4;
   /** OnJobStop() is invoked without retrying the job. */
   ONSTOP_CALLED_WITHOUT_RETRY = 5;
-  /** The execution is halted by system or device, leaving an open-ended start.. */
-  HALTED_BY_DEVICE = 6;
+  /**
+   * The execution is halted by system or device for unknown reason, leaving
+   * a not finished execution.
+   */
+  HALTED_FOR_UNKNOWN_REASON = 6;
 }
