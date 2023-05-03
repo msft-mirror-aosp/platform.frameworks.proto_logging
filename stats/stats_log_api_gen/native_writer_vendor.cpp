@@ -21,14 +21,16 @@
 namespace android {
 namespace stats_log_api_gen {
 
-static int write_native_build_vendor_atom_methods(FILE* out,
+static int write_native_create_vendor_atom_methods(FILE* out,
                                                   const SignatureInfoMap& signatureInfoMap,
                                                   const AtomDecl& attributionDecl) {
     fprintf(out, "\n");
     for (const auto& [signature, fieldNumberToAtomDeclSet] : signatureInfoMap) {
         // TODO (b/264922532): provide vendor implementation to skip arg1 for reverseDomainName
-        write_native_method_signature(out, "void buildVendorAtom(VendorAtom& atom, ", signature,
+        write_native_method_signature(out, "VendorAtom createVendorAtom(", signature,
                                       attributionDecl, " {", /*isVendorAtomLogging=*/true);
+
+        fprintf(out, "    VendorAtom atom;\n");
 
         // Write method body.
         fprintf(out, "    atom.atomId = code;\n");
@@ -128,7 +130,9 @@ static int write_native_build_vendor_atom_methods(FILE* out,
         }
 
         fprintf(out, "    atom.values = std::move(values);\n");  // end method body.
-        fprintf(out, "}\n\n");                                   // end method.
+        fprintf(out, "    // elision of copy operations is permitted on return\n");
+        fprintf(out, "    return atom;\n");
+        fprintf(out, "}\n\n");  // end method.
     }
     return 0;
 }
@@ -151,7 +155,7 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
     fprintf(out, "using std::vector;\n");
     fprintf(out, "using std::string;\n");
 
-    int ret = write_native_build_vendor_atom_methods(out, atoms.signatureInfoMap, attributionDecl);
+    int ret = write_native_create_vendor_atom_methods(out, atoms.signatureInfoMap, attributionDecl);
     if (ret != 0) {
         return ret;
     }
@@ -165,7 +169,7 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
 int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                   const string& cppNamespace) {
     write_native_header_preamble(out, cppNamespace, false, /*isVendorAtomLogging=*/true);
-    write_native_atom_constants(out, atoms, attributionDecl, "buildVendorAtom(VendorAtom& atom,",
+    write_native_atom_constants(out, atoms, attributionDecl, "createVendorAtom(",
                                 /*isVendorAtomLogging=*/true);
 
     for (AtomDeclSet::const_iterator atomIt = atoms.decls.begin(); atomIt != atoms.decls.end();
@@ -213,8 +217,8 @@ int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl&
     fprintf(out, "//\n");
     fprintf(out, "// Write methods\n");
     fprintf(out, "//\n");
-    write_native_method_header(out, "void buildVendorAtom(VendorAtom& atom, ",
-                               atoms.signatureInfoMap, attributionDecl,
+    write_native_method_header(out, "VendorAtom createVendorAtom(", atoms.signatureInfoMap,
+                               attributionDecl,
                                /*isVendorAtomLogging=*/true);
     fprintf(out, "\n");
 
