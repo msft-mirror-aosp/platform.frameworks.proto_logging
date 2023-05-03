@@ -3998,6 +3998,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_ADD_FACE_ERROR_IN_SPLIT_MODE = 2029;
+
+    // OPEN: Settings > Account -> personal profile tab
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCOUNT_PERSONAL = 2030;
+
+    // OPEN: Settings > Account -> account detail
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCOUNT_DETAIL = 2031;
 }
 
 // Battery Saver schedule types.
