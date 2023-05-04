@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 413
+// Next ID: 414
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -46,6 +46,7 @@ enum ItemId {
   ACCESSIBILITY_FONT_SIZE = 369;
   ACCESSIBILITY_LARGE_TEXT = 102;
   ACCESSIBILITY_MAGNIFICATION = 104;
+  ACCESSIBILITY_MAGNIFICATION_SIZE = 413;
   ACCESSIBILITY_SERVICE = 314;
   ACCESSIBILITY_SIDE_BUTTON = 105;
   ACCESSIBILITY_SOUND = 370;
