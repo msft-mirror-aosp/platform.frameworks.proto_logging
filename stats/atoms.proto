@@ -1013,7 +1013,7 @@ message Atom {
     extensions 664; // RkpdPoolStats rkpd_pool_stats
     extensions 665; // RkpdClientOperation rkpd_client_operation
     extensions 666;  // RestrictedBluetoothDeviceNameReported restricted_bluetooth_device_name_reported
-    extensions 667; // CredentialManagerAverageCandidateReported credential_manager_average_reported
+    extensions 667; // CredentialManagerTotalCandidateReported credential_manager_total_reported
     extensions 668; // CredentialManagerFinalNoUidReported credential_manager_finalnouid_reported
     extensions 669; // CredentialManagerGetProviderReported credential_manager_get_reported
     extensions 670; // CredentialManagerBrowsedAuthenticationClicked credential_manager_auth_click_reported
