@@ -189,7 +189,7 @@ message Atom {
         WifiSignalStrengthChanged wifi_signal_strength_changed = 38 [(module) = "wifi"];
         WifiScanStateChanged wifi_scan_state_changed = 39 [(module) = "wifi"];
         PhoneSignalStrengthChanged phone_signal_strength_changed =
-                40 [(module) = "framework", (truncate_timestamp) = true];
+                40 [(module) = "framework", (module) = "statsdtest", (truncate_timestamp) = true];
         SettingChanged setting_changed = 41 [(module) = "framework"];
         ActivityForegroundStateChanged activity_foreground_state_changed =
                 42 [(module) = "framework", (module) = "statsdtest"];
