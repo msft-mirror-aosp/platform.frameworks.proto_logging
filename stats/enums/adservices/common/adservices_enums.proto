@@ -176,19 +176,31 @@ enum PpapiName {
 enum ExecutionResultCode {
   /** Unspecified result code. */
   UNSPECIFIED_CODE = 0;
+
   /** Successful execution. */
   SUCCESSFUL = 1;
+
   /** Failed execution with retrying the job. */
   FAILED_WITH_RETRY = 2;
+
   /** Failed execution without retrying the job. */
   FAILED_WITHOUT_RETRY = 3;
+
   /** OnJobStop() is invoked with retrying the job. */
   ONSTOP_CALLED_WITH_RETRY = 4;
+
   /** OnJobStop() is invoked without retrying the job. */
   ONSTOP_CALLED_WITHOUT_RETRY = 5;
+
   /**
    * The execution is halted by system or device for unknown reason, leaving
    * a not finished execution.
    */
   HALTED_FOR_UNKNOWN_REASON = 6;
+
+  /** Skipped execution due to a job scheduled in ExtServices running on T+. */
+  SKIP_FOR_EXTSERVICES_JOB_ON_TPLUS = 7;
+
+  /** Skipped execution due to kill switch is on. */
+  SKIP_FOR_KILL_SWITCH_ON = 8;
 }
