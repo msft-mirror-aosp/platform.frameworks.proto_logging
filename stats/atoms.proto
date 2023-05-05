@@ -2385,6 +2385,8 @@ message WakelockStateChanged {
         (state_field_option).default_state_value = 0,
         (state_field_option).nested = true
     ];
+
+    optional android.app.ProcessStateEnum process_state = 5 [default = PROCESS_STATE_UNKNOWN];
 }
 
 /**
