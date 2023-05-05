@@ -19002,6 +19002,9 @@ message MagnificationUsageReported {
 
     // The duration of this magnification mode activation in milliseconds
     optional int64 duration_millis = 2;
+
+    // The last magnification scale for the activation in percentage
+    optional int64 scale_percentage = 3;
 }
 
 /**
