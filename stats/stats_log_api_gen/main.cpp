@@ -16,6 +16,7 @@
 #include "java_writer.h"
 #include "java_writer_q.h"
 #include "native_writer.h"
+#include "native_writer_vendor.h"
 #include "rust_writer.h"
 #include "utils.h"
 
