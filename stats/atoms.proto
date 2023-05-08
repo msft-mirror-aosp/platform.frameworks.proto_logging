@@ -5075,6 +5075,9 @@ message AppStartOccurred {
 
     // The stopped state (if any) the package was in before the launch
     optional PackageStoppedState package_stopped_state = 25;
+
+    // Reserved for b/281564325.
+    reserved 26;
 }
 
 message AppStartCanceled {
