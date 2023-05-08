@@ -95,6 +95,7 @@ enum InteractionType {
     LOCKSCREEN_CLOCK_MOVE_ANIMATION = 71;
     LAUNCHER_OPEN_SEARCH_RESULT = 72;
     reserved 2;
+    reserved 73 to 78; // For b/281564325.
 }
 
 enum DisplayResolution {
