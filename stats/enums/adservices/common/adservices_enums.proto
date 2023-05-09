@@ -249,4 +249,7 @@ enum ExecutionResultCode {
 
   /** Skipped execution due to kill switch is on. */
   SKIP_FOR_KILL_SWITCH_ON = 8;
+
+  /** Skipped execution due to user consent is revoked. */
+  SKIP_FOR_USER_CONSENT_REVOKED = 9;
 }
