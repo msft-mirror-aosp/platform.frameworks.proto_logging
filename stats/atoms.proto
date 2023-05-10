@@ -13952,6 +13952,10 @@ message CameraActionEvent {
     // Not unique. Must be used with build fingerprint to generate a
     // good enough identifier.
     optional int64 log_id = 22;
+
+    // 0 for OPEN and CLOSE
+    // ordinal of the SESSION between OPEN and CLOSE
+    optional int32 session_idx = 23;
 }
 
 /**
