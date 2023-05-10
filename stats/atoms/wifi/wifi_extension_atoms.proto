@@ -28,6 +28,7 @@ option java_multiple_files = true;
 extend Atom {
     optional WifiAwareNdpReported wifi_aware_ndp_reported = 638 [(module) = "wifi"];
     optional WifiAwareAttachReported wifi_aware_attach_reported = 639 [(module) = "wifi"];
+    optional WifiSelfRecoveryTriggered wifi_self_recovery_triggered = 661 [(module) = "wifi"];
 }
 
 /**
@@ -59,4 +60,34 @@ message WifiAwareNdpReported {
 message WifiAwareAttachReported {
     // Status of attach
     optional android.net.wifi.AwareStatus status = 1;
+}
+
+/**
+ * Logged when wifi self recovery triggered
+ */
+message WifiSelfRecoveryTriggered {
+    enum Reason {
+        REASON_UNKNOWN = 0;
+        REASON_LAST_RESORT_WDOG = 1;
+        REASON_WIFINATIVE_FAILURE = 2;
+        REASON_STA_IFACE_DOWN = 3;
+        REASON_API_CALL = 4;
+        REASON_SUBSYSTEM_RESTART = 5;
+        REASON_IFACE_ADDED = 6;
+    }
+    enum Result {
+        RES_UNSPECIFIED = 0;
+        RES_RESTART_SUCCESS = 1;
+        RES_INVALID_REASON = 2;
+        RES_IFACE_DOWN = 3;
+        RES_IFACE_ADD_DISABLED = 4;
+        RES_RETRY_DISABLED = 5;
+        RES_ABOVE_MAX_RETRY = 6;
+        RES_RESTART_FAILURE = 7;
+    }
+
+    // Trigger reason
+    optional Reason reason = 1;
+    // Self recovery result
+    optional Result result = 2;
 }

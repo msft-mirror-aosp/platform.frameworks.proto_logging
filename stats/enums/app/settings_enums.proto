@@ -1175,6 +1175,54 @@ enum Action {
     // SUBTYPE: false is disabled, true is enabled
     // OS: U
     ACTION_UPDATE_CROSS_SIM_CALLING_ON_2ND_SIM_ENABLE = 1825;
+
+    // ACTION: Settings > System > Languages > Regional preferences > Temperature > Set the
+    // preferred temperature unit.
+    // VALUE: temperature unit
+    // OS: U
+    ACTION_SET_TEMPERATURE_UNIT = 1826;
+
+    // ACTION: Settings > System > Languages > Regional preferences > First day of week > Set the
+    // preferred first day of week.
+    // VALUE: first day of week.
+    // OS: U
+    ACTION_SET_FIRST_DAY_OF_WEEK = 1827;
+
+    // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
+    // Choose the language
+    // VALUE: language.
+    // OS: U
+    ACTION_CHOOSE_LANGUAGE_FOR_NUMBERS_PREFERENCES = 1828;
+
+    // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
+    // Choose the language > Set the preferred numbers preferences.
+    // VALUE: numbers preferences.
+    // OS: U
+    ACTION_SET_NUMBERS_PREFERENCES = 1829;
+
+    // ACTION: Settings > System > Languages > System Languages > Click Learn more link
+    // OS: U
+    ACTION_LANGUAGES_LEARN_MORE = 1830;
+
+    // ACTION: Settings > System > Languages > System Languages > Add a language
+    // VALUE: language.
+    // OS: U
+    ACTION_ADD_LANGUAGE = 1831;
+
+    // ACTION: Settings > System > Languages > System Languages > Remove a language
+    // VALUE: language.
+    // OS: U
+    ACTION_REMOVE_LANGUAGE = 1832;
+
+    // ACTION: Settings > System > Languages > System Languages > Re-order a language
+    // VALUE: language.
+    // OS: U
+    ACTION_REORDER_LANGUAGE = 1833;
+
+    // ACTION: Settings > System > Languages > System Languages > Change system language
+    // VALUE: 1 for language changed, 0 for not changed
+    // OS: U
+    ACTION_CHANGE_LANGUAGE = 1834;
 }
 
 /**
@@ -3919,6 +3967,47 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     DIALOG_SYSTEM_LOCALE_UNAVAILABLE = 2023;
+
+    // OPEN: Settings > Accessibility > Hearing devices
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCESSIBILITY_HEARING_AID_SETTINGS = 2024;
+
+    // OPEN: Settings > Accessibility > Hearing devices > Pair new device
+    // CATEGORY: SETTINGS
+    // OS: U
+    HEARING_AID_PAIRING = 2025;
+
+    // OPEN: Settings > Connected devices > (click on details link for a paired device) > Audio output
+    // CATEGORY: SETTINGS
+    // OS: U
+    BLUETOOTH_AUDIO_ROUTING = 2026;
+
+    // OPEN: Settings > Accessibility > Flash notifications
+    // OPEN: Settings > Notifications > Flash notifications
+    // CATEGORY: SETTINGS
+    // OS: U
+    FLASH_NOTIFICATION_SETTINGS = 2027;
+
+    // OPEN: Settings > Add fingerprint > Error dialog in split mode
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_ADD_FINGERPRINT_ERROR_IN_SPLIT_MODE = 2028;
+
+    // OPEN: Settings > Add face > Error dialog in split mode
+    // CATEGORY: SETTINGS
+    // OS: U
+    DIALOG_ADD_FACE_ERROR_IN_SPLIT_MODE = 2029;
+
+    // OPEN: Settings > Account -> personal profile tab
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCOUNT_PERSONAL = 2030;
+
+    // OPEN: Settings > Account -> account detail
+    // CATEGORY: SETTINGS
+    // OS: U
+    ACCOUNT_DETAIL = 2031;
 }
 
 // Battery Saver schedule types.

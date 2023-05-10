@@ -275,12 +275,45 @@ enum DataProfileEnum {
 }
 
 // Reason of data call deactivation. From
-// frameworks/base/telephony/java/android/telephony/data/DataService.java#DeactivateDataReason
+// frameworks/opt/telephony/src/java/com/android/internal/telephony/data/
+// DataNetwork.java#TearDownReason
 enum DataDeactivateReasonEnum {
+    // pre-U legacy enum
     DEACTIVATE_REASON_UNKNOWN = 0;
     DEACTIVATE_REASON_NORMAL = 1;
     DEACTIVATE_REASON_RADIO_OFF = 2;
     DEACTIVATE_REASON_HANDOVER = 3;
+    // Starting in U
+    DEACTIVATE_REASON_NONE = 4;
+    DEACTIVATE_REASON_CONNECTIVITY_SERVICE_UNWANTED = 5;
+    DEACTIVATE_REASON_SIM_REMOVAL = 6;
+    DEACTIVATE_REASON_AIRPLANE_MODE_ON = 7;
+    DEACTIVATE_REASON_DATA_DISABLED = 8;
+    DEACTIVATE_REASON_NO_LIVE_REQUEST = 9;
+    DEACTIVATE_REASON_RAT_NOT_ALLOWED = 10;
+    DEACTIVATE_REASON_ROAMING_DISABLED = 11;
+    DEACTIVATE_REASON_CONCURRENT_VOICE_DATA_NOT_ALLOWED = 12;
+    DEACTIVATE_REASON_DATA_SERVICE_NOT_READY = 14;
+    DEACTIVATE_REASON_POWER_OFF_BY_CARRIER = 15;
+    DEACTIVATE_REASON_DATA_STALL = 16;
+    DEACTIVATE_REASON_HANDOVER_FAILED = 17;
+    DEACTIVATE_REASON_HANDOVER_NOT_ALLOWED = 18;
+    DEACTIVATE_REASON_VCN_REQUESTED = 19;
+    DEACTIVATE_REASON_VOPS_NOT_SUPPORTED = 20;
+    DEACTIVATE_REASON_DEFAULT_DATA_UNSELECTED = 21;
+    DEACTIVATE_REASON_NOT_IN_SERVICE = 22;
+    DEACTIVATE_REASON_DATA_CONFIG_NOT_READY = 23;
+    DEACTIVATE_REASON_PENDING_TEAR_DOWN_ALL = 24;
+    DEACTIVATE_REASON_NO_SUITABLE_DATA_PROFILE = 25;
+    DEACTIVATE_REASON_CDMA_EMERGENCY_CALLBACK_MODE = 26;
+    DEACTIVATE_REASON_RETRY_SCHEDULED = 27;
+    DEACTIVATE_REASON_DATA_THROTTLED = 28;
+    DEACTIVATE_REASON_DATA_PROFILE_INVALID = 29;
+    DEACTIVATE_REASON_DATA_PROFILE_NOT_PREFERRED = 30;
+    DEACTIVATE_REASON_NOT_ALLOWED_BY_POLICY = 31;
+    DEACTIVATE_REASON_ILLEGAL_STATE = 32;
+    DEACTIVATE_REASON_ONLY_ALLOWED_SINGLE_NETWORK = 33;
+    DEACTIVATE_REASON_PREFERRED_DATA_SWITCHED = 34;
 }
 
 // IP type of the data call
@@ -534,4 +567,72 @@ enum SmsSendErrorEnum {
     SMS_SEND_ERROR_RIL_NO_NETWORK_FOUND = 135;
     SMS_SEND_ERROR_RIL_DEVICE_IN_USE = 136;
     SMS_SEND_ERROR_RIL_ABORTED = 137;
+}
+
+/**
+ * enum for service category of emergency numbers
+ */
+enum ServiceCategory {
+    // Emergency Service Category UNSPECIFIED
+    EMERGENCY_SERVICE_CATEGORY_UNSPECIFIED = 0;
+
+    // Emergency Service Category for Police
+    EMERGENCY_SERVICE_CATEGORY_POLICE = 1;
+
+    // Emergency Service Category for Ambulance
+    EMERGENCY_SERVICE_CATEGORY_AMBULANCE = 2;
+
+    // Emergency Service Category for Fire Brigade
+    EMERGENCY_SERVICE_CATEGORY_FIRE_BRIGADE = 3;
+
+    // Emergency Service Category for Marine Guard
+    EMERGENCY_SERVICE_CATEGORY_MARINE_GUARD = 4;
+
+    // Emergency Service Category for Mountain Rescue
+    EMERGENCY_SERVICE_CATEGORY_MOUNTAIN_RESCUE = 5;
+
+    // Emergency Service Category for Manually Initiated eCall
+    EMERGENCY_SERVICE_CATEGORY_MIEC = 6;
+
+    // Emergency Service Category for Automatically Initiated eCall
+    EMERGENCY_SERVICE_CATEGORY_AIEC = 7;
+}
+
+/**
+ * enum for source of emergency numbers
+ */
+enum Source {
+    // emergency number is from the network signalling.
+    EMERGENCY_NUMBER_SOURCE_NETWORK_SIGNALING = 0;
+
+    // emergency number is from the SIM
+    EMERGENCY_NUMBER_SOURCE_SIM = 1;
+
+    // emergency number is from the platform-maintained database
+    EMERGENCY_NUMBER_SOURCE_DATABASE = 2;
+
+    // emergency number is from the modem config
+    EMERGENCY_NUMBER_SOURCE_MODEM_CONFIG = 3;
+
+    // emergency number is available as default
+    EMERGENCY_NUMBER_SOURCE_DEFAULT = 4;
+}
+
+/**
+ * enum for call route of emergency numbers
+ */
+enum CallRoute {
+
+    /**
+     * Indicated the framework does not know whether an emergency call should be placed using
+     * emergency or normal call routing. This means the underlying radio or IMS implementation is
+     * free to determine for itself how to route the call.
+     */
+    EMERGENCY_CALL_ROUTE_UNKNOWN = 0;
+
+    // Emergency call to handle through emergency routing.
+    EMERGENCY_CALL_ROUTE_EMERGENCY = 1;
+
+    // Emergency call to handle through normal routing
+    EMERGENCY_CALL_ROUTE_NORMAL = 2;
 }

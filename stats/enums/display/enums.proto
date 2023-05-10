@@ -84,11 +84,3 @@ enum DisplayBrightnessChangeReasonEnum {
     REASON_SCREEN_OFF_BRIGHTNESS_SENSOR = 9;
     REASON_FOLLOWER = 10;
 }
-
-// The original definition of this enum comes from
-// frameworks/base/core/java/android/hardware/display/BrightnessInfo.java
-enum DisplayHBMModeEnum {
-    HIGH_BRIGHTNESS_MODE_OFF = 0;
-    HIGH_BRIGHTNESS_MODE_SUNLIGHT = 1;
-    HIGH_BRIGHTNESS_MODE_HDR = 2;
-}
