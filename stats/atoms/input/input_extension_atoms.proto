@@ -1,0 +1,94 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.input;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/input/enums.proto";
+
+option java_package = "com.android.os.input";
+option java_multiple_files = true;
+option java_outer_classname = "KeyboardConfiguredProto";
+
+extend Atom {
+    optional KeyboardConfigured keyboard_configured = 682 [(module) = "framework"];
+    optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683 [(module) = "framework"];
+}
+
+// Keyboard layout configured when the device is connected
+message KeyboardLayoutConfig {
+    // Keyboard configuration details
+    // Layout type mappings found at:
+    // frameworks/base/core/res/res/values/attrs.xml
+    optional int32 keyboard_layout_type = 1;
+    // PK language language tag (e.g. en-US, ru-Cyrl, etc). This will follow
+    // BCP-47 language tag standards.
+    optional string keyboard_language_tag = 2;
+    // Selected PK layout name (e.g. English(US), English(Dvorak), etc.)
+    optional string keyboard_layout_name = 3;
+    // Criteria for layout selection
+    optional int32 layout_selection_criteria = 4;
+}
+
+// Message containing the repeated field for KeyboardLayoutConfig
+message RepeatedKeyboardLayoutConfig {
+     repeated KeyboardLayoutConfig keyboard_layout_config = 1;
+}
+
+/**
+ * Logged when an external physical keyboard (PK) is connected and configured
+ * Also logs every time there is a configuration change for the keyboard,
+ * and the current configuration
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/input
+ */
+message KeyboardConfigured {
+    // Tracking if this is the first time the device is configured
+    optional bool is_first_time_configuration = 1;
+    // The Input Device Vendor ID
+    optional int32 vendor_id = 2;
+    // The Input Device Product ID
+    optional int32 product_id = 3;
+    // Keyboard configuration details
+    optional RepeatedKeyboardLayoutConfig repeated_keyboard_layout_config = 4 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs shortcut usage on the physical keyboard
+ * Atom pushed when shortcut is used
+ *
+ * Logged from:
+ *   frameworks/base/.../PhoneWindowManager.java
+ *   frameworks/base/.../PhoneWindow.java
+ *   frameworks/native/inputflinger
+ */
+message KeyboardSystemsEventReported {
+    // The Input Device Vendor ID
+    optional int32 vendor_id = 1;
+    // The Input Device Product ID
+    optional int32 product_id = 2;
+    // Key event that occurred
+    optional android.input.KeyboardSystemEvent keyboard_system_event = 3;
+    // Key pressed to trigger the keyboard event
+    repeated int32 key_code = 4;
+    // Flag based modifier state when keyboard event was triggered
+    optional int32 modifier_state = 5;
+}
+
