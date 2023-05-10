@@ -5427,11 +5427,11 @@ message ForegroundServiceStateChanged {
         PROCESS_CAPABILITY_USER_RESTRICTED_NETWORK = 32;
     }
 
-    optional android.app.ProcessStateEnum serviceUidState = 24 [default = PROCESS_STATE_UNKNOWN];
-    optional ProcessCapability serviceUidCapabilities = 25;
+    optional android.app.ProcessStateEnum service_uid_state = 24 [default = PROCESS_STATE_UNKNOWN];
+    optional ProcessCapability service_uid_capabilities = 25;
 
-    optional android.app.ProcessStateEnum callintUidState = 26 [default = PROCESS_STATE_UNKNOWN];
-    optional ProcessCapability callintUidCapabilities = 27;
+    optional android.app.ProcessStateEnum calling_uid_state = 26 [default = PROCESS_STATE_UNKNOWN];
+    optional ProcessCapability calling_uid_capabilities = 27;
 }
 
 /**
