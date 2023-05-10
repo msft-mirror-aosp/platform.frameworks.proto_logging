@@ -63,4 +63,7 @@ message DNDStateChanged {
   // Full policy in effect at the time of the event. Depending on what rules are active,
   // this may be a consolidation of several sets of rules.
   optional DNDPolicyProto current_policy = 8 [(log_mode) = MODE_BYTES];
+
+  // Whether any app notification channels are permitted to bypass DND.
+  optional bool are_channels_bypassing = 9;
 }
