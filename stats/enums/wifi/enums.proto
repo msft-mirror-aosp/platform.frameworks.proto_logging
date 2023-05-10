@@ -50,6 +50,17 @@ enum WifiModeEnum {
     WIFI_MODE_FULL_LOW_LATENCY = 4;
 }
 
+// What permission model the caller has
+enum WifiCallerType {
+    UNKNOWN = 0;
+    SETTINGS = 1; // caller is SETTINGS or SETUP_WIZARD
+    ADMIN = 2; // caller is a device admin(DO/PO/DA)
+    AUTOMOTIVE = 3; // caller has automotive related permissions
+    SIGNATURE = 4;  // Caller uid must be signed with platform key
+    SYSTEM = 5; // caller is a system app
+    OTHERS = 6;  // caller is none of the above
+}
+
 /**
  * Wifi authentication type.
  */
