@@ -932,8 +932,6 @@ message Atom {
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
-        // StatsdStats tracks platform atoms with ids up to 750.
-        // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pushed atom extensions.
@@ -1026,6 +1024,8 @@ message Atom {
     extensions 682; // KeyboardConfigured keyboard_configured
     extensions 683; // KeyboardSystemsEventReported keyboard_systems_event_reported
     extensions 9999; // Atom9999 atom_9999
+    // StatsdStats tracks platform atoms with ids up to 900.
+    // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
     // Next: 10190
