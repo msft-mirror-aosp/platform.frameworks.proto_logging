@@ -15070,6 +15070,9 @@ message CellularServiceState {
 
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 12;
 }
 
 /**
