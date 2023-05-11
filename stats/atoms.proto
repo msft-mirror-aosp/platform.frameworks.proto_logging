@@ -15571,6 +15571,15 @@ message DataStallRecoveryReported {
 
     // The elapsed time of current action.
     optional int32 duration_millis_of_current_action = 16;
+
+    // Link status of the data network.
+    optional int32 link_status = 17;
+
+    // The link up bandwidth of the data network.
+    optional int32 link_up_bandwidth = 18;
+
+    // The link down bandwidth of the data network.
+    optional int32 link_down_bandwidth = 19;
 }
 
 /**
