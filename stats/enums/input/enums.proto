@@ -1,0 +1,55 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.input;
+
+option java_outer_classname = "InputProtoEnums";
+option java_multiple_files = true;
+
+/**
+ * Contains the key events that are pressed from keyboard
+ * Logged in KeyboardSystemsEventReported atom
+ */
+enum KeyboardSystemEvent {
+    HOME = 1;
+    RECENT_APPS = 2;
+    BACK = 3;
+    APP_SWITCH = 4;
+    LAUNCH_ASSISTANT = 5;
+    LAUNCH_VOICE_ASSISTANT = 6;
+    LAUNCH_SYSTEM_SETTINGS = 7;
+    TOGGLE_NOTIFICATION_PANEL = 8;
+    TOGGLE_TASKBAR = 9;
+    TAKE_SCREENSHOT = 10;
+    OPEN_SHORTCUT_HELPER = 11;
+    BRIGHTNESS_UP = 12;
+    BRIGHTNESS_DOWN = 13;
+    KEYBOARD_BACKLIGHT_UP = 14;
+    KEYBOARD_BACKLIGHT_DOWN = 15;
+    KEYBOARD_BACKLIGHT_TOGGLE = 16;
+    VOLUME_UP = 17;
+    VOLUME_DOWN = 18;
+    VOLUME_MUTE = 19;
+    ALL_APPS = 20;
+    LAUNCH_SEARCH = 21;
+    LANGUAGE_SWITCH = 22;
+    ACCESSIBILITY_ALL_APPS = 23;
+    TOGGLE_CAPS_LOCK = 24;
+    SYSTEM_MUTE = 25;
+    SPLIT_SCREEN_NAVIGATION = 26;
+}
