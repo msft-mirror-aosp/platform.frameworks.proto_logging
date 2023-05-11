@@ -3978,10 +3978,10 @@ enum PageId {
     // OS: U
     HEARING_AID_PAIRING = 2025;
 
-    // OPEN: Settings > Connected devices > (click on details link for a paired device) > Audio output
+    // OPEN: Settings > Accessibility > Hearing devices > Audio output
     // CATEGORY: SETTINGS
     // OS: U
-    BLUETOOTH_AUDIO_ROUTING = 2026;
+    HEARING_AID_AUDIO_ROUTING = 2026;
 
     // OPEN: Settings > Accessibility > Flash notifications
     // OPEN: Settings > Notifications > Flash notifications
