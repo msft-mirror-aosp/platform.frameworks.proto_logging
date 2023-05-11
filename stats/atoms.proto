@@ -1021,6 +1021,7 @@ message Atom {
     extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 682; // KeyboardConfigured keyboard_configured
     extensions 683; // KeyboardSystemsEventReported keyboard_systems_event_reported
     extensions 9999; // Atom9999 atom_9999
