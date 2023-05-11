@@ -2567,6 +2567,9 @@ message KernelWakeupReported {
 
     // Duration (in microseconds) for the wake-up interrupt to be serviced.
     optional int64 duration_micros = 2;
+
+    // The elapsed time when this wake-up was reported.
+    optional int64 elapsed_millis = 3;
 }
 
 /**
