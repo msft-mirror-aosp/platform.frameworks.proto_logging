@@ -190,7 +190,7 @@ message Atom {
         WifiSignalStrengthChanged wifi_signal_strength_changed = 38 [(module) = "wifi"];
         WifiScanStateChanged wifi_scan_state_changed = 39 [(module) = "wifi"];
         PhoneSignalStrengthChanged phone_signal_strength_changed =
-                40 [(module) = "framework", (truncate_timestamp) = true];
+                40 [(module) = "framework", (module) = "statsdtest", (truncate_timestamp) = true];
         SettingChanged setting_changed = 41 [(module) = "framework"];
         ActivityForegroundStateChanged activity_foreground_state_changed =
                 42 [(module) = "framework", (module) = "statsdtest"];
@@ -932,8 +932,6 @@ message Atom {
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
-        // StatsdStats tracks platform atoms with ids up to 750.
-        // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
 
     // Pushed atom extensions.
@@ -1024,6 +1022,8 @@ message Atom {
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 9999; // Atom9999 atom_9999
+    // StatsdStats tracks platform atoms with ids up to 900.
+    // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
     // Next: 10190
@@ -1986,30 +1986,14 @@ message ProcessMemoryStatReported {
     optional Type type = 7;
     optional int64 duration_millis = 8;
 
-    // Keep in sync with
-    // frameworks/base/services/core/java/com/android/server/am/ProcessProfileRecord.java
-    enum HostingComponentType {
-        HOSTING_COMPONENT_TYPE_EMPTY = 0x0;
-        HOSTING_COMPONENT_TYPE_SYSTEM = 0x0001;
-        HOSTING_COMPONENT_TYPE_PERSISTENT = 0x0002;
-        HOSTING_COMPONENT_TYPE_BACKUP = 0x0004;
-        HOSTING_COMPONENT_TYPE_INSTRUMENTATION = 0x0008;
-        HOSTING_COMPONENT_TYPE_ACTIVITY = 0x0010;
-        HOSTING_COMPONENT_TYPE_BROADCAST_RECEIVER = 0x0020;
-        HOSTING_COMPONENT_TYPE_PROVIDER = 0x0040;
-        HOSTING_COMPONENT_TYPE_STARTED_SERVICE = 0x0080;
-        HOSTING_COMPONENT_TYPE_FOREGROUND_SERVICE = 0x0100;
-        HOSTING_COMPONENT_TYPE_BOUND_SERVICE = 0x0200;
-    }
-
     // The types of the components this process is hosting at the moment this
     // snapshot is taken.
-    // See the available types in HostingComponentType above.
+    // See the available types in HostingComponentType in AppProtoEnums.
     optional int32 current_hosting_component_types = 10;
 
     // The historical types of the components this process is or was hosting
     // since it's born.
-    // See the available types in HostingComponentType above.
+    // See the available types in HostingComponentType in AppProtoEnums.
     optional int32 historical_hosting_component_types = 11;
 }
 
@@ -5434,11 +5418,11 @@ message ForegroundServiceStateChanged {
         PROCESS_CAPABILITY_USER_RESTRICTED_NETWORK = 32;
     }
 
-    optional android.app.ProcessStateEnum serviceUidState = 24 [default = PROCESS_STATE_UNKNOWN];
-    optional ProcessCapability serviceUidCapabilities = 25;
+    optional android.app.ProcessStateEnum service_uid_state = 24 [default = PROCESS_STATE_UNKNOWN];
+    optional ProcessCapability service_uid_capabilities = 25;
 
-    optional android.app.ProcessStateEnum callintUidState = 26 [default = PROCESS_STATE_UNKNOWN];
-    optional ProcessCapability callintUidCapabilities = 27;
+    optional android.app.ProcessStateEnum calling_uid_state = 26 [default = PROCESS_STATE_UNKNOWN];
+    optional ProcessCapability calling_uid_capabilities = 27;
 }
 
 /**
@@ -7918,6 +7902,16 @@ message ProcessMemorySnapshot {
 
     // The current rss memory in shared space.
     optional int32 shmem_kb = 11;
+
+    // The types of the components this process is hosting at the moment this
+    // snapshot is taken.
+    // See the available types in HostingComponentType in AppProtoEnums.
+    optional int32 current_hosting_component_types = 12;
+
+    // The historical types of the components this process is or was hosting
+    // since it's born.
+    // See the available types in HostingComponentType in AppProtoEnums.
+    optional int32 historical_hosting_component_types = 13;
 }
 
 /*
@@ -13956,6 +13950,10 @@ message CameraActionEvent {
     // Not unique. Must be used with build fingerprint to generate a
     // good enough identifier.
     optional int64 log_id = 22;
+
+    // 0 for OPEN and CLOSE
+    // ordinal of the SESSION between OPEN and CLOSE
+    optional int32 session_idx = 23;
 }
 
 /**
