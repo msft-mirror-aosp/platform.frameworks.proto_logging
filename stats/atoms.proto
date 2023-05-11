@@ -10888,6 +10888,7 @@ message MediaCodecReported {
     optional int32 flush_count = 74;
     optional int32 set_surface_count = 75;
     optional int32 resolution_change_count = 76;
+    optional int32 component_color_format = 77;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
