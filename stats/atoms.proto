@@ -190,7 +190,7 @@ message Atom {
         WifiSignalStrengthChanged wifi_signal_strength_changed = 38 [(module) = "wifi"];
         WifiScanStateChanged wifi_scan_state_changed = 39 [(module) = "wifi"];
         PhoneSignalStrengthChanged phone_signal_strength_changed =
-                40 [(module) = "framework", (truncate_timestamp) = true];
+                40 [(module) = "framework", (module) = "statsdtest", (truncate_timestamp) = true];
         SettingChanged setting_changed = 41 [(module) = "framework"];
         ActivityForegroundStateChanged activity_foreground_state_changed =
                 42 [(module) = "framework", (module) = "statsdtest"];
@@ -1021,6 +1021,7 @@ message Atom {
     extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15569,6 +15570,15 @@ message DataStallRecoveryReported {
 
     // The elapsed time of current action.
     optional int32 duration_millis_of_current_action = 16;
+
+    // Link status of the data network.
+    optional int32 link_status = 17;
+
+    // The link up bandwidth of the data network.
+    optional int32 link_up_bandwidth = 18;
+
+    // The link down bandwidth of the data network.
+    optional int32 link_down_bandwidth = 19;
 }
 
 /**
