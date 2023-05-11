@@ -636,3 +636,14 @@ enum CallRoute {
     // Emergency call to handle through normal routing
     EMERGENCY_CALL_ROUTE_NORMAL = 2;
 }
+
+/**
+ * enum for device fold state
+ */
+enum FoldState {
+    STATE_UNKNOWN = 0;
+    STATE_CLOSED = 1;
+    STATE_HALF_OPENED = 2;
+    STATE_OPENED = 3;
+    STATE_FLIPPED = 4;
+}
