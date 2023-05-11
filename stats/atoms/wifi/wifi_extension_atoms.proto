@@ -68,7 +68,7 @@ message WifiAwareAttachReported {
 message WifiSelfRecoveryTriggered {
     enum Reason {
         REASON_UNKNOWN = 0;
-        REASON_LAST_RESORT_WATCHDOG = 1;
+        REASON_LAST_RESORT_WDOG = 1;
         REASON_WIFINATIVE_FAILURE = 2;
         REASON_STA_IFACE_DOWN = 3;
         REASON_API_CALL = 4;
@@ -76,14 +76,14 @@ message WifiSelfRecoveryTriggered {
         REASON_IFACE_ADDED = 6;
     }
     enum Result {
-        RESULT_UNSPECIFIED = 0;
-        RESULT_RESTART_SUCCESS = 1;
-        RESULT_INVALID_TRIGGER_REASON = 2;
-        RESULT_IFACE_DOWN_TO_DISABLE_WIFI = 3;
-        RESULT_IFACE_ADD_NOT_ALLOWED = 4;
-        RESULT_NATIVE_FAIL_TURN_OFF_RECOVERY = 5;
-        RESULT_BEYOND_MAX_NATIVE_FAIL_RECOVERY = 6;
-        RESULT_RESTART_FAILURE = 7;
+        RES_UNSPECIFIED = 0;
+        RES_RESTART_SUCCESS = 1;
+        RES_INVALID_REASON = 2;
+        RES_IFACE_DOWN = 3;
+        RES_IFACE_ADD_DISABLED = 4;
+        RES_RETRY_DISABLED = 5;
+        RES_ABOVE_MAX_RETRY = 6;
+        RES_RESTART_FAILURE = 7;
     }
 
     // Trigger reason

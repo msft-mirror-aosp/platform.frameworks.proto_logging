@@ -22,8 +22,10 @@ package {
 }
 
 enum_protos = [
+    "enums/adservices/common/*.proto",
     "enums/adservices/fledge/*.proto",
     "enums/anr/*.proto",
+    "enums/adservices/measurement/*.proto",
     "enums/app/**/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
@@ -105,12 +107,14 @@ atom_protos = [
     "atoms/hardware/biometrics/*.proto",
     "atoms/healthfitness/**/*.proto",
     "atoms/hotword/*.proto",
+    "atoms/input/*.proto",
     "atoms/locale/*.proto",
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/permissioncontroller/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/rkpd/*.proto",
     "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
     "atoms/usb/*.proto",
@@ -122,6 +126,7 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
+    "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
     "atoms/telephony/qns/*.proto",
     "atoms/telephony/*.proto",
@@ -129,6 +134,7 @@ atom_protos = [
     "atoms/wifi/*.proto",
     "atoms/telephony/satellite/*.proto",
     "atoms/automotive/caruilib/*.proto",
+    "atoms/uwb/*.proto",
 ]
 
 cc_library_host_shared {

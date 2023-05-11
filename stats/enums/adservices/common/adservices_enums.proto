@@ -1,0 +1,194 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+package android.adservices;
+
+// Recommended setup in go/java-proto-names
+option java_outer_classname = "AdservicesProtoEnums";
+option java_multiple_files = true;
+
+/**
+ * Type of the classifier used for classifying apps.
+ */
+enum ClassifierType {
+  /** Unknown classifier option. */
+  UNKNOWN_CLASSIFIER = 0;
+  /** Only on-device classification. */
+  ON_DEVICE_CLASSIFIER = 1;
+  /** Only Precomputed classification. */
+  PRECOMPUTED_CLASSIFIER = 2;
+  /** Precomputed classification values are preferred over on-device classification values. */
+  PRECOMPUTED_THEN_ON_DEVICE_CLASSIFIER = 3;
+}
+
+/**
+ * On Device classifier status.
+ */
+enum OnDeviceClassifierStatus {
+  ON_DEVICE_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+  ON_DEVICE_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+  ON_DEVICE_CLASSIFIER_STATUS_SUCCESS = 2;
+  ON_DEVICE_CLASSIFIER_STATUS_FAILURE = 3;
+}
+
+/**
+ * Precomputed classifier status.
+ */
+enum PrecomputedClassifierStatus {
+  PRECOMPUTED_CLASSIFIER_STATUS_UNSPECIFIED = 0;
+  PRECOMPUTED_CLASSIFIER_STATUS_NOT_INVOKED = 1;
+  PRECOMPUTED_CLASSIFIER_STATUS_SUCCESS = 2;
+  PRECOMPUTED_CLASSIFIER_STATUS_FAILURE = 3;
+}
+
+/**
+ * Attribution types.
+ */
+enum AttributionType {
+  UNKNOWN = 0;
+  APP_APP = 1;
+  APP_WEB = 2;
+  WEB_APP = 3;
+  WEB_WEB = 4;
+}
+
+/**
+ * Enum representing an error/exception.  These errors can be common to all
+ * PPAPIs or specific to a particular API. We will group enums in blocks of
+ * 1000 like this below:
+ * - Common errors: 1-1000
+ * - Topics errors: 1001-2000
+ * - Measurement errors: 2001-3000
+ * - Fledge errors: 3001-4000
+ * - UX errors: 4001-5000
+ */
+enum ErrorCode {
+  // Common Errors: 1-1000
+  ERROR_CODE_UNSPECIFIED = 0;
+  DATABASE_READ_EXCEPTION = 1;
+  DATABASE_WRITE_EXCEPTION = 2;
+  API_REMOTE_EXCEPTION = 3;
+
+  // Error occurred when unable to send result to the callback.
+  API_CALLBACK_ERROR = 4;
+
+  // Error occurred when failed to call the callback on Rate Limit Reached.
+  RATE_LIMIT_CALLBACK_FAILURE = 5;
+
+  // Error occurred when calling package name is not found.
+  PACKAGE_NAME_NOT_FOUND_EXCEPTION = 6;
+
+  // Topics errors: 1001-2000
+  // Remote exception when calling get topics.
+  GET_TOPICS_REMOTE_EXCEPTION = 1001;
+
+  // Topics API is disabled.
+  TOPICS_API_DISABLED = 1002;
+
+  // SQLException occurred when failed to persist classified Topics.
+  TOPICS_PERSIST_CLASSIFIED_TOPICS_FAILURE = 1003;
+
+  // SQLException occurred when failed to persist Top Topics.
+  TOPICS_PERSIST_TOP_TOPICS_FAILURE = 1004;
+
+  // SQLException occurred when failed to record App-Sdk usage history.
+  TOPICS_RECORD_APP_SDK_USAGE_FAILURE = 1005;
+
+  // SQLException occurred when failed to record App Only usage history.
+  TOPICS_RECORD_APP_USAGE_FAILURE = 1006;
+
+  // SQLException occurred when failed to record can learn topic.
+  TOPICS_RECORD_CAN_LEARN_TOPICS_FAILURE = 1007;
+
+  // SQLException occurred when failed to record returned topic.
+  TOPICS_RECORD_RETURNED_TOPICS_FAILURE = 1008;
+
+  // SQLException occurred when failed to record returned topic.
+  TOPICS_RECORD_BLOCKED_TOPICS_FAILURE = 1009;
+
+  // SQLException occurred when failed to remove blocked topic.
+  TOPICS_DELETE_BLOCKED_TOPICS_FAILURE = 1010;
+
+  // SQLException occurred when failed to delete old epochs.
+  TOPICS_DELETE_OLD_EPOCH_FAILURE = 1011;
+
+  // SQLException occurred when failed to delete a column in table
+  TOPICS_DELETE_COLUMN_FAILURE = 1012;
+
+  // SQLException occurred when failed to persist topic contributors.
+  TOPICS_PERSIST_TOPICS_CONTRIBUTORS_FAILURE = 1013;
+
+  // SQLException occurred when failed to delete all entries from table.
+  TOPICS_DELETE_ALL_ENTRIES_IN_TABLE_FAILURE = 1014;
+
+  // Exception occurred when classify call failed.
+  TOPICS_ON_DEVICE_CLASSIFY_FAILURE = 1015;
+
+  // Exception occurred ML model did not return a topic id.
+  TOPICS_ON_DEVICE_NUMBER_FORMAT_EXCEPTION = 1016;
+
+  // Exception occurred when failed to load ML model.
+  TOPICS_LOAD_ML_MODEL_FAILURE = 1017;
+
+  // Exception occurred when unable to retrieve topics id to topics name.
+  TOPICS_ID_TO_NAME_LIST_READ_FAILURE = 1018;
+
+  // Exception occurred when unable to read classifier asset file.
+  TOPICS_READ_CLASSIFIER_ASSET_FILE_FAILURE = 1019;
+
+  // NoSuchAlgorithmException occurred when unable to find correct message.
+  // digest algorithm.
+  TOPICS_MESSAGE_DIGEST_ALGORITHM_NOT_FOUND = 1020;
+
+  // UX errors
+  CONSENT_REVOKED_ERROR = 4001;
+}
+
+/**
+ * Adservices API names.
+ */
+enum PpapiName {
+  PPAPI_NAME_UNSPECIFIED = 0;
+  TOPICS = 1;
+  MEASUREMENT = 2;
+  FLEDGE = 3;
+  AD_ID = 4;
+  APP_SET_ID = 5;
+}
+
+/**
+ * Type of the result code that implies different execution results of Adservices background jobs.
+ */
+enum ExecutionResultCode {
+  /** Unspecified result code. */
+  UNSPECIFIED_CODE = 0;
+  /** Successful execution. */
+  SUCCESSFUL = 1;
+  /** Failed execution with retrying the job. */
+  FAILED_WITH_RETRY = 2;
+  /** Failed execution without retrying the job. */
+  FAILED_WITHOUT_RETRY = 3;
+  /** OnJobStop() is invoked with retrying the job. */
+  ONSTOP_CALLED_WITH_RETRY = 4;
+  /** OnJobStop() is invoked without retrying the job. */
+  ONSTOP_CALLED_WITHOUT_RETRY = 5;
+  /**
+   * The execution is halted by system or device for unknown reason, leaving
+   * a not finished execution.
+   */
+  HALTED_FOR_UNKNOWN_REASON = 6;
+}
