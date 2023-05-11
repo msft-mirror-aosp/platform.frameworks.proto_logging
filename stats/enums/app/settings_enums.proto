@@ -3639,6 +3639,12 @@ enum PageId {
     SETTINGS_LANGUAGES_CATEGORY = 1950;
 
     // OPEN: Settings > System > Keyboard > Physical keyboard
+    //       > Show enabled input method locales page > Show keyboard layout picker title
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_KEYBOARDS_LAYOUT_PICKER_TITLE = 1957;
+
+    // OPEN: Settings > System > Keyboard > Physical keyboard
     //       > Show enabled input method locales page > Show keyboard layout picker page
     // CATEGORY: SETTINGS
     // OS: U
