@@ -14005,7 +14005,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 53.
+    // Next id: 54.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -14032,6 +14032,7 @@ message PerfettoUploaded {
         // they log the trigger name.
         PERFETTO_TRACED_TRIGGER_START_TRACING = 41;
         PERFETTO_TRACED_TRIGGER_STOP_TRACING = 42;
+        PERFETTO_TRACED_TRIGGER_CLONE_SNAPSHOT = 53;
 
         // Guardrails inside traced.
         PERFETTO_TRACED_ENABLE_TRACING_EXISTING_TRACE_SESSION = 18;
