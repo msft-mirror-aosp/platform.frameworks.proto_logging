@@ -105,7 +105,7 @@ message AutofillFillResponseReported {
   // Timestamp of when Autofill provider returns a FillResponse
   // Latency of Autofill provider = fillResponseReceivedTimestampMs -
   // fillRequestSentTimestampMs
-  optional int32 latency_fill_response_received_millis = 7 [deprecated = true];
+  optional int32 latency_fill_response_received_millis = 7;
   optional AuthenticationType authentication_type = 8 [deprecated = true];
   optional AuthenticationResult authentication_result = 9 [deprecated = true];
   optional int64 authentication_failure_reason = 10 [deprecated = true];
