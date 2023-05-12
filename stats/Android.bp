@@ -117,6 +117,7 @@ atom_protos = [
     "atoms/rkpd/*.proto",
     "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
+    "atoms/tv/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
     "atoms/devicelogs/*.proto",
