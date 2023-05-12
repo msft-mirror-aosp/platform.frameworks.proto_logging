@@ -13961,6 +13961,27 @@ message CameraActionEvent {
     // 0 for OPEN and CLOSE
     // ordinal of the SESSION between OPEN and CLOSE
     optional int32 session_idx = 23;
+
+    // Start: Extension metrics.
+    // These will only be set for SESSION which use camera2 extensions
+
+    // Should match CameraExtensionCharacteristics#EXTENSION_*
+    enum ExtensionSessionType {
+        EXTENSION_NONE = -1;
+        EXTENSION_AUTOMATIC = 0;
+        EXTENSION_FACE_RETOUCH = 1;
+        EXTENSION_BOKEH = 2;
+        EXTENSION_HDR = 3;
+        EXTENSION_NIGHT = 4;
+
+    }
+
+    // Type of camera extension being used
+    optional ExtensionSessionType ext_type = 24 [default = EXTENSION_NONE];
+
+    // Whether advanced extensions session is being used
+    optional bool ext_is_advanced = 25;
+    // End: Extension Metrics
 }
 
 /**
