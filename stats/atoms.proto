@@ -16080,6 +16080,7 @@ message UserLifecycleJourneyReported {
         USER_REMOVE = 6; // A user removal journey
         GRANT_ADMIN = 7; // An admin grant journey
         REVOKE_ADMIN = 8; // An admin revocation journey
+        USER_LIFECYCLE = 9; // User journey from creation to deletion
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -16106,6 +16107,7 @@ message UserLifecycleJourneyReported {
     // What are the flags attached to the target user
     optional int32 user_flags = 6;
     optional int32 error_code = 7;
+    optional int64 elapsed_time = 8;
 }
 
 /**
