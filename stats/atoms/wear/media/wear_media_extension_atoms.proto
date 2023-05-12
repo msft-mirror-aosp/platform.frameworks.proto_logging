@@ -95,9 +95,8 @@ message MediaSessionStateChanged {
   // = True, then the app is on the phone and we can’t use uid)
   optional string media_player_package_name = 1;
 
-  // Unique id of the session (A keyed hash that is used to disambiguate
-  // between different sessions, has a lifespan of 6 hours)
-  optional int32 session_id = 2;
+  // Deprecated circa 5/2023
+  optional int32 session_id = 2 [deprecated=true];
 
   // Depicts is the media session being referred to as remote or local.
   optional bool is_remote_session = 3;
