@@ -24,8 +24,10 @@ option java_outer_classname = "AtomsProto";
 
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
+import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
@@ -111,7 +113,8 @@ message Atom {
         BleScanStateChanged ble_scan_state_changed = 2
                 [(module) = "bluetooth", (module) = "statsdtest"];
         ProcessStateChanged process_state_changed = 3 [(module) = "framework"];
-        BleScanResultReceived ble_scan_result_received = 4 [(module) = "bluetooth"];
+        BleScanResultReceived ble_scan_result_received = 4
+            [(module) = "bluetooth", (module) = "statsdtest"];
         SensorStateChanged sensor_state_changed =
                 5 [(module) = "framework", (module) = "statsdtest"];
         gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
@@ -767,9 +770,35 @@ message Atom {
         NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
         NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
         ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
+        providers.mediaprovider.MediaProviderVolumeRecoveryReported
+            media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         // StatsdStats tracks platform atoms with ids upto 750.
         // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
     }
+
+    // Pushed atom extensions.
+    // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 528; // ExpressEventReported express_event_reported
+    extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
+    extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
+    extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
+    extensions 613; // BluetoothHashedDeviceNameReported bluetooth_hashed_device_name_reported
+    extensions 614; // BluetoothL2capCocClientConnection bluetooth_l2cap_coc_client_connection
+    extensions 615; // BluetoothL2capCocServerConnection bluetooth_l2cap_coc_server_connection
+    extensions 638; // WifiAwareNdpReported wifi_aware_ndp_reported
+    extensions 639; // WifiAwareAttachReported wifi_aware_attach_reported
+    extensions 640; // AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys
+    extensions 644; // ExpressUidEventReported express_uid_event_reported
+    extensions 650; // DailykeepaliveInfoReported daily_keepalive_info_reported
+    extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
+    extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
+    extensions 662; // AdServicesErrorReported ad_services_error_reported
+    extensions 663; // AdServicesBackgroundJobsExecutionReported ad_services_background_jobs_execution_reported
+    extensions 673; // AdServicesMeasurementDelayedSourceRegistration ad_services_measurement_delayed_source_registration
+    extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
+    extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
+    extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 9999; // Atom9999 atom_9999
 
     // Pulled events will start at field 10000.
     // Next: 10169
@@ -1287,6 +1316,12 @@ message WifiConnectionResultReported {
         FAILURE_NETWORK_DISCONNECTION = 6;
         FAILURE_ROAM_TIMEOUT = 7;
         FAILURE_WRONG_PASSWORD = 8;
+        FAILURE_CONNECT_NETWORK_FAILED = 9;
+        FAILURE_NEW_CONNECTION_ATTEMPT = 10;
+        FAILURE_REDUNDANT_CONNECTION_ATTEMPT = 11;
+        FAILURE_NETWORK_NOT_FOUND = 12;
+        FAILURE_NO_RESPONSE = 13;
+        FAILURE_OTHERS = 14;
     }
 
     enum Trigger {
@@ -1319,6 +1354,10 @@ message WifiConnectionResultReported {
     optional bool network_used = 8;
     // Time taken from the last successful connection (or device boot if that's the first one).
     optional int32 time_since_last_connection_seconds = 9;
+    // Whether the connection is carrier wifi.
+    optional bool is_carrier_wifi = 10;
+    // Whether the OOB pseeudonym is enabled for the current connection.
+    optional bool is_oob_pseudonym_enabled = 11;
 }
 
 /**
@@ -1516,6 +1555,8 @@ message WifiP2pConnectionReported {
     optional int32 sta_frequency_mhz = 8;
     // The uid of the app that initiates the connection.
     optional int32 uid = 9 [(is_uid) = true];
+    // if the country code is in the world mode
+    optional bool is_country_code_world_mode = 10;
 }
 
 /**
@@ -2574,6 +2615,8 @@ message BluetoothConnectionStateChanged {
     // An index to group connection events by session. It's a counter generated by
     // each profile. e.g. Gatt server generate such id to identify Gatt apps
     optional int32 session_index = 6;
+    // An identifier that indicates the connection failure reason
+    optional int32 connection_reason = 7;
 }
 
 /**
@@ -9234,13 +9277,21 @@ message AppCompacted {
   optional int64 after_zram_free_kilobytes = 18;
 }
 
-// Logs each upstream for a successful switch over
+/**
+ * Represents an event that logs information about a successful switch to an upstream network.
+ */
 message UpstreamEvent {
-  // Transport type of upstream network
+  // Indicates the transport type of network.
   optional android.stats.connectivity.UpstreamType upstream_type = 1;
 
-  // A time period that an upstream continued
+  // The duration of network usage.
   optional int64 duration_millis = 2;
+
+  // The amount of data received from tethered clients.
+  optional int64 tx_bytes = 3;
+
+  // The amount of data received from remote.
+  optional int64 rx_bytes = 4;
 }
 
 message UpstreamEvents {
@@ -20209,6 +20260,10 @@ message UwbSessionInitiated {
     optional int32 latency_200ms = 10;
     // The uid of the app that initiates the connection.
     optional int32 uid = 11 [(is_uid) = true];
+    // Ranging interval of the session in ms.
+    optional int32 ranging_interval_ms = 12;
+    // How many ongoing session when current session is initiated?
+    optional int32 parallel_session_count = 13;
 }
 
 /*
@@ -21044,7 +21099,8 @@ message RunAdBiddingPerCAProcessReported {
 }
 
 /**
- * Logs for AdServices GetTopics API call.
+ * Logs for AdServices GetTopics API call on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatGetTopicsReported for R+ logging.
  */
 message AdServicesGetTopicsReported {
     // List of topic ids returned.
@@ -21078,12 +21134,14 @@ message AdServicesEpochComputationGetTopTopicsReported {
 }
 
 /**
- * Logs for AdServices Epoch Computation Classifier.
+ * Logs for AdServices Epoch Computation Classifier on T+ only due to repeated fields.
+ * Keep in sync with AdServicesBackCompatEpochComputationClassifierReported for R+ logging.
  * One atom should be logged for each app classification.
  */
 message AdServicesEpochComputationClassifierReported {
 
-    // List of topics returned by the classifier for each app.
+    // List of topics returned by the classifier for each app. The classification
+    // does not depend on the user's usage of the app.
     repeated int32 topic_ids = 1;
 
     // Build id of the assets.
@@ -21145,6 +21203,9 @@ message AdServicesApiCalled {
     //  * overrideAdSelectionConfigRemoteInfo()
     //  * removeAdSelectionConfigRemoteInfoOverride()
     //  * resetAllAdSelectionConfigRemoteOverrides()
+    //  * setAppInstallAdvertisers()
+    //  * reportInteraction()
+    //  * updateAdCounterHistogram()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21193,6 +21254,9 @@ message AdServicesApiCalled {
         GET_MEASUREMENT_API_STATUS = 19;
         GET_TOPICS_PREVIEW_API = 20;
         SELECT_ADS_FROM_OUTCOMES = 21;
+        SET_APP_INSTALL_ADVERTISERS = 22;
+        REPORT_INTERACTION = 23;
+        UPDATE_AD_COUNTER_HISTOGRAM = 24;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21228,6 +21292,10 @@ message AdServicesMeasurementReportsUploaded {
     }
 
     optional ReportUploadStatus response_code = 2;
+    optional android.adservices.service.measurement.ReportUploadFailureType failure_type = 3;
+    optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
+    // delay (in milliseconds) between scheduled delivery time and actual delivery time.
+    optional int64 reporting_delay_millis = 5;
 }
 
 /**
@@ -21243,6 +21311,12 @@ message AdServicesMeasurementRegistrations {
     optional RegistrationType type = 1;
     optional int64 response_size_in_bytes = 2;
     optional string adtech_url_domain_if_size_above_threshold = 3;
+    optional android.adservices.service.measurement.SourceType source_type = 4;
+    optional android.adservices.service.measurement.RegistrationSurfaceType surface_type = 5;
+    optional android.adservices.service.measurement.Status status = 6;
+    optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
+    // delay (in milliseconds) between registration queue request and the time it gets processed
+    optional int64 registration_delay_millis = 8;
 }
 
 /**
@@ -21931,6 +22005,40 @@ message SafetySourceStateCollected {
 
     // The number of dismissed issues belonging to this Safety Source.
     optional int64 dismissed_issues_count = 5;
+
+    optional int64 duplicate_filtered_out_issues_count = 6;
+
+    enum SourceState {
+        SOURCE_STATE_UNKNOWN = 0;
+        DATA_PROVIDED = 1;
+        NO_DATA_PROVIDED = 2;
+        REFRESH_TIMEOUT = 3;
+        REFRESH_ERROR = 4;
+        SOURCE_ERROR = 5;
+        SOURCE_CLEARED = 6;
+    }
+    optional SourceState source_state = 7;
+
+    // Indicates the reason for which this event was collected.
+    enum CollectionType {
+        COLLECTION_TYPE_UNKNOWN = 0;
+        AUTOMATIC = 1;
+        SOURCE_UPDATED = 2;
+    }
+    optional CollectionType collection_type = 8;
+
+    enum UpdateType {
+        UPDATE_TYPE_UNKNOWN = 0;
+        SELF_INITIATED = 1;
+        REFRESH_RESPONSE = 2;
+    }
+    optional UpdateType update_type = 9;
+
+    optional int64 refresh_reason = 10;
+
+    optional bool data_changed = 11;
+
+    optional int64 last_updated_elapsed_time_millis = 12;
 }
 
 // Logs system-health and performance related events from the Safety Center
@@ -21963,6 +22071,10 @@ message SafetyCenterSystemEventReported {
         ERROR = 3;
     }
     optional Result result = 6;
+
+    optional int64 refresh_reason = 7;
+
+    optional bool data_changed = 8;
 }
 
 // Logs a user interaction with the Safety Center. Various fields may or may not be
@@ -21992,6 +22104,12 @@ message SafetyCenterInteractionReported {
         SENSOR_PERMISSION_REVOKE_CLICKED = 12;
         SENSOR_PERMISSION_SEE_USAGES_CLICKED = 13;
         REVIEW_SETTINGS_CLICKED = 14;
+
+        NOTIFICATION_POSTED = 15;
+        NOTIFICATION_DISMISSED = 16;
+
+        STATUS_VIEWED = 17;
+        ENTRY_VIEWED = 18;
     }
 
     // Action taken in the Safety Center.
@@ -22041,6 +22159,15 @@ message SafetyCenterInteractionReported {
 
     // Which sensor was associated with this interaction (if any).
     optional Sensor sensor = 9;
+
+    optional int64 encoded_safety_sources_group_id = 10;
+
+    enum IssueState {
+        ISSUE_STATE_UNKNOWN = 0;
+        ACTIVE = 1;
+        DISMISSED = 2;
+    }
+    optional IssueState issue_state = 11;
 }
 
 message PrivacySignalNotificationInteraction {
@@ -22105,16 +22232,19 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 8
+    // Next ID: 11
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
         REQUEST_SURFACE_PACKAGE = 3;
+        // Api used by Apps via SdkSandboxManager
         GET_SANDBOXED_SDKS = 5;
         SYNC_DATA_FROM_CLIENT = 6;
         UNLOAD_SDK = 7;
         ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
         REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+        // Api used by SDKs in the sandbox via SdkSandboxController
+        GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
@@ -22246,49 +22376,215 @@ message MobileDataDownloadFileGroupStorageStats {
  * Logs when various Privacy Sandbox settings are used.
  */
 message AdServicesSettingsUsageReported {
+    // Region of the user who interacted with AdServicesSettings UI.
     enum AdServiceSettingRegion {
+        // fallback when getDeviceRegion call failed.
         REGION_UNSPECIFIED = 0;
+        // European Union user (based on isoCountryInfo).
         EU = 1;
+        // Non-European Union user (based on isoCountryInfo).
         ROW = 2;
     }
-
+    // Region where the device was used.
     optional AdServiceSettingRegion region = 1;
 
+    // UI settings page action performed by the user.
     enum AdServiceSettingsName {
+        // fallback when getAction call failed.
         ACTION_UNSPECIFIED = 0;
+        // notification was requested to be sent to the user.
         REQUESTED_NOTIFICATION = 1;
+        // the notification landing page was displayed.
         LANDING_PAGE_DISPLAYED = 2;
+        // user opt-in for PP API.
         OPT_IN_SELECTED = 3;
+        // user opt-out of PP API.
         OPT_OUT_SELECTED = 4;
+        // the topics page was displayed.
         MANAGE_TOPICS_SELECTED = 5;
+        // the fledge page was displayed.
         MANAGE_APPS_SELECTED = 6;
+        // user reset topics.
         RESET_TOPIC_SELECTED = 7;
+        /// user reset fledge apps.
         RESET_APP_SELECTED = 8;
+        // user blocked topics.
         BLOCK_TOPIC_SELECTED = 9;
+        // user unblocked topics.
         UNBLOCK_TOPIC_SELECTED = 10;
+        // user blocked fledge apps.
         BLOCK_APP_SELECTED = 11;
+        // user unblocked fledge apps.
         UNBLOCK_APP_SELECTED = 12;
-        // Measurement page and data reset
+        // Measurement page and data reset.
         MANAGE_MEASUREMENT_SELECTED = 13;
         RESET_MEASUREMENT_SELECTED = 14;
-        // GA consent page
+        // user opt-in to topics.
         TOPICS_OPT_IN_SELECTED = 15;
+        // user opt-out of topics.
         TOPICS_OPT_OUT_SELECTED = 16;
+        // user opt-in to fledge.
         FLEDGE_OPT_IN_SELECTED = 17;
+        // user opt-out of fledge.
         FLEDGE_OPT_OUT_SELECTED = 18;
+        // user opt-in to measurement.
         MEASUREMENT_OPT_IN_SELECTED = 19;
+        // user opt-out of measurement.
         MEASUREMENT_OPT_OUT_SELECTED = 20;
         // Notification and landing page for kids policy
+        // notification was requested for GA  user.
         GA_UX_NOTIFICATION_REQUESTED = 21;
+        // GA landing page was displayed.
         GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
+        // GA confirmation page was displayed.
         GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
+        // GA version of opt_in/out selected.
+        // opt-in for GA user.
         NOTIFICATION_OPT_IN_SELECTED = 24;
+        // opt-out for GA user.
         NOTIFICATION_OPT_OUT_SELECTED = 25;
+        // user selected manage settings in consent notification.
         NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
+        // the privacy sandbox settings page was displayed.
         PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
+        // the confirmation page was displayed for a user.
+        CONFIRMATION_PAGE_DISPLAYED = 28;
+        // notification was blocked by a user.
+        NOTIFICATION_DISABLED = 29;
+        // notification was blocked by a GA user.
+        GA_UX_NOTIFICATION_DISABLED = 30;
+        // notification was displayed to a user.
+        NOTIFICATION_DISPLAYED = 31;
+        // notification was displayed to a GA user.
+        GA_UX_NOTIFICATION_DISPLAYED = 32;
+        // user clicked on the more button on the landing page.
+        LANDING_PAGE_MORE_BUTTON_CLICKED = 33;
+        // GA user clicked on the more button on the landing page.
+        GA_UX_LANDING_PAGE_MORE_BUTTON_CLICKED = 34;
+        // user clicked the additional info button on the landing page.
+        LANDING_PAGE_ADDITIONAL_INFO_CLICKED = 35;
+        // GA user clicked the additional info button on the landing page.
+        GA_UX_LANDING_PAGE_ADDITIONAL_INFO_CLICKED = 36;
+        // user scrolled the landing page.
+        LANDING_PAGE_SCROLLED = 37;
+        // GA user scrolled the landing page.
+        GA_UX_LANDING_PAGE_SCROLLED = 38;
+        // user scrolled to the bottom of the landing page.
+        LANDING_PAGE_SCROLLED_TO_BOTTOM = 39;
+        // GA user scrolled to the bottom of the landing page.
+        GA_UX_LANDING_PAGE_SCROLLED_TO_BOTTOM = 40;
+        // user clicked the settings button on the landing page.
+        LANDING_PAGE_SETTINGS_BUTTON_CLICKED = 41;
+        // GA user clicked the settings button on the landing page.
+        GA_UX_LANDING_PAGE_SETTINGS_BUTTON_CLICKED = 42;
+        // user clicked the got it button on the landing page.
+        LANDING_PAGE_GOT_IT_BUTTON_CLICKED = 43;
+        // GA user clicked the got it button on the landing page.
+        GA_UX_LANDING_PAGE_GOT_IT_BUTTON_CLICKED = 44;
+        // user clicked opt-out on the landing page.
+        LANDING_PAGE_OPT_OUT_CLICKED = 45;
+        // GA user clicked opt-out on the landing page.
+        GA_UX_LANDING_PAGE_OPT_OUT_CLICKED = 46;
+        // user dismissed the landing page.
+        LANDING_PAGE_DISMISSED = 47;
+        // GA user dismissed the landing page.
+        GA_UX_LANDING_PAGE_DISMISSED = 48;
+        // user opt-in from the landing page.
+        LANDING_PAGE_OPT_IN = 49;
+        // GA user opt-in from the landing page.
+        GA_UX_LANDING_PAGE_OPT_IN = 50;
+        // user clicked settings on the opt-in confirmation page.
+        OPT_IN_CONFIRMATION_PAGE_SETTINGS_CLICKED = 51;
+        // GA user clicked settings on the opt-in confirmation page.
+        GA_UX_OPT_IN_CONFIRMATION_PAGE_SETTINGS_CLICKED = 52;
+        // user clicked settings on the opt-out confirmation page.
+        OPT_OUT_CONFIRMATION_PAGE_SETTINGS_CLICKED = 53;
+        // GA user clicked settings on the opt-out confirmation page.
+        GA_UX_OPT_OUT_CONFIRMATION_PAGE_SETTINGS_CLICKED = 54;
+        // user clicked got it on the opt-in confirmation page.
+        OPT_IN_CONFIRMATION_PAGE_GOT_IT_CLICKED = 55;
+        // GA user clicked got it on the opt-in confirmation page.
+        GA_UX_OPT_IN_CONFIRMATION_PAGE_GOT_IT_CLICKED = 56;
+        // user clicked got it on the opt-out confirmation page.
+        OPT_OUT_CONFIRMATION_PAGE_GOT_IT_CLICKED = 57;
+        // GA user clicked got it on the opt-out confirmation page.
+        GA_UX_OPT_OUT_CONFIRMATION_PAGE_GOT_IT_CLICKED = 58;
+        // user dismissed confirmation page.
+        CONFIRMATION_PAGE_DISMISSED = 59;
+        // GA user dismissed confirmation page.
+        GA_UX_CONFIRMATION_PAGE_DISMISSED = 60;
+        // user clicked more info on the opt in confirmation page.
+        OPT_IN_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 61;
+        // user clicked more info on the opt out confirmation page.
+        OPT_OUT_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 62;
+        // GA user clicked more info on the opt in confirmation page.
+        GA_UX_OPT_IN_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 63;
+        // GA user clicked more info on the opt out confirmation page.
+        GA_UX_OPT_OUT_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 64;
+        // GA user clicked opt out on the landing page.
+        GA_UX_LANDING_PAGE_OPT_OUT = 65;
+        // user clicked opt out on the landing page.
+        LANDING_PAGE_OPT_OUT = 66;
+    }
+    // UI action performed by user.
+    optional AdServiceSettingsName action = 2;
+
+    enum AdServicesSettingsDefaultConsent {
+        // fallback when getDefaultConsent failed.
+        CONSENT_UNSPECIFIED = 0;
+        // user was opted-in to PP API by default.
+        PP_API_DEFAULT_OPT_IN = 1;
+        // user was opted-out of PP API by default.
+        PP_API_DEFAULT_OPT_OUT = 2;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_IN = 3;
+        // user was opted-in to topics by default.
+        TOPICS_DEFAULT_OPT_OUT = 4;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_IN = 5;
+        // user was opted-in to fledge by default.
+        FLEDGE_DEFAULT_OPT_OUT = 6;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_IN = 7;
+        // user was opted-in to measurement by default.
+        MEASUREMENT_DEFAULT_OPT_OUT = 8;
+    }
+    // AdServices consents of a user when consent notification was first sent.
+    optional AdServicesSettingsDefaultConsent default_consent = 3;
+
+    // AdId state of a user when consent notification was first sent.
+    enum AdServicesSettingsDefaultAdIdState {
+        // fallback when getDefaultAdId failed.
+        STATE_UNSPECIFIED = 0;
+        // AdId was not zeroed-out when user first received consent notification.
+        AD_ID_ENABLED = 1;
+        // AdId was zeroed-out when user first received consent notification.
+        AD_ID_DISABLED = 2;
     }
 
-    optional AdServiceSettingsName action = 2;
+    // Default ad id state when consent notification was first sent.
+    optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
+
+    // Type of AdService feature running on device.
+    enum PrivacySandboxFeatureType {
+        // fallback when getFeature failed.
+        FEATURE_UNSPECIFIED = 0;
+        // the first consent feature is enabled.
+        PRIVACY_SANDBOX_FIRST_CONSENT = 1;
+        // the reconsent feature is enabled.
+        PRIVACY_SANDBOX_RECONSENT = 2;
+        // privacy sandbox is not yet supported on the device.
+        PRIVACY_SANDBOX_UNSUPPORTED = 3;
+        // privacy sandbox is already running on the device.
+        PRIVACY_SANDBOX_ALREADY_RUNNING = 4;
+        // the first consent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_FIRST_CONSENT_FF = 5;
+        // the reconsent feature with flipped flow is enabled.
+        PRIVACY_SANDBOX_RECONSENT_FF = 6;
+    }
+
+    // Privacy sandbox feature currently running on the device.
+    optional PrivacySandboxFeatureType feature_type = 5;
 }
 
 // Logs information about bpf maps in BpfNetMaps.
