@@ -1809,7 +1809,8 @@ message WifiDisconnectReported {
  *   frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiMetrics.java
  */
 message WifiConnectionStateChanged {
-    optional bool is_connected = 1;
+    optional bool is_connected = 1 [
+            (state_field_option).exclusive_state = true];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
