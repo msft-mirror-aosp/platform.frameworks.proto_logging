@@ -172,6 +172,8 @@ filegroup {
     srcs: [
         ":libstats_atoms_proto",
         "atom_field_options.proto",
+        ":libstats_atom_enum_protos",
+        ":libstats_atom_message_protos",
     ],
 }
 
