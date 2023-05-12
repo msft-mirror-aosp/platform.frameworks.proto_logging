@@ -1223,6 +1223,10 @@ enum Action {
     // VALUE: 1 for language changed, 0 for not changed
     // OS: U
     ACTION_CHANGE_LANGUAGE = 1834;
+
+    // ACTION: A group tile in Settings information architecture is added to the screen
+    // OS: U
+    ACTION_SETTINGS_GROUP_TILE_ADDED_TO_SCREEN = 1835;
 }
 
 /**
