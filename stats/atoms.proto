@@ -15001,6 +15001,9 @@ message VoiceCallSession {
 
     // Last known Radio access technology (RAT).
     optional android.telephony.NetworkTypeEnum last_known_rat = 34;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 35;
 }
 
 /**
