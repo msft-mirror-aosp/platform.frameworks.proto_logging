@@ -1021,6 +1021,7 @@ message Atom {
     extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 682; // KeyboardConfigured keyboard_configured
     extensions 683; // KeyboardSystemsEventReported keyboard_systems_event_reported
     extensions 9999; // Atom9999 atom_9999
@@ -2566,6 +2567,9 @@ message KernelWakeupReported {
 
     // Duration (in microseconds) for the wake-up interrupt to be serviced.
     optional int64 duration_micros = 2;
+
+    // The elapsed time when this wake-up was reported.
+    optional int64 elapsed_millis = 3;
 }
 
 /**
@@ -15066,6 +15070,9 @@ message CellularServiceState {
 
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 12;
 }
 
 /**
@@ -15571,6 +15578,15 @@ message DataStallRecoveryReported {
 
     // The elapsed time of current action.
     optional int32 duration_millis_of_current_action = 16;
+
+    // Link status of the data network.
+    optional int32 link_status = 17;
+
+    // The link up bandwidth of the data network.
+    optional int32 link_up_bandwidth = 18;
+
+    // The link down bandwidth of the data network.
+    optional int32 link_down_bandwidth = 19;
 }
 
 /**
