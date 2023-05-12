@@ -4008,6 +4008,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     ACCOUNT_DETAIL = 2031;
+
+    // OPEN: Settings > About phone -> Battery information
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_BATTERY_INFORMATION = 2032;
 }
 
 // Battery Saver schedule types.
