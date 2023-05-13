@@ -1223,6 +1223,10 @@ enum Action {
     // VALUE: 1 for language changed, 0 for not changed
     // OS: U
     ACTION_CHANGE_LANGUAGE = 1834;
+
+    // ACTION: A group tile in Settings information architecture is added to the screen
+    // OS: U
+    ACTION_SETTINGS_GROUP_TILE_ADDED_TO_SCREEN = 1835;
 }
 
 /**
@@ -3984,10 +3988,10 @@ enum PageId {
     // OS: U
     HEARING_AID_PAIRING = 2025;
 
-    // OPEN: Settings > Connected devices > (click on details link for a paired device) > Audio output
+    // OPEN: Settings > Accessibility > Hearing devices > Audio output
     // CATEGORY: SETTINGS
     // OS: U
-    BLUETOOTH_AUDIO_ROUTING = 2026;
+    HEARING_AID_AUDIO_ROUTING = 2026;
 
     // OPEN: Settings > Accessibility > Flash notifications
     // OPEN: Settings > Notifications > Flash notifications
@@ -4014,6 +4018,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     ACCOUNT_DETAIL = 2031;
+
+    // OPEN: Settings > About phone -> Battery information
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_BATTERY_INFORMATION = 2032;
 }
 
 // Battery Saver schedule types.
