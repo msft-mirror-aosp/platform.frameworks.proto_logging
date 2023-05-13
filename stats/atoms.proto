@@ -22094,6 +22094,20 @@ message AutofillPresentationEventReported {
 
   // From the user finishing authentication to the dataset is displayed to the user.
   optional int64 latency_dataset_display_millis = 24;
+
+  // Count of datasets that are available due to PCC Detection. These can include datasets
+  // available via provider response, and would be eligible because of pcc too.
+  // If PCC detection is preferred over Autofill provider, and Autofill provider had same detection
+  // as PCC did, the following invariants would hold.
+  // available_pcc_count = available_count
+  // available_pcc_only_count = 0
+  optional int32 available_pcc_count = 25;
+
+  // Count of datasets that are available only due to PCC Detection.
+  optional int32 available_pcc_only_count = 26;
+
+  // The selection process of this dataset.
+  optional autofill.DatasetPickedReason selected_dataset_picked_reason = 27;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
