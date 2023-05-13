@@ -1803,7 +1803,8 @@ message WifiDisconnectReported {
  *   frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiMetrics.java
  */
 message WifiConnectionStateChanged {
-    optional bool is_connected = 1;
+    optional bool is_connected = 1 [
+            (state_field_option).exclusive_state = true];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
@@ -2565,6 +2566,9 @@ message KernelWakeupReported {
 
     // Duration (in microseconds) for the wake-up interrupt to be serviced.
     optional int64 duration_micros = 2;
+
+    // The elapsed time when this wake-up was reported.
+    optional int64 elapsed_millis = 3;
 }
 
 /**
@@ -13955,6 +13959,27 @@ message CameraActionEvent {
     // 0 for OPEN and CLOSE
     // ordinal of the SESSION between OPEN and CLOSE
     optional int32 session_idx = 23;
+
+    // Start: Extension metrics.
+    // These will only be set for SESSION which use camera2 extensions
+
+    // Should match CameraExtensionCharacteristics#EXTENSION_*
+    enum ExtensionSessionType {
+        EXTENSION_NONE = -1;
+        EXTENSION_AUTOMATIC = 0;
+        EXTENSION_FACE_RETOUCH = 1;
+        EXTENSION_BOKEH = 2;
+        EXTENSION_HDR = 3;
+        EXTENSION_NIGHT = 4;
+
+    }
+
+    // Type of camera extension being used
+    optional ExtensionSessionType ext_type = 24 [default = EXTENSION_NONE];
+
+    // Whether advanced extensions session is being used
+    optional bool ext_is_advanced = 25;
+    // End: Extension Metrics
 }
 
 /**
@@ -15065,6 +15090,9 @@ message CellularServiceState {
 
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 12;
 }
 
 /**
@@ -16073,6 +16101,7 @@ message UserLifecycleJourneyReported {
         USER_REMOVE = 6; // A user removal journey
         GRANT_ADMIN = 7; // An admin grant journey
         REVOKE_ADMIN = 8; // An admin revocation journey
+        USER_LIFECYCLE = 9; // User journey from creation to deletion
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -16099,6 +16128,7 @@ message UserLifecycleJourneyReported {
     // What are the flags attached to the target user
     optional int32 user_flags = 6;
     optional int32 error_code = 7;
+    optional int64 elapsed_time = 8;
 }
 
 /**
