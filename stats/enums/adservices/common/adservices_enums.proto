@@ -203,7 +203,7 @@ enum ErrorCode {
   // source of truth.
   TOPICS_INVALID_BLOCKED_TOPICS_SOURCE_OF_TRUTH = 1034;
 
-  // RuntimeException occurred when unable to record the blocked topic.
+  // RuntimeException occurred when unable to remove the blocked topic.
   TOPICS_REMOVE_BLOCKED_TOPIC_FAILURE = 1035;
 
   // RuntimeException occurred when unable to get all blocked topics.
