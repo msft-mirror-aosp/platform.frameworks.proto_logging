@@ -232,6 +232,14 @@ enum EapInnerMethod {
     METHOD_MSCHAP = 2;
     METHOD_MSCHAP_V2 = 3;
     METHOD_OTHERS = 4;
+    // Generic Token Card
+    METHOD_GTC = 5;
+    // EAP-Subscriber Identity Module [RFC-4186]
+    METHOD_SIM = 6;
+    // EAP-Authentication and Key Agreement [RFC-4187]
+    METHOD_AKA = 7;
+    // EAP-Authentication and Key Agreement Prime [RFC-5448]
+    METHOD_AKA_PRIME = 8;
 }
 
 enum RoamingType {
@@ -310,4 +318,37 @@ enum AwareHalApi {
     AWARE_INITIATE_BOOTSTRAPPING_REQUEST = 20;
     AWARE_RESPOND_TO_BOOTSTRAPPING_INDICATION_REQUEST = 21;
     AWARE_TERMINATE_PAIRING_REQUEST = 22;
+}
+
+/**
+ * Wi-Fi Security modes defined by the combinations of cipher suite, AKM and PMF
+ */
+enum SecurityMode {
+    SECURITY_MODE_UNKNOWN = 0;
+    SECURITY_MODE_INVALID = 1;
+    SECURITY_MODE_WPA3_ENTERPRISE_192_BIT = 2;
+    SECURITY_MODE_WPA3_ENTERPRISE = 3;
+    SECURITY_MODE_WPA3_PERSONAL = 4;
+    SECURITY_MODE_WPA3_WPA2_PERSONAL_TRANSITION = 5;
+    SECURITY_MODE_DPP = 6;
+    SECURITY_MODE_WPA2_PERSONAL = 7;
+    SECURITY_MODE_WPA2_WPA_PERSONAL_TRANSITION = 8;
+    SECURITY_MODE_WAPI_CERT = 9;
+    SECURITY_MODE_WAPI_PSK = 10;
+    SECURITY_MODE_WPA_ENTERPRISE_LEGACY = 11;
+    SECURITY_MODE_WPA_PERSONAL_LEGACY = 12;
+    SECURITY_MODE_OWE = 13;
+    SECURITY_MODE_OWE_TRANSITION = 14;
+    SECURITY_MODE_WEP = 15;
+    SECURITY_MODE_NONE = 16;
+}
+
+/**
+ * Passpoint release versions
+ */
+enum PasspointRelease {
+  PASSPOINT_RELEASE_UNKNOWN = 0;
+  PASSPOINT_RELEASE_1 = 1;
+  PASSPOINT_RELEASE_2 = 2;
+  PASSPOINT_RELEASE_3 = 3;
 }

@@ -49,6 +49,7 @@ extend Atom {
     optional PnoScanStarted pno_scan_started = 719 [(module) = "wifi"];
     optional PnoScanStopped pno_scan_stopped = 720 [(module) = "wifi"];
     optional WifiIsUnusableReported wifi_is_unusable_reported = 722 [(module) = "wifi"];
+    optional WifiApCapabilitiesReported wifi_ap_capabilities_reported= 723 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -486,4 +487,91 @@ message WifiIsUnusableReported {
    optional int32 scorer_uid = 2;
    // Whether or not Wi-Fi is predicted as usable by the scorer
    optional bool is_wifi_predicted_as_usable = 3;
+}
+
+/**
+ * AP capabilities logged for every Wi-Fi connection
+ */
+message WifiApCapabilitiesReported {
+    /**
+     * Online certificate status protocol stapling type
+     */
+    enum OcspType {
+        TYPE_OCSP_UNKNOWN = 0;
+        // Do not use OCSP stapling
+        TYPE_OCSP_NONE = 1;
+        // Try to use OCSP stapling, but not require response
+        TYPE_OCSP_REQUEST_CERT_STATUS = 2;
+        // Require valid OCSP stapling response
+        TYPE_OCSP_REQUIRE_CERT_STATUS = 3;
+        // Require valid OCSP stapling response for all not-trusted certificates
+        // in the server certificate chain
+        TYPE_OCSP_REQUIRE_ALL_NON_TRUSTED_CERTS_STATUS = 4;
+    }
+
+    /**
+     * 6 GHz AP type as encoded in 'HE operation -> 6 GHz operation info -> Control ->
+     * Regulatory info'
+     */
+    enum ApType6GHz {
+       AP_TYPE_6HZ_UNKNOWN = 0;
+       AP_TYPE_6GHZ_INDOOR = 1;
+       AP_TYPE_6GHZ_STANDARD_POWER = 2;
+       AP_TYPE_6GHZ_LOW_POWER_INDOOR = 3;
+       AP_TYPE_6GHZ_VERY_LOW_POWER = 4;
+    }
+
+    // Whether roaming is initiated by the framework to connect this AP
+    optional bool is_framework_initiated_roaming = 1;
+    // The center frequency of the primary 20 MHz frequency (in MHz) of the channel over which the
+    // connection was made.
+    optional int32 channel_frequency_mhz = 2;
+    // Band of the channel_frequency_mhz
+    optional android.net.wifi.WifiBandBucket band_mhz = 3;
+    // The DTIM period (in beacon periods) of the AP
+    optional int32 dtimPeriod = 4;
+    // Security mode of the connection
+    optional android.net.wifi.SecurityMode connected_security_mode = 5;
+    // Whether AP is hidden
+    optional bool is_hidden = 6;
+    // Whether the AP is configured incorrectly as hidden by the user
+    optional bool is_incorrectly_configured_as_hidden = 7;
+    // Wi-Fi standard of the connection
+    optional android.net.wifi.WifiStandard standard = 8;
+    // Whether IEEE 802.11b supported by the AP
+    optional bool is_11b_supported = 9;
+    // EAP type used by the AP
+    optional android.net.wifi.EapType eap_type = 10;
+    // EAP inner method used by the AP
+    optional android.net.wifi.EapInnerMethod eap_inner_method = 11;
+    // OCSP used by the AP
+    optional OcspType ocsp_type = 12;
+    // Whether the AP enabled PMK caching
+    optional bool is_pmk_caching_enabled = 13;
+    // Whether AP supports MBO
+    optional bool is_mbo_supported = 14;
+    // Whether AP supports OCE
+    optional bool is_oce_supported = 15;
+    // Whether the AP supports FILS
+    optional bool is_fils_supported = 16;
+    // Whether AP requires TWT support (individual or broadcast)
+    optional bool is_twt_required = 17;
+    // Whether the AP supports individual TWT agreements
+    optional bool is_individual_twt_supported = 18;
+    // Whether the AP supports broadcast TWT agreements
+    optional bool is_broadcast_twt_supported = 19;
+    // Whether the AP supports restricted TWT agreements
+    optional bool is_restricted_twt_supported = 20;
+    // Whether the AP supports IEEE 802.11mc
+    optional bool is_11mc_supported = 21;
+    // Whether the AP supports IEEE 802.11az
+    optional bool is_11az_supported = 22;
+    // Passpoint release version if a Passpoint connection, otherwise PassPointRelease.UNKNOWN
+    optional android.net.wifi.PasspointRelease passpoint_release = 23;
+    // If the Passpoint connection is provided by the Home provider or Roaming/visited network
+    optional bool is_passpoint_home_provider = 24;
+    // 6 GHz AP type
+    optional ApType6GHz ap_type_6ghz = 25;
+    // Whether AP supports ECPS priority access
+    optional bool is_ecps_priority_access_supported = 26;
 }
