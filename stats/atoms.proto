@@ -1023,6 +1023,7 @@ message Atom {
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 684; // MediaCodecRendered media_codec_rendered
+    extensions 685; // InTaskActivityStarted in_task_activity_started
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
