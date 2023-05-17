@@ -1024,6 +1024,7 @@ message Atom {
     extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 682; // KeyboardConfigured keyboard_configured
     extensions 683; // KeyboardSystemsEventReported keyboard_systems_event_reported
+    extensions 684; // MediaCodecRendered media_codec_rendered
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -12936,7 +12937,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 30
+ * Next tag: 33
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13039,6 +13040,18 @@ message AppSearchQueryStatsReported {
 
     // Time used to send data across the JNI boundary from native to java side.
     optional int32 native_to_java_jni_latency_millis = 29;
+
+    // The type of the join query.
+    //
+    // Needs to be sync with AppSearchSchema#JoinableValueType in
+    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchSchema.java
+    optional int32 join_type = 30;
+
+    // How many total documents were joined to the parent documents.
+    optional int32 native_num_joined_results_current_page = 31;
+
+    // Time taken to join child documents to parent documents.
+    optional int32 native_join_latency_millis = 32;
 }
 
 /**
@@ -15015,6 +15028,9 @@ message VoiceCallSession {
 
     // Last known Radio access technology (RAT).
     optional android.telephony.NetworkTypeEnum last_known_rat = 34;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 35;
 }
 
 /**
@@ -22103,6 +22119,20 @@ message AutofillPresentationEventReported {
 
   // From the user finishing authentication to the dataset is displayed to the user.
   optional int64 latency_dataset_display_millis = 24;
+
+  // Count of datasets that are available due to PCC Detection. These can include datasets
+  // available via provider response, and would be eligible because of pcc too.
+  // If PCC detection is preferred over Autofill provider, and Autofill provider had same detection
+  // as PCC did, the following invariants would hold.
+  // available_pcc_count = available_count
+  // available_pcc_only_count = 0
+  optional int32 available_pcc_count = 25;
+
+  // Count of datasets that are available only due to PCC Detection.
+  optional int32 available_pcc_only_count = 26;
+
+  // The selection process of this dataset.
+  optional autofill.DatasetPickedReason selected_dataset_picked_reason = 27;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
