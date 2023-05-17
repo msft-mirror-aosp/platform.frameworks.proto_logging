@@ -12935,7 +12935,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 30
+ * Next tag: 33
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13038,6 +13038,18 @@ message AppSearchQueryStatsReported {
 
     // Time used to send data across the JNI boundary from native to java side.
     optional int32 native_to_java_jni_latency_millis = 29;
+
+    // The type of the join query.
+    //
+    // Needs to be sync with AppSearchSchema#JoinableValueType in
+    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchSchema.java
+    optional int32 join_type = 30;
+
+    // How many total documents were joined to the parent documents.
+    optional int32 native_num_joined_results_current_page = 31;
+
+    // Time taken to join child documents to parent documents.
+    optional int32 native_join_latency_millis = 32;
 }
 
 /**
@@ -15014,6 +15026,9 @@ message VoiceCallSession {
 
     // Last known Radio access technology (RAT).
     optional android.telephony.NetworkTypeEnum last_known_rat = 34;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 35;
 }
 
 /**
