@@ -99,6 +99,10 @@ enum WifiAuthType {
     AUTH_TYPE_FILS_SHA256 = 15;
     // IEEE 802.11ai FILS SK with SHA384.
     AUTH_TYPE_FILS_SHA384 = 16;
+    // Simultaneous Authentication of Equals transition mode.
+    AUTH_TYPE_SAE_TRANSITION = 17;
+    // Opportunistic Wireless Encryption transition mode.
+    AUTH_TYPE_OWE_TRANSITION = 18;
 }
 
 /**
@@ -155,4 +159,66 @@ enum AwareStatus {
     ST_UNSUPPORTED_CONCURRENCY = 13;
     // Other failures
     ST_GENERIC_FAILURE = 14;
+}
+
+/**
+ * Soft AP Role
+ */
+enum SoftApRole {
+    // Unknown
+    ROLE_UNKNOWN = 0;
+    // Tethering AP
+    ROLE_TETHERING = 1;
+    // Local-only AP
+    ROLE_LOCAL_ONLY = 2;
+}
+
+/**
+ * Device support for STA + AP concurrency
+ */
+enum StaApConcurrency {
+    // Unknown
+    STA_AP_CONCURRENCY_UNKNOWN = 0;
+    // STA + AP concurrency unsupported
+    STA_AP_CONCURRENCY_UNSUPPORTED = 1;
+    // STA + Single AP concurrency supported
+    STA_AP_CONCURRENCY_SINGLE = 2;
+    // STA + Bridged AP concurrency supported
+    STA_AP_CONCURRENCY_DBS = 3;
+}
+
+/**
+ * Connection status of the existing primary STA
+ */
+enum StaStatus {
+    // Unknown
+    STA_STATUS_UNKNOWN = 0;
+    // STA is disconnected
+    STA_STATUS_DISCONNECTED = 1;
+    // STA is connected via 2.4GHz band
+    STA_STATUS_CONNECTED_2_GHZ = 2;
+    // STA is connected via 5GHz band
+    STA_STATUS_CONNECTED_5_GHZ = 3;
+    // STA is connected via 6GHz band
+    STA_STATUS_CONNECTED_6_GHZ = 4;
+}
+
+/**
+ * Wi-Fi Standards
+ */
+enum WifiStandard {
+    // Unknown
+    WIFI_STANDARD_UNKNOWN = 0;
+    // Wi-Fi 802.11a/b/g
+    WIFI_STANDARD_LEGACY = 1;
+    // Wi-Fi 802.11n
+    WIFI_STANDARD_11N = 2;
+    // Wi-Fi 802.11ac
+    WIFI_STANDARD_11AC = 3;
+    // Wi-Fi 802.11ax
+    WIFI_STANDARD_11AX = 4;
+    // Wi-Fi 802.11ad
+    WIFI_STANDARD_11AD = 5;
+    // Wi-Fi 802.11be
+    WIFI_STANDARD_11BE = 6;
 }
