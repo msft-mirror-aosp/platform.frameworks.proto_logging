@@ -5418,9 +5418,13 @@ message ForegroundServiceStateChanged {
         CDM = 9;
     }
 
-    repeated ApiType api_type = 22;
+    optional ApiType api_type = 22;
 
-    repeated int64 api_timestamp = 23;
+    optional int64 api_timestamp = 23;
+
+    optional int64 api_before_fgs_start_duration = 28;
+
+    optional int64 api_after_fgs_end_duration = 29;
 
     // Keep it in sync with ActivityManager.ProcessCapability.
     enum ProcessCapability {
