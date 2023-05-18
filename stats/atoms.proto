@@ -5767,6 +5767,10 @@ message NotificationReported {
 
     // Field for tracking whether the notification is non-dismissible
     optional bool is_non_dismissible = 25;
+
+    // Time elapsed between the notify() API call and the NLSes being told about the notification.
+    // Will be 0 for NotificationReported protos that do not correspond to a notify() call.
+    optional int64 post_duration_millis = 26;
 }
 
 /**
