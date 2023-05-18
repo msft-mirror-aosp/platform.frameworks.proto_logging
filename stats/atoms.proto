@@ -1022,9 +1022,12 @@ message Atom {
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
+    extensions 680; // SoftApStarted softap_started
+    extensions 681; // SoftApStopped softap_stopped
     extensions 682; // KeyboardConfigured keyboard_configured
     extensions 683; // KeyboardSystemsEventReported keyboard_systems_event_reported
     extensions 684; // MediaCodecRendered media_codec_rendered
+    extensions 685; // InTaskActivityStarted in_task_activity_started
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -5411,9 +5414,13 @@ message ForegroundServiceStateChanged {
         CDM = 9;
     }
 
-    repeated ApiType api_type = 22;
+    optional ApiType api_type = 22;
 
-    repeated int64 api_timestamp = 23;
+    optional int64 api_timestamp = 23;
+
+    optional int64 api_before_fgs_start_duration = 28;
+
+    optional int64 api_after_fgs_end_duration = 29;
 
     // Keep it in sync with ActivityManager.ProcessCapability.
     enum ProcessCapability {
