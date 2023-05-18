@@ -105,7 +105,7 @@ message AutofillFillResponseReported {
   // Timestamp of when Autofill provider returns a FillResponse
   // Latency of Autofill provider = fillResponseReceivedTimestampMs -
   // fillRequestSentTimestampMs
-  optional int32 latency_fill_response_received_millis = 7 [deprecated = true];
+  optional int32 latency_fill_response_received_millis = 7;
   optional AuthenticationType authentication_type = 8 [deprecated = true];
   optional AuthenticationResult authentication_result = 9 [deprecated = true];
   optional int64 authentication_failure_reason = 10 [deprecated = true];
@@ -120,6 +120,16 @@ message AutofillFillResponseReported {
   // shown for presentataion. This encapsulates the time taken for preparing
   // final eligible datasets to be shown.
   optional int64 latency_response_processing_millis = 14;
+
+  // Count of datasets that are available due to PCC Detection. These can include datasets
+  // available via provider response, and would be eligible because of pcc too.
+  // If PCC detection is preferred over Autofill provider, and Autofill provider had same detection
+  // as PCC did, the following invariants would hold.
+  // available_pcc_count = available_count
+  // available_pcc_only_count = 0
+  optional int32 available_pcc_count = 15;
+  // Count of datasets that are available only due to PCC Detection.
+  optional int32 available_pcc_only_count = 16;
 }
 
 /**
@@ -159,6 +169,10 @@ message AutofillSaveEventReported {
   optional  int64 latency_save_request_millis = 14;
   // From onSave request to save is finished.
   optional int64 latency_save_finish_millis = 15;
+
+  // Whether the framework created the save info object.
+  // This is true if provider didn't specify any autofill ids in saveInfo object.
+  optional bool is_framework_created_save_info = 16;
 }
 
 /**
@@ -185,4 +199,6 @@ message AutofillSessionCommitted {
 message AutofillFieldClassificationEventReported {
     // Latency of the request to the field classification service.
     optional int64 latency_millis = 1;
+    // Count of fields that were classified.
+    optional int32 count_classifications = 2;
 }

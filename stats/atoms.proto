@@ -1022,6 +1022,7 @@ message Atom {
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
     extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
+    extensions 684; // MediaCodecRendered media_codec_rendered
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1803,7 +1804,8 @@ message WifiDisconnectReported {
  *   frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiMetrics.java
  */
 message WifiConnectionStateChanged {
-    optional bool is_connected = 1;
+    optional bool is_connected = 1 [
+            (state_field_option).exclusive_state = true];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
@@ -2565,6 +2567,9 @@ message KernelWakeupReported {
 
     // Duration (in microseconds) for the wake-up interrupt to be serviced.
     optional int64 duration_micros = 2;
+
+    // The elapsed time when this wake-up was reported.
+    optional int64 elapsed_millis = 3;
 }
 
 /**
@@ -12930,7 +12935,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 30
+ * Next tag: 33
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13033,6 +13038,18 @@ message AppSearchQueryStatsReported {
 
     // Time used to send data across the JNI boundary from native to java side.
     optional int32 native_to_java_jni_latency_millis = 29;
+
+    // The type of the join query.
+    //
+    // Needs to be sync with AppSearchSchema#JoinableValueType in
+    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchSchema.java
+    optional int32 join_type = 30;
+
+    // How many total documents were joined to the parent documents.
+    optional int32 native_num_joined_results_current_page = 31;
+
+    // Time taken to join child documents to parent documents.
+    optional int32 native_join_latency_millis = 32;
 }
 
 /**
@@ -13955,6 +13972,27 @@ message CameraActionEvent {
     // 0 for OPEN and CLOSE
     // ordinal of the SESSION between OPEN and CLOSE
     optional int32 session_idx = 23;
+
+    // Start: Extension metrics.
+    // These will only be set for SESSION which use camera2 extensions
+
+    // Should match CameraExtensionCharacteristics#EXTENSION_*
+    enum ExtensionSessionType {
+        EXTENSION_NONE = -1;
+        EXTENSION_AUTOMATIC = 0;
+        EXTENSION_FACE_RETOUCH = 1;
+        EXTENSION_BOKEH = 2;
+        EXTENSION_HDR = 3;
+        EXTENSION_NIGHT = 4;
+
+    }
+
+    // Type of camera extension being used
+    optional ExtensionSessionType ext_type = 24 [default = EXTENSION_NONE];
+
+    // Whether advanced extensions session is being used
+    optional bool ext_is_advanced = 25;
+    // End: Extension Metrics
 }
 
 /**
@@ -14988,6 +15026,9 @@ message VoiceCallSession {
 
     // Last known Radio access technology (RAT).
     optional android.telephony.NetworkTypeEnum last_known_rat = 34;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 35;
 }
 
 /**
@@ -15065,6 +15106,9 @@ message CellularServiceState {
 
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 12;
 }
 
 /**
@@ -16073,6 +16117,7 @@ message UserLifecycleJourneyReported {
         USER_REMOVE = 6; // A user removal journey
         GRANT_ADMIN = 7; // An admin grant journey
         REVOKE_ADMIN = 8; // An admin revocation journey
+        USER_LIFECYCLE = 9; // User journey from creation to deletion
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -16099,6 +16144,7 @@ message UserLifecycleJourneyReported {
     // What are the flags attached to the target user
     optional int32 user_flags = 6;
     optional int32 error_code = 7;
+    optional int64 elapsed_time = 8;
 }
 
 /**
@@ -20668,6 +20714,18 @@ message UwbSessionClosed {
     optional int32 start_failure_count = 14;
     // Ranging start without valid ranging result count
     optional int32 start_no_valid_report_count = 15;
+    // Total Rx data packet count
+    optional int32 rx_packet_count = 16;
+    // Total Tx data packet count
+    optional int32 tx_packet_count = 17;
+    // Count of Rx data packet with error
+    optional int32 rx_error_count = 18;
+    // Count of Tx data packet with error
+    optional int32 tx_error_count = 19;
+    // Count of Rx data packets sent to upper layer
+    optional int32 rx_to_upper_layer_count = 20;
+    // Ranging Measurement Type
+    optional android.uwb.RangingType ranging_type = 21;
 }
 
 /*
@@ -20725,6 +20783,8 @@ message UwbRangingMeasurementReceived {
     optional int32 elevation_10degree = 13;
     // The figure of merit of elevation angle measurement.
     optional int32 elevation_fom = 14;
+    // Ranging Measurement Type
+    optional android.uwb.RangingType ranging_type = 15;
 }
 
 /*
@@ -22048,6 +22108,20 @@ message AutofillPresentationEventReported {
 
   // From the user finishing authentication to the dataset is displayed to the user.
   optional int64 latency_dataset_display_millis = 24;
+
+  // Count of datasets that are available due to PCC Detection. These can include datasets
+  // available via provider response, and would be eligible because of pcc too.
+  // If PCC detection is preferred over Autofill provider, and Autofill provider had same detection
+  // as PCC did, the following invariants would hold.
+  // available_pcc_count = available_count
+  // available_pcc_only_count = 0
+  optional int32 available_pcc_count = 25;
+
+  // Count of datasets that are available only due to PCC Detection.
+  optional int32 available_pcc_only_count = 26;
+
+  // The selection process of this dataset.
+  optional autofill.DatasetPickedReason selected_dataset_picked_reason = 27;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
