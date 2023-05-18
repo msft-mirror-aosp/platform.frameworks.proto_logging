@@ -22141,6 +22141,9 @@ message AutofillPresentationEventReported {
 
   // The selection process of this dataset.
   optional autofill.DatasetPickedReason selected_dataset_picked_reason = 27;
+
+  // Which detection was preferred
+  optional autofill.DetectionPreference detection_preference = 28;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
