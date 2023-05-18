@@ -99,7 +99,8 @@ message AutofillFillResponseReported {
   // How the dataset is supposed to be shown to the user
   optional AutofillDisplayPresentationType display_presentation_type = 4;
   // Count of datasets that should've been available for display. If the request
-  // times out, this won't be populated.
+  // times out, this won't be populated. This is the count after PCC detected
+  // datasets are processed and ineligeble datasets have been filtered off.
   optional int32 available_count = 5;
   optional int64 save_ui_trigger_ids = 6;
   // Timestamp of when Autofill provider returns a FillResponse
@@ -121,15 +122,32 @@ message AutofillFillResponseReported {
   // final eligible datasets to be shown.
   optional int64 latency_response_processing_millis = 14;
 
-  // Count of datasets that are available due to PCC Detection. These can include datasets
-  // available via provider response, and would be eligible because of pcc too.
-  // If PCC detection is preferred over Autofill provider, and Autofill provider had same detection
-  // as PCC did, the following invariants would hold.
+  // Count of datasets that were provided by the Autofill Provider by
+  // specifying type. These datasets may additionally contain autofill ids for
+  // which this same dataset is applicable that are available due to PCC
+  // detection. These can include datasets available via provider response,
+  // and would be eligible because of PCC too.
+  // If PCC detection is preferred over Autofill Provider, it may include
+  // datasets applicable to autofill ids. So the same datasets would've shown
+  // if Autofill Provider detection was preferred.
+  // In such a case and if the detection of both the Autofill Provider and PCC
+  // detection were the same, the following invariants holds, provided same
+  // datasets were provided.
   // available_pcc_count = available_count
   // available_pcc_only_count = 0
+  // If PCC detection is not preferred, the following invariant holds.
+  // available_pcc_count = available_pcc_only_count
   optional int32 available_pcc_count = 15;
-  // Count of datasets that are available only due to PCC Detection.
+  // Count of datasets that are available only due to PCC Detection. These
+  // datasets are the ones provided by Autofill Provider by specifying types
+  // only. These datasets don't have any autofill id associated with them.
   optional int32 available_pcc_only_count = 16;
+  // Count of datasets that are returned by the Autofill Provider. This count
+  // is before any filtering based on PCC detection is performed. This contains
+  // datasets set by both type and autofill ids.
+  optional int32 total_datasets_provided = 17;
+  // Which detection was preferred
+  optional DetectionPreference detection_preference = 18;
 }
 
 /**
