@@ -5415,9 +5415,9 @@ message ForegroundServiceStateChanged {
         CDM = 9;
     }
 
-    optional ApiType api_type = 22;
+    repeated ApiType api_type = 22;
 
-    optional int64 api_timestamp = 23;
+    repeated int64 api_timestamp = 23;
 
     optional int64 api_before_fgs_start_duration = 28;
 
