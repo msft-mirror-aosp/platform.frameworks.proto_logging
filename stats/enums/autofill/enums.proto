@@ -120,3 +120,11 @@ enum DatasetPickedReason {
   PICK_REASON_PCC_DETECTION_ONLY = 4;
   PICK_REASON_PCC_DETECTION_PREFERRED_WITH_PROVIDER = 5;
 }
+
+// Enum for specifying which detection provider gets the preference when choosing
+// final datasets.
+enum DetectionPreference {
+  DETECTION_PREFER_UNKONWN = 0;
+  DETECTION_PREFER_AUTOFILL_PROVIDER = 1;
+  DETECTION_PREFER_PCC = 2;
+}
