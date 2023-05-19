@@ -53,3 +53,57 @@ enum KeyboardSystemEvent {
     SYSTEM_MUTE = 25;
     SPLIT_SCREEN_NAVIGATION = 26;
 }
+
+/**
+ * Contains usage type/category definitions.
+ * Logged in InputDeviceUsageReported atom.
+ */
+enum InputDeviceUsageType {
+    UNKNOWN = 0;
+    // Miscellaneous buttons (such as volume, power, stylus buttons, remote controls etc.)
+    // that are not categorized a full keyboards.
+    BUTTONS = 1;
+    // An alphabetical physical keyboard.
+    KEYBOARD = 2;
+    // A D-Pad.
+    DPAD = 3;
+    // Gamepad buttons.
+    GAMEPAD = 4;
+    // A joystick, like one part of a gaming controller.
+    JOYSTICK = 5;
+    // A mouse that controls an on-screen cursor. (Touchpads are not included)
+    MOUSE = 6;
+    // A mouse that is operating under Pointer Capture mode.
+    MOUSE_CAPTURED = 7;
+    // A touchpad (trackpad) that controls an on-screen cursor.
+    TOUCHPAD = 8;
+    // A touchpad that is operating under Pointer Capture mode.
+    TOUCHPAD_CAPTURED = 9;
+    // A rotary encoder.
+    ROTARY_ENCODER = 10;
+    // A stylus, where touches are mapped directly to the display.
+    STYLUS_DIRECT = 11;
+    // A stylus that interacts with a display indirectly, such as by controlling an
+    // on-screen cursor. This includes external drawing tablets that don't have a built-in
+    // display.
+    STYLUS_INDIRECT = 12;
+    // A stylus that reports some information through Bluetooth that is then fused
+    // with touch information from the built-in touchscreen.
+    STYLUS_FUSED = 13;
+    // A touch device that navigates through the UI using gestures.
+    TOUCH_NAVIGATION = 14;
+    // A touchscreen, where touches are mapped directly to the display.
+    TOUCHSCREEN = 15;
+    // A trackball.
+    TRACKBALL = 16;
+};
+
+/**
+ * Contains buses through which an input device can be connected.
+ * Logged in InputDeviceUsageReported atom.
+ */
+enum InputDeviceBus {
+    OTHER = 0;
+    USB = 1;
+    BLUETOOTH = 2;
+}
