@@ -1021,6 +1021,7 @@ message Atom {
     extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 678; // IkeSessionTerminated ike_session_terminated
     extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
     extensions 680; // SoftApStarted softap_started
     extensions 681; // SoftApStopped softap_stopped
