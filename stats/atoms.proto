@@ -223,7 +223,7 @@ message Atom {
                 64 [(module) = "sysui"];
         AppDied app_died = 65 [(module) = "framework"];
         ResourceConfigurationChanged resource_configuration_changed = 66 [(module) = "framework"];
-        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "framework"];
+        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "bluetooth"];
         BluetoothConnectionStateChanged bluetooth_connection_state_changed =
                 68 [(module) = "bluetooth"];
         GpsSignalQualityChanged gps_signal_quality_changed = 69 [(module) = "framework"];
@@ -1028,6 +1028,7 @@ message Atom {
     extensions 683; // KeyboardSystemsEventReported keyboard_systems_event_reported
     extensions 684; // MediaCodecRendered media_codec_rendered
     extensions 685; // InTaskActivityStarted in_task_activity_started
+    extensions 686; // InputDeviceUsageReported inputdevice_usage_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -5414,9 +5415,9 @@ message ForegroundServiceStateChanged {
         CDM = 9;
     }
 
-    optional ApiType api_type = 22;
+    repeated ApiType api_type = 22;
 
-    optional int64 api_timestamp = 23;
+    repeated int64 api_timestamp = 23;
 
     optional int64 api_before_fgs_start_duration = 28;
 
@@ -5767,6 +5768,10 @@ message NotificationReported {
 
     // Field for tracking whether the notification is non-dismissible
     optional bool is_non_dismissible = 25;
+
+    // Time elapsed between the notify() API call and the NLSes being told about the notification.
+    // Will be 0 for NotificationReported protos that do not correspond to a notify() call.
+    optional int64 post_duration_millis = 26;
 }
 
 /**
@@ -10897,6 +10902,7 @@ message MediaCodecReported {
     optional int32 flush_count = 74;
     optional int32 set_surface_count = 75;
     optional int32 resolution_change_count = 76;
+    optional int32 component_color_format = 77;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.

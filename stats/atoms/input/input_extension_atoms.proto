@@ -29,6 +29,7 @@ option java_outer_classname = "KeyboardConfiguredProto";
 extend Atom {
     optional KeyboardConfigured keyboard_configured = 682 [(module) = "framework"];
     optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683 [(module) = "framework"];
+    optional InputDeviceUsageReported inputdevice_usage_reported = 686 [(module) = "framework"];
 }
 
 // Keyboard layout configured when the device is connected
@@ -92,3 +93,35 @@ message KeyboardSystemsEventReported {
     optional int32 modifier_state = 5;
 }
 
+/**
+ * Logs input device usage information when a usage session is detected.
+ * Pushed when the system identifies the end of a usage session.
+ *
+ * Logged from:
+ *   frameworks/native/services/inputflinger
+ */
+message InputDeviceUsageReported {
+    // The Input Device Vendor ID
+    optional int32 vendor_id = 1;
+    // The Input Device Product ID
+    optional int32 product_id = 2;
+    // The Input Device Version ID
+    optional int32 version_id = 3;
+    // The Input Device Bus ID
+    optional android.input.InputDeviceBus device_bus = 4;
+
+    // The duration of the aggregated usage session for this Input Device.
+    // (The int32_t will overflow at ~25 days)
+    optional int32 usage_duration_millis = 5;
+
+    // The breakdown of this usage session by source.
+    repeated android.input.InputDeviceUsageType usage_sources = 6;
+    // The breakdown of usage duration for each of the {@link usage_sources}
+    // reported above.
+    repeated int32 usage_durations_per_source = 7;
+
+    // The breakdown of this usage session by uid.
+    repeated int32 uids = 8 [(is_uid) = true];
+    // The breakdown of usage duration for each of the {@link uids} reported above.
+    repeated int32 usage_durations_per_uid = 9;
+}
