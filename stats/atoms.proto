@@ -23404,6 +23404,7 @@ message HearingAidInfoReported {
         ACCESSIBILITY_HEARING_AIDS = 1;
         ACCESSIBILITY_HEARING_AID_PAIR_ANOTHER = 2;
         BLUETOOTH = 3;
+        ACCESSIBILITY_HEARING_AID_SETTINGS = 4;
     }
     optional BondEntry bond_entry = 3;
 }
