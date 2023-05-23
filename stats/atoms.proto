@@ -14804,6 +14804,9 @@ message ContactsProviderStatusReported {
         UPDATE = 3;
         DELETE = 4;
         CALL = 5;
+
+        // Call from CP2 to a GAL provider.
+        GAL_CALL = 6;
     }
 
     // Method called for ApiType.CALL
@@ -14844,6 +14847,11 @@ message ContactsProviderStatusReported {
     optional TaskType task_type = 7;
     // Set when api_type == CALL
     optional MethodCall method_called = 8;
+
+    // Normally, it's the binder calling UID. (this could be CP2, for work profile or cloned
+    // profile cases.)
+    // For GAL_CALL, it's the GAL provider UID.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
