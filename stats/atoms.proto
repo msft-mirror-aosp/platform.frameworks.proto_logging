@@ -1899,6 +1899,8 @@ message WifiP2pConnectionReported {
     // fallback to negotiation if device receives invitation response status code "information is
     // currently unavailable"
     optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
+    // The try count of connection
+    optional int32 try_count = 12;
 }
 
 /**
@@ -14793,6 +14795,9 @@ message ContactsProviderStatusReported {
         UPDATE = 3;
         DELETE = 4;
         CALL = 5;
+
+        // Call from CP2 to a GAL provider.
+        GAL_CALL = 6;
     }
 
     // Method called for ApiType.CALL
@@ -14833,6 +14838,11 @@ message ContactsProviderStatusReported {
     optional TaskType task_type = 7;
     // Set when api_type == CALL
     optional MethodCall method_called = 8;
+
+    // Normally, it's the binder calling UID. (this could be CP2, for work profile or cloned
+    // profile cases.)
+    // For GAL_CALL, it's the GAL provider UID.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
@@ -23410,6 +23420,7 @@ message HearingAidInfoReported {
         ACCESSIBILITY_HEARING_AIDS = 1;
         ACCESSIBILITY_HEARING_AID_PAIR_ANOTHER = 2;
         BLUETOOTH = 3;
+        ACCESSIBILITY_HEARING_AID_SETTINGS = 4;
     }
     optional BondEntry bond_entry = 3;
 }
