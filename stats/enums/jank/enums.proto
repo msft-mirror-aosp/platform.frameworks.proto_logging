@@ -135,5 +135,6 @@ enum ActionType {
     ACTION_REQUEST_IME_SHOWN = 21;
     ACTION_REQUEST_IME_HIDDEN = 22;
     ACTION_SMARTSPACE_DOORBELL = 23;
+    reserved 24 to 26; // For b/281564325.
 }
 
