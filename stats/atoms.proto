@@ -5421,9 +5421,9 @@ message ForegroundServiceStateChanged {
 
     repeated int64 api_timestamp = 23;
 
-    optional int64 api_before_fgs_start_duration = 28;
+    optional int64 api_before_fgs_start_duration_millis = 28;
 
-    optional int64 api_after_fgs_end_duration = 29;
+    optional int64 api_after_fgs_end_duration_millis = 29;
 
     // Keep it in sync with ActivityManager.ProcessCapability.
     enum ProcessCapability {
@@ -14798,6 +14798,9 @@ message ContactsProviderStatusReported {
         UPDATE = 3;
         DELETE = 4;
         CALL = 5;
+
+        // Call from CP2 to a GAL provider.
+        GAL_CALL = 6;
     }
 
     // Method called for ApiType.CALL
@@ -14838,6 +14841,11 @@ message ContactsProviderStatusReported {
     optional TaskType task_type = 7;
     // Set when api_type == CALL
     optional MethodCall method_called = 8;
+
+    // Normally, it's the binder calling UID. (this could be CP2, for work profile or cloned
+    // profile cases.)
+    // For GAL_CALL, it's the GAL provider UID.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
