@@ -205,6 +205,14 @@ message LauncherUIChanged {
 
     // List of attributes attached to the event.
     optional LauncherAttributes attributes = 27 [(log_mode) = MODE_BYTES];
+
+    // Specifies the input type of the event.
+    enum InputType {
+        UNKNOWN = 0;
+        TOUCH = 1;
+        TRACKPAD = 2;
+    }
+    optional InputType input_type = 28;
 }
 
 message LauncherAttributes {
@@ -674,6 +682,8 @@ message LauncherLatency {
     optional int32 type = 5;
     optional int32 query_length = 6 [default = -1];
     optional int32 sub_event_type = 7;
+    // Size of work to complete within the latency duration. E.g. number of workspace items to initialize during launcher startup.
+    optional int32 cardinality = 8 [default = -1];
 }
 
 /**

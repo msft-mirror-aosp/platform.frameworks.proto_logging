@@ -26,12 +26,15 @@ enum MetricUnit {
     UNIT_UNKNOWN = 0;
     UNIT_COUNT = 1;
     UNIT_TIME_MILLIS = 2;
+    UNIT_KILOBYTE = 3;
 }
 
 enum MetricType {
     METRIC_TYPE_UNKNOWN = 0;
     COUNTER = 1;
     HISTOGRAM = 2;
+    COUNTER_WITH_UID = 3;
+    HISTOGRAM_WITH_UID = 4;
 }
 
 message HistogramOptions {
