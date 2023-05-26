@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 
 option java_package = "com.android.os.adservices";
@@ -60,6 +61,14 @@ extend Atom {
   optional AdServicesMeasurementAdIdMatchForDebugKeys
       ad_services_measurement_ad_id_match_for_debug_keys = 695
         [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesEnrollmentDataStored ad_services_enrollment_data_stored = 697
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentFileDownloaded
+      ad_services_enrollment_file_downloaded = 698
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentMatched ad_services_enrollment_matched = 699
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -218,4 +227,29 @@ message AdServicesMeasurementAdIdMatchForDebugKeys {
   optional bool is_matched = 3;
   optional int64 num_unique_ad_ids_used = 4;
   optional int64 num_unique_ad_id_limit = 5;
+}
+
+/**
+ * Logs when AdServices enrollment data is stored.
+ */
+message AdServicesEnrollmentDataStored {
+  optional android.stats.adservices.enrollment.TransactionType transaction_type = 1;
+  optional bool success = 2;
+  optional int32 build_id = 3; // id of the enrollment file downloaded via mdd
+}
+
+/**
+ * Logs when AdServices enrollment file get downloaded.
+ */
+message AdServicesEnrollmentFileDownloaded {
+  optional bool success = 1;
+  optional int32 build_id = 2; // id of the enrollment file downloaded via mdd
+}
+
+/**
+ * Logs when AdServices enrollment match occurs.
+ */
+message AdServicesEnrollmentMatched {
+  optional bool success = 1;
+  optional int32 build_id = 2; // id of the enrollment file downloaded via mdd
 }

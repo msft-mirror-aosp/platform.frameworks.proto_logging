@@ -1042,6 +1042,9 @@ message Atom {
     extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
     extensions 695; // AdServicesMeasurementAdIdMatchForDebugKeys ad_services_ad_id_match_for_debug_keys
     extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
+    extensions 697; // AdServicesEnrollmentDataStored ad_services_enrollment_data_stored
+    extensions 698; // AdServicesEnrollmentFileDownloaded ad_services_enrollment_file_downloaded
+    extensions 699; // AdServicesEnrollmentMatched ad_services_enrollment_matched
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
