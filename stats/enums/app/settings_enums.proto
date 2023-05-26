@@ -1326,6 +1326,18 @@ enum Action {
     // ACTION: Settings > System > Touchpad > Learn touchpad gestures
     // OS: U
     ACTION_LEARN_TOUCHPAD_GESTURE_CLICK = 1855;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Not specified
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_NOT_SPECIFIED = 1856;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Feminine
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_FEMININE = 1857;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Masculine
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_MASCULINE = 1858;
 }
 
 /**
@@ -4127,6 +4139,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     VPN_APP_MANAGEMENT = 2033;
+
+    // OPEN: Settings > System > Languages > System Languages > Terms of address
+    // CATEGORY: SETTINGS
+    // OS: V
+    TERMS_OF_ADDRESS = 2034;
 }
 
 // Battery Saver schedule types.
