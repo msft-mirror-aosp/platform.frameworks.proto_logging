@@ -1041,7 +1041,7 @@ message Atom {
     extensions 693; // WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
     extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
     extensions 695; // AdServicesMeasurementAdIdMatchForDebugKeys ad_services_ad_id_match_for_debug_keys
-
+    extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
