@@ -31,6 +31,8 @@ extend Atom {
     optional WifiSelfRecoveryTriggered wifi_self_recovery_triggered = 661 [(module) = "wifi"];
     optional SoftApStarted soft_ap_started = 680 [(module) = "wifi"];
     optional SoftApStopped soft_ap_stopped = 681 [(module) = "wifi"];
+    optional WifiLockReleased wifi_lock_released = 687 [(module) = "wifi"];
+    optional WifiLockDeactivated wifi_lock_deactivated = 688 [(module) = "wifi"];
 }
 
 /**
@@ -198,4 +200,48 @@ message SoftApStopped {
     optional android.net.wifi.WifiStandard standard = 10;
     // Max num of associated clients for the entire session
     optional int32 max_clients = 11;
+}
+
+/**
+ * Logged when wifi lock is released
+ */
+message WifiLockReleased {
+    // Attribution tag of the caller
+    optional string attribution_tag = 1;
+    // UID of the caller
+    optional int32 uid = 2;
+    // Permission model of the caller
+    optional android.net.wifi.WifiCallerType caller_type = 3;
+    // Lock mode
+    optional android.net.wifi.WifiModeEnum mode = 4;
+    // For how long the lock is acquired in milliseconds
+    optional int32 acquired_duration = 5;
+    // Whether power save disable is allowed during lock acquire
+    optional bool is_powersave_disable_allowed = 6;
+    // Whether the application which acquired the lock is exempted from screen ON
+    optional bool is_app_exempted_from_screen_on = 7;
+    // Whether the application which acquired the lock is exempted from being foreground
+    optional bool is_app_exempted_from_foreground = 8;
+}
+
+/**
+ * Logged when wifi lock is deactivated
+ */
+message WifiLockDeactivated {
+    // Attribution tag of the caller
+    optional string attribution_tag = 1;
+    // UID of the caller
+    optional int32 uid = 2;
+    // Permission model of the caller
+    optional android.net.wifi.WifiCallerType caller_type = 3;
+    // Lock mode
+    optional android.net.wifi.WifiModeEnum mode = 4;
+    // For how long the lock is activated in milliseconds
+    optional int32 activated_duration = 5;
+    // Whether power save disable is allowed during the lock activation
+    optional bool is_powersave_disable_allowed = 6;
+    // Whether the application which activated the lock is exempted from screen ON
+    optional bool is_exempted_from_screen_on = 7;
+    // Whether the application which activated the lock is exempted from being foreground
+    optional bool is_exempted_from_foreground = 8;
 }
