@@ -6513,6 +6513,10 @@ message BroadcastDeliveryEventReported {
 
     /** The package name of the broadcast sender */
     optional string sender_package_name = 11;
+
+    optional int32 broadcast_type = 12;
+
+    optional android.app.BroadcastDeliveryGroupPolicy delivery_group_policy = 13;
 }
 
 /**
