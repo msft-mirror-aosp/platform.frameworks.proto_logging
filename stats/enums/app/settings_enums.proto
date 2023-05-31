@@ -4018,6 +4018,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     ACCOUNT_DETAIL = 2031;
+
+    // OPEN: Settings > Wireless > VPN
+    // CATEGORY: SETTINGS
+    // OS: U
+    VPN_APP_MANAGEMENT = 2033;
 }
 
 // Battery Saver schedule types.
