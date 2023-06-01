@@ -2188,6 +2188,7 @@ message ScheduledJobStateChanged {
         RARE = 3;
         NEVER = 4;
         RESTRICTED = 5;
+        EXEMPTED = 6;
     }
     optional Bucket standby_bucket = 5 [default = UNKNOWN];
 
