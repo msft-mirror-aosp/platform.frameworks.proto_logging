@@ -223,7 +223,7 @@ message Atom {
                 64 [(module) = "sysui"];
         AppDied app_died = 65 [(module) = "framework"];
         ResourceConfigurationChanged resource_configuration_changed = 66 [(module) = "framework"];
-        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "framework"];
+        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "bluetooth"];
         BluetoothConnectionStateChanged bluetooth_connection_state_changed =
                 68 [(module) = "bluetooth"];
         GpsSignalQualityChanged gps_signal_quality_changed = 69 [(module) = "framework"];
@@ -1026,6 +1026,8 @@ message Atom {
     extensions 681; // SoftApStopped softap_stopped
     extensions 684; // MediaCodecRendered media_codec_rendered
     extensions 685; // InTaskActivityStarted in_task_activity_started
+    extensions 687; // WifiLockReleased wifi_lock_released
+    extensions 688; // WifiLockDeactivated wifi_lock_deactivated
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2187,6 +2189,7 @@ message ScheduledJobStateChanged {
         RARE = 3;
         NEVER = 4;
         RESTRICTED = 5;
+        EXEMPTED = 6;
     }
     optional Bucket standby_bucket = 5 [default = UNKNOWN];
 
@@ -6513,6 +6516,10 @@ message BroadcastDeliveryEventReported {
 
     /** The package name of the broadcast sender */
     optional string sender_package_name = 11;
+
+    optional int32 broadcast_type = 12;
+
+    optional android.app.BroadcastDeliveryGroupPolicy delivery_group_policy = 13;
 }
 
 /**
