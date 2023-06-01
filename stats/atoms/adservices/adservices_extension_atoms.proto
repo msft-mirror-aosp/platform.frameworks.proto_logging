@@ -57,6 +57,9 @@ extend Atom {
   optional AdServicesMeasurementWipeout
       ad_services_measurement_wipeout = 676
         [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementAdIdMatchForDebugKeys
+      ad_services_measurement_ad_id_match_for_debug_keys = 695
+        [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -203,4 +206,15 @@ message AdServicesMeasurementJobs {
  */
 message AdServicesMeasurementWipeout {
   optional android.adservices.service.measurement.WipeoutCause wipeout_cause = 1;
+}
+
+/**
+ * Logs Ad Id match state for debug keys when measurement reports are being generated.
+ */
+message AdServicesMeasurementAdIdMatchForDebugKeys {
+  optional string adtech_enrollment_id = 1;
+  optional android.adservices.AttributionType attribution_type = 2;
+  optional bool is_matched = 3;
+  optional int64 num_unique_ad_ids_used = 4;
+  optional int64 num_unique_ad_id_limit = 5;
 }
