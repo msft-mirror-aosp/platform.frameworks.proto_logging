@@ -72,8 +72,6 @@ message AdServicesTopicIds {
  * avoids usage of field types (e.g. repeated) that aren't supported on R/S.
  */
 message AdServicesBackCompatGetTopicsReported {
-  // See b/266626836 for why topic_ids is not a field yet.
-
   // Number of filtered duplicate topics.
   optional int32 duplicate_topic_count = 1;
 
@@ -82,6 +80,9 @@ message AdServicesBackCompatGetTopicsReported {
 
   // Number of topic ids returned.
   optional int32 count_of_topic_ids = 3;
+
+  // Topic ids returned, randomized using a random response mechanism.
+  optional AdServicesTopicIds topic_ids = 4 [(log_mode) = MODE_BYTES];
 }
 
 /**
