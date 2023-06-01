@@ -92,6 +92,8 @@ message WifiSelfRecoveryTriggered {
     optional Reason reason = 1;
     // Self recovery result
     optional Result result = 2;
+    // Record time elapsed from last trigger event
+    optional int64 time_elapsed_from_last_millis = 3;
 }
 
 /**
