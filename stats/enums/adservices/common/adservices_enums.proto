@@ -160,6 +160,69 @@ enum ErrorCode {
   // digest algorithm.
   TOPICS_MESSAGE_DIGEST_ALGORITHM_NOT_FOUND = 1020;
 
+  // Error occurred when failed to find downloaded classifier model file.
+  DOWNLOADED_CLASSIFIER_MODEL_FILE_NOT_FOUND = 1021;
+
+  // No downloaded or bundled classifier model available.
+  NO_CLASSIFIER_MODEL_AVAILABLE = 1022;
+
+  // Error occurred when failed to read labels file.
+  READ_LABELS_FILE_FAILURE = 1023;
+
+  // Error occurred when failed to read precomuted labels.
+  READ_PRECOMUTRED_LABELS_FAILURE = 1024;
+
+  // Error occurred when failed to read top apps file.
+  READ_TOP_APPS_FILE_FAILURE = 1025;
+
+  // Error occurred when saving a topic not in labels file.
+  INVALID_TOPIC_ID = 1026;
+
+  // Error occurred when failed to read precomuted app topics list.
+  READ_PRECOMUTRED_APP_TOPICS_LIST_FAILURE = 1027;
+
+  // Error occurred when failed to read bundled metadata file.
+  READ_BUNDLED_METADATA_FILE_FAILURE = 1028;
+
+  // Error occurred when reading redundant metadata property.
+  CLASSIFIER_METADATA_REDUNDANT_PROPERTY= 1029;
+
+  // Error occurred when reading redundant metadata asset.
+  CLASSIFIER_METADATA_REDUNDANT_ASSET = 1030;
+
+  // Error occurred when parsing metadata json missing property or asset_name.
+  CLASSIFIER_METADATA_MISSING_PROPERTY_OR_ASSET_NAME = 1031;
+
+  // Error occurred when failed to read classifier assets metadata file.
+  READ_CLASSIFIER_ASSETS_METADATA_FAILURE = 1032;
+
+  // Error occurred when failed to load downloaded file by file Id.
+  DOWNLOADED_CLASSIFIER_MODEL_FILE_LOAD_FAILURE = 1033;
+
+  // RuntimeException occurred when use invalid type of blocked topics
+  // source of truth.
+  TOPICS_INVALID_BLOCKED_TOPICS_SOURCE_OF_TRUTH = 1034;
+
+  // RuntimeException occurred when unable to remove the blocked topic.
+  TOPICS_REMOVE_BLOCKED_TOPIC_FAILURE = 1035;
+
+  // RuntimeException occurred when unable to get all blocked topics.
+  TOPICS_GET_BLOCKED_TOPIC_FAILURE = 1036;
+
+  // RuntimeException occurred when unable to clear all blocked topics
+  // in system server.
+  TOPICS_CLEAR_ALL_BLOCKED_TOPICS_IN_SYSTEM_SERVER_FAILURE = 1037;
+
+  // Error occurred when unable to handle JobService.
+  TOPICS_HANDLE_JOB_SERVICE_FAILURE = 1038;
+
+  // Error occurred when unable to fetch job scheduler.
+  TOPICS_FETCH_JOB_SCHEDULER_FAILURE = 1039;
+
+  // Measurement errors: 2001-3000
+  // Error eccurred when inserting enrollment data to DB.
+  ENROLLMENT_DATA_INSERT_ERROR = 2001;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
