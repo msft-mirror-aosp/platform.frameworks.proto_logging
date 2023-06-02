@@ -1045,6 +1045,7 @@ message Atom {
     extensions 697; // AdServicesEnrollmentDataStored ad_services_enrollment_data_stored
     extensions 698; // AdServicesEnrollmentFileDownloaded ad_services_enrollment_file_downloaded
     extensions 699; // AdServicesEnrollmentMatched ad_services_enrollment_matched
+    extensions 700; // WifiStateChanged wifi_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
