@@ -711,6 +711,11 @@ message LauncherImpressionEvent {
     // If the corresponding result_type is above or below keyboard.
     // If 50% of result is visible, then is_above_keyboard = true
     repeated bool is_above_keyboard = 7;
+
+    // UID of the application (can be mapped to package name) corresponding to the result_type.
+    // The default value of uid entry will be -1 to indicate package name is not
+    // found.
+    repeated int32 uid = 8 [(is_uid) = true];
 }
 
 /**
