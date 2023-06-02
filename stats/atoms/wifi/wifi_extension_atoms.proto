@@ -21,16 +21,32 @@ package android.os.statsd.wifi;
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
+import "frameworks/proto_logging/stats/attribution_node.proto";
 
 option java_package = "com.android.os.wifi";
 option java_multiple_files = true;
 
 extend Atom {
+    // Push metrics
     optional WifiAwareNdpReported wifi_aware_ndp_reported = 638 [(module) = "wifi"];
     optional WifiAwareAttachReported wifi_aware_attach_reported = 639 [(module) = "wifi"];
     optional WifiSelfRecoveryTriggered wifi_self_recovery_triggered = 661 [(module) = "wifi"];
     optional SoftApStarted soft_ap_started = 680 [(module) = "wifi"];
     optional SoftApStopped soft_ap_stopped = 681 [(module) = "wifi"];
+    optional WifiLockReleased wifi_lock_released = 687 [(module) = "wifi"];
+    optional WifiLockDeactivated wifi_lock_deactivated = 688 [(module) = "wifi"];
+    optional WifiConfigSaved wifi_config_saved = 689 [(module) = "wifi"];
+    optional WifiAwareResourceUsingChanged wifi_aware_resource_using_changed
+        = 690 [(module) = "wifi"];
+    optional WifiAwareHalApiCalled wifi_aware_hal_api_called = 691 [(module) = "wifi"];
+    optional WifiLocalOnlyRequestReceived wifi_local_only_request_received
+        = 692 [(module) = "wifi"];
+    optional WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
+        = 693 [(module) = "wifi"];
+    optional WifiThreadTaskExecuted wifi_thread_task_executed = 694 [(module) = "wifi"];
+
+    // Pull metrics
+    optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
 }
 
 /**
@@ -54,6 +70,14 @@ message WifiAwareNdpReported {
     optional int32 discovery_ndp_latency_ms= 5;
     // Channel frequency in MHz, 0 if unavailable, >= 2400 otherwise.
     optional int32 channel_frequency_mhz= 6;
+    // If the instant mode is enabled
+    optional bool is_instant_mode = 7;
+    // The caller type of the NDP request
+    optional android.net.wifi.WifiCallerType caller_type = 8;
+    // The Attribution tag to identify the caller
+    optional string attribution_tag = 9;
+    // The uid of the caller
+    optional int32 uid = 10;
 }
 
 /**
@@ -62,6 +86,12 @@ message WifiAwareNdpReported {
 message WifiAwareAttachReported {
     // Status of attach
     optional android.net.wifi.AwareStatus status = 1;
+    // The caller type of the attach
+    optional android.net.wifi.WifiCallerType caller_type = 2;
+    // The Attribution tag to identify the caller
+    optional string attribution_tag = 3;
+    // The uid of the caller
+    optional int32 uid = 4;
 }
 
 /**
@@ -178,4 +208,132 @@ message SoftApStopped {
     optional android.net.wifi.WifiStandard standard = 10;
     // Max num of associated clients for the entire session
     optional int32 max_clients = 11;
+}
+
+/**
+ * Logged when wifi lock is released
+ */
+message WifiLockReleased {
+    // Attribution tag of the caller
+    optional string attribution_tag = 1;
+    // UID of the caller
+    optional int32 uid = 2;
+    // Permission model of the caller
+    optional android.net.wifi.WifiCallerType caller_type = 3;
+    // Lock mode
+    optional android.net.wifi.WifiModeEnum mode = 4;
+    // For how long the lock is acquired in milliseconds
+    optional int32 acquired_duration = 5;
+    // Whether power save disable is allowed during lock acquire
+    optional bool is_powersave_disable_allowed = 6;
+    // Whether the application which acquired the lock is exempted from screen ON
+    optional bool is_app_exempted_from_screen_on = 7;
+    // Whether the application which acquired the lock is exempted from being foreground
+    optional bool is_app_exempted_from_foreground = 8;
+}
+
+/**
+ * Logged when wifi lock is deactivated
+ */
+message WifiLockDeactivated {
+    // Attribution tag of the caller
+    optional string attribution_tag = 1;
+    // UID of the caller
+    optional int32 uid = 2;
+    // Permission model of the caller
+    optional android.net.wifi.WifiCallerType caller_type = 3;
+    // Lock mode
+    optional android.net.wifi.WifiModeEnum mode = 4;
+    // For how long the lock is activated in milliseconds
+    optional int32 activated_duration = 5;
+    // Whether power save disable is allowed during the lock activation
+    optional bool is_powersave_disable_allowed = 6;
+    // Whether the application which activated the lock is exempted from screen ON
+    optional bool is_exempted_from_screen_on = 7;
+    // Whether the application which activated the lock is exempted from being foreground
+    optional bool is_exempted_from_foreground = 8;
+}
+
+/**
+ * Pull metrics for the Wifi Aware capabilities supported by the device
+ */
+message WifiAwareCapabilities {
+    // If instant mode supported
+    optional bool is_instant_mode_supported = 1;
+    // If pairing supported
+    optional bool is_pairing_supported = 2;
+    // If suspension supported
+    optional bool is_suspension_supported = 3;
+    // Supported cipher suites
+    optional int32 cipher_suites = 4;
+    // Max number of the NDI
+    optional int32 ndi_number = 5;
+    // Max number of the NDP
+    optional int32 ndp_number = 6;
+    // Max number of the discovery session
+    optional int32 discovery_session_number = 7;
+}
+
+// Logged when the Wifi Aware resources is used by Apps
+message WifiAwareResourceUsingChanged {
+    optional int32 ndp_num = 1;
+    optional int32 discovery_session_num = 2;
+}
+
+/**
+ * Logged when Aware HAL API is called and send response
+ */
+message WifiAwareHalApiCalled {
+    // The API name
+    optional android.net.wifi.AwareHalApi command = 1;
+    // Status of the API call
+    optional android.net.wifi.AwareStatus status = 2;
+    // The time for this API call to execute
+    optional int32 running_time_ms = 3;
+}
+
+/**
+ * Logged when local-only request received
+ */
+message WifiLocalOnlyRequestReceived {
+    enum UserAction {
+        USER_UNSPECIFIED = 0;
+        USER_BYPASS = 1;
+        USER_ACCEPT = 2;
+        USER_REJECT = 3;
+    }
+    // The AttributionNode to identify the caller
+    repeated AttributionNode attribution_node = 1;
+    // User action on the local-only request
+    optional UserAction action = 2;
+    // The caller type of the request
+    optional android.net.wifi.WifiCallerType caller_type = 3;
+}
+
+// Logged when matched scan result received for local only request
+message WifiLocalOnlyRequestScanTriggered {
+    // The AttributionNode to identify the caller
+    repeated AttributionNode attribution_node = 1;
+    // How many channel specified in the request
+    optional int32 number_channel_specified = 2;
+    // Scan time to get a match
+    optional int32 match_delay_ms = 3;
+    // The caller type of the request
+    optional android.net.wifi.WifiCallerType caller_type = 4;
+}
+
+// Logged when a task on the Wifi thread is executed
+message WifiThreadTaskExecuted {
+    // How long does it take to execute the task
+    optional int32 running_time_ms = 1;
+    // How long does it take to start execute the task
+    optional int32 blocking_time_ms = 2;
+    // The name of the internal task running on Wifi Thread
+    optional string task_name = 3;
+}
+
+// Logged when Wifi config save to storage triggered
+message WifiConfigSaved {
+    // How long does it cost to save all config
+    optional int32 running_time_ms = 1;
 }
