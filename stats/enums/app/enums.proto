@@ -645,3 +645,32 @@ enum HostingComponentType {
     HOSTING_COMPONENT_TYPE_FOREGROUND_SERVICE = 0x0100;
     HOSTING_COMPONENT_TYPE_BOUND_SERVICE = 0x0200;
 }
+
+/**
+ * Types of broadcast.
+ */
+enum BroadcastType {
+    BROADCAST_TYPE_NONE                           = 0;
+    BROADCAST_TYPE_BACKGROUND                     = 0x0001; // 1 << 0
+    BROADCAST_TYPE_FOREGROUND                     = 0x0002; // 1 << 1
+    BROADCAST_TYPE_ALARM                          = 0x0004; // 1 << 2
+    BROADCAST_TYPE_INTERACTIVE                    = 0x0008; // 1 << 3
+    BROADCAST_TYPE_ORDERED                        = 0x0010; // 1 << 4
+    BROADCAST_TYPE_PRIORITIZED                    = 0x0020; // 1 << 5
+    BROADCAST_TYPE_RESULT_TO                      = 0x0040; // 1 << 6
+    BROADCAST_TYPE_DEFERRABLE_UNTIL_ACTIVE        = 0x0080; // 1 << 7
+    BROADCAST_TYPE_PUSH_MESSAGE                   = 0x0100; // 1 << 8
+    BROADCAST_TYPE_PUSH_MESSAGE_OVER_QUOTA        = 0x0200; // 1 << 9
+    BROADCAST_TYPE_STICKY                         = 0x0400; // 1 << 10
+    BROADCAST_TYPE_INITIAL_STICKY                 = 0x0800; // 1 << 11
+}
+
+/**
+ * Delivery group policy applied to a broadcast.
+ * Keep it in sync with BroadcastOptions#DeliveryGroupPolicy.
+ */
+enum BroadcastDeliveryGroupPolicy {
+    BROADCAST_DELIVERY_GROUP_POLICY_ALL = 0;
+    BROADCAST_DELIVERY_GROUP_POLICY_MOST_RECENT = 1;
+    BROADCAST_DELIVERY_GROUP_POLICY_MERGED = 2;
+}
