@@ -1031,12 +1031,18 @@ message Atom {
     extensions 686; // InputDeviceUsageReported inputdevice_usage_reported
     extensions 687; // WifiLockReleased wifi_lock_released
     extensions 688; // WifiLockDeactivated wifi_lock_deactivated
+    extensions 689; // WifiConfigSaved wifi_config_saved
+    extensions 690; // WifiAwareResourceUsingChanged wifi_aware_resource_using_changed
+    extensions 691; // WifiAwareHalApiCalled wifi_aware_hal_api_called
+    extensions 692; // WifiLocalOnlyRequestReceived wifi_local_only_request_received
+    extensions 693; // WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
+    extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10190
+    // Next: 10191
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1262,6 +1268,7 @@ message Atom {
     extensions 10187; // SatelliteSosMessageRecommender satellite_sos_message_recommender
     extensions 10188; // UwbActivityInfo uwb_activity_info
     extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
+    extensions 10190; // WifiAwareCapabilities wifi_aware_capabilities
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1701,6 +1708,8 @@ message WifiConnectionResultReported {
     optional bool is_carrier_wifi = 10;
     // Whether the OOB pseeudonym is enabled for the current connection.
     optional bool is_oob_pseudonym_enabled = 11;
+    // The client mode role for the connection, can use to determine the connection type.
+    optional android.net.wifi.ClientModeRole role = 12;
 }
 
 /**
