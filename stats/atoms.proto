@@ -2156,7 +2156,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 40
+ * Next tag: 41
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2289,6 +2289,9 @@ message ScheduledJobStateChanged {
 
     // Proc state of the UID of the logged event
     optional android.app.ProcessStateEnum proc_state = 39 [default = PROCESS_STATE_UNKNOWN];
+
+    // Hash of the namespace set via JobScheduler.forNamespace(String).
+    optional string namespace_hash = 40;
 }
 
 /**
