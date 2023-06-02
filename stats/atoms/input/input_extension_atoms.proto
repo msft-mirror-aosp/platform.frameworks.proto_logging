@@ -29,6 +29,8 @@ extend Atom {
     optional KeyboardConfigured keyboard_configured = 682 [(module) = "framework"];
     optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683 [(module) = "framework"];
     optional InputDeviceUsageReported inputdevice_usage_reported = 686 [(module) = "framework"];
+
+    optional TouchpadUsage touchpad_usage = 10191 [(module) = "framework"];
 }
 
 // Keyboard layout configured when the device is connected
@@ -123,4 +125,38 @@ message InputDeviceUsageReported {
     repeated int32 uids = 8 [(is_uid) = true];
     // The breakdown of usage duration for each of the {@link uids} reported above.
     repeated int32 usage_durations_per_uid = 9;
+}
+
+/**
+ * Logs information about the usage of a touchpad.
+ *
+ * Logged from:
+ *   frameworks/native/services/inputflinger
+ */
+message TouchpadUsage {
+    // The Input Device Vendor ID
+    optional int32 vendor_id = 1;
+    // The Input Device Product ID
+    optional int32 product_id = 2;
+    // The Input Device Version ID
+    optional int32 version_id = 3;
+    // The Input Device Bus ID
+    optional android.input.InputDeviceBus device_bus = 4;
+
+    // The number of touches that are classified as fingers by the touchpad for
+    // their entire duration (i.e. from the touch down event until the lift
+    // event).
+    optional int32 finger_count = 5;
+    // The number of touches that are classified as palms by the touchpad at
+    // least once during their duration.
+    optional int32 palm_count = 6;
+
+    // The number of two-finger swipes recognized by the framework.
+    optional int32 two_finger_swipe_gesture_count = 7;
+    // The number of three-finger swipes recognized by the framework.
+    optional int32 three_finger_swipe_gesture_count = 8;
+    // The number of four-finger swipes recognized by the framework.
+    optional int32 four_finger_swipe_gesture_count = 9;
+    // The number of pinch gestures recognized by the framework.
+    optional int32 pinch_gesture_count = 10;
 }
