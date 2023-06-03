@@ -6514,9 +6514,14 @@ message BroadcastDeliveryEventReported {
     /** The package name of the broadcast sender */
     optional string sender_package_name = 11;
 
+    /** The type of the broadcast */
     optional int32 broadcast_type = 12;
 
+    /** Delivery group policy set for the broadcast */
     optional android.app.BroadcastDeliveryGroupPolicy delivery_group_policy = 13;
+
+    /** Flags set in the broadcast intent */
+    optional int32 intent_flags = 14;
 }
 
 /**
