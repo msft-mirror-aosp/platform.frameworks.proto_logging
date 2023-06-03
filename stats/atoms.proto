@@ -1028,12 +1028,19 @@ message Atom {
     extensions 685; // InTaskActivityStarted in_task_activity_started
     extensions 687; // WifiLockReleased wifi_lock_released
     extensions 688; // WifiLockDeactivated wifi_lock_deactivated
+    extensions 689; // WifiConfigSaved wifi_config_saved
+    extensions 690; // WifiAwareResourceUsingChanged wifi_aware_resource_using_changed
+    extensions 691; // WifiAwareHalApiCalled wifi_aware_hal_api_called
+    extensions 692; // WifiLocalOnlyRequestReceived wifi_local_only_request_received
+    extensions 693; // WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
+    extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
+    extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10190
+    // Next: 10191
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1259,6 +1266,7 @@ message Atom {
     extensions 10187; // SatelliteSosMessageRecommender satellite_sos_message_recommender
     extensions 10188; // UwbActivityInfo uwb_activity_info
     extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
+    extensions 10190; // WifiAwareCapabilities wifi_aware_capabilities
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1698,6 +1706,8 @@ message WifiConnectionResultReported {
     optional bool is_carrier_wifi = 10;
     // Whether the OOB pseeudonym is enabled for the current connection.
     optional bool is_oob_pseudonym_enabled = 11;
+    // The client mode role for the connection, can use to determine the connection type.
+    optional android.net.wifi.ClientModeRole role = 12;
 }
 
 /**
@@ -2146,7 +2156,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 40
+ * Next tag: 41
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2279,6 +2289,9 @@ message ScheduledJobStateChanged {
 
     // Proc state of the UID of the logged event
     optional android.app.ProcessStateEnum proc_state = 39 [default = PROCESS_STATE_UNKNOWN];
+
+    // Hash of the namespace set via JobScheduler.forNamespace(String).
+    optional string namespace_hash = 40;
 }
 
 /**
@@ -20706,6 +20719,21 @@ message UwbSessionInitiated {
     optional int32 ranging_interval_ms = 12;
     // How many ongoing session when current session is initiated?
     optional int32 parallel_session_count = 13;
+    // Composed value for UWB filter configurations.
+    // This value combines the boolean value of multiple feature flags for
+    // UWB filter configuration into one integer, where the bits of its binary value
+    // are for the flags
+    // Below are the flags from LSB to MSB, 1 for enabled and 0 for disabled
+    // bit 0: filter_enabled
+    // bit 1: enable_azimuth_mirroring
+    // bit 2: enable_primer_aoa
+    // bit 3: enable_primer_est_elevation
+    // bit 4: enable_primer_fov
+    // bit 5: predict_rear_azimuths
+    // For example, when all flags are enabled this value is 63 (0b111111)
+    // Refer to packages/modules/Uwb/service/ServiceUwbResources/res/values/config.xml
+    // for more information about the flags
+    optional int32 filter_config_value = 14;
 }
 
 /*
@@ -20815,6 +20843,16 @@ message UwbRangingMeasurementReceived {
     optional int32 elevation_fom = 14;
     // Ranging Measurement Type
     optional android.uwb.RangingType ranging_type = 15;
+    // The filtered distance measurement in centimeters.
+    optional int32 filtered_distance_cm = 16;
+    // The filtered azimuth angle measurement in degrees.
+    optional int32 filtered_azimuth_degree = 17;
+    // The filtered figure of merit of azimuth angle measurement.
+    optional int32 filtered_azimuth_fom = 18;
+    // The filtered elevation angle measurement in degrees.
+    optional int32 filtered_elevation_degree = 19;
+    // The filtered figure of merit of elevation angle measurement.
+    optional int32 filtered_elevation_fom = 20;
 }
 
 /*
