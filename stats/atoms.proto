@@ -13597,7 +13597,7 @@ message AppSearchStorageInfo {
  * Reported from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
  *
- * Next tag: 11
+ * Next tag: 18
  */
 message ContactsIndexerUpdateStatsReported {
     enum UpdateType {
@@ -13641,6 +13641,30 @@ message ContactsIndexerUpdateStatsReported {
 
     // Number of old contacts failed to be deleted
     optional int32 number_of_contacts_delete_failed = 10;
+
+    // Number of old contacts to be deleted that were not found
+    optional int32 number_of_contacts_delete_not_found = 11;
+
+    // Start timestamp of the update in millis
+    optional int64 update_start_timestamp_millis = 12;
+
+    // Timestamp of the last full update in millis (not including this update)
+    optional int64 last_full_update_timestamp_millis = 13;
+
+    // Timestamp of the last delta update in millis (not including this update)
+    optional int64 last_delta_update_timestamp_millis = 14;
+
+    // Timestamp of the last contact to be updated from CP2 in millis
+    optional int64 last_contact_updated_timestamp_millis = 15;
+
+    // Timestamp of the last contact to be deleted from CP2 in millis
+    optional int64 last_contact_deleted_timestamp_millis = 16;
+
+    // The previous update's last_contact_updated_timestamp_millis
+    // This field is only set for a full update and expected to match
+    // last_contacted_update_timestamp_millis. If the fields do not match, then we
+    // were unexpectedly not synced up with CP2 at the time of the update.
+    optional int64 previous_last_contact_updated_timestamp_millis = 17;
 }
 
 /**
