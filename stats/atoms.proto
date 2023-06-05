@@ -6538,6 +6538,12 @@ message BroadcastDeliveryEventReported {
 
     /** Flags set in the broadcast intent */
     optional int32 intent_flags = 14;
+
+    /** The intent filter priority of the broadcast receiver */
+    optional int32 filter_priority = 15;
+
+    /** The procstate of the broadcast sender */
+    optional android.app.ProcessStateEnum sender_proc_state = 16;
 }
 
 /**
