@@ -1492,7 +1492,7 @@ message ProcessState {
   optional int32 fgs_seconds = 7;
   optional int32 bound_top_seconds = 8;
   optional int32 bound_fgs_seconds = 9;
-  optional int32 important_foreground_seconds = 10;
+  optional int32 important_fg_bg_seconds = 10;
   optional int32 cached_seconds = 11;
   optional int32 frozen_seconds = 12;
   optional int32 other_seconds = 13;
