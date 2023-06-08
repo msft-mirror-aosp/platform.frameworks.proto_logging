@@ -5791,6 +5791,20 @@ message NotificationReported {
     // Time elapsed between the notify() API call and the NLSes being told about the notification.
     // Will be 0 for NotificationReported protos that do not correspond to a notify() call.
     optional int64 post_duration_millis = 26;
+
+    // State of the full screen intent posted with this notification.
+    enum FsiState {
+        // This notification was not posted with a full screen intent.
+        NO_FSI = 0;
+        // This notification was posted with a full screen intent and the FSI permission is granted.
+        FSI_ALLOWED = 1;
+        // This notification was posted with a full screen intent but the FSI permission is denied.
+        FSI_DENIED = 2;
+    }
+    optional FsiState fsi_state = 27;
+
+    // True if the device was locked or showing unlocked AOD.
+    optional bool is_locked = 28;
 }
 
 /**
@@ -8701,6 +8715,19 @@ message PackageNotificationPreferences {
     optional int32 user_locked_fields = 4;
     // Indicates if the package importance was set by the user (rather than system default).
     optional bool user_set_importance = 5;
+    // State of the full screen intent permission for this package.
+    enum FsiState {
+        // This package did not declare the full screen intent permission in its manifest.
+        NOT_REQUESTED = 0;
+        // This package has the full screen intent permission.
+        GRANTED = 1;
+        // This package does not have the full screen intent permission.
+        DENIED = 2;
+    }
+    optional FsiState fsi_state = 6;
+    // True if the current full screen intent permission state for this package was set by the user.
+    // This is only set when the FSI permission is requested by the app.
+    optional bool is_fsi_permission_user_set = 7;
 }
 
 /**
