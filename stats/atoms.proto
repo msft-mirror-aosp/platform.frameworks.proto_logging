@@ -21666,6 +21666,7 @@ message AdServicesApiCalled {
     //  * setAppInstallAdvertisers()
     //  * reportInteraction()
     //  * updateAdCounterHistogram()
+    //  * fetchAndJoinCustomAudience()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21717,6 +21718,7 @@ message AdServicesApiCalled {
         SET_APP_INSTALL_ADVERTISERS = 22;
         REPORT_INTERACTION = 23;
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
+        FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
