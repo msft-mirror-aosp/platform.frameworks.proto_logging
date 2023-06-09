@@ -316,3 +316,14 @@ enum ExecutionResultCode {
   /** Skipped execution due to user consent is revoked. */
   SKIP_FOR_USER_CONSENT_REVOKED = 9;
 }
+
+// Region of the user who interacted with AdServicesSettings UI.
+enum AdServiceSettingRegion {
+  // fallback when getDeviceRegion call failed.
+  REGION_UNSPECIFIED = 0;
+  // European Union user (based on isoCountryInfo).
+  EU = 1;
+  // Non-European Union user (based on isoCountryInfo).
+  ROW = 2;
+}
+
