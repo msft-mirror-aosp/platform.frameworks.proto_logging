@@ -57,6 +57,9 @@ extend Atom {
   optional AdServicesMeasurementWipeout
       ad_services_measurement_wipeout = 676
         [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesConsentMigrated ad_services_consent_migrated = 702
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -204,4 +207,60 @@ message AdServicesMeasurementJobs {
  */
 message AdServicesMeasurementWipeout {
   optional android.adservices.service.measurement.WipeoutCause wipeout_cause = 1;
+}
+
+/**
+ * Logs for AdServices Consent Migration after OTA.
+ * This atom captures the event of consent migration when we OTA from S to T+.
+ */
+message AdServicesConsentMigrated {
+
+  // Logs the Migration status
+  enum MigrationStatus {
+    UNSPECIFIED_MIGRATION_STATUS = 0;
+
+    // Consent migration unsuccessful
+    FAILURE = 1;
+
+    // Consent migration successful with shared prefs updated
+    SUCCESS_WITH_SHARED_PREF_UPDATED = 2;
+
+    // Consent migration successful with shared prefs not updated
+    SUCCESS_WITH_SHARED_PREF_NOT_UPDATED = 3;
+
+  }
+
+  // Logs the type of migration
+  enum MigrationType {
+    UNSPECIFIED_MIGRATION_TYPE = 0;
+
+    // Migrating consent from PPAPI to system service
+    PPAPI_TO_SYSTEM_SERVICE = 1;
+
+    // Migrating consent from App Search to system service
+    APPSEARCH_TO_SYSTEM_SERVICE = 2;
+  }
+
+  // Logs the opt-in/ opt-out value of measurement app
+  optional bool is_measurement_consent_enabled = 1;
+
+  // Logs the opt-in/ opt-out value of topics app
+  optional bool is_topics_consent_enabled = 2;
+
+  // Logs the opt-in/ opt-out value of fledge app
+  optional bool is_fledge_consent_enabled = 3;
+
+  // Logs the opt-in/ opt-out value for all apps in beta
+  optional bool is_default_consent_enabled = 4;
+
+  // Logs the type of migration
+  optional MigrationType migration_type = 5;
+
+  // Logs the region where the OTA took place
+  optional android.adservices.AdServiceSettingRegion region = 6;
+
+  // Logs the Migration status
+  optional MigrationStatus migration_status = 7;
+
+
 }
