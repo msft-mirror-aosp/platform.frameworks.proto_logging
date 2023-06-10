@@ -1038,6 +1038,7 @@ message Atom {
     extensions 693; // WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
     extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
     extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
+    extensions 702; // AdServicesConsentMigrated ad_services_consent_migrated
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -6497,6 +6498,12 @@ message ServiceRequestEventReported {
 
     /** The package name of the service lunch request */
     optional string requester_package_name = 11;
+
+    /** The process state of the requester */
+    optional android.app.ProcessStateEnum requester_process_state = 12;
+
+    /** The process state of the service host before this service request */
+    optional android.app.ProcessStateEnum service_process_state = 13;
 }
 
 /**
@@ -6562,6 +6569,9 @@ message BroadcastDeliveryEventReported {
 
     /** The procstate of the broadcast sender */
     optional android.app.ProcessStateEnum sender_proc_state = 16;
+
+    /** The procstate of the broadcast receiver before receiving this broadcast */
+    optional android.app.ProcessStateEnum receiver_process_state = 17;
 }
 
 /**
@@ -6590,6 +6600,12 @@ message ProviderAcquisitionEventReported {
 
     /** The package name of the content provider client who makes the request. */
     optional string client_package_name = 6;
+
+    /** The process state of the client */
+    optional android.app.ProcessStateEnum client_process_state = 7;
+
+    /** The process state of the content provider host before being acquired */
+    optional android.app.ProcessStateEnum provider_process_state = 8;
 }
 
 /**
