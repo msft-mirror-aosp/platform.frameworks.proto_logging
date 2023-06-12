@@ -1050,6 +1050,7 @@ message Atom {
     extensions 702; // AdServicesConsentMigrated ad_services_consent_migrated
     extensions 703; // CronetEngineCreated cronet_engine_created
     extensions 704; // CronetTrafficReported cronet_traffic_reported
+    extensions 705; // DreamSettingChanged dream_setting_changed
 
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1284,6 +1285,7 @@ message Atom {
     extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
     extensions 10190; // WifiAwareCapabilities wifi_aware_capabilities
     extensions 10191; // TouchpadUsage touchpad_usage
+    extensions 10192; // DreamSettingSnapshot dream_setting_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
