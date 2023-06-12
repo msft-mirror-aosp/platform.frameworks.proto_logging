@@ -102,6 +102,7 @@ atom_protos = [
     "atoms/credentials/*.proto",
     "atoms/display/*.proto",
     "atoms/dnd/*.proto",
+    "atoms/dream/*.proto",
     "atoms/expresslog/*.proto",
     "atoms/framework/*.proto",
     "atoms/gps/*.proto",
