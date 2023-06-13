@@ -1035,6 +1035,7 @@ message Atom {
     extensions 693; // WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
     extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
     extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
+    extensions 700; // WifiStateChanged wifi_state_changed
     extensions 702; // AdServicesConsentMigrated ad_services_consent_migrated
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
