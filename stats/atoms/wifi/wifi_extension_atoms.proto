@@ -20,6 +20,7 @@ package android.os.statsd.wifi;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/stats/connectivity/network_stack.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/attribution_node.proto";
 
@@ -183,10 +184,6 @@ message SoftApStopped {
         STOP_EVENT_HOSTAPD_FAILURE = 4;
         // Stopped due to no usage timeout
         STOP_EVENT_NO_USAGE_TIMEOUT = 5;
-        // Single DBS instance stopped due to no usage timeout
-        STOP_EVENT_NO_USAGE_TIMEOUT_ONE_INSTANCE = 6;
-        // Single DBS instance stopped due to failure
-        STOP_EVENT_INSTANCE_FAILURE = 7;
     }
     // Soft AP stop event
     optional StopEvent stop_event = 1;
@@ -210,6 +207,14 @@ message SoftApStopped {
     optional android.net.wifi.WifiStandard standard = 10;
     // Max num of associated clients for the entire session
     optional int32 max_clients = 11;
+    // Whether or not the opportunistic no usage timeout for DBS is enabled
+    optional bool is_dbs_timeout_enabled = 12;
+    // Band of the DBS instance that failed, if any
+    optional bool dbs_instance_failure_band = 13;
+    // Band of the DBS instance that timed out, if any
+    optional bool dbs_instance_timeout_band = 14;
+    // Upstream transport type at the time of stopping
+    optional android.stats.connectivity.TransportType upstream_transport = 15;
 }
 
 /**
