@@ -44,6 +44,7 @@ extend Atom {
     optional WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
         = 693 [(module) = "wifi"];
     optional WifiThreadTaskExecuted wifi_thread_task_executed = 694 [(module) = "wifi"];
+    optional WifiStateChanged wifi_state_changed = 700 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -358,4 +359,14 @@ message WifiThreadTaskExecuted {
 message WifiConfigSaved {
     // How long does it cost to save all config
     optional int32 running_time_ms = 1;
+}
+
+// Logged when Wi-Fi state change happens.
+message WifiStateChanged {
+    // If Wi-Fi was enabled
+    optional bool wifi_enabled = 1;
+    // If Wi-Fi Wake feature was enabled
+    optional bool wifi_wake_enabled = 2;
+    // If the state change was due to Wi-Fi Wake
+    optional bool enabled_by_wifi_wake = 3;
 }
