@@ -48,7 +48,24 @@ extend Atom {
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
+    optional WifiModuleInfo wifi_module_info = 10193 [(module) = "wifi"];
 }
+
+/**
+ * Pulled atom for tracking wifi version number.
+ */
+message WifiModuleInfo {
+    enum BuildType {
+        TYPE_UNKNOWN = 0;
+        TYPE_BUILT_FROM_SOURCE = 1;
+        TYPE_PREBUILT = 2;
+    }
+    // Version number of the wifi module
+    optional int32 version_number = 1;
+    // The type of the wifi module
+    optional BuildType build_type = 2;
+}
+
 
 /**
  * Logged when wifi aware data path is completed
