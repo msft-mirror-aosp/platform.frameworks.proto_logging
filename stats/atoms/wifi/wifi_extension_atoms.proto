@@ -44,10 +44,28 @@ extend Atom {
     optional WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
         = 693 [(module) = "wifi"];
     optional WifiThreadTaskExecuted wifi_thread_task_executed = 694 [(module) = "wifi"];
+    optional WifiStateChanged wifi_state_changed = 700 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
+    optional WifiModuleInfo wifi_module_info = 10193 [(module) = "wifi"];
 }
+
+/**
+ * Pulled atom for tracking wifi version number.
+ */
+message WifiModuleInfo {
+    enum BuildType {
+        TYPE_UNKNOWN = 0;
+        TYPE_BUILT_FROM_SOURCE = 1;
+        TYPE_PREBUILT = 2;
+    }
+    // Version number of the wifi module
+    optional int32 version_number = 1;
+    // The type of the wifi module
+    optional BuildType build_type = 2;
+}
+
 
 /**
  * Logged when wifi aware data path is completed
@@ -140,10 +158,30 @@ message SoftApStarted {
         START_RESULT_SUCCESS = 1;
         // General failure
         START_RESULT_FAILURE_GENERAL = 2;
-        // Failure due to no channel available
+        // Failed due to no channel available
         START_RESULT_FAILURE_NO_CHANNEL = 3;
-        // Failure due to user rejection
-        START_RESULT_FAILURE_INTERFACE_CONFLICT_USER_REJECTED = 4;
+        // Failed due to config being unsupported
+        START_RESULT_FAILURE_UNSUPPORTED_CONFIG = 4;
+        // Failed to start the HAL
+        START_RESULT_FAILURE_START_HAL = 5;
+        // Failed to start hostapd
+        START_RESULT_FAILURE_START_HOSTAPD = 6;
+        // Failed due to interface conflict with user rejection
+        START_RESULT_FAILURE_INTERFACE_CONFLICT_USER_REJECTED = 7;
+        // Failed due to interface conflict
+        START_RESULT_FAILURE_INTERFACE_CONFLICT = 8;
+        // Failed to create interface in vendor HAL
+        START_RESULT_FAILURE_CREATE_INTERFACE = 9;
+        // Failed to set country code
+        START_RESULT_FAILURE_SET_COUNTRY_CODE = 10;
+        // Failed to set mac address
+        START_RESULT_FAILURE_SET_MAC_ADDRESS = 11;
+        // Failed to register AP callback with hostapd
+        START_RESULT_FAILURE_REGISTER_AP_CALLBACK_HOSTAPD = 12;
+        // Failed to register AP callback with wificond
+        START_RESULT_FAILURE_REGISTER_AP_CALLBACK_WIFICOND = 13;
+        // Failed to add AP to hostapd
+        START_RESULT_FAILURE_ADD_AP_HOSTAPD = 14;
     }
     // Result of the start event
     optional StartResult result = 1;
@@ -338,4 +376,14 @@ message WifiThreadTaskExecuted {
 message WifiConfigSaved {
     // How long does it cost to save all config
     optional int32 running_time_ms = 1;
+}
+
+// Logged when Wi-Fi state change happens.
+message WifiStateChanged {
+    // If Wi-Fi was enabled
+    optional bool wifi_enabled = 1;
+    // If Wi-Fi Wake feature was enabled
+    optional bool wifi_wake_enabled = 2;
+    // If the state change was due to Wi-Fi Wake
+    optional bool enabled_by_wifi_wake = 3;
 }
