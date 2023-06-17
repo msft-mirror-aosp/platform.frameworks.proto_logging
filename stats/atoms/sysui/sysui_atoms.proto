@@ -125,6 +125,14 @@ message BackGesture {
     optional float ml_model_score = 10;
     optional string package_name = 11;  // The name of the top 100 most used package by all users.
 
+    // Specifies the input type of the event.
+    enum InputType {
+        UNKNOWN = 0;
+        TOUCH = 1;
+        TRACKPAD = 2;
+    }
+    optional InputType input_type = 12;
+
     enum WindowHorizontalLocation {
         DEFAULT_LOCATION = 0;
         LEFT = 1;
