@@ -23394,7 +23394,7 @@ message AdServicesSettingsUsageReported {
     // Default ad id state when consent notification was first sent.
     optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
 
-    // Type of AdService feature running on device.
+    // (Deprecated) Type of AdService feature running on device.
     enum PrivacySandboxFeatureType {
         // fallback when getFeature failed.
         FEATURE_UNSPECIFIED = 0;
@@ -23412,8 +23412,44 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_RECONSENT_FF = 6;
     }
 
-    // Privacy sandbox feature currently running on the device.
-    optional PrivacySandboxFeatureType feature_type = 5;
+    // (Deprecated) Privacy sandbox feature currently running on the device.
+    optional PrivacySandboxFeatureType feature_type = 5 [deprecated = true];
+
+    // Type of privacy sandbox UX.
+    enum PrivacySandboxUx {
+        // fallback when no UX can be selected.
+        UNSUPPORTED_UX = 0;
+        // all UXs that are not unspecified.
+        UNSPECIFIED_UX = 1;
+        // GA UX.
+        GA_UX = 2;
+        // Beta UX.
+        BETA_UX = 3;
+        // UX for Android RVC.
+        RVC_UX = 4;
+    }
+
+    // Type of privacy sandbox UX.
+    optional PrivacySandboxUx ux = 6;
+
+    // Type of privacy sandbox enrollment channel.
+    enum PrivacySandboxUxEnrollmentChannel {
+        // fallback when no enrollment channel can be selected.
+        UNSUPPORTED_CHANNEL = 0;
+        // all enrollment channels that are unspecified.
+        UNSPECIFIED_CHANNEL = 1;
+        // already enrolled channel.
+        ALREADY_ENROLLED_CHANNEL = 2;
+        // consent notification debug channel.
+        CONSENT_NOTIFICATION_DEBUG_CHANNEL = 3;
+        // first consent notification.
+        FIRST_CONSENT_NOTIFICATION_CHANNEL = 4;
+        // reconsent notification.
+        RECONSENT_NOTIFICATION_CHANNEL = 5;
+    }
+
+    // Type of privacy sandbox enrollment channel.
+    optional PrivacySandboxUxEnrollmentChannel enrollment_channel = 7;
 }
 
 // Logs daily ambient brightness stats.
