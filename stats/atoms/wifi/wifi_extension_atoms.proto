@@ -49,6 +49,8 @@ extend Atom {
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
     optional WifiModuleInfo wifi_module_info = 10193 [(module) = "wifi"];
+    optional WifiSettingInfo wifi_setting_info = 10194 [(module) = "wifi"];
+    optional WifiComplexSettingInfo wifi_complex_setting_info = 10195 [(module) = "wifi"];
 }
 
 /**
@@ -380,4 +382,42 @@ message WifiStateChanged {
     optional bool wifi_wake_enabled = 2;
     // If the state change was due to Wi-Fi Wake
     optional bool enabled_by_wifi_wake = 3;
+}
+
+/**
+ * Pulled to indicate a single boolean Wifi setting.
+ */
+message WifiSettingInfo {
+    enum SettingName {
+        WIFI_SCAN_ALWAYS_AVAILABLE = 0;
+        WIFI_SCAN_THROTTLE = 1;
+        WIFI_SCORING = 2;
+        WIFI_PASSPOINT = 3;
+        WIFI_WAKE = 4;
+        WIFI_ENHANCED_MAC_RANDOMIZATION = 5;
+        WIFI_NETWORKS_AVAILABLE_NOTIFICATION = 6;
+        LOCATION_MODE = 7;
+    }
+
+    // Name of the Wifi setting
+    optional SettingName setting_name = 1;
+    // Whether the setting is enabled
+    optional bool enabled = 2;
+}
+
+/**
+ * Pulled to indicate a single non-boolean Wifi setting.
+ */
+message WifiComplexSettingInfo {
+    enum MultiInternetMode {
+        // Simultaneous connection to multiple APs is disabled
+        MULTI_INTERNET_MODE_DISABLED = 0;
+        // Enabled but restricted to a single network on multiple bands
+        MULTI_INTERNET_MODE_DBS_AP = 1;
+        // Enabled and allowed to connect to multiple APs using different bands
+        MULTI_INTERNET_MODE_MULTI_AP = 2;
+    }
+
+    // Wifi multi-internet mode
+    optional MultiInternetMode multi_internet_mode = 1;
 }

@@ -1287,6 +1287,8 @@ message Atom {
     extensions 10191; // TouchpadUsage touchpad_usage
     extensions 10192; // DreamSettingSnapshot dream_setting_snapshot
     extensions 10193; // WifiModuleInfo wifi_module_info
+    extensions 10194; // WifiSettingInfo wifi_setting_info
+    extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
