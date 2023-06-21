@@ -42,7 +42,7 @@ message HdmiEarcStatusReported {
   // whether eARC is enabled
   optional bool is_enabled = 2;
   // If log_reason == LOG_REASON_EARC_STATUS_CHANGED, the state just before the change.
-  // Null otherwise.
+  // Otherwise, the current state.
   optional android.stats.hdmi.ConnectionState old_connected_state = 3;
   // If log_reason == LOG_REASON_EARC_STATUS_CHANGED, the state just after the change.
   // Otherwise, the current state.
