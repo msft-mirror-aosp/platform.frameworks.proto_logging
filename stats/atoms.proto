@@ -1729,6 +1729,14 @@ message WifiConnectionResultReported {
     optional bool is_oob_pseudonym_enabled = 11;
     // The client mode role for the connection, can use to determine the connection type.
     optional android.net.wifi.ClientModeRole role = 12;
+    // The status code specific to each failure code.
+    // - For FAILURE_ASSOCIATION_REJECTION, the value should be one of
+    //   SupplicantStaIfaceHal.StaIfaceStatusCode.
+    // - For FAILURE_NETWORK_DISCONNECTION, the value should be
+    //   one of SupplicantStaIfaceHal.StaIfaceReasonCode.
+    // - For FAILURE_AUTHENTICATION_EAP, the value should be a EAP failure code.
+    // For all other failure codes, this should be 0.
+    optional int32 failure_specific_status_code = 13;
 }
 
 /**
