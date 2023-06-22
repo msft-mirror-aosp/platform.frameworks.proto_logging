@@ -1067,6 +1067,7 @@ message Atom {
     extensions 719; // PnoScanStarted pno_scan_started
     extensions 720; // PnoScanStopped pno_scan_stopped
     extensions 721; // MediatorUpdated mediator_updated
+    extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
