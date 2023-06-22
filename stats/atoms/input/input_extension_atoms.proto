@@ -35,17 +35,21 @@ extend Atom {
 
 // Keyboard layout configured when the device is connected
 message KeyboardLayoutConfig {
-    // Keyboard configuration details
+    // Keyboard configuration details provided by device
     // Layout type mappings found at:
     // frameworks/base/core/res/res/values/attrs.xml
     optional int32 keyboard_layout_type = 1;
-    // PK language language tag (e.g. en-US, ru-Cyrl, etc). This will follow
-    // BCP-47 language tag standards.
+    // Keyboard language tag (e.g. en-US, ru-Cyrl, etc) provided by device.
+    // This will follow BCP-47 language tag standards.
     optional string keyboard_language_tag = 2;
     // Selected PK layout name (e.g. English(US), English(Dvorak), etc.)
     optional string keyboard_layout_name = 3;
     // Criteria for layout selection
     optional int32 layout_selection_criteria = 4;
+    // Keyboard layout type provided by IME
+    optional int32 ime_layout_type = 5;
+    // Language tag provided by IME (e.g. en-US, ru-Cyrl etc.)
+    optional string ime_language_tag = 6;
 }
 
 // Message containing the repeated field for KeyboardLayoutConfig
