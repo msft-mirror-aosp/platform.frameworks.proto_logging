@@ -1040,6 +1040,11 @@ message Atom {
     extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
     extensions 700; // WifiStateChanged wifi_state_changed
     extensions 702; // AdServicesConsentMigrated ad_services_consent_migrated
+    extensions 706; // AiWallpapersButtonPressed ai_wallpapers_button_pressed
+    extensions 707; // AiWallpapersTemplateSelected ai_wallpapers_template_selected
+    extensions 708; // AiWallpapersTermSelected ai_wallpapers_term_selected
+    extensions 709; // AiWallpapersWallpaperSet ai_wallpapers_wallpaper_set
+    extensions 710; // AiWallpapersSessionSummary ai_wallpapers_session_summary
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
