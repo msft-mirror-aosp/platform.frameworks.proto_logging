@@ -92,6 +92,14 @@ enum NetworkTypeEnum {
     NETWORK_TYPE_NR = 20;
 }
 
+// Cellular radio power state, see android/telephony/TelephonyManager.java for definitions.
+enum CellularRadioPowerStateEnum {
+    RADIO_POWER_STATE_UNKNOWN = 0;
+    RADIO_POWER_STATE_OFF = 1;
+    RADIO_POWER_STATE_ON = 2;
+    RADIO_POWER_STATE_UNAVAILABLE = 3;
+}
+
 // Roaming type enums, see android.telephony.ServiceState.RoamingType for definitions.
 enum RoamingTypeEnum {
     ROAMING_TYPE_NOT_ROAMING = 0;
