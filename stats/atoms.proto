@@ -1047,6 +1047,7 @@ message Atom {
     extensions 711; // OnDevicePersonalizationApiCalled ondevicepersonalization_api_called
     extensions 712; // FederatedComputeApiCalled federated_compute_api_called
     extensions 714; // AdServicesEnrollmentFailed ad_services_enrollment_failed
+    extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
