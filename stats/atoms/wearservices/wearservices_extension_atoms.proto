@@ -26,6 +26,8 @@ option java_package = "com.android.os.wearservices";
 option java_multiple_files = true;
 
 extend Atom {
+  optional WsWearTimeSession ws_wear_time_session = 610
+      [(module) = "wearservices"];
 
   optional WsIncomingCallActionReported ws_incoming_call_action_reported = 626
       [(module) = "wearservices"];
@@ -149,4 +151,14 @@ message WsCallInteractionReported {
   // Values: (CALL_SOURCE_WATCH, CALL_SOURCE_PHONE_HFP,
   // CALL_SOURCE_PHONE_COMPANION)
   optional android.app.wearservices.CallSource call_source = 2;
+}
+
+/**
+ * Atom used to log the wear time for Wearables.
+ *
+ * Logged from package :
+ * vendor/google_clockwork_partners/packages/WearServices
+ */
+message WsWearTimeSession {
+    optional int64 session_duration_millis = 1;
 }
