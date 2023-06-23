@@ -6767,6 +6767,9 @@ message RoleRequestResultReported {
         USER_DENIED_GRANTED_ANOTHER = 7;
         // role was denied and set to be always denied by the user
         USER_DENIED_WITH_ALWAYS = 8;
+        // role request was ignored because the user is blocked from changing
+        // roles via DISALLOW_CONFIG_DEFAULT_APPS user restriction
+        IGNORED_USER_RESTRICTION = 9;
     }
     // The result of the role request
     optional Result result = 9;
