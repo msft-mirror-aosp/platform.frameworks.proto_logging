@@ -55,6 +55,20 @@ enum KeyboardSystemEvent {
 }
 
 /**
+ * Criteria for keyboard layout selection
+ */
+enum KeyboardLayoutSelectionCriteria {
+    // Manual selection by user
+    USER = 0;
+    // Auto-detection based on device provided language tag and layout type
+    DEVICE = 1;
+    // Auto-detection based on IME provided language tag and layout type
+    VIRTUAL_KEYBOARD = 2;
+    // Default selection
+    DEFAULT = 3;
+}
+
+/**
  * Contains usage type/category definitions.
  * Logged in InputDeviceUsageReported atom.
  */
