@@ -219,6 +219,9 @@ enum ErrorCode {
   // Error occurred when unable to fetch job scheduler.
   TOPICS_FETCH_JOB_SCHEDULER_FAILURE = 1039;
 
+  // Error occurred while deleting a table for Topics.
+  TOPICS_DELETE_TABLE_FAILURE = 1040;
+
   // Measurement errors: 2001-3000
   // Error eccurred when inserting enrollment data to DB.
   ENROLLMENT_DATA_INSERT_ERROR = 2001;
