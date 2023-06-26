@@ -203,6 +203,48 @@ enum StaStatus {
     STA_STATUS_CONNECTED_6_GHZ = 4;
 }
 
+enum EapType {
+    // Unknown Type
+    TYPE_UNKNOWN = 0;
+    // EAP_TLS (13)
+    TYPE_EAP_TLS = 1;
+    // EAP_TTLS (21)
+    TYPE_EAP_TTLS = 2;
+    // EAP_SIM (18)
+    TYPE_EAP_SIM = 3;
+    // EAP_AKA (23)
+    TYPE_EAP_AKA = 4;
+    // EAP_AKA_PRIME (50)
+    TYPE_EAP_AKA_PRIME = 5;
+    TYPE_EAP_WAPI_CERT = 6;
+    TYPE_EAP_UNAUTH_TLS = 7;
+    TYPE_EAP_PEAP = 8;
+    TYPE_EAP_PWD = 9;
+    TYPE_EAP_OTHERS = 10;
+}
+
+enum EapInnerMethod {
+    METHOD_UNKNOWN = 0;
+    METHOD_PAP = 1;
+    METHOD_MSCHAP = 2;
+    METHOD_MSCHAP_V2 = 3;
+    METHOD_OTHERS = 4;
+}
+
+enum RoamingType {
+    ROAMING_UNKNOWN = 0;
+    // Not a Passpoint network
+    ROAMING_NOT_PASSPOINT = 1;
+    // Non-Roaming
+    ROAMING_NONE = 2;
+    // General Roaming
+    ROAMING_GENERAL = 3;
+    // Free OpenRoaming
+    ROAMING_OPENROAMING_FREE = 4;
+    // Settled OpenRoaming
+    ROAMING_OPENROAMING_SETTLED = 5;
+}
+
 /**
  * Wi-Fi Standards
  */
