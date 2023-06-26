@@ -1731,6 +1731,10 @@ message WifiConnectionResultReported {
     // - For FAILURE_AUTHENTICATION_EAP, the value should be a EAP failure code.
     // For all other failure codes, this should be 0.
     optional int32 failure_specific_status_code = 13;
+    // Information only applicable for EAP networks.
+    optional android.net.wifi.EapType eap_type = 14;
+    optional android.net.wifi.EapInnerMethod eap_inner_method = 15;
+    optional android.net.wifi.RoamingType passpoint_roaming_type = 16;
 }
 
 /**
