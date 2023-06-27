@@ -1057,6 +1057,7 @@ message Atom {
     extensions 709; // AiWallpapersWallpaperSet ai_wallpapers_wallpaper_set
     extensions 710; // AiWallpapersSessionSummary ai_wallpapers_session_summary
     extensions 711; // OnDevicePersonalizationApiCalled ondevicepersonalization_api_called
+    extensions 712; // FederatedComputeApiCalled federated_compute_api_called
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
