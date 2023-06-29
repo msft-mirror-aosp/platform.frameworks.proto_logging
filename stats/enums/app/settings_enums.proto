@@ -1227,6 +1227,12 @@ enum Action {
     // ACTION: A group tile in Settings information architecture is added to the screen
     // OS: U
     ACTION_SETTINGS_GROUP_TILE_ADDED_TO_SCREEN = 1835;
+
+    // ACTION: Settings > System > Languages > System Languages > Select a not available language
+    // as system language
+    // VALUE: language
+    // OS: U
+    ACTION_NOT_SUPPORTED_SYSTEM_LANGUAGE = 1836;
 }
 
 /**
