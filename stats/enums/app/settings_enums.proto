@@ -1233,6 +1233,11 @@ enum Action {
     // VALUE: language
     // OS: U
     ACTION_NOT_SUPPORTED_SYSTEM_LANGUAGE = 1836;
+
+    // ACTION: Settings > System > Languages > App Languages > Change the app language from
+    // the suggested region
+    // OS: U
+    ACTION_CHANGE_APP_LANGUAGE_FROM_SUGGESTED = 1837;
 }
 
 /**
