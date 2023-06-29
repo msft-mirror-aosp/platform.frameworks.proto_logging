@@ -72,6 +72,9 @@ extend Atom {
 
   optional AdServicesConsentMigrated ad_services_consent_migrated = 702
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesEnrollmentFailed ad_services_enrollment_failed = 714
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -258,9 +261,20 @@ message AdServicesEnrollmentMatched {
 }
 
 /**
-* Logs for AdServices Consent Migration after OTA.
-* This atom captures the event of consent migration when we OTA from S to T+.
-*/
+ * Logs when AdServices enrollment fails.
+ */
+message AdServicesEnrollmentFailed {
+  optional int32 build_id = 1; // id of the enrollment file downloaded via mdd
+  optional android.stats.adservices.enrollment.DataFileGroupStatus data_file_group_status = 2;
+  optional int32 enrollment_record_count_in_table = 3;
+  optional string query_parameter = 4;
+  optional android.stats.adservices.enrollment.ErrorCause error_cause = 5;
+}
+
+/**
+ * Logs for AdServices Consent Migration after OTA.
+ * This atom captures the event of consent migration when we OTA from S to T+.
+ */
 message AdServicesConsentMigrated {
 
   // Logs the Migration status
