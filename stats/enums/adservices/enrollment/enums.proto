@@ -28,3 +28,22 @@ enum TransactionType {
   READ_TRANSACTION_TYPE = 1;
   WRITE_TRANSACTION_TYPE = 2;
 }
+
+/**
+ * Enum used by EnrollmentDataFailed.
+ */
+enum DataFileGroupStatus {
+  UNKNOWN_DATA_FILE_GROUP_STATUS = 0;
+  DOWNLOADED_DATA_FILE_GROUP_STATUS = 1;
+  PENDING_DATA_FILE_GROUP_STATUS = 2;
+  PENDING_CUSTOM_VALIDATION = 3;
+}
+
+/**
+ * Enum used by EnrollmentDataFailed.
+ */
+enum ErrorCause {
+  UNKNOWN_ERROR_CAUSE = 0;
+  ENROLLMENT_NOT_FOUND_ERROR_CAUSE = 1;
+  ENROLLMENT_BLOCKLISTED_ERROR_CAUSE = 2;
+}
