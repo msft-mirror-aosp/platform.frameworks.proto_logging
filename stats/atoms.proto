@@ -932,7 +932,6 @@ message Atom {
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
-        wearservices.WsWearTimeSession ws_wear_time_session = 610 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -956,6 +955,7 @@ message Atom {
     extensions 607; // AutofillSessionCommitted autofill_session_committed
     extensions 608; // MediaActionReported media_action_reported
     extensions 609; // MediaControlsLaunched media_controls_launched
+    extensions 610; // WsWearTimeSession ws_wear_time_session
     extensions 611; // LockscreenShortcutSelected lockscreen_shortcut_selected
     extensions 612; // LockscreenShortcutTriggered lockscreen_shortcut_triggered
     extensions 613; // BluetoothHashedDeviceNameReported bluetooth_hashed_device_name_reported
