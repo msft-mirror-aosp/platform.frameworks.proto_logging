@@ -1238,6 +1238,94 @@ enum Action {
     // the suggested region
     // OS: U
     ACTION_CHANGE_APP_LANGUAGE_FROM_SUGGESTED = 1837;
+
+    // Custom tag to log that users open physical keyboard settings from which entry
+    // VALUE: the fully qualified name
+    // OS: U
+    ACTION_OPEN_PK_SETTINGS_FROM = 1838;
+
+    // Custom tag to log if users access the PK settings for a specific keyboard
+    // VALUE: false is no, true is yes
+    // OS: U
+    ACTION_USE_SPECIFIC_KEYBOARD = 1839;
+
+    // Custom tag to log the selected item change of the physical keyboard layout
+    // VALUE: language + layout
+    // OS: U
+    ACTION_PK_LAYOUT_CHANGED = 1840;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Caps lock
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_CAPS_LOCK_TO = 1841;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Ctrl
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_CTRL_TO = 1842;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Action key
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_ACTION_KEY_TO = 1843;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Alt
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_ALT_TO = 1844;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Reset all > Reset
+    // OS: U
+    ACTION_CLEAR_REMAPPINGS = 1845;
+
+    // ACTION: Settings > System > Touchpad > Tap to click
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_TAP_TO_CLICK_CHANGED = 1846;
+
+    // ACTION: Settings > System > Touchpad > Reverse scrolling
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_REVERSE_SCROLLING_CHANGED = 1847;
+
+    // ACTION: Settings > System > Touchpad > Bottom-right tap
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_BOTTOM_RIGHT_TAP_CHANGED = 1848;
+
+    // ACTION: Settings > System > Touchpad > Pointer speed
+    // VALUE: pointer speed
+    // OS: U
+    ACTION_GESTURE_POINTER_SPEED_CHANGED = 1849;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Go back
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_GO_BACK_CHANGED = 1850;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Go home
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_GO_HOME_CHANGED = 1851;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Recent apps
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_RECENT_APPS_CHANGED = 1852;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Notifications
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_NOTIFICATION_CHANGED = 1853;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Switch apps
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_SWITCH_APPS_CHANGED = 1854;
+
+    // ACTION: Settings > System > Touchpad > Learn touchpad gestures
+    // OS: U
+    ACTION_LEARN_TOUCHPAD_GESTURE_CLICK = 1855;
 }
 
 /**
