@@ -16,6 +16,7 @@
 #include "java_writer.h"
 #include "java_writer_q.h"
 #include "native_writer.h"
+#include "native_writer_vendor.h"
 #include "rust_writer.h"
 #include "utils.h"
 
@@ -332,7 +333,7 @@ static int run(int argc, char const* const* argv) {
                     bootstrap);
         } else {
             errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
-                    out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel);
+                    out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
         }
         fclose(out);
     }
@@ -382,9 +383,19 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
 
-        errorCount = android::stats_log_api_gen::write_stats_log_java(
-                out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel, compileApiLevel,
-                supportWorkSource);
+        if (vendorProto.empty()) {
+            errorCount = android::stats_log_api_gen::write_stats_log_java(
+                    out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel,
+                    compileApiLevel, supportWorkSource);
+        } else {
+            if (supportWorkSource) {
+                fprintf(stderr, "The attribution chain is not supported for vendor atoms");
+                return 1;
+            }
+
+            errorCount = android::stats_log_api_gen::write_stats_log_java_vendor(out, atoms,
+                    javaClass, javaPackage);
+        }
 
         fclose(out);
     }

@@ -37,8 +37,8 @@ extend Atom {
  *   packages/apps/Settings
  */
 message SettingsSpaReported {
-  // Settings SPA category types.
-  optional android.app.settings.ScenarioCategory category = 1;
+  // Settings SPA session type.
+  optional android.app.settings.SessionType session_type = 1;
 
   // The id value of SettingsPage.
   optional string page_id = 2;

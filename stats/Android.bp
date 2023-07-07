@@ -22,14 +22,18 @@ package {
 }
 
 enum_protos = [
+    "enums/adservices/common/*.proto",
+    "enums/adservices/enrollment/*.proto",
     "enums/adservices/fledge/*.proto",
     "enums/anr/*.proto",
+    "enums/adservices/measurement/*.proto",
     "enums/app/**/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
     "enums/debug/*.proto",
     "enums/display/*.proto",
+    "enums/dnd/*.proto",
     "enums/hardware/**/*.proto",
     "enums/healthfitness/**/*.proto",
     "enums/hotword/*.proto",
@@ -50,6 +54,7 @@ enum_protos = [
     "enums/stats/accessibility/*.proto",
     "enums/stats/docsui/*.proto",
     "enums/stats/hdmi/*.proto",
+    "enums/stats/ike/*.proto",
     "enums/stats/intelligence/*.proto",
     "enums/stats/location/*.proto",
     "enums/stats/mediametrics/*.proto",
@@ -66,6 +71,8 @@ enum_protos = [
     "enums/system/**/*.proto",
     "enums/telecomm/*.proto",
     "enums/telephony/*.proto",
+    "enums/telephony/qns/*.proto",
+    "enums/telephony/satellite/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
     "enums/wear/media/*.proto",
@@ -93,7 +100,9 @@ atom_protos = [
     "atoms/corenetworking/**/*.proto",
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
+    "atoms/cronet/*.proto",
     "atoms/display/*.proto",
+    "atoms/dnd/*.proto",
     "atoms/expresslog/*.proto",
     "atoms/framework/*.proto",
     "atoms/gps/*.proto",
@@ -101,13 +110,18 @@ atom_protos = [
     "atoms/hardware/biometrics/*.proto",
     "atoms/healthfitness/**/*.proto",
     "atoms/hotword/*.proto",
+    "atoms/ike/*.proto",
+    "atoms/input/*.proto",
     "atoms/locale/*.proto",
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
+    "atoms/permissioncontroller/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/rkpd/*.proto",
     "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
+    "atoms/tv/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
     "atoms/devicelogs/*.proto",
@@ -117,6 +131,17 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wearpas/*.proto",
+    "atoms/statsd/*.proto",
+    "atoms/telecomm/*.proto",
+    "atoms/telephony/qns/*.proto",
+    "atoms/telephony/*.proto",
+    "atoms/memorysafety/*.proto",
+    "atoms/wifi/*.proto",
+    "atoms/telephony/satellite/*.proto",
+    "atoms/automotive/caruilib/*.proto",
+    "atoms/uwb/*.proto",
+    "atoms/ondevicepersonalization/*.proto",
+    "atoms/federatedcompute/*.proto",
 ]
 
 cc_library_host_shared {
@@ -125,6 +150,10 @@ cc_library_host_shared {
         "atom_field_options.proto",
         ":libstats_atom_message_protos",
     ] + enum_protos + atom_protos,
+
+    cflags: [
+        "-Wno-deprecated-declarations",
+    ],
 
     proto: {
         type: "full",
@@ -145,6 +174,8 @@ filegroup {
     srcs: [
         ":libstats_atoms_proto",
         "atom_field_options.proto",
+        ":libstats_atom_enum_protos",
+        ":libstats_atom_message_protos",
     ],
 }
 
