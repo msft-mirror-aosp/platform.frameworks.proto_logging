@@ -250,9 +250,9 @@ message SoftApStopped {
     // Whether or not the opportunistic no usage timeout for DBS is enabled
     optional bool is_dbs_timeout_enabled = 12;
     // Band of the DBS instance that failed, if any
-    optional bool dbs_instance_failure_band = 13;
+    optional int32 dbs_instance_failure_band = 13;
     // Band of the DBS instance that timed out, if any
-    optional bool dbs_instance_timeout_band = 14;
+    optional int32 dbs_instance_timeout_band = 14;
     // Upstream transport type at the time of stopping
     optional android.stats.connectivity.TransportType upstream_transport = 15;
 }
