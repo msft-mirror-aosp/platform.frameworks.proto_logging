@@ -199,6 +199,29 @@ enum ErrorCode {
   // Error occurred when failed to load downloaded file by file Id.
   DOWNLOADED_CLASSIFIER_MODEL_FILE_LOAD_FAILURE = 1033;
 
+  // RuntimeException occurred when use invalid type of blocked topics
+  // source of truth.
+  TOPICS_INVALID_BLOCKED_TOPICS_SOURCE_OF_TRUTH = 1034;
+
+  // RuntimeException occurred when unable to remove the blocked topic.
+  TOPICS_REMOVE_BLOCKED_TOPIC_FAILURE = 1035;
+
+  // RuntimeException occurred when unable to get all blocked topics.
+  TOPICS_GET_BLOCKED_TOPIC_FAILURE = 1036;
+
+  // RuntimeException occurred when unable to clear all blocked topics
+  // in system server.
+  TOPICS_CLEAR_ALL_BLOCKED_TOPICS_IN_SYSTEM_SERVER_FAILURE = 1037;
+
+  // Error occurred when unable to handle JobService.
+  TOPICS_HANDLE_JOB_SERVICE_FAILURE = 1038;
+
+  // Error occurred when unable to fetch job scheduler.
+  TOPICS_FETCH_JOB_SCHEDULER_FAILURE = 1039;
+
+  // Error occurred while deleting a table for Topics.
+  TOPICS_DELETE_TABLE_FAILURE = 1040;
+
   // Measurement errors: 2001-3000
   // Error eccurred when inserting enrollment data to DB.
   ENROLLMENT_DATA_INSERT_ERROR = 2001;
@@ -296,3 +319,14 @@ enum ExecutionResultCode {
   /** Skipped execution due to user consent is revoked. */
   SKIP_FOR_USER_CONSENT_REVOKED = 9;
 }
+
+// Region of the user who interacted with AdServicesSettings UI.
+enum AdServiceSettingRegion {
+  // fallback when getDeviceRegion call failed.
+  REGION_UNSPECIFIED = 0;
+  // European Union user (based on isoCountryInfo).
+  EU = 1;
+  // Non-European Union user (based on isoCountryInfo).
+  ROW = 2;
+}
+
