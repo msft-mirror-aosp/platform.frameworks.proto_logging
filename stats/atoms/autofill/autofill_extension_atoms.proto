@@ -99,13 +99,14 @@ message AutofillFillResponseReported {
   // How the dataset is supposed to be shown to the user
   optional AutofillDisplayPresentationType display_presentation_type = 4;
   // Count of datasets that should've been available for display. If the request
-  // times out, this won't be populated.
+  // times out, this won't be populated. This is the count after PCC detected
+  // datasets are processed and ineligeble datasets have been filtered off.
   optional int32 available_count = 5;
   optional int64 save_ui_trigger_ids = 6;
   // Timestamp of when Autofill provider returns a FillResponse
   // Latency of Autofill provider = fillResponseReceivedTimestampMs -
   // fillRequestSentTimestampMs
-  optional int32 latency_fill_response_received_millis = 7 [deprecated = true];
+  optional int32 latency_fill_response_received_millis = 7;
   optional AuthenticationType authentication_type = 8 [deprecated = true];
   optional AuthenticationResult authentication_result = 9 [deprecated = true];
   optional int64 authentication_failure_reason = 10 [deprecated = true];
@@ -120,6 +121,33 @@ message AutofillFillResponseReported {
   // shown for presentataion. This encapsulates the time taken for preparing
   // final eligible datasets to be shown.
   optional int64 latency_response_processing_millis = 14;
+
+  // Count of datasets that were provided by the Autofill Provider by
+  // specifying type. These datasets may additionally contain autofill ids for
+  // which this same dataset is applicable that are available due to PCC
+  // detection. These can include datasets available via provider response,
+  // and would be eligible because of PCC too.
+  // If PCC detection is preferred over Autofill Provider, it may include
+  // datasets applicable to autofill ids. So the same datasets would've shown
+  // if Autofill Provider detection was preferred.
+  // In such a case and if the detection of both the Autofill Provider and PCC
+  // detection were the same, the following invariants holds, provided same
+  // datasets were provided.
+  // available_pcc_count = available_count
+  // available_pcc_only_count = 0
+  // If PCC detection is not preferred, the following invariant holds.
+  // available_pcc_count = available_pcc_only_count
+  optional int32 available_pcc_count = 15;
+  // Count of datasets that are available only due to PCC Detection. These
+  // datasets are the ones provided by Autofill Provider by specifying types
+  // only. These datasets don't have any autofill id associated with them.
+  optional int32 available_pcc_only_count = 16;
+  // Count of datasets that are returned by the Autofill Provider. This count
+  // is before any filtering based on PCC detection is performed. This contains
+  // datasets set by both type and autofill ids.
+  optional int32 total_datasets_provided = 17;
+  // Which detection was preferred
+  optional DetectionPreference detection_preference = 18;
 }
 
 /**
@@ -159,6 +187,10 @@ message AutofillSaveEventReported {
   optional  int64 latency_save_request_millis = 14;
   // From onSave request to save is finished.
   optional int64 latency_save_finish_millis = 15;
+
+  // Whether the framework created the save info object.
+  // This is true if provider didn't specify any autofill ids in saveInfo object.
+  optional bool is_framework_created_save_info = 16;
 }
 
 /**
@@ -185,4 +217,6 @@ message AutofillSessionCommitted {
 message AutofillFieldClassificationEventReported {
     // Latency of the request to the field classification service.
     optional int64 latency_millis = 1;
+    // Count of fields that were classified.
+    optional int32 count_classifications = 2;
 }

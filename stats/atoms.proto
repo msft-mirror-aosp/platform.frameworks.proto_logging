@@ -223,7 +223,7 @@ message Atom {
                 64 [(module) = "sysui"];
         AppDied app_died = 65 [(module) = "framework"];
         ResourceConfigurationChanged resource_configuration_changed = 66 [(module) = "framework"];
-        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "framework"];
+        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "bluetooth"];
         BluetoothConnectionStateChanged bluetooth_connection_state_changed =
                 68 [(module) = "bluetooth"];
         GpsSignalQualityChanged gps_signal_quality_changed = 69 [(module) = "framework"];
@@ -1021,12 +1021,38 @@ message Atom {
     extensions 674; // AdServicesMeasurementAttribution ad_services_measurement_attribution
     extensions 675; // AdServicesMeasurementJobs ad_services_measurement_jobs
     extensions 676; // AdServicesMeasurementWipeout ad_services_measurement_wipeout
+    extensions 678; // IkeSessionTerminated ike_session_terminated
+    extensions 679; // TvLowPowerStandbyPolicy tv_low_power_standby_policy
+    extensions 680; // SoftApStarted softap_started
+    extensions 681; // SoftApStopped softap_stopped
+    extensions 684; // MediaCodecRendered media_codec_rendered
+    extensions 685; // InTaskActivityStarted in_task_activity_started
+    extensions 687; // WifiLockReleased wifi_lock_released
+    extensions 688; // WifiLockDeactivated wifi_lock_deactivated
+    extensions 689; // WifiConfigSaved wifi_config_saved
+    extensions 690; // WifiAwareResourceUsingChanged wifi_aware_resource_using_changed
+    extensions 691; // WifiAwareHalApiCalled wifi_aware_hal_api_called
+    extensions 692; // WifiLocalOnlyRequestReceived wifi_local_only_request_received
+    extensions 693; // WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
+    extensions 694; // WifiThreadTaskExecuted wifi_thread_task_executed
+    extensions 695; // AdServicesMeasurementAdIdMatchForDebugKeys ad_services_ad_id_match_for_debug_keys
+    extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
+    extensions 697; // AdServicesEnrollmentDataStored ad_services_enrollment_data_stored
+    extensions 698; // AdServicesEnrollmentFileDownloaded ad_services_enrollment_file_downloaded
+    extensions 699; // AdServicesEnrollmentMatched ad_services_enrollment_matched
+    extensions 700; // WifiStateChanged wifi_state_changed
+    extensions 702; // AdServicesConsentMigrated ad_services_consent_migrated
+    extensions 703; // CronetEngineCreated cronet_engine_created
+    extensions 704; // CronetTrafficReported cronet_traffic_reported
+    extensions 711; // OnDevicePersonalizationApiCalled ondevicepersonalization_api_called
+    extensions 712; // FederatedComputeApiCalled federated_compute_api_called
+    extensions 714; // AdServicesEnrollmentFailed ad_services_enrollment_failed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10190
+    // Next: 10191
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1252,6 +1278,10 @@ message Atom {
     extensions 10187; // SatelliteSosMessageRecommender satellite_sos_message_recommender
     extensions 10188; // UwbActivityInfo uwb_activity_info
     extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
+    extensions 10190; // WifiAwareCapabilities wifi_aware_capabilities
+    extensions 10193; // WifiModuleInfo wifi_module_info
+    extensions 10194; // WifiSettingInfo wifi_setting_info
+    extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1691,6 +1721,8 @@ message WifiConnectionResultReported {
     optional bool is_carrier_wifi = 10;
     // Whether the OOB pseeudonym is enabled for the current connection.
     optional bool is_oob_pseudonym_enabled = 11;
+    // The client mode role for the connection, can use to determine the connection type.
+    optional android.net.wifi.ClientModeRole role = 12;
 }
 
 /**
@@ -1802,7 +1834,8 @@ message WifiDisconnectReported {
  *   frameworks/opt/net/wifi/service/java/com/android/server/wifi/WifiMetrics.java
  */
 message WifiConnectionStateChanged {
-    optional bool is_connected = 1;
+    optional bool is_connected = 1 [
+            (state_field_option).exclusive_state = true];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
@@ -1893,6 +1926,8 @@ message WifiP2pConnectionReported {
     // fallback to negotiation if device receives invitation response status code "information is
     // currently unavailable"
     optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
+    // The try count of connection
+    optional int32 try_count = 12;
 }
 
 /**
@@ -2136,7 +2171,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 40
+ * Next tag: 41
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2179,11 +2214,13 @@ message ScheduledJobStateChanged {
         RARE = 3;
         NEVER = 4;
         RESTRICTED = 5;
+        EXEMPTED = 6;
     }
     optional Bucket standby_bucket = 5 [default = UNKNOWN];
 
-    // The job id (as assigned by the app).
-    optional int32 job_id = 6;
+    // On T- builds, this is the job id (as assigned by the app).
+    // On U+ builds, this is generated by the system, factoring in the job's namespace.
+    optional int64 job_id = 6;
 
     // One flag for each of the API constraints defined by JobScheduler. Does not include implicit
     // constraints as they are always assumed to be set.
@@ -2267,6 +2304,9 @@ message ScheduledJobStateChanged {
 
     // Proc state of the UID of the logged event
     optional android.app.ProcessStateEnum proc_state = 39 [default = PROCESS_STATE_UNKNOWN];
+
+    // Hash of the namespace set via JobScheduler.forNamespace(String).
+    optional string namespace_hash = 40;
 }
 
 /**
@@ -2564,6 +2604,9 @@ message KernelWakeupReported {
 
     // Duration (in microseconds) for the wake-up interrupt to be serviced.
     optional int64 duration_micros = 2;
+
+    // The elapsed time when this wake-up was reported.
+    optional int64 elapsed_millis = 3;
 }
 
 /**
@@ -5407,6 +5450,10 @@ message ForegroundServiceStateChanged {
 
     repeated int64 api_timestamp = 23;
 
+    optional int64 api_before_fgs_start_duration_millis = 28;
+
+    optional int64 api_after_fgs_end_duration_millis = 29;
+
     // Keep it in sync with ActivityManager.ProcessCapability.
     enum ProcessCapability {
         PROCESS_CAPABILITY_NONE = 0;
@@ -5752,6 +5799,10 @@ message NotificationReported {
 
     // Field for tracking whether the notification is non-dismissible
     optional bool is_non_dismissible = 25;
+
+    // Time elapsed between the notify() API call and the NLSes being told about the notification.
+    // Will be 0 for NotificationReported protos that do not correspond to a notify() call.
+    optional int64 post_duration_millis = 26;
 }
 
 /**
@@ -6443,6 +6494,12 @@ message ServiceRequestEventReported {
 
     /** The package name of the service lunch request */
     optional string requester_package_name = 11;
+
+    /** The process state of the requester */
+    optional android.app.ProcessStateEnum requester_process_state = 12;
+
+    /** The process state of the service host before this service request */
+    optional android.app.ProcessStateEnum service_process_state = 13;
 }
 
 /**
@@ -6493,6 +6550,24 @@ message BroadcastDeliveryEventReported {
 
     /** The package name of the broadcast sender */
     optional string sender_package_name = 11;
+
+    /** The type of the broadcast */
+    optional int32 broadcast_type = 12;
+
+    /** Delivery group policy set for the broadcast */
+    optional android.app.BroadcastDeliveryGroupPolicy delivery_group_policy = 13;
+
+    /** Flags set in the broadcast intent */
+    optional int32 intent_flags = 14;
+
+    /** The intent filter priority of the broadcast receiver */
+    optional int32 filter_priority = 15;
+
+    /** The procstate of the broadcast sender */
+    optional android.app.ProcessStateEnum sender_proc_state = 16;
+
+    /** The procstate of the broadcast receiver before receiving this broadcast */
+    optional android.app.ProcessStateEnum receiver_process_state = 17;
 }
 
 /**
@@ -6521,6 +6596,12 @@ message ProviderAcquisitionEventReported {
 
     /** The package name of the content provider client who makes the request. */
     optional string client_package_name = 6;
+
+    /** The process state of the client */
+    optional android.app.ProcessStateEnum client_process_state = 7;
+
+    /** The process state of the content provider host before being acquired */
+    optional android.app.ProcessStateEnum provider_process_state = 8;
 }
 
 /**
@@ -6672,6 +6753,9 @@ message RoleRequestResultReported {
         USER_DENIED_GRANTED_ANOTHER = 7;
         // role was denied and set to be always denied by the user
         USER_DENIED_WITH_ALWAYS = 8;
+        // role request was ignored because the user is blocked from changing
+        // roles via DISALLOW_CONFIG_DEFAULT_APPS user restriction
+        IGNORED_USER_RESTRICTION = 9;
     }
     // The result of the role request
     optional Result result = 9;
@@ -10882,6 +10966,7 @@ message MediaCodecReported {
     optional int32 flush_count = 74;
     optional int32 set_surface_count = 75;
     optional int32 resolution_change_count = 76;
+    optional int32 component_color_format = 77;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -12929,7 +13014,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 30
+ * Next tag: 33
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13032,6 +13117,18 @@ message AppSearchQueryStatsReported {
 
     // Time used to send data across the JNI boundary from native to java side.
     optional int32 native_to_java_jni_latency_millis = 29;
+
+    // The type of the join query.
+    //
+    // Needs to be sync with AppSearchSchema#JoinableValueType in
+    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchSchema.java
+    optional int32 join_type = 30;
+
+    // How many total documents were joined to the parent documents.
+    optional int32 native_num_joined_results_current_page = 31;
+
+    // Time taken to join child documents to parent documents.
+    optional int32 native_join_latency_millis = 32;
 }
 
 /**
@@ -13954,6 +14051,27 @@ message CameraActionEvent {
     // 0 for OPEN and CLOSE
     // ordinal of the SESSION between OPEN and CLOSE
     optional int32 session_idx = 23;
+
+    // Start: Extension metrics.
+    // These will only be set for SESSION which use camera2 extensions
+
+    // Should match CameraExtensionCharacteristics#EXTENSION_*
+    enum ExtensionSessionType {
+        EXTENSION_NONE = -1;
+        EXTENSION_AUTOMATIC = 0;
+        EXTENSION_FACE_RETOUCH = 1;
+        EXTENSION_BOKEH = 2;
+        EXTENSION_HDR = 3;
+        EXTENSION_NIGHT = 4;
+
+    }
+
+    // Type of camera extension being used
+    optional ExtensionSessionType ext_type = 24 [default = EXTENSION_NONE];
+
+    // Whether advanced extensions session is being used
+    optional bool ext_is_advanced = 25;
+    // End: Extension Metrics
 }
 
 /**
@@ -14742,6 +14860,9 @@ message ContactsProviderStatusReported {
         UPDATE = 3;
         DELETE = 4;
         CALL = 5;
+
+        // Call from CP2 to a GAL provider.
+        GAL_CALL = 6;
     }
 
     // Method called for ApiType.CALL
@@ -14782,6 +14903,11 @@ message ContactsProviderStatusReported {
     optional TaskType task_type = 7;
     // Set when api_type == CALL
     optional MethodCall method_called = 8;
+
+    // Normally, it's the binder calling UID. (this could be CP2, for work profile or cloned
+    // profile cases.)
+    // For GAL_CALL, it's the GAL provider UID.
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
@@ -14987,6 +15113,9 @@ message VoiceCallSession {
 
     // Last known Radio access technology (RAT).
     optional android.telephony.NetworkTypeEnum last_known_rat = 34;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 35;
 }
 
 /**
@@ -15064,6 +15193,9 @@ message CellularServiceState {
 
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
+
+    // Fold state of the device
+    optional android.telephony.FoldState fold_state = 12;
 }
 
 /**
@@ -16072,6 +16204,7 @@ message UserLifecycleJourneyReported {
         USER_REMOVE = 6; // A user removal journey
         GRANT_ADMIN = 7; // An admin grant journey
         REVOKE_ADMIN = 8; // An admin revocation journey
+        USER_LIFECYCLE = 9; // User journey from creation to deletion
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -16098,6 +16231,7 @@ message UserLifecycleJourneyReported {
     // What are the flags attached to the target user
     optional int32 user_flags = 6;
     optional int32 error_code = 7;
+    optional int64 elapsed_time = 8;
 }
 
 /**
@@ -20629,6 +20763,21 @@ message UwbSessionInitiated {
     optional int32 ranging_interval_ms = 12;
     // How many ongoing session when current session is initiated?
     optional int32 parallel_session_count = 13;
+    // Composed value for UWB filter configurations.
+    // This value combines the boolean value of multiple feature flags for
+    // UWB filter configuration into one integer, where the bits of its binary value
+    // are for the flags
+    // Below are the flags from LSB to MSB, 1 for enabled and 0 for disabled
+    // bit 0: filter_enabled
+    // bit 1: enable_azimuth_mirroring
+    // bit 2: enable_primer_aoa
+    // bit 3: enable_primer_est_elevation
+    // bit 4: enable_primer_fov
+    // bit 5: predict_rear_azimuths
+    // For example, when all flags are enabled this value is 63 (0b111111)
+    // Refer to packages/modules/Uwb/service/ServiceUwbResources/res/values/config.xml
+    // for more information about the flags
+    optional int32 filter_config_value = 14;
 }
 
 /*
@@ -20667,6 +20816,18 @@ message UwbSessionClosed {
     optional int32 start_failure_count = 14;
     // Ranging start without valid ranging result count
     optional int32 start_no_valid_report_count = 15;
+    // Total Rx data packet count
+    optional int32 rx_packet_count = 16;
+    // Total Tx data packet count
+    optional int32 tx_packet_count = 17;
+    // Count of Rx data packet with error
+    optional int32 rx_error_count = 18;
+    // Count of Tx data packet with error
+    optional int32 tx_error_count = 19;
+    // Count of Rx data packets sent to upper layer
+    optional int32 rx_to_upper_layer_count = 20;
+    // Ranging Measurement Type
+    optional android.uwb.RangingType ranging_type = 21;
 }
 
 /*
@@ -20724,6 +20885,18 @@ message UwbRangingMeasurementReceived {
     optional int32 elevation_10degree = 13;
     // The figure of merit of elevation angle measurement.
     optional int32 elevation_fom = 14;
+    // Ranging Measurement Type
+    optional android.uwb.RangingType ranging_type = 15;
+    // The filtered distance measurement in centimeters.
+    optional int32 filtered_distance_cm = 16;
+    // The filtered azimuth angle measurement in degrees.
+    optional int32 filtered_azimuth_degree = 17;
+    // The filtered figure of merit of azimuth angle measurement.
+    optional int32 filtered_azimuth_fom = 18;
+    // The filtered elevation angle measurement in degrees.
+    optional int32 filtered_elevation_degree = 19;
+    // The filtered figure of merit of elevation angle measurement.
+    optional int32 filtered_elevation_fom = 20;
 }
 
 /*
@@ -21505,6 +21678,7 @@ message AdServicesApiCalled {
     //  * setAppInstallAdvertisers()
     //  * reportInteraction()
     //  * updateAdCounterHistogram()
+    //  * fetchAndJoinCustomAudience()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21556,6 +21730,7 @@ message AdServicesApiCalled {
         SET_APP_INSTALL_ADVERTISERS = 22;
         REPORT_INTERACTION = 23;
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
+        FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -22047,6 +22222,23 @@ message AutofillPresentationEventReported {
 
   // From the user finishing authentication to the dataset is displayed to the user.
   optional int64 latency_dataset_display_millis = 24;
+
+  // Count of datasets that are available due to PCC Detection. These can include datasets
+  // available via provider response, and would be eligible because of pcc too.
+  // If PCC detection is preferred over Autofill provider, and Autofill provider had same detection
+  // as PCC did, the following invariants would hold.
+  // available_pcc_count = available_count
+  // available_pcc_only_count = 0
+  optional int32 available_pcc_count = 25;
+
+  // Count of datasets that are available only due to PCC Detection.
+  optional int32 available_pcc_only_count = 26;
+
+  // The selection process of this dataset.
+  optional autofill.DatasetPickedReason selected_dataset_picked_reason = 27;
+
+  // Which detection was preferred
+  optional autofill.DetectionPreference detection_preference = 28;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
@@ -23210,7 +23402,7 @@ message AdServicesSettingsUsageReported {
     // Default ad id state when consent notification was first sent.
     optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
 
-    // Type of AdService feature running on device.
+    // (Deprecated) Type of AdService feature running on device.
     enum PrivacySandboxFeatureType {
         // fallback when getFeature failed.
         FEATURE_UNSPECIFIED = 0;
@@ -23228,8 +23420,44 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_RECONSENT_FF = 6;
     }
 
-    // Privacy sandbox feature currently running on the device.
-    optional PrivacySandboxFeatureType feature_type = 5;
+    // (Deprecated) Privacy sandbox feature currently running on the device.
+    optional PrivacySandboxFeatureType feature_type = 5 [deprecated = true];
+
+    // Type of privacy sandbox UX.
+    enum PrivacySandboxUx {
+        // fallback when no UX can be selected.
+        UNSUPPORTED_UX = 0;
+        // all UXs that are not unspecified.
+        UNSPECIFIED_UX = 1;
+        // GA UX.
+        GA_UX = 2;
+        // Beta UX.
+        BETA_UX = 3;
+        // UX for Android RVC.
+        RVC_UX = 4;
+    }
+
+    // Type of privacy sandbox UX.
+    optional PrivacySandboxUx ux = 6;
+
+    // Type of privacy sandbox enrollment channel.
+    enum PrivacySandboxUxEnrollmentChannel {
+        // fallback when no enrollment channel can be selected.
+        UNSUPPORTED_CHANNEL = 0;
+        // all enrollment channels that are unspecified.
+        UNSPECIFIED_CHANNEL = 1;
+        // already enrolled channel.
+        ALREADY_ENROLLED_CHANNEL = 2;
+        // consent notification debug channel.
+        CONSENT_NOTIFICATION_DEBUG_CHANNEL = 3;
+        // first consent notification.
+        FIRST_CONSENT_NOTIFICATION_CHANNEL = 4;
+        // reconsent notification.
+        RECONSENT_NOTIFICATION_CHANNEL = 5;
+    }
+
+    // Type of privacy sandbox enrollment channel.
+    optional PrivacySandboxUxEnrollmentChannel enrollment_channel = 7;
 }
 
 // Logs daily ambient brightness stats.
@@ -23311,6 +23539,7 @@ message HearingAidInfoReported {
         ACCESSIBILITY_HEARING_AIDS = 1;
         ACCESSIBILITY_HEARING_AID_PAIR_ANOTHER = 2;
         BLUETOOTH = 3;
+        ACCESSIBILITY_HEARING_AID_SETTINGS = 4;
     }
     optional BondEntry bond_entry = 3;
 }
