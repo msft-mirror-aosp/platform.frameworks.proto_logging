@@ -22,6 +22,8 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 
 option java_package = "com.android.os.adservices";
 option java_multiple_files = true;
@@ -43,6 +45,36 @@ extend Atom {
   optional AdServicesBackgroundJobsExecutionReported
       ad_services_background_jobs_execution_reported = 663
         [(module) = "adservices"];
+
+  optional AdServicesMeasurementDelayedSourceRegistration
+      ad_services_measurement_delayed_source_registration = 673
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementAttribution
+      ad_services_measurement_attribution = 674
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementJobs
+      ad_services_measurement_jobs = 675
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementWipeout
+      ad_services_measurement_wipeout = 676
+        [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementAdIdMatchForDebugKeys
+      ad_services_measurement_ad_id_match_for_debug_keys = 695
+        [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesEnrollmentDataStored ad_services_enrollment_data_stored = 697
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentFileDownloaded
+      ad_services_enrollment_file_downloaded = 698
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentMatched ad_services_enrollment_matched = 699
+      [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesConsentMigrated ad_services_consent_migrated = 702
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesEnrollmentFailed ad_services_enrollment_failed = 714
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -58,8 +90,6 @@ message AdServicesTopicIds {
  * avoids usage of field types (e.g. repeated) that aren't supported on R/S.
  */
 message AdServicesBackCompatGetTopicsReported {
-  // See b/266626836 for why topic_ids is not a field yet.
-
   // Number of filtered duplicate topics.
   optional int32 duplicate_topic_count = 1;
 
@@ -68,6 +98,9 @@ message AdServicesBackCompatGetTopicsReported {
 
   // Number of topic ids returned.
   optional int32 count_of_topic_ids = 3;
+
+  // Topic ids returned, randomized using a random response mechanism.
+  optional AdServicesTopicIds topic_ids = 4 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -130,18 +163,18 @@ message AdServicesErrorReported {
   optional string last_observed_exception_name = 6;
 }
 
-/** Logs background job Stats to monitor the stability of Rubidium background jobs. */
+/** Logs background job stats to monitor the stability of Rubidium background jobs. */
 message AdServicesBackgroundJobsExecutionReported {
   // A unique identifier for a background job
   optional int32 job_id = 1;
 
   // Time interval from the start to the end of an execution of a background job.
   // It is on a milli-second basis.
-  optional int32 execution_duration_ms = 2;
+  optional int32 execution_latency_ms = 2;
 
   // Time interval from the start of previous execution to the start of current execution of
-  // a background job. It is on a second basis.
-  optional int32 execution_frequency_second = 3;
+  // a background job. It is on a minute basis.
+  optional int32 execution_period_minute = 3;
 
   // Type of the result code that implies different execution results of Adservices background jobs.
   optional android.adservices.ExecutionResultCode execution_result_code = 4;
@@ -151,4 +184,145 @@ message AdServicesBackgroundJobsExecutionReported {
   // JobService.onStopJob() was never called for the job.
   // The default value is STOP_REASON_UNDEFINED.
   optional android.app.job.StopReasonEnum public_stop_reason = 5;
+}
+
+/**
+ * Logs when an AdServices delayed source is fetched and registered.
+ */
+message AdServicesMeasurementDelayedSourceRegistration {
+  optional android.adservices.service.measurement.DelayedSourceRegistrationStatus registration_status = 1;
+  // delay (in milliseconds) between a source registration and a previously registered trigger with matching attribution destination
+  optional int64 missed_source_delay_millis = 2;
+}
+
+/**
+ * Logs when an AdServices trigger is attributed to a source.
+ */
+message AdServicesMeasurementAttribution {
+  optional android.adservices.service.measurement.SourceType source_type = 1;
+  optional android.adservices.service.measurement.AttributionSurfaceCombination attribution_surface_combination = 2;
+  optional android.adservices.service.measurement.Status status = 3;
+  optional android.adservices.service.measurement.AttributionFailureType failure_type = 4;
+  optional bool is_source_derived = 5;
+  optional bool is_install_attribution = 6;
+  // delay (in milliseconds) between trigger registration and a trigger becoming attributed.
+  optional int64 trigger_to_attribution_delay_millis = 7;
+}
+
+/**
+ * Logs AdServices job finish status
+ */
+message AdServicesMeasurementJobs {
+  optional android.adservices.service.measurement.Status status = 1;
+  optional android.adservices.service.measurement.JobType job_type = 2;
+}
+
+/**
+ * Logs when AdServices deletion API is called.
+ */
+message AdServicesMeasurementWipeout {
+  optional android.adservices.service.measurement.WipeoutCause wipeout_cause = 1;
+}
+
+/**
+ * Logs Ad Id match state for debug keys when measurement reports are being generated.
+ */
+message AdServicesMeasurementAdIdMatchForDebugKeys {
+  optional string adtech_enrollment_id = 1;
+  optional android.adservices.AttributionType attribution_type = 2;
+  optional bool is_matched = 3;
+  optional int64 num_unique_ad_ids_used = 4;
+  optional int64 num_unique_ad_id_limit = 5;
+}
+
+/**
+ * Logs when AdServices enrollment data is stored.
+ */
+message AdServicesEnrollmentDataStored {
+  optional android.stats.adservices.enrollment.TransactionType transaction_type = 1;
+  optional bool success = 2;
+  optional int32 build_id = 3; // id of the enrollment file downloaded via mdd
+}
+
+/**
+ * Logs when AdServices enrollment file get downloaded.
+ */
+message AdServicesEnrollmentFileDownloaded {
+  optional bool success = 1;
+  optional int32 build_id = 2; // id of the enrollment file downloaded via mdd
+}
+
+/**
+ * Logs when AdServices enrollment match occurs.
+ */
+message AdServicesEnrollmentMatched {
+  optional bool success = 1;
+  optional int32 build_id = 2; // id of the enrollment file downloaded via mdd
+}
+
+/**
+ * Logs when AdServices enrollment fails.
+ */
+message AdServicesEnrollmentFailed {
+  optional int32 build_id = 1; // id of the enrollment file downloaded via mdd
+  optional android.stats.adservices.enrollment.DataFileGroupStatus data_file_group_status = 2;
+  optional int32 enrollment_record_count_in_table = 3;
+  optional string query_parameter = 4;
+  optional android.stats.adservices.enrollment.ErrorCause error_cause = 5;
+}
+
+/**
+ * Logs for AdServices Consent Migration after OTA.
+ * This atom captures the event of consent migration when we OTA from S to T+.
+ */
+message AdServicesConsentMigrated {
+
+  // Logs the Migration status
+  enum MigrationStatus {
+    UNSPECIFIED_MIGRATION_STATUS = 0;
+
+    // Consent migration unsuccessful
+    FAILURE = 1;
+
+    // Consent migration successful with shared prefs updated
+    SUCCESS_WITH_SHARED_PREF_UPDATED = 2;
+
+    // Consent migration successful with shared prefs not updated
+    SUCCESS_WITH_SHARED_PREF_NOT_UPDATED = 3;
+
+  }
+
+  // Logs the type of migration
+  enum MigrationType {
+    UNSPECIFIED_MIGRATION_TYPE = 0;
+
+    // Migrating consent from PPAPI to system service
+    PPAPI_TO_SYSTEM_SERVICE = 1;
+
+    // Migrating consent from App Search to system service
+    APPSEARCH_TO_SYSTEM_SERVICE = 2;
+  }
+
+  // Logs the opt-in/ opt-out value of measurement app
+  optional bool is_measurement_consent_enabled = 1;
+
+  // Logs the opt-in/ opt-out value of topics app
+  optional bool is_topics_consent_enabled = 2;
+
+  // Logs the opt-in/ opt-out value of fledge app
+  optional bool is_fledge_consent_enabled = 3;
+
+  // Logs the opt-in/ opt-out value for all apps in beta
+  optional bool is_default_consent_enabled = 4;
+
+  // Logs the type of migration
+  optional MigrationType migration_type = 5;
+
+  // Logs the region where the OTA took place
+  optional android.adservices.AdServiceSettingRegion region = 6;
+
+  // Logs the Migration status
+  optional MigrationStatus migration_status = 7;
+
+
 }

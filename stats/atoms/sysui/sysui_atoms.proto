@@ -682,6 +682,8 @@ message LauncherLatency {
     optional int32 type = 5;
     optional int32 query_length = 6 [default = -1];
     optional int32 sub_event_type = 7;
+    // Size of work to complete within the latency duration. E.g. number of workspace items to initialize during launcher startup.
+    optional int32 cardinality = 8 [default = -1];
 }
 
 /**
@@ -709,6 +711,11 @@ message LauncherImpressionEvent {
     // If the corresponding result_type is above or below keyboard.
     // If 50% of result is visible, then is_above_keyboard = true
     repeated bool is_above_keyboard = 7;
+
+    // UID of the application (can be mapped to package name) corresponding to the result_type.
+    // The default value of uid entry will be -1 to indicate package name is not
+    // found.
+    repeated int32 uid = 8 [(is_uid) = true];
 }
 
 /**

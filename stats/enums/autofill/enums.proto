@@ -111,3 +111,20 @@ enum AutofillCommitReason {
   COMMIT_REASON_VIEW_CHANGED = 4;
   COMMIT_REASON_SESSION_DESTROYED = 5;
 }
+
+enum DatasetPickedReason {
+  PICK_REASON_UNKNOWN = 0;
+  PICK_REASON_NO_PCC = 1;
+  PICK_REASON_PROVIDER_DETECTION_ONLY = 2;
+  PICK_REASON_PROVIDER_DETECTION_PREFERRED_WITH_PCC = 3;
+  PICK_REASON_PCC_DETECTION_ONLY = 4;
+  PICK_REASON_PCC_DETECTION_PREFERRED_WITH_PROVIDER = 5;
+}
+
+// Enum for specifying which detection provider gets the preference when choosing
+// final datasets.
+enum DetectionPreference {
+  DETECTION_PREFER_UNKONWN = 0;
+  DETECTION_PREFER_AUTOFILL_PROVIDER = 1;
+  DETECTION_PREFER_PCC = 2;
+}
