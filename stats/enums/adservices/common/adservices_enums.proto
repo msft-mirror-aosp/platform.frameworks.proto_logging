@@ -219,9 +219,15 @@ enum ErrorCode {
   // Error occurred when unable to fetch job scheduler.
   TOPICS_FETCH_JOB_SCHEDULER_FAILURE = 1039;
 
+  // Error occurred while deleting a table for Topics.
+  TOPICS_DELETE_TABLE_FAILURE = 1040;
+
   // Measurement errors: 2001-3000
-  // Error eccurred when inserting enrollment data to DB.
+  // Error occurred when inserting enrollment data to DB.
   ENROLLMENT_DATA_INSERT_ERROR = 2001;
+
+  // Error occurred when deleting enrollment data to DB.
+  ENROLLMENT_DATA_DELETE_ERROR = 2002;
 
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
@@ -316,3 +322,14 @@ enum ExecutionResultCode {
   /** Skipped execution due to user consent is revoked. */
   SKIP_FOR_USER_CONSENT_REVOKED = 9;
 }
+
+// Region of the user who interacted with AdServicesSettings UI.
+enum AdServiceSettingRegion {
+  // fallback when getDeviceRegion call failed.
+  REGION_UNSPECIFIED = 0;
+  // European Union user (based on isoCountryInfo).
+  EU = 1;
+  // Non-European Union user (based on isoCountryInfo).
+  ROW = 2;
+}
+
