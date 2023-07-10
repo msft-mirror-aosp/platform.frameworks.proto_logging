@@ -19070,6 +19070,10 @@ message MediametricsAAudioStreamReported {
     // Android U
     // The UID of the client.
     optional int32 uid = 22 [(is_uid) = true];
+
+    // Android U
+    // The sample rate used by the client.
+    optional int32 sample_rate_client = 23;
 }
 
 /**
