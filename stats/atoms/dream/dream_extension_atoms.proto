@@ -20,7 +20,6 @@ package android.os.statsd.dream;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/attribution_node.proto";
 
 extend Atom {
     optional DreamSettingChanged dream_setting_changed = 705 [(module) = "framework"];
@@ -47,6 +46,9 @@ message DreamSettingChanged {
 
     // Configuration for whether to show home controls.
     optional bool show_home_controls = 6;
+
+    // Which type of dream setting was changed.
+    optional DreamSettingType dream_setting_type = 7;
 }
 
 // Pulled atom for taking a snapshot of dream settings.
@@ -80,4 +82,25 @@ enum WhenToDream{
 
     // Dream when device is charging or docked.
     WHEN_TO_DREAM_EITHER_CHARGING_OR_DOCKED = 3;
+}
+
+// Type of dream setting.
+enum DreamSettingType {
+  // Unspecified.
+  DREAM_SETTING_TYPE_UNSPECIFIED = 0;
+
+  // Setting for whether dream is enabled.
+  DREAM_SETTING_TYPE_ENABLED = 1;
+
+  // Setting for what dream component to show.
+  DREAM_SETTING_TYPE_DREAM_COMPONENT = 2;
+
+  // Setting for when dream should begin.
+  DREAM_SETTING_TYPE_WHEN_TO_DREAM = 3;
+
+  // Setting for whether to show additional information.
+  DREAM_SETTING_TYPE_SHOW_ADDITIONAL_INFO = 4;
+
+  // Setting for whether to show home controls.
+  DREAM_SETTING_TYPE_SHOW_HOME_CONTROLS = 5;
 }
