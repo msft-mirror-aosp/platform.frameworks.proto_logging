@@ -17852,6 +17852,8 @@ message TlsHandshakeReported {
     optional int32 handshake_duration_millis = 4;
 
     optional android.stats.tls.Source source = 5;
+
+    repeated int32 uid = 6 [(is_uid) = true];
 }
 
 /**
