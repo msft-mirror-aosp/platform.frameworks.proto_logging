@@ -15221,6 +15221,9 @@ message CellularServiceState {
 
     // Fold state of the device
     optional android.telephony.FoldState fold_state = 12;
+
+    // Whether the voice service state is overridden by voice calling capability
+    optional bool override_voice_service = 13;
 }
 
 /**
