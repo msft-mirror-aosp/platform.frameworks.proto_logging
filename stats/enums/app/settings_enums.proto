@@ -1240,7 +1240,7 @@ enum Action {
     ACTION_CHANGE_APP_LANGUAGE_FROM_SUGGESTED = 1837;
 
     // Custom tag to log that users open physical keyboard settings from which entry
-    // VALUE: the fully qualified name
+    // VALUE: integer which is from EntryPointType
     // OS: U
     ACTION_OPEN_PK_SETTINGS_FROM = 1838;
 
@@ -4166,4 +4166,14 @@ enum SessionType {
     EXTERNAL = 3;
     // The session start from the Slice invoking.
     SLICE_TYPE = 4;
+}
+
+// Physical keyboard settings entrypoint type of the from source.
+enum EntryPointType {
+    // access physical keyboard settings through keyboard configured notification entry point
+    KEYBOARD_CONFIGURED_NOTIFICATION = 0;
+    // access physical keyboard settings through keyboard settings entry point
+    KEYBOARD_SETTINGS = 1;
+    // access physical keyboard settings through connected devices settings entry point
+    CONNECTED_DEVICES_SETTINGS = 2;
 }
