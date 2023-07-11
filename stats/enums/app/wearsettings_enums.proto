@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 488
+// Next ID: 489
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -183,6 +183,7 @@ enum ItemId {
   DEVELOPER_POINTER_LOCATION = 226;
   DEVELOPER_POWER_OPTIMIZATIONS = 227;
   DEVELOPER_SHOW_TOUCHES = 240;
+  DEVELOPER_SHOW_ROTARY_INPUT = 488;
   DEVELOPER_SMART_ILLUMINATE = 252;
   DEVELOPER_STAY_ON_WHILE_PLUGGED_IN = 255;
   DEVELOPER_TRANSITION_ANIMATION_SCALE = 303;
