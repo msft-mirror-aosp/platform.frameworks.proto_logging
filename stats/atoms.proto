@@ -1061,6 +1061,7 @@ message Atom {
     extensions 713; // CellularRadioPowerStateChanged cellular_radio_power_state_changed
     extensions 714; // AdServicesEnrollmentFailed ad_services_enrollment_failed
     extensions 715; // WearModeStateChanged wear_mode_state_changed
+    extensions 716; // LauncherImpressionEventV2 launcher_impression_event_v2
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
