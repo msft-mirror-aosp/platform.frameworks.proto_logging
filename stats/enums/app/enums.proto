@@ -569,6 +569,11 @@ enum AppExitSubReasonCode {
      * was no longer being used; this would be set only when the reason is {@link #REASON_OTHER}.
      */
      SUBREASON_SDK_SANDBOX_NOT_NEEDED = 28;
+
+    /**
+     * The process was killed because the binder proxy limit for system server was exceeded.
+     */
+     SUBREASON_EXCESSIVE_BINDER_OBJECTS = 29;
 }
 
 /**
