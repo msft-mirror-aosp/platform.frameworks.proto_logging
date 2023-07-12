@@ -23362,6 +23362,10 @@ message AdServicesSettingsUsageReported {
         GA_UX_LANDING_PAGE_OPT_OUT = 65;
         // user clicked opt out on the landing page.
         LANDING_PAGE_OPT_OUT = 66;
+        // (enrolled) user clicked on the privacy sandbox entry point.
+        PRIVACY_SANDBOX_ENTRY_POINT_CLICKED = 67;
+        // daily maintenance job was run.
+        DAILY_MAINTENANCE_JOB_FINISHED = 68;
     }
     // UI action performed by user.
     optional AdServiceSettingsName action = 2;
@@ -23454,6 +23458,8 @@ message AdServicesSettingsUsageReported {
         FIRST_CONSENT_NOTIFICATION_CHANNEL = 4;
         // reconsent notification.
         RECONSENT_NOTIFICATION_CHANNEL = 5;
+        // consent notification reset channel.
+        CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
     }
 
     // Type of privacy sandbox enrollment channel.
