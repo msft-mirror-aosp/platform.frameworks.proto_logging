@@ -1045,6 +1045,7 @@ message Atom {
     extensions 708; // AiWallpapersTermSelected ai_wallpapers_term_selected
     extensions 709; // AiWallpapersWallpaperSet ai_wallpapers_wallpaper_set
     extensions 710; // AiWallpapersSessionSummary ai_wallpapers_session_summary
+    extensions 716; // LauncherImpressionEventV2 launcher_impression_event_v2
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15220,6 +15221,9 @@ message CellularServiceState {
 
     // Fold state of the device
     optional android.telephony.FoldState fold_state = 12;
+
+    // Whether the voice service state is overridden by voice calling capability
+    optional bool override_voice_service = 13;
 }
 
 /**
