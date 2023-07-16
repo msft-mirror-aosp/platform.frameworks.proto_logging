@@ -67,14 +67,6 @@ enum TransportType {
     TT_WIFI_CELLULAR_VPN = 11;
     // Indicates this network uses for test only
     TT_TEST = 12;
-    // Indicates this network uses a USB transport
-    TT_USB = 13;
-    // Indicates this network uses a Thread transport
-    TT_THREAD = 14;
-    // Indicates this network uses a USB+VPN transport
-    TT_USB_VPN = 15;
-    // Indicates this network uses a Thread+VPN transport
-    TT_THREAD_VPN = 16;
 }
 
 enum DhcpFeature {
