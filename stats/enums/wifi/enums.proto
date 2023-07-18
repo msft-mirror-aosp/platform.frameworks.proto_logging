@@ -240,12 +240,14 @@ enum RoamingType {
     ROAMING_NOT_PASSPOINT = 1;
     // Non-Roaming
     ROAMING_NONE = 2;
-    // General Roaming
-    ROAMING_GENERAL = 3;
+    // Other RCOI Roaming
+    ROAMING_RCOI_OTHERS = 3;
     // Free OpenRoaming
-    ROAMING_OPENROAMING_FREE = 4;
+    ROAMING_RCOI_OPENROAMING_FREE = 4;
     // Settled OpenRoaming
-    ROAMING_OPENROAMING_SETTLED = 5;
+    ROAMING_RCOI_OPENROAMING_SETTLED = 5;
+    // Not RCOI roaming
+    ROAMING_NOT_RCOI = 6;
 }
 
 /**
