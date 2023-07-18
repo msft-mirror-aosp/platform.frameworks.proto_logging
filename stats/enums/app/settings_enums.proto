@@ -4144,6 +4144,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     TERMS_OF_ADDRESS = 2034;
+
+    // OPEN: Settings > Notifications > Polite notifications
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_POLITE_NOTIFICATIONS = 2035;
 }
 
 // Battery Saver schedule types.
