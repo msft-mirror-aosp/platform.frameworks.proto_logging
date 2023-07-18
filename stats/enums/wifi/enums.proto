@@ -50,7 +50,10 @@ enum WifiModeEnum {
     WIFI_MODE_FULL_LOW_LATENCY = 4;
 }
 
-// What permission model the caller has
+/**
+ * What permission model the caller has.
+ * Calculated with WifiPermissionsUtil#getWifiCallerType
+ */
 enum WifiCallerType {
     UNKNOWN = 0;
     SETTINGS = 1; // caller is SETTINGS or SETUP_WIZARD
