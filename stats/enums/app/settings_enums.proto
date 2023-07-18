@@ -4164,13 +4164,13 @@ enum SessionType {
     // The client app doesn't set session source.
     SESSION_UNKNOWN = 0;
     // The session start from opening the Settings app.
-    BROWSE = 1;
+    SESSION_BROWSE = 1;
     // The session start from Settings Search result.
-    SEARCH = 2;
+    SESSION_SEARCH = 2;
     // The session start from other app via Intent.
-    EXTERNAL = 3;
+    SESSION_EXTERNAL = 3;
     // The session start from the Slice invoking.
-    SLICE_TYPE = 4;
+    SESSION_SLICE_TYPE = 4;
 }
 
 // Physical keyboard settings entrypoint type of the from source.
