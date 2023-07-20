@@ -77,6 +77,7 @@ enum_protos = [
     "enums/transparency/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
+    "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
     "enums/wear/modes/*.proto",
     "enums/wifi/*.proto",
@@ -149,6 +150,7 @@ atom_protos = [
     "atoms/uwb/*.proto",
     "atoms/ondevicepersonalization/*.proto",
     "atoms/federatedcompute/*.proto",
+    "atoms/wear/connectivity/*.proto",
 ]
 
 cc_library_host_shared {
