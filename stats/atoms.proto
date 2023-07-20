@@ -1040,6 +1040,7 @@ message Atom {
     extensions 696; // BluetoothProfileConnectionAttempted bluetooth_profile_connection_attempted
     extensions 700; // WifiStateChanged wifi_state_changed
     extensions 702; // AdServicesConsentMigrated ad_services_consent_migrated
+    extensions 705; // DreamSettingChanged dream_setting_changed
     extensions 706; // AiWallpapersButtonPressed ai_wallpapers_button_pressed
     extensions 707; // AiWallpapersTemplateSelected ai_wallpapers_template_selected
     extensions 708; // AiWallpapersTermSelected ai_wallpapers_term_selected
@@ -1279,6 +1280,7 @@ message Atom {
     extensions 10189; // CachedAppsHighWaterMark cached_apps_high_watermark
     extensions 10190; // WifiAwareCapabilities wifi_aware_capabilities
     extensions 10191; // TouchpadUsage touchpad_usage
+    extensions 10192; // DreamSettingSnapshot dream_setting_snapshot
     extensions 10193; // WifiModuleInfo wifi_module_info
     extensions 99999; // Atom99999 atom_99999
 
