@@ -95,6 +95,7 @@ message KeyboardSystemsEventReported {
     // Key pressed to trigger the keyboard event
     repeated int32 key_code = 4;
     // Flag based modifier state when keyboard event was triggered
+    // This field represents the decimal version of the flag in binary
     optional int32 modifier_state = 5;
 }
 
