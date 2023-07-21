@@ -5472,6 +5472,14 @@ message ForegroundServiceStateChanged {
 
     optional android.app.ProcessStateEnum calling_uid_state = 26 [default = PROCESS_STATE_UNKNOWN];
     optional ProcessCapability calling_uid_capabilities = 27;
+
+    optional int32 while_in_use_reason_code_no_binding = 30;
+    optional int32 while_in_use_reason_code_in_bind_service = 31;
+    optional int32 while_in_use_reason_code_by_bindings = 32;
+    optional int32 fgs_start_reason_code_no_binding = 33;
+    optional int32 fgs_start_reason_code_in_bind_service = 34;
+    optional int32 fgs_start_reason_code_by_bindings = 35;
+
 }
 
 /**
