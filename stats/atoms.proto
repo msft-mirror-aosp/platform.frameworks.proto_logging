@@ -1064,6 +1064,8 @@ message Atom {
     extensions 716; // LauncherImpressionEventV2 launcher_impression_event_v2
     extensions 717; // ExternalTvInputEvent external_tv_input_event
     extensions 718; // StylusPredictionMetricsReported stylus_prediction_metrics_reported
+    extensions 719; // PnoScanStarted pno_scan_started
+    extensions 720; // PnoScanStopped pno_scan_stopped
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
