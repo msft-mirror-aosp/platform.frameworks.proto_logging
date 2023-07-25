@@ -405,6 +405,13 @@ message PnoScanStopped {
         FOUND_RESULTS = 2;
     }
 
+    enum FailureCode {
+        UNSPECIFIED_FAILURE = 0;
+        WIFICOND_SCAN_FAILURE = 1;
+        WIFICOND_REQUEST_FAILURE = 2;
+        WIFI_SCANNING_SERVICE_FAILURE = 3;
+    }
+
     // Reason that this scan stopped
     optional StopReason stop_reason = 1;
     // Number of results found by this scan
@@ -417,6 +424,8 @@ message PnoScanStopped {
     optional bool candidate_selected = 5;
     // Whether the connection candidate is a Passpoint network
     optional bool candidate_is_passpoint = 6;
+    // Failure code if this scan stopped due to a failure
+    optional FailureCode failure_code = 7;
 }
 
 /**
