@@ -15188,6 +15188,12 @@ message VoiceCallSession {
 
     // Fold state of the device
     optional android.telephony.FoldState fold_state = 35;
+
+    // Number of times RAT changed after call connection
+    optional int64 rat_switch_count_after_connected = 36;
+
+    // Handover state of the device
+    optional bool handover_in_progress = 37;
 }
 
 /**
