@@ -1,0 +1,53 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.wear.connectivity;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/wear/connectivity/enums.proto";
+
+option java_package = "com.android.os.wear.connectivity";
+option java_multiple_files = true;
+
+extend Atom {
+  optional MediatorUpdated mediator_updated = 721 [(module) = "wearconnectivity"];
+}
+
+/**
+ * Logged whenever WearXMediator changes status, for example ON -> OFF.
+ *
+ * Logged from package:
+ * frameworks/opt/wear/src/com/android/clockwork/connectivity
+ */
+message MediatorUpdated {
+  // e.g. Bluetooth, Wifi, Wifi Scan, Cellular Radio, Cellular Data
+  optional com.google.android.wearable.connectivity.MediatorType mediatorType = 1;
+
+  // The mediator action taken. e.g. ON/OFF
+  optional com.google.android.wearable.connectivity.MediatorAction action = 2;
+
+  // The reason of mediator state change
+  optional com.google.android.wearable.connectivity.Reason reason = 3;
+
+  // The event that triggers mediator state change
+  optional com.google.android.wearable.connectivity.TriggerEvent triggerEvent = 4;
+
+  // Timestamp of the event log time in ElapsedRealtime
+  optional int64 timestamp_millis = 5;
+}
