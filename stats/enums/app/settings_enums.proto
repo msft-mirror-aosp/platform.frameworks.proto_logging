@@ -4127,6 +4127,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     VPN_APP_MANAGEMENT = 2033;
+
+    // OPEN: Settings > Display > Screen saver > When to start
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_WHEN_TO_DREAM = 2036;
 }
 
 // Battery Saver schedule types.
