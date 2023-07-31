@@ -1735,6 +1735,8 @@ message WifiConnectionResultReported {
     optional android.net.wifi.EapType eap_type = 14;
     optional android.net.wifi.EapInnerMethod eap_inner_method = 15;
     optional android.net.wifi.RoamingType passpoint_roaming_type = 16;
+    // carrier ID of the network
+    optional int32 carrier_id = 17;
 }
 
 /**
@@ -1888,6 +1890,9 @@ message WifiDisconnectReported {
     optional android.net.wifi.EapInnerMethod eap_inner_method = 11;
 
     optional android.net.wifi.RoamingType passpoint_roaming_type = 12;
+
+    // Carrier id of the network.
+    optional int32 carrier_id = 13;
 }
 
 /**
