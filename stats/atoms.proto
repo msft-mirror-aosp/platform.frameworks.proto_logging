@@ -1067,6 +1067,7 @@ message Atom {
     extensions 719; // PnoScanStarted pno_scan_started
     extensions 720; // PnoScanStopped pno_scan_stopped
     extensions 721; // MediatorUpdated mediator_updated
+    extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1652,6 +1653,11 @@ message WifiHealthStatReported {
     optional int32 tx_kbps = 6 [default = -1];
     // estimated rx throughput in kbps
     optional int32 rx_kbps = 7 [default = -1];
+   // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
+   // AOSP scorer.
+   optional int32 scorer_uid = 8;
+   // Whether or not Wi-Fi is predicted as usable by the scorer
+   optional bool is_wifi_predicted_as_usable = 9;
 }
 
 /**

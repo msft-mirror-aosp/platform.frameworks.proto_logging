@@ -48,6 +48,7 @@ extend Atom {
     optional WifiStateChanged wifi_state_changed = 700 [(module) = "wifi"];
     optional PnoScanStarted pno_scan_started = 719 [(module) = "wifi"];
     optional PnoScanStopped pno_scan_stopped = 720 [(module) = "wifi"];
+    optional WifiIsUnusableReported wifi_is_unusable_reported = 722 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -458,4 +459,31 @@ message WifiComplexSettingInfo {
 
     // Wifi multi-internet mode
     optional MultiInternetMode multi_internet_mode = 1;
+}
+
+/**
+ * Logged for every Wi-Fi unusable event.
+ */
+message WifiIsUnusableReported {
+   enum ReportType {
+      // Default/Invalid
+      TYPE_UNKNOWN = 0;
+      // There is a data stall from tx failures
+      TYPE_DATA_STALL_BAD_TX = 1;
+      // There is a data stall from rx failures
+      TYPE_DATA_STALL_TX_WITHOUT_RX = 2;
+      // There is a data stall from both tx and rx failures
+      TYPE_DATA_STALL_BOTH = 3;
+      // Firmware generated an alert
+      TYPE_FIRMWARE_ALERT = 4;
+      // IP Manager lost reachability to network neighbors
+      TYPE_IP_REACHABILITY_LOST = 5;
+   }
+   // Type of this report
+   optional ReportType type = 1;
+   // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
+   // AOSP scorer.
+   optional int32 scorer_uid = 2;
+   // Whether or not Wi-Fi is predicted as usable by the scorer
+   optional bool is_wifi_predicted_as_usable = 3;
 }
