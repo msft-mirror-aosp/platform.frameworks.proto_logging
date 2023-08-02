@@ -1630,6 +1630,11 @@ message WifiHealthStatReported {
     optional int32 tx_kbps = 6 [default = -1];
     // estimated rx throughput in kbps
     optional int32 rx_kbps = 7 [default = -1];
+   // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
+   // AOSP scorer.
+   optional int32 scorer_uid = 8;
+   // Whether or not Wi-Fi is predicted as usable by the scorer
+   optional bool is_wifi_predicted_as_usable = 9;
 }
 
 /**
