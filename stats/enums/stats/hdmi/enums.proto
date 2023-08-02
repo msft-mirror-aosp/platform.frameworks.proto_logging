@@ -143,3 +143,10 @@ enum LogReason {
     LOG_REASON_EARC_STATUS_CHANGED_UNSUPPORTED_PORT = 3;
     LOG_REASON_EARC_STATUS_CHANGED_WRONG_STATE = 4;
 }
+
+// Reason parameter of the Dynamic soundbar mode state logging.
+enum DynamicSoundbarModeLogReason {
+    LOG_REASON_DSM_UNKNOWN = 0;
+    LOG_REASON_DSM_WAKE = 1;
+    LOG_REASON_DSM_SETTING_TOGGLED = 2;
+}
