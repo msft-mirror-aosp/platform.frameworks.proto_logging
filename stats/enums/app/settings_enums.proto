@@ -4179,6 +4179,11 @@ enum PageId {
     // OS: U
     SETTINGS_SOFTWARE_UPDATES = 2037;
 
+    // OPEN: Settings > Display > Continue using apps on fold
+    // CATEGORY: SETTINGS
+    // OS: U
+    FOLD_LOCK_BEHAVIOR = 2038;
+
 }
 
 // Battery Saver schedule types.
