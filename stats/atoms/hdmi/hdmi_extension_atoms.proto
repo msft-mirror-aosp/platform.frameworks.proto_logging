@@ -50,3 +50,18 @@ message HdmiEarcStatusReported {
   // The event that triggered the log.
   optional android.stats.hdmi.LogReason log_reason = 5;
 }
+
+/**
+* Push atom that logs the status of the Dynamic Soundbar mode feature in 2 dimensions: whether the
+* hardware supports it and whether the setting is enabled.
+*
+* Logged whenever the device wakes up or the Dynamic Soundbar mode setting is toggled.
+**/
+message HdmiSoundbarModeStatusReported {
+  // whether the hardware supports Dynamic soundbar mode
+  optional bool is_supported = 1;
+  // whether the Dynamic soundbar mode setting is enabled
+  optional bool is_enabled = 2;
+  // the event that triggered the log.
+  optional android.stats.hdmi.DynamicSoundbarModeLogReason log_reason = 3;
+}
