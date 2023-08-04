@@ -270,6 +270,9 @@ enum ErrorCode {
 
   // Ad services entry point failure.
   AD_SERVICES_ENTRY_POINT_FAILURE = 4014;
+
+  // Measurement foreground unknown failure.
+  MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE = 4015;
 }
 
 /**
