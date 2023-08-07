@@ -27,6 +27,8 @@ option java_multiple_files = true;
 
 extend Atom {
   optional HdmiEarcStatusReported hdmi_earc_status_reported = 701 [(module) = "framework"];
+  optional HdmiSoundbarModeStatusReported hdmi_soundbar_mode_status_reported
+      = 724 [(module) = "framework"];
 }
 /**
 * Push atom that logs the status of the eARC feature in 3 dimensions: whether the
