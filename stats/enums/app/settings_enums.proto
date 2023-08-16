@@ -4158,6 +4158,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     SETTINGS_WHEN_TO_DREAM = 2036;
+
+    // OPEN: Settings > System > Software updates
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_SOFTWARE_UPDATES = 2037;
+
 }
 
 // Battery Saver schedule types.
