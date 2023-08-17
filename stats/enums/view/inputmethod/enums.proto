@@ -63,6 +63,7 @@ enum SoftInputShowHideReasonEnum {
     REASON_UPDATE_IME_PARENT_FROM_IMMS = 36;
     REASON_HIDE_WHEN_INPUT_TARGET_INVISIBLE = 37;
     REASON_HIDE_CLOSE_CURRENT_SESSION = 38;
+    REASON_HIDE_SOFT_INPUT_FROM_VIEW = 39;
 }
 
 // The type of the IME request, used by android/view/inputmethod/ImeTracker.java.
