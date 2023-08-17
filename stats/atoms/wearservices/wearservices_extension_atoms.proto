@@ -43,6 +43,9 @@ extend Atom {
 
   optional WsCallInteractionReported ws_call_interaction_reported = 630
       [(module) = "wearservices"];
+
+  optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
+      [(module) = "wearservices"];
 }
 
 /**
@@ -161,4 +164,13 @@ message WsCallInteractionReported {
  */
 message WsWearTimeSession {
     optional int64 session_duration_millis = 1;
+}
+
+/**
+* A snapshot of the standalone status on certain watch.
+* (go/wear-tether-mode-telemetry)
+*/
+message WsStandaloneModeSnapshot {
+  // Whether the watch is in standalone mode or not.
+  optional bool is_standalone = 1;
 }

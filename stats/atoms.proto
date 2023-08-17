@@ -1312,6 +1312,7 @@ message Atom {
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
     extensions 10196; // SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer
+    extensions 10197; // WsStandaloneModeSnapshot ws_standalone_mode_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
