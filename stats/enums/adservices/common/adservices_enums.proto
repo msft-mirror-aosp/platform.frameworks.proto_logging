@@ -273,6 +273,12 @@ enum ErrorCode {
 
   // Measurement foreground unknown failure.
   MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE = 4015;
+
+  // Measurement datastore failure.
+  MEASUREMENT_DATASTORE_FAILURE = 4016;
+
+  // Measurement datastore unknown failure.
+  MEASUREMENT_DATASTORE_UNKNOWN_FAILURE = 4017;
 }
 
 /**
