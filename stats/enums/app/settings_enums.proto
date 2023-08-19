@@ -1342,6 +1342,21 @@ enum Action {
     // ACTION: Settings > System > Languages > System Languages > Terms of address > Neutral
     // OS: V
     ACTION_TERMS_OF_ADDRESS_NEUTRAL = 1859;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_SHOW = 1860;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_ACCEPT = 1861;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_DISMISS = 1862;
 }
 
 /**
