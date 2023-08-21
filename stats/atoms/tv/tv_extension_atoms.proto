@@ -82,9 +82,11 @@ message ExternalTvInputEvent {
     optional InputState input_state = 2;
     // type of the input.
     optional InputType input_type = 3;
-    // Vendor id of the external device for HDMI-CEC input. For non-CEC input, the value is 0.
+    // Vendor id of the external device for HDMI-CEC input.
+    // For non-CEC input, the value is 0xFFFFFF (16777215 in decimal).
     optional int32 device_vendor_id = 4;
-    // HDMI port number on TV for HDMI input. For non-HDMI input, the value is 0.
+    // HDMI port number on TV for HDMI input.
+    // For non-HDMI input, the value is -1.
     optional int32 hdmi_port = 5;
     // ID of this TIF (TV Input Framework) session.
     optional string tif_session_id = 6;
