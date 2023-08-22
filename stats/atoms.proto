@@ -23071,7 +23071,7 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 14
+    // Next ID: 16
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
@@ -23087,6 +23087,8 @@ message SandboxApiCalled {
         GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
         // Api used by SDKs in the sandbox via SdkSandboxController
         GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
+        LOAD_SDK_VIA_CONTROLLER = 14;
+        GET_APP_OWNED_SDK_SANDBOX_INTERFACES_VIA_CONTROLLER = 15;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
@@ -23094,6 +23096,7 @@ message SandboxApiCalled {
     // The method which was called.
     optional Method method = 1;
 
+    // Next ID: 12
     enum Stage {
         STAGE_UNSPECIFIED = 0;
         APP_TO_SYSTEM_SERVER = 1;
@@ -23105,6 +23108,8 @@ message SandboxApiCalled {
         SANDBOX_TO_SYSTEM_SERVER = 7;
         SYSTEM_SERVER_SANDBOX_TO_APP = 8;
         SYSTEM_SERVER_TO_APP = 9;
+        TOTAL = 10;
+        TOTAL_WITH_LOAD_SANDBOX = 11;
     }
     // The stage at which latency is being measured.
     optional Stage stage = 4;
