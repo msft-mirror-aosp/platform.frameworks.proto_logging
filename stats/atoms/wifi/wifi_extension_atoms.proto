@@ -56,6 +56,7 @@ extend Atom {
     optional WifiModuleInfo wifi_module_info = 10193 [(module) = "wifi"];
     optional WifiSettingInfo wifi_setting_info = 10194 [(module) = "wifi"];
     optional WifiComplexSettingInfo wifi_complex_setting_info = 10195 [(module) = "wifi"];
+    optional WifiConfiguredNetworkInfo wifi_configured_network_info = 10198 [(module) = "wifi"];
 }
 
 /**
@@ -583,4 +584,68 @@ message WifiApCapabilitiesReported {
     optional ApType6GHz ap_type_6ghz = 25;
     // Whether AP supports ECPS priority access
     optional bool is_ecps_priority_access_supported = 26;
+}
+
+/*
+ * Pulled to indicate a single configured network on the device.
+ */
+message WifiConfiguredNetworkInfo {
+    enum MacRandomization {
+        // Default value. Mode is unknown
+        MAC_RANDOMIZATION_UNSPECIFIED = 0;
+        // Factory MAC is used when connecting to this network
+        MAC_RANDOMIZATION_NONE = 1;
+        // Randomized MAC is generated once and reused for all connections to this network
+        MAC_RANDOMIZATION_PERSISTENT = 2;
+        // Randomized MAC is used and is not persisted across connections to this network
+        MAC_RANDOMIZATION_NON_PERSISTENT = 3;
+        // Framework decides on the MAC randomization strategy
+        MAC_RANDOMIZATION_AUTO = 4;
+    }
+
+    enum MeteredOverride {
+        // Default value. Mode is unknown
+        METERED_OVERRIDE_UNSPECIFIED = 0;
+        // No metered override
+        METERED_OVERRIDE_NONE = 1;
+        // Override network to be metered
+        METERED_OVERRIDE_METERED = 2;
+        // Override network to be unmetered
+        METERED_OVERRIDE_NOT_METERED = 3;
+    }
+
+    // Unique ID for this network
+    optional int64 networkId = 1;
+    // Whether this is an Enterprise network
+    optional bool is_enterprise = 2;
+    // Whether this is a hidden network
+    optional bool is_hidden = 3;
+    // Whether this is a Passpoint network
+    optional bool is_passpoint = 4;
+    // Whether this is a suggestion network
+    optional bool is_suggestion = 5;
+    // Whether this network has a UTF-8 SSID
+    optional bool is_utf_8_ssid = 6;
+    // Whether the SSID translation feature is enabled
+    optional bool is_ssid_translation_enabled = 7;
+    // Whether this network was configured using TOFU
+    optional bool configured_using_tofu = 8;
+    // Whether this network has encountered a captive portal
+    optional bool encountered_captive_portal = 9;
+    // Whether this network has auto-join enabled
+    optional bool auto_join_enabled = 10;
+    // Security mode used by this network
+    optional android.net.wifi.SecurityMode connected_security_mode = 11;
+    // MAC randomization setting used by this network
+    optional MacRandomization mac_randomization = 12;
+    // Metered override setting used by this network
+    optional MeteredOverride metered_override = 13;
+    // EAP type used by this network
+    optional android.net.wifi.EapType eap_type = 14;
+    // EAP inner authentication method used by this network
+    optional android.net.wifi.EapInnerMethod eap_inner_auth_method = 15;
+    // Whether this network supports free OpenRoaming
+    optional bool free_open_roaming_supported = 16;
+    // Whether this network supports settled OpenRoaming
+    optional bool settled_open_roaming_supported = 17;
 }
