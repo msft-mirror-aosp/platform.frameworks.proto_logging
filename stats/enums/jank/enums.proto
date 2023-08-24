@@ -98,6 +98,7 @@ enum InteractionType {
     SHADE_EXPAND_FROM_STATUS_BAR = 80;
     IME_INSETS_SHOW_ANIMATION = 81;
     IME_INSETS_HIDE_ANIMATION = 82;
+    SPLIT_SCREEN_DOUBLE_TAP_DIVIDER = 83;
     reserved 2;
     reserved 73 to 78; // For b/281564325.
 }
