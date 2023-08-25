@@ -1326,6 +1326,21 @@ enum Action {
     // ACTION: Settings > System > Touchpad > Learn touchpad gestures
     // OS: U
     ACTION_LEARN_TOUCHPAD_GESTURE_CLICK = 1855;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_SHOW = 1860;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_ACCEPT = 1861;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_DISMISS = 1862;
 }
 
 /**
