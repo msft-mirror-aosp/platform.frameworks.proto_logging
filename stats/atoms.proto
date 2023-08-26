@@ -1311,6 +1311,9 @@ message Atom {
     extensions 10193; // WifiModuleInfo wifi_module_info
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
+    extensions 10196; // SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer
+    extensions 10197; // WsStandaloneModeSnapshot ws_standalone_mode_snapshot
+    extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -21899,7 +21902,7 @@ message AdServicesApiCalled {
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
 
-    optional string app_package_name = 3;
+    optional string app_package_name = 3; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
     optional string sdk_package_name = 4;
 
     optional int32 latency_millis = 5;
@@ -21931,6 +21934,7 @@ message AdServicesMeasurementReportsUploaded {
     optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
     // delay (in milliseconds) between scheduled delivery time and actual delivery time.
     optional int64 reporting_delay_millis = 5;
+    optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -21952,6 +21956,7 @@ message AdServicesMeasurementRegistrations {
     optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
     // delay (in milliseconds) between registration queue request and the time it gets processed
     optional int64 registration_delay_millis = 8;
+    optional string app_package_name = 9; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -23074,7 +23079,7 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 14
+    // Next ID: 16
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
@@ -23090,6 +23095,8 @@ message SandboxApiCalled {
         GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
         // Api used by SDKs in the sandbox via SdkSandboxController
         GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
+        LOAD_SDK_VIA_CONTROLLER = 14;
+        GET_APP_OWNED_SDK_SANDBOX_INTERFACES_VIA_CONTROLLER = 15;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
@@ -23097,6 +23104,7 @@ message SandboxApiCalled {
     // The method which was called.
     optional Method method = 1;
 
+    // Next ID: 12
     enum Stage {
         STAGE_UNSPECIFIED = 0;
         APP_TO_SYSTEM_SERVER = 1;
@@ -23108,6 +23116,8 @@ message SandboxApiCalled {
         SANDBOX_TO_SYSTEM_SERVER = 7;
         SYSTEM_SERVER_SANDBOX_TO_APP = 8;
         SYSTEM_SERVER_TO_APP = 9;
+        TOTAL = 10;
+        TOTAL_WITH_LOAD_SANDBOX = 11;
     }
     // The stage at which latency is being measured.
     optional Stage stage = 4;

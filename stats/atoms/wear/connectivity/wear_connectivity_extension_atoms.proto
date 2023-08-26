@@ -27,6 +27,8 @@ option java_multiple_files = true;
 
 extend Atom {
   optional MediatorUpdated mediator_updated = 721 [(module) = "wearconnectivity"];
+  optional SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer = 10196
+      [(module) = "wearconnectivity"];
 }
 
 /**
@@ -50,4 +52,21 @@ message MediatorUpdated {
 
   // Timestamp of the event log time in ElapsedRealtime
   optional int64 timestamp_millis = 5;
+}
+
+/**
+ * Pulls bytes transferred via Sysproxy. Each pull produces atoms that record stats of all processes
+ * that used sysproxy since device boot. Sysproxy is a process that runs on Wear OS and that enables
+ * internet access via Bluetooth when the companion phone is connected to the watch.
+ */
+message SysproxyBluetoothBytesTransfer {
+  // UID of a process that had some bytes received or transmitted via sysproxy.
+  // UID is set to -1 if it impossible to identify which process the bytes should be attributed to.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Number of bytes received since device boot.
+  optional int64 rx_bytes = 2;
+
+  // Number of bytes transmitted since device boot.
+  optional int64 tx_bytes = 3;
 }
