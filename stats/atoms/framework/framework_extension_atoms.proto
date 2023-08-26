@@ -28,6 +28,7 @@ extend Atom {
     optional BalAllowed bal_allowed = 632 [(module) = "framework"];
     optional InTaskActivityStarted in_task_activity_started = 685 [(module) = "framework"];
     optional CachedAppsHighWaterMark cached_apps_high_watermark = 10189 [(module) = "framework"];
+    optional StylusPredictionMetricsReported stylus_prediction_metrics_reported = 718 [(module) = "libinput"];
 }
 
 /**
@@ -134,3 +135,39 @@ message CachedAppsHighWaterMark {
   // The average frozen time (now - last_frozen) in current frozen apps.
   optional int32 average_frozen_time_in_seconds = 12;
 }
+
+/**
+ * [Pushed] Log stylus prediction error metrics (go/stylus-prediction-metrics).
+ * Logged once for each time bucket per touch event.
+ *
+ * Logged from: frameworks/native/libs/input/MotionPredictorMetricsManager.cpp.
+ */
+message StylusPredictionMetricsReported {
+    // Allow data to be sliced by stylus hardware information.
+    optional int32 stylus_vendor_id = 1;
+    optional int32 stylus_product_id = 2;
+
+    // Allow data to be sliced by time bucket.
+    optional int32 delta_time_bucket_milliseconds = 3;
+
+    // General errors.
+    optional int32 along_trajectory_error_mean_millipixels = 4;
+
+    // Standard deviation of the along-trajectory error.
+    optional int32 along_trajectory_error_std_millipixels = 5;
+
+    optional int32 off_trajectory_rmse_millipixels = 6;
+
+    optional int32 pressure_rmse_milliunits = 7;
+
+    // High-velocity errors.
+    optional int32 high_velocity_along_trajectory_rmse_millipixels = 8;
+
+    optional int32 high_velocity_off_trajectory_rmse_millipixels = 9;
+
+    // Scale-invariant errors.
+    optional int32 scale_invariant_along_trajectory_rmse_millipixels = 10;
+
+    optional int32 scale_invariant_off_trajectory_rmse_millipixels = 11;
+}
+
