@@ -1047,6 +1047,10 @@ message Atom {
     extensions 711; // OnDevicePersonalizationApiCalled ondevicepersonalization_api_called
     extensions 712; // FederatedComputeApiCalled federated_compute_api_called
     extensions 714; // AdServicesEnrollmentFailed ad_services_enrollment_failed
+    extensions 719; // PnoScanStarted pno_scan_started
+    extensions 720; // PnoScanStopped pno_scan_stopped
+    extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
+    extensions 723; // WifiApCapabilitiesReported wifi_ap_capabilities_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1630,6 +1634,11 @@ message WifiHealthStatReported {
     optional int32 tx_kbps = 6 [default = -1];
     // estimated rx throughput in kbps
     optional int32 rx_kbps = 7 [default = -1];
+   // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
+   // AOSP scorer.
+   optional int32 scorer_uid = 8;
+   // Whether or not Wi-Fi is predicted as usable by the scorer
+   optional bool is_wifi_predicted_as_usable = 9;
 }
 
 /**
@@ -9668,6 +9677,9 @@ message NetworkNsdReported {
 
   // Record query service count before unregistered service
   optional int32 replied_requests_count = 11;
+
+  // Record sent query count before stopped discovery
+  optional int32 sent_query_count = 12;
 }
 
 /**
@@ -21806,7 +21818,7 @@ message AdServicesApiCalled {
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
 
-    optional string app_package_name = 3;
+    optional string app_package_name = 3; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
     optional string sdk_package_name = 4;
 
     optional int32 latency_millis = 5;
@@ -21838,6 +21850,7 @@ message AdServicesMeasurementReportsUploaded {
     optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
     // delay (in milliseconds) between scheduled delivery time and actual delivery time.
     optional int64 reporting_delay_millis = 5;
+    optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -21859,6 +21872,7 @@ message AdServicesMeasurementRegistrations {
     optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
     // delay (in milliseconds) between registration queue request and the time it gets processed
     optional int64 registration_delay_millis = 8;
+    optional string app_package_name = 9; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**

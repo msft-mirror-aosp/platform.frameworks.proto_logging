@@ -229,6 +229,12 @@ enum ErrorCode {
   // Error occurred when deleting enrollment data to DB.
   ENROLLMENT_DATA_DELETE_ERROR = 2002;
 
+  // Measurement datastore failure.
+  MEASUREMENT_DATASTORE_FAILURE = 2004;
+
+  // Measurement datastore unknown failure.
+  MEASUREMENT_DATASTORE_UNKNOWN_FAILURE = 2005;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
@@ -270,6 +276,9 @@ enum ErrorCode {
 
   // Ad services entry point failure.
   AD_SERVICES_ENTRY_POINT_FAILURE = 4014;
+
+  // Measurement foreground unknown failure.
+  MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE = 4015;
 }
 
 /**
