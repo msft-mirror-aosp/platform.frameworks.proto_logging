@@ -98,6 +98,9 @@ enum ErrorCode {
   // Shared pref reset failure.
   SHARED_PREF_RESET_FAILURE = 8;
 
+  // Remote exception when calling the Cobalt upload API.
+  COBALT_UPLOAD_API_REMOTE_EXCEPTION = 9;
+
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
   GET_TOPICS_REMOTE_EXCEPTION = 1001;
