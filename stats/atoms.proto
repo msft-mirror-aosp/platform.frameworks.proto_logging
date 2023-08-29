@@ -1286,6 +1286,7 @@ message Atom {
     extensions 10193; // WifiModuleInfo wifi_module_info
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
+    extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
