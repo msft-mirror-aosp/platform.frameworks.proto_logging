@@ -222,6 +222,9 @@ enum ErrorCode {
   // Error occurred while deleting a table for Topics.
   TOPICS_DELETE_TABLE_FAILURE = 1040;
 
+  // Cobalt initialisation failure for Topics.
+  TOPICS_COBALT_LOGGER_INITIALIZATION_FAILURE = 1041;
+
   // Measurement errors: 2001-3000
   // Error occurred when inserting enrollment data to DB.
   ENROLLMENT_DATA_INSERT_ERROR = 2001;
