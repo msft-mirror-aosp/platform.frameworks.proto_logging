@@ -4184,6 +4184,11 @@ enum PageId {
     // OS: U
     FOLD_LOCK_BEHAVIOR = 2038;
 
+    // OPEN: Settings > Connected devices > fast pair devices
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    FAST_PAIR_DEVICES = 2039;
+
 }
 
 // Battery Saver schedule types.
