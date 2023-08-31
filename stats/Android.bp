@@ -152,6 +152,7 @@ atom_protos = [
     "atoms/federatedcompute/*.proto",
     "atoms/wear/connectivity/*.proto",
     "atoms/devicelock/*.proto",
+    "atoms/cpu/*.proto",
 ]
 
 cc_library_host_shared {
