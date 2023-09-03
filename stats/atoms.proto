@@ -1286,6 +1286,7 @@ message Atom {
     extensions 10193; // WifiModuleInfo wifi_module_info
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
+    extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -13602,7 +13603,7 @@ message AppSearchStorageInfo {
  * Reported from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
  *
- * Next tag: 11
+ * Next tag: 18
  */
 message ContactsIndexerUpdateStatsReported {
     enum UpdateType {
@@ -13646,6 +13647,30 @@ message ContactsIndexerUpdateStatsReported {
 
     // Number of old contacts failed to be deleted
     optional int32 number_of_contacts_delete_failed = 10;
+
+    // Number of old contacts to be deleted that were not found
+    optional int32 number_of_contacts_delete_not_found = 11;
+
+    // Start timestamp of the update in millis
+    optional int64 update_start_timestamp_millis = 12;
+
+    // Timestamp of the last full update in millis (not including this update)
+    optional int64 last_full_update_timestamp_millis = 13;
+
+    // Timestamp of the last delta update in millis (not including this update)
+    optional int64 last_delta_update_timestamp_millis = 14;
+
+    // Timestamp of the last contact to be updated from CP2 in millis
+    optional int64 last_contact_updated_timestamp_millis = 15;
+
+    // Timestamp of the last contact to be deleted from CP2 in millis
+    optional int64 last_contact_deleted_timestamp_millis = 16;
+
+    // The previous update's last_contact_updated_timestamp_millis
+    // This field is only set for a full update and expected to match
+    // last_contacted_update_timestamp_millis. If the fields do not match, then we
+    // were unexpectedly not synced up with CP2 at the time of the update.
+    optional int64 previous_last_contact_updated_timestamp_millis = 17;
 }
 
 /**
@@ -21835,6 +21860,32 @@ message AdServicesMeasurementReportsUploaded {
         UNKNOWN_REPORT = 0;
         EVENT = 1;
         AGGREGATE = 2;
+        DEBUG_EVENT = 3;
+        DEBUG_AGGREGATE = 4;
+        VERBOSE_DEBUG_SOURCE_DESTINATION_LIMIT = 5;
+        VERBOSE_DEBUG_SOURCE_NOISED = 6;
+        VERBOSE_DEBUG_SOURCE_STORAGE_LIMIT = 7;
+        VERBOSE_DEBUG_SOURCE_SUCCESS = 8;
+        VERBOSE_DEBUG_SOURCE_UNKNOWN_ERROR = 9;
+        VERBOSE_DEBUG_SOURCE_FLEXIBLE_EVENT_REPORT_VALUE_ERROR = 10;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_DEDUPLICATED = 11;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_INSUFFICIENT_BUDGET = 12;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_NO_CONTRIBUTIONS = 13;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_REPORT_WINDOW_PASSED = 14;
+        VERBOSE_DEBUG_TRIGGER_ATTRIBUTIONS_PER_SOURCE_DESTINATION_LIMIT = 15;
+        VERBOSE_DEBUG_TRIGGER_EVENT_DEDUPLICATED = 16;
+        VERBOSE_DEBUG_TRIGGER_EVENT_EXCESSIVE_REPORTS = 17;
+        VERBOSE_DEBUG_TRIGGER_EVENT_LOW_PRIORITY = 18;
+        VERBOSE_DEBUG_TRIGGER_EVENT_NO_MATCHING_CONFIGURATIONS = 19;
+        VERBOSE_DEBUG_TRIGGER_EVENT_NOISE = 20;
+        VERBOSE_DEBUG_TRIGGER_EVENT_REPORT_WINDOW_PASSED = 21;
+        VERBOSE_DEBUG_TRIGGER_NO_MATCHING_FILTER_DATA = 22;
+        VERBOSE_DEBUG_TRIGGER_NO_MATCHING_SOURCE = 23;
+        VERBOSE_DEBUG_TRIGGER_REPORTING_ORIGIN_LIMIT = 24;
+        VERBOSE_DEBUG_TRIGGER_EVENT_STORAGE_LIMIT = 25;
+        VERBOSE_DEBUG_TRIGGER_UNKNOWN_ERROR = 26;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_STORAGE_LIMIT = 27;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_EXCESSIVE_REPORTS = 28;
     }
 
     optional ReportType type = 1;
@@ -22995,7 +23046,7 @@ message PrivacySignalsJobFailure {
 // Logs when an API call from app to sandbox process is made
 // Next ID: 6
 message SandboxApiCalled {
-    // Next ID: 14
+    // Next ID: 16
     enum Method {
         METHOD_UNSPECIFIED = 0;
         LOAD_SDK = 1;
@@ -23011,6 +23062,8 @@ message SandboxApiCalled {
         GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
         // Api used by SDKs in the sandbox via SdkSandboxController
         GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
+        LOAD_SDK_VIA_CONTROLLER = 14;
+        GET_APP_OWNED_SDK_SANDBOX_INTERFACES_VIA_CONTROLLER = 15;
 
         LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
         SEND_DATA = 4 [deprecated = true];
@@ -23018,6 +23071,7 @@ message SandboxApiCalled {
     // The method which was called.
     optional Method method = 1;
 
+    // Next ID: 12
     enum Stage {
         STAGE_UNSPECIFIED = 0;
         APP_TO_SYSTEM_SERVER = 1;
@@ -23029,6 +23083,8 @@ message SandboxApiCalled {
         SANDBOX_TO_SYSTEM_SERVER = 7;
         SYSTEM_SERVER_SANDBOX_TO_APP = 8;
         SYSTEM_SERVER_TO_APP = 9;
+        TOTAL = 10;
+        TOTAL_WITH_LOAD_SANDBOX = 11;
     }
     // The stage at which latency is being measured.
     optional Stage stage = 4;
