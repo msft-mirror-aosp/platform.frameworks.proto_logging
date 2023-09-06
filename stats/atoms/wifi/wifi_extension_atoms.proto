@@ -615,7 +615,7 @@ message WifiConfiguredNetworkInfo {
     }
 
     // Unique ID for this network
-    optional int64 networkId = 1;
+    optional int64 network_id = 1;
     // Whether this is an Enterprise network
     optional bool is_enterprise = 2;
     // Whether this is a hidden network
