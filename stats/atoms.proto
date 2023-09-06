@@ -1076,6 +1076,7 @@ message Atom {
     extensions 728; // DeviceLockKioskAppRequestReported device_lock_kiosk_app_request_reported
     extensions 729; // MediaProjectionStateChanged media_projection_state_changed
     extensions 730; // MediaProjectionTargetChanged media_projection_target_changed
+    extensions 731; // WearPowerMenuOpened wear_power_menu_opened
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
