@@ -30,6 +30,9 @@ enum MediaAction {
   RESUME = 5;
   VOLUME_INCREASE = 6;
   VOLUME_DECREASE = 7;
+  SEEK_IN_CURRENT_MEDIA_ITEM = 8;
+  SEEK_BACK = 9;
+  SEEK_FORWARD = 10;
 }
 
 // Indicates the type of launch source
