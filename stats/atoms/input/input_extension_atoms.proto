@@ -107,8 +107,14 @@ message KeyboardSystemsEventReported {
  */
 message InputDeviceUsageReported {
     // The Input Device Vendor ID
+    // Note that the meaning of the vendor ID may depend on the bus through
+    // which the device is connected. For example, the identifiers used for USI
+    // styluses are different than those for USB or Bluetooth devices.
     optional int32 vendor_id = 1;
     // The Input Device Product ID
+    // Note that the meaning of the product ID may depend on the bus through
+    // which the device is connected. For example, the identifiers used for USI
+    // styluses are different than those for USB or Bluetooth devices.
     optional int32 product_id = 2;
     // The Input Device Version ID
     optional int32 version_id = 3;
