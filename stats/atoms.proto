@@ -9681,6 +9681,18 @@ message NetworkNsdReported {
 
   // Record sent query count before stopped discovery
   optional int32 sent_query_count = 12;
+
+  // Record sent packet count before unregistered service
+  optional int32 sent_packet_count = 13;
+
+  // Record number of conflict during probing
+  optional int32 conflict_during_probing_count = 14;
+
+  // Record number of conflict after probing
+  optional int32 conflict_after_probing_count = 15;
+
+  // The random number between 0 ~ 999 for sampling
+  optional int32 random_number = 16;
 }
 
 /**
@@ -21792,6 +21804,7 @@ message AdServicesApiCalled {
     //   * registerWebSource()
     //   * registerWebTrigger()
     //   * getMeasurementApiStatus()
+    //   * registerSource() : accepts a list of source registration URIs
     //
     // AdId
     //   * GetAdId()
@@ -21836,6 +21849,7 @@ message AdServicesApiCalled {
         REPORT_INTERACTION = 23;
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
         FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
+        REGISTER_SOURCES = 26;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
