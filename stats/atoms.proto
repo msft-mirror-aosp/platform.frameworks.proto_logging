@@ -15894,6 +15894,11 @@ message ImsRegistrationStats {
     optional int32 video_available_seconds = 10;
     optional int32 ut_capable_seconds = 11;
     optional int32 ut_available_seconds = 12;
+
+    // Total time IMS was registering (connecting time), rounded to 5 minutes
+    optional int32 registering_seconds = 13;
+    // Total time IMS was unregistered (unconnected time), rounded to 5 minutes
+    optional int32 unregistered_seconds = 14;
 }
 
 /*
