@@ -15396,11 +15396,14 @@ message CellularServiceState {
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
 
-    // Fold state of the device
+    // Fold state of the device.
     optional android.telephony.FoldState fold_state = 12;
 
-    // Whether the voice service state is overridden by voice calling capability
+    // Whether the voice service state is overridden by voice calling capability.
     optional bool override_voice_service = 13;
+
+    // Whether mobile data is enable.
+    optional bool isDataEnabled = 14;
 }
 
 /**
