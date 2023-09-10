@@ -409,10 +409,16 @@ message PnoScanStopped {
     }
 
     enum FailureCode {
+        // Default value. Error is unknown
         UNSPECIFIED_FAILURE = 0;
-        WIFICOND_SCAN_FAILURE = 1;
-        WIFICOND_REQUEST_FAILURE = 2;
-        WIFI_SCANNING_SERVICE_FAILURE = 3;
+        // No error occurred
+        NO_FAILURE = 1;
+        // Wificond scan returned a failure
+        WIFICOND_SCAN_FAILURE = 2;
+        // An error occurred while requesting the wificond scan
+        WIFICOND_REQUEST_FAILURE = 3;
+        // WifiScanningService returned a failure
+        WIFI_SCANNING_SERVICE_FAILURE = 4;
     }
 
     // Reason that this scan stopped
