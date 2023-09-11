@@ -4189,6 +4189,10 @@ enum PageId {
     // OS: UQPR2
     FAST_PAIR_DEVICES = 2039;
 
+    // OPEN: Settings > Security & Privacy > Private Space
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETTINGS = 2040;
 }
 
 // Battery Saver schedule types.
