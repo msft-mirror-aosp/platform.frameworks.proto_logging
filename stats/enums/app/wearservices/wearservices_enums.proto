@@ -136,6 +136,19 @@ enum NotificationUpdateAction {
   NOTIFICATION_ACTION_REMOVE = 3;
 }
 
+// Describes which transport channel is this notification coming from.
+// Next ID: 3
+enum NotificationTransportChannel {
+  // Unknown notification transport channel
+  UNKNOWN = 0;
+
+  // Notification comes from wearable API
+  WEARABLE = 1;
+
+  // Notification comes from MCU (only exists on device supported offloading)
+  MCU = 2;
+}
+
 // Importance of the notification after this update.
 // Next ID: 8
 enum NotificationImportance {
