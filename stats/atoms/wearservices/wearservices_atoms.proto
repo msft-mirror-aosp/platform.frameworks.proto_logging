@@ -61,6 +61,10 @@ message WsNotificationUpdated {
 
   // Importance of the notification after this update.
   optional android.app.wearservices.NotificationImportance importance = 4;
+
+  // The transport channel this notification is coming from.
+  optional android.app.wearservices.NotificationTransportChannel
+      transport_channel = 5;
 }
 
 /** Logged when a complication is tapped by the user. */
