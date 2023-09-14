@@ -1,0 +1,53 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless optional by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto2";
+
+package android.os.statsd.wear.prototiles;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.wear.prototiles";
+option java_multiple_files = true;
+
+extend Atom {
+  optional RendererInitialized renderer_initialized = 736
+  [(module) = "prototiles"];
+  optional SchemaVersionReceived schema_version_received = 737
+  [(module) = "prototiles"];
+}
+
+/**
+ * This atom captures the initialization duration and the renderer version when
+ * the renderer finish initializing.
+ */
+message RendererInitialized {
+  // Renderer initializing duration.
+  optional int32 renderer_initialization_duration_millis = 1;
+  // Version of the renderer installed in the device.
+  optional int64 version_code = 2;
+}
+
+/**
+ * This atom captures the tile schema version when the tile get rendered for the
+ * first time.
+ */
+message SchemaVersionReceived {
+  optional int32 package_uid = 1 [(is_uid) = true];
+  // Layout schema version used by the tile.
+  optional int32 tile_schema_version_major = 2;
+  optional int32 tile_schema_version_minor = 3;
+}

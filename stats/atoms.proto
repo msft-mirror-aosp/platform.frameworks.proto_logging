@@ -1082,6 +1082,8 @@ message Atom {
     extensions 733; // ApexInstallationStaged apex_installation_staged
     extensions 734; // ApexInstallationEnded apex_installation_ended
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
+    extensions 736; // RendererInitialized renderer_initialized
+    extensions 737; // SchemaVersionReceived schema_version_received
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
