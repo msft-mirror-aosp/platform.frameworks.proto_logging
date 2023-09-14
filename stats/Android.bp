@@ -155,6 +155,7 @@ atom_protos = [
     "atoms/wear/connectivity/*.proto",
     "atoms/devicelock/*.proto",
     "atoms/cpu/*.proto",
+    "atoms/sdksandbox/*.proto",
 ]
 
 cc_library_host_shared {
