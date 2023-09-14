@@ -27,7 +27,7 @@ option java_multiple_files = true;
 extend Atom {
   // Pushed Atom
   optional WearPowerMenuOpened wear_power_menu_opened = 731
-  [(module) = "wearsysui"];
+  [(module) = "framework"];
 }
 
 /**
