@@ -14277,6 +14277,8 @@ message CameraActionEvent {
     // Whether advanced extensions session is being used
     optional bool ext_is_advanced = 25;
     // End: Extension Metrics
+
+    optional bool used_ultrawide = 26;
 }
 
 /**
