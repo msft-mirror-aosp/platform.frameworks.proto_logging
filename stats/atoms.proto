@@ -161,7 +161,8 @@ message Atom {
         MemoryFactorStateChanged memory_factor_state_changed = 15 [(module) = "framework"];
         ExcessiveCpuUsageReported excessive_cpu_usage_reported = 16 [(module) = "framework"];
         CachedKillReported cached_kill_reported = 17 [(module) = "framework"];
-        ProcessMemoryStatReported process_memory_stat_reported = 18 [(module) = "framework"];
+        ProcessMemoryStatReported process_memory_stat_reported =
+                18 [(module) = "framework", deprecated = true];
         sysui.LauncherUIChanged launcher_event = 19 [(module) = "sysui"];
         BatterySaverModeStateChanged battery_saver_mode_state_changed =
                 20 [(module) = "framework", (module) = "statsdtest"];
