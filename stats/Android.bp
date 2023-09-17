@@ -142,6 +142,7 @@ atom_protos = [
     "atoms/uwb/*.proto",
     "atoms/ondevicepersonalization/*.proto",
     "atoms/federatedcompute/*.proto",
+    "atoms/sdksandbox/*.proto",
 ]
 
 cc_library_host_shared {
