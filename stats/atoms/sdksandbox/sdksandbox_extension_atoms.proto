@@ -1,0 +1,78 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.sdksandbox;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.sdksandbox";
+option java_multiple_files = true;
+
+extend Atom {
+  optional SandboxActivityEventOccurred sandbox_activity_event_occurred = 735
+      [(module) = "sdksandbox", (truncate_timestamp) = true];
+}
+
+/**
+ * Logs latency of API calls related to Sandbox Activity creation.
+ */
+message SandboxActivityEventOccurred {
+  enum Method {
+    STAGE_UNSPECIFIED = 0;
+    // Register/unregister activity handlers APIs
+    REGISTER_SDK_SANDBOX_ACTIVITY_HANDLER = 1;
+    UNREGISTER_SDK_SANDBOX_ACTIVITY_HANDLER = 2;
+    // Putting/removing handlers from the map.
+    // Doesn't include repeated/non-existent handlers.
+    PUT_SDK_SANDBOX_ACTIVITY_HANDLER = 3;
+    REMOVE_SDK_SANDBOX_SCTIVITY_HANDLER = 4;
+    // Start activity APIs
+    START_SDK_SANDBOX_ACTIVITY = 5;
+    ENFORCE_ALLOWED_TO_HOST_SANDBOXED_ACTIVITY = 6;
+    INTERCEPT_SANDBOX_ACTIVITY = 7;
+    CREATE_SANDBOXED_ACTIVITY = 8;
+    NOTIFY_SDK_ON_ACTIVITY_CREATION = 9;
+    TOTAL = 10;
+  }
+
+  enum CallResult {
+    CALL_RESULT_UNSPECIFIED = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+    // Validation check-specific failures
+    FAILURE_SECURITY_EXCEPTION = 3;
+    FAILURE_SECURITY_EXCEPTION_NO_SANDBOX_PROCESS = 4;
+    FAILURE_ILLEGAL_ARGUMENT_EXCEPTION = 5;
+  }
+
+  // Sandbox Activity API method that's being called
+  optional Method method = 1;
+
+  // Sandbox Activity API call result
+  optional CallResult call_result = 2;
+
+  // Time taken to complete the call
+  optional int32 latency_millis = 3;
+
+  // Uid of the client app for which the activity is created
+  optional int32 client_uid = 4;
+
+  // Uid of the SDK that's loaded into client's sandbox process and for which the activity is created
+  optional int32 sdk_uid = 5;
+}
