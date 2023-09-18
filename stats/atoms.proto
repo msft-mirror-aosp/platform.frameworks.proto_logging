@@ -21904,6 +21904,9 @@ message AdServicesMeasurementReportsUploaded {
     // delay (in milliseconds) between scheduled delivery time and actual delivery time.
     optional int64 reporting_delay_millis = 5;
     optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional int32 retry_count = 7;
+    optional int32 http_response_code = 8;
+    optional bool is_marked_for_deletion = 9;
 }
 
 /**
@@ -21926,6 +21929,9 @@ message AdServicesMeasurementRegistrations {
     // delay (in milliseconds) between registration queue request and the time it gets processed
     optional int64 registration_delay_millis = 8;
     optional string app_package_name = 9; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional int32 retry_count = 10;
+    optional int32 http_response_code = 11;
+    optional bool is_redirect = 12;
 }
 
 /**
