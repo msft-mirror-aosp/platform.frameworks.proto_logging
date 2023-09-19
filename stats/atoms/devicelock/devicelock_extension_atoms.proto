@@ -35,14 +35,16 @@ extend Atom {
 
 message DeviceLockCheckInRequestReported {
   enum RequestType {
+    // Default value for the request type
+    UNKNOWN = 0;
     // The Check-in request is getDeviceCheckInStatus
-    GET_DEVICE_CHECK_IN_STATUS = 0;
+    GET_DEVICE_CHECK_IN_STATUS = 1;
     // The Check-in request is pauseDeviceProvisioning
-    PAUSE_DEVICE_PROVISIONING = 1;
+    PAUSE_DEVICE_PROVISIONING = 2;
     // The Check-in request is reportDeviceProvisioningComplete
-    REPORT_DEVICE_PROVISIONING_COMPLETE = 2;
+    REPORT_DEVICE_PROVISIONING_COMPLETE = 3;
     // The Check-in request is reportDeviceProvisionState
-    REPORT_DEVICE_PROVISION_STATE = 3;
+    REPORT_DEVICE_PROVISION_STATE = 4;
   }
 
   optional RequestType type= 1;
