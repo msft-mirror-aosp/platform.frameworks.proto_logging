@@ -5484,6 +5484,23 @@ message ForegroundServiceStateChanged {
     optional int32 fgs_start_reason_code_in_bind_service = 34;
     optional int32 fgs_start_reason_code_by_bindings = 35;
 
+    enum FgsStartApi {
+        // Not available -- used in atoms that are unrelated to this selection.
+        FGSSTARTAPI_NA = 0;
+        // The FGS was not started. (likely it's bound.)
+        FGSSTARTAPI_NONE = 1;
+        // The FGS was started with Context.startService().
+        FGSSTARTAPI_START_SERVICE = 2;
+        // The FGS was started with Context.startForegroundService().
+        FGSSTARTAPI_START_FOREGROUND_SERVICE = 3;
+        // It's a delegate FGS.
+        FGSSTARTAPI_DELEGATE = 4;
+
+    }
+    optional FgsStartApi fgs_start_api = 36;
+
+    // Whether setFgsRestrictionLocked() was called in Service.startForeground().
+    optional bool fgs_restriction_recalculated = 37;
 }
 
 /**
