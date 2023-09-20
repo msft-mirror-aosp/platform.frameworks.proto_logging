@@ -253,6 +253,9 @@ enum ErrorCode {
   // Measurement error while parsing public keys.
   MEASUREMENT_PUBLIC_KEY_FETCHER_PARSING_ERROR = 2008;
 
+  // Failure to save seed in SharedPreferences
+  ENROLLMENT_SHARED_PREFERENCES_SEED_SAVE_FAILURE = 2009;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
