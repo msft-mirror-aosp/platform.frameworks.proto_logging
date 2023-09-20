@@ -22314,6 +22314,12 @@ message AutofillPresentationEventReported {
 
   // Which detection was preferred
   optional autofill.DetectionPreference detection_preference = 28;
+
+  // field_classification request id that was used for this event.
+  optional int32 field_classification_request_id = 29;
+
+  // App package Uid
+  optional int32 app_package_uid = 30 [(is_uid) = true];
 }
 
 // Tells how Autofill dataset was/will-be displayed.
