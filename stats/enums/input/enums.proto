@@ -176,6 +176,10 @@ enum InputDeviceUsageType {
  */
 enum InputDeviceBus {
     OTHER = 0;
+    // Universal Serial Bus
     USB = 1;
+    // Bluetooth or Bluetooth Low Energy (BLE)
     BLUETOOTH = 2;
+    // Universal Stylus Initiative (USI) protocol (https://universalstylus.org)
+    USI = 3;
 }
