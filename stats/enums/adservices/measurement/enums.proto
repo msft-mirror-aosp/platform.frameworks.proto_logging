@@ -25,8 +25,10 @@ option java_multiple_files = true;
  */
 enum SourceType {
   UNKNOWN_SOURCE_TYPE = 0;
-  EVENT_SOURCE_TYPE = 1;
-  NAVIGATION_SOURCE_TYPE = 2;
+  EVENT_SOURCE_TYPE = 1; // only deprecated for AdServicesMeasurementAttribution in favor of a VIEW_SOURCE_TYPE
+  NAVIGATION_SOURCE_TYPE = 2; // only deprecated for AdServicesMeasurementAttribution in favor of a CLICK_SOURCE_TYPE
+  VIEW_SOURCE_TYPE = 3;
+  CLICK_SOURCE_TYPE = 4;
 }
 
 /**
