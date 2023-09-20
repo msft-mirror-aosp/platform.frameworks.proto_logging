@@ -21792,6 +21792,7 @@ message AdServicesApiCalled {
     //   * registerWebSource()
     //   * registerWebTrigger()
     //   * getMeasurementApiStatus()
+    //   * registerSource() : accepts a list of source registration URIs
     //
     // AdId
     //   * GetAdId()
@@ -21836,6 +21837,7 @@ message AdServicesApiCalled {
         REPORT_INTERACTION = 23;
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
         FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
+        REGISTER_SOURCES = 26;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
