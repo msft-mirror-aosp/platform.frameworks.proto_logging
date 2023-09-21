@@ -1342,6 +1342,21 @@ enum Action {
     // ACTION: Settings > System > Languages > System Languages > Terms of address > Neutral
     // OS: V
     ACTION_TERMS_OF_ADDRESS_NEUTRAL = 1859;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_SHOW = 1860;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_ACCEPT = 1861;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_DISMISS = 1862;
 }
 
 /**
@@ -4164,6 +4179,20 @@ enum PageId {
     // OS: U
     SETTINGS_SOFTWARE_UPDATES = 2037;
 
+    // OPEN: Settings > Display > Continue using apps on fold
+    // CATEGORY: SETTINGS
+    // OS: U
+    FOLD_LOCK_BEHAVIOR = 2038;
+
+    // OPEN: Settings > Connected devices > fast pair devices
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    FAST_PAIR_DEVICES = 2039;
+
+    // OPEN: Settings > Security & Privacy > Private Space
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETTINGS = 2040;
 }
 
 // Battery Saver schedule types.

@@ -16,31 +16,30 @@
 
 syntax = "proto2";
 
-package com.google.android.wearable.media.sessions;
+package android.apex;
 
-option java_multiple_files = true;
-
-// Indicates the type of action for controlling the media session.
-enum MediaAction {
-  UNKNOWN_ACTION = 0;
-  PLAY = 1;
-  PAUSE = 2;
-  SKIP_NEXT = 3;
-  SKIP_PREV = 4;
-  RESUME = 5;
-  VOLUME_INCREASE = 6;
-  VOLUME_DECREASE = 7;
-  SEEK_IN_CURRENT_MEDIA_ITEM = 8;
-  SEEK_BACK = 9;
-  SEEK_FORWARD = 10;
+enum InstallationType {
+    UNKNOWN_INSTALL_TYPE = 0;
+    STAGED = 1;
+    REBOOTLESS = 2;
 }
 
-// Indicates the type of launch source
-enum LaunchSource {
-  UNKNOWN_SOURCE = 0;
-  ONGOING_ACTIVITY = 1;
-  LAUNCHER = 2;
-  AUTO_LAUNCH = 3;
-  RECENT_APPS = 4;
-  COMPLICATION = 5;
+enum InstallResultType {
+    UNKNOWN_INSTALL_RESULT = 0;
+    INSTALL_SUCCESSFUL = 1;
+    INSTALL_FAILURE_APEX_READING = 2;
+    INSTALL_FAILURE_APEX_VALIDATION = 3;
+    INSTALL_FAILURE_APEX_PREPARATION = 4;
+    INSTALL_FAILURE_APEX_STAGING = 5;
+    INSTALL_FAILURE_APEX_INSTALLATION = 6;
+    INSTALL_FAILURE_APEX_ACTIVATION = 7;
+}
+
+enum PreinstallPartition {
+    PARTITION_UNKNOWN = 0;
+    PARTITION_OTHER = 1;
+    PARTITION_PRODUCT = 2;
+    PARTITION_SYSTEM = 3;
+    PARTITION_SYSTEM_EXT = 4;
+    PARTITION_VENDOR = 5;
 }

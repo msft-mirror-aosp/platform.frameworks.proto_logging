@@ -16,31 +16,28 @@
 
 syntax = "proto2";
 
-package com.google.android.wearable.media.sessions;
+package android.os.statsd.cpu;
 
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.cpu";
 option java_multiple_files = true;
 
-// Indicates the type of action for controlling the media session.
-enum MediaAction {
-  UNKNOWN_ACTION = 0;
-  PLAY = 1;
-  PAUSE = 2;
-  SKIP_NEXT = 3;
-  SKIP_PREV = 4;
-  RESUME = 5;
-  VOLUME_INCREASE = 6;
-  VOLUME_DECREASE = 7;
-  SEEK_IN_CURRENT_MEDIA_ITEM = 8;
-  SEEK_BACK = 9;
-  SEEK_FORWARD = 10;
+extend Atom {
+    optional CpuPolicy cpu_policy = 10199 [(module) = "framework"];
 }
 
-// Indicates the type of launch source
-enum LaunchSource {
-  UNKNOWN_SOURCE = 0;
-  ONGOING_ACTIVITY = 1;
-  LAUNCHER = 2;
-  AUTO_LAUNCH = 3;
-  RECENT_APPS = 4;
-  COMPLICATION = 5;
+/**
+ * Logs information related to CPU policies such as frequency limits.
+ */
+message CpuPolicy {
+    // The cpufreq policy ID.
+    optional int32 policy = 1;
+
+    // The current maximum frequency.
+    optional int32 scaling_max_freq_khz = 2;
+
+    // The normal maximum frequency.
+    optional int32 cpuinfo_max_freq_khz = 3;
 }

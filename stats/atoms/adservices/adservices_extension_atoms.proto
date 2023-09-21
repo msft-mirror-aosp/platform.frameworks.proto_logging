@@ -139,6 +139,7 @@ message AdServicesMeasurementDebugKeys {
   optional bool is_matched = 3;
   optional int64 join_key_hash = 4;
   optional int64 join_key_hash_limit = 5;
+  optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -193,6 +194,7 @@ message AdServicesMeasurementDelayedSourceRegistration {
   optional android.adservices.service.measurement.DelayedSourceRegistrationStatus registration_status = 1;
   // delay (in milliseconds) between a source registration and a previously registered trigger with matching attribution destination
   optional int64 missed_source_delay_millis = 2;
+  optional string app_package_name = 3; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -207,6 +209,7 @@ message AdServicesMeasurementAttribution {
   optional bool is_install_attribution = 6;
   // delay (in milliseconds) between trigger registration and a trigger becoming attributed.
   optional int64 trigger_to_attribution_delay_millis = 7;
+  optional string app_package_name = 8; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -222,6 +225,7 @@ message AdServicesMeasurementJobs {
  */
 message AdServicesMeasurementWipeout {
   optional android.adservices.service.measurement.WipeoutCause wipeout_cause = 1;
+  optional string app_package_name = 2; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**
@@ -233,6 +237,7 @@ message AdServicesMeasurementAdIdMatchForDebugKeys {
   optional bool is_matched = 3;
   optional int64 num_unique_ad_ids_used = 4;
   optional int64 num_unique_ad_id_limit = 5;
+  optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
 /**

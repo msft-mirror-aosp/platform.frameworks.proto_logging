@@ -366,6 +366,8 @@ enum CodePathCounterKeyEnum {
 
         // [120,400 - 120,500) LE scan abuse count
         LE_SCAN_ABUSE_COUNT_SCAN_TIMEOUT = 120400;
+        LE_SCAN_ABUSE_COUNT_HW_FILTER_NOT_AVAILABLE = 120401;
+        LE_SCAN_ABUSE_COUNT_TRACKING_HW_FILTER_NOT_AVAILABLE = 120402;
 
     // [120,500 - 121,000) LE advertise related
         // [120,500 - 120,600) LE advertise enable/disable count
@@ -451,4 +453,6 @@ enum ProfileConnectionReason {
     REASON_UNKNOWN = 0;
     REASON_SUCCESS = 1;
     REASON_UNEXPECTED_STATE = 2;
+    REASON_NATIVE_LAYER_REJECTED = 3;
+    REASON_INCOMING_CONN_REJECTED = 4;
 }

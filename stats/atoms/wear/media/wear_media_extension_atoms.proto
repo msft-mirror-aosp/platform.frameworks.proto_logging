@@ -87,6 +87,7 @@ message MediaSessionStateChanged {
     PLAYBACK_SUPPRESSION_REASON_NONE = 1;
     PLAYBACK_SUPPRESSION_REASON_TRANSIENT_AUDIO_FOCUS_LOSS = 2;
     PLAYBACK_SUPPRESSION_REASON_UNSUITABLE_AUDIO_ROUTE = 3;
+    PLAYBACK_SUPPRESSION_REASON_UNSUITABLE_AUDIO_OUTPUT = 4;
   }
 
   // Package name of the app that owns the media session. (If is_remote_session
