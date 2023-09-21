@@ -1087,6 +1087,10 @@ message Atom {
     extensions 738; // ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported
     extensions 739; // ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated
     extensions 740; // ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported
+    extensions 741; // LayoutInspected layout_inspected
+    extensions 742; // LayoutExpressionsInspected layout_expression_inspected
+    extensions 743; // LayoutAnimationsInspected layout_animations_inspected
+    extensions 744; // MaterialComponentsInspected material_components_inspected
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
