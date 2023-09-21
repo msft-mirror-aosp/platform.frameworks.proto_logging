@@ -5846,6 +5846,9 @@ message NotificationReported {
 
     // True if the device was locked or showing unlocked AOD.
     optional bool is_locked = 28;
+
+    // Age of the notification in minutes.
+    optional int32 age_in_minutes = 29;
 }
 
 /**
