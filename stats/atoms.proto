@@ -1084,6 +1084,9 @@ message Atom {
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
     extensions 736; // RendererInitialized renderer_initialized
     extensions 737; // SchemaVersionReceived schema_version_received
+    extensions 738; // ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported
+    extensions 739; // ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated
+    extensions 740; // ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -5597,6 +5600,23 @@ message ForegroundServiceStateChanged {
     optional int32 fgs_start_reason_code_in_bind_service = 34;
     optional int32 fgs_start_reason_code_by_bindings = 35;
 
+    enum FgsStartApi {
+        // Not available -- used in atoms that are unrelated to this selection.
+        FGSSTARTAPI_NA = 0;
+        // The FGS was not started. (likely it's bound.)
+        FGSSTARTAPI_NONE = 1;
+        // The FGS was started with Context.startService().
+        FGSSTARTAPI_START_SERVICE = 2;
+        // The FGS was started with Context.startForegroundService().
+        FGSSTARTAPI_START_FOREGROUND_SERVICE = 3;
+        // It's a delegate FGS.
+        FGSSTARTAPI_DELEGATE = 4;
+
+    }
+    optional FgsStartApi fgs_start_api = 36;
+
+    // Whether setFgsRestrictionLocked() was called in Service.startForeground().
+    optional bool fgs_restriction_recalculated = 37;
 }
 
 /**
@@ -5944,6 +5964,9 @@ message NotificationReported {
 
     // True if the device was locked or showing unlocked AOD.
     optional bool is_locked = 28;
+
+    // Age of the notification in minutes.
+    optional int32 age_in_minutes = 29;
 }
 
 /**
@@ -15400,11 +15423,14 @@ message CellularServiceState {
     // Whether internet pdn is up.
     optional bool is_internet_pdn_up = 11;
 
-    // Fold state of the device
+    // Fold state of the device.
     optional android.telephony.FoldState fold_state = 12;
 
-    // Whether the voice service state is overridden by voice calling capability
+    // Whether the voice service state is overridden by voice calling capability.
     optional bool override_voice_service = 13;
+
+    // Whether mobile data is enable.
+    optional bool isDataEnabled = 14;
 }
 
 /**
