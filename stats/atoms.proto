@@ -1091,6 +1091,13 @@ message Atom {
     extensions 742; // LayoutExpressionsInspected layout_expression_inspected
     extensions 743; // LayoutAnimationsInspected layout_animations_inspected
     extensions 744; // MaterialComponentsInspected material_components_inspected
+    extensions 745; // TileRequested tile_requested
+    extensions 746; // StateResponseReceived state_response_received
+    extensions 747; // TileResponseReceived tile_response_received
+    extensions 748; // InflationFinished inflation_finished
+    extensions 749; // InflationFailed inflation_failed
+    extensions 750; // IgnoredInflationFailuresReported ignored_inflation_failures_reported
+    extensions 751; // DrawableRendered drawable_rendered
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

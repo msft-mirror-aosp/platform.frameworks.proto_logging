@@ -36,6 +36,21 @@ extend Atom {
   [(module) = "prototiles"];
   optional MaterialComponentsInspected material_components_inspected = 744
   [(module) = "prototiles"];
+  optional TileRequested tile_requested = 745
+  [(module) = "prototiles"];
+  optional StateResponseReceived state_response_received = 746
+  [(module) = "prototiles"];
+  optional TileResponseReceived tile_response_received = 747
+  [(module) = "prototiles"];
+  optional InflationFinished inflation_finished = 748
+  [(module) = "prototiles"];
+  optional InflationFailed inflation_failed = 749
+  [(module) = "prototiles"];
+  optional IgnoredInflationFailuresReported ignored_inflation_failures_reported = 750
+  [(module) = "prototiles"];
+  optional DrawableRendered drawable_rendered = 751
+  [(module) = "prototiles"];
+
 }
 
 /**
@@ -199,4 +214,202 @@ message MaterialComponentsInspected {
   optional MaterialComponentCountBucket material_component_count_bucket = 3;
   // Material component types used in the layout (Bitset instead of repeated enum).
   optional int32 material_component_type = 4;
+}
+
+/**
+ * This atom captures the tile requests.
+ */
+message TileRequested {
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // The reason of firing a tile request.
+  optional int32 count_of_freshness_based_request = 3;
+  optional int32 count_of_user_interaction_based_request = 4;
+  optional int32 count_of_visibility_change_based_request = 5;
+}
+
+/**
+ * This atom captures the received State response.
+ */
+message StateResponseReceived {
+  enum StateEntriesCountBucket {
+    STATE_ENTRIES_COUNT_BUCKET_UNSPECIFIED = 0;
+    STATE_ENTRIES_COUNT_BUCKET_UNDER_TEN_ENTRIES = 1;
+    STATE_ENTRIES_COUNT_BUCKET_TEN_TO_TWENTY_FIVE_ENTRIES = 2;
+    STATE_ENTRIES_COUNT_BUCKET_TWENTY_FIVE_TO_FIFTY_ENTRIES = 3;
+    STATE_ENTRIES_COUNT_BUCKET_FIFTY_TO_HUNDRED_ENTRIES = 4;
+    STATE_ENTRIES_COUNT_BUCKET_OVER_HUNDRED_ENTRIES = 5;
+  }
+  enum StateBinarySizeBucket {
+    STATE_BINARY_SIZE_BUCKET_UNSPECIFIED = 0;
+    STATE_BINARY_SIZE_BUCKET_UNDER_ONE_KIB = 1;
+    STATE_BINARY_SIZE_BUCKET_ONE_TO_TEN_KIB = 2;
+    STATE_BINARY_SIZE_BUCKET_TEN_TO_TWENTY_FIVE_KIB = 3;
+    STATE_BINARY_SIZE_BUCKET_TWENTY_FIVE_TO_FIFTY_KIB = 4;
+    STATE_BINARY_SIZE_BUCKET_FIFTY_TO_HUNDRED_KIB = 5;
+    STATE_BINARY_SIZE_BUCKET_OVER_HUNDRED_KIB = 6;
+  }
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // Whether it is an initial state
+  optional bool is_initial_state = 3;
+  // Count of state entries.
+  optional StateEntriesCountBucket state_entries_count_bucket = 4;
+  // Binary size of the state object.
+  optional StateBinarySizeBucket state_binary_size_bucket = 5;
+}
+
+/**
+ * This atom captures the structure of the received tile response.
+ */
+message TileResponseReceived {
+  enum TimeLineEntriesCountBucket {
+    TIMELINE_ENTRIES_COUNT_BUCKET_UNSPECIFIED = 0;
+    TIMELINE_ENTRIES_COUNT_BUCKET_ONE_ENTRY = 1;
+    TIMELINE_ENTRIES_COUNT_BUCKET_TWO_TO_FIVE_ENTRIES = 2;
+    TIMELINE_ENTRIES_COUNT_BUCKET_FIVE_TO_TEN_ENTRIES = 3;
+    TIMELINE_ENTRIES_COUNT_BUCKET_TEN_TO_TWENTY_FIVE_ENTRIES = 4;
+    TIMELINE_ENTRIES_COUNT_BUCKET_TWENTY_FIVE_TO_FIFTY_ENTRIES = 5;
+    TIMELINE_ENTRIES_COUNT_BUCKET_FIFTY_TO_HUNDRED_ENTRIES = 6;
+    TIMELINE_ENTRIES_COUNT_BUCKET_OVER_HUNDRED_ENTRIES = 7;
+  }
+  enum AvgTimelineEntryDurationBucket {
+    TIMELINE_DURATION_BUCKET_UNSPECIFIED = 0;
+    TIMELINE_DURATION_BUCKET_UNDER_ONE_S = 1;
+    TIMELINE_DURATION_BUCKET_ONE_S_TO_TEN_S = 2;
+    TIMELINE_DURATION_BUCKET_TEN_S_TO_TWENTY_S = 3;
+    TIMELINE_DURATION_BUCKET_TWENTY_S_TO_FORTY_S = 4;
+    TIMELINE_DURATION_BUCKET_FORTY_S_TO_ONE_M = 5;
+    TIMELINE_DURATION_BUCKET_ONE_M_TO_TEN_M = 6;
+    TIMELINE_DURATION_BUCKET_TEN_M_TO_THIRTY_M = 7;
+    TIMELINE_DURATION_BUCKET_THIRTY_M_TO_ONE_H = 8;
+    TIMELINE_DURATION_BUCKET_ONE_H_TO_THREE_H = 9;
+    TIMELINE_DURATION_BUCKET_OVER_THREE_H = 10;
+  }
+  enum FreshnessBucket {
+    FRESHNESS_BUCKET_UNSPECIFIED = 0;
+    FRESHNESS_BUCKET_UNDER_ONE_S = 1;
+    FRESHNESS_BUCKET_ONE_S_TO_TEN_S = 2;
+    FRESHNESS_BUCKET_TEN_S_TO_TWENTY_S = 3;
+    FRESHNESS_BUCKET_TWENTY_S_TO_FORTY_S = 4;
+    FRESHNESS_BUCKET_FORTY_S_TO_ONE_M = 5;
+    FRESHNESS_BUCKET_ONE_M_TO_TEN_M = 6;
+    FRESHNESS_BUCKET_TEN_M_TO_THIRTY_M = 7;
+    FRESHNESS_BUCKET_THIRTY_M_TO_ONE_H = 8;
+    FRESHNESS_BUCKET_ONE_H_TO_THREE_H = 9;
+    FRESHNESS_BUCKET_OVER_THREE_H = 10;
+  }
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+
+  optional TimeLineEntriesCountBucket timeline_entries_count_bucket = 3;
+  // The avg duration of timelines in this tile response.
+  optional AvgTimelineEntryDurationBucket avg_timeline_entry_duration_bucket = 4;
+  // The freshness value for the tile.
+  optional FreshnessBucket freshness_bucket = 5;
+  // Whether the resource version changed.
+  optional bool resource_version_changed = 6;
+}
+
+/**
+ * This atom captures the result of layout inflation.
+ */
+message InflationFinished {// Layout
+  enum InflationDurationBucket {
+    INFLATION_DURATION_BUCKET_UNSPECIFIED = 0;
+    INFLATION_DURATION_BUCKET_UNDER_ONE_MS = 1;
+    INFLATION_DURATION_BUCKET_ONE_MS_TO_TEN_MS = 2;
+    INFLATION_DURATION_BUCKET_TEN_MS_TO_FIFTY_MS = 3;
+    INFLATION_DURATION_BUCKET_FIFTY_MS_TO_HUNDRED_MS = 4;
+    INFLATION_DURATION_BUCKET_HUNDRED_MS_TO_THREE_HUNDRED_MS = 5;
+    INFLATION_DURATION_BUCKET_THREE_HUNDRED_MS_TO_SIX_HUNDRED_MS = 6;
+    INFLATION_DURATION_BUCKET_SIX_HUNDRED_MS_TO_ONE_S = 7;
+    INFLATION_DURATION_BUCKET_OVER_ONE_S = 10;
+  }
+  enum NodeInfoCountBucket {
+    NODE_INFO_COUNT_BUCKET_UNSPECIFIED = 0;
+    NODE_INFO_COUNT_BUCKET_UNDER_FIVE_NODES = 1;
+    NODE_INFO_COUNT_BUCKET_FIVE_TO_TEN_NODES = 2;
+    NODE_INFO_COUNT_BUCKET_TEN_TO_TWENTY_FIVE_NODES = 3;
+    NODE_INFO_COUNT_BUCKET_TWENTY_FIVE_TO_FIFTY_NODES = 4;
+    NODE_INFO_COUNT_BUCKET_OVER_FIFTY_NODES = 5;
+  }
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // Inflation duration.
+  optional InflationDurationBucket inflation_duration_bucket = 3;
+  // Changed NodeInfo objects count. NodeInfo is the entity representing the
+  // rendered view.
+  optional NodeInfoCountBucket changed_nodes_count_bucket = 4;
+  // Total count of NodeInfo objects.
+  optional NodeInfoCountBucket total_node_count_bucket = 5;
+}
+
+/**
+ * This atom captures inflation blocking failures. These are failures that
+ causes the whole layout to be dropped.
+
+ */
+message InflationFailed {
+  enum BlockingFailure {
+    BLOCKING_FAILURE_UNKNOWN = 0;
+    BLOCKING_FAILURE_NO_FAILURES = 1;
+    BLOCKING_FAILURE_MAX_LAYOUT_DEPTH_EXCEEDED = 2;
+    BLOCKING_FAILURE_MAX_EXPRESSION_NODE_COUNT_EXCEEDED = 3;
+  }
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // A failure causing the rendering to abort.
+  optional BlockingFailure blocking_failure = 3;
+}
+
+// Atom to capture ignored failures during an inflation.
+message IgnoredInflationFailuresReported {
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // A list of ignored failures (Bitset instead of repeated enum).
+  optional int32 ignored_failure = 3;
+}
+
+/**
+ * This atom captures the drawables used for each layout.
+ */
+message DrawableRendered {
+  enum DrawableType {
+    DRAWABLE_TYPE_UNKNOWN = 0;
+    DRAWABLE_TYPE_BITMAP = 1;
+    DRAWABLE_TYPE_VECTOR_DRAWABLE = 2;
+    DRAWABLE_TYPE_ANIMATED_IMAGE_DRAWABLE = 3;
+    DRAWABLE_TYPE_ANIMATED_VECTOR_DRAWABLE = 4;
+    DRAWABLE_TYPE_STATE_BASED = 5;
+  }
+  enum DrawableBinarySizeBucket {
+    DRAWABLE_BINARY_SIZE_BUCKET_UNSPECIFIED = 0;
+    DRAWABLE_BINARY_SIZE_BUCKET_UNDER_TEN_KIB = 1;
+    DRAWABLE_BINARY_SIZE_BUCKET_TEN_TO_FIFTY_KIB = 2;
+    DRAWABLE_BINARY_SIZE_BUCKET_FIFTY_TO_HUNDRED_KIB = 3;
+    DRAWABLE_BINARY_SIZE_BUCKET_HUNDRED_TO_THREE_HUNDRED_KIB = 4;
+    DRAWABLE_BINARY_SIZE_BUCKET_THREE_HUNDRED_TO_SIX_HUNDRED_KIB = 5;
+    DRAWABLE_BINARY_SIZE_BUCKET_SIX_HUNDRED_TO_ONE_MB = 6;
+    DRAWABLE_BINARY_SIZE_BUCKET_ONE_MB_TO_FIVE_MB = 7;
+    DRAWABLE_BINARY_SIZE_BUCKET_OVER_FIVE_MB = 8;
+  }
+
+  enum DrawablePixelsCountBucket {
+    DRAWABLE_PIXEL_SIZE_BUCKET_UNSPECIFIED = 0;
+    DRAWABLE_PIXEL_SIZE_BUCKET_UNDER_100_PX = 1;
+    DRAWABLE_PIXEL_SIZE_BUCKET_100_TO_1000_PX = 2;
+    DRAWABLE_PIXEL_SIZE_BUCKET_1000_TO_10000_PX = 3;
+    DRAWABLE_PIXEL_SIZE_BUCKET_10000_TO_100000_PX = 4;
+    DRAWABLE_PIXEL_SIZE_BUCKET_100000_TO_10000000_PX = 5;
+    DRAWABLE_PIXEL_SIZE_BUCKET_OVER_10000000_PX = 6;
+  }
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // Drawable type.
+  optional DrawableType drawable_type = 3;
+  // Binary size of the drawable.
+  optional DrawableBinarySizeBucket binary_size_bucket = 4;
+  // Pixels count of the drawable. Calculated as Height (px) x width (px)
+  optional DrawablePixelsCountBucket drawable_pixels_count_bucket = 5;
 }
