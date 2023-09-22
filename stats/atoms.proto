@@ -1087,6 +1087,10 @@ message Atom {
     extensions 738; // ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported
     extensions 739; // ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated
     extensions 740; // ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported
+    extensions 741; // LayoutInspected layout_inspected
+    extensions 742; // LayoutExpressionsInspected layout_expression_inspected
+    extensions 743; // LayoutAnimationsInspected layout_animations_inspected
+    extensions 744; // MaterialComponentsInspected material_components_inspected
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -4611,6 +4615,15 @@ message StyleUIChanged {
     optional int32 color_variant = 20;
     optional int64 time_elapsed_millis = 21;
     optional int32 effect_status_code = 22;
+    optional int32 session_id = 23;
+    optional android.stats.style.SetWallpaperEntryPoint set_wallpaper_entry_point = 24;
+    optional android.stats.style.WallpaperDestination wallpaper_destination = 25;
+    optional android.stats.style.ColorSource color_source = 26;
+    optional int32 seed_color = 27;
+    optional android.stats.style.ClockSize clock_size = 28;
+    optional bool toggle_on = 29;
+    optional string shortcut = 30;
+    optional string shortcut_slot_id = 31;
 }
 
 /**

@@ -28,6 +28,14 @@ extend Atom {
   [(module) = "prototiles"];
   optional SchemaVersionReceived schema_version_received = 737
   [(module) = "prototiles"];
+  optional LayoutInspected layout_inspected = 741
+  [(module) = "prototiles"];
+  optional LayoutExpressionsInspected layout_expression_inspected = 742
+  [(module) = "prototiles"];
+  optional LayoutAnimationsInspected layout_animations_inspected = 743
+  [(module) = "prototiles"];
+  optional MaterialComponentsInspected material_components_inspected = 744
+  [(module) = "prototiles"];
 }
 
 /**
@@ -50,4 +58,145 @@ message SchemaVersionReceived {
   // Layout schema version used by the tile.
   optional int32 tile_schema_version_major = 2;
   optional int32 tile_schema_version_minor = 3;
+}
+
+/**
+ * This atom captures the structure of the inspected layout. We do inspect every
+ * layout before it starts rendering.
+ */
+message LayoutInspected {
+  enum LayoutDepthBucket {
+    LAYOUT_DEPTH_BUCKET_UNSPECIFIED = 0;
+    LAYOUT_DEPTH_BUCKET_UNDER_FIVE_NODES = 1;
+    LAYOUT_DEPTH_BUCKET_FIVE_TO_TEN_NODES = 2;
+    LAYOUT_DEPTH_BUCKET_TEN_TO_TWENTY_FIVE_NODES = 3;
+    LAYOUT_DEPTH_BUCKET_TWENTY_FIVE_TO_FIFTY_NODES = 4;
+    LAYOUT_DEPTH_BUCKET_OVER_FIFTY_NODES = 5;
+  }
+  enum LayoutElementCountBucket {
+    LAYOUT_ELEMENT_COUNT_BUCKET_UNSPECIFIED = 0;
+    LAYOUT_ELEMENT_COUNT_BUCKET_UNDER_TEN_ELEMENTS = 1;
+    LAYOUT_ELEMENT_COUNT_BUCKET_TEN_TO_TWENTY_FIVE_ELEMENTS = 2;
+    LAYOUT_ELEMENT_COUNT_BUCKET_TWENTY_FIVE_TO_FIFTY_ELEMENTS = 3;
+    LAYOUT_ELEMENT_COUNT_BUCKET_FIFTY_TO_HUNDRED_ELEMENTS = 4;
+    LAYOUT_ELEMENT_COUNT_BUCKET_OVER_HUNDRED_ELEMENTS = 5;
+  }
+  enum LayoutBinarySizeBucket {
+    LAYOUT_BINARY_SIZE_BUCKET_UNSPECIFIED = 0;
+    LAYOUT_BINARY_SIZE_BUCKET_UNDER_ONE_KIB = 1;
+    LAYOUT_BINARY_SIZE_BUCKET_ONE_TO_TEN_KIB = 2;
+    LAYOUT_BINARY_SIZE_BUCKET_TEN_TO_TWENTY_FIVE_KIB = 3;
+    LAYOUT_BINARY_SIZE_BUCKET_TWENTY_FIVE_TO_FIFTY_KIB = 4;
+    LAYOUT_BINARY_SIZE_BUCKET_FIFTY_TO_HUNDRED_KIB = 5;
+    LAYOUT_BINARY_SIZE_BUCKET_OVER_HUNDRED_KIB = 6;
+  }
+
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // The depth of the inspected layout.
+  optional LayoutDepthBucket layout_depth_bucket = 3;
+  // The node count fo the inspected layout.
+  optional LayoutElementCountBucket layout_element_count_bucket = 4;
+  // The binary size of the inspected layout.
+  optional LayoutBinarySizeBucket layout_size_bucket = 5;
+}
+
+/**
+ * This atom captures the structure of nodes in the inspected layout. We do
+ * inspect every expression when inspecting the layout.
+ */
+message LayoutExpressionsInspected {
+  enum TotalExpressionNodeCountBucket {
+    TOTAL_EXPRESSION_NODE_COUNT_BUCKET_UNSPECIFIED = 0;
+    TOTAL_EXPRESSION_NODE_COUNT_BUCKET_UNDER_TEN_NODES = 1;
+    TOTAL_EXPRESSION_NODE_COUNT_BUCKET_TEN_TO_TWENTY_FIVE_NODES = 2;
+    TOTAL_EXPRESSION_NODE_COUNT_BUCKET_TWENTY_FIVE_TO_FIFTY_NODES = 3;
+    TOTAL_EXPRESSION_NODE_COUNT_BUCKET_OVER_FIFTY_NODES = 4;
+  }
+  enum MaxNodesCountPerExpressionBucket {
+    MAX_NODES_COUNT_PER_EXPRESSION_BUCKET_UNSPECIFIED = 0;
+    MAX_NODES_COUNT_PER_EXPRESSION_BUCKET_UNDER_FIVE_NODES = 1;
+    MAX_NODES_COUNT_PER_EXPRESSION_BUCKET_FIVE_TO_TEN_NODES = 2;
+    MAX_NODES_COUNT_PER_EXPRESSION_BUCKET_TEN_TO_TWENTY_FIVE_NODES = 3;
+    MAX_NODES_COUNT_PER_EXPRESSION_BUCKET_OVER_TWENTY_FIVE_NODES = 5;
+  }
+  enum MaxNodesDepthPerExpressionBucket {
+    MAX_NODES_DEPTH_PER_EXPRESSION_BUCKET_UNSPECIFIED = 0;
+    MAX_NODES_DEPTH_PER_EXPRESSION_BUCKET_UNDER_FIVE_NODES = 1;
+    MAX_NODES_DEPTH_PER_EXPRESSION_BUCKET_FIVE_TO_TEN_NODES = 2;
+    MAX_NODES_DEPTH_PER_EXPRESSION_BUCKET_TEN_TO_TWENTY_FIVE_NODES = 3;
+    MAX_NODES_DEPTH_PER_EXPRESSION_BUCKET_OVER_TWENTY_FIVE_NODES = 5;
+  }
+
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // Count of expression nodes in the inspected layout.
+  optional TotalExpressionNodeCountBucket total_expression_node_count_bucket =
+    3;
+  // Maximum count of nodes among all expression in inspected layout.
+  optional MaxNodesCountPerExpressionBucket
+    max_nodes_count_per_expression_bucket = 4;
+  // Maximum expression depth among all expression in inspected layout.
+  optional MaxNodesDepthPerExpressionBucket
+    max_nodes_depth_per_expression_bucket = 5;
+  // Platform data sources used in the inspected expressions (Bitset instead of repeated enum).
+  optional int32 platform_data_source = 6;
+}
+
+/**
+ * This atom captures the animation objects structure in the inspected layout.
+ * We do inspect every animation when inspecting the layout.
+ */
+message LayoutAnimationsInspected {
+
+  enum MaxAnimationDurationBucket {
+    MAX_ANIMATION_DURATION_BUCKET_UNSPECIFIED = 0;
+    MAX_ANIMATION_DURATION_BUCKET_UNDER_ONE_HUNDRED_MS = 1;
+    MAX_ANIMATION_DURATION_BUCKET_ONE_HUNDRED_MS_TO_FIVE_HUNDRED_MS = 2;
+    MAX_ANIMATION_DURATION_BUCKET_FIVE_HUNDRED_MS_TO_ONE_S = 3;
+    MAX_ANIMATION_DURATION_BUCKET_ONE_S_TO_FIVE_S = 4;
+    MAX_ANIMATION_DURATION_BUCKET_OVER_FIVE_S = 5;
+  }
+
+  enum AnimationCountBucket {
+    ANIMATION_COUNT_BUCKET_UNSPECIFIED = 0;
+    ANIMATION_COUNT_BUCKET_ZERO = 1;
+    ANIMATION_COUNT_BUCKET_ONE_TO_THREE = 2; // [1:3[
+    ANIMATION_COUNT_BUCKET_THREE_TO_FIVE = 3; // [3:5[
+    ANIMATION_COUNT_BUCKET_FIVE_TO_TEN = 4; // [5:10[
+    ANIMATION_COUNT_BUCKET_OVER_TEN = 5;
+  }
+
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // Count of animations in the inspected layout.
+  optional AnimationCountBucket animation_count_bucket = 3;
+  // The maximum duration of an animation in the inspected layout.
+  optional MaxAnimationDurationBucket max_animation_duration_bucket = 4;
+  // Animation types that are used in the inspected layout (Bitset instead of repeated enum).
+  optional int32 animation_type = 5;
+  // Whether the layout has a continues animation.
+  optional bool has_continuous_animation = 6;
+}
+
+/**
+ * This atom captures the material components structure in the inspected layout.
+ * We do inspect every material component when inspecting the layout.
+ */
+message MaterialComponentsInspected {
+
+  enum MaterialComponentCountBucket {
+    MATERIAL_COMPONENT_COUNT_BUCKET_UNSPECIFIED = 0;
+    MATERIAL_COMPONENT_COUNT_BUCKET_ZERO = 1;
+    MATERIAL_COMPONENT_COUNT_BUCKET_ONE_TO_FIVE = 2; // [1:5[
+    MATERIAL_COMPONENT_COUNT_BUCKET_FIVE_TO_TEN = 3; // [5:10[
+    MATERIAL_COMPONENT_COUNT_BUCKET_OVER_TEN = 4;
+  }
+
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional int32 classname_hash = 2;
+  // Number of material components used in the layout.
+  optional MaterialComponentCountBucket material_component_count_bucket = 3;
+  // Material component types used in the layout (Bitset instead of repeated enum).
+  optional int32 material_component_type = 4;
 }
