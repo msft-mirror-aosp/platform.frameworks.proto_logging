@@ -4193,6 +4193,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETTINGS = 2040;
+
+    // OPEN: Settings > System > Developer options > Quarantined Apps
+    // CATEGORY: SETTINGS
+    // OS: V
+    QUARANTINED_APPS_DEV_CONTROL = 2041;
 }
 
 // Battery Saver schedule types.

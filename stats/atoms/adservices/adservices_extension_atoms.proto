@@ -210,6 +210,11 @@ message AdServicesMeasurementAttribution {
   // delay (in milliseconds) between trigger registration and a trigger becoming attributed.
   optional int64 trigger_to_attribution_delay_millis = 7;
   optional string app_package_name = 8; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional int32 aggregate_report_count = 9;
+  optional int32 aggregate_debug_report_count = 10;
+  optional int32 event_report_count = 11;
+  optional int32 event_debug_report_count = 12;
+  optional int32 retry_count = 13;
 }
 
 /**
