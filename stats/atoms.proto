@@ -786,7 +786,6 @@ message Atom {
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         VibrationReported vibration_reported = 487 [(module) = "framework"];
-        SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
@@ -940,6 +939,7 @@ message Atom {
     extensions 332; // ArtDatumReported art_datum_reported
     extensions 366; // OdrefreshReported odrefresh_reported
     extensions 467; // BackgroundDexoptJobEnded background_dexopt_job_ended
+    extensions 488; // SandboxApiCalled sandbox_api_called
     extensions 528; // ExpressEventReported express_event_reported
     extensions 548; // OdsignReported odsign_reported
     extensions 550; // ArtDeviceDatumReported art_device_datum_reported
@@ -1091,6 +1091,13 @@ message Atom {
     extensions 742; // LayoutExpressionsInspected layout_expression_inspected
     extensions 743; // LayoutAnimationsInspected layout_animations_inspected
     extensions 744; // MaterialComponentsInspected material_components_inspected
+    extensions 745; // TileRequested tile_requested
+    extensions 746; // StateResponseReceived state_response_received
+    extensions 747; // TileResponseReceived tile_response_received
+    extensions 748; // InflationFinished inflation_finished
+    extensions 749; // InflationFailed inflation_failed
+    extensions 750; // IgnoredInflationFailuresReported ignored_inflation_failures_reported
+    extensions 751; // DrawableRendered drawable_rendered
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1287,7 +1294,6 @@ message Atom {
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
-        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
         MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
         NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
         OutgoingShortCodeSms outgoing_short_code_sms = 10162 [(module) = "telephony"];
@@ -1309,6 +1315,7 @@ message Atom {
 
     // Pulled atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 10159; // SandboxSdkStorage sandbox_sdk_storage
     extensions 10177; // QnsRatPreferenceMismatchInfo qns_rat_preference_mismatch_info
     extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
     extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
@@ -14307,6 +14314,8 @@ message CameraActionEvent {
     // Whether advanced extensions session is being used
     optional bool ext_is_advanced = 25;
     // End: Extension Metrics
+
+    optional bool used_ultrawide = 26;
 }
 
 /**
@@ -22055,6 +22064,9 @@ message AdServicesMeasurementReportsUploaded {
     // delay (in milliseconds) between scheduled delivery time and actual delivery time.
     optional int64 reporting_delay_millis = 5;
     optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional int32 retry_count = 7;
+    optional int32 http_response_code = 8;
+    optional bool is_marked_for_deletion = 9;
 }
 
 /**
@@ -22077,6 +22089,9 @@ message AdServicesMeasurementRegistrations {
     // delay (in milliseconds) between registration queue request and the time it gets processed
     optional int64 registration_delay_millis = 8;
     optional string app_package_name = 9; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional int32 retry_count = 10;
+    optional int32 http_response_code = 11;
+    optional bool is_redirect = 12;
 }
 
 /**
@@ -23194,75 +23209,6 @@ message PrivacySignalsJobFailure {
         COROUTINE_CANCELLED = 2;
     }
     optional JobFailureReason reason =2;
-}
-
-// Logs when an API call from app to sandbox process is made
-// Next ID: 6
-message SandboxApiCalled {
-    // Next ID: 16
-    enum Method {
-        METHOD_UNSPECIFIED = 0;
-        LOAD_SDK = 1;
-        REQUEST_SURFACE_PACKAGE = 3;
-        // Api used by Apps via SdkSandboxManager
-        GET_SANDBOXED_SDKS = 5;
-        SYNC_DATA_FROM_CLIENT = 6;
-        UNLOAD_SDK = 7;
-        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
-        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
-        REGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 11;
-        UNREGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 12;
-        GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
-        // Api used by SDKs in the sandbox via SdkSandboxController
-        GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
-        LOAD_SDK_VIA_CONTROLLER = 14;
-        GET_APP_OWNED_SDK_SANDBOX_INTERFACES_VIA_CONTROLLER = 15;
-
-        LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
-        SEND_DATA = 4 [deprecated = true];
-    }
-    // The method which was called.
-    optional Method method = 1;
-
-    // Next ID: 12
-    enum Stage {
-        STAGE_UNSPECIFIED = 0;
-        APP_TO_SYSTEM_SERVER = 1;
-        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
-        LOAD_SANDBOX = 3;
-        SYSTEM_SERVER_TO_SANDBOX = 4;
-        SANDBOX = 5;
-        SDK = 6;
-        SANDBOX_TO_SYSTEM_SERVER = 7;
-        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
-        SYSTEM_SERVER_TO_APP = 9;
-        TOTAL = 10;
-        TOTAL_WITH_LOAD_SANDBOX = 11;
-    }
-    // The stage at which latency is being measured.
-    optional Stage stage = 4;
-
-    // The success status of the callback
-    optional bool success = 3;
-
-    //Time taken from the initiation of the API till the callback was received
-    optional int32 latency_millis = 2;
-
-    // Uid of the app that made a call to sandbox
-    optional int32 uid = 5 [(is_uid) = true];
-}
-
-//Logs periodically the storage of SDKs used by the app
-message SandboxSdkStorage {
-
-    // Boolean value to specify if the storage belongs to SDK or is shared
-    optional bool shared = 1;
-
-    // Storage
-    optional int32 storage_kb = 2;
-
-    // Uid of the app that made a call to sandbox
-    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
