@@ -25,9 +25,85 @@ option java_package = "com.android.os.sdksandbox";
 option java_multiple_files = true;
 
 extend Atom {
+  // Pushed atoms
+  optional SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
   optional SandboxActivityEventOccurred sandbox_activity_event_occurred = 735
       [(module) = "sdksandbox", (truncate_timestamp) = true];
+
+
+  // Pulled atoms
+  optional SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
 }
+
+// Logs when an API call from app to sandbox process is made
+// Next ID: 6
+message SandboxApiCalled {
+  // Next ID: 16
+  enum Method {
+    METHOD_UNSPECIFIED = 0;
+    LOAD_SDK = 1;
+    REQUEST_SURFACE_PACKAGE = 3;
+    // Api used by Apps via SdkSandboxManager
+    GET_SANDBOXED_SDKS = 5;
+    SYNC_DATA_FROM_CLIENT = 6;
+    UNLOAD_SDK = 7;
+    ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
+    REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
+    REGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 11;
+    UNREGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 12;
+    GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
+    // Api used by SDKs in the sandbox via SdkSandboxController
+    GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
+    LOAD_SDK_VIA_CONTROLLER = 14;
+    GET_APP_OWNED_SDK_SANDBOX_INTERFACES_VIA_CONTROLLER = 15;
+
+    LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
+    SEND_DATA = 4 [deprecated = true];
+  }
+  // The method which was called.
+  optional Method method = 1;
+
+  // Next ID: 12
+  enum Stage {
+    STAGE_UNSPECIFIED = 0;
+    APP_TO_SYSTEM_SERVER = 1;
+    SYSTEM_SERVER_APP_TO_SANDBOX = 2;
+    LOAD_SANDBOX = 3;
+    SYSTEM_SERVER_TO_SANDBOX = 4;
+    SANDBOX = 5;
+    SDK = 6;
+    SANDBOX_TO_SYSTEM_SERVER = 7;
+    SYSTEM_SERVER_SANDBOX_TO_APP = 8;
+    SYSTEM_SERVER_TO_APP = 9;
+    TOTAL = 10;
+    TOTAL_WITH_LOAD_SANDBOX = 11;
+  }
+  // The stage at which latency is being measured.
+  optional Stage stage = 4;
+
+  // The success status of the callback
+  optional bool success = 3;
+
+  //Time taken from the initiation of the API till the callback was received
+  optional int32 latency_millis = 2;
+
+  // Uid of the app that made a call to sandbox
+  optional int32 uid = 5 [(is_uid) = true];
+}
+
+//Logs periodically the storage of SDKs used by the app
+message SandboxSdkStorage {
+
+  // Boolean value to specify if the storage belongs to SDK or is shared
+  optional bool shared = 1;
+
+  // Storage
+  optional int32 storage_kb = 2;
+
+  // Uid of the app that made a call to sandbox
+  optional int32 uid = 3 [(is_uid) = true];
+}
+
 
 /**
  * Logs latency of API calls related to Sandbox Activity creation.
