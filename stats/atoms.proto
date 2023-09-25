@@ -1099,6 +1099,7 @@ message Atom {
     extensions 750; // IgnoredInflationFailuresReported ignored_inflation_failures_reported
     extensions 751; // DrawableRendered drawable_rendered
     extensions 752; // StatsSocketLossReported stats_socket_loss_reported
+    extensions 753; // DisplaySwitchLatencyTracked display_switch_latency_tracked
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
