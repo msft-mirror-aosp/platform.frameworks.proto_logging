@@ -107,4 +107,8 @@ message MediaSessionStateChanged {
   optional bool is_play_when_ready = 5;
 
   optional PlaybackSuppressionReason playback_suppression_reason = 6;
+
+  // Depicts if the playback was suppressed previously due to unsuitable output
+  // and then resolved.
+  optional bool has_playback_suppression_due_to_unsuitable_output_resolved = 7;
 }
