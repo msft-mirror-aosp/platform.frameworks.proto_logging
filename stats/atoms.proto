@@ -1046,6 +1046,9 @@ message Atom {
     extensions 709; // AiWallpapersWallpaperSet ai_wallpapers_wallpaper_set
     extensions 710; // AiWallpapersSessionSummary ai_wallpapers_session_summary
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
+    extensions 738; // ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported
+    extensions 739; // ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated
+    extensions 740; // ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
