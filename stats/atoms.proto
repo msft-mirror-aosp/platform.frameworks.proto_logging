@@ -10916,6 +10916,8 @@ message MediametricsCodecReported {
  * Logged from:
  *   frameworks/av/media/libstagefright/MediaCodec.cpp
  *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
+ *
+ * Next Tag: 79
  */
 message MediaCodecReported {
     optional int64 timestamp_nanos = 1;
@@ -11047,6 +11049,9 @@ message MediaCodecReported {
     optional int32 set_surface_count = 75;
     optional int32 resolution_change_count = 76;
     optional int32 component_color_format = 77;
+    // caller_uid replaces packagename
+    // @Since U-QPR2
+    optional int32 caller_uid = 78 [(is_uid) = true];
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
