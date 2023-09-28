@@ -350,7 +350,7 @@ enum DisconnectionErrorCode {
 
 // This enum depicts the tether mode of certain watches, they are corresponding
 // to vendor/google_clockwork/sdk/lib/src/com/google/wear/tether/TetherConfigurationClient.java
-// Next ID: 3
+// Next ID: 4
 enum TetherConfigurationStatus {
   // Depicts an unknown tether status
   TETHER_CONFIGURATION_UNKNOWN = 0;
@@ -360,4 +360,7 @@ enum TetherConfigurationStatus {
 
   // Depicts the watch is in tethered mode
   TETHER_CONFIGURATION_TETHERED = 2;
+
+  // Depicts the watch is in restricted connection mode
+  TETHER_CONFIGURATION_RESTRICTED = 3;
 }
