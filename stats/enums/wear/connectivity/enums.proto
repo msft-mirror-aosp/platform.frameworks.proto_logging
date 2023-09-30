@@ -41,7 +41,7 @@ enum MediatorAction {
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 50
+ * Keep sorted order in each block. Last enum num is 52
  */
 enum TriggerEvent {
     TRIGGER_EVENT_UNKNOWN = 0;
@@ -103,10 +103,13 @@ enum TriggerEvent {
     ON_CELLULAR_SIGNAL_CHANGED = 48;
     SUBSCRIPTION_UPDATE = 49;
     WIFI_CONNECTION_UPDATE = 50;
+
+    BATTERY_SAVER_MODE_UPDATE = 51;
+    NO_DATA_UPDATE = 52;
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 49
+ * Keep sorted order in each block. Last enum num is 50
  */
 enum Reason {
     REASON_UNKNOWN = 0;
@@ -171,4 +174,6 @@ enum Reason {
     OFF_FORCE_CELLULAR_DATA_OFF = 47;
     ON_NO_DISABLE_REASONS = 48;
     OFF_CELL_POOR_SIGNAL = 49;
+
+    OFF_NO_DATA_ENABLED = 50;
 }
