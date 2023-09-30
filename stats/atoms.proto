@@ -784,7 +784,6 @@ message Atom {
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         VibrationReported vibration_reported = 487 [(module) = "framework"];
-        SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
         MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
@@ -939,6 +938,7 @@ message Atom {
     extensions 332; // ArtDatumReported art_datum_reported
     extensions 366; // OdrefreshReported odrefresh_reported
     extensions 467; // BackgroundDexoptJobEnded background_dexopt_job_ended
+    extensions 488; // SandboxApiCalled sandbox_api_called
     extensions 528; // ExpressEventReported express_event_reported
     extensions 548; // OdsignReported odsign_reported
     extensions 550; // ArtDeviceDatumReported art_device_datum_reported
@@ -1047,6 +1047,11 @@ message Atom {
     extensions 711; // OnDevicePersonalizationApiCalled ondevicepersonalization_api_called
     extensions 712; // FederatedComputeApiCalled federated_compute_api_called
     extensions 714; // AdServicesEnrollmentFailed ad_services_enrollment_failed
+    extensions 719; // PnoScanStarted pno_scan_started
+    extensions 720; // PnoScanStopped pno_scan_stopped
+    extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
+    extensions 723; // WifiApCapabilitiesReported wifi_ap_capabilities_reported
+    extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1243,7 +1248,6 @@ message Atom {
         SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
         IncomingMms incoming_mms = 10157 [(module) = "mms"];
         OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
-        SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
         MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
         NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
         OutgoingShortCodeSms outgoing_short_code_sms = 10162 [(module) = "telephony"];
@@ -1265,6 +1269,7 @@ message Atom {
 
     // Pulled atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    extensions 10159; // SandboxSdkStorage sandbox_sdk_storage
     extensions 10177; // QnsRatPreferenceMismatchInfo qns_rat_preference_mismatch_info
     extensions 10178; // QnsHandoverTimeMillis qns_handover_time_millis
     extensions 10179; // QnsHandoverPingpong qns_handover_pingpong
@@ -1282,6 +1287,7 @@ message Atom {
     extensions 10193; // WifiModuleInfo wifi_module_info
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
+    extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1630,6 +1636,11 @@ message WifiHealthStatReported {
     optional int32 tx_kbps = 6 [default = -1];
     // estimated rx throughput in kbps
     optional int32 rx_kbps = 7 [default = -1];
+   // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
+   // AOSP scorer.
+   optional int32 scorer_uid = 8;
+   // Whether or not Wi-Fi is predicted as usable by the scorer
+   optional bool is_wifi_predicted_as_usable = 9;
 }
 
 /**
@@ -1735,6 +1746,8 @@ message WifiConnectionResultReported {
     optional android.net.wifi.EapType eap_type = 14;
     optional android.net.wifi.EapInnerMethod eap_inner_method = 15;
     optional android.net.wifi.RoamingType passpoint_roaming_type = 16;
+    // carrier ID of the network
+    optional int32 carrier_id = 17;
 }
 
 /**
@@ -1888,6 +1901,9 @@ message WifiDisconnectReported {
     optional android.net.wifi.EapInnerMethod eap_inner_method = 11;
 
     optional android.net.wifi.RoamingType passpoint_roaming_type = 12;
+
+    // Carrier id of the network.
+    optional int32 carrier_id = 13;
 }
 
 /**
@@ -9663,6 +9679,21 @@ message NetworkNsdReported {
 
   // Record query service count before unregistered service
   optional int32 replied_requests_count = 11;
+
+  // Record sent query count before stopped discovery
+  optional int32 sent_query_count = 12;
+
+  // Record sent packet count before unregistered service
+  optional int32 sent_packet_count = 13;
+
+  // Record number of conflict during probing
+  optional int32 conflict_during_probing_count = 14;
+
+  // Record number of conflict after probing
+  optional int32 conflict_after_probing_count = 15;
+
+  // The random number between 0 ~ 999 for sampling
+  optional int32 random_number = 16;
 }
 
 /**
@@ -13585,7 +13616,7 @@ message AppSearchStorageInfo {
  * Reported from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
  *
- * Next tag: 11
+ * Next tag: 18
  */
 message ContactsIndexerUpdateStatsReported {
     enum UpdateType {
@@ -13629,6 +13660,30 @@ message ContactsIndexerUpdateStatsReported {
 
     // Number of old contacts failed to be deleted
     optional int32 number_of_contacts_delete_failed = 10;
+
+    // Number of old contacts to be deleted that were not found
+    optional int32 number_of_contacts_delete_not_found = 11;
+
+    // Start timestamp of the update in millis
+    optional int64 update_start_timestamp_millis = 12;
+
+    // Timestamp of the last full update in millis (not including this update)
+    optional int64 last_full_update_timestamp_millis = 13;
+
+    // Timestamp of the last delta update in millis (not including this update)
+    optional int64 last_delta_update_timestamp_millis = 14;
+
+    // Timestamp of the last contact to be updated from CP2 in millis
+    optional int64 last_contact_updated_timestamp_millis = 15;
+
+    // Timestamp of the last contact to be deleted from CP2 in millis
+    optional int64 last_contact_deleted_timestamp_millis = 16;
+
+    // The previous update's last_contact_updated_timestamp_millis
+    // This field is only set for a full update and expected to match
+    // last_contacted_update_timestamp_millis. If the fields do not match, then we
+    // were unexpectedly not synced up with CP2 at the time of the update.
+    optional int64 previous_last_contact_updated_timestamp_millis = 17;
 }
 
 /**
@@ -21750,6 +21805,7 @@ message AdServicesApiCalled {
     //   * registerWebSource()
     //   * registerWebTrigger()
     //   * getMeasurementApiStatus()
+    //   * registerSource() : accepts a list of source registration URIs
     //
     // AdId
     //   * GetAdId()
@@ -21794,6 +21850,7 @@ message AdServicesApiCalled {
         REPORT_INTERACTION = 23;
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
         FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
+        REGISTER_SOURCES = 26;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21801,7 +21858,7 @@ message AdServicesApiCalled {
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
 
-    optional string app_package_name = 3;
+    optional string app_package_name = 3; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
     optional string sdk_package_name = 4;
 
     optional int32 latency_millis = 5;
@@ -21818,6 +21875,32 @@ message AdServicesMeasurementReportsUploaded {
         UNKNOWN_REPORT = 0;
         EVENT = 1;
         AGGREGATE = 2;
+        DEBUG_EVENT = 3;
+        DEBUG_AGGREGATE = 4;
+        VERBOSE_DEBUG_SOURCE_DESTINATION_LIMIT = 5;
+        VERBOSE_DEBUG_SOURCE_NOISED = 6;
+        VERBOSE_DEBUG_SOURCE_STORAGE_LIMIT = 7;
+        VERBOSE_DEBUG_SOURCE_SUCCESS = 8;
+        VERBOSE_DEBUG_SOURCE_UNKNOWN_ERROR = 9;
+        VERBOSE_DEBUG_SOURCE_FLEXIBLE_EVENT_REPORT_VALUE_ERROR = 10;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_DEDUPLICATED = 11;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_INSUFFICIENT_BUDGET = 12;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_NO_CONTRIBUTIONS = 13;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_REPORT_WINDOW_PASSED = 14;
+        VERBOSE_DEBUG_TRIGGER_ATTRIBUTIONS_PER_SOURCE_DESTINATION_LIMIT = 15;
+        VERBOSE_DEBUG_TRIGGER_EVENT_DEDUPLICATED = 16;
+        VERBOSE_DEBUG_TRIGGER_EVENT_EXCESSIVE_REPORTS = 17;
+        VERBOSE_DEBUG_TRIGGER_EVENT_LOW_PRIORITY = 18;
+        VERBOSE_DEBUG_TRIGGER_EVENT_NO_MATCHING_CONFIGURATIONS = 19;
+        VERBOSE_DEBUG_TRIGGER_EVENT_NOISE = 20;
+        VERBOSE_DEBUG_TRIGGER_EVENT_REPORT_WINDOW_PASSED = 21;
+        VERBOSE_DEBUG_TRIGGER_NO_MATCHING_FILTER_DATA = 22;
+        VERBOSE_DEBUG_TRIGGER_NO_MATCHING_SOURCE = 23;
+        VERBOSE_DEBUG_TRIGGER_REPORTING_ORIGIN_LIMIT = 24;
+        VERBOSE_DEBUG_TRIGGER_EVENT_STORAGE_LIMIT = 25;
+        VERBOSE_DEBUG_TRIGGER_UNKNOWN_ERROR = 26;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_STORAGE_LIMIT = 27;
+        VERBOSE_DEBUG_TRIGGER_AGGREGATE_EXCESSIVE_REPORTS = 28;
     }
 
     optional ReportType type = 1;
@@ -21833,6 +21916,10 @@ message AdServicesMeasurementReportsUploaded {
     optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
     // delay (in milliseconds) between scheduled delivery time and actual delivery time.
     optional int64 reporting_delay_millis = 5;
+    optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional int32 retry_count = 7;
+    optional int32 http_response_code = 8;
+    optional bool is_marked_for_deletion = 9;
 }
 
 /**
@@ -21854,6 +21941,10 @@ message AdServicesMeasurementRegistrations {
     optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
     // delay (in milliseconds) between registration queue request and the time it gets processed
     optional int64 registration_delay_millis = 8;
+    optional string app_package_name = 9; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional int32 retry_count = 10;
+    optional int32 http_response_code = 11;
+    optional bool is_redirect = 12;
 }
 
 /**
@@ -22971,70 +23062,6 @@ message PrivacySignalsJobFailure {
         COROUTINE_CANCELLED = 2;
     }
     optional JobFailureReason reason =2;
-}
-
-// Logs when an API call from app to sandbox process is made
-// Next ID: 6
-message SandboxApiCalled {
-    // Next ID: 14
-    enum Method {
-        METHOD_UNSPECIFIED = 0;
-        LOAD_SDK = 1;
-        REQUEST_SURFACE_PACKAGE = 3;
-        // Api used by Apps via SdkSandboxManager
-        GET_SANDBOXED_SDKS = 5;
-        SYNC_DATA_FROM_CLIENT = 6;
-        UNLOAD_SDK = 7;
-        ADD_SDK_SANDBOX_LIFECYCLE_CALLBACK = 8;
-        REMOVE_SDK_SANDBOX_LIFECYCLE_CALLBACK = 9;
-        REGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 11;
-        UNREGISTER_APP_OWNED_SDK_SANDBOX_INTERFACE = 12;
-        GET_APP_OWNED_SDK_SANDBOX_INTERFACES = 13;
-        // Api used by SDKs in the sandbox via SdkSandboxController
-        GET_SANDBOXED_SDKS_VIA_CONTROLLER = 10;
-
-        LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
-        SEND_DATA = 4 [deprecated = true];
-    }
-    // The method which was called.
-    optional Method method = 1;
-
-    enum Stage {
-        STAGE_UNSPECIFIED = 0;
-        APP_TO_SYSTEM_SERVER = 1;
-        SYSTEM_SERVER_APP_TO_SANDBOX = 2;
-        LOAD_SANDBOX = 3;
-        SYSTEM_SERVER_TO_SANDBOX = 4;
-        SANDBOX = 5;
-        SDK = 6;
-        SANDBOX_TO_SYSTEM_SERVER = 7;
-        SYSTEM_SERVER_SANDBOX_TO_APP = 8;
-        SYSTEM_SERVER_TO_APP = 9;
-    }
-    // The stage at which latency is being measured.
-    optional Stage stage = 4;
-
-    // The success status of the callback
-    optional bool success = 3;
-
-    //Time taken from the initiation of the API till the callback was received
-    optional int32 latency_millis = 2;
-
-    // Uid of the app that made a call to sandbox
-    optional int32 uid = 5 [(is_uid) = true];
-}
-
-//Logs periodically the storage of SDKs used by the app
-message SandboxSdkStorage {
-
-    // Boolean value to specify if the storage belongs to SDK or is shared
-    optional bool shared = 1;
-
-    // Storage
-    optional int32 storage_kb = 2;
-
-    // Uid of the app that made a call to sandbox
-    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
