@@ -37,6 +37,8 @@ message FederatedComputeApiCalled {
 
     enum FederatedComputeApiName {
         API_NAME_UNKNOWN = 0;
+        SCHEDULE = 1;
+        CANCEL = 2;
     }
 
     optional FederatedComputeApiClassType api_class = 1;
