@@ -4198,6 +4198,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     QUARANTINED_APPS_DEV_CONTROL = 2041;
+
+    // OPEN: Settings > Developer Options > Enable 16k pages
+    // CATEGORY: SETTINGS
+    DIALOG_ENABLE_16K_PAGES = 2042;
 }
 
 // Battery Saver schedule types.
