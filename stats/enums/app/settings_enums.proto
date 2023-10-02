@@ -4023,6 +4023,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     VPN_APP_MANAGEMENT = 2033;
+
+    // OPEN: Settings > Developer Options > Enable 16k pages
+    // CATEGORY: SETTINGS
+    DIALOG_ENABLE_16K_PAGES = 2042;
 }
 
 // Battery Saver schedule types.
