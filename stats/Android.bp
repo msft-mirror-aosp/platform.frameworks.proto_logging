@@ -103,6 +103,7 @@ atom_protos = [
     "atoms/apex/*.proto",
     "atoms/aiwallpapers/*.proto",
     "atoms/art/*.proto",
+    "atoms/appsearch/*.proto",
     "atoms/bluetooth/*.proto",
     "atoms/corenetworking/**/*.proto",
     "atoms/autofill/*.proto",
