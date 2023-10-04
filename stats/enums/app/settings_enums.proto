@@ -4202,6 +4202,16 @@ enum PageId {
     // OPEN: Settings > Developer Options > Enable 16k pages
     // CATEGORY: SETTINGS
     DIALOG_ENABLE_16K_PAGES = 2042;
+
+    // OPEN: Settings > Storage > Private profile tab
+    // CATEGORY: SETTINGS
+    // OS: V
+    SETTINGS_STORAGE_CATEGORY_PRIVATE = 2043;
+
+    // OPEN: Settings > Account > Private profile tab
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCOUNT_PRIVATE = 2044;
 }
 
 // Battery Saver schedule types.
