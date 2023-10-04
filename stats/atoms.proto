@@ -212,7 +212,6 @@ message Atom {
         AppStartMemoryStateCaptured app_start_memory_state_captured = 55 [(module) = "framework"];
         ShutdownSequenceReported shutdown_sequence_reported = 56 [(module) = "framework"];
         BootSequenceReported boot_sequence_reported = 57;
-        DaveyOccurred davey_occurred = 58 [deprecated = true];
         OverlayStateChanged overlay_state_changed =
                 59 [(module) = "framework", (module) = "statsdtest"];
         ForegroundServiceStateChanged foreground_service_state_changed
@@ -1346,7 +1345,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 83, 360 to 363, 492, 597, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 58, 83, 360 to 363, 492, 597, 10008, 10036, 10040, 10041, 21004, 21005;
 }
 
 /*
@@ -4524,20 +4523,6 @@ message ThermalThrottlingSeverityStateChanged {
 
     // Relative severity of the throttling, see enum definition.
     optional android.os.ThrottlingSeverityEnum severity = 4;
-}
-
-/**
- * Logs the duration of a davey (jank of >=700ms) when it occurs
- *
- * Logged from:
- *   frameworks/base/libs/hwui/JankTracker.cpp
- */
-message DaveyOccurred {
-    // The UID that logged this atom.
-    optional int32 uid = 1 [(is_uid) = true];
-
-    // Amount of time it took to render the frame. Should be >=700ms.
-    optional int64 jank_duration_millis = 2;
 }
 
 /**
