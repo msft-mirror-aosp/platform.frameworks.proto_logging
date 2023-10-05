@@ -65,6 +65,59 @@ message WsNotificationUpdated {
   // The transport channel this notification is coming from.
   optional android.app.wearservices.NotificationTransportChannel
       transport_channel = 5;
+
+  // The alerting effect of the notification.
+  optional android.app.wearservices.NotificationAlertingEffect alerting_effect =
+      6;
+
+  // The group alert behavior of the notification.
+  optional android.app.wearservices.NotificationGroupAlertBehavior
+      group_alert_behavior = 7;
+
+  // The alert behavior controlled by the ALERT_ONLY_ONCE flag.
+  optional android.app.wearservices.NotificationAlertOnlyOnce alert_only_once =
+      8;
+
+  // The group type of the notification.
+  optional android.app.wearservices.NotificationGroupType group_type = 9;
+
+  // The style of the notification.
+  optional android.app.wearservices.NotificationStyle style = 10;
+
+  // The hidden reason of the notification.
+  optional android.app.wearservices.NotificationHiddenReason hidden_reason = 11;
+
+  // The categories for the notification.
+  optional android.app.wearservices.NotificationCategory category = 12;
+
+  // Whether this notification has set FLAG_ONGOING_EVENT. Which means there may
+  // be many updates for this notification. (eg. app download progress updates).
+  optional bool is_ongoing_notification = 13;
+
+  // Whether this notification is an emergency cell broadcast message.
+  optional bool is_emergency = 14;
+
+  // Whether this notification comes from apps running in the work profile.
+  optional bool is_work_profile = 15;
+
+  // The content intent actions for the notification.
+  optional android.app.wearservices.NotificationContentIntent content_intent =
+      16;
+
+  // Whether actions contain remote input (e.g. Reply).
+  optional bool has_remote_input = 17;
+
+  // Number value for all actions, including actions with remote input. Count
+  // wearable actions if they exist, otherwise counting the standard actions.
+  // Can be 0 or above, cap to 10 as we have this same limit in SysUI.
+  optional int32 action_count = 18;
+
+  // Whether this notification contains bigPicture image, largeIcon image, or
+  // message images.
+  optional bool has_big_images = 19;
+
+  // Whether this notification has set a dismissal-id.
+  optional bool has_dismissal_id = 20;
 }
 
 /** Logged when a complication is tapped by the user. */
