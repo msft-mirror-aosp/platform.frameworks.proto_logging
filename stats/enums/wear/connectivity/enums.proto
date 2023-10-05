@@ -41,7 +41,7 @@ enum MediatorAction {
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 52
+ * Keep sorted order in each block. Last enum num is 53
  */
 enum TriggerEvent {
     TRIGGER_EVENT_UNKNOWN = 0;
@@ -106,6 +106,7 @@ enum TriggerEvent {
 
     BATTERY_SAVER_MODE_UPDATE = 51;
     NO_DATA_UPDATE = 52;
+    INTERACTIVE_MODE_UPDATE = 53;
 }
 
 /**
