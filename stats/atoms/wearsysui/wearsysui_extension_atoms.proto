@@ -28,6 +28,8 @@ extend Atom {
   // Pushed Atom
   optional WearPowerMenuOpened wear_power_menu_opened = 731
   [(module) = "framework"];
+  optional WearAssistantOpened wear_assistant_opened = 755
+  [(module) = "framework"];
 }
 
 /**
@@ -38,4 +40,13 @@ extend Atom {
 message WearPowerMenuOpened {
   optional bool device_provisioned = 1;
   optional bool setup_wizard_completed = 2;
+}
+
+/**
+ * Logs whenever Assistant is opened for Wear
+ * Logged from :
+ * vendor/google_clockwork/packages/SystemUI/src/com/google/android/clockwork/systemui/assist/WearAssistManager.java
+ */
+message WearAssistantOpened {
+  optional bool in_retail_mode = 1;
 }
