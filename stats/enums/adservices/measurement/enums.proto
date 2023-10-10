@@ -25,8 +25,10 @@ option java_multiple_files = true;
  */
 enum SourceType {
   UNKNOWN_SOURCE_TYPE = 0;
-  EVENT_SOURCE_TYPE = 1;
-  NAVIGATION_SOURCE_TYPE = 2;
+  EVENT_SOURCE_TYPE = 1; // only deprecated for AdServicesMeasurementAttribution in favor of a VIEW_SOURCE_TYPE
+  NAVIGATION_SOURCE_TYPE = 2; // only deprecated for AdServicesMeasurementAttribution in favor of a CLICK_SOURCE_TYPE
+  VIEW_SOURCE_TYPE = 3;
+  CLICK_SOURCE_TYPE = 4;
 }
 
 /**
@@ -76,6 +78,7 @@ enum ReportUploadFailureType {
   JOB_RETRY_LIMIT_EXCEEDED_REPORT_UPLOAD_FAILURE_TYPE = 5;
   SERIALIZATION_ERROR_REPORT_UPLOAD_FAILURE_TYPE = 6;
   ENCRYPTION_ERROR_REPORT_UPLOAD_FAILURE_TYPE = 7;
+  UNSUCCESSFUL_HTTP_RESPONSE_CODE_FAILURE_TYPE = 8;
 }
 
 /**
@@ -145,6 +148,7 @@ enum WipeoutCause {
   UNKNOWN_WIPEOUT_CAUSE = 0;
   UNINSTALL_WIPEOUT_CAUSE = 1;
   CONSENT_FLIP_WIPEOUT_CAUSE = 2;
-  CLEAR_DATA_WIPEOUT_CAUSE = 3; // request from Android to clear data
-  DELETE_REGISTRATIONS_API_CLEAR_DATA_WIPEOUT_CAUSE = 4; // request from a web browser to clear data
+  CLEAR_DATA_WIPEOUT_CAUSE = 3; // this has been deprecated in favor of PACKAGE_CHANGED_WIPEOUT_CAUSE
+  DELETE_REGISTRATIONS_API_CLEAR_DATA_WIPEOUT_CAUSE = 4;
+  PACKAGE_CHANGED_WIPEOUT_CAUSE = 5;
 }
