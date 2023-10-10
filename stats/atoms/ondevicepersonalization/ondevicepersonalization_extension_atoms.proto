@@ -37,10 +37,20 @@ message OnDevicePersonalizationApiCalled {
     }
     enum OnDevicePersonalizationApiName {
         API_NAME_UNKNOWN = 0;
+        EXECUTE = 1;
+        REQUEST_SURFACE_PACKAGE = 2;
+        SERVICE_ON_EXECUTE = 3;
+        SERVICE_ON_DOWNLOAD_COMPLETED = 4;
+        SERVICE_ON_RENDER = 5;
+        SERVICE_ON_EVENT = 6;
+        SERVICE_ON_TRAINING_EXAMPLE = 7;
     }
     optional OnDevicePersonalizationApiClassType api_class = 1;
     optional OnDevicePersonalizationApiName api_name = 2;
+    // end to end latency of the operation
     optional int32 latency_millis = 3;
     // response_code is the error/failure code for the given api.
     optional int32 response_code = 4;
+    // latency excluding time spent in user code
+    optional int32 overhead_latency_millis = 5;
 }

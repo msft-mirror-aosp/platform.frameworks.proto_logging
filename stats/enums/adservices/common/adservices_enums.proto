@@ -75,6 +75,8 @@ enum AttributionType {
  * - Measurement errors: 2001-3000
  * - Fledge errors: 3001-4000
  * - UX errors: 4001-5000
+ *
+ * NOTE: AdId / AdSetId don't have a range yet (because they're just using common codes)
  */
 enum ErrorCode {
   // Common Errors: 1-1000
@@ -100,6 +102,9 @@ enum ErrorCode {
 
   // Remote exception when calling the Cobalt upload API.
   COBALT_UPLOAD_API_REMOTE_EXCEPTION = 9;
+
+  // Exception occurred when parsing the Adservices Config XML provided by an app.
+  APP_MANIFEST_CONFIG_PARSING_ERROR = 10;
 
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
@@ -244,6 +249,18 @@ enum ErrorCode {
   // Measurement datastore unknown failure.
   MEASUREMENT_DATASTORE_UNKNOWN_FAILURE = 2005;
 
+  // Measurement invalid parameter fetching public keys.
+  MEASUREMENT_PUBLIC_KEY_FETCHER_INVALID_PARAMETER = 2006;
+
+  // Measurement IO exception while fetching public keys.
+  MEASUREMENT_PUBLIC_KEY_FETCHER_IO_ERROR = 2007;
+
+  // Measurement error while parsing public keys.
+  MEASUREMENT_PUBLIC_KEY_FETCHER_PARSING_ERROR = 2008;
+
+  // Failure to save seed in SharedPreferences
+  ENROLLMENT_SHARED_PREFERENCES_SEED_SAVE_FAILURE = 2009;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
@@ -283,7 +300,7 @@ enum ErrorCode {
   // App search consent data migration failure.
   APP_SEARCH_DATA_MIGRATION_FAILURE = 4013;
 
-  // Ad services entry point failure.
+  // Adservices entry point failure.
   AD_SERVICES_ENTRY_POINT_FAILURE = 4014;
 
   // Used to be MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE but renamed in ag/24158741
