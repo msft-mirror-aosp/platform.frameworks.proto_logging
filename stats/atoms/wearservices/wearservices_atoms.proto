@@ -118,6 +118,10 @@ message WsNotificationUpdated {
 
   // Whether this notification has set a dismissal-id.
   optional bool has_dismissal_id = 20;
+
+  // Whether this notification has set FLAG_FOREGROUND_SERVICE. Which means the
+  // notification may be frequently updated.
+  optional bool is_foreground_service = 21;
 }
 
 /** Logged when a complication is tapped by the user. */
