@@ -1053,6 +1053,9 @@ message Atom {
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
     extensions 752; // StatsSocketLossReported stats_socket_loss_reported
     extensions 756; // AdServicesMeasurementClickVerification ad_services_measurement_click_verification
+    extensions 762; // CronetEngineBuilderInitialized cronet_engine_builder_initialized
+    extensions 763; // CronetHttpFlagsInitialized cronet_http_flags_initialized
+    extensions 764; // CronetInitialized cronet_initialized
     extensions 765; // AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched
     extensions 766; // AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended
     extensions 9999; // Atom9999 atom_9999
