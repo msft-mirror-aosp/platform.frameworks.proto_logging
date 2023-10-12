@@ -318,6 +318,8 @@ enum PpapiName {
   AD_ID = 4;
   APP_SET_ID = 5;
   UX = 6;
+  // Use COMMON enum when the error happens in the common code path.
+  COMMON = 7;
 }
 
 /**
