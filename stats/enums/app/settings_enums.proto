@@ -1444,6 +1444,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: UQPR1
     ACTION_USER_ASPECT_RATIO_DISPLAY_SIZE_UNSELECTED = 1880;
+
+    // Action: Settings > Apps > AppInfo > Battery > allow background usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_APP_BATTERY_USAGE_ALLOW_BACKGROUND = 1881;
+
+    // Action: Settings > Apps > AppInfo > Battery > disable background usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_APP_BATTERY_USAGE_DISABLE_BACKGROUND = 1882;
 }
 
 /**
@@ -4349,6 +4359,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: UQPR1
     USER_ASPECT_RATIO_APP_INFO_SETTINGS = 2054;
+
+    // OPEN: Settings > Battery > [App Use details] > Manage background usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    FUELGAUGE_POWER_USAGE_MANAGE_BACKGROUND = 2055;
 }
 
 // Battery Saver schedule types.
