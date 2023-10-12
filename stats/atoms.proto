@@ -2440,6 +2440,26 @@ message ScheduledJobStateChanged {
 
     // Hash of the namespace set via JobScheduler.forNamespace(String).
     optional string namespace_hash = 40;
+
+    // System estimated/measured bytes that the job
+    // downloaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the SOURCE UID
+    optional int64 system_measured_source_download_bytes = 41;
+
+    // System estimated/measured uploaded bytes that the job
+    // uploaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the SOURCE UID
+    optional int64 system_measured_source_upload_bytes = 42;
+
+    // System estimated/measured bytes that the job
+    // downloaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the CALLING UID
+    optional int64 system_measured_calling_download_bytes = 43;
+
+    // System estimated/measured uploaded bytes that the job
+    // uploaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the CALLING UID
+    optional int64 system_measured_calling_upload_bytes = 44;
 }
 
 /**
