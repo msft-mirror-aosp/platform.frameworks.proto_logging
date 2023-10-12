@@ -197,6 +197,15 @@ enum NotificationAlertingEffect {
 }
 
 // The group alert behavior of the notification.
+//
+// Note: In the Wear SysUI. Alerts will always happen on the child, for example,
+// 1). If summary is set to alert, but the first child is muted, the alert will
+// happen on the child item.
+// 2). If summary and first child both set to alert, there will be only 1 alerts
+// happening on the first child.
+// Therefore, we will overcount if we count alerting summary items, and we will
+// undercount if we skip alerting summary items. And unfortunately we can not
+// avoid this inaccuracy in the metrics.
 // Next ID: 4
 enum NotificationGroupAlertBehavior {
   // Unknown value.
@@ -205,6 +214,7 @@ enum NotificationGroupAlertBehavior {
   // The alert behavior set to ALL, or notification is not grouped, or the group
   // type matches the alert behavior (e.g. group child, while the alert behavior
   // is also set to child.)
+  // We collapsed these non-critical cases to reduce cardinality.
   NOTIFICATION_GROUP_ALERT_BEHAVIOR_ALERT_ALLOWED = 1;
 
   // The alert behavior is set to ALERT_SUMMARY, but the current notification is
