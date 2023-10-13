@@ -1100,6 +1100,7 @@ message Atom {
     extensions 753; // DisplaySwitchLatencyTracked display_switch_latency_tracked
     extensions 754; // KernelOomKillOccurred kernel_oom_kill_occurred
     extensions 755; // WearAssistantOpened wear_assistant_opened
+    extensions 756; // AdServicesMeasurementClickVerification ad_services_measurement_click_verification
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
