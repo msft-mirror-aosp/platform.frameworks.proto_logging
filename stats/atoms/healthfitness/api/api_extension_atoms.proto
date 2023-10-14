@@ -57,6 +57,9 @@ message HealthConnectApiCalled {
 
   // Type of rate limiting being used (If any)
   optional android.healthfitness.api.RateLimit rate_limit = 6;
+
+  // The API caller's foreground status
+  optional android.healthfitness.api.ForegroundState caller_foreground_state = 7;
 }
 
 // Track if users are connecting apps with Health Connect

@@ -303,7 +303,8 @@ enum ErrorCode {
   // Adservices entry point failure.
   AD_SERVICES_ENTRY_POINT_FAILURE = 4014;
 
-  // Used to be MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE but renamed in ag/24158741
+  // Used to be MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE but renamed in
+  // commit 94af8756d2f03ff17924721ee1b7c4a4520377ff
   RESERVED_ERROR_CODE_4015 = 4015;
 }
 
@@ -318,6 +319,8 @@ enum PpapiName {
   AD_ID = 4;
   APP_SET_ID = 5;
   UX = 6;
+  // Use COMMON enum when the error happens in the common code path.
+  COMMON = 7;
 }
 
 /**
@@ -367,4 +370,3 @@ enum AdServiceSettingRegion {
   // Non-European Union user (based on isoCountryInfo).
   ROW = 2;
 }
-
