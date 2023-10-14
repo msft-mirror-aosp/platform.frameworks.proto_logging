@@ -21,6 +21,7 @@ package android.os.statsd.wear.media;
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/enums/wear/media/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/outputswitcher/enums.proto";
 
 option java_package = "com.android.os.wear.media";
 option java_multiple_files = true;
@@ -36,6 +37,15 @@ extend Atom {
 
   optional MediaSessionStateChanged media_session_state_changed = 677
       [(module) = "wearmedia"];
+
+  optional WearMediaOutputSwitcherDeviceScanApiLatency
+      wear_media_output_switcher_device_scan_api_latency = 757 [(module) = "MediaOutputSwitcher"];
+
+  optional WearMediaOutputSwitcherSassDeviceUnavailable
+      wear_media_output_switcher_sass_device_unavailable = 758 [(module) = "MediaOutputSwitcher"];
+
+  optional WearMediaOutputSwitcherFastPairApiTimeout
+      wear_media_output_switcher_fastpair_api_timeout = 759 [(module) = "MediaOutputSwitcher"];
 }
 
 message MediaActionReported {
@@ -111,4 +121,44 @@ message MediaSessionStateChanged {
   // Depicts if the playback was suppressed previously due to unsuitable output
   // and then resolved.
   optional bool has_playback_suppression_due_to_unsuitable_output_resolved = 7;
+}
+
+/**
+ * Logs the latency of different device scan APIs used in OutputSwitcher.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherDeviceScanApiLatency {
+  // Latency of notifying OutputSwitcher that a SASS device is available to connect to.
+  optional int32 latency_in_millis = 1;
+
+  // Name of the media app package from where Output Switcher got triggered.
+  optional string triggering_package_name = 2;
+
+  optional com.google.android.wearable.media.routing.MediaDeviceType media_device_type = 3;
+
+  optional com.google.android.wearable.media.routing.MediumType medium_type = 4;
+}
+
+/**
+ * Logs data when no SASS device is available.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherSassDeviceUnavailable {
+  // Name of the media app package from where Output Switcher got triggered.
+  optional string triggering_package_name = 1;
+}
+
+/**
+ * Logs data when FastPair API times out.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message WearMediaOutputSwitcherFastPairApiTimeout {
+  // Name of the media app package from where Output Switcher got triggered.
+  optional string triggering_package_name = 1;
 }
