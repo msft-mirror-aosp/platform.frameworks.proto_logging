@@ -26,7 +26,7 @@ option java_multiple_files = true;
 
 extend Atom {
     optional KernelOomKillOccurred kernel_oom_kill_occurred = 754
-    [(module) = "frameworks"];
+        [(module) = "framework"];
 }
 
 /**
