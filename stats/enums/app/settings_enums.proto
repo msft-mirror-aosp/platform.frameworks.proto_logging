@@ -4252,6 +4252,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052;
+
+    // OPEN: Settings > System > Developer options > Widevine settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    WIDEVINE_SETTINGS = 2053;
 }
 
 // Battery Saver schedule types.
