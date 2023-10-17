@@ -567,6 +567,23 @@ enum AppExitSubReasonCode {
      * was no longer being used; this would be set only when the reason is {@link #REASON_OTHER}.
      */
      SUBREASON_SDK_SANDBOX_NOT_NEEDED = 28;
+
+    /**
+     * The process was killed because the binder proxy limit for system server was exceeded.
+     */
+     SUBREASON_EXCESSIVE_BINDER_OBJECTS = 29;
+
+    /**
+     * The process was killed by the [kernel] Out-of-memory (OOM) killer; this
+     * would be set only when the reason is {@link #REASON_LOW_MEMORY}.
+     */
+    SUBREASON_OOM_KILL = 30;
+
+    /**
+     * The process was killed because its async kernel binder buffer is running out
+     * while being frozen.
+     */
+    SUBREASON_FREEZER_BINDER_ASYNC_FULL = 31;
 }
 
 /**
