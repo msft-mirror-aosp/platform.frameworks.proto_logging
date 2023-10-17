@@ -176,7 +176,7 @@ enum ImeRequestPhaseEnum {
     // Started the IME window insets show animation.
     PHASE_CLIENT_CONTROL_ANIMATION = 33;
     // Checked that the IME is controllable.
-    PHASE_CLIENT_DISABLED_USER_ANIMATION = 34;
+    PHASE_CLIENT_DISABLED_USER_ANIMATION = 34 [deprecated = true];
     // Collecting insets source controls.
     PHASE_CLIENT_COLLECT_SOURCE_CONTROLS = 35;
     // Reached the insets source consumer's show request method.
