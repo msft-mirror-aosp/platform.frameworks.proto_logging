@@ -4217,6 +4217,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: U
     CONTENT_PROTECTION_PREFERENCE = 2045;
+
+    // ACTION: Allow Voice activation of an assistant app
+    // CATEGORY: SETTINGS
+    // OS: V
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046;
+
+    // ACTION: Deny Voice activation of an assistant app
+    // CATEGORY: SETTINGS
+    // OS: V
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047;
 }
 
 // Battery Saver schedule types.
