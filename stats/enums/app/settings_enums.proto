@@ -4212,6 +4212,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ACCOUNT_PRIVATE = 2044;
+
+    // OPEN: Settings > Privacy & Security > More security & privacy > Scanning for deceptive apps
+    // CATEGORY: SETTINGS
+    // OS: U
+    CONTENT_PROTECTION_PREFERENCE = 2045;
 }
 
 // Battery Saver schedule types.
