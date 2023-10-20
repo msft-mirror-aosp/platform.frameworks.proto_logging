@@ -160,6 +160,7 @@ atom_protos = [
     "atoms/devicelock/*.proto",
     "atoms/cpu/*.proto",
     "atoms/sdksandbox/*.proto",
+    "atoms/selinux/*.proto",
     "atoms/threadnetwork/*.proto",
     "atoms/automotive/carlauncher/*.proto",
     "atoms/transparency/*.proto",

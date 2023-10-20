@@ -1145,6 +1145,7 @@ message Atom {
     extensions 796; // SdkSandboxRestrictedAccessInSession sdk_sandbox_restricted_access_in_session
     extensions 797; // CarCalmModeEventReported car_calm_mode_event_reported
     extensions 798; // MediaEditingEndedReported media_editing_ended_reported
+    extensions 799; // SELinux selinux_audit_log
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
