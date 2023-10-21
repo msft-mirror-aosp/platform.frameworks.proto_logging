@@ -123,8 +123,8 @@ message DisplaySwitchLatencyTracked {
     optional StateEnum to_state = 8;
     optional android.telephony.FoldState to_foldable_device_state = 9;
     optional int32 to_focused_app_uid = 10 [(is_uid) = true];
-    repeated int32 to_visible_apps_uid = 11 [(is_uid) = true];
-    optional int32 to_pip_app_uid = 12 [(is_uid) = true];
+    optional int32 to_pip_app_uid = 11 [(is_uid) = true];
+    repeated int32 to_visible_apps_uid = 12 [(is_uid) = true];
     optional int32 to_density_dpi = 13;
 
     // Additional data useful for analyzing latency issues
