@@ -15791,6 +15791,10 @@ message DataCallSession {
 
     // Whether the call is for internet on nonDDS due to auto data switch feature
     optional bool is_non_dds = 22;
+
+    // When the 'rat_at_end' field is IWLAN, determines if the data call setup was
+    // over cross-SIM calling (Wifi calling over cellular data).
+    optional bool is_iwlan_cross_sim = 23;
 }
 
 /**
