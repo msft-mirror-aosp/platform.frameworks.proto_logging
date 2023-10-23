@@ -1357,6 +1357,23 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: UQPR1
     ACTION_BATTERY_TIPS_CARD_DISMISS = 1862;
+
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_BLUETOOTH_PAIR = 1863;
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device error
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_BLUETOOTH_PAIR_ERROR = 1864;
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device not found
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_BLUETOOTH_PAIR_NOT_FOUND = 1865;
+    // ACTION: Logged when user tries to pair a Fast pair Bluetooth device from Settings app
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_BLUETOOTH_PAIR_FAST_PAIR_DEVICE = 1866;
 }
 
 /**
@@ -4184,7 +4201,7 @@ enum PageId {
     // OS: U
     FOLD_LOCK_BEHAVIOR = 2038;
 
-    // OPEN: Settings > Connected devices > fast pair devices
+    // OPEN: Settings > Connected devices > Previously used with account
     // CATEGORY: SETTINGS
     // OS: UQPR2
     FAST_PAIR_DEVICES = 2039;
