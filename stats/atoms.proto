@@ -15825,6 +15825,10 @@ message ImsRegistrationTermination {
 
     // Total number of instances of registration termination that matches the above conditions.
     optional int32 count = 8;
+
+    // When the 'rat_at_end' field is IWLAN, indicates whether the ImsRegistrationTech is
+    // REGISTRATION_TECH_CROSS_SIM.
+    optional bool is_iwlan_cross_sim = 9;
 }
 
 /**
@@ -15864,6 +15868,15 @@ message ImsRegistrationStats {
     optional int32 video_available_seconds = 10;
     optional int32 ut_capable_seconds = 11;
     optional int32 ut_available_seconds = 12;
+
+    // Total time IMS was registering (connecting time), rounded to 5 minutes
+    optional int32 registering_seconds = 13;
+    // Total time IMS was unregistered (unconnected time), rounded to 5 minutes
+    optional int32 unregistered_seconds = 14;
+
+    // When the 'rat' field is IWLAN, indicates whether the ImsRegistrationTech is
+    // REGISTRATION_TECH_CROSS_SIM.
+    optional bool is_iwlan_cross_sim = 15;
 }
 
 /*
