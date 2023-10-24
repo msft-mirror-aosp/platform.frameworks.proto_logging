@@ -41,7 +41,7 @@ enum MediatorAction {
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 54
+ * Keep sorted order in each block. Last enum num is 55
  */
 enum TriggerEvent {
     TRIGGER_EVENT_UNKNOWN = 0;
@@ -108,10 +108,11 @@ enum TriggerEvent {
     NO_DATA_UPDATE = 52;
     INTERACTIVE_MODE_UPDATE = 53;
     AIRPLANE_MODE_UPDATE = 54;
+    POOR_SIGNAL_DETECTION_UPDATE = 55;
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 50
+ * Keep sorted order in each block. Last enum num is 52
  */
 enum Reason {
     REASON_UNKNOWN = 0;
@@ -178,4 +179,6 @@ enum Reason {
     OFF_CELL_POOR_SIGNAL = 49;
 
     OFF_NO_DATA_ENABLED = 50;
+    OFF_POOR_SIGNAL = 51;
+    ON_PEEK_SIGNAL = 52;
 }
