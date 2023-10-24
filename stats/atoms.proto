@@ -14159,6 +14159,8 @@ message CameraActionEvent {
     // End: Extension Metrics
 
     optional bool used_ultrawide = 26;
+
+    optional bool used_zoom_override = 27;
 }
 
 /**
