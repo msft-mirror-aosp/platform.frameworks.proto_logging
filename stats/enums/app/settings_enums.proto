@@ -4227,6 +4227,31 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_SHARING_SETTINGS = 2048;
+
+    // Open: Audio sharing start dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_START_AUDIO_SHARING = 2049;
+
+    // Open: Audio sharing stop dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_STOP_AUDIO_SHARING = 2050;
+
+    // Open: Audio sharing switch device dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_SWITCH_DEVICE = 2051;
+
+    // Open: Audio sharing switch active dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052;
 }
 
 // Battery Saver schedule types.
