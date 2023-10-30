@@ -139,6 +139,18 @@ message HotwordDetectorKeyphraseTriggered {
         // Indicates that the system called rejected callback when the trusted process was
         // restarted.
         REJECTED_FROM_RESTART = 10;
+
+        // Indicates keyphrase was classified as training data.
+        TRAINING_DATA = 11;
+
+        // Indicates training data egress limit was reached.
+        TRAINING_DATA_EGRESS_LIMIT_REACHED = 12;
+
+        // Indicates that system got security exception when handling training data callback.
+        TRAINING_DATA_SECURITY_EXCEPTION = 13;
+
+        // Indicates that system got remote exception when handling training data callback.
+        TRAINING_DATA_REMOTE_EXCEPTION = 14;
     }
     // What result after detecting.
     optional Result result = 2;
