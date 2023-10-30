@@ -1374,6 +1374,76 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: UQPR2
     ACTION_SETTINGS_BLUETOOTH_PAIR_FAST_PAIR_DEVICE = 1866;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > App default selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_APP_DEFAULT_SELECTED = 1867;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > App default unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_APP_DEFAULT_UNSELECTED = 1868;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Full screen selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_FULL_SCREEN_SELECTED = 1869;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Full screen unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_FULL_SCREEN_UNSELECTED = 1870;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Half screen selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_HALF_SCREEN_SELECTED = 1871;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Half screen unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_HALF_SCREEN_UNSELECTED = 1872;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 4:3 selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_4_3_SELECTED = 1873;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 4:3 unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_4_3_UNSELECTED = 1874;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 16:9 selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_16_9_SELECTED = 1875;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 16:9 unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_16_9_UNSELECTED = 1876;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 3:2 selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_3_2_SELECTED = 1877;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 3:2 unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_3_2_UNSELECTED = 1878;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Display size selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_DISPLAY_SIZE_SELECTED = 1879;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Display size unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_DISPLAY_SIZE_UNSELECTED = 1880;
 }
 
 /**
@@ -4274,6 +4344,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     WIDEVINE_SETTINGS = 2053;
+
+    // OPEN: Settings > Apps > App Info > Aspect Ratio
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    USER_ASPECT_RATIO_APP_INFO_SETTINGS = 2054;
 }
 
 // Battery Saver schedule types.
