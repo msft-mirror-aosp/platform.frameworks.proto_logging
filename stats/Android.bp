@@ -161,6 +161,7 @@ atom_protos = [
     "atoms/sdksandbox/*.proto",
     "atoms/threadnetwork/*.proto",
     "atoms/automotive/carlauncher/*.proto",
+    "atoms/transparency/*.proto",
 ]
 
 cc_library_host_shared {
