@@ -75,6 +75,9 @@ extend Atom {
 
   optional AdServicesEnrollmentFailed ad_services_enrollment_failed = 714
       [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesMeasurementClickVerification ad_services_measurement_click_verification = 756
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -336,3 +339,31 @@ message AdServicesConsentMigrated {
 
 
 }
+
+/**
+ * Logs for AdServices click verification for measurement API calls.
+ */
+ message AdServicesMeasurementClickVerification {
+  //  The final source type of the source.
+  optional android.adservices.service.measurement.SourceType source_type = 1;
+
+  // If an input event was included with the registration.
+  // The calling app wanted a click event if an input event is present.
+  optional bool input_event_present = 2;
+
+  // If the system click verification passed.
+  optional bool system_click_verification_passed = 3;
+
+  // If the flag is set to enable the system click verification check.
+  optional bool system_click_verification_enabled = 4;
+
+  // The delay (in millis) from when the input event was created to when the API was called.
+  optional int64 input_event_delay_millis = 5;
+
+  // The max difference (in millis) between input event creation and API call for the source to not get downgraded.
+  optional int64 valid_delay_window_millis = 6;
+
+  // The package calling the API.
+  optional string app_package_name = 7; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+}
+
