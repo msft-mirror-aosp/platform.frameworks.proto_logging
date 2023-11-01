@@ -1106,6 +1106,7 @@ message Atom {
     extensions 759; // WearMediaOutputSwitcherFastPairApiTimeout wear_media_output_switcher_fastpair_api_timeout
     extensions 760; // IkeLivenessCheckSessionValidated ike_liveness_check_session_validated
     extensions 761; // HotwordEventEgressSize hotword_egress_size_atom_reported
+    extensions 762; // BluetoothContentProfileErrorReported bluetooth_content_profile_error_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
