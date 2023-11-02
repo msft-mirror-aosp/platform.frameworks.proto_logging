@@ -1105,6 +1105,8 @@ message Atom {
     extensions 758; // WearMediaOutputSwitcherSassDeviceUnavailable wear_media_output_switcher_sass_device_unavailable
     extensions 759; // WearMediaOutputSwitcherFastPairApiTimeout wear_media_output_switcher_fastpair_api_timeout
     extensions 760; // IkeLivenessCheckSessionValidated ike_liveness_check_session_validated
+    extensions 761; // HotwordEventEgressSize hotword_egress_size_atom_reported
+    extensions 762; // BluetoothContentProfileErrorReported bluetooth_content_profile_error_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2444,6 +2446,26 @@ message ScheduledJobStateChanged {
 
     // Hash of the namespace set via JobScheduler.forNamespace(String).
     optional string namespace_hash = 40;
+
+    // System estimated/measured bytes that the job
+    // downloaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the SOURCE UID
+    optional int64 system_measured_source_download_bytes = 41;
+
+    // System estimated/measured uploaded bytes that the job
+    // uploaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the SOURCE UID
+    optional int64 system_measured_source_upload_bytes = 42;
+
+    // System estimated/measured bytes that the job
+    // downloaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the CALLING UID
+    optional int64 system_measured_calling_download_bytes = 43;
+
+    // System estimated/measured uploaded bytes that the job
+    // uploaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the CALLING UID
+    optional int64 system_measured_calling_upload_bytes = 44;
 }
 
 /**
@@ -21898,6 +21920,7 @@ message AdServicesMeasurementReportsUploaded {
         VERBOSE_DEBUG_TRIGGER_UNKNOWN_ERROR = 26;
         VERBOSE_DEBUG_TRIGGER_AGGREGATE_STORAGE_LIMIT = 27;
         VERBOSE_DEBUG_TRIGGER_AGGREGATE_EXCESSIVE_REPORTS = 28;
+        VERBOSE_DEBUG_UNKNOWN = 29;
     }
 
     optional ReportType type = 1;
