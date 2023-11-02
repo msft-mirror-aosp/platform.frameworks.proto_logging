@@ -32,6 +32,7 @@ extend Atom {
     optional UserRiskEventReported user_risk_event_reported = 725 [(module) = "framework"];
     optional MediaProjectionStateChanged media_projection_state_changed = 729 [(module) = "framework"];
     optional MediaProjectionTargetChanged media_projection_target_changed = 730 [(module) = "framework"];
+    optional ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg = 10200 [(module) = "framework"];
 }
 
 /**
@@ -374,4 +375,24 @@ message MediaProjectionTargetChanged {
     // The app is in freeform mode
     WINDOWING_MODE_FREEFORM = 4;
   }
+}
+
+/**
+ * Pulls bytes transferred via network with TYPE_PROXY from NetworkStats. Each pull produces atoms
+ * that record stats of all processes that used sysproxy since device boot.
+ * Network with TYPE_PROXY is used on Wear OS to enable internet access via Bluetooth when the
+ * companion phone is connected to the watch.
+ */
+message ProxyBytesTransferByFgBg {
+  optional int32 uid = 1 [(is_uid) = true];
+
+  optional bool is_foreground = 2;
+
+  optional int64 rx_bytes = 3;
+
+  optional int64 rx_packets = 4;
+
+  optional int64 tx_bytes = 5;
+
+  optional int64 tx_packets = 6;
 }
