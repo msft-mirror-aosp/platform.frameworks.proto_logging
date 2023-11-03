@@ -1112,7 +1112,7 @@ message Atom {
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10200
+    // Next: 10201
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1348,6 +1348,7 @@ message Atom {
     extensions 10197; // WsStandaloneModeSnapshot ws_standalone_mode_snapshot
     extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
     extensions 10199; // CpuPolicy cpu_policy
+    extensions 10200; // ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -2446,6 +2447,26 @@ message ScheduledJobStateChanged {
 
     // Hash of the namespace set via JobScheduler.forNamespace(String).
     optional string namespace_hash = 40;
+
+    // System estimated/measured bytes that the job
+    // downloaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the SOURCE UID
+    optional int64 system_measured_source_download_bytes = 41;
+
+    // System estimated/measured uploaded bytes that the job
+    // uploaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the SOURCE UID
+    optional int64 system_measured_source_upload_bytes = 42;
+
+    // System estimated/measured bytes that the job
+    // downloaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the CALLING UID
+    optional int64 system_measured_calling_download_bytes = 43;
+
+    // System estimated/measured uploaded bytes that the job
+    // uploaded over its runtime. Only valid for FINISHED
+    // state. We measure here for the CALLING UID
+    optional int64 system_measured_calling_upload_bytes = 44;
 }
 
 /**
@@ -5784,6 +5805,7 @@ message LmkKillOccurred {
         DIRECT_RECL_AND_THRASHING = 6;
         LOW_MEM_AND_SWAP_UTIL = 7;
         LOW_FILECACHE_AFTER_THRASHING = 8;
+        LOW_MEM = 9;
     }
 
     // The uid if available. -1 means not available.
