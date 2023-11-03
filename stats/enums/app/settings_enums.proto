@@ -1454,6 +1454,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: UQPR2
     ACTION_APP_BATTERY_USAGE_DISABLE_BACKGROUND = 1882;
+
+    // Action: Settings > Battery settings > Battery tip > Battery health
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_BATTERY_HEALTH_TIP = 1883;
 }
 
 /**
