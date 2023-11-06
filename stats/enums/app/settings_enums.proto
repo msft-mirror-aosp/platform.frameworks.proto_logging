@@ -4369,6 +4369,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: UQPR2
     FUELGAUGE_POWER_USAGE_MANAGE_BACKGROUND = 2055;
+
+    // OPEN: Settings > Apps > Aspect Ratio
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    USER_ASPECT_RATIO_APP_LIST_SETTINGS = 2056;
 }
 
 // Battery Saver schedule types.
