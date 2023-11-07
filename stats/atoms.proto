@@ -23583,6 +23583,8 @@ message AdServicesSettingsUsageReported {
         RECONSENT_NOTIFICATION_CHANNEL = 5;
         // consent notification reset channel.
         CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
+        // 2nd GA notification post R OTA.
+        RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
     }
 
     // Type of privacy sandbox enrollment channel.
