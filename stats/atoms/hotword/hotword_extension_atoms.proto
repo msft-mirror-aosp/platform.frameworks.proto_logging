@@ -20,6 +20,7 @@ package android.os.statsd.hotword;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/hotword/enums.proto";
 
 option java_package = "com.android.os.hotword";
 option java_multiple_files = true;
@@ -52,4 +53,10 @@ message HotwordEventEgressSize {
 
   // Size of the event that was egressed in bytes.
   optional int64 event_size_bytes = 2;
+
+  // The type of detector.
+  optional android.hotword.HotwordDetectorType detector_type = 3;
+
+  // The UID for which the assistant application is active.
+  optional int32 uid = 4 [(is_uid) = true];
 }
