@@ -16656,16 +16656,27 @@ message DisplayWakeReported {
 
 /**
  * Logs app usage events.
+ *
+ * Logged from:
+ *  frameworks/base/services/usage/java/com/android/server/usage/UsageStatsService.java
  */
 message AppUsageEventOccurred {
     optional int32 uid = 1 [(is_uid) = true];
     optional string package_name = 2;
     optional string class_name = 3;
 
+    // Usage event types please refer to below file:
+    // frameworks/base/core/java/android/app/usage/UsageEvents.java
     enum EventType {
         NONE = 0;
-        MOVE_TO_FOREGROUND = 1;
-        MOVE_TO_BACKGROUND = 2;
+        MOVE_TO_FOREGROUND       = 1;
+        MOVE_TO_BACKGROUND       = 2;
+        USER_INTERACTION         = 7;
+        SHORTCUT_INVOCATION      = 8;
+        CHOOSER_ACTION           = 9;
+        STANDBY_BUCKET_CHANGED   = 11;
+        FOREGROUND_SERVICE_START = 19;
+        FOREGROUND_SERVICE_STOP  = 20;
     }
     optional EventType event_type = 4;
 }
