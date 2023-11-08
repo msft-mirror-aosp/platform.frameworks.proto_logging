@@ -246,8 +246,6 @@ enum ElementId {
     ERROR_PAGE_STATE = 151;
     WITH_DATA_PAGE_STATE = 152;
 
-    // Next available: 160;
-
     // Manage data page
     BACKUP_DATA_BUTTON = 5;
     DATA_SOURCES_AND_PRIORITY_BUTTON = 154;
@@ -258,6 +256,14 @@ enum ElementId {
     DATA_TOTALS_CARD = 157;
     APP_SOURCE_BUTTON = 158;
     ADD_AN_APP_BUTTON = 159;
+    EDIT_SOURCE_LIST_BUTTON = 160;
+    REORDER_APP_SOURCE_BUTTON = 162;
+    REMOVE_APP_SOURCE_BUTTON = 163;
+
+    // Add an app page
+    POTENTIAL_PRIORITY_APP_BUTTON = 161;
+
+    // Next available: 162;
 
 }
 
@@ -293,8 +299,10 @@ enum PageId {
     MIGRATION_MODULE_UPDATE_NEEDED_PAGE = 23;
     MIGRATION_MORE_SPACE_NEEDED_PAGE = 24;
     MIGRATION_PAUSED_PAGE = 25;
+    // New IA and Source controls
     MANAGE_DATA_PAGE = 26;
     DATA_SOURCES_PAGE = 27;
+    ADD_AN_APP_PAGE = 28;
 }
 
 enum Action {
