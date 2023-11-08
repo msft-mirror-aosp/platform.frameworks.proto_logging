@@ -24,6 +24,7 @@ import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 
 option java_package = "com.android.os.adservices";
 option java_multiple_files = true;
@@ -82,6 +83,13 @@ extend Atom {
   optional AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched = 765
       [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended = 766
+      [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional DestinationRegisteredBeacons destination_registered_beacons = 767
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional ReportInteractionApiCalled report_interaction_api_called = 768
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional InteractionReportingTableCleared interaction_reporting_table_cleared = 769
       [(module) = "adservices", (truncate_timestamp) = true];
 }
 
@@ -452,4 +460,60 @@ message AdServicesEncryptionKeyDbTransactionEnded {
   optional DbTransactionStatus  db_transaction_status = 2;
   // Encryption key DAO method name.
   optional MethodName method_name = 3;
+}
+
+/**
+ * Logs for beacon level reporting for destination registered beacons.
+ */
+message DestinationRegisteredBeacons {
+
+  // Logs the range of key size for interaction key.
+  enum InteractionKeySizeRangeType {
+    UNSET_TYPE = 0;
+    // The key size is smaller than 50% maximum key size.
+    MUCH_SMALLER_THAN_MAXIMUM_KEY_SIZE = 1;
+    // The key size is equal or greater than 50% maximum key size but smaller than maximum key size.
+    SMALLER_THAN_MAXIMUM_KEY_SIZE = 2;
+    // The key size is equal to maximum key size.
+    EQUAL_TO_MAXIMUM_KEY_SIZE = 3;
+    // The key size is greater than maximum key size.
+    LARGER_THAN_MAXIMUM_KEY_SIZE = 4;
+  }
+
+  // The entity who registered the beacons.
+  optional android.adservices.service.BeaconReportingDestinationType destination = 1;
+
+  // Number of beacons ad-tech tries to register during reportImpression.
+  optional int32 attempted_registered_beacons = 2;
+
+  // Key size range for interactionKey in every registerAdBeacon call.
+  repeated InteractionKeySizeRangeType attempted_key_sizes = 3;
+
+  // Size of registered_ad_interactions database after each update to it.
+  optional int32 table_num_rows = 4;
+
+  // The status response code in AdServices.
+  optional int32 status_code = 5;
+}
+
+/**
+ * Logs for beacon level reporting for ReportInteraction API.
+ */
+message ReportInteractionApiCalled {
+  // The entity who registered the beacons.
+  optional android.adservices.service.BeaconReportingDestinationType destination = 1;
+
+  // Number of matching uris for the reportInteraction request is found.
+  optional int32 num_matching_uris = 2;
+}
+
+/**
+ * Logs for beacon level reporting for clearing interaction reporting table.
+ */
+message InteractionReportingTableCleared {
+  // Number of registered URIs cleared every 24 hours.
+  optional int32 num_uris_cleared = 1;
+
+  // Number of unreported URIs before clearing.
+  optional int32 num_unreported_uris = 2;
 }
