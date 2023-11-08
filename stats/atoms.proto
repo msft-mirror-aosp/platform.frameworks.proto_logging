@@ -1106,7 +1106,9 @@ message Atom {
     extensions 759; // WearMediaOutputSwitcherFastPairApiTimeout wear_media_output_switcher_fastpair_api_timeout
     extensions 760; // IkeLivenessCheckSessionValidated ike_liveness_check_session_validated
     extensions 761; // HotwordEventEgressSize hotword_egress_size_atom_reported
-    extensions 762; // BluetoothContentProfileErrorReported bluetooth_content_profile_error_reported
+    extensions 762; // CronetEngineBuilderInitialized cronet_engine_builder_initialized
+    extensions 763; // CronetHttpFlagsInitialized cronet_http_flags_initialized
+    extensions 764; // CronetInitialized cronet_initialized
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16842,6 +16844,12 @@ message BytesTransferByTagAndMetered {
     optional int64 tx_bytes = 6;
 
     optional int64 tx_packets = 7;
+
+    // Radio Access Technology (RAT) type of this record, should be one of
+    // TelephonyManager#NETWORK_TYPE_* constants, or
+    // NetworkTemplate#NETWORK_TYPE_ALL to indicate the record is for all rat
+    // types combined.
+    optional int32 rat_type = 8;
 }
 
 /**
@@ -23578,6 +23586,8 @@ message AdServicesSettingsUsageReported {
         RECONSENT_NOTIFICATION_CHANNEL = 5;
         // consent notification reset channel.
         CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
+        // 2nd GA notification post R OTA.
+        RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
     }
 
     // Type of privacy sandbox enrollment channel.
