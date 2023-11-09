@@ -24,6 +24,7 @@ import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.
 import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 
 option java_package = "com.android.os.adservices";
 option java_multiple_files = true;
@@ -77,6 +78,18 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesMeasurementClickVerification ad_services_measurement_click_verification = 756
+      [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched = 765
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended = 766
+      [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional DestinationRegisteredBeacons destination_registered_beacons = 767
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional ReportInteractionApiCalled report_interaction_api_called = 768
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional InteractionReportingTableCleared interaction_reporting_table_cleared = 769
       [(module) = "adservices", (truncate_timestamp) = true];
 }
 
@@ -365,3 +378,140 @@ message AdServicesConsentMigrated {
   optional string app_package_name = 7; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
 }
 
+/**
+ * Logs for AdServices encryption key background job status.
+ */
+message AdServicesEncryptionKeyFetched {
+
+  // Encryption key fetch job type.
+  enum FetchJobType {
+    UNKNOWN_JOB = 0;
+    ENCRYPTION_KEY_DAILY_FETCH_JOB = 1;
+    MDD_DOWNLOAD_JOB = 2;
+  }
+
+  // Encryption key fetch status.
+  enum FetchStatus {
+    UNKNOWN = 0;
+    NULL_ENDPOINT = 1;
+    INVALID_ENDPOINT = 2;
+    IO_EXCEPTION = 3;
+    BAD_REQUEST_EXCEPTION = 4;
+    KEY_NOT_MODIFIED = 5;
+    SUCCESS = 6;
+  }
+
+  // Encryption key fetch job type.
+  optional FetchJobType fetch_job_type = 1;
+  // Encryption key fetch status.
+  optional FetchStatus fetch_status = 2;
+  // Whether the key is fetched for the first time.
+  optional bool is_first_time_fetch = 3;
+  // Enrollment id for the adtech corresponding to the encryption key.
+  // Example: "XYZABC"
+  optional string adtech_enrollment_id = 4;
+  // Company id for the adtech corresponding to this encryption key.
+  // Example: "XYZCompany"
+  optional string company_id = 5;
+  // Encryption key url.
+  optional string encryption_key_url = 6;
+}
+
+/**
+ * Logs for AdServices encryption key datastore transaction status.
+ */
+message AdServicesEncryptionKeyDbTransactionEnded {
+
+  // Encryption key datastore transaction type.
+  enum DbTransactionType {
+    UNKNOWN = 0;
+    READ_TRANSACTION_TYPE = 1;
+    WRITE_TRANSACTION_TYPE = 2;
+  }
+
+  // Encryption key datastore transaction status.
+  enum DbTransactionStatus {
+    UNKNOWN_EXCEPTION = 0;
+    INVALID_KEY= 1;
+    INSERT_EXCEPTION = 2;
+    DELETE_EXCEPTION = 3;
+    SEARCH_EXCEPTION = 4;
+    SUCCESS = 5;
+  }
+
+  // Encryption key dao method names.
+  enum MethodName {
+    UNKNOWN_METHOD = 0;
+    GET_KEY_FROM_ENROLLMENT_ID = 1;
+    GET_KEY_FROM_ENROLLMENT_ID_AND_KEY_TYPE = 2;
+    GET_KEY_FROM_ENROLLMENT_ID_AND_KEY_ID = 3;
+    GET_KEY_FROM_REPORTING_ORIGIN = 4;
+    GET_ALL_KEYS = 5;
+    INSERT_KEY = 6;
+    INSERT_KEYS = 7;
+    DELETE_KEY = 8;
+  }
+
+  // Encryption key datastore transaction type.
+  optional DbTransactionType db_transaction_type = 1;
+  // Encryption key datastore transaction status.
+  optional DbTransactionStatus  db_transaction_status = 2;
+  // Encryption key DAO method name.
+  optional MethodName method_name = 3;
+}
+
+/**
+ * Logs for beacon level reporting for destination registered beacons.
+ */
+message DestinationRegisteredBeacons {
+
+  // Logs the range of key size for interaction key.
+  enum InteractionKeySizeRangeType {
+    UNSET_TYPE = 0;
+    // The key size is smaller than 50% maximum key size.
+    MUCH_SMALLER_THAN_MAXIMUM_KEY_SIZE = 1;
+    // The key size is equal or greater than 50% maximum key size but smaller than maximum key size.
+    SMALLER_THAN_MAXIMUM_KEY_SIZE = 2;
+    // The key size is equal to maximum key size.
+    EQUAL_TO_MAXIMUM_KEY_SIZE = 3;
+    // The key size is greater than maximum key size.
+    LARGER_THAN_MAXIMUM_KEY_SIZE = 4;
+  }
+
+  // The entity who registered the beacons.
+  optional android.adservices.service.BeaconReportingDestinationType destination = 1;
+
+  // Number of beacons ad-tech tries to register during reportImpression.
+  optional int32 attempted_registered_beacons = 2;
+
+  // Key size range for interactionKey in every registerAdBeacon call.
+  repeated InteractionKeySizeRangeType attempted_key_sizes = 3;
+
+  // Size of registered_ad_interactions database after each update to it.
+  optional int32 table_num_rows = 4;
+
+  // The status response code in AdServices.
+  optional int32 status_code = 5;
+}
+
+/**
+ * Logs for beacon level reporting for ReportInteraction API.
+ */
+message ReportInteractionApiCalled {
+  // The entity who registered the beacons.
+  optional android.adservices.service.BeaconReportingDestinationType destination = 1;
+
+  // Number of matching uris for the reportInteraction request is found.
+  optional int32 num_matching_uris = 2;
+}
+
+/**
+ * Logs for beacon level reporting for clearing interaction reporting table.
+ */
+message InteractionReportingTableCleared {
+  // Number of registered URIs cleared every 24 hours.
+  optional int32 num_uris_cleared = 1;
+
+  // Number of unreported URIs before clearing.
+  optional int32 num_unreported_uris = 2;
+}
