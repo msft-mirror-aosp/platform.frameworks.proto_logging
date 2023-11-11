@@ -24519,6 +24519,10 @@ message WsActiveWatchFaceComplicationSetSnapshot {
 
   // Active watch face package uid.
   optional int32 watch_face_package_uid = 3 [(is_uid) = true];
+
+  /* Active watch face component name. This will be 
+  null for Declarative WF packages, as these packages have only one WF. */
+  optional string watch_face_component_name = 5;
 }
 
 message UnsafeIntentEventReported {
