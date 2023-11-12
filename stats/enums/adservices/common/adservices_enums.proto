@@ -106,6 +106,9 @@ enum ErrorCode {
   // Exception occurred when parsing the Adservices Config XML provided by an app.
   APP_MANIFEST_CONFIG_PARSING_ERROR = 10;
 
+  // Generic exception when dealing with shared prefs.
+  SHARED_PREF_EXCEPTION = 11;
+
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
   GET_TOPICS_REMOTE_EXCEPTION = 1001;
