@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 495
+// Next ID: 496
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -394,4 +394,5 @@ enum ItemId {
   BATTERY_SAVER_SETTINGS = 492;
   BATTERY_SAVER_AUTO_BATTERY_SAVER_ON = 493;
   BATTERY_SAVER_AUTO_BATTERY_SAVER_OFF = 494;
+  PRIVACY_DASHBOARD = 495;
 }
