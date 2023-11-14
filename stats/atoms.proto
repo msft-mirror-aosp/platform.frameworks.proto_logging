@@ -10382,6 +10382,10 @@ message NfcErrorOccurred {
         CMD_TIMEOUT = 1;
         ERROR_NOTIFICATION = 2;
         AID_OVERFLOW = 3;
+        // HCE stands for Host Card Emulation
+        HCE_LATE_BINDING = 4;
+        NFC_ACCESS_CHECK_ERROR = 5;
+        SE_INCORRECT_FORMAT = 6;
     }
     optional Type type = 1;
     // If it's nci cmd timeout, log the timeout command.
@@ -10432,11 +10436,19 @@ message NfcBeamOccurred {
 message NfcCardemulationOccurred {
     enum Category {
         UNKNOWN = 0;
+        // HCE stands for Host Card Emulation
         HCE_PAYMENT = 1;
         HCE_OTHER = 2;
         OFFHOST = 3;
         OFFHOST_PAYMENT = 4;
         OFFHOST_OTHER = 5;
+        FAILED_NO_ROUTING = 6;
+        FAILED_HCE_PAYMENT_WRONG_SETTING = 7;
+        FAILED_HCE_OTHER_WRONG_SETTING = 8;
+        FAILED_HCE_PAYMENT_DISCONNECTED_BEFORE_BOUND = 9;
+        FAILED_HCE_OTHER_DISCONNECTED_BEFORE_BOUND = 10;
+        FAILED_HCE_PAYMENT_DISCONNECTED_BEFORE_RESPONSE = 11;
+        FAILED_HCE_OTHER_DISCONNECTED_BEFORE_RESPONSE = 12;
     }
     // Transaction belongs to HCE payment or HCE other category, or offhost.
     optional Category category = 1;
@@ -24520,9 +24532,9 @@ message WsActiveWatchFaceComplicationSetSnapshot {
   // Active watch face package uid.
   optional int32 watch_face_package_uid = 3 [(is_uid) = true];
 
-  /* Active watch face component name. This will be 
+  /* Active watch face class name. This will be
   null for Declarative WF packages, as these packages have only one WF. */
-  optional string watch_face_component_name = 5;
+  optional string watch_face_class_name = 5;
 }
 
 message UnsafeIntentEventReported {
