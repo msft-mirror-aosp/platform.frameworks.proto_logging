@@ -1114,6 +1114,7 @@ message Atom {
     extensions 767; // DestinationRegisteredBeacons destination_registered_beacons
     extensions 768; // ReportInteractionApiCalled report_interaction_api_called
     extensions 769; // InteractionReportingTableCleared interaction_reporting_table_cleared
+    extensions 770; // CarRecentsEventReported car_recents_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
