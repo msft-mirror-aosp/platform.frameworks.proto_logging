@@ -1003,7 +1003,7 @@ message Atom {
     extensions 656; // BluetoothLeSessionConnected bluetooth_le_session_connected
     extensions 657; // DNDStateChanged dnd_state_changed
     extensions 658; // ExpressUidHistogramSampleReported express_uid_histogram_sample_reported
-    extensions 659; // AuotifllFieldClassificationEventReported autofill_field_classification_event_reported
+    extensions 659; // AutofillFieldClassificationEventReported autofill_field_classification_event_reported
     extensions 660; // TestExtensionAtomReported test_extension_atom_reported
     extensions 661; // WifiSelfRecoveryTriggered wifi_self_recovery_triggered
     extensions 662; // AdServicesErrorReported ad_services_error_reported
