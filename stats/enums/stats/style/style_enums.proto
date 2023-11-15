@@ -85,6 +85,7 @@ enum LaunchedPreference {
     LAUNCHED_CROP_AND_SET_ACTION = 6;
     LAUNCHED_DEEP_LINK = 7;
     LAUNCHED_SETTINGS_SEARCH = 8;
+    LAUNCHED_KEYGUARD = 9;
 }
 
 enum EffectPreference {
