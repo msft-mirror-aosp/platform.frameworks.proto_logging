@@ -16402,6 +16402,7 @@ message UserLifecycleJourneyReported {
         PROFILE_MANAGED = 6;
         SYSTEM_HEADLESS = 7;
         PROFILE_CLONE = 8;
+        PROFILE_PRIVATE = 9;
     }
     optional UserType user_type = 5;
     // What are the flags attached to the target user
