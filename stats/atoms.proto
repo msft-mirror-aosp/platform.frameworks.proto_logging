@@ -7570,12 +7570,14 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 9
+ * Next Tag: 10
  */
 message UIInteractionFrameInfoReported {
     optional android.jank.InteractionType interaction_type = 1;
 
     optional android.jank.DisplayResolution display_resolution = 8;
+
+    optional android.jank.DisplayRefreshRate display_refresh_rate = 9;
 
     // Number of frames rendered during the interaction.
     optional int64 total_frames = 2;
