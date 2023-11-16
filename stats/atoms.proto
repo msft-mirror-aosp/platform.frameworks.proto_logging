@@ -1115,6 +1115,10 @@ message Atom {
     extensions 768; // ReportInteractionApiCalled report_interaction_api_called
     extensions 769; // InteractionReportingTableCleared interaction_reporting_table_cleared
     extensions 770; // CarRecentsEventReported car_recents_event_reported
+    extensions 771; // FederatedComputeTrainingEventReported federated_compute_training_event_reported
+    extensions 772; // ThermalStatusCalled thermal_status_called
+    extensions 773; // ThermalHeadroomCalled thermal_headroom_called
+    extensions 774; // ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1357,6 +1361,7 @@ message Atom {
     extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
     extensions 10199; // CpuPolicy cpu_policy
     extensions 10200; // ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg
+    extensions 10201; // ThermalHeadroomThresholds thermal_headroom_thresholds
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1817,6 +1822,7 @@ message WifiConnectionResultReported {
     optional android.net.wifi.RoamingType passpoint_roaming_type = 16;
     // carrier ID of the network
     optional int32 carrier_id = 17;
+    optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
 }
 
 /**
