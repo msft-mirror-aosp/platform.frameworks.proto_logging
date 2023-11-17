@@ -160,7 +160,7 @@ message Atom {
                 14 [(module) = "framework"];
         MemoryFactorStateChanged memory_factor_state_changed = 15 [(module) = "framework"];
         ExcessiveCpuUsageReported excessive_cpu_usage_reported = 16 [(module) = "framework"];
-        CachedKillReported cached_kill_reported = 17 [(module) = "framework"];
+        CachedKillReported cached_kill_reported = 17 [(module) = "framework", deprecated = true];
         ProcessMemoryStatReported process_memory_stat_reported =
                 18 [(module) = "framework", deprecated = true];
         sysui.LauncherUIChanged launcher_event = 19 [(module) = "sysui"];
