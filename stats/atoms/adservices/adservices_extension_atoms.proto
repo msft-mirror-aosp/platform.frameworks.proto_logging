@@ -91,6 +91,8 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
   optional InteractionReportingTableCleared interaction_reporting_table_cleared = 769
       [(module) = "adservices", (truncate_timestamp) = true];
+  optional AppManifestConfigHelperCalled app_manifest_config_helper_called = 788
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -520,4 +522,16 @@ message InteractionReportingTableCleared {
 
   // Number of unreported URIs before clearing.
   optional int32 num_unreported_uris = 2;
+}
+
+/*
+ * Logs a call to check if an app is allowed to call an AdServices API.
+ */
+ message AppManifestConfigHelperCalled {
+   // Package name of the app that has been queried about.
+   optional string app_package_name = 1;
+   // Which API was called
+   optional android.adservices.AppApiAccessType api_access_type = 2;
+   // Result of the call
+   optional android.adservices.AppApiAccessResult api_access_result = 3;
 }

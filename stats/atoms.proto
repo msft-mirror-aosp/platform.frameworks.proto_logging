@@ -1134,6 +1134,7 @@ message Atom {
     extensions 785; // BackupSetupStatusReported backup_setup_status_reported
     extensions 786; // SysproxyConnectionUpdated sysproxy_connection_updated
     extensions 787; // WsOnBodyStateChanged ws_on_body_state_changed
+    extensions 788; // AppManifestConfigHelperCalled app_manifest_config_helper_called
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
