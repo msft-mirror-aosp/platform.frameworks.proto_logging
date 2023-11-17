@@ -21228,6 +21228,10 @@ message PerSimStatus {
 
     // Indicates whether VoNR is enabled
     optional bool vonr_enabled = 18;
+
+    // Indicates whether cross-SIM calling (WiFi calling over cellular data) is
+    // enabled.
+    optional bool cross_sim_calling_enabled = 19;
 }
 
 /*
