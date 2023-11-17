@@ -21835,7 +21835,7 @@ message AdServicesEpochComputationClassifierReported {
  */
 message AdServicesApiCalled {
     // The name of the api that was called.
-    // Can be classified as one of the three:
+    // Can be classified as one of the following:
     //
     // Targeting
     //  * GetTopics()
@@ -21870,6 +21870,10 @@ message AdServicesApiCalled {
     //
     // AppsetId
     //   * GetAppsetId()
+    //
+    // AdExtDataService
+    //   * onGetAdServicesExtData()
+    //   * onPutAdServicesExtData()
 
 
     enum AdServicesApiClassType {
@@ -21879,6 +21883,7 @@ message AdServicesApiCalled {
         MEASUREMENT = 3;
         ADID = 4;
         APPSETID = 5;
+        ADEXT_DATA_SERVICE = 6;
     }
 
     enum AdServicesApiName {
@@ -21909,6 +21914,8 @@ message AdServicesApiCalled {
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
         FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
         REGISTER_SOURCES = 26;
+        GET_AD_SERVICES_EXT_DATA = 27;
+        PUT_AD_SERVICES_EXT_DATA = 28;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
