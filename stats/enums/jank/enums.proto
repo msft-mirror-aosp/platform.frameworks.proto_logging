@@ -116,6 +116,16 @@ enum DisplayResolution {
     QHD = 4; // 2560x1440 <= x
 }
 
+enum DisplayRefreshRate {
+  UNKNOWN_REFRESH_RATE = 0;
+  VARIABLE_REFRESH_RATE = 1; // RR changed during the CUJ.
+  RR_30_HZ = 2;  //        x < 50
+  RR_60_HZ = 3;  //  50 <= x < 80
+  RR_90_HZ = 4;  //  80 <= x < 110
+  RR_120_HZ = 5; // 110 <= x < 180
+  RR_240_HZ = 6; // 180 <= x
+}
+
 /**
   * Enum used by UIActionLatencyReported.
   */
