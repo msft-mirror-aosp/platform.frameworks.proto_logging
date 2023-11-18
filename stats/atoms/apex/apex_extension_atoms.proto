@@ -58,6 +58,8 @@ message ApexInstallationRequested {
     optional bool request_is_rollback = 7;
     // Apex's FileInfo's Manifest provides these data points
     optional bool provides_shared_apex_libs = 8;
+    // HAL's provided by this apex
+    repeated string provided_hals = 9;
 }
 
 message ApexInstallationStaged {
