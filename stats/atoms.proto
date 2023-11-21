@@ -15269,6 +15269,15 @@ message VoiceCallSession {
 
     // Handover state of the device
     optional bool handover_in_progress = 37;
+
+    // When the RAT is IWLAN, if it used cross-SIM calling when call started.
+    optional bool is_iwlan_cross_sim_at_start = 38;
+
+    // When the RAT is IWLAN, if it used cross-SIM calling when call ended.
+    optional bool is_iwlan_cross_sim_at_end = 39;
+
+    // When the RAT is IWLAN, if it used cross-SIM calling when call connected.
+    optional bool is_iwlan_cross_sim_at_connected = 40;
 }
 
 /**
@@ -15355,6 +15364,10 @@ message CellularServiceState {
 
     // Whether mobile data is enable.
     optional bool isDataEnabled = 14;
+
+    // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
+    // cross-SIM calling (WiFi calling over other SIM's cellular data).
+    optional bool is_iwlan_cross_sim = 15;
 }
 
 /**
