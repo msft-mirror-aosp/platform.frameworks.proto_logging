@@ -1184,19 +1184,16 @@ enum Action {
 
     // ACTION: Settings > System > Languages > Regional preferences > First day of week > Set the
     // preferred first day of week.
-    // VALUE: first day of week.
     // OS: U
     ACTION_SET_FIRST_DAY_OF_WEEK = 1827;
 
     // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
     // Choose the language
-    // VALUE: language.
     // OS: U
     ACTION_CHOOSE_LANGUAGE_FOR_NUMBERS_PREFERENCES = 1828;
 
     // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
     // Choose the language > Set the preferred numbers preferences.
-    // VALUE: numbers preferences.
     // OS: U
     ACTION_SET_NUMBERS_PREFERENCES = 1829;
 
@@ -1205,17 +1202,14 @@ enum Action {
     ACTION_LANGUAGES_LEARN_MORE = 1830;
 
     // ACTION: Settings > System > Languages > System Languages > Add a language
-    // VALUE: language.
     // OS: U
     ACTION_ADD_LANGUAGE = 1831;
 
     // ACTION: Settings > System > Languages > System Languages > Remove a language
-    // VALUE: language.
     // OS: U
     ACTION_REMOVE_LANGUAGE = 1832;
 
     // ACTION: Settings > System > Languages > System Languages > Re-order a language
-    // VALUE: language.
     // OS: U
     ACTION_REORDER_LANGUAGE = 1833;
 
@@ -1230,7 +1224,6 @@ enum Action {
 
     // ACTION: Settings > System > Languages > System Languages > Select a not available language
     // as system language
-    // VALUE: language
     // OS: U
     ACTION_NOT_SUPPORTED_SYSTEM_LANGUAGE = 1836;
 
