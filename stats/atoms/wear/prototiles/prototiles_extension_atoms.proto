@@ -375,14 +375,6 @@ message IgnoredInflationFailuresReported {
  * This atom captures the drawables used for each layout.
  */
 message DrawableRendered {
-  enum DrawableType {
-    DRAWABLE_TYPE_UNKNOWN = 0;
-    DRAWABLE_TYPE_BITMAP = 1;
-    DRAWABLE_TYPE_VECTOR_DRAWABLE = 2;
-    DRAWABLE_TYPE_ANIMATED_IMAGE_DRAWABLE = 3;
-    DRAWABLE_TYPE_ANIMATED_VECTOR_DRAWABLE = 4;
-    DRAWABLE_TYPE_STATE_BASED = 5;
-  }
   enum DrawableBinarySizeBucket {
     DRAWABLE_BINARY_SIZE_BUCKET_UNSPECIFIED = 0;
     DRAWABLE_BINARY_SIZE_BUCKET_UNDER_TEN_KIB = 1;
@@ -406,10 +398,20 @@ message DrawableRendered {
   }
   optional int32 package_uid = 1 [(is_uid) = true];
   optional int32 classname_hash = 2;
-  // Drawable type.
-  optional DrawableType drawable_type = 3;
-  // Binary size of the drawable.
+  // Drawable types (Bitset instead of repeated enum).
+  // Bit to drawable type mapping is as follow:
+  //  - 0 -> UNKNOWN
+  //  - 1 -> BITMAP
+  //  - 2 -> VECTOR_DRAWABLE
+  //  - 3 -> ANIMATED_IMAGE_DRAWABLE
+  //  - 4 -> ANIMATED_VECTOR_DRAWABLE
+  //  - 5 -> STATE_BASED
+  //  For example, if the inflated layout contains a Bitmap and a state based
+  //  drawable, the drawable_type field will be equal to 34 = (100010)b.
+  optional int32 drawable_type = 3;
+  // Binary size of the largest drawable.
   optional DrawableBinarySizeBucket binary_size_bucket = 4;
-  // Pixels count of the drawable. Calculated as Height (px) x width (px)
+  // Pixels count of the largest drawable. Calculated as Height (px) x width
+  // (px).
   optional DrawablePixelsCountBucket drawable_pixels_count_bucket = 5;
 }
