@@ -4367,6 +4367,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: UQPR1
     USER_ASPECT_RATIO_APP_LIST_SETTINGS = 2056;
+
+    // OPEN: Settings > System > Developer options > Develop App picker
+    // CATEGORY: SETTINGS
+    // OS: V
+    DEVELOPMENT_APP_PICKER = 2057;
 }
 
 // Battery Saver schedule types.
