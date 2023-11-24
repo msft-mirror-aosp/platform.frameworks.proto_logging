@@ -15187,6 +15187,15 @@ message VoiceCallSession {
 
     // Handover state of the device
     optional bool handover_in_progress = 37;
+
+    // When the RAT is IWLAN, if it used cross-SIM calling when call started.
+    optional bool is_iwlan_cross_sim_at_start = 38;
+
+    // When the RAT is IWLAN, if it used cross-SIM calling when call ended.
+    optional bool is_iwlan_cross_sim_at_end = 39;
+
+    // When the RAT is IWLAN, if it used cross-SIM calling when call connected.
+    optional bool is_iwlan_cross_sim_at_connected = 40;
 }
 
 /**
@@ -15273,6 +15282,10 @@ message CellularServiceState {
 
     // Whether mobile data is enable.
     optional bool isDataEnabled = 14;
+
+    // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
+    // cross-SIM calling (WiFi calling over other SIM's cellular data).
+    optional bool is_iwlan_cross_sim = 15;
 }
 
 /**
@@ -15715,6 +15728,10 @@ message DataCallSession {
 
     // Whether the call is for internet on nonDDS due to auto data switch feature
     optional bool is_non_dds = 22;
+
+    // When the 'rat_at_end' field is IWLAN, determines if the data call setup was
+    // over cross-SIM calling (Wifi calling over cellular data).
+    optional bool is_iwlan_cross_sim = 23;
 }
 
 /**
@@ -15825,6 +15842,10 @@ message ImsRegistrationTermination {
 
     // Total number of instances of registration termination that matches the above conditions.
     optional int32 count = 8;
+
+    // When the 'rat_at_end' field is IWLAN, indicates whether the ImsRegistrationTech is
+    // REGISTRATION_TECH_CROSS_SIM.
+    optional bool is_iwlan_cross_sim = 9;
 }
 
 /**
@@ -15864,6 +15885,15 @@ message ImsRegistrationStats {
     optional int32 video_available_seconds = 10;
     optional int32 ut_capable_seconds = 11;
     optional int32 ut_available_seconds = 12;
+
+    // Total time IMS was registering (connecting time), rounded to 5 minutes
+    optional int32 registering_seconds = 13;
+    // Total time IMS was unregistered (unconnected time), rounded to 5 minutes
+    optional int32 unregistered_seconds = 14;
+
+    // When the 'rat' field is IWLAN, indicates whether the ImsRegistrationTech is
+    // REGISTRATION_TECH_CROSS_SIM.
+    optional bool is_iwlan_cross_sim = 15;
 }
 
 /*
@@ -21123,6 +21153,10 @@ message PerSimStatus {
 
     // Indicates whether VoNR is enabled
     optional bool vonr_enabled = 18;
+
+    // Indicates whether cross-SIM calling (WiFi calling over cellular data) is
+    // enabled.
+    optional bool cross_sim_calling_enabled = 19;
 }
 
 /*
