@@ -500,7 +500,7 @@ message WifiIsUnusableReported {
    optional ReportType type = 1;
    // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
    // AOSP scorer.
-   optional int32 scorer_uid = 2;
+   optional int32 scorer_uid = 2 [(is_uid) = true];
    // Whether or not Wi-Fi is predicted as usable by the scorer
    optional bool is_wifi_predicted_as_usable = 3;
 }
