@@ -75,6 +75,8 @@ enum AttributionType {
  * - Measurement errors: 2001-3000
  * - Fledge errors: 3001-4000
  * - UX errors: 4001-5000
+ * - FederatedCompute errors: 5001-6000
+ * - AdExtDataServiceErrors: 6001-7000
  *
  * NOTE: AdId / AdSetId don't have a range yet (because they're just using common codes)
  */
@@ -309,6 +311,34 @@ enum ErrorCode {
   // Used to be MEASUREMENT_FOREGROUND_UNKNOWN_FAILURE but renamed in
   // commit 94af8756d2f03ff17924721ee1b7c4a4520377ff
   RESERVED_ERROR_CODE_4015 = 4015;
+
+  // FederatedCompute errors: 5001-6000
+  // Datastore exception while deleting a federated task.
+  DELETE_TASK_FAILURE = 5001;
+
+  // Exception while trying to close file descriptor.
+  FILE_DESCRIPTOR_CLOSE_ERROR = 5002;
+
+  // Error message indicating invalid federated job plan type.
+  CLIENT_PLAN_SPEC_ERROR = 5003;
+
+  // Exception when trying to parse protobuf message.
+  INVALID_PROTOBUF_ERROR = 5004;
+
+  // Exception occurred when isolated training process runs.
+  ISOLATED_TRAINING_PROCESS_ERROR = 5005;
+
+  // Exception while trying to iterate data.
+  ITERATOR_NEXT_FAILURE = 5006;
+
+  // Timeout exception while trying to iterate data.
+  ITERATOR__NEXT_TIMEOUT = 5007;
+
+  // AdExtDataService get failed
+  GET_ADEXT_DATA_SERVICE_ERROR = 6001;
+
+  // AdExtDataService put failed
+  PUT_ADEXT_DATA_SERVICE_ERROR = 6002;
 }
 
 /**
@@ -324,6 +354,9 @@ enum PpapiName {
   UX = 6;
   // Use COMMON enum when the error happens in the common code path.
   COMMON = 7;
+  // Represents federatedcompute APK in OnDevicePersonalization module.
+  FEDERATED_COMPUTE = 8;
+  ADEXT_DATA_SERVICE = 9;
 }
 
 /**
