@@ -238,6 +238,30 @@ enum ErrorCode {
   // Cobalt initialisation failure for Topics.
   TOPICS_COBALT_LOGGER_INITIALIZATION_FAILURE = 1041;
 
+  // Failure to convert plaintext topic object to encrypted topic.
+  TOPICS_ENCRYPTION_FAILURE = 1042;
+
+  // Topics encryption key with invalid length.
+  TOPICS_ENCRYPTION_INVALID_KEY_LENGTH = 1043;
+
+  // Topics encryption with invalid response length.
+  TOPICS_ENCRYPTION_INVALID_RESPONSE_LENGTH = 1044;
+
+  // Topics encryption key failed to decode with Base64 decoder.
+  TOPICS_ENCRYPTION_KEY_DECODE_FAILURE = 1045;
+
+  // Topics encryption received null params in request for the encrypter.
+  TOPICS_ENCRYPTION_NULL_REQUEST = 1046;
+
+  // Topics encryption received null response from the encrypter.
+  TOPICS_ENCRYPTION_NULL_RESPONSE = 1047;
+
+  // Topics encryption received error while serialization to JSON.
+  TOPICS_ENCRYPTION_SERIALIZATION_ERROR = 1048;
+
+  // Topics encryption public key is missing.
+  TOPICS_ENCRYPTION_KEY_MISSING = 1049;
+
   // Measurement errors: 2001-3000
   // Error occurred when inserting enrollment data to DB.
   ENROLLMENT_DATA_INSERT_ERROR = 2001;
