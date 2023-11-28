@@ -1120,6 +1120,7 @@ message Atom {
     extensions 773; // ThermalHeadroomCalled thermal_headroom_called
     extensions 774; // ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called
     extensions 775; // BootIntegrityInfoReported boot_integrity_info_reported
+    extensions 776; // ScreenOffReported screen_off_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
