@@ -327,6 +327,12 @@ message AdServicesConsentMigrated {
 
     // Migrating consent from App Search to system service
     APPSEARCH_TO_SYSTEM_SERVICE = 2;
+
+    // Migrating consent from AdServicesExtDataStorageService to system service
+    ADEXT_SERVICE_TO_SYSTEM_SERVICE = 3;
+
+    // Migrating consent from AdServicesExtDataStorageService to App Search
+    ADEXT_SERVICE_TO_APPSEARCH = 4;
   }
 
   // Logs the opt-in/ opt-out value of measurement app
