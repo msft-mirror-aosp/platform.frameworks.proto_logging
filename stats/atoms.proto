@@ -1058,7 +1058,12 @@ message Atom {
     extensions 764; // CronetInitialized cronet_initialized
     extensions 765; // AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched
     extensions 766; // AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended
+    extensions 767; // DestinationRegisteredBeacons destination_registered_beacons
+    extensions 768; // ReportInteractionApiCalled report_interaction_api_called
+    extensions 769; // InteractionReportingTableCleared interaction_reporting_table_cleared
     extensions 771; // FederatedComputeTrainingEventReported federated_compute_training_event_reported
+    extensions 777; // ApfSessionInfoReported apf_session_info_reported
+    extensions 778; // IpClientRaInfoReported ip_client_ra_info_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
