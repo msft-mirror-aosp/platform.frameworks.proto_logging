@@ -1721,7 +1721,10 @@ message WifiHealthStatReported {
    // AOSP scorer.
    optional int32 scorer_uid = 8;
    // Whether or not Wi-Fi is predicted as usable by the scorer
+   // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
+   // Wi-Fi usability state as predicted by the scorer
+   optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 10;
 }
 
 /**
