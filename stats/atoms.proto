@@ -24517,6 +24517,11 @@ message WsTileListChanged {
     // Where a tile has been changed from. When changed on the companion equals
     // to the phone source, otherwise watch source if it's changed from the watch.
     optional android.app.wearservices.RequestSource request_source = 4;
+
+    // The package name of the app where the tile change has originated from.
+    // Null for cases where the tile change originated from paired phone
+    // where request_source would be RequestSource.PHONE.
+    optional string origin_package_name = 5;
 }
 
 /**
