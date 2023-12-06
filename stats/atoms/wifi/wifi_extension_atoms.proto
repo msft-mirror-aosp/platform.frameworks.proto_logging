@@ -500,9 +500,12 @@ message WifiIsUnusableReported {
    optional ReportType type = 1;
    // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
    // AOSP scorer.
-   optional int32 scorer_uid = 2;
+   optional int32 scorer_uid = 2 [(is_uid) = true];
    // Whether or not Wi-Fi is predicted as usable by the scorer
+   // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 3;
+   // Wi-Fi usability state as predicted by the scorer
+   optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 4;
 }
 
 /**
@@ -620,6 +623,28 @@ message WifiConfiguredNetworkInfo {
         METERED_OVERRIDE_NOT_METERED = 3;
     }
 
+    enum TofuConfiguration {
+        // Default value.
+        TOFU_CONFIGURATION_UNSPECIFIED = 0;
+        // TOFU is not enabled on the enterprise config.
+        TOFU_CONFIGURATION_NOT_ENABLED = 1;
+        // TOFU is enabled pre-connection.
+        TOFU_CONFIGURATION_ENABLED_PRE_CONNECTION = 2;
+        // Root CA was configured post-TOFU connection.
+        TOFU_CONFIGURATION_CONFIGURE_ROOT_CA = 3;
+        // Certificate pinning was used post-TOFU connection.
+        TOFU_CONFIGURATION_CERT_PINNING = 4;
+    }
+
+    enum TofuDialogState {
+        // Default value.
+        TOFU_DIALOG_STATE_UNSPECIFIED = 0;
+        // Dialog was rejected by the user.
+        TOFU_DIALOG_STATE_REJECTED = 1;
+        // Dialog was accepted by the user.
+        TOFU_DIALOG_STATE_ACCEPTED = 2;
+    }
+
     // Unique ID for this network
     optional int64 network_id = 1;
     // Whether this is an Enterprise network
@@ -654,4 +679,8 @@ message WifiConfiguredNetworkInfo {
     optional bool free_open_roaming_supported = 16;
     // Whether this network supports settled OpenRoaming
     optional bool settled_open_roaming_supported = 17;
+    // Trust On First Use (TOFU) configuration for this network
+    optional TofuConfiguration tofu_configuration = 18;
+    // Whether the user accepted the TOFU dialog
+    optional TofuDialogState tofu_dialog_state = 19;
 }

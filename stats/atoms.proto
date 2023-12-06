@@ -656,7 +656,6 @@ message Atom {
         PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
         AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
         NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report = 384 [(module) = "framework"];
-        AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported = 385 [(module) = "appsearch"];
         AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
         SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
         SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
@@ -904,8 +903,6 @@ message Atom {
         hardware.biometrics.BiometricTouchReported biometric_touch_reported = 577 [(module) = "sysui"];
         hotword.HotwordAudioEgressEventReported hotword_audio_egress_event_reported = 578
             [(module) = "framework"];
-        AppSearchSchemaMigrationStatsReported
-          app_search_schema_migration_stats_reported = 579 [(module) = "appsearch"];
         location.LocationEnabledStateChanged location_enabled_state_changed = 580 [(module) = "framework"];
         view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
@@ -937,12 +934,14 @@ message Atom {
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
     extensions 332; // ArtDatumReported art_datum_reported
     extensions 366; // OdrefreshReported odrefresh_reported
+    extensions 385; // AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported
     extensions 467; // BackgroundDexoptJobEnded background_dexopt_job_ended
     extensions 488; // SandboxApiCalled sandbox_api_called
     extensions 528; // ExpressEventReported express_event_reported
     extensions 548; // OdsignReported odsign_reported
     extensions 550; // ArtDeviceDatumReported art_device_datum_reported
     extensions 565; // ArtDatumDeltaReported art_datum_delta_reported
+    extensions 579; // AppSearchSchemaMigrationStatsReported app_search_schema_migration_stats_reported
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
     extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
@@ -1052,6 +1051,19 @@ message Atom {
     extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
     extensions 723; // WifiApCapabilitiesReported wifi_ap_capabilities_reported
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
+    extensions 752; // StatsSocketLossReported stats_socket_loss_reported
+    extensions 756; // AdServicesMeasurementClickVerification ad_services_measurement_click_verification
+    extensions 762; // CronetEngineBuilderInitialized cronet_engine_builder_initialized
+    extensions 763; // CronetHttpFlagsInitialized cronet_http_flags_initialized
+    extensions 764; // CronetInitialized cronet_initialized
+    extensions 765; // AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched
+    extensions 766; // AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended
+    extensions 767; // DestinationRegisteredBeacons destination_registered_beacons
+    extensions 768; // ReportInteractionApiCalled report_interaction_api_called
+    extensions 769; // InteractionReportingTableCleared interaction_reporting_table_cleared
+    extensions 771; // FederatedComputeTrainingEventReported federated_compute_training_event_reported
+    extensions 777; // ApfSessionInfoReported apf_session_info_reported
+    extensions 778; // IpClientRaInfoReported ip_client_ra_info_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1640,7 +1652,10 @@ message WifiHealthStatReported {
    // AOSP scorer.
    optional int32 scorer_uid = 8;
    // Whether or not Wi-Fi is predicted as usable by the scorer
+   // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
+   // Wi-Fi usability state as predicted by the scorer
+   optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 10;
 }
 
 /**
@@ -1748,6 +1763,7 @@ message WifiConnectionResultReported {
     optional android.net.wifi.RoamingType passpoint_roaming_type = 16;
     // carrier ID of the network
     optional int32 carrier_id = 17;
+    optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
 }
 
 /**
@@ -9731,6 +9747,9 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+
+    // UID sends the DNS query.
+    optional int32 uid = 10 [(is_uid) = true];
 }
 
 /**
@@ -13317,157 +13336,6 @@ message AppSearchOptimizeStatsReported {
 
     // The amount of time in millis since the last optimization ran.
     optional int64 native_time_since_last_optimize_millis = 13;
-}
-
-/**
- * Logs detailed stats for setting schema in AppSearch.
- *
- * stats pushed from:
- *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
- *
- * Next tag: 26
- */
-message AppSearchSetSchemaStatsReported {
-    // The sampling interval for this specific type of stats
-    // For example, sampling_interval=10 means that one out of every 10 stats was logged.
-    optional int32 sampling_interval = 1;
-
-    // # of previous skipped sample for this specific type of stats
-    // We can't push atoms too closely, so some samples might be skipped
-    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
-    // For example, the true count of an event could be estimated as:
-    //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
-    optional int32 num_skipped_sample = 2;
-
-    // Package UID of the application.
-    optional int32 uid = 3 [(is_uid) = true];
-
-    // Hash of the database name within AppSearch
-    optional int32 database = 4;
-
-    // Needs to be sync with AppSearchResult#ResultCode in
-    // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
-    optional int32 status_code = 5;
-
-    // Overall time used for setting schema including the binder latency
-    optional int32 total_latency_millis = 6;
-
-    // Number of newly added schema types
-    optional int32 new_type_count = 7;
-
-    // Number of deleted schema types
-    optional int32 deleted_type_count = 8;
-
-    // Number of compatible schema type changes
-    optional int32 compatible_type_change_count = 9;
-
-    // Number of index-incompatible schema type changes
-    optional int32 index_incompatible_type_change_count = 10;
-
-    // Number of backwards-incompatible schema type changes
-    optional int32 backwards_incompatible_type_change_count = 11;
-
-    // Time used for verifying the incoming call.
-    optional int32  verify_incoming_call_latency_millis = 12;
-
-    // Time used for creating or waiting the user executor.
-    optional int32  executor_acquisition_latency_millis = 13;
-
-    // Time used for rebuilding objects from bundles.
-    optional int32  rebuild_from_bundle_latency_millis = 14;
-
-    // Time passed while waiting to acquire the lock during Java function calls.
-    optional int32  java_lock_acquisition_latency_millis = 15;
-
-    // Time used for the rewrite schema to proto.
-    optional int32  rewrite_schema_latency_millis = 16;
-
-    // Overall time used for the native function call.
-    optional int32  total_native_latency_millis = 17;
-
-    // Time used for the apply visibility settings function call.
-    optional int32  visibility_setting_latency_millis = 18;
-
-    // Time used for the dispatch change notification function call.
-    optional int32  dispatch_change_notifications_latency_millis = 19;
-
-    // Time used for the optimization function call.
-    optional int32  mOptimize_latency_millis = 20;
-
-    /** Whether this package is observed. */
-    optional bool is_package_observed = 21;
-
-    /** Time used for the get old schema. */
-    optional int32  get_old_schema_latency_millis = 22;
-
-    /** Time used for the get registered observer function call. */
-    optional int32  get_observer_latency_millis = 23;
-
-    /** Time used for the preparing change notification action. */
-    optional int32  preparing_change_notification_latency_millis = 24;
-
-    // Type of the SetSchema call relative to SchemaMigration case.
-    // This is in sync with
-    // packages/modules/AppSearch/service/java/com/android/server/appsearch/external/localstorage/stats/SetSchemaStats.java
-    optional int32 schema_migration_call_type = 25;
-}
-
-/**
- * Logs detailed stats for schema migration in AppSearch.
- *
- * stats pushed from:
- *   packages/modules/AppSearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
- *
- * Next tag: 15
- */
-message AppSearchSchemaMigrationStatsReported {
-    // The sampling interval for this specific type of stats
-    // For example, sampling_interval=10 means that one out of every 10 stats was logged.
-    optional int32 sampling_interval = 1;
-
-    // # of previous skipped sample for this specific type of stats
-    // We can't push atoms too closely, so some samples might be skipped
-    // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
-    // For example, the true count of an event could be estimated as:
-    //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
-    optional int32 num_skipped_sample = 2;
-
-    // Package UID of the application.
-    optional int32 uid = 3 [(is_uid) = true];
-
-    // Hash of the database name within AppSearch
-    optional int32 database = 4;
-
-    // Needs to be sync with AppSearchResult#ResultCode in
-    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchResult.java
-    optional int32 status_code = 5;
-
-    // Overall time used for setting schema including the binder latency
-    optional int32 total_latency_millis = 6;
-
-    // Overall time used for getting schema during schema migration
-    optional int32 schema_migration_get_schema_latency_millis = 7;
-
-    // Overall time used for querying and transforming documents during schema migration
-    optional int32 schema_migration_query_and_transform_latency_millis = 8;
-
-    // Overall time used for first setSchema during schema migration
-    optional int32 schema_migration_first_set_schema_latency_millis = 9;
-
-    // Overall time used for second setSchema during schema migration
-    optional int32 schema_migration_second_set_schema_latency_millis = 10;
-
-    // Overall time used for saving documents during schema migration
-    optional int32 schema_migration_save_document_latency_millis = 11;
-
-    // Number of document that need to be migrated to another version
-    optional int32 total_need_migrated_document_count = 12;
-
-    // Number of successfully migrated and saved in Icing
-    optional int32 total_success_migrated_document_count = 13;
-
-    // Number of migration failure during schema migration
-    optional int32 schema_migration_failure_count = 14;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -21777,7 +21645,7 @@ message AdServicesEpochComputationClassifierReported {
  */
 message AdServicesApiCalled {
     // The name of the api that was called.
-    // Can be classified as one of the three:
+    // Can be classified as one of the following:
     //
     // Targeting
     //  * GetTopics()
@@ -21812,6 +21680,10 @@ message AdServicesApiCalled {
     //
     // AppsetId
     //   * GetAppsetId()
+    //
+    // AdExtDataService
+    //   * onGetAdServicesExtData()
+    //   * onPutAdServicesExtData()
 
 
     enum AdServicesApiClassType {
@@ -21821,6 +21693,7 @@ message AdServicesApiCalled {
         MEASUREMENT = 3;
         ADID = 4;
         APPSETID = 5;
+        ADEXT_DATA_SERVICE = 6;
     }
 
     enum AdServicesApiName {
@@ -21851,6 +21724,8 @@ message AdServicesApiCalled {
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
         FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
         REGISTER_SOURCES = 26;
+        GET_AD_SERVICES_EXT_DATA = 27;
+        PUT_AD_SERVICES_EXT_DATA = 28;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21901,6 +21776,7 @@ message AdServicesMeasurementReportsUploaded {
         VERBOSE_DEBUG_TRIGGER_UNKNOWN_ERROR = 26;
         VERBOSE_DEBUG_TRIGGER_AGGREGATE_STORAGE_LIMIT = 27;
         VERBOSE_DEBUG_TRIGGER_AGGREGATE_EXCESSIVE_REPORTS = 28;
+        VERBOSE_DEBUG_UNKNOWN = 29;
     }
 
     optional ReportType type = 1;
@@ -23550,6 +23426,8 @@ message AdServicesSettingsUsageReported {
         RECONSENT_NOTIFICATION_CHANNEL = 5;
         // consent notification reset channel.
         CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
+        // 2nd GA notification post R OTA.
+        RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
     }
 
     // Type of privacy sandbox enrollment channel.
