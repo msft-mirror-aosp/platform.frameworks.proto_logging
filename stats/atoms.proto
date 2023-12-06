@@ -1053,6 +1053,17 @@ message Atom {
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
     extensions 752; // StatsSocketLossReported stats_socket_loss_reported
     extensions 756; // AdServicesMeasurementClickVerification ad_services_measurement_click_verification
+    extensions 762; // CronetEngineBuilderInitialized cronet_engine_builder_initialized
+    extensions 763; // CronetHttpFlagsInitialized cronet_http_flags_initialized
+    extensions 764; // CronetInitialized cronet_initialized
+    extensions 765; // AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched
+    extensions 766; // AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended
+    extensions 767; // DestinationRegisteredBeacons destination_registered_beacons
+    extensions 768; // ReportInteractionApiCalled report_interaction_api_called
+    extensions 769; // InteractionReportingTableCleared interaction_reporting_table_cleared
+    extensions 771; // FederatedComputeTrainingEventReported federated_compute_training_event_reported
+    extensions 777; // ApfSessionInfoReported apf_session_info_reported
+    extensions 778; // IpClientRaInfoReported ip_client_ra_info_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1641,7 +1652,10 @@ message WifiHealthStatReported {
    // AOSP scorer.
    optional int32 scorer_uid = 8;
    // Whether or not Wi-Fi is predicted as usable by the scorer
+   // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
+   // Wi-Fi usability state as predicted by the scorer
+   optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 10;
 }
 
 /**
@@ -1749,6 +1763,7 @@ message WifiConnectionResultReported {
     optional android.net.wifi.RoamingType passpoint_roaming_type = 16;
     // carrier ID of the network
     optional int32 carrier_id = 17;
+    optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
 }
 
 /**
@@ -9732,6 +9747,9 @@ message NetworkDnsEventReported {
 
     // The sample rate of DNS stats (to statsd) is 1/sampling_rate_denom.
     optional int32 sampling_rate_denom = 9;
+
+    // UID sends the DNS query.
+    optional int32 uid = 10 [(is_uid) = true];
 }
 
 /**
@@ -21627,7 +21645,7 @@ message AdServicesEpochComputationClassifierReported {
  */
 message AdServicesApiCalled {
     // The name of the api that was called.
-    // Can be classified as one of the three:
+    // Can be classified as one of the following:
     //
     // Targeting
     //  * GetTopics()
@@ -21662,6 +21680,10 @@ message AdServicesApiCalled {
     //
     // AppsetId
     //   * GetAppsetId()
+    //
+    // AdExtDataService
+    //   * onGetAdServicesExtData()
+    //   * onPutAdServicesExtData()
 
 
     enum AdServicesApiClassType {
@@ -21671,6 +21693,7 @@ message AdServicesApiCalled {
         MEASUREMENT = 3;
         ADID = 4;
         APPSETID = 5;
+        ADEXT_DATA_SERVICE = 6;
     }
 
     enum AdServicesApiName {
@@ -21701,6 +21724,8 @@ message AdServicesApiCalled {
         UPDATE_AD_COUNTER_HISTOGRAM = 24;
         FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
         REGISTER_SOURCES = 26;
+        GET_AD_SERVICES_EXT_DATA = 27;
+        PUT_AD_SERVICES_EXT_DATA = 28;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -23401,6 +23426,8 @@ message AdServicesSettingsUsageReported {
         RECONSENT_NOTIFICATION_CHANNEL = 5;
         // consent notification reset channel.
         CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
+        // 2nd GA notification post R OTA.
+        RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
     }
 
     // Type of privacy sandbox enrollment channel.
