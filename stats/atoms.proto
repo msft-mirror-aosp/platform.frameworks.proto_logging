@@ -928,6 +928,7 @@ message Atom {
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
+        wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
