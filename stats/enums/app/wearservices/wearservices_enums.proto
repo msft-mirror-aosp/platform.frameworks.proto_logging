@@ -352,6 +352,48 @@ enum NotificationContentIntent {
   NOTIFICATION_CONTENT_INTENT_BOTH = 4;
 }
 
+// Defines on which device the notification blocked state is changed for an application.
+// Next ID: 4
+enum DeviceLocation {
+  // Unknown value.
+  DEVICE_LOCATION_UNKNOWN = 0;
+
+  // The notification is blocked on the watch.
+  DEVICE_LOCATION_WATCH = 1;
+
+  // The notification is blocked on the phone.
+  DEVICE_LOCATION_PHONE = 2;
+
+  // The notification is blocked both on the watch and the phone.
+  DEVICE_LOCATION_WATCH_AND_PHONE = 3;
+}
+
+// Defines in which profile the application is installed.
+// Next ID: 3
+enum Profile {
+  // Unknown value.
+  PROFILE_UNKNOWN = 0;
+
+  // The application is installed in the personal profile.
+  PROFILE_PERSONAL = 1;
+
+  // The application is installed in the work profile.
+  PROFILE_WORK = 2;
+}
+
+// Defines the blocking status of the application for notifications.
+// Next ID: 3
+enum NotificationBlockingStatus {
+  // Unknown value.
+  NOTIFICATION_BLOCKING_STATUS_UNKNOWN = 0;
+
+  // The notifications for the applications are blocked on the device.
+  NOTIFICATION_BLOCKING_STATUS_BLOCKED = 1;
+
+  // The notifications for the applications are unblocked on the device.
+  NOTIFICATION_BLOCKING_STATUS_UNBLOCKED = 2;
+}
+
 // This enum depicts an action taken on a call
 // Next ID: 4
 enum CallAction {

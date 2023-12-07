@@ -124,6 +124,24 @@ message WsNotificationUpdated {
   optional bool is_foreground_service = 21;
 }
 
+/** Logged when a notification is blocked/unblocked in the WearServices application. */
+message WsNotificationBlocking {
+  // Package name of the application that created the notification event.
+  optional string package_name = 1;
+
+  // Device on which the notification event was created.
+  optional android.app.wearservices.RequestSource source_device = 2;
+
+  // Defines on which device the blocked state is changed.
+  optional android.app.wearservices.DeviceLocation device_location = 3;
+
+  // Defines in which profile the application is installed.
+  optional android.app.wearservices.Profile profile= 4;
+
+  // Blocking status of the notifications for the application.
+  optional android.app.wearservices.NotificationBlockingStatus notification_blocking_status = 5;
+}
+
 /** Logged when a complication is tapped by the user. */
 message WsComplicationTapped {
   // UID of the package name hosting the complication, calculated by
