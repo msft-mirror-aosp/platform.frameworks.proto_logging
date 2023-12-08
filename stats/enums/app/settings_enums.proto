@@ -4459,6 +4459,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_FINISH = 2063;
+
+    // OPEN: Settings > Apps > Special App Access > Change Media Output
+    // CATEGORY: SETTINGS
+    // OS: V
+    MEDIA_ROUTING_CONTROL = 2064;
 }
 
 // Battery Saver schedule types.
