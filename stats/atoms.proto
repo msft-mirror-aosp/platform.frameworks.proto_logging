@@ -10509,9 +10509,18 @@ message NfcTagOccurred {
         BT_PAIRING = 2;
         PROVISION = 3;
         WIFI_CONNECT = 4;
+        // Successful App Launch
         APP_LAUNCH = 5;
+        // No suitable action found
         OTHERS = 6;
+        // Dispatch event when service is in foreground
         FOREGROUND_DISPATCH = 7;
+        // App Launch mute from android.nfc.action.NDEF_DISCOVERED
+        APP_LAUNCH_NDEF_MUTE = 8;
+        // App Launch mute from android.nfc.action.TECH_DISCOVERED
+        APP_LAUNCH_TECH_MUTE = 9;
+        // App Launch mute from android.nfc.action.TAG_DISCOVERED
+        APP_LAUNCH_TAG_MUTE = 10;
     }
     optional Type type = 1;
 
