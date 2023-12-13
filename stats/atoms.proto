@@ -22760,6 +22760,9 @@ message RemoteKeyProvisioningTiming {
 
     // Cause of the attempt which resulted in these timings.
     optional RemoteKeyProvisioningAttempt.Cause cause = 7;
+
+    // Indicates success or failure of the provisioning attempt.
+    optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 8;
 }
 
 // Deprecated in U.
