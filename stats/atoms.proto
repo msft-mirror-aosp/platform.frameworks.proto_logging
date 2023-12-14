@@ -15303,6 +15303,9 @@ message VoiceCallSession {
 
     // When the RAT is IWLAN, if it used cross-SIM calling when call connected.
     optional bool is_iwlan_cross_sim_at_connected = 40;
+
+    // Whether Vonr is enabled
+    optional bool vonr_enabled = 41;
 }
 
 /**
@@ -22757,6 +22760,9 @@ message RemoteKeyProvisioningTiming {
 
     // Cause of the attempt which resulted in these timings.
     optional RemoteKeyProvisioningAttempt.Cause cause = 7;
+
+    // Indicates success or failure of the provisioning attempt.
+    optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 8;
 }
 
 // Deprecated in U.
