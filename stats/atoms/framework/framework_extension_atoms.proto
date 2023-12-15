@@ -49,8 +49,18 @@ message FullScreenIntentLaunched {
 message BalAllowed {
     optional string target_activity = 1;
     optional Status allowed_reason = 2;
+
     optional int32 calling_uid = 3 [(is_uid) = true];
     optional int32 real_calling_uid = 4 [(is_uid) = true];
+
+    // caller and real caller details are only provided if available.
+    optional Status caller_allowed_reason = 5;
+    optional bool caller_opt_in = 6;
+    optional bool caller_opt_in_explicit = 7;
+
+    optional Status real_caller_allowed_reason = 8;
+    optional bool real_caller_opt_in = 9;
+    optional bool real_caller_opt_in_explicit = 10;
 
     enum Status {
         BAL_STATUS_UNKNOWN = 0;
@@ -64,7 +74,9 @@ message BalAllowed {
         BAL_ALLOW_GRACE_PERIOD = 8;
         BAL_ALLOW_FOREGROUND = 9;
         BAL_ALLOW_SDK_SANDBOX = 10;
+        BAL_ALLOW_NON_APP_VISIBLE_WINDOW = 11;
     }
+
 }
 
 /**
