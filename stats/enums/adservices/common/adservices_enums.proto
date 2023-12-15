@@ -112,6 +112,9 @@ enum ErrorCode {
   // Generic exception when dealing with shared prefs.
   SHARED_PREF_EXCEPTION = 11;
 
+  // Error logging an API check using  Adservices Config XML provided by an app.
+  APP_MANIFEST_CONFIG_LOGGING_ERROR = 12;
+
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
   GET_TOPICS_REMOTE_EXCEPTION = 1001;
