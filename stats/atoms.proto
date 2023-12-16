@@ -928,6 +928,7 @@ message Atom {
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
+        wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -1120,12 +1121,16 @@ message Atom {
     extensions 773; // ThermalHeadroomCalled thermal_headroom_called
     extensions 774; // ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called
     extensions 775; // BootIntegrityInfoReported boot_integrity_info_reported
+    extensions 776; // ScreenOffReported screen_off_reported
+    extensions 777; // ApfSessionInfoReported apf_session_info_reported
+    extensions 778; // IpClientRaInfoReported ip_client_ra_info_reported
+    extensions 779; // NetworkRequestStateChanged network_request_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10204
+    // Next: 10205
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1365,6 +1370,7 @@ message Atom {
     extensions 10201; // ThermalHeadroomThresholds thermal_headroom_thresholds
     extensions 10202; // Reserved for b/308823939.
     extensions 10203; // Reserved for b/308823939.
+    extensions 10204; // Reserved for b/309512867.
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1717,7 +1723,10 @@ message WifiHealthStatReported {
    // AOSP scorer.
    optional int32 scorer_uid = 8;
    // Whether or not Wi-Fi is predicted as usable by the scorer
+   // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
+   // Wi-Fi usability state as predicted by the scorer
+   optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 10;
 }
 
 /**
@@ -9406,8 +9415,24 @@ message BatteryUsageStatsAtomsProto {
     message UidBatteryConsumer {
         optional int32 uid = 1 [(is_uid) = true];
         optional BatteryConsumerData battery_consumer_data = 2;
-        optional int64 time_in_foreground_millis = 3;
-        optional int64 time_in_background_millis = 4;
+        // DEPRECATED Use time_in_state instead.
+        optional int64 time_in_foreground_millis = 3 [deprecated = true];
+        // DEPRECATED Use time_in_state instead.
+        optional int64 time_in_background_millis = 4 [deprecated = true];
+
+        message TimeInState {
+            enum ProcessState {
+                UNSPECIFIED = 0;
+                FOREGROUND = 1;
+                BACKGROUND = 2;
+                FOREGROUND_SERVICE = 3;
+            }
+
+            optional ProcessState process_state = 1;
+            optional int64 time_in_state_millis = 2;
+        }
+
+        repeated TimeInState time_in_state = 5;
     }
     repeated UidBatteryConsumer uid_battery_consumers = 5;
 
@@ -15279,6 +15304,9 @@ message VoiceCallSession {
 
     // When the RAT is IWLAN, if it used cross-SIM calling when call connected.
     optional bool is_iwlan_cross_sim_at_connected = 40;
+
+    // Whether Vonr is enabled
+    optional bool vonr_enabled = 41;
 }
 
 /**
@@ -22730,6 +22758,12 @@ message RemoteKeyProvisioningTiming {
     // values on a given device is determined by how many remotely provisioned
     // component HALs are on a given device. Typically, this is 2-3 HALs.
     optional string remotely_provisioned_component = 6;
+
+    // Cause of the attempt which resulted in these timings.
+    optional RemoteKeyProvisioningAttempt.Cause cause = 7;
+
+    // Indicates success or failure of the provisioning attempt.
+    optional com.android.remoteprovisioner.RemoteKeyProvisioningStatus status = 8;
 }
 
 // Deprecated in U.
@@ -23871,6 +23905,8 @@ message IwlanSetupDataCallResultReported {
   optional string iwlan_error_wrapped_classname = 17;
   // Iwlan error wrapped exception 1st line of stack trace
   optional string iwlan_error_wrapped_stack_first_frame = 18;
+  // Error count of the same error cause
+  optional int32 error_count_of_same_cause = 19;
 }
 
 /**

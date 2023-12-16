@@ -1184,19 +1184,16 @@ enum Action {
 
     // ACTION: Settings > System > Languages > Regional preferences > First day of week > Set the
     // preferred first day of week.
-    // VALUE: first day of week.
     // OS: U
     ACTION_SET_FIRST_DAY_OF_WEEK = 1827;
 
     // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
     // Choose the language
-    // VALUE: language.
     // OS: U
     ACTION_CHOOSE_LANGUAGE_FOR_NUMBERS_PREFERENCES = 1828;
 
     // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
     // Choose the language > Set the preferred numbers preferences.
-    // VALUE: numbers preferences.
     // OS: U
     ACTION_SET_NUMBERS_PREFERENCES = 1829;
 
@@ -1205,17 +1202,14 @@ enum Action {
     ACTION_LANGUAGES_LEARN_MORE = 1830;
 
     // ACTION: Settings > System > Languages > System Languages > Add a language
-    // VALUE: language.
     // OS: U
     ACTION_ADD_LANGUAGE = 1831;
 
     // ACTION: Settings > System > Languages > System Languages > Remove a language
-    // VALUE: language.
     // OS: U
     ACTION_REMOVE_LANGUAGE = 1832;
 
     // ACTION: Settings > System > Languages > System Languages > Re-order a language
-    // VALUE: language.
     // OS: U
     ACTION_REORDER_LANGUAGE = 1833;
 
@@ -1230,7 +1224,6 @@ enum Action {
 
     // ACTION: Settings > System > Languages > System Languages > Select a not available language
     // as system language
-    // VALUE: language
     // OS: U
     ACTION_NOT_SUPPORTED_SYSTEM_LANGUAGE = 1836;
 
@@ -1459,6 +1452,62 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: UQPR2
     ACTION_BATTERY_HEALTH_TIP = 1883;
+
+    // Private space setup flow
+    // OPEN: Settings > Security&Privacy > Private Space > Set up
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_START = 1884;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_CANCEL = 1885;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_SPACE_CREATED = 1886;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Error > Try again
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_TRY_CREATE_SPACE_AGAIN = 1887;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Error > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_CANCEL_CREATE_SPACE = 1888;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Wait 15 sec > Google account setup
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_SUCCESS = 1889;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Wait 15 sec > Google account setup error > Try again
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_TRY_CREATE_ACCOUNT_AGAIN = 1890;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec >
+    // Google account setup  > Choose new lock
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_NEW_LOCK = 1891;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec >
+    // Google account setup  > Use screen lock
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_USE_SCREEN_LOCK = 1892;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Google account setup > Screen lock setup > Done
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_DONE = 1893;
 }
 
 /**
@@ -4374,6 +4423,47 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: UQPR1
     USER_ASPECT_RATIO_APP_LIST_SETTINGS = 2056;
+
+    // OPEN: Settings > System > Developer options > Develop App picker
+    // CATEGORY: SETTINGS
+    // OS: V
+    DEVELOPMENT_APP_PICKER = 2057;
+
+    // OPEN: Settings > Security & Privacy > Private Space , when the feature is not set up
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_EDUCATION = 2058;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_SPACE_CREATION = 2059;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, Error
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_SPACE_CREATION_ERROR = 2060;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, Success
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_LOCK = 2061;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait > Use screen lock > Error
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_ERROR = 2062;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait >
+    // > Use screen lock > Set account
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_FINISH = 2063;
+
+    // OPEN: Settings > Apps > Special App Access > Change Media Output
+    // CATEGORY: SETTINGS
+    // OS: V
+    MEDIA_ROUTING_CONTROL = 2064;
 }
 
 // Battery Saver schedule types.

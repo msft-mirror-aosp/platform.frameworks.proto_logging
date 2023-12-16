@@ -42,9 +42,12 @@ message DeviceLockCheckInRequestReported {
     // The Check-in request is pauseDeviceProvisioning
     PAUSE_DEVICE_PROVISIONING = 2;
     // The Check-in request is reportDeviceProvisioningComplete
-    REPORT_DEVICE_PROVISIONING_COMPLETE = 3;
+    // DEPRECATED, because the gRPC call for this log type is removed
+    REPORT_DEVICE_PROVISIONING_COMPLETE = 3 [deprecated = true];
     // The Check-in request is reportDeviceProvisionState
     REPORT_DEVICE_PROVISION_STATE = 4;
+    // The Check-in request is isDeviceInApprovedCountry
+    IS_DEVICE_IN_APPROVED_COUNTRY = 5;
   }
 
   optional RequestType type= 1;
