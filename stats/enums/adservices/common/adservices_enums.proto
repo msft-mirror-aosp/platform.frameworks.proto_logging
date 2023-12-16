@@ -263,6 +263,9 @@ enum ErrorCode {
   // Topics encryption public key is missing.
   TOPICS_ENCRYPTION_KEY_MISSING = 1049;
 
+  // Topics API request has empty sdk name.
+  TOPICS_REQUEST_EMPTY_SDK_NAME = 1050;
+
   // Measurement errors: 2001-3000
   // Error occurred when inserting enrollment data to DB.
   ENROLLMENT_DATA_INSERT_ERROR = 2001;
