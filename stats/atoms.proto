@@ -2337,7 +2337,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 41
+ * Next tag: 47
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2493,6 +2493,16 @@ message ScheduledJobStateChanged {
     // uploaded over its runtime. Only valid for FINISHED
     // state. We measure here for the CALLING UID
     optional int64 system_measured_calling_upload_bytes = 44;
+
+    // Interval for the job to recur when it is set as periodic.
+    // Valid only if is_periodic is true
+    optional int64 periodic_job_interval_ms = 45;
+
+    // Flex interval for the periodic job. This value is set via the second
+    // parameter of JobInfo.Builder.setPeriodic(long, long). The job can
+    // execute at any time in a window flex length at the end of the period.
+    // Valid only if is_periodic is true
+    optional int64 periodic_job_flex_interval_ms = 46;
 }
 
 /**
