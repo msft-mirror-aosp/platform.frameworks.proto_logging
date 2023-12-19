@@ -1480,34 +1480,40 @@ enum Action {
     ACTION_PRIVATE_SPACE_SETUP_CANCEL_CREATE_SPACE = 1888;
 
     // OPEN: Settings > Security&Privacy > Private Space >
-    // Set up > Wait 15 sec > Google account setup
+    // Set up > Screen lock setup > Google account setup > Sign in
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_SUCCESS = 1889;
 
     // OPEN: Settings > Security&Privacy > Private Space >
-    // Set up > Wait 15 sec > Google account setup error > Try again
+    // Set up > Screen lock setup > Google account setup error > Try again
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_TRY_CREATE_ACCOUNT_AGAIN = 1890;
 
     // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec >
-    // Google account setup  > Choose new lock
+    // >  Choose new lock
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_NEW_LOCK = 1891;
 
     // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec >
-    // Google account setup  > Use screen lock
+    // > Use screen lock
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_USE_SCREEN_LOCK = 1892;
 
     // OPEN: Settings > Security&Privacy > Private Space >
-    // Set up > Google account setup > Screen lock setup > Done
+    // Set up > Screen lock setup > Google account setup > Sign in > Done
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_DONE = 1893;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_START = 1894;
 }
 
 /**
