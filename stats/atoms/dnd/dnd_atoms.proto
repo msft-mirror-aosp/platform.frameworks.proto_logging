@@ -67,5 +67,5 @@ message DNDPolicyProto {
 
     optional android.stats.dnd.ConversationType allow_conversations_from = 19;
 
-    optional android.stats.dnd.ChannelType allow_channels = 20;
+    optional android.stats.dnd.ChannelPolicy allow_channels = 20;
 }
