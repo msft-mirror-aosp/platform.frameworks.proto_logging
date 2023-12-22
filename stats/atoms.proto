@@ -16050,6 +16050,9 @@ message ImsRegistrationStats {
     // When the 'rat' field is IWLAN, indicates whether the ImsRegistrationTech is
     // REGISTRATION_TECH_CROSS_SIM.
     optional bool is_iwlan_cross_sim = 15;
+
+    // How many times IMS is registered
+    optional int32 registered_times = 16;
 }
 
 /*
