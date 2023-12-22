@@ -4470,6 +4470,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     MEDIA_ROUTING_CONTROL = 2064;
+
+    // OPEN: Settings > Display > Touch sensitivity
+    // CATEGORY: SETTINGS
+    // OS: UQPR3
+    TOUCH_SENSITIVITY_SETTINGS = 2065;
 }
 
 // Battery Saver schedule types.

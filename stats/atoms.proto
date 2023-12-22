@@ -59,6 +59,7 @@ import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hfp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/leaudio/enums.proto";
+import "frameworks/proto_logging/stats/enums/bluetooth/rfcomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
@@ -1126,6 +1127,7 @@ message Atom {
     extensions 778; // IpClientRaInfoReported ip_client_ra_info_reported
     extensions 779; // NetworkRequestStateChanged network_request_state_changed
     extensions 781; // BluetoothContentProfileErrorReported bluetooth_content_profile_error_reported
+    extensions 782; // BluetoothRfcommConnectionAttempted bluetooth_rfcomm_connection_attempted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2338,7 +2340,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 47
+ * Next tag: 52
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2401,6 +2403,7 @@ message ScheduledJobStateChanged {
     optional bool has_content_trigger_constraint = 14;
     optional bool is_prefetch = 18;
     optional bool is_periodic = 34;
+    optional bool has_flex_constraint = 47;
 
     // True if the app has requested this run as an expedited job.
     optional bool is_requested_expedited_job = 15;
@@ -2446,6 +2449,8 @@ message ScheduledJobStateChanged {
     optional bool is_connectivity_constraint_satisfied = 29;
 
     optional bool is_content_trigger_constraint_satisfied = 30;
+
+    optional bool is_flex_constraint_satisfied = 48;
 
     // The amount of time that elapsed between the job being scheduled (state = SCHEDULED)
     // and it being started (state = STARTED). Persisted jobs loaded at boot are considered
@@ -2504,6 +2509,17 @@ message ScheduledJobStateChanged {
     // execute at any time in a window flex length at the end of the period.
     // Valid only if is_periodic is true
     optional int64 periodic_job_flex_interval_ms = 46;
+
+    // Whether transport preference logic can be applied to this job with flex policy
+    optional bool can_apply_transport_affinities = 49;
+
+    // The number of flexible job constraints being applied to the job.
+    // num_required_flex_constraints = num_applied_flex_constraints - num_dropped_flex_constraints.
+    optional int32 num_applied_flex_constraints = 50;
+
+    // The number of required flexible job constraints that have been dropped for this job.
+    // num_required_flex_constraints = num_applied_flex_constraints - num_dropped_flex_constraints.
+    optional int32 num_dropped_flex_constraints = 51;
 }
 
 /**
