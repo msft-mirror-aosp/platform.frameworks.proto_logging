@@ -112,6 +112,9 @@ enum ErrorCode {
   // Generic exception when dealing with shared prefs.
   SHARED_PREF_EXCEPTION = 11;
 
+  // Error logging an API check using  Adservices Config XML provided by an app.
+  APP_MANIFEST_CONFIG_LOGGING_ERROR = 12;
+
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
   GET_TOPICS_REMOTE_EXCEPTION = 1001;
@@ -293,6 +296,18 @@ enum ErrorCode {
 
   // Failure to save seed in SharedPreferences
   ENROLLMENT_SHARED_PREFERENCES_SEED_SAVE_FAILURE = 2009;
+
+  // When report deliver fails due to a network issue (IOException).
+  MEASUREMENT_REPORTING_NETWORK_ERROR = 2010;
+
+  // When report delivery fails due to report building as JSON.
+  MEASUREMENT_REPORTING_PARSING_ERROR = 2011;
+
+  // When encryption of aggregate report fails.
+  MEASUREMENT_REPORTING_ENCRYPTION_ERROR = 2012;
+
+  // Reporting errors should have specific error codes.
+  MEASUREMENT_REPORTING_UNKNOWN_ERROR = 2013;
 
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
