@@ -4475,6 +4475,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: UQPR3
     TOUCH_SENSITIVITY_SETTINGS = 2065;
+
+    // OPEN: Settings > Memory > Toggle "Enable memory profiling"
+    // CATEGORY: SETTINGS
+    // OS: UQPR3
+    DIALOG_FORCE_ENABLE_PSS_PROFILING = 2066;
 }
 
 // Battery Saver schedule types.
