@@ -5615,6 +5615,8 @@ message ForegroundServiceStateChanged {
         FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING = 0x0200; // 1 << 9
         FOREGROUND_SERVICE_TYPE_SYSTEM_EXEMPTED = 0x0400; // 1 << 10
         FOREGROUND_SERVICE_TYPE_SHORT_SERVICE = 0x0800; // 1 << 11
+        // 1 << 12 is being skipping since it was temporarily reserved for FILE_MANAGEMENT
+        FOREGROUND_SERVICE_TYPE_MEDIA_PROCESSING = 0x2000; // 1 << 13
         FOREGROUND_SERVICE_TYPE_SPECIAL_USE = 0x40000000; // 1 << 30
     }
 
