@@ -4480,6 +4480,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: UQPR3
     DIALOG_FORCE_ENABLE_PSS_PROFILING = 2066;
+
+    // LEAVE: Settings > Battery > [App Usage details]
+    // CATEGORY: SETTINGS
+    // OS: V
+    LEAVE_APP_BATTERY_USAGE = 2067;
+
+    // OPEN: Settings > Battery > [App Usage details] > Manage background usage
+    // CATEGORY: SETTINGS
+    // OS: V
+    OPEN_POWER_USAGE_MANAGE_BACKGROUND = 2068;
+
+    // LEAVE: Settings > Battery > [App Usage details] > Manage background usage
+    // CATEGORY: SETTINGS
+    // OS: V
+    LEAVE_POWER_USAGE_MANAGE_BACKGROUND = 2069;
 }
 
 // Battery Saver schedule types.
