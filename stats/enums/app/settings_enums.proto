@@ -1514,6 +1514,31 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_START = 1894;
+
+    // ACTION: Pop up the language notification recommendation
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_NOTIFICATION_FOR_SYSTEM_LOCALE = 1895;
+
+    // ACTION: Click the language notification recommendation
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_NOTIFICATION_CLICK_FOR_SYSTEM_LOCALE = 1896;
+
+    // ACTION: Swipe out the language notification recommendation
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_NOTIFICATION_SWIPE_FOR_SYSTEM_LOCALE = 1897;
+
+    // ACTION: Add the recommendation locale
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADD_SYSTEM_LOCALE_FROM_RECOMMENDATION = 1898;
+
+    // ACTION: Cancel the recommendation locale
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_CANCEL_SYSTEM_LOCALE_FROM_RECOMMENDATION = 1899;
 }
 
 /**
