@@ -1051,6 +1051,9 @@ message Atom {
     extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
     extensions 723; // WifiApCapabilitiesReported wifi_ap_capabilities_reported
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
+    extensions 738; // ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported
+    extensions 739; // ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated
+    extensions 740; // ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported
     extensions 752; // StatsSocketLossReported stats_socket_loss_reported
     extensions 756; // AdServicesMeasurementClickVerification ad_services_measurement_click_verification
     extensions 762; // CronetEngineBuilderInitialized cronet_engine_builder_initialized
