@@ -22580,6 +22580,9 @@ message AutofillPresentationEventReported {
 
   // App package Uid
   optional int32 app_package_uid = 30 [(is_uid) = true];
+
+  // True if the request is directed to the credential autofill service.
+  optional bool is_credential_request = 31;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
