@@ -23416,7 +23416,7 @@ message DisplayBrightnessChanged {
 
     // Physical display id, with format $ADAPTER_PREFIX:$ID, in this case
     // "local:$PHYSICAL_ID".
-    optional string physical_display_id = 4;
+    optional string physical_display_id = 4 [(state_field_option).primary_field = true];
 
     // Whether the short term model was active at the time of the event.
     optional bool short_term_model_active = 5;
@@ -23448,7 +23448,8 @@ message DisplayBrightnessChanged {
     optional android.display.DisplayBrightnessChangeReasonEnum entire_reason = 12;
 
     // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/enums.proto.
-    optional android.display.DisplayBrightnessRangeEnum bucket_index = 13;
+    optional android.display.DisplayBrightnessRangeEnum bucket_index = 13
+            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 
     // Brightness is at maximum allowable value regarding the current context.
     optional bool brightness_at_max = 14;
