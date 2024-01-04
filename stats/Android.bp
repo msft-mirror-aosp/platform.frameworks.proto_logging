@@ -34,6 +34,7 @@ enum_protos = [
     "enums/debug/*.proto",
     "enums/display/*.proto",
     "enums/dnd/*.proto",
+    "enums/federatedcompute/*.proto",
     "enums/hardware/**/*.proto",
     "enums/healthfitness/**/*.proto",
     "enums/hotword/*.proto",
@@ -144,6 +145,7 @@ atom_protos = [
     "atoms/ondevicepersonalization/*.proto",
     "atoms/federatedcompute/*.proto",
     "atoms/sdksandbox/*.proto",
+    "atoms/threadnetwork/*.proto",
 ]
 
 cc_library_host_shared {

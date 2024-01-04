@@ -340,6 +340,19 @@ enum SecurityMode {
     SECURITY_MODE_NONE = 16;
 }
 
+enum TofuConfiguration {
+    // Default value.
+    TOFU_CONFIGURATION_UNSPECIFIED = 0;
+    // TOFU is not enabled on the enterprise config.
+    TOFU_CONFIGURATION_NOT_ENABLED = 1;
+    // TOFU is enabled pre-connection.
+    TOFU_CONFIGURATION_ENABLED_PRE_CONNECTION = 2;
+    // Root CA was configured post-TOFU connection.
+    TOFU_CONFIGURATION_CONFIGURE_ROOT_CA = 3;
+    // Certificate pinning was used post-TOFU connection.
+    TOFU_CONFIGURATION_CERT_PINNING = 4;
+}
+
 /**
  * Passpoint release versions
  */
@@ -349,3 +362,12 @@ enum PasspointRelease {
   PASSPOINT_RELEASE_2 = 2;
   PASSPOINT_RELEASE_3 = 3;
 }
+
+/**
+ * Wi-Fi usability state as predicted by the network scorer
+ */
+enum WifiPredictedUsabilityState {
+   WIFI_USABILITY_PREDICTED_UNKNOWN = 0;
+   WIFI_USABILITY_PREDICTED_USABLE = 1;
+   WIFI_USABILITY_PREDICTED_UNUSABLE = 2;
+ }
