@@ -4520,6 +4520,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     LEAVE_POWER_USAGE_MANAGE_BACKGROUND = 2069;
+
+    // OPEN: Settings > Accessibility > Easy pre-set
+    // CATEGORY: SETTINGS
+    // OS: V
+    SETTINGS_EASY_PRESET = 2070;
 }
 
 // Battery Saver schedule types.
