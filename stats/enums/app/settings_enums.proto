@@ -1539,6 +1539,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_CANCEL_SYSTEM_LOCALE_FROM_RECOMMENDATION = 1899;
+
+    // Action: Settings > Sound & vibration > Vibration & haptics > Keyboard vibration
+    // VALUE: false is off, true is on
+    // OS: U-QPR3
+    ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 }
 
 /**
