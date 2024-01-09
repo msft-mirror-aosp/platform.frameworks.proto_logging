@@ -1135,6 +1135,9 @@ message Atom {
     extensions 786; // SysproxyConnectionUpdated sysproxy_connection_updated
     extensions 787; // WsOnBodyStateChanged ws_on_body_state_changed
     extensions 788; // AppManifestConfigHelperCalled app_manifest_config_helper_called
+    extensions 789; // CheckInRetryReported device_lock_check_in_retry_reported
+    extensions 790; // ProvisionFailureReported device_lock_provision_failure_reported
+    extensions 791; // LockUnlockDeviceFailureReported device_lock_unlock_device_failure_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
