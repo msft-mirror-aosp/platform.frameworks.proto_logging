@@ -13352,7 +13352,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 33
+ * Next tag: 34
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13467,6 +13467,9 @@ message AppSearchQueryStatsReported {
 
     // Time taken to join child documents to parent documents.
     optional int32 native_join_latency_millis = 32;
+
+    //  The Hash of the tag to indicate the query source of this search
+    optional int32 query_source_log_tag = 33;
 }
 
 /**
