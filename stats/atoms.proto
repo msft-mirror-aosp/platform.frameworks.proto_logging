@@ -1051,6 +1051,9 @@ message Atom {
     extensions 722; // WifiIsUnusableReported wifi_is_unusable_reported
     extensions 723; // WifiApCapabilitiesReported wifi_ap_capabilities_reported
     extensions 735; // SandboxActivityEventOccurred sandbox_activity_event_occurred
+    extensions 738; // ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported
+    extensions 739; // ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated
+    extensions 740; // ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported
     extensions 752; // StatsSocketLossReported stats_socket_loss_reported
     extensions 756; // AdServicesMeasurementClickVerification ad_services_measurement_click_verification
     extensions 762; // CronetEngineBuilderInitialized cronet_engine_builder_initialized
@@ -1065,6 +1068,9 @@ message Atom {
     extensions 777; // ApfSessionInfoReported apf_session_info_reported
     extensions 778; // IpClientRaInfoReported ip_client_ra_info_reported
     extensions 779; // NetworkRequestStateChanged network_request_state_changed
+    extensions 783; // NetworkStatsRecorderFileOperated network_stats_recorder_file_operated
+    extensions 784; // MediaProviderDatabaseRollbackReported media_provider_database_rollback_reported
+    extensions 785; // BackupSetupStatusReported backup_setup_status_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
