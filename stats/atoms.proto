@@ -1139,6 +1139,9 @@ message Atom {
     extensions 790; // ProvisionFailureReported device_lock_provision_failure_reported
     extensions 791; // LockUnlockDeviceFailureReported device_lock_unlock_device_failure_reported
     extensions 792; // DisplayModeDirectorVoteChanged display_mode_director_vote_changed
+    extensions 793; // AdFilteringProcessJoinCAReported ad_filtering_process_join_ca_reported
+    extensions 794; // AdFilteringProcessAdSelectionReported ad_filtering_process_ad_selection_reported
+    extensions 795; // AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
