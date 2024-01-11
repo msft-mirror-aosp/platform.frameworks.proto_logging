@@ -580,3 +580,10 @@ enum TetherConfigurationStatus {
   // Depicts the watch is in restricted connection mode
   TETHER_CONFIGURATION_RESTRICTED = 3;
 }
+
+// This enum represents if watch is worn: is it on body, off body or state is unknown
+enum OnBodyState {
+  ON_BODY_STATE_UNKNOWN = 0;
+  ON_BODY_STATE_ON = 1;
+  ON_BODY_STATE_OFF = 2;
+}
