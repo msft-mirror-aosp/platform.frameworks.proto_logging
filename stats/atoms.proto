@@ -1134,6 +1134,10 @@ message Atom {
     extensions 785; // BackupSetupStatusReported backup_setup_status_reported
     extensions 786; // SysproxyConnectionUpdated sysproxy_connection_updated
     extensions 787; // WsOnBodyStateChanged ws_on_body_state_changed
+    extensions 788; // AppManifestConfigHelperCalled app_manifest_config_helper_called
+    extensions 789; // CheckInRetryReported device_lock_check_in_retry_reported
+    extensions 790; // ProvisionFailureReported device_lock_provision_failure_reported
+    extensions 791; // LockUnlockDeviceFailureReported device_lock_unlock_device_failure_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -13353,7 +13357,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 33
+ * Next tag: 34
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13468,6 +13472,9 @@ message AppSearchQueryStatsReported {
 
     // Time taken to join child documents to parent documents.
     optional int32 native_join_latency_millis = 32;
+
+    //  The Hash of the tag to indicate the query source of this search
+    optional int32 query_source_log_tag = 33;
 }
 
 /**
@@ -22042,7 +22049,7 @@ message AdServicesApiCalled {
     // The actual name of the api within the 3 classes described above.
     optional AdServicesApiName  api_name = 2;
 
-    optional string app_package_name = 3; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional string app_package_name = 3;
     optional string sdk_package_name = 4;
 
     optional int32 latency_millis = 5;
@@ -22101,7 +22108,7 @@ message AdServicesMeasurementReportsUploaded {
     optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
     // delay (in milliseconds) between scheduled delivery time and actual delivery time.
     optional int64 reporting_delay_millis = 5;
-    optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional string app_package_name = 6;
     optional int32 retry_count = 7;
     optional int32 http_response_code = 8;
     optional bool is_marked_for_deletion = 9;
@@ -22126,7 +22133,7 @@ message AdServicesMeasurementRegistrations {
     optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
     // delay (in milliseconds) between registration queue request and the time it gets processed
     optional int64 registration_delay_millis = 8;
-    optional string app_package_name = 9; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+    optional string app_package_name = 9;
     optional int32 retry_count = 10;
     optional int32 http_response_code = 11;
     optional bool is_redirect = 12;
