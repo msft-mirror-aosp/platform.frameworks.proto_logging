@@ -103,6 +103,7 @@ enum InteractionType {
     PREDICTIVE_BACK_CROSS_TASK = 86;
     PREDICTIVE_BACK_HOME = 87;
     LAUNCHER_SEARCH_QSB_OPEN = 88;
+    BACK_PANEL_ARROW = 89;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.
