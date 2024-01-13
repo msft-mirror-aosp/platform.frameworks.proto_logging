@@ -112,7 +112,6 @@ message LockUnlockDeviceFailureReported {
   }
 
   // True if the command is lock; false if it is unlock.
-  optional bool isLock = 1;
-  optional DeviceState statePostCommand = 2;
+  optional bool is_lock = 1;
+  optional DeviceState state_post_command = 2;
 }
-

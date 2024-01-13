@@ -84,3 +84,12 @@ enum DisplayBrightnessChangeReasonEnum {
     REASON_SCREEN_OFF_BRIGHTNESS_SENSOR = 9;
     REASON_FOLLOWER = 10;
 }
+
+// Contains vote different statuses.
+// Logged in DisplayModeDirectorVoteChanged atom.
+enum DisplayModeDirectorVoteStatus {
+    STATUS_UNKNOWN = 0;
+    STATUS_ADDED = 1;
+    STATUS_ACTIVE = 2;
+    STATUS_REMOVED = 3;
+}
