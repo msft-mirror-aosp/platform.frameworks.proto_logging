@@ -91,6 +91,8 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
   optional InteractionReportingTableCleared interaction_reporting_table_cleared = 769
       [(module) = "adservices", (truncate_timestamp) = true];
+  optional AppManifestConfigHelperCalled app_manifest_config_helper_called = 788
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -155,7 +157,7 @@ message AdServicesMeasurementDebugKeys {
   optional bool is_matched = 3;
   optional int64 join_key_hash = 4;
   optional int64 join_key_hash_limit = 5;
-  optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional string app_package_name = 6;
 }
 
 /**
@@ -210,7 +212,7 @@ message AdServicesMeasurementDelayedSourceRegistration {
   optional android.adservices.service.measurement.DelayedSourceRegistrationStatus registration_status = 1;
   // delay (in milliseconds) between a source registration and a previously registered trigger with matching attribution destination
   optional int64 missed_source_delay_millis = 2;
-  optional string app_package_name = 3; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional string app_package_name = 3;
 }
 
 /**
@@ -225,7 +227,7 @@ message AdServicesMeasurementAttribution {
   optional bool is_install_attribution = 6;
   // delay (in milliseconds) between trigger registration and a trigger becoming attributed.
   optional int64 trigger_to_attribution_delay_millis = 7;
-  optional string app_package_name = 8; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional string app_package_name = 8;
   optional int32 aggregate_report_count = 9;
   optional int32 aggregate_debug_report_count = 10;
   optional int32 event_report_count = 11;
@@ -246,7 +248,7 @@ message AdServicesMeasurementJobs {
  */
 message AdServicesMeasurementWipeout {
   optional android.adservices.service.measurement.WipeoutCause wipeout_cause = 1;
-  optional string app_package_name = 2; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional string app_package_name = 2;
 }
 
 /**
@@ -258,7 +260,7 @@ message AdServicesMeasurementAdIdMatchForDebugKeys {
   optional bool is_matched = 3;
   optional int64 num_unique_ad_ids_used = 4;
   optional int64 num_unique_ad_id_limit = 5;
-  optional string app_package_name = 6; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional string app_package_name = 6;
 }
 
 /**
@@ -383,7 +385,7 @@ message AdServicesConsentMigrated {
   optional int64 valid_delay_window_millis = 6;
 
   // The package calling the API.
-  optional string app_package_name = 7; // [(datapol.semantic_type) = ST_SOFTWARE_ID, (contains_pii) = false]
+  optional string app_package_name = 7;
 }
 
 /**
@@ -522,4 +524,16 @@ message InteractionReportingTableCleared {
 
   // Number of unreported URIs before clearing.
   optional int32 num_unreported_uris = 2;
+}
+
+/*
+ * Logs a call to check if an app is allowed to call an AdServices API.
+ */
+ message AppManifestConfigHelperCalled {
+   // Package name of the app that has been queried about.
+   optional string app_package_name = 1;
+   // Which API was called
+   optional android.adservices.AppApiAccessType api_access_type = 2;
+   // Result of the call
+   optional android.adservices.AppApiAccessResult api_access_result = 3;
 }
