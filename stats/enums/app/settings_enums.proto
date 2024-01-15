@@ -4530,6 +4530,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     SETTINGS_EASY_PRESET = 2070;
+
+    // OPEN: Settings > Network & internet > SIMs > Satellite Messaging
+    // CATEGORY: SETTINGS
+    // OS: V
+    SATELLITE_SETTING = 2071;
 }
 
 // Battery Saver schedule types.
