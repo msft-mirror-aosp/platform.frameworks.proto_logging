@@ -57,10 +57,10 @@ enum ConversationType {
 
 // Enum used in DNDPolicyProto to indicate the type of channels permitted to
 // break through DND. Mirrors values in ZenPolicy.
-enum ChannelType {
-  CHANNEL_TYPE_UNSET = 0;
-  CHANNEL_TYPE_PRIORITY = 1;
-  CHANNEL_TYPE_NONE = 2;
+enum ChannelPolicy {
+  CHANNEL_POLICY_UNSET = 0;
+  CHANNEL_POLICY_PRIORITY = 1;
+  CHANNEL_POLICY_NONE = 2;
 }
 
 // Enum used in DNDStateChanged to identify the type of rule that changed.
