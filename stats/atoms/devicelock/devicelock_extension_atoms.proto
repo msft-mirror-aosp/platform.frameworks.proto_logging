@@ -69,12 +69,14 @@ message DeviceLockKioskAppRequestReported {
 
 message CheckInRetryReported {
   enum RetryReason {
-    // Check-in retry happens due to unknown reason
-    UNSPECIFIED = 0;
+    // Check-in retry happens because server did not specify next step.
+    RESPONSE_UNSPECIFIED = 0;
     // Check-in retry happens due to provisioning configuration unavailable
     COUNFIGURATION_UNAVAILABLE = 1;
-    // Check-in retry happens due to next check-in date is past
-    PAST_CHECK_IN_DATE = 2;
+    // Check-in retry happens due to network time being unavailable
+    NETWORK_TIME_UNAVAILABLE = 2;
+    // Check-in retry happens due to an failure in the previous RPC
+    RPC_FAILURE = 3;
   }
 
   optional RetryReason reason= 1;
