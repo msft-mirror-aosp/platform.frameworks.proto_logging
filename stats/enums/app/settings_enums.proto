@@ -1544,6 +1544,11 @@ enum Action {
     // VALUE: false is off, true is on
     // OS: U-QPR3
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
+
+    // ACTION: Settings > Accessibility > Easy read > Enable easy read
+    // VALUE: false is off, true is on
+    // OS: U-QPR3
+    ACTION_EASY_MODE_CHANGED = 1901;
 }
 
 /**
@@ -4526,9 +4531,9 @@ enum PageId {
     // OS: V
     LEAVE_POWER_USAGE_MANAGE_BACKGROUND = 2069;
 
-    // OPEN: Settings > Accessibility > Easy pre-set
+    // OPEN: Settings > Accessibility > Easy read
     // CATEGORY: SETTINGS
-    // OS: V
+    // OS: UQPR3
     SETTINGS_EASY_PRESET = 2070;
 }
 
