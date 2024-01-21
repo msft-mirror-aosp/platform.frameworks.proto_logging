@@ -1072,6 +1072,9 @@ message Atom {
     extensions 784; // MediaProviderDatabaseRollbackReported media_provider_database_rollback_reported
     extensions 785; // BackupSetupStatusReported backup_setup_status_reported
     extensions 788; // AppManifestConfigHelperCalled app_manifest_config_helper_called
+    extensions 793; // AdFilteringProcessJoinCAReported ad_filtering_process_join_ca_reported
+    extensions 794; // AdFilteringProcessAdSelectionReported ad_filtering_process_ad_selection_reported
+    extensions 795; // AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
