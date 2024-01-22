@@ -281,7 +281,7 @@ static int run(int argc, char const* const* argv) {
     google::protobuf::compiler::Importer importer(&sourceTree, &errorCollector);
 
     if (vendorProto.empty()) {
-        errorCount = collate_atoms(Atom::descriptor(), moduleName, &atoms);
+        errorCount = collate_atoms(*Atom::descriptor(), moduleName, atoms);
     } else {
         const google::protobuf::FileDescriptor* fileDescriptor;
         sourceTree.MapPath("", fs::current_path().c_str());
@@ -298,7 +298,7 @@ static int run(int argc, char const* const* argv) {
 
         fileDescriptor = importer.Import(vendorProto);
         errorCount =
-                collate_atoms(fileDescriptor->FindMessageTypeByName("Atom"), moduleName, &atoms);
+                collate_atoms(*fileDescriptor->FindMessageTypeByName("Atom"), moduleName, atoms);
     }
 
     if (errorCount != 0) {
@@ -307,8 +307,8 @@ static int run(int argc, char const* const* argv) {
 
     AtomDecl attributionDecl;
     vector<java_type_t> attributionSignature;
-    collate_atom(android::os::statsd::AttributionNode::descriptor(), &attributionDecl,
-                 &attributionSignature);
+    collate_atom(*android::os::statsd::AttributionNode::descriptor(), attributionDecl,
+                 attributionSignature);
 
     // Write the .cpp file
     if (!cppFilename.empty()) {
