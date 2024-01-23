@@ -1549,6 +1549,12 @@ enum Action {
     // VALUE: false is off, true is on
     // OS: U-QPR3
     ACTION_EASY_MODE_CHANGED = 1901;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup error > Skip for now
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_SKIP_ACCOUNT_LOGIN = 1902;
 }
 
 /**
