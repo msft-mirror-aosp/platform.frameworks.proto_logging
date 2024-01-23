@@ -14347,7 +14347,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 54.
+    // Next id: 55.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -14399,6 +14399,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_FILTER = 47;
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
+        PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
