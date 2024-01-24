@@ -1147,6 +1147,7 @@ message Atom {
     extensions 798; // MediaEditingEndedReported media_editing_ended_reported
     extensions 799; // SELinux selinux_audit_log
     extensions 800; // CellularIdentifierDisclosed cellular_identifier_disclosed
+    extensions 801; // LastScreenOnFragmentReported last_screen_on_fragment_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
