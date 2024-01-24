@@ -1142,6 +1142,7 @@ message Atom {
     extensions 793; // AdFilteringProcessJoinCAReported ad_filtering_process_join_ca_reported
     extensions 794; // AdFilteringProcessAdSelectionReported ad_filtering_process_ad_selection_reported
     extensions 795; // AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported
+    extensions 796; // SdkSandboxRestrictedAccessInSession sdk_sandbox_restricted_access_in_session
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -14347,7 +14348,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 54.
+    // Next id: 55.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -14399,6 +14400,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_FILTER = 47;
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
+        PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
