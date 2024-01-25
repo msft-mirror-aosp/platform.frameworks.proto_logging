@@ -1,0 +1,47 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+package android.telephony;
+
+option java_outer_classname = "SecurityProtoEnums";
+option java_multiple_files = true;
+
+// Identifier types
+enum CellularIdentifier {
+  UNKNOWN = 0;
+  IMSI = 1;
+  IMEI = 2;
+  SUCI = 3;
+}
+
+// NAS Protocol Messages
+enum NasProtocolMessage {
+  // Note: this can't just be UNKNOWN because of enum scoping rules that force
+  // enums to be unique within a package.
+  UNKNOWN_NAS_MESSAGE = 0;
+  ATTACH_REQUEST = 1;
+  IDENTITY_RESPONSE = 2;
+  DETACH_REQUEST = 3;
+  TRACKING_AREA_UPDATE_REQUEST = 4;
+  LOCATION_UPDATE_REQUEST = 5;
+  AUTHENTICATION_AND_CIPHERING_RESPONSE = 6;
+  REGISTRATION_REQUEST = 7;
+  DEREGISTRATION_REQUEST = 8;
+  CM_REESTABLISHMENT_REQUEST = 9;
+  CM_SERVICE_REQUEST = 10;
+  IMSI_DETACH_INDICATION = 11;
+}
