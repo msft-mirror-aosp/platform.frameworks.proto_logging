@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.media;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/media/editing/enums.proto";
+
+extend Atom {
+  optional MediaEditingEndedReported media_editing_ended_reported = 798
+      [(module) = "media_metrics"];
+}
+
+// Media metric for an editing operation having ended, since Android V.
+message MediaEditingEndedReported {
+  // Randomly generated log session ID. A Base64 encoded hex string representing
+  // a 128-bit integer.
+  optional string log_session_id = 1;
+  // Final state of editing operation when it ended.
+  optional android.media.editing.FinalState final_state = 2;
+  // Error code, if the final state was failure.
+  optional android.media.editing.ErrorCode error_code = 3;
+  // When editing ended relative to its start time, in milliseconds, or -1 if
+  // unknown.
+  optional int64 time_since_editing_created_millis = 4;
+}
