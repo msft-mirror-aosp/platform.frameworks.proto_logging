@@ -2359,7 +2359,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 52
+ * Next tag: 54
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2539,6 +2539,15 @@ message ScheduledJobStateChanged {
     // The number of required flexible job constraints that have been dropped for this job.
     // num_required_flex_constraints = num_applied_flex_constraints - num_dropped_flex_constraints.
     optional int32 num_dropped_flex_constraints = 51;
+
+    // Trace tag set via JobInfo.Builder.setTraceTag(). Basic PII filtering has been applied,
+    // but further filtering should be done by clients.
+    optional string filtered_trace_tag = 52;
+
+    // Set of tags set by the app to characterize the work being done. Set via
+    // JobInfo.Builder.addDebugTag(). Basic PII filtering has been applied,
+    // but further filtering should be done by clients.
+    repeated string filtered_debug_tags = 53;
 }
 
 /**
@@ -3224,6 +3233,11 @@ message BluetoothEnabledStateChanged {
     optional android.bluetooth.EnableDisableReasonEnum reason = 3;
     // If the reason is an application request, this will be the package name.
     optional string pkg_name = 4;
+    // Previous state. Default: UNKNOWN if there is no previous state.
+    optional State previous_state = 5;
+    // Timedelta in milliseconds since the last state changed.
+    // Default: 0 if there is no previous state.
+    optional int64 time_since_last_changed_millis = 6;
 }
 
 /**
