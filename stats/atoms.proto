@@ -4733,6 +4733,7 @@ message StyleUIChanged {
     optional bool toggle_on = 29;
     optional string shortcut = 30;
     optional string shortcut_slot_id = 31;
+    optional int32 lock_effect_id_hash = 32;
 }
 
 /**
