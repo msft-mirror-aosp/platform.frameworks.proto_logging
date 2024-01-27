@@ -199,7 +199,7 @@ enum SysproxyConnectionAction {
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 12
+ * Keep sorted order in each block. Last enum num is 13
  */
 enum SysproxyConnectionChangeReason {
     SYSPROXY_CONNECTION_CHANGE_REASON_UNKNOWN = 0;
@@ -217,8 +217,9 @@ enum SysproxyConnectionChangeReason {
     PROXY_OFF_ACL_DISCONNECT = 8;
     PROXY_OFF_BLUETOOTH_ADAPTER_OFF = 9;
     PROXY_OFF_NEW_COMPANION = 10;
-    PROXY_OFF_DATA_SETTING_ENABLED = 11;
+    PROXY_OFF_DATA_SETTING_ENABLED = 11 [deprecated=true]; // replaced with 13
     PROXY_OFF_DEVICE_SETTING_DISABLED = 12;
+    PROXY_OFF_DATA_SETTING_DISABLED = 13;
 }
 
 /**
