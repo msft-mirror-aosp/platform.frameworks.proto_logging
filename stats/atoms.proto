@@ -2246,7 +2246,7 @@ message ProcessLifeCycleStateChanged {
  * Logs when the ble scan state changes.
  *
  * Logged from:
- *   packages/apps/Bluetooth/src/com/android/bluetooth/gatt/AppScanStats.java
+ *   packages/apps/Bluetooth/src/com/android/bluetooth/le_scan/AppScanStats.java
  */
 message BleScanStateChanged {
     repeated AttributionNode attribution_node = 1
@@ -2277,7 +2277,7 @@ message BleScanStateChanged {
  * Logs reporting of a ble scan finding results.
  *
  * Logged from:
- *   packages/apps/Bluetooth/src/com/android/bluetooth/gatt/AppScanStats.java
+ *   packages/apps/Bluetooth/src/com/android/bluetooth/le_scan/AppScanStats.java
  */
 // TODO: Consider also tracking per-scanner-id.
 message BleScanResultReceived {
