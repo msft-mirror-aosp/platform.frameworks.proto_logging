@@ -411,6 +411,7 @@ enum PpapiName {
   COMMON = 7;
   // Represents federatedcompute APK in OnDevicePersonalization module.
   FEDERATED_COMPUTE = 8;
+  // Data service used for migrating consent from Android R
   ADEXT_DATA_SERVICE = 9;
 }
 
