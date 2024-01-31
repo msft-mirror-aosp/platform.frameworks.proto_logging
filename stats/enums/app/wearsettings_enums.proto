@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 502
+// Next ID: 503
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -158,6 +158,7 @@ enum ItemId {
   // WearOS only
   APP_DETAILS_DATA_SOURCES = 500;
   APP_DETAILS_LICENSES = 501;
+  BLUETOOTH_LE_AUDIO = 502;
   CONNECTIVITY_CONNECTED_FITNESS = 496;
   CONNECTIVITY_NFC = 219;
   CONNECTIVITY_WIFI = 8;
