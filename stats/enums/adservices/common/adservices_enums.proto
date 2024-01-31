@@ -112,7 +112,7 @@ enum ErrorCode {
   // Generic exception when dealing with shared prefs.
   SHARED_PREF_EXCEPTION = 11;
 
-  // Error logging an API check using  Adservices Config XML provided by an app.
+  // Error logging an API check using Adservices Config XML provided by an app.
   APP_MANIFEST_CONFIG_LOGGING_ERROR = 12;
 
   // Topics errors: 1001-2000
@@ -309,6 +309,12 @@ enum ErrorCode {
   // Reporting errors should have specific error codes.
   MEASUREMENT_REPORTING_UNKNOWN_ERROR = 2013;
 
+  // When parsing of enrollment file fails.
+  ENROLLMENT_FAILED_PARSING = 2014;
+
+  // Error occurred when encountering invalid enrollment.
+  ENROLLMENT_INVALID = 2015;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
@@ -405,6 +411,7 @@ enum PpapiName {
   COMMON = 7;
   // Represents federatedcompute APK in OnDevicePersonalization module.
   FEDERATED_COMPUTE = 8;
+  // Data service used for migrating consent from Android R
   ADEXT_DATA_SERVICE = 9;
 }
 
@@ -454,4 +461,27 @@ enum AdServiceSettingRegion {
   EU = 1;
   // Non-European Union user (based on isoCountryInfo).
   ROW = 2;
+}
+
+/* APIs whose access can be overridden by the app developer through the Android manifest. */
+enum AppApiAccessType {
+  API_ACCESS_TYPE_UNSPECIFIED = 0;
+  API_ACCESS_TYPE_TOPICS = 1;
+  API_ACCESS_TYPE_CUSTOM_AUDIENCES = 2;
+  API_ACCESS_TYPE_ATTRIBUTION = 3;
+}
+
+/* Result of a call to check if an app allows access to a given AdServices API. */
+enum AppApiAccessResult {
+  API_ACCESS_RESULT_UNSPECIFIED = 0;
+  API_ACCESS_RESULT_ALLOWED_BY_DEFAULT_APP_DOES_NOT_HAVE_CONFIG = 1;
+  API_ACCESS_RESULT_ALLOWED_BY_DEFAULT_APP_HAS_CONFIG_WITHOUT_API_SECTION = 2;
+  API_ACCESS_RESULT_ALLOWED_APP_ALLOWS_ALL = 3;
+  API_ACCESS_RESULT_ALLOWED_APP_ALLOWS_SPECIFIC_ID = 4;
+  API_ACCESS_RESULT_DISALLOWED_APP_DOES_NOT_EXIST = 5;
+  API_ACCESS_RESULT_DISALLOWED_APP_CONFIG_PARSING_ERROR = 6;
+  API_ACCESS_RESULT_DISALLOWED_APP_DOES_NOT_HAVE_CONFIG = 7;
+  API_ACCESS_RESULT_DISALLOWED_APP_DOES_HAS_CONFIG_WITHOUT_API_SECTION = 8;
+  API_ACCESS_RESULT_DISALLOWED_BY_APP = 9;
+  API_ACCESS_RESULT_DISALLOWED_GENERIC_ERROR = 10;
 }
