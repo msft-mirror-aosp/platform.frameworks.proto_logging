@@ -60,7 +60,7 @@ message FederatedComputeApiCalled {
  * Logs when an federated computation training event occurs.
  */
 message FederatedComputeTrainingEventReported {
-  optional int64 client_version = 1; // [(datapol.semantic_type) = ST_SOFTWARE_ID]
+  optional int64 client_version = 1;
 
   // The kind of train event.
   optional android.federatedcompute.TrainingEventKind
