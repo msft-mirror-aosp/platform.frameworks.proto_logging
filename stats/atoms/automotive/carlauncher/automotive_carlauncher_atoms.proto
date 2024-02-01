@@ -34,7 +34,7 @@ extend Atom {
  * Logged from package: packages/apps/Car/Launcher
  */
 message CarRecentsEventReported {
-  enum RECENTS_EVENT_TYPE {
+  enum RecentsEventType {
     UNSPECIFIED = 0;
     SESSION_STARTED = 1;
     SESSION_FINISHED = 2;
@@ -44,7 +44,7 @@ message CarRecentsEventReported {
   }
   optional int64 session_id = 1;
   optional int64 event_id = 2;
-  optional RECENTS_EVENT_TYPE event_type = 3;
+  optional RecentsEventType event_type = 3;
   optional int32 total_task_count = 4;
   optional int32 event_task_index = 5;
   optional int64 time_to_event_millis = 6;
