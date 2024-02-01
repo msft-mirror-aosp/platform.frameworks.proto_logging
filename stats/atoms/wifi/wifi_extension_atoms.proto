@@ -103,7 +103,7 @@ message WifiAwareNdpReported {
     // The Attribution tag to identify the caller
     optional string attribution_tag = 9;
     // The uid of the caller
-    optional int32 uid = 10;
+    optional int32 uid = 10 [(is_uid) = true];
 }
 
 /**
@@ -117,7 +117,7 @@ message WifiAwareAttachReported {
     // The Attribution tag to identify the caller
     optional string attribution_tag = 3;
     // The uid of the caller
-    optional int32 uid = 4;
+    optional int32 uid = 4 [(is_uid) = true];
 }
 
 /**
