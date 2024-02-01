@@ -4597,6 +4597,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_PRE_FINISH = 2073;
+
+    // OPEN: Settings > Sound & vibration > Vibration & haptics > Adaptive vibration
+    // CATEGORY: SETTINGS
+    // OS: V
+    ADAPTIVE_VIBRATION = 2074;
 }
 
 // Battery Saver schedule types.
