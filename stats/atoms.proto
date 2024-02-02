@@ -1975,6 +1975,8 @@ message WifiDisconnectReported {
         DISCONNECT_NEW_CONNECTION_USER = 10023;
         // New connection triggered by non-user
         DISCONNECT_NEW_CONNECTION_OTHERS = 10024;
+        // Wi-Fi 7 is enabled or disabled for this network
+        DISCONNECT_NETWORK_WIFI7_TOGGLED = 10025;
     }
 
     // How long the session lasted from successful connection to disconnect.
