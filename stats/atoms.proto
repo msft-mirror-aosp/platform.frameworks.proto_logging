@@ -4629,18 +4629,22 @@ message BatteryCausedShutdown {
  *   frameworks/base/services/core/java/com/android/server/stats/StatsCompanionService.java
  */
 message ThermalThrottlingSeverityStateChanged {
-    // The type of temperature being reported (CPU, GPU, SKIN, etc)
-    optional android.os.TemperatureTypeEnum sensor_type = 1;
+  // The type of temperature being reported (CPU, GPU, SKIN, etc)
+  optional android.os.TemperatureTypeEnum sensor_type = 1
+      [(state_field_option).primary_field = true];
 
-    // The name of the temperature source. Eg. CPU0
-    optional string sensor_name = 2;
+  // The name of the temperature source. Eg. CPU0
+  optional string sensor_name = 2 [(state_field_option).primary_field = true];
 
-    // Temperature in tenths of a degree C.
-    // For BCL, it is decimillivolt, decimilliamps, and percentage * 10.
-    optional int32 temperature_deci_celsius = 3;
+  // Temperature in tenths of a degree C.
+  // For BCL, it is decimillivolt, decimilliamps, and percentage * 10.
+  optional int32 temperature_deci_celsius = 3;
 
-    // Relative severity of the throttling, see enum definition.
-    optional android.os.ThrottlingSeverityEnum severity = 4;
+  // Relative severity of the throttling, see enum definition.
+  optional android.os.ThrottlingSeverityEnum severity = 4 [
+    (state_field_option).exclusive_state = true,
+    (state_field_option).nested = false
+  ];
 }
 
 /**
