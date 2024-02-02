@@ -5367,7 +5367,14 @@ message AppStartOccurred {
     optional PackageStoppedState package_stopped_state = 25;
 
     // Reserved for b/281564325.
-    reserved 26;
+    optional bool is_xr_activity = 26;
+
+    // Whether this is the first launch of the app since install
+    optional bool first_launch = 27;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 28;
 }
 
 message AppStartCanceled {
@@ -6815,6 +6822,13 @@ message ServiceRequestEventReported {
 
     /** The process state of the service host before this service request */
     optional android.app.ProcessStateEnum service_process_state = 13;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 14;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 15;
 }
 
 /**
@@ -6883,6 +6897,13 @@ message BroadcastDeliveryEventReported {
 
     /** The procstate of the broadcast receiver before receiving this broadcast */
     optional android.app.ProcessStateEnum receiver_process_state = 17;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 18;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 19;
 }
 
 /**
@@ -6917,6 +6938,13 @@ message ProviderAcquisitionEventReported {
 
     /** The process state of the content provider host before being acquired */
     optional android.app.ProcessStateEnum provider_process_state = 8;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 9;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 10;
 }
 
 /**
