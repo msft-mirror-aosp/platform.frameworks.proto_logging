@@ -292,7 +292,7 @@ message Atom {
         DocsUISearchModeReported docs_ui_search_mode_reported = 119 [(module) = "docsui"];
         DocsUISearchTypeReported docs_ui_search_type_reported = 120 [(module) = "docsui"];
         DataStallEvent data_stall_event = 121 [(module) = "network_stack"];
-        RescuePartyResetReported rescue_party_reset_reported = 122 [(module) = "framework"];
+        RescuePartyResetReported rescue_party_reset_reported = 122 [(module) = "crashrecovery", (module) = "framework"];
         SignedConfigReported signed_config_reported = 123 [(module) = "framework"];
         GnssNiEventReported gnss_ni_event_reported = 124 [(module) = "framework"];
         BluetoothLinkLayerConnectionEvent bluetooth_link_layer_connection_event =
@@ -323,7 +323,7 @@ message Atom {
         SpeechDspStatReported speech_dsp_stat_reported = 145;
         UsbContaminantReported usb_contaminant_reported = 146 [(module) = "framework"];
         WatchdogRollbackOccurred watchdog_rollback_occurred =
-                147 [(module) = "framework", (module) = "statsd"];
+                147 [(module) = "framework", (module) = "crashrecovery", (module) = "statsd"];
         BiometricSystemHealthIssueDetected biometric_system_health_issue_detected =
                 148 [(module) = "framework"];
         BubbleUIChanged bubble_ui_changed = 149 [(module) = "framework"];
@@ -1975,6 +1975,8 @@ message WifiDisconnectReported {
         DISCONNECT_NEW_CONNECTION_USER = 10023;
         // New connection triggered by non-user
         DISCONNECT_NEW_CONNECTION_OTHERS = 10024;
+        // Wi-Fi 7 is enabled or disabled for this network
+        DISCONNECT_NETWORK_WIFI7_TOGGLED = 10025;
     }
 
     // How long the session lasted from successful connection to disconnect.
@@ -22007,6 +22009,8 @@ message AdServicesApiCalled {
     //  * reportInteraction()
     //  * updateAdCounterHistogram()
     //  * fetchAndJoinCustomAudience()
+    //  * getAdSelectionData()
+    //  * persistAdSelectionResult()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -22026,6 +22030,9 @@ message AdServicesApiCalled {
     // AdExtDataService
     //   * onGetAdServicesExtData()
     //   * onPutAdServicesExtData()
+    //
+    // PAS
+    //   * updateSignals()
 
 
     enum AdServicesApiClassType {
@@ -22070,6 +22077,9 @@ message AdServicesApiCalled {
         GET_AD_SERVICES_EXT_DATA = 27;
         PUT_AD_SERVICES_EXT_DATA = 28;
         GET_ADSERVICES_COMMON_STATES = 29;
+        GET_AD_SELECTION_DATA = 30;
+        PERSIST_AD_SELECTION_RESULT = 31;
+        UPDATE_SIGNALS = 32;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
