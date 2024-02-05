@@ -10916,7 +10916,7 @@ message SplitscreenUIChanged {
         CHILD_TASK_ENTER_PIP = 9;
         RECREATE_SPLIT = 10;
         FULLSCREEN_SHORTCUT = 11;
-        ENTER_DESKTOP = 12;
+        DESKTOP_MODE = 12;
     }
 
     // The event action
