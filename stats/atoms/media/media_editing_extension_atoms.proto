@@ -20,6 +20,7 @@ package android.os.statsd.media;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/media/codec/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/editing/enums.proto";
 
 extend Atom {
@@ -39,4 +40,91 @@ message MediaEditingEndedReported {
   // When editing ended relative to its start time, in milliseconds, or -1 if
   // unknown.
   optional int64 time_since_editing_created_millis = 4;
+  // Throughput of the editing operation, in frames per second, or -1 if
+  // unknown.
+  optional int32 throughput_fps = 5;
+  // Number of input media items, or 0 if unknown.
+  optional int32 input_media_item_count = 6;
+  // First input media item's source (eg. gallery).
+  optional android.media.editing.SourceType input_media_item_1_source_type = 7;
+  // First input media item's duration, in milliseconds, or -1 if unknown.
+  optional int64 input_media_item_1_duration_millis = 8;
+  // First input media item's clip duration, in milliseconds, or -1 if unknown.
+  optional int64 input_media_item_1_clip_duration_millis = 9;
+  // First input media item's media container MIME type, or an empty string if
+  // unknown.
+  optional string input_media_item_1_container_mime_type = 10;
+  // First input media item's audio sample MIME type, or an empty string if
+  // unknown.
+  optional string input_media_item_1_audio_sample_mime_type = 11;
+  // First input media item's video sample MIME type, or an empty string if
+  // unknown.
+  optional string input_media_item_1_video_sample_mime_type = 12;
+  // First input media item's common video codec type.
+  optional android.media.codec.Codec input_media_item_1_common_video_codec = 13;
+  // First input media item's audio sample rate, in Hertz, or -1 if unknown.
+  optional int32 input_media_item_1_audio_sample_rate_hz = 14;
+  // First input media item's audio channel count, or -1 if unknown.
+  optional int32 input_media_item_1_audio_channel_count = 15;
+  // First input media item's raw video width, in pixels, or -1 if unknown.
+  optional int32 input_media_item_1_video_raw_width_pixels = 16;
+  // First input media item's raw video height, in pixels, or -1 if unknown.
+  optional int32 input_media_item_1_video_raw_height_pixels = 17;
+  // First input media item's closest common resolution.
+  optional android.media.codec.Resolution input_media_item_1_video_resolution = 18;
+  // First input media item's aspect ratio.
+  optional android.media.editing.ResolutionAspectRatio input_media_item_1_video_resolution_aspect_ratio = 19;
+  // First input media item's video data space, packed as
+  // android.hardware.DataSpace.
+  optional int32 input_media_item_1_video_data_space = 20;
+  // First input media item's HDR video format.
+  optional android.media.codec.HdrFormat input_media_item_1_video_hdr_format = 21;
+  // First input media item's video frame rate, in frames per second, or -1 if
+  // unknown.
+  optional int32 input_media_item_1_video_frame_rate = 22;
+  // First input media item's common video frame rate, or -1 if unknown.
+  optional android.media.codec.Framerate input_media_item_1_common_video_frame_rate = 23;
+  // The first MediaCodec codec component name used to decode the first input, or an empty string if unknown or not applicable.
+  optional string input_media_item_1_codec_name_1 = 24;
+  // The second MediaCodec codec component name used to decode the first input, or an empty string if unknown or not applicable.
+  optional string input_media_item_1_codec_name_2 = 25;
+  // Output media item's duration, in milliseconds, or -1 if unknown.
+  optional int64 output_media_item_duration_millis = 26;
+  // Output media item's clip duration, in milliseconds, or -1 if unknown.
+  optional int64 output_media_item_clip_duration_millis = 27;
+  // Output media item's media container MIME type, or an empty string if
+  // unknown.
+  optional string output_media_item_container_mime_type = 28;
+  // Output media item's audio sample MIME type, or an empty string if unknown.
+  optional string output_media_item_audio_sample_mime_type = 29;
+  // Output media item's video sample MIME type, or an empty string if unknown.
+  optional string output_media_item_video_sample_mime_type = 30;
+  // Output media item's common video codec type.
+  optional android.media.codec.Codec output_media_item_common_video_codec = 31;
+  // Output media item's audio sample rate, in Hertz, or -1 if unknown.
+  optional int32 output_media_item_audio_sample_rate_hz = 32;
+  // Output media item's audio channel count, or -1 if unknown.
+  optional int32 output_media_item_audio_channel_count = 33;
+  // Output media item's raw video width, in pixels, or -1 if unknown.
+  optional int32 output_media_item_video_raw_width_pixels = 34;
+  // Output media item's raw video height, in pixels, or -1 if unknown.
+  optional int32 output_media_item_video_raw_height_pixels = 35;
+  // Output media item's closest common resolution.
+  optional android.media.codec.Resolution output_media_item_video_resolution = 36;
+  // Output media item's aspect ratio.
+  optional android.media.editing.ResolutionAspectRatio output_media_item_video_resolution_aspect_ratio = 37;
+  // Output media item's video data space, packed as
+  // android.hardware.DataSpace.
+  optional int32 output_media_item_video_data_space = 38;
+  // Output media item's HDR video format.
+  optional android.media.codec.HdrFormat output_media_item_video_hdr_format = 39;
+  // Output media item's video frame rate, in frames per second, or -1 if
+  // unknown.
+  optional int32 output_media_item_video_frame_rate = 40;
+  // Output media item's common video frame rate, or -1 if unknown.
+  optional android.media.codec.Framerate output_media_item_common_video_frame_rate = 41;
+  // The first MediaCodec codec component name used to encode the output, or an empty string if unknown or not applicable.
+  optional string output_media_item_codec_name_1 = 42;
+  // The second MediaCodec codec component name used to encode the output, or an empty string if unknown or not applicable.
+  optional string output_media_item_codec_name_2 = 43;
 }
