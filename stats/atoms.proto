@@ -21762,6 +21762,7 @@ message AdServicesApiCalled {
 
     // response_code is the error/failure code for the given api.
     optional int32 response_code = 6;
+    optional int32 failure_reason = 7;
 }
 
 /**
