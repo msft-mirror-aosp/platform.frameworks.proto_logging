@@ -22638,6 +22638,9 @@ message AutofillPresentationEventReported {
 
   // True if the request is directed to the credential autofill service.
   optional bool is_credential_request = 31;
+
+  // True if the response is from webview requesting credential autofill service.
+  optional bool webview_requested_credential = 32;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
