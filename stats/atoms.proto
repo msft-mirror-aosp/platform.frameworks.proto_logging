@@ -23708,6 +23708,8 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_ENTRY_POINT_CLICKED = 67;
         // daily maintenance job was run.
         DAILY_MAINTENANCE_JOB_FINISHED = 68;
+        // GA user clicked the 2nd additional info button on the landing page.
+        GA_UX_LANDING_PAGE_ADDITIONAL_INFO_2_CLICKED = 69;
     }
     // UI action performed by user.
     optional AdServiceSettingsName action = 2;
@@ -23781,6 +23783,8 @@ message AdServicesSettingsUsageReported {
         BETA_UX = 3;
         // UX for Android RVC.
         RVC_UX = 4;
+        // GA UX with Updated PAS APIs
+        GA_UX_WITH_PAS = 5;
     }
 
     // Type of privacy sandbox UX.
@@ -23804,6 +23808,10 @@ message AdServicesSettingsUsageReported {
         CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
         // 2nd GA notification post R OTA.
         RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
+        // PAS first notification channel
+        PAS_FIRST_NOTIFICATION_CHANNEL = 8;
+        // PAS renotify notification channel
+        PAS_RENOTIFY_NOTIFICATION_CHANNEL = 9;
     }
 
     // Type of privacy sandbox enrollment channel.
