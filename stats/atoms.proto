@@ -21679,6 +21679,7 @@ message AdServicesApiCalled {
     //  * fetchAndJoinCustomAudience()
     //  * getAdSelectionData()
     //  * persistAdSelectionResult()
+    //  * scheduleCustomAudienceUpdate()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21748,6 +21749,7 @@ message AdServicesApiCalled {
         GET_AD_SELECTION_DATA = 30;
         PERSIST_AD_SELECTION_RESULT = 31;
         UPDATE_SIGNALS = 32;
+        SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 33;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
