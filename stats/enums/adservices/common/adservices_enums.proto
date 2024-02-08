@@ -470,6 +470,7 @@ enum AppApiAccessType {
   API_ACCESS_TYPE_CUSTOM_AUDIENCES = 2;
   API_ACCESS_TYPE_ATTRIBUTION = 3;
   API_ACCESS_TYPE_PROTECTED_SIGNALS = 4;
+  API_ACCESS_TYPE_AD_SELECTION = 5;
 }
 
 /* Result of a call to check if an app allows access to a given AdServices API. */
