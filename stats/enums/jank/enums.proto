@@ -104,6 +104,8 @@ enum InteractionType {
     PREDICTIVE_BACK_HOME = 87;
     LAUNCHER_SEARCH_QSB_OPEN = 88;
     BACK_PANEL_ARROW = 89;
+    LAUNCHER_CLOSE_ALL_APPS_BACK = 90;
+    LAUNCHER_SEARCH_QSB_WEB_SEARCH = 91;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.
