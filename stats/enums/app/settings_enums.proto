@@ -1555,6 +1555,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_SKIP_ACCOUNT_LOGIN = 1902;
+
+    // Action: Settings > Battery settings > Battery tip > Wireless charging
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_WIRELESS_CHARGING_TIP = 1903;
 }
 
 /**
