@@ -191,3 +191,107 @@ message WsStandaloneModeSnapshot {
   // Depicts the standalone/tether status of the watch.
   optional android.app.wearservices.TetherConfigurationStatus tether_configuration_status = 1;
 }
+
+/**
+ * Logged for each watch face affected by the complication restrictions during
+ * upgrading to a build that supports the feature.
+ */
+message WsWatchFaceRestrictedComplicationsImpacted {
+  // Watch face package uid.
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
+
+  // Watch face component class name.
+  optional string watch_face_component_class_name = 2;
+
+  // Complication component package UIDs for complications being restricted.
+  // A single watch face may have multiple restricted complications and each entry in this field
+  // corresponds to one of the restricted complications being removed.
+  repeated int32 complication_component_package_uid = 3 [(is_uid) = true];
+
+  // Complication component class names for complications being restricted corresponding to each
+  // restricted complication on the watch face.
+  repeated string complication_component_class_name = 4;
+
+  // Complication type (e.g. icon, small text) corresponding to the integer values defined in
+  // ComplicationData
+  // see: http://cs/h/googleplex-android/platform/frameworks/support/+/androidx-platform-release:wear/watchface/watchface-complications-data/src/main/java/android/support/wearable/complications/ComplicationData.kt
+  repeated int32 complication_type = 5;
+
+  // Indicates whether this watch face is the currently active watch face.
+  optional bool is_current_active = 6;
+}
+
+/**
+ * Snapshot of a favorite watch face with all of its complications.
+ */
+message WsFavouriteWatchFaceSnapshot {
+  // Active watch face package uid.
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
+
+  // Active watch face class name. This will be
+  // null for Declarative WF packages, as these packages have only one WF.
+  optional string watch_face_class_name = 2;
+
+  // An ID number generated on a watch to uniquely identify watch face instances.
+  // An Androidx watch face can be added multiple times to the favorites list and this field is used
+  // to differentiate each instance, without leaking any information about the watch face itself.
+  // Note: equals to -1 in case of WSL watch faces.
+  optional int32 favorite_id = 3;
+
+  // Complication package name.
+  repeated int32 complication_component_package_uid = 4 [(is_uid) = true];
+
+  // Complication component class name.
+  repeated string complication_component_class_name = 5;
+
+  // Complication type (e.g. icon, small text) corresponding to the integer values defined in
+  // ComplicationData
+  // see: http://cs/h/googleplex-android/platform/frameworks/support/+/androidx-platform-release:wear/watchface/watchface-complications-data/src/main/java/android/support/wearable/complications/ComplicationData.kt
+  repeated int32 complication_type = 6;
+
+  // Indicates whether this watch face is the current active one.
+  optional bool is_current_active = 7;
+
+  // Indicates whether this watch face is restricted.
+  optional bool is_restricted = 8;
+}
+
+/**
+ * Logged whenever a user adds a watch face to the list of favorites and it contains
+ * restricted default complications.
+ */
+message WsWatchFaceDefaultRestrictedComplicationsRemoved {
+  // Watch face package uid.
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
+
+  // Watch face component class name.
+  optional string watch_face_component_class_name = 2;
+
+  // Complication component package uids for complications being restricted.
+  repeated int32 complication_component_package_uid = 3 [(is_uid) = true];
+
+  // Complication component class names for complications being restricted.
+  repeated string complication_component_class_name = 4;
+
+  // Complication type (e.g. icon, small text) corresponding to the integer values defined in
+  // ComplicationData
+  // see: http://cs/h/googleplex-android/platform/frameworks/support/+/androidx-platform-release:wear/watchface/watchface-complications-data/src/main/java/android/support/wearable/complications/ComplicationData.kt
+  repeated int32 complication_type = 5;
+}
+
+/**
+ * Logged whenever a user gets the notification informing them that their watch faces are affected
+ * by the complications restrictions, or they click on the "open on phone" action.
+ */
+message WsComplicationsImpactedNotificationEventReported {
+  enum Event {
+    UNSPECIFIED = 0;
+
+    // Indicates that the notification is sent.
+    SENT = 1;
+
+    // Indicates that the user clicked through the notification to the help center.
+    CLICKED = 2;
+  }
+  optional Event event = 1;
+}
