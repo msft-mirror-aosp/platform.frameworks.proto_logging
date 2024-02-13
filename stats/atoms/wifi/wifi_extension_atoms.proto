@@ -50,6 +50,7 @@ extend Atom {
     optional PnoScanStopped pno_scan_stopped = 720 [(module) = "wifi"];
     optional WifiIsUnusableReported wifi_is_unusable_reported = 722 [(module) = "wifi"];
     optional WifiApCapabilitiesReported wifi_ap_capabilities_reported= 723 [(module) = "wifi"];
+    optional SoftApStateChanged soft_ap_state_changed = 805 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -150,6 +151,28 @@ message WifiSelfRecoveryTriggered {
     optional Result result = 2;
     // Record time elapsed from last trigger event
     optional int64 time_elapsed_from_last_millis = 3;
+}
+
+/**
+ * Logged when SoftAp is started or stopped.
+ */
+message SoftApStateChanged {
+    enum HotspotState {
+        // Unknown - reserved field for invalid data
+        STATE_UNKNOWN = 0;
+
+        // SoftAp is on
+        STATE_OFF = 1;
+
+        // SoftAp is off
+        STATE_ON = 2;
+    }
+
+    // New hotspot state.
+    optional HotspotState hotspot_on = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
