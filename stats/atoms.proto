@@ -1153,6 +1153,7 @@ message Atom {
     extensions 804; // WsComplicationsImpactedNotificationEventReported ws_complications_impacted_notification_event_reported
     extensions 805; // SoftApStateChanged soft_ap_state_changed
     extensions 806; // ExternalDisplayStateChanged external_display_state_changed
+    extensions 807; // SignatureVerification signature_verification
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

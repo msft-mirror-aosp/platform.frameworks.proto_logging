@@ -531,16 +531,16 @@ message InteractionReportingTableCleared {
   optional int32 num_unreported_uris = 2;
 }
 
-/*
+/**
  * Logs a call to check if an app is allowed to call an AdServices API.
  */
- message AppManifestConfigHelperCalled {
-   // Package name of the app that has been queried about.
-   optional string app_package_name = 1;
-   // Which API was called
-   optional android.adservices.AppApiAccessType api_access_type = 2;
-   // Result of the call
-   optional android.adservices.AppApiAccessResult api_access_result = 3;
+message AppManifestConfigHelperCalled {
+  // Package name of the app that has been queried about.
+  optional string app_package_name = 1;
+  // Which API was called
+  optional android.adservices.AppApiAccessType api_access_type = 2;
+  // Result of the call
+  optional android.adservices.AppApiAccessResult api_access_result = 3;
 }
 
 /**
@@ -648,4 +648,23 @@ message AdCounterHistogramUpdaterReported {
   // The number of histogram events were evicted from database
   // during Ad counter histogram updater process.
   optional int32 num_of_evicted_event = 5;
+}
+
+/**
+ * Logs a request for signature verification for a buyer
+ */
+message SignatureVerification {
+  // Latency of the serialization of a given SignedContextualAds object
+  optional int64 serialization_latency = 1;
+
+  // Latency of fetching the key from key management store
+  optional int64 key_fetch_latency = 2;
+
+  // Latency of the verifying the signature (only the signature verification, without including the
+  // serialization and key fetch)
+  optional int64 verification_latency = 3;
+
+  // End status of the verification request
+  // A verification request can end in success or a failure with various reasons
+  optional android.adservices.service.VerificationStatus signature_verification_status = 4;
 }
