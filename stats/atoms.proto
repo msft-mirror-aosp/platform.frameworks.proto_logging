@@ -21762,9 +21762,8 @@ message AdServicesApiCalled {
 
     optional int32 latency_millis = 5;
 
-    // response_code is the error/failure code for the given api.
+    // response_code is the error code for the given api.
     optional int32 response_code = 6;
-    optional int32 failure_reason = 7;
 }
 
 /**
