@@ -41,6 +41,7 @@ message DNDModeProto {
     optional int32 rule_modified_fields = 8;
     optional int32 policy_modified_fields = 9;
     optional int32 device_effects_modified_fields = 10;
+    optional android.stats.dnd.ActiveRuleType rule_type = 11;
 }
 
 /**
