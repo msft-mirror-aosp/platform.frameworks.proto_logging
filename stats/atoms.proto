@@ -1077,6 +1077,7 @@ message Atom {
     extensions 795; // AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported
     extensions 796; // SdkSandboxRestrictedAccessInSession sdk_sandbox_restricted_access_in_session
     extensions 805; // SoftApStateChanged soft_ap_state_changed
+    extensions 807; // SignatureVerification signature_verification
     extensions 808; // KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported
     extensions 809; // KAnonBackgroundJobStatusReported k_anon_background_job_status_reported
     extensions 810; // KAnonInitializeStatusReported k_anon_initialize_status_reported
