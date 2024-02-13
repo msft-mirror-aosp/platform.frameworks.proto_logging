@@ -5616,7 +5616,7 @@ message ForegroundServiceStateChanged {
         EXIT = 2;
         DENIED = 3;
         API_CALL = 4; // this event is to annotate API call.
-        TIMED_OUT = 5; // SHORT_SERVICE timed out.
+        TIMED_OUT = 5; // time-restricted fgs type timed out.
     }
     optional State state = 3;
 
