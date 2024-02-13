@@ -1560,6 +1560,12 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_WIRELESS_CHARGING_TIP = 1903;
+
+    // ACTION: Settings > Display > Screen timeout > Adaptive timeout
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADAPTIVE_TIMEOUT_CHANGED = 1904;
 }
 
 /**
