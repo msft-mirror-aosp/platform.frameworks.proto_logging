@@ -48,8 +48,23 @@ extend Atom {
   optional WsOnBodyStateChanged ws_on_body_state_changed = 787
       [(module) = "wearservices"];
 
+  optional WsWatchFaceRestrictedComplicationsImpacted
+    ws_watch_face_restricted_complications_impacted = 802
+      [(module) = "wearservices"];
+
+  optional WsWatchFaceDefaultRestrictedComplicationsRemoved
+    ws_watch_face_default_restricted_complications_removed = 803
+      [(module) = "wearservices"];
+
+  optional WsComplicationsImpactedNotificationEventReported
+    ws_complications_impacted_notification_event_reported = 804
+      [(module) = "wearservices"];
+
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
+      [(module) = "wearservices"];
+
+  optional WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot = 10206
       [(module) = "wearservices"];
 }
 
