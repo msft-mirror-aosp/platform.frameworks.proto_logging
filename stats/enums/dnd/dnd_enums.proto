@@ -69,3 +69,21 @@ enum RuleType {
   MANUAL_RULE = 1;
   AUTOMATIC_RULE = 2;
 }
+
+// Enum used in DNDModeProto and DNDStateChanged to identify the category
+// of automatic zen rule that the log pertains to.
+// Mirrors values in AutomaticZenRule, with one additional value for
+// the manual rule (which is used in logging only).
+enum ActiveRuleType {
+  TYPE_UNKNOWN = -1;
+  TYPE_OTHER = 0;
+  TYPE_SCHEDULE_TIME = 1;
+  TYPE_SCHEDULE_CALENDAR = 2;
+  TYPE_BEDTIME = 3;
+  TYPE_DRIVING = 4;
+  TYPE_IMMERSIVE = 5;
+  TYPE_THEATER = 6;
+  TYPE_MANAGED = 7;
+  // Intentional gap for future automatic rule types.
+  TYPE_MANUAL = 999;
+}
