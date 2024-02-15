@@ -143,6 +143,8 @@ message WifiSelfRecoveryTriggered {
         RES_RETRY_DISABLED = 5;
         RES_ABOVE_MAX_RETRY = 6;
         RES_RESTART_FAILURE = 7;
+        RES_RESTART_STARTED_INTERNAL_RECOVERY = 8;
+        RES_RESTART_STARTED_INTERNAL_RECOVERY_BY_NATIVE_CALLBACK = 9;
     }
 
     // Trigger reason
