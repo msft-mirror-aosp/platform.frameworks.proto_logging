@@ -154,6 +154,7 @@ enum ElementId {
     PERMISSION_SWITCH_INACTIVE = 78;
     DELETE_APP_DATA_BUTTON = 79;
     PRIVACY_POLICY_LINK = 80;
+    ADDITIONAL_ACCESS_BUTTON = 175;
 
     // Disconnect app dialog
     DISCONNECT_APP_DIALOG_CONTAINER = 81;
@@ -277,7 +278,14 @@ enum ElementId {
     // Add an app page
     POTENTIAL_PRIORITY_APP_BUTTON = 161;
 
-    // Next available: 175;
+    // Additional Access page
+    EXERCISE_ROUTES_BUTTON = 176;
+    EXERCISE_ROUTES_DIALOG_CONTAINER = 180;
+    EXERCISE_ROUTES_DIALOG_ALLOW_ALL_BUTTON = 177;
+    EXERCISE_ROUTES_DIALOG_ASK_BUTTON  = 178;
+    EXERCISE_ROUTES_DIALOG_DENY_BUTTON  = 179;
+
+    // Next available: 181;
 
 }
 
@@ -318,6 +326,10 @@ enum PageId {
     DATA_SOURCES_PAGE = 27;
     ADD_AN_APP_PAGE = 28;
     DATA_RESTORE_IN_PROGRESS_PAGE = 29;
+    // Additional Access
+    ADDITIONAL_ACCESS_PAGE = 30;
+
+    // Next available: 31;
 }
 
 enum Action {
