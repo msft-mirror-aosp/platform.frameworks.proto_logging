@@ -16,6 +16,9 @@
 
 #include "native_writer.h"
 
+#include <stdio.h>
+
+#include "Collation.h"
 #include "utils.h"
 
 namespace android {
@@ -25,7 +28,7 @@ static void write_native_annotation_constants(FILE* out) {
     fprintf(out, "// Annotation constants.\n");
 
     const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants();
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     for (const auto& [id, annotation] : ANNOTATION_ID_CONSTANTS) {
         fprintf(out, "const uint8_t %s = %hhu;\n", annotation.name.c_str(), id);
     }
@@ -36,14 +39,14 @@ static void write_annotations(FILE* out, int argIndex,
                               const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
                               const string& methodPrefix, const string& methodSuffix,
                               const int minApiLevel) {
-    FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
+    const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
             fieldNumberToAtomDeclSet.find(argIndex);
     if (fieldNumberToAtomDeclSet.end() == fieldNumberToAtomDeclSetIt) {
         return;
     }
     const AtomDeclSet& atomDeclSet = fieldNumberToAtomDeclSetIt->second;
     const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants();
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     const string constantPrefix = minApiLevel > API_R ? "ASTATSLOG_" : "";
     for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
         const string atomConstant = make_constant_name(atomDecl->name);
@@ -221,7 +224,7 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
         if (bootstrap) {
             fprintf(out, "    ::android::os::StatsBootstrapAtom atom;\n");
             fprintf(out, "    atom.atomId = code;\n");
-            FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
+            const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
                     fieldNumberToAtomDeclSet.find(ATOM_ID_FIELD_NUMBER);
             if (fieldNumberToAtomDeclSet.end() != fieldNumberToAtomDeclSetIt) {
                 fprintf(stderr, "Bootstrap atoms do not support annotations\n");
@@ -272,7 +275,7 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                         fprintf(stderr, "Encountered unsupported type.\n");
                         return 1;
                 }
-                FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
+                const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
                         fieldNumberToAtomDeclSet.find(argIndex);
                 if (fieldNumberToAtomDeclSet.end() != fieldNumberToAtomDeclSetIt) {
                     fprintf(stderr, "Bootstrap atoms do not support annotations\n");
@@ -334,8 +337,8 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
             fprintf(out, "    return event.writeToSocket();\n");  // end method body.
         } else {
             fprintf(out, "    AStatsEvent* event = AStatsEvent_obtain();\n");
-            int ret = write_native_method_body(out, signature, fieldNumberToAtomDeclSet,
-                                               attributionDecl, minApiLevel);
+            const int ret = write_native_method_body(out, signature, fieldNumberToAtomDeclSet,
+                                                     attributionDecl, minApiLevel);
             if (ret != 0) {
                 return ret;
             }
@@ -389,8 +392,8 @@ static int write_native_build_stats_event_methods(FILE* out,
                                       signature, attributionDecl, " {");
 
         fprintf(out, "    AStatsEvent* event = AStatsEventList_addStatsEvent(pulled_data);\n");
-        int ret = write_native_method_body(out, signature, fieldNumberToAtomDeclSet,
-                                           attributionDecl, minApiLevel);
+        const int ret = write_native_method_body(out, signature, fieldNumberToAtomDeclSet,
+                                                 attributionDecl, minApiLevel);
         if (ret != 0) {
             return ret;
         }

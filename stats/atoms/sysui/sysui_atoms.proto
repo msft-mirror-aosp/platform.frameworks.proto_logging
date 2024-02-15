@@ -125,6 +125,14 @@ message BackGesture {
     optional float ml_model_score = 10;
     optional string package_name = 11;  // The name of the top 100 most used package by all users.
 
+    // Specifies the input type of the event.
+    enum InputType {
+        UNKNOWN = 0;
+        TOUCH = 1;
+        TRACKPAD = 2;
+    }
+    optional InputType input_type = 12;
+
     enum WindowHorizontalLocation {
         DEFAULT_LOCATION = 0;
         LEFT = 1;
@@ -181,7 +189,8 @@ message LauncherUIChanged {
     // e.g., SEARCHBOX_ALLAPPS, FOLDER_WORKSPACE
     optional int32 hierarchy = 18;
 
-    optional bool is_work_profile = 19;
+    // deprecated, use user_type field instead
+    optional bool is_work_profile = 19 [deprecated = true];
 
     // Used to store the predicted rank of the target
     optional int32 rank = 20 [default = -1];
@@ -213,6 +222,16 @@ message LauncherUIChanged {
         TRACKPAD = 2;
     }
     optional InputType input_type = 28;
+
+    // Specifies the type of the user the event connected with
+    enum UserType {
+         TYPE_UNKNOWN = 0;
+         TYPE_MAIN = 1;
+         TYPE_WORK = 2;
+         TYPE_CLONED = 3;
+         TYPE_PRIVATE = 4;
+    }
+    optional UserType user_type = 29;
 }
 
 message LauncherAttributes {
@@ -589,6 +608,12 @@ message MediaOutputOpSwitchReported {
 
     // The amount of applied devices within a remote dynamic group after a switching is done.
     optional int32 applied_device_count_within_remote_group = 9;
+
+    // Indicate target device is suggested route
+    optional bool target_is_suggested = 10;
+
+    // Indicate target device has ongoing session or not
+    optional bool target_has_ongoing_session = 11;
 }
 
 /*
@@ -603,6 +628,8 @@ message MediaOutputOpInteractionReported {
         EXPANSION = 0;
         ADJUST_VOLUME = 1;
         STOP_CASTING = 2;
+        MUTE = 3;
+        UNMUTE = 4;
     }
 
     // Type of interaction.
@@ -613,6 +640,9 @@ message MediaOutputOpInteractionReported {
 
     // The package name of an application whose media session is being switched.
     optional string media_session_package_name= 3;
+
+    // Indicate target device is suggested route
+    optional bool target_is_suggested = 4;
 }
 
 /**

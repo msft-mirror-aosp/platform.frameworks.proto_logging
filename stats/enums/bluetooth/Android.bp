@@ -31,12 +31,20 @@ cc_library_static {
         "hci/enums.proto",
         "hfp/enums.proto",
         "le/enums.proto",
+        "rfcomm/enums.proto",
         "smp/enums.proto",
     ],
     apex_available: [
         "com.android.btservices",
     ],
     min_sdk_version: "30",
+}
+
+filegroup {
+  name: "srcs_bluetooth_protos_nfc",
+  srcs: [
+      "enums.proto",
+  ],
 }
 
 filegroup {
@@ -47,6 +55,7 @@ filegroup {
       "hci/enums.proto",
       "hfp/enums.proto",
       "le/enums.proto",
+      "rfcomm/enums.proto",
       "smp/enums.proto",
   ],
 }

@@ -33,9 +33,6 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
                          const string& javaClass, const string& javaPackage, const int minApiLevel,
                          const int compileApiLevel, const bool supportWorkSource);
 
-int write_stats_log_java_vendor(FILE* out, const Atoms& atoms, const string& javaClass,
-                                const string& javaPackage);
-
 }  // namespace stats_log_api_gen
 }  // namespace android
 
