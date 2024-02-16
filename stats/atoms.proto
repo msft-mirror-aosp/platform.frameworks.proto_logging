@@ -1164,6 +1164,7 @@ message Atom {
     extensions 817; // BiometricFRRNotification biometric_frr_notification
     extensions 818; // DesktopModeUIChanged desktop_mode_ui_changed
     extensions 819; // DesktopModeSessionTaskUpdate desktop_mode_session_task_update
+    extensions 820; // AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
