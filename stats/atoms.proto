@@ -1776,6 +1776,8 @@ message WifiConnectionResultReported {
     // carrier ID of the network
     optional int32 carrier_id = 17;
     optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 19 [(is_uid) = true];
 }
 
 /**
