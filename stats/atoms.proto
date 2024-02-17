@@ -1153,6 +1153,13 @@ message Atom {
     extensions 804; // WsComplicationsImpactedNotificationEventReported ws_complications_impacted_notification_event_reported
     extensions 805; // SoftApStateChanged soft_ap_state_changed
     extensions 806; // ExternalDisplayStateChanged external_display_state_changed
+    extensions 807; // SignatureVerification signature_verification
+    extensions 808; // KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported
+    extensions 809; // KAnonBackgroundJobStatusReported k_anon_background_job_status_reported
+    extensions 810; // KAnonInitializeStatusReported k_anon_initialize_status_reported
+    extensions 811; // KAnonSignStatusReported k_anon_sign_status_reported
+    extensions 812; // KAnonJoinStatusReported k_anon_join_status_reported
+    extensions 813; // KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -10930,7 +10937,7 @@ message SplitscreenUIChanged {
         CHILD_TASK_ENTER_PIP = 9;
         RECREATE_SPLIT = 10;
         FULLSCREEN_SHORTCUT = 11;
-        ENTER_DESKTOP = 12;
+        DESKTOP_MODE = 12;
     }
 
     // The event action
