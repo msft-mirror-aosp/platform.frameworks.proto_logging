@@ -210,6 +210,9 @@ message AdServicesBackgroundJobsExecutionReported {
   // JobService.onStopJob() was never called for the job.
   // The default value is STOP_REASON_UNDEFINED.
   optional android.app.job.StopReasonEnum public_stop_reason = 5;
+
+  // Module name from which the job execution is being reported.
+  optional android.adservices.ModuleName module_name = 6;
 }
 
 /**
