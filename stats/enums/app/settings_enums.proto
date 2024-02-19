@@ -1571,6 +1571,11 @@ enum Action {
     // > Change the system grammatical gender
     // OS: V
     ACTION_TERMS_OF_ADDRESS_SPECIFIED = 1905;
+
+    // ACTION: Settings > Battery > Battery Manager > Restricted apps
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_APP_RESTRICTED_LIST_MANAGED = 1906;
 }
 
 /**
