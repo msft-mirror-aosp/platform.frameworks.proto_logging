@@ -112,6 +112,11 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported = 813
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional GetAdSelectionDataApiCalled get_ad_selection_data_api_called = 814
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated = 815
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -772,4 +777,47 @@ message KAnonKeyAttestationStatusReported {
 
   // The latency in milliseconds of the operation
   optional int32 latency_in_millis = 3;
+}
+
+/*
+ * Logs for per API call for GetAdSelectionData API.
+ */
+message GetAdSelectionDataApiCalled {
+  // Size of the payload in KB
+  optional int32 payload_size_kb = 1;
+
+  // Number of buyers participating in this payload
+  optional int32 num_buyers = 2;
+
+  // The status response code in AdServices.
+  optional int32 status_code = 3;
+}
+
+/**
+ * Logs per buyer input for GetAdSelectionData API.
+ */
+message GetAdSelectionDataBuyerInputGenerated {
+  // Number of custom audiences in this buyer input
+  optional int32 num_custom_audiences = 1;
+
+  // Number of custom audiences opting into the omit-ads feature
+  optional int32 num_custom_audiences_omit_ads = 2;
+
+  // Mean of the size of a custom audience for this buyer input
+  optional float custom_audience_size_mean = 3;
+
+  // Variance of the size of a custom audience for this buyer input
+  optional float custom_audience_size_variance = 4;
+
+  // Mean of the size of the trusted bidding signals keys for this buyer input
+  optional float trusted_bidding_signals_keys_size_mean = 5;
+
+  // Variance of the size of the trusted bidding signals keys for this buyer input
+  optional float trusted_bidding_signals_size_variance = 6;
+
+  // Mean of the size of the user bidding signals for this buyer input
+  optional float user_bidding_signals_size_mean = 7;
+
+  // Variance of the size of the user bidding signals for this buyer input
+  optional float user_bidding_signals_size_variance = 8;
 }
