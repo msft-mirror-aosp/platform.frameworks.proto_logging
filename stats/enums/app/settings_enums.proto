@@ -1566,6 +1566,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_ADAPTIVE_TIMEOUT_CHANGED = 1904;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address >
+    // > Change the system grammatical gender
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_SPECIFIED = 1905;
+
+    // ACTION: Settings > Battery > Battery Manager > Restricted apps
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_APP_RESTRICTED_LIST_MANAGED = 1906;
 }
 
 /**
