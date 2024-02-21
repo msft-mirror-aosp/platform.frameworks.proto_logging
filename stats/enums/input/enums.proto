@@ -112,6 +112,8 @@ enum KeyboardSystemEvent {
     LAUNCH_APPLICATION_BY_PACKAGE_NAME = 47;
     // Enter desktop mode
     DESKTOP_MODE = 48;
+    // Navigate to/from a multiwindow mode
+    MULTI_WINDOW_NAVIGATION = 49;
 }
 
 /**
