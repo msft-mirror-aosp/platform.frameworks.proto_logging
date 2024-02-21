@@ -102,7 +102,6 @@ enum InteractionType {
     PREDICTIVE_BACK_CROSS_ACTIVITY = 85;
     PREDICTIVE_BACK_CROSS_TASK = 86;
     PREDICTIVE_BACK_HOME = 87;
-    LAUNCHER_SEARCH_QSB_OPEN = 88;
     BACK_PANEL_ARROW = 89;
     LAUNCHER_CLOSE_ALL_APPS_BACK = 90;
     LAUNCHER_SEARCH_QSB_WEB_SEARCH = 91;
@@ -110,6 +109,7 @@ enum InteractionType {
     reserved 2;
     reserved 73 to 78; // For b/281564325.
     reserved 80;
+    reserved 88;
 }
 
 enum DisplayResolution {
