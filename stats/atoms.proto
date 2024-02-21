@@ -1160,6 +1160,8 @@ message Atom {
     extensions 811; // KAnonSignStatusReported k_anon_sign_status_reported
     extensions 812; // KAnonJoinStatusReported k_anon_join_status_reported
     extensions 813; // KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported
+    extensions 814; // GetAdSelectionDataApiCalled get_ad_selection_data_api_called
+    extensions 815; // GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
