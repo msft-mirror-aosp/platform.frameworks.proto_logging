@@ -29,7 +29,6 @@ import "frameworks/proto_logging/stats/atoms/corenetworking/connectivity/connect
 import "frameworks/proto_logging/stats/atoms/display/display_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/dnd/dnd_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/gps/gps_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/grammaticalinflection/grammatical_inflection.proto";
 import "frameworks/proto_logging/stats/atoms/hardware/biometrics/biometrics_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/hotword/hotword_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/input/input_atoms.proto";
@@ -910,7 +909,6 @@ message Atom {
         view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
         locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
-        grammaticalinflection.ApplicationGrammaticalInflectionChanged grammatical_inflection_changed = 584 [(module) = "framework"];
         providers.mediaprovider.MediaProviderVolumeRecoveryReported
             media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         hardware.biometrics.BiometricPropertiesCollected
@@ -945,6 +943,7 @@ message Atom {
     extensions 550; // ArtDeviceDatumReported art_device_datum_reported
     extensions 565; // ArtDatumDeltaReported art_datum_delta_reported
     extensions 579; // AppSearchSchemaMigrationStatsReported app_search_schema_migration_stats_reported
+    extensions 584; // ApplicationGrammaticalInflectionChanged application_grammatical_inflection_changed
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
     extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
@@ -1162,6 +1161,7 @@ message Atom {
     extensions 813; // KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported
     extensions 814; // GetAdSelectionDataApiCalled get_ad_selection_data_api_called
     extensions 815; // GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated
+    extensions 816; // SystemGrammaticalInflectionChanged system_grammatical_inflection_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

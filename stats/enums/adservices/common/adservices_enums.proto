@@ -479,6 +479,9 @@ enum ExecutionResultCode {
 
   /** Skipped execution due to job is not configured. */
   SKIP_FOR_JOB_NOT_CONFIGURED = 10;
+
+  /** Skipped execution due to personalization not enabled. */
+  SKIP_FOR_PERSONALIZATION_NOT_ENABLED = 11;
 }
 
 // Region of the user who interacted with AdServicesSettings UI.
@@ -521,4 +524,5 @@ enum ModuleName {
   UNKNOWN_MODULE_NAME = 0;
   MODULE_NAME_ADSERVICES = 1;
   MODULE_NAME_ON_DEVICE_PERSONALIZATION = 2;
+  MODULE_NAME_FEDERATED_COMPUTE = 3;
 }
