@@ -1162,6 +1162,7 @@ message Atom {
     extensions 814; // GetAdSelectionDataApiCalled get_ad_selection_data_api_called
     extensions 815; // GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated
     extensions 816; // SystemGrammaticalInflectionChanged system_grammatical_inflection_changed
+    extensions 817; // BiometricFRRNotification biometric_frr_notification
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -6366,7 +6367,10 @@ message BiometricEnrolled {
     optional int32 sensor_id = 5;
     // The ambient light lux when the user enrolled.
     optional float ambient_light_lux = 6;
+    // The source for where this enrollment came frame
+    optional android.hardware.biometrics.EnrollmentSourceEnum enroll_source = 7;
 }
+
 
 /*
  * Logs when one of the BiometricPrompt#authenticate() method variants is called.
