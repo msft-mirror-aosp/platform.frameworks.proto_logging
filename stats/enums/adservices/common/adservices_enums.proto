@@ -78,6 +78,7 @@ enum AttributionType {
  * - FederatedCompute errors: 5001-6000
  * - AdExtDataServiceErrors: 6001-7000
  * - IAPC errors: 7001 - 8000
+ * - ODP errors: 8001-9000
  *
  * NOTE: AdId / AdSetId don't have a range yet (because they're just using common codes)
  */
@@ -419,6 +420,28 @@ enum ErrorCode {
   IAPC_AD_ID_PROVIDER_NOT_AVAILABLE = 7001;
   // Exception when calling UpdateAdId API in service side.
   IAPC_UPDATE_AD_ID_API_ERROR = 7002;
+
+  // ODP errors: 8001-9000
+  // ODP generic error
+  ON_DEVICE_PERSONALIZATION_ERROR = 8001;
+
+  // ODP execute Isolated service error
+  ISOLATED_SERVICE_EXECUTE_ERROR = 8002;
+
+  // ODP download Isolated service error
+  ISOLATED_SERVICE_DOWNLOAD_ERROR = 8003;
+
+  // ODP render Isolated service error
+  ISOLATED_SERVICE_RENDER_ERROR = 8004;
+
+  // ODP web view event Isolated service error
+  ISOLATED_SERVICE_EVENT_ERROR = 8005;
+
+  // ODP training example Isolated service error
+  ISOLATED_SERVICE_TRAINING_EXAMPLE_ERROR = 8006;
+
+  // ODP web trigger Isolated service error
+  ISOLATED_SERVICE_WEB_TRIGGER_ERROR = 8007;
 }
 
 /**
@@ -438,6 +461,8 @@ enum PpapiName {
   FEDERATED_COMPUTE = 8;
   // Data service used for migrating consent from Android R
   ADEXT_DATA_SERVICE = 9;
+  // Represents ondevicepersonalization APK of OnDevicePersonalization module.
+  ODP = 10;
 }
 
 /**
