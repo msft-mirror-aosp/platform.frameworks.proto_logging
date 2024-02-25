@@ -411,6 +411,14 @@ message AdServicesConsentMigrated {
 
   // The package calling the API.
   optional string app_package_name = 7;
+
+  optional bool click_dedup_enabled = 8;
+
+  optional bool click_dedup_enforced = 9;
+
+  optional int64 click_dedup_max_sources_per_click = 10;
+
+  optional bool click_dedup_under_limit = 11;
 }
 
 /**
