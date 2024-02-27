@@ -20124,9 +20124,7 @@ message PrivacySensorToggleInteraction {
         ACTION_UNKNOWN = 0;
         TOGGLE_ON = 1;
         TOGGLE_OFF = 2;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_HELPFUL_APPS = 3;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_REQUIRED_APPS = 4;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_APPS = 5;
+        TOGGLE_ON_EXCEPT_ALLOWLISTED_APPS = 3;
     }
 
     // Action taken on sensor.
