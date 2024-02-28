@@ -100,6 +100,23 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
   optional AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported = 795
       [(module) = "adservices", (truncate_timestamp) = true];
+  optional KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported = 808
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional KAnonBackgroundJobStatusReported k_anon_background_job_status_reported = 809
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional KAnonInitializeStatusReported k_anon_initialize_status_reported = 810
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional KAnonSignStatusReported k_anon_sign_status_reported = 811
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional KAnonJoinStatusReported k_anon_join_status_reported= 812
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported = 813
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional GetAdSelectionDataApiCalled get_ad_selection_data_api_called = 814
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated = 815
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -210,6 +227,9 @@ message AdServicesBackgroundJobsExecutionReported {
   // JobService.onStopJob() was never called for the job.
   // The default value is STOP_REASON_UNDEFINED.
   optional android.app.job.StopReasonEnum public_stop_reason = 5;
+
+  // Module name from which the job execution is being reported.
+  optional android.adservices.ModuleName module_name = 6;
 }
 
 /**
@@ -393,6 +413,14 @@ message AdServicesConsentMigrated {
 
   // The package calling the API.
   optional string app_package_name = 7;
+
+  optional bool click_dedup_enabled = 8;
+
+  optional bool click_dedup_enforced = 9;
+
+  optional int64 click_dedup_max_sources_per_click = 10;
+
+  optional bool click_dedup_under_limit = 11;
 }
 
 /**
@@ -533,16 +561,16 @@ message InteractionReportingTableCleared {
   optional int32 num_unreported_uris = 2;
 }
 
-/*
+/**
  * Logs a call to check if an app is allowed to call an AdServices API.
  */
- message AppManifestConfigHelperCalled {
-   // Package name of the app that has been queried about.
-   optional string app_package_name = 1;
-   // Which API was called
-   optional android.adservices.AppApiAccessType api_access_type = 2;
-   // Result of the call
-   optional android.adservices.AppApiAccessResult api_access_result = 3;
+message AppManifestConfigHelperCalled {
+  // Package name of the app that has been queried about.
+  optional string app_package_name = 1;
+  // Which API was called
+  optional android.adservices.AppApiAccessType api_access_type = 2;
+  // Result of the call
+  optional android.adservices.AppApiAccessResult api_access_result = 3;
 }
 
 /**
@@ -650,4 +678,173 @@ message AdCounterHistogramUpdaterReported {
   // The number of histogram events were evicted from database
   // during Ad counter histogram updater process.
   optional int32 num_of_evicted_event = 5;
+}
+
+/**
+ * Logs a request for signature verification for a buyer
+ */
+message SignatureVerification {
+  // Latency of the serialization of a given SignedContextualAds object
+  optional int64 serialization_latency = 1;
+
+  // Latency of fetching the key from key management store
+  optional int64 key_fetch_latency = 2;
+
+  // Latency of the verifying the signature (only the signature verification, without including the
+  // serialization and key fetch)
+  optional int64 verification_latency = 3;
+
+  // End status of the verification request
+  // A verification request can end in success or a failure with various reasons
+  optional android.adservices.service.VerificationStatus signature_verification_status = 4;
+}
+
+// The status of the event when we make a SignJoin call immediately on receiving an ad winner
+message KAnonImmediateSignJoinStatusReported {
+
+  // The result of the immediate sign join operation
+  optional android.adservices.service.KAnonJobResult result = 1;
+
+  // The total number of messages that the operation attempted to process
+  optional int32 total_messages_attempted = 2;
+
+  // The total number of messages that we failed to join
+  optional int32 messages_failed_to_join = 3;
+
+  // The total number of messages that we failed to sign
+  optional int32 messages_failed_to_sign = 4;
+
+  // The latency in milliseconds of the operation
+  optional int32 latency_in_millis = 5;
+}
+
+// The status of the background job where we read messages from database and make
+// batch sign join calls
+message KAnonBackgroundJobStatusReported {
+
+  // The result of the background sign join job
+  optional android.adservices.service.KAnonJobResult result = 1;
+
+  // The total number of messages that the operation attempted to process
+  optional int32 total_messages_attempted = 2;
+
+  // The total number of messages that are unprocessed in the database after the job run
+  optional int32 messages_unprocessed_in_db_after_job = 3;
+
+  // The total number of messages that we failed to join
+  optional int32 messages_failed_to_join = 4;
+
+  // The total number of messages that we failed to sign
+  optional int32 messages_failed_to_sign = 5;
+
+  // The latency in milliseconds of the operation
+  optional int32 latency_in_millis = 6;
+}
+
+// The status of the K-Anonymous Initialize Operation
+message KAnonInitializeStatusReported {
+
+  // Marks true if the operation was completely successful
+  optional bool was_successful = 1;
+
+  // Marks the action due to which the initialize operation failed
+  optional android.adservices.service.KAnonAction failed_action = 2;
+
+  // Marks the reason for the action's failure
+  optional android.adservices.service.KAnonActionResult failed_action_cause = 3;
+
+  // The latency in milliseconds of the operation
+  optional int32 latency_in_millis = 4;
+
+}
+
+// The status of an individual K-anon sign operation
+message KAnonSignStatusReported {
+
+  // Marks true if the operation was completely successful
+  optional bool was_successful = 1;
+
+  // Marks the action due to which the initialize operation failed
+  optional android.adservices.service.KAnonAction failed_action = 2;
+
+  optional android.adservices.service.KAnonActionResult failed_action_cause = 3;
+
+  // The number of messages in a single sign batch
+  optional int32  number_of_messages_in_batch = 4;
+
+  // The latency in milliseconds of the operation
+  optional int32 latency_in_millis = 5;
+}
+
+// The status of an individual K-Anon join operation
+message KAnonJoinStatusReported {
+
+  // Marks true if the operation was completely successful
+  optional bool all_successful = 1;
+
+  // The total number of messages corresponding to this log event
+  optional int32 total_messages = 2;
+
+  // The total number of messages we failed to join
+  optional int32 messages_failed_to_join = 3;
+
+  // The latency in milliseconds of the operation
+  optional int32 latency_in_millis = 4;
+
+}
+
+// The status of the KAnon key attestation certificate generation operation
+message KAnonKeyAttestationStatusReported {
+
+  // The size in bytes of the X.509 certificate chain
+  optional int32 certificate_size_in_bytes = 1;
+
+  // Logs the result code of the Key Attestation operation
+  optional android.adservices.service.KAnonKeyAttestationResult result_code = 2;
+
+  // The latency in milliseconds of the operation
+  optional int32 latency_in_millis = 3;
+}
+
+/*
+ * Logs for per API call for GetAdSelectionData API.
+ */
+message GetAdSelectionDataApiCalled {
+  // Size of the payload in KB
+  optional int32 payload_size_kb = 1;
+
+  // Number of buyers participating in this payload
+  optional int32 num_buyers = 2;
+
+  // The status response code in AdServices.
+  optional int32 status_code = 3;
+}
+
+/**
+ * Logs per buyer input for GetAdSelectionData API.
+ */
+message GetAdSelectionDataBuyerInputGenerated {
+  // Number of custom audiences in this buyer input
+  optional int32 num_custom_audiences = 1;
+
+  // Number of custom audiences opting into the omit-ads feature
+  optional int32 num_custom_audiences_omit_ads = 2;
+
+  // Mean of the size of a custom audience for this buyer input
+  optional float custom_audience_size_mean = 3;
+
+  // Variance of the size of a custom audience for this buyer input
+  optional float custom_audience_size_variance = 4;
+
+  // Mean of the size of the trusted bidding signals keys for this buyer input
+  optional float trusted_bidding_signals_keys_size_mean = 5;
+
+  // Variance of the size of the trusted bidding signals keys for this buyer input
+  optional float trusted_bidding_signals_size_variance = 6;
+
+  // Mean of the size of the user bidding signals for this buyer input
+  optional float user_bidding_signals_size_mean = 7;
+
+  // Variance of the size of the user bidding signals for this buyer input
+  optional float user_bidding_signals_size_variance = 8;
 }
