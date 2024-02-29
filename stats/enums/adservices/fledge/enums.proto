@@ -37,6 +37,15 @@ enum BeaconReportingDestinationType {
   SELLER_AND_BUYER_DESTINATION = 3;
 }
 
+// Results of signature verification process.
+enum VerificationStatus {
+  UNKNOWN_FAILURE = 0;
+  VERIFIED = 1;
+  KEY_FETCH_FAILURE = 2;
+  NO_KEYS_FETCHED = 3;
+  VERIFICATION_FAILED = 4;
+}
+
 // The result code of a K-Anon Job (triggered immediately after auction or via background job)
 enum KAnonJobResult {
   KANON_JOB_RESULT_UNSET = 0;
