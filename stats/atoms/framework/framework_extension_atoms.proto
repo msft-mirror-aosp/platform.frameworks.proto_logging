@@ -20,6 +20,7 @@ package android.os.statsd.framework;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -35,6 +36,8 @@ extend Atom {
     optional ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg = 10200 [(module) = "framework"];
     optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state = 10204
             [(module) = "framework", (truncate_timestamp) = true];
+    optional BiometricFRRNotification biometric_frr_notification = 817 [(module) = "framework"];
+
 }
 
 /**
@@ -429,4 +432,15 @@ message ProxyBytesTransferByFgBg {
     optional int64 tx_bytes = 5;
 
     optional int64 tx_packets = 6;
+}
+
+/**
+ * Logs when an FRR notification action has been presented to the user.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/biometrics
+ */
+message BiometricFRRNotification {
+    optional android.hardware.biometrics.FRRNotificationAction action = 1;
+    optional android.hardware.biometrics.ModalityEnum modality = 2;
 }

@@ -1576,6 +1576,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_APP_RESTRICTED_LIST_MANAGED = 1906;
+
+    // ACTION: Allow or deny an app the run backup jobs permission
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907;
 }
 
 /**
@@ -4567,6 +4572,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     SATELLITE_SETTING = 2071;
+
+    // OPEN: Settings > Accessibility -> Color Contrast
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_COLOR_CONTRAST = 2072;
 }
 
 // Battery Saver schedule types.

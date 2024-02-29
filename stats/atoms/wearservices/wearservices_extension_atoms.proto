@@ -292,6 +292,15 @@ message WsWatchFaceDefaultRestrictedComplicationsRemoved {
   // ComplicationData
   // see: http://cs/h/googleplex-android/platform/frameworks/support/+/androidx-platform-release:wear/watchface/watchface-complications-data/src/main/java/android/support/wearable/complications/ComplicationData.kt
   repeated int32 complication_type = 5;
+
+  // Complication slot IDs being affected by the restriction.
+  // Each watch face defines some complication slots. Each slot corresponds to a complication that
+  // can be configured on the watch face (e.g. battery, steps). Slots on the same watch face are
+  // defined with unique IDs. Those IDs are not unique across devices.
+  repeated int32 slot_id = 6;
+
+  // Type of the watch face being affected by the restriction.
+  optional android.app.wearservices.WatchFaceType watch_face_type = 7;
 }
 
 /**
