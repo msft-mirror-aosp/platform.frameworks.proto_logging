@@ -1165,12 +1165,13 @@ message Atom {
     extensions 818; // DesktopModeUIChanged desktop_mode_ui_changed
     extensions 819; // DesktopModeSessionTaskUpdate desktop_mode_session_task_update
     extensions 820; // AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported
+    extensions 821; // NegotiatedSecurityAssociation negotiated_security_association
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10207
+    // Next: 10208
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1413,6 +1414,7 @@ message Atom {
     extensions 10204; // MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
+    extensions 10207; // DataNetworkValidation data_network_validation
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1877,6 +1879,8 @@ message WifiConnectionResultReported {
     // carrier ID of the network
     optional int32 carrier_id = 17;
     optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 19 [(is_uid) = true];
 }
 
 /**
