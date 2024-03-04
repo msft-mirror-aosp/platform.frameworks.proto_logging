@@ -66,4 +66,8 @@ message OnDevicePersonalizationApiCalled {
     optional int32 response_code = 4;
     // latency excluding time spent in user code
     optional int32 overhead_latency_millis = 5;
+    // latency between call and service entry
+    optional int32 rpc_call_latency_millis = 6;
+    // latency between service return and callback
+    optional int32 rpc_return_latency_millis = 7;
 }
