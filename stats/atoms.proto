@@ -928,6 +928,9 @@ message Atom {
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
+        wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
+        wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
+        wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
