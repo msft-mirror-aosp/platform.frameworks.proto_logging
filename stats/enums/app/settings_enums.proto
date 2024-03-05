@@ -1581,6 +1581,13 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907;
+
+    // ACTION: Settings > Security&Privacy > Private space
+    // > Lock private space automatically
+    // Subtype on_device_lock = 0, after_inactivity = 1, never = 2
+    // Category: SETTINGS
+    // OS: V
+    ACTION_SET_PRIVATE_SPACE_AUTOLOCK = 1908;
 }
 
 /**
