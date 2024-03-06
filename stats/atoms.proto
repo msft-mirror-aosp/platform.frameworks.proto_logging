@@ -928,6 +928,9 @@ message Atom {
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
+        wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
+        wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
+        wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -1166,6 +1169,8 @@ message Atom {
     extensions 819; // DesktopModeSessionTaskUpdate desktop_mode_session_task_update
     extensions 820; // AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported
     extensions 821; // NegotiatedSecurityAssociation negotiated_security_association
+    extensions 825; // AppSearchUsageSearchIntentStatsReported app_search_usage_search_intent_stats_reported
+    extensions 826; // AppSearchUsageSearchIntentRawQueryStatsReported app_search_usage_search_intent_raw_query_stats_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
