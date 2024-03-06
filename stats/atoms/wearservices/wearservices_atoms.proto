@@ -149,6 +149,9 @@ message WsNotificationDismissalActioned {
 
   // Supported notification cancellation reasons for which the notification is being dismissed.
   optional android.app.wearservices.NotificationCancelReason cancel_reason = 8;
+
+  // The group type of the notification.
+  optional android.app.wearservices.NotificationGroupType group_type = 9;
 }
 
 /** Logged when a notification is updated in the WearServices application. */
