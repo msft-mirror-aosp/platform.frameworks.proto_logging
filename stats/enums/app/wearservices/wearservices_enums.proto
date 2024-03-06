@@ -394,6 +394,213 @@ enum NotificationBlockingStatus {
   NOTIFICATION_BLOCKING_STATUS_UNBLOCKED = 2;
 }
 
+// Defines the bridge configuration type.
+// Next ID: 3
+enum BridgeConfig {
+  // Unknown value
+  BRIDGE_CONFIG_UNKNOWN = 0;
+
+  // The bridge configuration type is defined as static.
+  BRIDGE_CONFIG_STATIC = 1;
+
+  // The bridge configuration type is defined as dynamic.
+  BRIDGE_CONFIG_DYNAMIC = 2;
+}
+
+// Represents the number of excluded tags added.
+// Next ID: 7
+enum ExcludedTagsCount {
+  // Unknown value
+  EXCLUDED_TAGS_COUNT_UNKNOWN = 0;
+
+  // The count of excluded tags added is one.
+  EXCLUDED_TAGS_COUNT_ONE = 1;
+
+  // The count of excluded tags added is two.
+  EXCLUDED_TAGS_COUNT_TWO= 2;
+
+  // The count of excluded tags added is three.
+  EXCLUDED_TAGS_COUNT_THREE= 3;
+
+  // The count of excluded tags added is four.
+  EXCLUDED_TAGS_COUNT_FOUR= 4;
+
+  // The count of excluded tags added is five and above.
+  EXCLUDED_TAGS_COUNT_FIVE_AND_ABOVE = 5;
+
+  // The count of excluded tags added is ten and above.
+  EXCLUDED_TAGS_COUNT_TEN_AND_ABOVE= 6;
+}
+
+// Representing string for the notification action title for the action pressed.
+// Next ID: 19
+enum NotificationActionTitle {
+  // Unknown value
+  NOTIFICATION_ACTION_TITLE_UNKNOWN = 0;
+
+  // The performed action title is Archive.
+  NOTIFICATION_ACTION_TITLE_ARCHIVE = 1;
+
+  // The performed action title is Call.
+  NOTIFICATION_ACTION_TITLE_CALL = 2;
+
+  // The performed action title is Delete.
+  NOTIFICATION_ACTION_TITLE_DELETE = 3;
+
+  // The performed action title is Smart Reply.
+  NOTIFICATION_ACTION_TITLE_SMART_REPLY = 4;
+
+  // The performed action title is Like This.
+  NOTIFICATION_ACTION_TITLE_FEWER_LIKE_THIS = 5;
+
+  // The performed action title is Join.
+  NOTIFICATION_ACTION_TITLE_JOIN = 6;
+
+  // The performed action title is Like.
+  NOTIFICATION_ACTION_TITLE_LIKE = 7;
+
+  // The performed action title is Map.
+  NOTIFICATION_ACTION_TITLE_MAP = 8;
+
+  // The performed action title is Mark As Read.
+  NOTIFICATION_ACTION_TITLE_MARK_AS_READ = 9;
+
+  // The performed action title is Message.
+  NOTIFICATION_ACTION_TITLE_MESSAGE = 10;
+
+  // The performed action title is Reply.
+  NOTIFICATION_ACTION_TITLE_REPLY = 11;
+
+  // The performed action title is Save.
+  NOTIFICATION_ACTION_TITLE_SAVE = 12;
+
+  // The performed action title is Share.
+  NOTIFICATION_ACTION_TITLE_SHARE = 13;
+
+  // The performed action title is Snooze.
+  NOTIFICATION_ACTION_TITLE_SNOOZE = 14;
+
+  // The performed action title is View Pass.
+  NOTIFICATION_ACTION_TITLE_VIEW_PASS= 15;
+
+  // The performed action title is Mute Chat.
+  NOTIFICATION_ACTION_TITLE_MUTE_CHAT= 16;
+
+  // The performed action title is Open.
+  NOTIFICATION_ACTION_TITLE_OPEN= 17;
+
+  // The performed action title is any other than the above specified action titles.
+  NOTIFICATION_ACTION_TITLE_OTHERS= 18;
+}
+
+// Defining the actions for notification to be dismissed.
+// Next ID: 6
+enum NotificationDismissAction {
+  // Unknown value.
+  NOTIFICATION_DISMISS_ACTION_UNKNOWN = 0;
+
+  // Notification in the stream is dismissed.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS = 1;
+
+  // ALl notifications in the stream are dismissed.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_ALL = 2;
+
+  // Multiple notifications in the stream are dismissed.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_MULTIPLE = 3;
+
+  // Notification in the stream is dismissed by swipe.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_FROM_SWIPE = 4;
+
+  // Notification in the stream is dismissed from MCU UI.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_FROM_MCU_UI = 5;
+}
+
+// Supported notification cancellation reasons for which the notification is being dismissed.
+// Next ID: 22
+enum NotificationCancelReason {
+  // Unknown value.
+  NOTIFICATION_CANCEL_REASON_UNKNOWN = 0;
+
+  // Notification was cancelled by the status bar reporting a notification click.
+  NOTIFICATION_CANCEL_REASON_CLICK = 1;
+
+  // Notification was cancelled by the status bar reporting a user dismissal.
+  NOTIFICATION_CANCEL_REASON_CANCEL = 2;
+
+  // Notification was cancelled by the status bar reporting a user dismiss all.
+  NOTIFICATION_CANCEL_REASON_CANCEL_ALL = 3;
+
+  // Notification was cancelled by the status bar reporting an inflation error.
+  NOTIFICATION_CANCEL_REASON_ERROR = 4;
+
+  // Notification was cancelled by the package manager modifying the package.
+  NOTIFICATION_CANCEL_REASON_PACKAGE_CHANGED = 5;
+
+  // Notification was cancelled by the owning user context being stopped.
+  NOTIFICATION_CANCEL_REASON_USER_STOPPED = 6;
+
+  // Notification was cancelled by the user banning the package.
+  NOTIFICATION_CANCEL_REASON_PACKAGE_BANNED = 7;
+
+  // Notification was cancelled by the app canceling this specific notification.
+  NOTIFICATION_CANCEL_REASON_APP_CANCEL = 8;
+
+  // Notification was cancelled by the app cancelling all its notifications.
+  NOTIFICATION_CANCEL_REASON_APP_CANCEL_ALL = 9;
+
+  // Notification was cancelled by a listener reporting a user dismissal.
+  NOTIFICATION_CANCEL_REASON_LISTENER_CANCEL = 10;
+
+  // Notification was cancelled by a listener reporting a user dismiss all.
+  NOTIFICATION_CANCEL_REASON_LISTENER_CANCEL_ALL = 11;
+
+  // Notification was cancelled because it was a member of a canceled group.
+  NOTIFICATION_CANCEL_REASON_GROUP_SUMMARY_CANCELED = 12;
+
+  // Notification was cancelled because it was an invisible member of a group.
+  NOTIFICATION_CANCEL_REASON_GROUP_OPTIMIZATION = 13;
+
+  // Notification was cancelled by the device administrator suspending the package.
+  NOTIFICATION_CANCEL_REASON_PACKAGE_SUSPENDED = 14;
+
+  // Notification was cancelled by the owning managed profile being turned off.
+  NOTIFICATION_CANCEL_REASON_PROFILE_TURNED_OFF = 15;
+
+  // Autobundled summary notification was canceled because its group was unbundled.
+  NOTIFICATION_CANCEL_REASON_UNAUTOBUNDLED = 16;
+
+  // Notification was cancelled by the user banning the channel.
+  NOTIFICATION_CANCEL_REASON_CHANNEL_BANNED = 17;
+
+  // Notification was snoozed.
+  NOTIFICATION_CANCEL_REASON_SNOOZED = 18;
+
+  // Notification was cancelled due to timeout.
+  NOTIFICATION_CANCEL_REASON_TIMEOUT = 19;
+
+  // Notifications in a group were cancelled by the status bar reporting a user dismissal.
+  NOTIFICATION_CANCEL_REASON_CANCEL_GROUP = 20;
+
+  // Notification was cancelled by test.
+  NOTIFICATION_CANCEL_REASON_CANCEL_BY_TEST = 21;
+}
+
+// Defines the action for a particular update.
+// Next ID: 4
+enum NotificationActionType {
+  // Unknown value.
+  NOTIFICATION_ACTION_TYPE_UNKNOWN = 0;
+
+  // Notification action for open on watch.
+  NOTIFICATION_ACTION_TYPE_OPEN_ON_WATCH = 1;
+
+  // Notification action for open on phone.
+  NOTIFICATION_ACTION_TYPE_OPEN_ON_PHONE= 2;
+
+  // Notification action for other actions.
+  NOTIFICATION_ACTION_TYPE_OTHERS = 3;
+}
+
 // This enum depicts an action taken on a call
 // Next ID: 4
 enum CallAction {
