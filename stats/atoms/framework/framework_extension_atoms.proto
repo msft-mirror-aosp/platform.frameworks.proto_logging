@@ -37,7 +37,11 @@ extend Atom {
     optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state = 10204
             [(module) = "framework", (truncate_timestamp) = true];
     optional BiometricFRRNotification biometric_frr_notification = 817 [(module) = "framework"];
-
+  optional SensitiveContentProtectionSession sensitive_protection_session = 830 [(module) = "framework"];
+  optional SensitiveNotificationAppProtectionSession sensitive_content_app_protection_session = 831 [(module) = "framework"];
+  optional SensitiveNotificationAppProtectionApplied sensitive_content_app_protection_applied = 832 [(module) = "framework"];
+    optional SensitiveNotificationRedaction sensitive_notification_redaction = 833
+            [(module) = "framework"];
 }
 
 /**
@@ -443,4 +447,78 @@ message ProxyBytesTransferByFgBg {
 message BiometricFRRNotification {
     optional android.hardware.biometrics.FRRNotificationAction action = 1;
     optional android.hardware.biometrics.ModalityEnum modality = 2;
+}
+
+/*
+ * Logs that indicate a sensitive protection session has started
+ *
+ * Logs from :
+ * frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+ */
+message SensitiveContentProtectionSession {
+    optional int64 session_id = 1;
+    optional int32 projection_app_uid = 2 [(is_uid) = true];
+    optional bool exempt = 3;
+    optional State state = 4;
+    enum State {
+       UNDEFINED_STATE = 0;
+       START = 1;
+       STOP = 2;
+    }
+    optional Surface surface = 5;
+    enum Surface {
+       UNDEFINED_SURFACE = 0;
+       NOTIFICATIONS = 1;
+       APP_WINDOW = 2;
+    }
+}
+
+/*
+ * Logs that a sensitive content session has started
+ *
+ * Logs from : frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+ *
+ */
+message SensitiveNotificationAppProtectionSession {
+    // id which identifies single screen share session
+    optional int64 session_id = 1;
+    optional int32 num_notifications = 2;
+    optional int32 num_otp_notifications = 3;
+    optional int32 num_sensitive_field = 4;
+}
+
+/*
+ * Logs that an app has been opened from a sensitive context
+ *
+ * Logs from :  com.android.server.wm
+ *
+ */
+message SensitiveNotificationAppProtectionApplied {
+    // id which identifies single screen share session
+    optional int64 session_id = 1;
+    // uid of app to be protected
+    optional int32 uid = 2 [(is_uid) = true];
+    // Reason for applying flag_secure
+     enum ProtectionReason {
+        UNDEFINED = 0;
+        // Bundle null
+        SENSITIVE_NOTIFICATION = 1;
+        // Bundle empty
+        SENSITIVE_FIELD = 2;
+    }
+    // State of app metadata bundle
+    optional ProtectionReason protection_reason = 3;
+}
+
+/**
+ * Reports a notification got an Adjustment with the KEY_SENSITIVE_CONTENT value set, and whether
+ * the system redacted the notification
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/notification/
+ */
+message SensitiveNotificationRedaction {
+     optional bool receive_adjustment_before_post = 1;
+     optional bool redact = 2;
+     optional int32 latency_ms = 3;
 }
