@@ -1171,6 +1171,13 @@ message Atom {
     extensions 821; // NegotiatedSecurityAssociation negotiated_security_association
     extensions 825; // AppSearchUsageSearchIntentStatsReported app_search_usage_search_intent_stats_reported
     extensions 826; // AppSearchUsageSearchIntentRawQueryStatsReported app_search_usage_search_intent_raw_query_stats_reported
+    extensions 827; // EnhancedConfirmationDialogResultReported
+    extensions 828; // EnhancedConfirmationRestrictionCleared
+    extensions 829; // NotificationListenerService
+    extensions 830; // SensitiveContentProtectionSession
+    extensions 831; // SensitiveNotificationAppProtectionSession
+    extensions 832; // SensitiveNotificationAppProtectionApplied
+    extensions 833; // SensitiveNotificationRedaction
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -10754,6 +10761,9 @@ message PermissionGrantRequestResultReported {
 
     // Whether Permission Rationale was shown on grant dialog
     optional bool permission_rationale_shown = 7;
+
+    // Whether the package was restricted by ECM
+    optional bool is_package_restricted_by_enhanced_confirmation = 8;
 }
 
 /**
@@ -20126,9 +20136,7 @@ message PrivacySensorToggleInteraction {
         ACTION_UNKNOWN = 0;
         TOGGLE_ON = 1;
         TOGGLE_OFF = 2;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_HELPFUL_APPS = 3;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_REQUIRED_APPS = 4;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_APPS = 5;
+        TOGGLE_ON_EXCEPT_ALLOWLISTED_APPS = 3;
     }
 
     // Action taken on sensor.
