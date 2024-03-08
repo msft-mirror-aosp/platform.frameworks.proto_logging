@@ -663,9 +663,9 @@ enum FoldState {
  * enum for result of data network validation.
  */
 enum NetworkValidationResult {
-    UNSPECIFIED = 0;
-    NOT_SUPPORTED = 1;
-    ALREADY_IN_PROGRESS = 2;
-    SUCCESS = 3;
-    FAILURE = 4;
+    VALIDATION_RESULT_UNSPECIFIED = 0;
+    VALIDATION_RESULT_NOT_SUPPORTED = 1;
+    VALIDATION_RESULT_ALREADY_IN_PROGRESS = 2;
+    VALIDATION_RESULT_SUCCESS = 3;
+    VALIDATION_RESULT_FAILURE = 4;
 }
