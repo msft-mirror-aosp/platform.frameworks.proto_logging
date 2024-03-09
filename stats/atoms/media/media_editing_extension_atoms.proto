@@ -43,97 +43,161 @@ message MediaEditingEndedReported {
   // When editing ended relative to its start time, in milliseconds, or -1 if
   // unknown.
   optional int64 time_since_editing_created_millis = 5;
+  // Whether the operation included video transcoding.
+  optional bool operation_type_video_transcode = 6;
+  // Whether the operation included audio transcoding.
+  optional bool operation_type_audio_transcode = 7;
+  // Whether the operation included video editing.
+  optional bool operation_type_video_edit = 8;
+  // Whether the operation included audio editing.
+  optional bool operation_type_audio_edit = 9;
+  // Whether the operation included video transmuxing.
+  optional bool operation_type_video_transmux = 10;
+  // Whether the operation included audio transmuxing.
+  optional bool operation_type_audio_transmux = 11;
+  // Whether the operation was paused.
+  optional bool operation_type_was_paused = 12;
+  // Whether the operation was resumed.
+  optional bool operation_type_was_resumed = 13;
   // Name of the library implementing the exporting operation, or an empty
   // string if unknown.
-  optional string exporter_name = 6;
+  optional string exporter_name = 14;
   // Name of the library implementing the muxing operation, or an empty string
   // if unknown.
-  optional string muxer_name = 7;
+  optional string muxer_name = 15;
   // Throughput of the editing operation, in frames per second, or -1 if
   // unknown.
-  optional int32 throughput_fps = 8;
+  optional int32 throughput_fps = 16;
   // Number of input media items, or 0 if unknown.
-  optional int32 input_media_item_count = 9;
+  optional int32 input_media_item_count = 17;
   // First input media item's source (eg. gallery).
-  optional android.media.editing.SourceType input_media_item_1_source_type = 10;
+  optional android.media.editing.SourceType input_media_item_1_source_type = 18;
+  // Whether the first input media item includes image data.
+  optional bool input_media_item_1_has_data_type_image = 19;
+  // Whether the first input media item includes video data.
+  optional bool input_media_item_1_has_data_type_video = 20;
+  // Whether the first input media item includes audio data.
+  optional bool input_media_item_1_has_data_type_audio = 21;
+  // Whether the first input media item includes metadata.
+  optional bool input_media_item_1_has_data_type_metadata = 22;
+  // Whether the first input media item includes depth information.
+  optional bool input_media_item_1_has_data_type_depth = 23;
+  // Whether the first input media item includes gain map information.
+  optional bool input_media_item_1_has_data_type_gain_map = 24;
+  // Whether the first input media item includes high frame rate data.
+  optional bool input_media_item_1_has_data_type_high_frame_rate = 25;
+  // Whether the first input media item includes speed setting cue points.
+  optional bool input_media_item_1_has_data_type_cue_points = 26;
+  // Whether the first input media item includes gapless playback metadata.
+  optional bool input_media_item_1_has_data_type_gapless = 27;
+  // Whether the first input media item includes spatial audio.
+  optional bool input_media_item_1_has_data_type_spatial_audio = 28;
+  // Whether the first input media item includes high dynamic range video.
+  optional bool input_media_item_1_has_data_type_high_dynamic_range_video = 29;
   // First input media item's duration, in milliseconds, or -1 if unknown.
-  optional int64 input_media_item_1_duration_millis = 11;
+  optional int64 input_media_item_1_duration_millis = 30;
   // First input media item's clip duration, in milliseconds, or -1 if unknown.
-  optional int64 input_media_item_1_clip_duration_millis = 12;
+  optional int64 input_media_item_1_clip_duration_millis = 31;
   // First input media item's media container MIME type, or an empty string if
   // unknown.
-  optional string input_media_item_1_container_mime_type = 13;
+  optional string input_media_item_1_container_mime_type = 32;
   // First input media item's audio sample MIME type, or an empty string if
   // unknown.
-  optional string input_media_item_1_audio_sample_mime_type = 14;
+  optional string input_media_item_1_audio_sample_mime_type = 33;
   // First input media item's video sample MIME type, or an empty string if
   // unknown.
-  optional string input_media_item_1_video_sample_mime_type = 15;
+  optional string input_media_item_1_video_sample_mime_type = 34;
   // First input media item's common video codec type.
-  optional android.media.codec.Codec input_media_item_1_common_video_codec = 16;
+  optional android.media.codec.Codec input_media_item_1_common_video_codec = 35;
   // First input media item's audio sample rate, in Hertz, or -1 if unknown.
-  optional int32 input_media_item_1_audio_sample_rate_hz = 17;
+  optional int32 input_media_item_1_audio_sample_rate_hz = 36;
   // First input media item's audio channel count, or -1 if unknown.
-  optional int32 input_media_item_1_audio_channel_count = 18;
+  optional int32 input_media_item_1_audio_channel_count = 37;
+  // First input media item's audio sample count, or -1 if unknown.
+  optional int64 input_media_item_1_audio_sample_count = 38;
   // First input media item's raw video width, in pixels, or -1 if unknown.
-  optional int32 input_media_item_1_video_raw_width_pixels = 19;
+  optional int32 input_media_item_1_video_raw_width_pixels = 39;
   // First input media item's raw video height, in pixels, or -1 if unknown.
-  optional int32 input_media_item_1_video_raw_height_pixels = 20;
+  optional int32 input_media_item_1_video_raw_height_pixels = 40;
   // First input media item's closest common resolution.
-  optional android.media.codec.Resolution input_media_item_1_video_resolution = 21;
+  optional android.media.codec.Resolution input_media_item_1_video_resolution = 41;
   // First input media item's aspect ratio.
-  optional android.media.editing.ResolutionAspectRatio input_media_item_1_video_resolution_aspect_ratio = 22;
+  optional android.media.editing.ResolutionAspectRatio input_media_item_1_video_resolution_aspect_ratio = 42;
   // First input media item's video data space, packed as
   // android.hardware.DataSpace.
-  optional int32 input_media_item_1_video_data_space = 23;
+  optional int32 input_media_item_1_video_data_space = 43;
   // First input media item's HDR video format.
-  optional android.media.codec.HdrFormat input_media_item_1_video_hdr_format = 24;
+  optional android.media.codec.HdrFormat input_media_item_1_video_hdr_format = 44;
   // First input media item's video frame rate, in frames per second, or -1 if
   // unknown.
-  optional int32 input_media_item_1_video_frame_rate = 25;
+  optional int32 input_media_item_1_video_frame_rate = 45;
   // First input media item's common video frame rate, or -1 if unknown.
-  optional android.media.codec.Framerate input_media_item_1_common_video_frame_rate = 26;
+  optional android.media.codec.Framerate input_media_item_1_common_video_frame_rate = 46;
   // The first MediaCodec codec component name used to decode the first input, or an empty string if unknown or not applicable.
-  optional string input_media_item_1_codec_name_1 = 27;
+  optional string input_media_item_1_codec_name_1 = 47;
   // The second MediaCodec codec component name used to decode the first input, or an empty string if unknown or not applicable.
-  optional string input_media_item_1_codec_name_2 = 28;
+  optional string input_media_item_1_codec_name_2 = 48;
+  // Whether the output media item includes image data.
+  optional bool output_media_item_has_data_type_image = 49;
+  // Whether the output media item includes video data.
+  optional bool output_media_item_has_data_type_video = 50;
+  // Whether the output media item includes audio data.
+  optional bool output_media_item_has_data_type_audio = 51;
+  // Whether the output media item includes metadata.
+  optional bool output_media_item_has_data_type_metadata = 52;
+  // Whether the output media item includes depth information.
+  optional bool output_media_item_has_data_type_depth = 53;
+  // Whether the output media item includes gain map information.
+  optional bool output_media_item_has_data_type_gain_map = 54;
+  // Whether the output media item includes high frame rate data.
+  optional bool output_media_item_has_data_type_high_frame_rate = 55;
+  // Whether the output media item includes speed setting cue points.
+  optional bool output_media_item_has_data_type_cue_points = 56;
+  // Whether the output media item includes gapless playback metadata.
+  optional bool output_media_item_has_data_type_gapless = 57;
+  // Whether the output media item includes spatial audio.
+  optional bool output_media_item_has_data_type_spatial_audio = 58;
+  // Whether the output media item includes high dynamic range video.
+  optional bool output_media_item_has_data_type_high_dynamic_range_video = 59;
   // Output media item's duration, in milliseconds, or -1 if unknown.
-  optional int64 output_media_item_duration_millis = 29;
+  optional int64 output_media_item_duration_millis = 60;
   // Output media item's clip duration, in milliseconds, or -1 if unknown.
-  optional int64 output_media_item_clip_duration_millis = 30;
+  optional int64 output_media_item_clip_duration_millis = 61;
   // Output media item's media container MIME type, or an empty string if
   // unknown.
-  optional string output_media_item_container_mime_type = 31;
+  optional string output_media_item_container_mime_type = 62;
   // Output media item's audio sample MIME type, or an empty string if unknown.
-  optional string output_media_item_audio_sample_mime_type = 32;
+  optional string output_media_item_audio_sample_mime_type = 63;
   // Output media item's video sample MIME type, or an empty string if unknown.
-  optional string output_media_item_video_sample_mime_type = 33;
+  optional string output_media_item_video_sample_mime_type = 64;
   // Output media item's common video codec type.
-  optional android.media.codec.Codec output_media_item_common_video_codec = 34;
+  optional android.media.codec.Codec output_media_item_common_video_codec = 65;
   // Output media item's audio sample rate, in Hertz, or -1 if unknown.
-  optional int32 output_media_item_audio_sample_rate_hz = 35;
+  optional int32 output_media_item_audio_sample_rate_hz = 66;
   // Output media item's audio channel count, or -1 if unknown.
-  optional int32 output_media_item_audio_channel_count = 36;
+  optional int32 output_media_item_audio_channel_count = 67;
+  // Output media item's audio sample count, or -1 if unknown.
+  optional int64 output_media_item_audio_sample_count = 68;
   // Output media item's raw video width, in pixels, or -1 if unknown.
-  optional int32 output_media_item_video_raw_width_pixels = 37;
+  optional int32 output_media_item_video_raw_width_pixels = 69;
   // Output media item's raw video height, in pixels, or -1 if unknown.
-  optional int32 output_media_item_video_raw_height_pixels = 38;
+  optional int32 output_media_item_video_raw_height_pixels = 70;
   // Output media item's closest common resolution.
-  optional android.media.codec.Resolution output_media_item_video_resolution = 39;
+  optional android.media.codec.Resolution output_media_item_video_resolution = 71;
   // Output media item's aspect ratio.
-  optional android.media.editing.ResolutionAspectRatio output_media_item_video_resolution_aspect_ratio = 40;
+  optional android.media.editing.ResolutionAspectRatio output_media_item_video_resolution_aspect_ratio = 72;
   // Output media item's video data space, packed as
   // android.hardware.DataSpace.
-  optional int32 output_media_item_video_data_space = 41;
+  optional int32 output_media_item_video_data_space = 73;
   // Output media item's HDR video format.
-  optional android.media.codec.HdrFormat output_media_item_video_hdr_format = 42;
+  optional android.media.codec.HdrFormat output_media_item_video_hdr_format = 74;
   // Output media item's video frame rate, in frames per second, or -1 if
   // unknown.
-  optional int32 output_media_item_video_frame_rate = 43;
+  optional int32 output_media_item_video_frame_rate = 75;
   // Output media item's common video frame rate, or -1 if unknown.
-  optional android.media.codec.Framerate output_media_item_common_video_frame_rate = 44;
+  optional android.media.codec.Framerate output_media_item_common_video_frame_rate = 76;
   // The first MediaCodec codec component name used to encode the output, or an empty string if unknown or not applicable.
-  optional string output_media_item_codec_name_1 = 45;
+  optional string output_media_item_codec_name_1 = 77;
   // The second MediaCodec codec component name used to encode the output, or an empty string if unknown or not applicable.
-  optional string output_media_item_codec_name_2 = 46;
+  optional string output_media_item_codec_name_2 = 78;
 }
