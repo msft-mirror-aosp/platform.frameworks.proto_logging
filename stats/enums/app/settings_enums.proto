@@ -4428,7 +4428,7 @@ enum PageId {
     // OPEN: Settings > System > Developer options > Quarantined Apps
     // CATEGORY: SETTINGS
     // OS: V
-    QUARANTINED_APPS_DEV_CONTROL = 2041;
+    QUARANTINED_APPS_DEV_CONTROL = 2041 [deprecated = true];
 
     // OPEN: Settings > Developer Options > Enable 16k pages
     // CATEGORY: SETTINGS
