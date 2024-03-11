@@ -1588,6 +1588,11 @@ enum Action {
     // Category: SETTINGS
     // OS: V
     ACTION_SET_PRIVATE_SPACE_AUTOLOCK = 1908;
+
+    // ACTION: Settings > System > Touchpad > Tap dragging
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_GESTURE_TAP_DRAGGING_CHANGED = 1909;
 }
 
 /**
