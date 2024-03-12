@@ -22699,6 +22699,13 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
+
+  // Count of views that can be filled as per the provider service.
+  optional int64 views_fillable_total_count = 33;
+
+  // Count of views that failed to receive autofill values. These are minimum counts.
+  // It's possible that additional views themselves didn't fill correctly.
+  optional int64 views_filled_failure_count = 34;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
