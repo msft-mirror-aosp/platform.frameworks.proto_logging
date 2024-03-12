@@ -28,6 +28,7 @@ extend Atom {
   optional LockscreenShortcutTriggered lockscreen_shortcut_triggered = 612 [(module) = "sysui"];
   optional LauncherImpressionEventV2 launcher_impression_event_v2 = 716 [(module) = "sysui"];
   optional DisplaySwitchLatencyTracked display_switch_latency_tracked = 753 [(module) = "sysui"];
+  optional NotificationListenerService notification_listener_service = 829 [(module) = "sysui"];
 }
 
 /**
@@ -174,4 +175,18 @@ message DisplaySwitchLatencyTracked {
       SCREEN_OFF = 9;
     }
 
+}
+
+/*
+ * Denotes that a new notification service has been enabled or disabled.
+ *
+ * Logs from :
+ * frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/SensitiveNotificationProtectionControllerImpl.java
+ * frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+ */
+message NotificationListenerService {
+     optional int32 uid = 1 [(is_uid) = true];
+     optional bool is_enabled = 2;
+     optional bool is_preinstalled = 3;
+     optional bool is_pregranted = 4;
 }

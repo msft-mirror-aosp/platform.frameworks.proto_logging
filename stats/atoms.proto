@@ -928,6 +928,9 @@ message Atom {
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
+        wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
+        wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
+        wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -1165,12 +1168,22 @@ message Atom {
     extensions 818; // DesktopModeUIChanged desktop_mode_ui_changed
     extensions 819; // DesktopModeSessionTaskUpdate desktop_mode_session_task_update
     extensions 820; // AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported
+    extensions 821; // NegotiatedSecurityAssociation negotiated_security_association
+    extensions 825; // AppSearchUsageSearchIntentStatsReported app_search_usage_search_intent_stats_reported
+    extensions 826; // AppSearchUsageSearchIntentRawQueryStatsReported app_search_usage_search_intent_raw_query_stats_reported
+    extensions 827; // EnhancedConfirmationDialogResultReported
+    extensions 828; // EnhancedConfirmationRestrictionCleared
+    extensions 829; // NotificationListenerService
+    extensions 830; // SensitiveContentProtectionSession
+    extensions 831; // SensitiveNotificationAppProtectionSession
+    extensions 832; // SensitiveNotificationAppProtectionApplied
+    extensions 833; // SensitiveNotificationRedaction
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10207
+    // Next: 10208
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1413,6 +1426,7 @@ message Atom {
     extensions 10204; // MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
+    extensions 10207; // DataNetworkValidation data_network_validation
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1877,6 +1891,8 @@ message WifiConnectionResultReported {
     // carrier ID of the network
     optional int32 carrier_id = 17;
     optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 19 [(is_uid) = true];
 }
 
 /**
@@ -5370,7 +5386,14 @@ message AppStartOccurred {
     optional PackageStoppedState package_stopped_state = 25;
 
     // Reserved for b/281564325.
-    reserved 26;
+    optional bool is_xr_activity = 26;
+
+    // Whether this is the first launch of the app since install
+    optional bool first_launch = 27;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 28;
 }
 
 message AppStartCanceled {
@@ -6806,6 +6829,13 @@ message ServiceRequestEventReported {
 
     /** The process state of the service host before this service request */
     optional android.app.ProcessStateEnum service_process_state = 13;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 14;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 15;
 }
 
 /**
@@ -6874,6 +6904,13 @@ message BroadcastDeliveryEventReported {
 
     /** The procstate of the broadcast receiver before receiving this broadcast */
     optional android.app.ProcessStateEnum receiver_process_state = 17;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 18;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 19;
 }
 
 /**
@@ -6908,6 +6945,13 @@ message ProviderAcquisitionEventReported {
 
     /** The process state of the content provider host before being acquired */
     optional android.app.ProcessStateEnum provider_process_state = 8;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 9;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 10;
 }
 
 /**
@@ -10745,6 +10789,9 @@ message PermissionGrantRequestResultReported {
 
     // Whether Permission Rationale was shown on grant dialog
     optional bool permission_rationale_shown = 7;
+
+    // Whether the package was restricted by ECM
+    optional bool is_package_restricted_by_enhanced_confirmation = 8;
 }
 
 /**
@@ -20117,9 +20164,7 @@ message PrivacySensorToggleInteraction {
         ACTION_UNKNOWN = 0;
         TOGGLE_ON = 1;
         TOGGLE_OFF = 2;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_HELPFUL_APPS = 3;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_REQUIRED_APPS = 4;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_APPS = 5;
+        TOGGLE_ON_EXCEPT_ALLOWLISTED_APPS = 3;
     }
 
     // Action taken on sensor.

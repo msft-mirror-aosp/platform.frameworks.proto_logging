@@ -1581,6 +1581,18 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907;
+
+    // ACTION: Settings > Security&Privacy > Private space
+    // > Lock private space automatically
+    // Subtype on_device_lock = 0, after_inactivity = 1, never = 2
+    // Category: SETTINGS
+    // OS: V
+    ACTION_SET_PRIVATE_SPACE_AUTOLOCK = 1908;
+
+    // ACTION: Settings > System > Touchpad > Tap dragging
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_GESTURE_TAP_DRAGGING_CHANGED = 1909;
 }
 
 /**
@@ -4421,7 +4433,7 @@ enum PageId {
     // OPEN: Settings > System > Developer options > Quarantined Apps
     // CATEGORY: SETTINGS
     // OS: V
-    QUARANTINED_APPS_DEV_CONTROL = 2041;
+    QUARANTINED_APPS_DEV_CONTROL = 2041 [deprecated = true];
 
     // OPEN: Settings > Developer Options > Enable 16k pages
     // CATEGORY: SETTINGS
