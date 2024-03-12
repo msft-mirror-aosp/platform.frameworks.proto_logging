@@ -1599,7 +1599,10 @@ message MemoryFactorStateChanged {
         CRITICAL = 4;   // critical memory.
 
     }
-    optional State factor = 1 [(state_field_option).exclusive_state = true];
+    optional State factor = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -1954,7 +1957,9 @@ message WifiDisconnectReported {
  */
 message WifiConnectionStateChanged {
     optional bool is_connected = 1 [
-            (state_field_option).exclusive_state = true];
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
@@ -5803,7 +5808,7 @@ message LmkKillOccurred {
  */
 message AppDied {
     // timestamp(elapsedRealtime) of record creation
-    optional uint64 timestamp_millis = 1 [(state_field_option).exclusive_state = true];
+    optional uint64 timestamp_millis = 1;
 }
 
 /**
@@ -6769,7 +6774,10 @@ message PrivacyIndicatorsInteracted {
         DIALOG_LINE_ITEM = 5;
     }
 
-    optional Type type = 1 [(state_field_option).exclusive_state = true];
+    optional Type type = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -19483,7 +19491,10 @@ message LocationTimeZoneProviderStateChanged {
     }
 
     // The state of the provider.
-    optional State state = 2 [(state_field_option).exclusive_state = true];
+    optional State state = 2 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /*
