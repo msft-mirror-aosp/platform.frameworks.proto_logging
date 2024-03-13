@@ -16444,6 +16444,8 @@ message SharesheetStarted {
         CONTENT_PREVIEW_IMAGE = 1;  // The preview shown in the sharesheet is an image.
         CONTENT_PREVIEW_FILE = 2;  // The preview shown in the sharesheet is a file.
         CONTENT_PREVIEW_TEXT = 3;  // The preview shown in the sharesheet is text.
+        // Preview is toggleable media items (Shareousel):
+        CONTENT_PREVIEW_TOGGLEABLE_MEDIA = 4;
     }
     // How the sharesheet preview is presented.
     optional SharesheetPreviewType preview_type = 8;
