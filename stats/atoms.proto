@@ -15691,6 +15691,9 @@ message IncomingSms {
 
     // Whether the message was received with an enterprise profile.
     optional bool is_managed_profile = 16;
+
+    // Whether the message was received over non-terrestrial networks.
+    optional bool is_ntn = 17;
 }
 
 /**
@@ -15771,6 +15774,12 @@ message OutgoingSms {
 
     // Whether the message was sent with an enterprise profile.
     optional bool is_managed_profile = 18;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 19;
+
+    // Whether the message was sent over non-terrestrial networks.
+    optional bool is_ntn = 20;
 }
 
 /**
@@ -23221,6 +23230,9 @@ message IncomingMms {
 
     // Whether the MMS was received with an enterprise profile.
     optional bool is_managed_profile = 12;
+
+    // Whether the MMS was received over non-terrestrial networks.
+    optional bool is_ntn = 13;
 }
 
 /**
@@ -23274,6 +23286,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent with an enterprise profile.
     optional bool is_managed_profile = 13;
+
+    // Whether the MMS was sent over non-terrestrial networks.
+    optional bool is_ntn = 14;
 }
 
 message PrivacySignalNotificationInteraction {
