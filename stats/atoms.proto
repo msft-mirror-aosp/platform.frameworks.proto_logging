@@ -1148,7 +1148,7 @@ message Atom {
     extensions 798; // MediaEditingEndedReported media_editing_ended_reported
     extensions 799; // SELinux selinux_audit_log
     extensions 800; // CellularIdentifierDisclosed cellular_identifier_disclosed
-    extensions 801; // LastScreenOnFragmentReported last_screen_on_fragment_reported
+    // reserved 801
     extensions 802; // WsWatchFaceRestrictedComplicationsImpacted ws_watch_face_restricted_complications_impacted
     extensions 803; // WsWatchFaceDefaultRestrictedComplicationsRemoved ws_watch_face_default_restricted_complications_removed
     extensions 804; // WsComplicationsImpactedNotificationEventReported ws_complications_impacted_notification_event_reported
@@ -1432,7 +1432,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 21004, 21005;
 }
 
 /*
