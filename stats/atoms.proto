@@ -15541,7 +15541,7 @@ message CellularServiceState {
     optional bool override_voice_service = 13;
 
     // Whether mobile data is enable.
-    optional bool isDataEnabled = 14;
+    optional bool is_data_enabled = 14;
 
     // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
     // cross-SIM calling (WiFi calling over other SIM's cellular data).
