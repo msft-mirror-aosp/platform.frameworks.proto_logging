@@ -95,3 +95,13 @@ enum KAnonKeyAttestationResult {
   KEY_ATTESTATION_RESULT_NO_SUCH_ALGORITHM_EXCEPTION = 5;
   KEY_ATTESTATION_RESULT_SUCCESS = 6;
 }
+
+// Leaving these not tied to specific numbers gives us flexibility to change them later
+enum Size {
+    UNSET_SIZE = 0;
+    VERY_SMALL = 1;
+    SMALL = 2;
+    MEDIUM = 3;
+    LARGE = 4;
+    VERY_LARGE = 5;
+}
