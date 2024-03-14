@@ -1704,7 +1704,10 @@ message MemoryFactorStateChanged {
         CRITICAL = 4;   // critical memory.
 
     }
-    optional State factor = 1 [(state_field_option).exclusive_state = true];
+    optional State factor = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -2061,7 +2064,9 @@ message WifiDisconnectReported {
  */
 message WifiConnectionStateChanged {
     optional bool is_connected = 1 [
-            (state_field_option).exclusive_state = true];
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
@@ -5993,7 +5998,7 @@ message LmkKillOccurred {
  */
 message AppDied {
     // timestamp(elapsedRealtime) of record creation
-    optional uint64 timestamp_millis = 1 [(state_field_option).exclusive_state = true];
+    optional uint64 timestamp_millis = 1;
 }
 
 /**
@@ -7000,7 +7005,10 @@ message PrivacyIndicatorsInteracted {
         DIALOG_LINE_ITEM = 5;
     }
 
-    optional Type type = 1 [(state_field_option).exclusive_state = true];
+    optional Type type = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -15734,6 +15742,9 @@ message IncomingSms {
 
     // Whether the message was received with an enterprise profile.
     optional bool is_managed_profile = 16;
+
+    // Whether the message was received over non-terrestrial networks.
+    optional bool is_ntn = 17;
 }
 
 /**
@@ -15814,6 +15825,12 @@ message OutgoingSms {
 
     // Whether the message was sent with an enterprise profile.
     optional bool is_managed_profile = 18;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 19;
+
+    // Whether the message was sent over non-terrestrial networks.
+    optional bool is_ntn = 20;
 }
 
 /**
@@ -19877,7 +19894,10 @@ message LocationTimeZoneProviderStateChanged {
     }
 
     // The state of the provider.
-    optional State state = 2 [(state_field_option).exclusive_state = true];
+    optional State state = 2 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /*
@@ -22701,6 +22721,13 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
+
+  // Count of views that can be filled as per the provider service.
+  optional int64 views_fillable_total_count = 33;
+
+  // Count of views that failed to receive autofill values. These are minimum counts.
+  // It's possible that additional views themselves didn't fill correctly.
+  optional int64 views_filled_failure_count = 34;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
@@ -23264,6 +23291,9 @@ message IncomingMms {
 
     // Whether the MMS was received with an enterprise profile.
     optional bool is_managed_profile = 12;
+
+    // Whether the MMS was received over non-terrestrial networks.
+    optional bool is_ntn = 13;
 }
 
 /**
@@ -23317,6 +23347,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent with an enterprise profile.
     optional bool is_managed_profile = 13;
+
+    // Whether the MMS was sent over non-terrestrial networks.
+    optional bool is_ntn = 14;
 }
 
 message PrivacySignalNotificationInteraction {

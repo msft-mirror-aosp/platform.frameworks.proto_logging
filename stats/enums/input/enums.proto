@@ -114,6 +114,8 @@ enum KeyboardSystemEvent {
     DESKTOP_MODE = 48;
     // Navigate to/from a multiwindow mode
     MULTI_WINDOW_NAVIGATION = 49;
+    // Change split screen focus
+    CHANGE_SPLITSCREEN_FOCUS = 50;
 }
 
 /**
