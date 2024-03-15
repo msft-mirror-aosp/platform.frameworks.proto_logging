@@ -710,9 +710,41 @@ message SignatureVerification {
   // serialization and key fetch)
   optional int64 verification_latency = 3;
 
+  // Number of keys fetched for a given ad tech
+  optional int32 num_of_keys_fetched = 4;
+
   // End status of the verification request
-  // A verification request can end in success or a failure with various reasons
-  optional android.adservices.service.VerificationStatus signature_verification_status = 4;
+  // A verification request can end in success or a failure
+  optional android.adservices.service.VerificationStatus signature_verification_status = 5;
+
+  // To log in case of failures
+  // Enrollment id of the buyer that has a signature verification failure
+  optional string failed_signature_buyer_enrollment_id = 6;
+
+  // Enrollment id of the seller that has a signature verification failure
+  optional string failed_signature_seller_enrollment_id = 7;
+
+  // Caller package name that has a signature verification failure
+  optional string failed_signature_caller_package_name = 8;
+
+  // Key failure causes
+  // Unknown error
+  optional int32 failure_detail_unknown_error = 9;
+
+  // Enrollment data not found for the buyer or was null
+  optional int32 failure_detail_no_enrollment_data_for_buyer = 10;
+
+  // Zero keys fetched for the buyer
+  optional int32 failure_detail_no_keys_fetched_for_buyer = 11;
+
+  // Signature is not formatted correctly
+  optional int32 failure_detail_wrong_signature_format = 12;
+
+  // Number of keys that has the wrong format
+  optional int32 failure_detail_count_of_keys_with_wrong_format = 13;
+
+  // Number of keys that failed to verified the signature
+  optional int32 failure_detail_count_of_keys_failed_to_verify_signature = 14;
 }
 
 // The status of the event when we make a SignJoin call immediately on receiving an ad winner
