@@ -1174,11 +1174,12 @@ message Atom {
     extensions 827; // EnhancedConfirmationDialogResultReported
     extensions 828; // EnhancedConfirmationRestrictionCleared
     extensions 829; // NotificationListenerService
-    extensions 830; // SensitiveContentProtectionSession
+    extensions 830; // SensitiveContentMediaProjectionSession
     extensions 831; // SensitiveNotificationAppProtectionSession
     extensions 832; // SensitiveNotificationAppProtectionApplied
     extensions 833; // SensitiveNotificationRedaction
     extensions 834; // BackgroundJobSchedulingReported background_job_scheduling_reported
+    extensions 835; // SensitiveContentAppProtection
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
