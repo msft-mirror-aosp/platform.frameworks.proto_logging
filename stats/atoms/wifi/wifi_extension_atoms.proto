@@ -618,6 +618,8 @@ message WifiApCapabilitiesReported {
     optional ApType6GHz ap_type_6ghz = 25;
     // Whether AP supports ECPS priority access
     optional bool is_ecps_priority_access_supported = 26;
+    // AP channel width for the connection
+    optional android.net.wifi.WifiChannelWidth channel_width_mhz = 27;
 }
 
 /*

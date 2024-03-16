@@ -228,7 +228,7 @@ enum ErrorCode {
   READ_BUNDLED_METADATA_FILE_FAILURE = 1028;
 
   // Error occurred when reading redundant metadata property.
-  CLASSIFIER_METADATA_REDUNDANT_PROPERTY= 1029;
+  CLASSIFIER_METADATA_REDUNDANT_PROPERTY = 1029;
 
   // Error occurred when reading redundant metadata asset.
   CLASSIFIER_METADATA_REDUNDANT_ASSET = 1030;
@@ -507,6 +507,30 @@ enum ExecutionResultCode {
 
   /** Skipped execution due to personalization not enabled. */
   SKIP_FOR_PERSONALIZATION_NOT_ENABLED = 11;
+}
+
+/** Type of the result code that implies different scheduling results. */
+enum SchedulingResultCode {
+  // Default value.
+  SCHEDULING_RESULT_CODE_UNSPECIFIED = 0;
+
+  // Indicates the scheduling is successful.
+  SCHEDULING_RESULT_CODE_SUCCESSFUL = 1;
+
+  // Indicates the scheduling is failed.
+  SCHEDULING_RESULT_CODE_FAILED = 2;
+}
+
+/** Type of scheduler used for the job scheduling. */
+enum SchedulerType {
+  // Default value.
+  SCHEDULER_TYPE_UNSPECIFIED = 0;
+
+  // Indicates the scheduler is Platform JobScheduler.
+  SCHEDULER_TYPE_JOB_SCHEDULER = 1;
+
+  // Indicates the scheduler is Platform SPE (Scheduling Policy Engine).
+  SCHEDULER_TYPE_SPE = 2;
 }
 
 // Region of the user who interacted with AdServicesSettings UI.
