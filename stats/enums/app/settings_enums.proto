@@ -4529,18 +4529,20 @@ enum PageId {
     // OS: V
     PRIVATE_SPACE_SETUP_SPACE_CREATION_ERROR = 2060;
 
-    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, Success
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait,
+    // Success, If Network available Google Sign in
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_LOCK = 2061;
 
-    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait > Use screen lock > Error
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // Network available Google Sign in > Error
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_ERROR = 2062;
 
-    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait >
-    // > Use screen lock > Set account
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // Network available Google Sign in > Use screen lock > PreFinish > Set account
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_FINISH = 2063;
@@ -4589,6 +4591,17 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ACCESSIBILITY_COLOR_CONTRAST = 2072;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // network available Google Sign in > Use screen lock > PreFinish
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_PRE_FINISH = 2073;
+
+    // OPEN: Settings > Sound & vibration > Vibration & haptics > Adaptive vibration
+    // CATEGORY: SETTINGS
+    // OS: V
+    ADAPTIVE_VIBRATION = 2074;
 }
 
 // Battery Saver schedule types.
