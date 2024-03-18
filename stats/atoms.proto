@@ -1088,6 +1088,8 @@ message Atom {
     extensions 815; // GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated
     extensions 834; // BackgroundJobSchedulingReported background_job_scheduling_reported
     extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
+    extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
+    extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
