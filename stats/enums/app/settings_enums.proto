@@ -4626,6 +4626,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ADAPTIVE_VIBRATION = 2074;
+
+    // OPEN: Settings > Network & Internet > Cellular Security
+    CELLULAR_SECURITY_SETTINGS = 2075;
 }
 
 // Battery Saver schedule types.
