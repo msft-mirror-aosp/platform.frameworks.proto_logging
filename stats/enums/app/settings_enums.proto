@@ -1593,6 +1593,30 @@ enum Action {
     // VALUE: false is off, true is on
     // OS: V
     ACTION_GESTURE_TAP_DRAGGING_CHANGED = 1909;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TRIGGERED = 1910;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TRIGGERED = 1911;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TOGGLE_CLICKED = 1912;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
 }
 
 /**
