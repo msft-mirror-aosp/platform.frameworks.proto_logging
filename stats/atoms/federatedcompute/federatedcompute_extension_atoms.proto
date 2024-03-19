@@ -97,4 +97,13 @@ message FederatedComputeTrainingEventReported {
 
   // The wall time of generating keys and attestation record in milliseconds.
   optional int64 key_attestation_latency_millis = 9;
+
+  /////////////////////////////////////////////////////////
+  // Information about ExampleStore events.
+
+  // The latency of binding to client implemented ExampleStore in nanoseconds.
+  optional int64 example_store_bind_latency_nanos = 10;
+
+  // The latency of starting ExampleStore query in nanoseconds.
+  optional int64 example_store_start_query_latency_nanos = 11;
 }
