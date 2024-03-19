@@ -16898,6 +16898,13 @@ message AccessibilityShortcutStats {
     optional android.stats.accessibility.ShortcutType gesture_shortcut_type = 5;
     // Number of accessibility services in accessibility gesture shortcut.
     optional int32 gesture_shortcut_service_num = 6;
+
+    // The definition of the accessibility quick settings shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType qs_shortcut_type = 7;
+    // Boolean indicating whether the user turns on qs shortcut for any
+    // accessibility feature that support qs shortcut.
+    optional bool use_qs_shortcut = 8;
 }
 
 /**
