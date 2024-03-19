@@ -136,6 +136,10 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional PersistAdSelectionResultCalled persist_ad_selection_result_called = 847
   [(module) = "adservices", (truncate_timestamp) = true];
+  optional ServerAuctionKeyFetchCalled server_auction_key_fetch_called = 848
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled = 849
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -926,6 +930,9 @@ message GetAdSelectionDataApiCalled {
 
   // The status response code in AdServices.
   optional int32 status_code = 3;
+
+  // The source of the coordinator used, i.e., DEFAULT or provided via API
+  optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 4;
 }
 
 /**
@@ -997,8 +1004,6 @@ message UpdateSignalsApiCalled {
     // Adtech's eTLD+1, only included in error cases
     optional string adtech_id = 5;
 }
-
-
 
 /*
  * Logs per encoding background job run
@@ -1072,7 +1077,6 @@ message EncodingJsExecution {
     optional string adtech_id = 5;
 }
 
-
 /*
  * Logs per API call to persistAdSelectionResult.
  */
@@ -1120,4 +1124,34 @@ message TopicsEncryptionGetTopicsReported {
   // during getTopics() API calls.
   optional int32 latency_of_reading_encrypted_topics_from_db_ms = 2;
 
+}
+
+/**
+ * Logs whenever we try to fetch the key from either the database or over network during server
+ * auction
+ */
+message ServerAuctionKeyFetchCalled {
+  // The source of key fetch. Eg: during auction, background fetch
+  optional android.adservices.service.ServerAuctionKeyFetchSource source = 1;
+
+  // Specifies whether the key was fetched over the network or the database
+  optional android.adservices.service.ServerAuctionEncryptionKeySource encryption_key_source = 2;
+
+  // Whether we used the default coordinator or adtech-provided coordinator via API call
+  optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 3;
+
+  // The status code of the network call
+  optional int32 network_status_code = 4;
+
+  // The latency of network key fetch
+  optional int32 network_latency_millis = 5;
+}
+
+/** Logs whenever the background key fetch job is scheduled */
+message ServerAuctionBackgroundKeyFetchScheduled {
+  optional android.adservices.service.BackgroundKeyFetchStatus status = 1;
+
+  optional int32 count_auction_urls = 2;
+
+  optional int32 count_join_urls = 3;
 }
