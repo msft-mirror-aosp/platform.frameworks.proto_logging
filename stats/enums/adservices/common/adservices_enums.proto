@@ -141,6 +141,12 @@ enum ErrorCode {
   // Job is not configured correctly.
   SPE_JOB_NOT_CONFIGURED_CORRECTLY = 908;
 
+  // Scheduling Failure.
+  SPE_JOB_SCHEDULING_FAILURE = 909;
+
+  // Failure of the customized logic in onStopJob().
+  SPE_JOB_ON_STOP_EXECUTION_FAILURE = 910;
+
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
   GET_TOPICS_REMOTE_EXCEPTION = 1001;
