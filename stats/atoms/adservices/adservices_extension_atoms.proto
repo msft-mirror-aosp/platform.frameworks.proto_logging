@@ -125,6 +125,9 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported = 841
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesShellCommandCalled adservices_shell_command_called = 842
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -967,3 +970,17 @@ message TopicsEncryptionGetTopicsReported {
   optional int32 latency_of_reading_encrypted_topics_from_db_ms = 2;
 
 }
+/**
+ * Metrics for each shell command indicating success/failure, latency.
+ */
+message AdServicesShellCommandCalled {
+  // Name of the shell command.
+  optional android.adservices.Command command = 1;
+
+  // Shell command result indicating success/failure.
+  optional android.adservices.CommandResult result_code = 2;
+
+  // Shell command execution latency in milli-second.
+  optional int32 latency_millis = 3;
+}
+
