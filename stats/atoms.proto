@@ -15404,6 +15404,9 @@ message VoiceCallSession {
 
     // Whether Vonr is enabled
     optional bool vonr_enabled = 41;
+
+    // Whether the call is over non-terrestrial networks.
+    optional bool is_ntn = 42;
 }
 
 /**
@@ -15494,6 +15497,9 @@ message CellularServiceState {
     // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
     // cross-SIM calling (WiFi calling over other SIM's cellular data).
     optional bool is_iwlan_cross_sim = 15;
+
+    // Whether the device is using non-terrestrial networks.
+    optional bool is_ntn = 16;
 }
 
 /**
@@ -15957,6 +15963,9 @@ message DataCallSession {
     // When the 'rat_at_end' field is IWLAN, determines if the data call setup was
     // over cross-SIM calling (Wifi calling over cellular data).
     optional bool is_iwlan_cross_sim = 23;
+
+    // Whether the call is over non-terrestrial networks.
+    optional bool is_ntn = 24;
 }
 
 /**
