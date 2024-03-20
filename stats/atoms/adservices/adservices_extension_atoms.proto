@@ -643,6 +643,13 @@ message AdFilteringProcessJoinCAReported {
  * Logs for Ad filtering process during ad selection.
  */
 message AdFilteringProcessAdSelectionReported {
+  // The process type of Ad filtering.
+  enum FilterProcessType {
+    FILTER_UNSET = 0;
+    FILTER_CUSTOM_AUDIENCES = 1;
+    FILTER_CONTEXTUAL_ADS = 2;
+  }
+
   // Latency when running the whole Ad filtering process.
   optional int32 latency_in_millis_of_all_ad_filtering = 1;
 
@@ -656,6 +663,7 @@ message AdFilteringProcessAdSelectionReported {
   optional int32 status_code = 4;
 
   // The number of Ads which are filtered out of bidding.
+  // The field will be set as FIELD_UNSET if filter_process_type is FILTER_CONTEXTUAL_ADS
   optional int32 num_of_ads_filtered_out_of_bidding = 5;
 
   // The number of custom audiences which are filtered out of bidding.
@@ -665,6 +673,7 @@ message AdFilteringProcessAdSelectionReported {
   optional int32 total_num_of_ads_before_filtering = 7;
 
   // The total number of custom audiences before Ad filtering process.
+  // The field will be set as FIELD_UNSET if filter_process_type is FILTER_CONTEXTUAL_ADS
   optional int32 total_num_of_custom_audiences_before_filtering = 8;
 
   // The number of app packages involve in app install filters.
@@ -672,6 +681,25 @@ message AdFilteringProcessAdSelectionReported {
 
   // The number of database operations during ad selection.
   optional int32 num_of_db_operations = 10;
+
+  // The process type when calling Ad filtering
+  optional FilterProcessType filter_process_type = 11;
+
+  // The number of Ads which are filtered during contextual ads.
+  // The field will be set as FIELD_UNSET if filter_process_type is FILTER_CUSTOM_AUDIENCES
+  optional int32 num_of_contextual_ads_filtered = 12;
+
+  // The number of ad counter keys in fcap filters.
+  optional int32 num_of_ad_counter_keys_in_fcap_filters = 13;
+
+  // The number of contextual Ads filtered out of bidding because of invalid signatures.
+  optional int32 num_of_contextual_ads_filtered_out_of_bidding_invalid_signatures = 14;
+
+  //The number of contextual Ads filtered out of bidding because of no Ads.
+  optional int32 num_of_contextual_ads_filtered_out_of_bidding_no_ads = 15;
+
+  // The total number of contextual Ads before filtering.
+  optional int32 total_num_of_contextual_ads_before_filtering = 16;
 }
 
 /**
@@ -679,7 +707,7 @@ message AdFilteringProcessAdSelectionReported {
  */
 message AdCounterHistogramUpdaterReported {
   // Latency when calling Ad counter histogram updater.
-  repeated int32 latency_in_millis = 1;
+  optional int32 latency_in_millis = 1;
 
   // The status response code in AdServices.
   optional int32 status_code = 2;
