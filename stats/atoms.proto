@@ -1182,6 +1182,7 @@ message Atom {
     extensions 835; // SensitiveContentAppProtection
     extensions 836; // ScreenTimeoutOverrideReported screen_timeout_override_reported
     extensions 837; // ScreenInteractiveSessionReported screen_interactive_session_reported
+    extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15544,7 +15545,7 @@ message CellularServiceState {
     optional bool override_voice_service = 13;
 
     // Whether mobile data is enable.
-    optional bool isDataEnabled = 14;
+    optional bool is_data_enabled = 14;
 
     // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
     // cross-SIM calling (WiFi calling over other SIM's cellular data).
@@ -24128,6 +24129,8 @@ message IwlanSetupDataCallResultReported {
   optional string iwlan_error_wrapped_stack_first_frame = 18;
   // Error count of the same error cause
   optional int32 error_count_of_same_cause = 19;
+  // Underlying network validation status
+  optional bool is_underlying_network_validated = 20;
 }
 
 /**

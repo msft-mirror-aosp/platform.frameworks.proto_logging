@@ -233,6 +233,9 @@ message AdServicesBackgroundJobsExecutionReported {
 
   // Module name from which the job execution is being reported.
   optional android.adservices.ModuleName module_name = 6;
+
+  // Indicates the scheduler type that schedules the job.
+  optional android.adservices.SchedulerType scheduler_type = 7;
 }
 
 /** Logs background job Stats to monitor job scheduling in Rubidium. */
@@ -242,10 +245,13 @@ message BackgroundJobSchedulingReported {
   optional int32 job_id = 1;
 
   // Scheduling result code.
-  optional android.adservices.SchedulingResultCode result_code = 2;
+  optional android.adservices.JobSchedulingResultCode result_code = 2;
 
   // Indicates the scheduler type that schedules the job.
   optional android.adservices.SchedulerType scheduler_type = 3;
+
+  // Module name from which the job execution is being reported.
+  optional android.adservices.ModuleName module_name = 4;
 }
 
 /**
