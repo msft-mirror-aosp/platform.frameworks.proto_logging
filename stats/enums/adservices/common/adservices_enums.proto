@@ -516,7 +516,7 @@ enum ExecutionResultCode {
 }
 
 /** Type of the result code that implies different scheduling results. */
-enum SchedulingResultCode {
+enum JobSchedulingResultCode {
   // Default value.
   SCHEDULING_RESULT_CODE_UNSPECIFIED = 0;
 
@@ -525,6 +525,9 @@ enum SchedulingResultCode {
 
   // Indicates the scheduling is failed.
   SCHEDULING_RESULT_CODE_FAILED = 2;
+
+  // Indicates the scheduling is skipped due to same policy.
+  SCHEDULING_RESULT_CODE_SKIPPED = 3;
 }
 
 /** Type of scheduler used for the job scheduling. */
