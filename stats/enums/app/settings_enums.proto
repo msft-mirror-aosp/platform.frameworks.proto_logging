@@ -1617,6 +1617,12 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
+
+    // ACTION: Settings > Sound & Vibration > Vibration & haptics
+    //                  > Adaptive Vibration > Use Adaptive Vibration
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_ADAPTIVE_VIBRATION_CHANGED = 1914;
 }
 
 /**
