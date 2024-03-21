@@ -1593,6 +1593,30 @@ enum Action {
     // VALUE: false is off, true is on
     // OS: V
     ACTION_GESTURE_TAP_DRAGGING_CHANGED = 1909;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TRIGGERED = 1910;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TRIGGERED = 1911;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TOGGLE_CLICKED = 1912;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
 }
 
 /**
@@ -4529,18 +4553,20 @@ enum PageId {
     // OS: V
     PRIVATE_SPACE_SETUP_SPACE_CREATION_ERROR = 2060;
 
-    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, Success
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait,
+    // Success, If Network available Google Sign in
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_LOCK = 2061;
 
-    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait > Use screen lock > Error
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // Network available Google Sign in > Error
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_ERROR = 2062;
 
-    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait >
-    // > Use screen lock > Set account
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // Network available Google Sign in > Use screen lock > PreFinish > Set account
     // CATEGORY: SETTINGS
     // OS: V
     PRIVATE_SPACE_SETUP_FINISH = 2063;
@@ -4589,6 +4615,20 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ACCESSIBILITY_COLOR_CONTRAST = 2072;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // network available Google Sign in > Use screen lock > PreFinish
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_PRE_FINISH = 2073;
+
+    // OPEN: Settings > Sound & vibration > Vibration & haptics > Adaptive vibration
+    // CATEGORY: SETTINGS
+    // OS: V
+    ADAPTIVE_VIBRATION = 2074;
+
+    // OPEN: Settings > Network & Internet > Cellular Security
+    CELLULAR_SECURITY_SETTINGS = 2075;
 }
 
 // Battery Saver schedule types.
