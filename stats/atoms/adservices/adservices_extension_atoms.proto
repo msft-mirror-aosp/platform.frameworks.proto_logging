@@ -120,6 +120,11 @@ extend Atom {
 
   optional BackgroundJobSchedulingReported background_job_scheduling_reported = 834
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported = 840
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported = 841
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -927,4 +932,38 @@ message GetAdSelectionDataBuyerInputGenerated {
 
   // Variance of the size of the user bidding signals for this buyer input
   optional float user_bidding_signals_size_variance = 8;
+}
+
+/** Logs for Topics encryption during epoch computation */
+message TopicsEncryptionEpochComputationReported {
+  // Number of topics before encryption during epoch computation process.
+  optional int32 count_of_topics_before_encryption = 1;
+
+  // Number of empty encrypted topics during epoch computation process.
+  optional int32 count_of_empty_encrypted_topics = 2;
+
+  // Number of encrypted topics during epoch computation process.
+  optional int32 count_of_encrypted_topics = 3;
+
+  // The latency in milliseconds of the whole encryption process during epoch computation.
+  optional int32 latency_of_whole_encryption_process_ms = 4;
+
+  // The latency in milliseconds of encryption of each topic.
+  optional int32 latency_of_encryption_per_topic_ms = 5;
+
+  // The latency in milliseconds of persisting encrypted topics to database
+  // during epoch computation.
+  optional int32 latency_of_persisting_encrypted_topics_to_db_ms = 6;
+}
+
+/** Logs for encrypted topics during getTopics() API calls */
+message TopicsEncryptionGetTopicsReported {
+
+  // Number of encrypted topics during getTopics() API calls.
+  optional int32 count_of_encrypted_topics = 1;
+
+  // The latency in milliseconds of reading encrypted topics from database
+  // during getTopics() API calls.
+  optional int32 latency_of_reading_encrypted_topics_from_db_ms = 2;
+
 }
