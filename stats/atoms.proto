@@ -5401,6 +5401,18 @@ message AppStartOccurred {
     // How long since this package was stopped, if it was in
     // package_stopped_state == PACKAGE_STATE_STOPPED
     optional int64 millis_since_stopped = 28;
+
+    /**
+     * The type of multi-window launch.
+     * This should match the constants declared in ActivityMetricsLogger.
+     */
+    enum MultiWindowLaunchType {
+        LAUNCH_TYPE_UNSPECIFIED = 0;
+        LAUNCH_TYPE_APP_PAIR = 1;
+    }
+
+    // The multi-indow launch type
+    optional MultiWindowLaunchType multi_window_launch_type = 29;
 }
 
 message AppStartCanceled {
