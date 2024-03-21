@@ -27,9 +27,13 @@ option java_package = "com.android.os.adpf";
 option java_multiple_files = true;
 
 extend Atom {
+    // pushed atoms
     optional ThermalStatusCalled thermal_status_called = 772 [(module) = "framework"];
     optional ThermalHeadroomCalled thermal_headroom_called = 773 [(module) = "framework"];
     optional ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called = 774 [(module) = "framework"];
+    optional AdpfHintSessionTidCleanup adpf_hint_session_tid_cleanup = 839 [(module) = "framework"];
+
+    // pulled atoms
     optional ThermalHeadroomThresholds thermal_headroom_thresholds = 10201 [(module) = "framework"];
 }
 
@@ -94,4 +98,26 @@ message ThermalHeadroomThresholdsCalled {
 message ThermalHeadroomThresholds {
     // Thermal headroom threshold for that status.
     repeated float headroom = 1;
+}
+
+/**
+ * Logs the ADPF TID cleanup result.
+ * Logged from frameworkks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
+ */
+message AdpfHintSessionTidCleanup {
+    optional int32 uid = 1 [(is_uid) = true];
+    // Total duration of cleaning up all sessions of the uid in microseconds
+    optional int32 total_duration_us = 2;
+    // Max duration of cleaning up a session in microseconds
+    optional int32 max_duration_us = 3;
+    // Total tid count for all sessions of the uid
+    optional int32 total_tid_count = 4;
+    // Total invalid tid count for all sessions of the uid
+    optional int32 total_invalid_tid_count = 5;
+    // Max invalid tid count per session
+    optional int32 max_invalid_tid_count = 6;
+    // Count of all session under the same uid
+    optional int32 session_count = 7;
+    // If the UID is foreground when running cleanup
+    optional bool is_uid_foreground = 8;
 }

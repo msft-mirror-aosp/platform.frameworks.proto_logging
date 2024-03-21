@@ -596,6 +596,12 @@ enum AppExitSubReasonCode {
      * while being frozen.
      */
     SUBREASON_FREEZER_BINDER_ASYNC_FULL = 31;
+
+    /**
+     * The process was killed because it was sending too many broadcasts while it is in the
+     * Cached state.
+     */
+    SUBREASON_EXCESSIVE_OUTGOING_BROADCASTS_WHILE_CACHED = 32;
 }
 
 /**
