@@ -1090,6 +1090,7 @@ message Atom {
     extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
     extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
     extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
+    extensions 842; // AdServicesShellCommandCalled adservices_shell_command_called
     extensions 843; // UpdateSignalsApiCalled update_signals_api_called
     extensions 844; // EncodingJobRun encoding_job_run
     extensions 845; // EncodingJsFetch encoding_js_fetch

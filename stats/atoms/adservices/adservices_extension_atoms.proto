@@ -126,6 +126,9 @@ extend Atom {
   optional TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported = 841
   [(module) = "adservices", (truncate_timestamp) = true];
 
+  optional AdServicesShellCommandCalled adservices_shell_command_called = 842
+  [(module) = "adservices", (truncate_timestamp) = true];
+
   optional UpdateSignalsApiCalled update_signals_api_called = 843
   [(module) = "adservices", (truncate_timestamp) = true];
   optional EncodingJobRun encoding_job_run = 844
@@ -1154,4 +1157,16 @@ message ServerAuctionBackgroundKeyFetchScheduled {
   optional int32 count_auction_urls = 2;
 
   optional int32 count_join_urls = 3;
+}
+
+/** Metrics for each shell command indicating success/failure, latency. */
+message AdServicesShellCommandCalled {
+  // Name of the shell command.
+  optional android.adservices.Command command = 1;
+
+  // Shell command result indicating success/failure.
+  optional android.adservices.CommandResult result_code = 2;
+
+  // Shell command execution latency in milli-second.
+  optional int32 latency_millis = 3;
 }
