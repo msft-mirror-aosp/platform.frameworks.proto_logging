@@ -1183,6 +1183,10 @@ message Atom {
     extensions 836; // ScreenTimeoutOverrideReported screen_timeout_override_reported
     extensions 837; // ScreenInteractiveSessionReported screen_interactive_session_reported
     extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
+    extensions 839; // AdpfHintSessionTidCleanup adpf_hint_session_tid_cleanup
+    extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
+    extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
+    extensions 842; // AdServicesShellCommandCalled adservices_shell_command_called
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -7119,6 +7123,9 @@ message RoleRequestResultReported {
         // role request was ignored because the user is blocked from changing
         // roles via DISALLOW_CONFIG_DEFAULT_APPS user restriction
         IGNORED_USER_RESTRICTION = 9;
+        // role request was ignored when the package is enhanced confiramtion
+        // restricted
+        IGNORED_ENHANCED_CONFIRMATION_RESTRICTION = 10;
     }
     // The result of the role request
     optional Result result = 9;
