@@ -1436,6 +1436,7 @@ message Atom {
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
+    extensions 10208; // DataRatStateChanged data_rat_state_changed
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
