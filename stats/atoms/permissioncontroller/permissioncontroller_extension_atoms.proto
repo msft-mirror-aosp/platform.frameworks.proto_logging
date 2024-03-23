@@ -177,6 +177,7 @@ message EnhancedConfirmationDialogResultReported {
     RESULT_CANCELLED = 1;
     RESULT_LEARN_MORE = 2;
     RESULT_OK = 3;
+    RESULT_SUPPRESSED = 4;
   }
 
   // Which button or action the user invoked to close the dialog
