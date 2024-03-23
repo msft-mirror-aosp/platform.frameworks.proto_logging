@@ -1617,6 +1617,12 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
+
+    // ACTION: Settings > Sound & Vibration > Vibration & haptics
+    //                  > Adaptive Vibration > Use Adaptive Vibration
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_ADAPTIVE_VIBRATION_CHANGED = 1914;
 }
 
 /**
@@ -4629,6 +4635,24 @@ enum PageId {
 
     // OPEN: Settings > Network & Internet > Cellular Security
     CELLULAR_SECURITY_SETTINGS = 2075;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog)
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_DIALOG = 2076;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog) > Delete
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_CONFIRM = 2077;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog) > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_CANCEL = 2078;
 }
 
 // Battery Saver schedule types.
