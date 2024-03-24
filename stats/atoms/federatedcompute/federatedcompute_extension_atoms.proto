@@ -30,6 +30,8 @@ extend Atom {
             712 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
   optional FederatedComputeTrainingEventReported federated_compute_training_event_reported =
             771 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional ExampleIteratorNextLatencyReported example_iterator_next_latency_reported =
+            838 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
 
 /**
@@ -97,4 +99,26 @@ message FederatedComputeTrainingEventReported {
 
   // The wall time of generating keys and attestation record in milliseconds.
   optional int64 key_attestation_latency_millis = 9;
+
+  /////////////////////////////////////////////////////////
+  // Information about ExampleStore events.
+
+  // The latency of binding to client implemented ExampleStore in nanoseconds.
+  optional int64 example_store_bind_latency_nanos = 10;
+
+  // The latency of starting ExampleStore query in nanoseconds.
+  optional int64 example_store_start_query_latency_nanos = 11;
+}
+
+/**
+ * Logs the latency when ExampleStoreIterator.Next is called.
+ * Next ID = 4
+ */
+message ExampleIteratorNextLatencyReported {
+  optional int64 client_version = 1;
+
+  // The task id of this run.
+  optional int64 task_id = 2;
+
+  optional int64 get_next_latency_nanos = 3;
 }
