@@ -4653,6 +4653,9 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     RESET_DELETE_PRIVATE_SPACE_CANCEL = 2078;
+
+    // OPEN: Settings > Storage > Dialog for temporary system files info
+    DIALOG_TEMPORARY_FILES_INFO = 2079;
 }
 
 // Battery Saver schedule types.
