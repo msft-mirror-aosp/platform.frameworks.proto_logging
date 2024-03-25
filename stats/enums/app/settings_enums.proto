@@ -4656,6 +4656,11 @@ enum PageId {
 
     // OPEN: Settings > Storage > Dialog for temporary system files info
     DIALOG_TEMPORARY_FILES_INFO = 2079;
+
+    // OPEN: Settings > System > Developer options > Media DRM settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    MEDIA_DRM_SETTINGS = 2080;
 }
 
 // Battery Saver schedule types.
