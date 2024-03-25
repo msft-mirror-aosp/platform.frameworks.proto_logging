@@ -1095,6 +1095,8 @@ message Atom {
     extensions 845; // EncodingJsFetch encoding_js_fetch
     extensions 846; // EncodingJsExecution encoding_js_execution
     extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
+    extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
+    extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
