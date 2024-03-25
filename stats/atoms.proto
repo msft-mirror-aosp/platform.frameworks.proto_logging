@@ -1203,6 +1203,9 @@ message Atom {
     extensions 856; // NfcFieldChanged nfc_field_changed
     extensions 857; // NfcPollingLoopNotificationReported nfc_polling_loop_notification_reported
     extensions 858; // NfcProprietaryCapabilitiesReported nfc_proprietary_capabilities_reported
+    extensions 859; // PdfLoadReported pdf_load_reported
+    extensions 860; // PdfApiUsageReported pdf_api_usage_reported
+    extensions 861; // PdfSearchReported pdf_search_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
