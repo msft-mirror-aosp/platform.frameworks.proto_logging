@@ -100,6 +100,8 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
   optional AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported = 795
       [(module) = "adservices", (truncate_timestamp) = true];
+  optional SignatureVerification signature_verification = 807
+        [(module) = "adservices", (truncate_timestamp) = true];
   optional KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported = 808
   [(module) = "adservices", (truncate_timestamp) = true];
   optional KAnonBackgroundJobStatusReported k_anon_background_job_status_reported = 809
