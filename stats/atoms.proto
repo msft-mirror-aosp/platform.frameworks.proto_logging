@@ -1187,6 +1187,15 @@ message Atom {
     extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
     extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
     extensions 842; // AdServicesShellCommandCalled adservices_shell_command_called
+    extensions 843; // UpdateSignalsApiCalled update_signals_api_called
+    extensions 844; // EncodingJobRun encoding_job_run
+    extensions 845; // EncodingJsFetch encoding_js_fetch
+    extensions 846; // EncodingJsExecution encoding_js_execution
+    extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
+    extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
+    extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
+    extensions 850; // VpnConnectionStateChanged vpn_connection_state_changed
+    extensions 851; // VpnConnectionReported vpn_connection_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1436,6 +1445,7 @@ message Atom {
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
+    extensions 10208; // DataRatStateChanged data_rat_state_changed
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5408,6 +5418,18 @@ message AppStartOccurred {
     // How long since this package was stopped, if it was in
     // package_stopped_state == PACKAGE_STATE_STOPPED
     optional int64 millis_since_stopped = 28;
+
+    /**
+     * The type of multi-window launch.
+     * This should match the constants declared in ActivityMetricsLogger.
+     */
+    enum MultiWindowLaunchType {
+        LAUNCH_TYPE_UNSPECIFIED = 0;
+        LAUNCH_TYPE_APP_PAIR = 1;
+    }
+
+    // The multi-indow launch type
+    optional MultiWindowLaunchType multi_window_launch_type = 29;
 }
 
 message AppStartCanceled {
