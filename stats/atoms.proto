@@ -1166,6 +1166,7 @@ message Atom {
     extensions 819; // DesktopModeSessionTaskUpdate desktop_mode_session_task_update
     extensions 820; // AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported
     extensions 821; // NegotiatedSecurityAssociation negotiated_security_association
+    extensions 854; // DataRatStateChanged data_rat_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
