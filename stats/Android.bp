@@ -169,6 +169,7 @@ atom_protos = [
     "atoms/transparency/*.proto",
     "atoms/desktopmode/*.proto",
     "atoms/adaptiveauth/*.proto",
+    "atoms/automotive/carpower/*.proto",
 ]
 
 cc_library_host_shared {
