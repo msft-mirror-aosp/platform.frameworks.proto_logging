@@ -39,6 +39,16 @@ extend Atom {
   [(module) = "telephony"];
   optional SatelliteSosMessageRecommender satellite_sos_message_recommender = 10187
   [(module) = "telephony"];
+  optional CarrierRoamingSatelliteSession carrier_roaming_satellite_session = 10211
+  [(module) = "telephony"];
+  optional CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats = 10212
+  [(module) = "telephony"];
+  optional ControllerStatsPerPackage controller_stats_per_package = 10213
+  [(module) = "telephony"];
+  optional SatelliteEntitlement satellite_entitlement = 10214
+  [(module) = "telephony"];
+  optional SatelliteConfigUpdater satellite_config_updater = 10215
+  [(module) = "telephony"];
 }
 
 /**
@@ -195,4 +205,99 @@ message SatelliteSosMessageRecommender {
   optional android.telephony.RecommendingHandoverType recommending_handover_type = 7;
   // Whether satellite communication is allowed in current location.
   optional bool is_satellite_allowed_in_current_location = 8;
+}
+
+/**
+ * One data point of this metric is logged per carrier roaming satellite session
+ */
+message CarrierRoamingSatelliteSession {
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 1;
+  // Whether device is connected to roaming non-terrestrial network
+  optional bool is_ntn_roaming_in_home_country = 2;
+  // Total time of satellite session
+  optional int32 total_satellite_mode_time_sec = 3;
+  // Number of times satellite signal is lost and gained within a session
+  optional int32 number_of_satellite_connections = 4;
+  // Average duration of a satellite connection
+  optional int32 avg_duration_of_satellite_connection_sec = 5;
+  // Minimum time gap between satellite connections in a satellite session
+  optional int32 satellite_connection_gap_min_sec = 6;
+  // Average time gap between satellite connections in a satellite session
+  optional int32 satellite_connection_gap_avg_sec = 7;
+  // Maximum time gap between satellite connections in a satellite session
+  optional int32 satellite_connection_gap_max_sec = 8;
+  // Average RSRP of non-terrestrial network
+  optional int32 rsrp_avg = 9;
+  // Median RSRP of non-terrestrial network
+  optional int32 rsrp_median = 10;
+  // Average RSSNR of non-terrestrial network
+  optional int32 rssnr_avg = 11;
+  // Median RSSNR of non-terrestrial network
+  optional int32 rssnr_median = 12;
+  // Total number of incoming sms received during the session
+  optional int32 count_of_incoming_sms = 13;
+  // Total number of outgoing sms sent during the session
+  optional int32 count_of_outgoing_sms = 14;
+  // Total number of incoming mms received during the session
+  optional int32 count_of_incoming_mms = 15;
+  // Total number of outgoing mms sent during the session
+  optional int32 count_of_outgoing_mms = 16;
+}
+
+/**
+ * Stats about usage of carrier roaming satellite network
+ */
+message CarrierRoamingSatelliteControllerStats {
+  // Data source of carrier roaming satellite network
+  optional android.telephony.ConfigDataSource config_data_source = 1;
+  // Total number of times entitlement status query request is sent to server
+  optional int32 count_of_entitlement_status_query_request = 2;
+  // Total number of times satellite config is updated
+  optional int32 count_of_satellite_config_update_request = 3;
+  // Total number of times auto-connected to satellite notification is displayed
+  optional int32 count_of_satellite_notification_displayed = 4;
+  // Minimum gap between satellite sessions
+  optional int32 satellite_session_gap_min_sec = 5;
+  // Average gap between satellite sessions
+  optional int32 satellite_session_gap_avg_sec = 6;
+  // Maximum gap between satellite sessions
+  optional int32 satellite_session_gap_max_sec = 7;
+}
+
+/**
+ * Stats about apps using carrier-roaming satellite services such as SMS, MMS and DATA
+ */
+message ControllerStatsPerPackage {
+  optional int32 uid = 1  [(is_uid) = true];
+}
+
+/**
+ * Stats about satellite entitlement query request
+ */
+message SatelliteEntitlement {
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 1;
+  // Result of entitlement query request
+  optional int32 result = 2;
+  // Entitlement status of the subscription
+  optional android.telephony.SatelliteEntitlementStatus  entitlement_status = 3;
+  // Retry request for entitlement query
+  optional bool is_retry = 4;
+  // Total number of times this event has occurred
+  optional int32 count = 5;
+}
+
+/**
+ * Stats about satellite config update
+ */
+message SatelliteConfigUpdater {
+  // satellite config version used by the device
+  optional int32 config_version = 1;
+  // Result of OEM config update
+  optional android.telephony.ConfigUpdateResult oem_config_result = 2;
+  // Result of carrier config update
+  optional android.telephony.ConfigUpdateResult carrier_config_result = 3;
+  // Total number of times this event has occurred
+  optional int32 count = 4;
 }

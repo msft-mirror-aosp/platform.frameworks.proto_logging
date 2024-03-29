@@ -1415,6 +1415,11 @@ message Atom {
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
+    extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
+    extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
+    extensions 10213; // ControllerStatsPerPackage controller_stats_per_package
+    extensions 10214; // SatelliteEntitlement satellite_entitlement
+    extensions 10215; // SatelliteConfigUpdater satellite_config_updater
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
