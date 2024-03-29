@@ -11024,6 +11024,7 @@ message SplitscreenUIChanged {
         RECREATE_SPLIT = 10;
         FULLSCREEN_SHORTCUT = 11;
         DESKTOP_MODE = 12;
+        FULLSCREEN_REQUEST = 13;
     }
 
     // The event action
