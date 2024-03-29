@@ -56,8 +56,7 @@ static void write_java_annotation_constants(FILE* out, const int minApiLevel) {
         if (annotation.minApiLevel >= API_U) {  // we don't generate annotation constants for U+
             continue;
         }
-        fprintf(out, "    @android.annotation.SuppressLint(\"InlinedApi\")\n",
-                annotation.name.c_str());
+        fprintf(out, "    @android.annotation.SuppressLint(\"InlinedApi\")\n");
         if (minApiLevel <= API_R) {
             fprintf(out, "    public static final byte %s =\n", annotation.name.c_str());
             fprintf(out, "            Build.VERSION.SDK_INT <= %s ?\n",
