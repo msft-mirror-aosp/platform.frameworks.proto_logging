@@ -1198,6 +1198,7 @@ message Atom {
     extensions 851; // VpnConnectionReported vpn_connection_reported
     extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
     extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
+    extensions 854; // DataRatStateChanged data_rat_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -11023,6 +11024,7 @@ message SplitscreenUIChanged {
         RECREATE_SPLIT = 10;
         FULLSCREEN_SHORTCUT = 11;
         DESKTOP_MODE = 12;
+        FULLSCREEN_REQUEST = 13;
     }
 
     // The event action
