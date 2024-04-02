@@ -33,6 +33,8 @@ extend Atom {
     optional UserRiskEventReported user_risk_event_reported = 725 [(module) = "framework"];
     optional MediaProjectionStateChanged media_projection_state_changed = 729 [(module) = "framework"];
     optional MediaProjectionTargetChanged media_projection_target_changed = 730 [(module) = "framework"];
+    optional ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported = 853
+            [(module) = "framework"];
     optional ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg = 10200 [(module) = "framework"];
     optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state = 10204
             [(module) = "framework", (truncate_timestamp) = true];
@@ -524,7 +526,7 @@ message SensitiveNotificationRedaction {
 
 message SensitiveContentAppProtection {
   // unique for each media projection session.
-  optional int64 sessionId = 1;
+  optional int64 session_id = 1;
   // uid which got flag_secure applied.
   optional int32 protected_uid = 2 [(is_uid) = true];
   // uid starting media projection.
@@ -537,4 +539,15 @@ message SensitiveContentAppProtection {
   // whether an app window got blocked or unblocked as sensitive view
   // become visible/invisible in the window.
   optional State state = 4;
+}
+
+/**
+ * Logs when there are too many binder proxies sent from certain UID to the system.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ */
+message ExcessiveBinderProxyCountReported {
+    optional int32 offending_uid = 1 [(is_uid) = true];
 }

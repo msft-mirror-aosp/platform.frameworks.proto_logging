@@ -1196,6 +1196,9 @@ message Atom {
     extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
     extensions 850; // VpnConnectionStateChanged vpn_connection_state_changed
     extensions 851; // VpnConnectionReported vpn_connection_reported
+    extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
+    extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
+    extensions 854; // DataRatStateChanged data_rat_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1445,7 +1448,7 @@ message Atom {
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
-    extensions 10208; // DataRatStateChanged data_rat_state_changed
+    // 10208 is reserved due to removing the old atom.
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5967,6 +5970,7 @@ message LmkKillOccurred {
         LOW_MEM_AND_SWAP_UTIL = 7;
         LOW_FILECACHE_AFTER_THRASHING = 8;
         LOW_MEM = 9;
+        DIRECT_RECL_STUCK = 10;
     }
 
     // The uid if available. -1 means not available.
@@ -11020,6 +11024,7 @@ message SplitscreenUIChanged {
         RECREATE_SPLIT = 10;
         FULLSCREEN_SHORTCUT = 11;
         DESKTOP_MODE = 12;
+        FULLSCREEN_REQUEST = 13;
     }
 
     // The event action

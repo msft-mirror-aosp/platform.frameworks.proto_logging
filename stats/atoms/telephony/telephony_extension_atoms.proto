@@ -29,7 +29,8 @@ extend Atom {
     optional CellularRadioPowerStateChanged cellular_radio_power_state_changed = 713 [(module) = "telephony"];
     optional EmergencyNumbersInfo emergency_numbers_info = 10180 [(module) = "telephony"];
     optional DataNetworkValidation data_network_validation = 10207 [(module) = "telephony"];
-    optional DataRatStateChanged data_rat_state_changed = 10208 [(module) = "telephony"];
+    optional DataRatStateChanged data_rat_state_changed = 854 [(module) = "telephony"];
+    // 10208 is reserved due to removing the old atom.
 }
 
 message CellularRadioPowerStateChanged {
