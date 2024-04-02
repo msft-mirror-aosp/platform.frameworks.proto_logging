@@ -1199,6 +1199,10 @@ message Atom {
     extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
     extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
     extensions 854; // DataRatStateChanged data_rat_state_changed
+    extensions 855; // NfcObserveModeStateChanged nfc_observe_mode_state_changed
+    extensions 856; // NfcFieldChanged nfc_field_changed
+    extensions 857; // NfcPollingLoopNotificationReported nfc_polling_loop_notification_reported
+    extensions 858; // NfcProprietaryCapabilitiesReported nfc_proprietary_capabilities_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
