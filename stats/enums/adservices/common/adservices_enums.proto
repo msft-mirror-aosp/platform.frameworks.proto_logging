@@ -116,6 +116,21 @@ enum ErrorCode {
   // Error logging an API check using Adservices Config XML provided by an app.
   APP_MANIFEST_CONFIG_LOGGING_ERROR = 12;
 
+  // Incorrect version of the json file.
+  ENCRYPTION_KEYS_INCORRECT_JSON_VERSION = 13;
+
+  // JSON parsing error for the key.
+  ENCRYPTION_KEYS_JSON_PARSING_ERROR = 14;
+
+  // Failed to delete an expired encryption key.
+  ENCRYPTION_KEYS_FAILED_DELETE_EXPIRED_KEY = 15;
+
+  // Failed to load Encryption Keys MDD filegroup
+  ENCRYPTION_KEYS_FAILED_MDD_FILEGROUP = 16;
+
+  // Encryption Keys no MDD files available.
+  ENCRYPTION_KEYS_MDD_NO_FILE_AVAILABLE = 17;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
