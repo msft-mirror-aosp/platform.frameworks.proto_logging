@@ -15713,6 +15713,18 @@ message TelephonyNetworkRequestsV2 {
         CBS = 3;
         // Enterprise capability was requested.
         ENTERPRISE = 4;
+        //Satellite internet restricted capability was requested.
+        SATELLITE_INTERNET_RESTRICTED = 5;
+        //Satellite mms restricted capability was requested.
+        SATELLITE_MMS_RESTRICTED = 6;
+        //Satellite ims restricted capability was requested.
+        SATELLITE_IMS_RESTRICTED = 7;
+        //Satellite xcap restricted capability was requested.
+        SATELLITE_XCAP_RESTRICTED = 8;
+        //Satellite eims restricted capability was requested.
+        SATELLITE_EIMS_RESTRICTED = 9;
+        //Satellite supl restricted capability was requested.
+        SATELLITE_SUPL_RESTRICTED =10;
     }
     // Carrier ID of the SIM card.
     // See https://source.android.com/devices/tech/config/carrierid.
