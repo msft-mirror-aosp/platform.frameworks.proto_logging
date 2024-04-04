@@ -4487,12 +4487,12 @@ enum PageId {
     // ACTION: Allow Voice activation of an assistant app
     // CATEGORY: SETTINGS
     // OS: V
-    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046;
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046 [deprecated = true];
 
     // ACTION: Deny Voice activation of an assistant app
     // CATEGORY: SETTINGS
     // OS: V
-    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047;
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047 [deprecated = true];
 
     // OPEN: Settings > Connected devices > Connection preferences > Audio sharing
     // CATEGORY: SETTINGS
