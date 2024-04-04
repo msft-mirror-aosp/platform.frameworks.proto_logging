@@ -116,6 +116,21 @@ enum ErrorCode {
   // Error logging an API check using Adservices Config XML provided by an app.
   APP_MANIFEST_CONFIG_LOGGING_ERROR = 12;
 
+  // Incorrect version of the json file.
+  ENCRYPTION_KEYS_INCORRECT_JSON_VERSION = 13;
+
+  // JSON parsing error for the key.
+  ENCRYPTION_KEYS_JSON_PARSING_ERROR = 14;
+
+  // Failed to delete an expired encryption key.
+  ENCRYPTION_KEYS_FAILED_DELETE_EXPIRED_KEY = 15;
+
+  // Failed to load Encryption Keys MDD filegroup
+  ENCRYPTION_KEYS_FAILED_MDD_FILEGROUP = 16;
+
+  // Encryption Keys no MDD files available.
+  ENCRYPTION_KEYS_MDD_NO_FILE_AVAILABLE = 17;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
@@ -583,4 +598,46 @@ enum ModuleName {
   MODULE_NAME_ADSERVICES = 1;
   MODULE_NAME_ON_DEVICE_PERSONALIZATION = 2;
   MODULE_NAME_FEDERATED_COMPUTE = 3;
+}
+
+/**
+ * Enum representing a shell command. We will group enums in blocks of
+ * 100 like this below:
+ * - Common commands: 1-100
+ * - Custom audience commands: 101-200
+ * - Ad Selection commands: 201-300
+ *
+ */
+enum Command {
+  COMMAND_UNSET = 0;
+
+  // Common commands: 1-100
+  COMMAND_ECHO = 1;
+  COMMAND_IS_ALLOWED_ATTRIBUTION_ACCESS = 2;
+  COMMAND_IS_ALLOWED_PROTECTED_SIGNALS_ACCESS = 3;
+  COMMAND_IS_ALLOWED_CUSTOM_AUDIENCE_ACCESS = 4;
+  COMMAND_IS_ALLOWED_AD_SELECTION_ACCESS = 5;
+  COMMAND_IS_ALLOWED_TOPICS_ACCESS = 6;
+
+  // Custom audience commands: 101-200
+  COMMAND_CUSTOM_AUDIENCE_VIEW = 101;
+  COMMAND_CUSTOM_AUDIENCE_LIST = 102;
+  COMMAND_CUSTOM_AUDIENCE_REFRESH = 103;
+
+  // Ad Selection commands: 201-300
+  COMMAND_AD_SELECTION_CONSENTED_DEBUG_ENABLE = 201;
+  COMMAND_AD_SELECTION_CONSENTED_DEBUG_DISABLE = 202;
+  COMMAND_AD_SELECTION_CONSENTED_DEBUG_VIEW = 203;
+  COMMAND_AD_SELECTION_CONSENTED_DEBUG_HELP = 204;
+}
+
+// Result of the shell command
+enum CommandResult {
+  COMMAND_RESULT_UNKNOWN = 0;
+  COMMAND_RESULT_SUCCESS = 1;
+  COMMAND_RESULT_GENERIC_ERROR = 2;
+  COMMAND_RESULT_INVALID_ARGS = 3;
+  COMMAND_RESULT_TIMEOUT_ERROR = 4;
+  COMMAND_RESULT_INVALID_COMMAND = 5;
+  COMMAND_RESULT_NOT_ENABLED = 6;
 }

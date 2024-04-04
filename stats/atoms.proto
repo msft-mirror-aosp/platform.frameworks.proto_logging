@@ -1088,12 +1088,22 @@ message Atom {
     extensions 815; // GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated
     extensions 834; // BackgroundJobSchedulingReported background_job_scheduling_reported
     extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
+    extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
+    extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
+    extensions 842; // AdServicesShellCommandCalled adservices_shell_command_called
+    extensions 843; // UpdateSignalsApiCalled update_signals_api_called
+    extensions 844; // EncodingJobRun encoding_job_run
+    extensions 845; // EncodingJsFetch encoding_js_fetch
+    extensions 846; // EncodingJsExecution encoding_js_execution
+    extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
+    extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
+    extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10191
+    // Next: 10206
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1324,6 +1334,7 @@ message Atom {
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
     extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
+    extensions 10205; // ArtDeviceStatus art_device_status
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
