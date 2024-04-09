@@ -1076,12 +1076,34 @@ message Atom {
     extensions 794; // AdFilteringProcessAdSelectionReported ad_filtering_process_ad_selection_reported
     extensions 795; // AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported
     extensions 796; // SdkSandboxRestrictedAccessInSession sdk_sandbox_restricted_access_in_session
+    extensions 805; // SoftApStateChanged soft_ap_state_changed
+    extensions 807; // SignatureVerification signature_verification
+    extensions 808; // KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported
+    extensions 809; // KAnonBackgroundJobStatusReported k_anon_background_job_status_reported
+    extensions 810; // KAnonInitializeStatusReported k_anon_initialize_status_reported
+    extensions 811; // KAnonSignStatusReported k_anon_sign_status_reported
+    extensions 812; // KAnonJoinStatusReported k_anon_join_status_reported
+    extensions 813; // KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported
+    extensions 814; // GetAdSelectionDataApiCalled get_ad_selection_data_api_called
+    extensions 815; // GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated
+    extensions 834; // BackgroundJobSchedulingReported background_job_scheduling_reported
+    extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
+    extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
+    extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
+    extensions 842; // AdServicesShellCommandCalled adservices_shell_command_called
+    extensions 843; // UpdateSignalsApiCalled update_signals_api_called
+    extensions 844; // EncodingJobRun encoding_job_run
+    extensions 845; // EncodingJsFetch encoding_js_fetch
+    extensions 846; // EncodingJsExecution encoding_js_execution
+    extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
+    extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
+    extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10191
+    // Next: 10206
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1312,6 +1334,7 @@ message Atom {
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
     extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
+    extensions 10205; // ArtDeviceStatus art_device_status
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1589,7 +1612,10 @@ message MemoryFactorStateChanged {
         CRITICAL = 4;   // critical memory.
 
     }
-    optional State factor = 1 [(state_field_option).exclusive_state = true];
+    optional State factor = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -1776,6 +1802,8 @@ message WifiConnectionResultReported {
     // carrier ID of the network
     optional int32 carrier_id = 17;
     optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 19 [(is_uid) = true];
 }
 
 /**
@@ -1942,7 +1970,9 @@ message WifiDisconnectReported {
  */
 message WifiConnectionStateChanged {
     optional bool is_connected = 1 [
-            (state_field_option).exclusive_state = true];
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 
     // Band bucket the connected network was on.
     // Filled for both connected and disconnected cases.
@@ -5791,7 +5821,7 @@ message LmkKillOccurred {
  */
 message AppDied {
     // timestamp(elapsedRealtime) of record creation
-    optional uint64 timestamp_millis = 1 [(state_field_option).exclusive_state = true];
+    optional uint64 timestamp_millis = 1;
 }
 
 /**
@@ -6757,7 +6787,10 @@ message PrivacyIndicatorsInteracted {
         DIALOG_LINE_ITEM = 5;
     }
 
-    optional Type type = 1 [(state_field_option).exclusive_state = true];
+    optional Type type = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -19471,7 +19504,10 @@ message LocationTimeZoneProviderStateChanged {
     }
 
     // The state of the provider.
-    optional State state = 2 [(state_field_option).exclusive_state = true];
+    optional State state = 2 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /*
@@ -21679,6 +21715,7 @@ message AdServicesApiCalled {
     //  * fetchAndJoinCustomAudience()
     //  * getAdSelectionData()
     //  * persistAdSelectionResult()
+    //  * scheduleCustomAudienceUpdate()
     //
     // Measurement - client side
     //   * register() : SOURCE
@@ -21748,6 +21785,7 @@ message AdServicesApiCalled {
         GET_AD_SELECTION_DATA = 30;
         PERSIST_AD_SELECTION_RESULT = 31;
         UPDATE_SIGNALS = 32;
+        SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 33;
     }
 
     optional AdServicesApiClassType api_class = 1 [deprecated = true];
@@ -21760,9 +21798,8 @@ message AdServicesApiCalled {
 
     optional int32 latency_millis = 5;
 
-    // response_code is the error/failure code for the given api.
+    // response_code is the error code for the given api.
     optional int32 response_code = 6;
-    optional int32 failure_reason = 7;
 }
 
 /**
@@ -23361,6 +23398,8 @@ message AdServicesSettingsUsageReported {
         PRIVACY_SANDBOX_ENTRY_POINT_CLICKED = 67;
         // daily maintenance job was run.
         DAILY_MAINTENANCE_JOB_FINISHED = 68;
+        // GA user clicked the 2nd additional info button on the landing page.
+        GA_UX_LANDING_PAGE_ADDITIONAL_INFO_2_CLICKED = 69;
     }
     // UI action performed by user.
     optional AdServiceSettingsName action = 2;
@@ -23434,6 +23473,8 @@ message AdServicesSettingsUsageReported {
         BETA_UX = 3;
         // UX for Android RVC.
         RVC_UX = 4;
+        // GA UX with Updated PAS APIs
+        GA_UX_WITH_PAS = 5;
     }
 
     // Type of privacy sandbox UX.
@@ -23457,6 +23498,10 @@ message AdServicesSettingsUsageReported {
         CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
         // 2nd GA notification post R OTA.
         RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
+        // PAS first notification channel
+        PAS_FIRST_NOTIFICATION_CHANNEL = 8;
+        // PAS renotify notification channel
+        PAS_RENOTIFY_NOTIFICATION_CHANNEL = 9;
     }
 
     // Type of privacy sandbox enrollment channel.
