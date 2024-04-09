@@ -100,6 +100,8 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
   optional AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported = 795
       [(module) = "adservices", (truncate_timestamp) = true];
+  optional SignatureVerification signature_verification = 807
+        [(module) = "adservices", (truncate_timestamp) = true];
   optional KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported = 808
   [(module) = "adservices", (truncate_timestamp) = true];
   optional KAnonBackgroundJobStatusReported k_anon_background_job_status_reported = 809
@@ -116,6 +118,32 @@ extend Atom {
   optional GetAdSelectionDataApiCalled get_ad_selection_data_api_called = 814
   [(module) = "adservices", (truncate_timestamp) = true];
   optional GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated = 815
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional BackgroundJobSchedulingReported background_job_scheduling_reported = 834
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported = 840
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported = 841
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesShellCommandCalled adservices_shell_command_called = 842
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional UpdateSignalsApiCalled update_signals_api_called = 843
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional EncodingJobRun encoding_job_run = 844
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional EncodingJsFetch encoding_js_fetch = 845
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional EncodingJsExecution encoding_js_execution = 846
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional PersistAdSelectionResultCalled persist_ad_selection_result_called = 847
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ServerAuctionKeyFetchCalled server_auction_key_fetch_called = 848
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled = 849
   [(module) = "adservices", (truncate_timestamp) = true];
 }
 
@@ -230,6 +258,25 @@ message AdServicesBackgroundJobsExecutionReported {
 
   // Module name from which the job execution is being reported.
   optional android.adservices.ModuleName module_name = 6;
+
+  // Indicates the scheduler type that schedules the job.
+  optional android.adservices.SchedulerType scheduler_type = 7;
+}
+
+/** Logs background job Stats to monitor job scheduling in Rubidium. */
+message BackgroundJobSchedulingReported {
+
+  // A unique identifier for a background job.
+  optional int32 job_id = 1;
+
+  // Scheduling result code.
+  optional android.adservices.JobSchedulingResultCode result_code = 2;
+
+  // Indicates the scheduler type that schedules the job.
+  optional android.adservices.SchedulerType scheduler_type = 3;
+
+  // Module name from which the job execution is being reported.
+  optional android.adservices.ModuleName module_name = 4;
 }
 
 /**
@@ -260,6 +307,14 @@ message AdServicesMeasurementAttribution {
   optional int32 event_report_count = 11;
   optional int32 event_debug_report_count = 12;
   optional int32 retry_count = 13;
+  // Number of null aggregate reports that were generated as a result of this
+  // attribution. A null aggregate report is an aggregate report meant to
+  // obscure the true number of aggregate reports sent to consumers of the
+  // Attribution Reporting API. An aggregate report is an input to the Private
+  // Aggregate API and contains detailed conversion data associated with an
+  // attribution. Obscuring the true number of aggregate reports preserves
+  // privacy.
+  optional int32 null_aggregate_report_count = 14;
 }
 
 /**
@@ -523,6 +578,13 @@ message DestinationRegisteredBeacons {
     LARGER_THAN_MAXIMUM_KEY_SIZE = 4;
   }
 
+  // What kind of winner did the beacon come from?
+  enum BeaconSource {
+    UNSET = 0;
+    PROTECTED_SIGNALS = 1;
+    CUSTOM_AUDIENCE = 2;
+  }
+
   // The entity who registered the beacons.
   optional android.adservices.service.BeaconReportingDestinationType destination = 1;
 
@@ -537,6 +599,9 @@ message DestinationRegisteredBeacons {
 
   // The status response code in AdServices.
   optional int32 status_code = 5;
+
+  // Which type of signals the beacon come from?
+  optional BeaconSource beacon_source = 6;
 }
 
 /**
@@ -627,6 +692,13 @@ message AdFilteringProcessJoinCAReported {
  * Logs for Ad filtering process during ad selection.
  */
 message AdFilteringProcessAdSelectionReported {
+  // The process type of Ad filtering.
+  enum FilterProcessType {
+    FILTER_UNSET = 0;
+    FILTER_CUSTOM_AUDIENCES = 1;
+    FILTER_CONTEXTUAL_ADS = 2;
+  }
+
   // Latency when running the whole Ad filtering process.
   optional int32 latency_in_millis_of_all_ad_filtering = 1;
 
@@ -640,6 +712,7 @@ message AdFilteringProcessAdSelectionReported {
   optional int32 status_code = 4;
 
   // The number of Ads which are filtered out of bidding.
+  // The field will be set as FIELD_UNSET if filter_process_type is FILTER_CONTEXTUAL_ADS
   optional int32 num_of_ads_filtered_out_of_bidding = 5;
 
   // The number of custom audiences which are filtered out of bidding.
@@ -649,6 +722,7 @@ message AdFilteringProcessAdSelectionReported {
   optional int32 total_num_of_ads_before_filtering = 7;
 
   // The total number of custom audiences before Ad filtering process.
+  // The field will be set as FIELD_UNSET if filter_process_type is FILTER_CONTEXTUAL_ADS
   optional int32 total_num_of_custom_audiences_before_filtering = 8;
 
   // The number of app packages involve in app install filters.
@@ -656,6 +730,25 @@ message AdFilteringProcessAdSelectionReported {
 
   // The number of database operations during ad selection.
   optional int32 num_of_db_operations = 10;
+
+  // The process type when calling Ad filtering
+  optional FilterProcessType filter_process_type = 11;
+
+  // The number of Ads which are filtered during contextual ads.
+  // The field will be set as FIELD_UNSET if filter_process_type is FILTER_CUSTOM_AUDIENCES
+  optional int32 num_of_contextual_ads_filtered = 12;
+
+  // The number of ad counter keys in fcap filters.
+  optional int32 num_of_ad_counter_keys_in_fcap_filters = 13;
+
+  // The number of contextual Ads filtered out of bidding because of invalid signatures.
+  optional int32 num_of_contextual_ads_filtered_out_of_bidding_invalid_signatures = 14;
+
+  //The number of contextual Ads filtered out of bidding because of no Ads.
+  optional int32 num_of_contextual_ads_filtered_out_of_bidding_no_ads = 15;
+
+  // The total number of contextual Ads before filtering.
+  optional int32 total_num_of_contextual_ads_before_filtering = 16;
 }
 
 /**
@@ -663,7 +756,7 @@ message AdFilteringProcessAdSelectionReported {
  */
 message AdCounterHistogramUpdaterReported {
   // Latency when calling Ad counter histogram updater.
-  repeated int32 latency_in_millis = 1;
+  optional int32 latency_in_millis = 1;
 
   // The status response code in AdServices.
   optional int32 status_code = 2;
@@ -694,9 +787,41 @@ message SignatureVerification {
   // serialization and key fetch)
   optional int64 verification_latency = 3;
 
+  // Number of keys fetched for a given ad tech
+  optional int32 num_of_keys_fetched = 4;
+
   // End status of the verification request
-  // A verification request can end in success or a failure with various reasons
-  optional android.adservices.service.VerificationStatus signature_verification_status = 4;
+  // A verification request can end in success or a failure
+  optional android.adservices.service.VerificationStatus signature_verification_status = 5;
+
+  // To log in case of failures
+  // Enrollment id of the buyer that has a signature verification failure
+  optional string failed_signature_buyer_enrollment_id = 6;
+
+  // Enrollment id of the seller that has a signature verification failure
+  optional string failed_signature_seller_enrollment_id = 7;
+
+  // Caller package name that has a signature verification failure
+  optional string failed_signature_caller_package_name = 8;
+
+  // Key failure causes
+  // Unknown error
+  optional int32 failure_detail_unknown_error = 9;
+
+  // Enrollment data not found for the buyer or was null
+  optional int32 failure_detail_no_enrollment_data_for_buyer = 10;
+
+  // Zero keys fetched for the buyer
+  optional int32 failure_detail_no_keys_fetched_for_buyer = 11;
+
+  // Signature is not formatted correctly
+  optional int32 failure_detail_wrong_signature_format = 12;
+
+  // Number of keys that has the wrong format
+  optional int32 failure_detail_count_of_keys_with_wrong_format = 13;
+
+  // Number of keys that failed to verified the signature
+  optional int32 failure_detail_count_of_keys_failed_to_verify_signature = 14;
 }
 
 // The status of the event when we make a SignJoin call immediately on receiving an ad winner
@@ -818,6 +943,9 @@ message GetAdSelectionDataApiCalled {
 
   // The status response code in AdServices.
   optional int32 status_code = 3;
+
+  // The source of the coordinator used, i.e., DEFAULT or provided via API
+  optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 4;
 }
 
 /**
@@ -847,4 +975,208 @@ message GetAdSelectionDataBuyerInputGenerated {
 
   // Variance of the size of the user bidding signals for this buyer input
   optional float user_bidding_signals_size_variance = 8;
+
+  // Number of encoded signals payloads included in the auctions
+  optional int32 num_encoded_signals = 9;
+
+  // Mean size of encoded signals payloads
+  optional int32 encoded_signals_size_mean = 10;
+
+  // Max size of encoded signals payloads
+  optional int32 encoded_signals_size_max = 11;
+
+  // Min size of encoded signals payloads
+  optional int32 encoded_signals_size_min = 12;
+}
+
+/*
+ * Logged each time the updateSignals API is called.
+ */
+message UpdateSignalsApiCalled {
+    enum JsonProcessingStatus {
+        UNSET = 0;
+        SUCCESS = 1;
+        TOO_BIG = 2;
+        SYNTACTIC_ERROR = 3;
+        SEMANTIC_ERROR = 4;
+        OTHER_ERROR = 5;
+    }
+
+    // Http response code
+    optional int32 http_response_code = 1;
+
+    // The size of the JSON
+    optional android.adservices.service.Size json_size = 2;
+
+    // The status of JSON processing
+    optional JsonProcessingStatus json_processing_status = 3;
+
+    // Uid of calling app, only included in error cases
+    optional int32 uid = 4;
+
+    // Adtech's eTLD+1, only included in error cases
+    optional string adtech_id = 5;
+}
+
+/*
+ * Logs per encoding background job run
+ */
+message EncodingJobRun {
+    // The number of adtechs who successfully encoded in this background job run
+    optional int32 signal_encoding_successes = 1;
+
+    // The number of adtechs who failed to encoded in this background job run
+    optional int32 signal_encoding_failures = 2;
+
+    // The number of adtechs skipped due to their signals being unmodified
+    optional int32 signal_encoding_skips = 3;
+}
+
+/*
+ * Logs per download of the encoding javascript
+ */
+message EncodingJsFetch {
+    enum JsFetchStatus {
+        UNSET = 0;
+        SUCCESS = 1;
+        TOO_BIG = 2;
+        TIMEOUT = 3;
+        NETWORK_FAILURE = 4;
+        OTHER_FAILURE = 5;
+    }
+
+    // The time to download the js
+    optional android.adservices.service.Size js_download_time = 1;
+
+    // Http response code
+    optional int32 http_response_code = 2;
+
+    // Was the JS rejected for being too big or taking too long?
+    optional JsFetchStatus fetch_status = 3;
+
+    // Adtech's eTLD+1, only included in error cases
+    optional string adtech_id = 4;
+}
+
+/*
+ * Logs per execution of the encoding javascript.
+ */
+message EncodingJsExecution {
+    enum JsRunStatus {
+        UNSET = 0;
+        SUCCESS = 1;
+        TIMEOUT = 2;
+        JS_SYNTAX_ERROR = 3;
+        OUTPUT_SYNTAX_ERROR = 4;
+        OUTPUT_SEMANTIC_ERROR = 5;
+        OUTPUT_NON_ZERO_RESULT = 6;
+        DB_PERSIST_FAILURE = 7;
+        OTHER_FAILURE = 8;
+    }
+
+    // The time to run the js
+    optional android.adservices.service.Size js_latency = 1;
+
+    // Encoded signals size in bytes
+    optional android.adservices.service.Size encoded_signals_size = 2;
+
+    // JS run status
+    optional JsRunStatus run_status = 3;
+
+    // How much memory did the JS use (if this is easy to gather)
+    optional int32 js_memory_used = 4;
+
+    // Adtech's eTLD+1, only included in error cases
+    optional string adtech_id = 5;
+}
+
+/*
+ * Logs per API call to persistAdSelectionResult.
+ */
+message PersistAdSelectionResultCalled {
+    enum WinnerType {
+        UNSET = 0;
+        NO_WINNER = 1;
+        CA_WINNER = 2;
+        PAS_WINNER = 3;
+    }
+
+    // The type of auction winner
+    optional WinnerType winner = 1;
+}
+
+/** Logs for Topics encryption during epoch computation */
+message TopicsEncryptionEpochComputationReported {
+  // Number of topics before encryption during epoch computation process.
+  optional int32 count_of_topics_before_encryption = 1;
+
+  // Number of empty encrypted topics during epoch computation process.
+  optional int32 count_of_empty_encrypted_topics = 2;
+
+  // Number of encrypted topics during epoch computation process.
+  optional int32 count_of_encrypted_topics = 3;
+
+  // The latency in milliseconds of the whole encryption process during epoch computation.
+  optional int32 latency_of_whole_encryption_process_ms = 4;
+
+  // The latency in milliseconds of encryption of each topic.
+  optional int32 latency_of_encryption_per_topic_ms = 5;
+
+  // The latency in milliseconds of persisting encrypted topics to database
+  // during epoch computation.
+  optional int32 latency_of_persisting_encrypted_topics_to_db_ms = 6;
+}
+
+/** Logs for encrypted topics during getTopics() API calls */
+message TopicsEncryptionGetTopicsReported {
+
+  // Number of encrypted topics during getTopics() API calls.
+  optional int32 count_of_encrypted_topics = 1;
+
+  // The latency in milliseconds of reading encrypted topics from database
+  // during getTopics() API calls.
+  optional int32 latency_of_reading_encrypted_topics_from_db_ms = 2;
+
+}
+
+/**
+ * Logs whenever we try to fetch the key from either the database or over network during server
+ * auction
+ */
+message ServerAuctionKeyFetchCalled {
+  // The source of key fetch. Eg: during auction, background fetch
+  optional android.adservices.service.ServerAuctionKeyFetchSource source = 1;
+
+  // Specifies whether the key was fetched over the network or the database
+  optional android.adservices.service.ServerAuctionEncryptionKeySource encryption_key_source = 2;
+
+  // Whether we used the default coordinator or adtech-provided coordinator via API call
+  optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 3;
+
+  // The status code of the network call
+  optional int32 network_status_code = 4;
+
+  // The latency of network key fetch
+  optional int32 network_latency_millis = 5;
+}
+
+/** Logs whenever the background key fetch job is scheduled */
+message ServerAuctionBackgroundKeyFetchScheduled {
+  optional android.adservices.service.BackgroundKeyFetchStatus status = 1;
+
+  optional int32 count_auction_urls = 2;
+
+  optional int32 count_join_urls = 3;
+}
+
+/** Metrics for each shell command indicating success/failure, latency. */
+message AdServicesShellCommandCalled {
+  // Name of the shell command.
+  optional android.adservices.Command command = 1;
+
+  // Shell command result indicating success/failure.
+  optional android.adservices.CommandResult result_code = 2;
+
+  // Shell command execution latency in milli-second.
+  optional int32 latency_millis = 3;
 }
