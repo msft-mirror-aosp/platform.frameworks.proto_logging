@@ -2185,6 +2185,8 @@ message WifiP2pConnectionReported {
     optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
     // The try count of connection
     optional int32 try_count = 12;
+    // The Attribution tag to identify the caller
+    optional string attribution_tag = 13;
 }
 
 /**
