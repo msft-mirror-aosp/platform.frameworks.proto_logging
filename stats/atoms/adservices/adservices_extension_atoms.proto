@@ -1012,7 +1012,7 @@ message UpdateSignalsApiCalled {
     optional JsonProcessingStatus json_processing_status = 3;
 
     // Uid of calling app, only included in error cases
-    optional int32 uid = 4;
+    optional int32 uid = 4 [(is_uid) = true];
 
     // Adtech's eTLD+1, only included in error cases
     optional string adtech_id = 5;
