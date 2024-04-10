@@ -14439,6 +14439,9 @@ message CameraActionEvent {
     optional bool used_ultrawide = 26;
 
     optional bool used_zoom_override = 27;
+
+    optional int32 most_requested_fps_range_min = 28;
+    optional int32 most_requested_fps_range_max = 29;
 }
 
 /**
