@@ -21,7 +21,7 @@ option java_outer_classname = "FederatedComputeProtoEnums";
 option java_multiple_files = true;
 
 // Enum used to track federated computation job stages.
-// Next Tag: 45
+// Next Tag: 52
 enum TrainingEventKind {
   // Undefined value.
   TRAIN_UNDEFINED = 0;
@@ -138,6 +138,10 @@ enum TrainingEventKind {
   // Always preceded by TRAIN_ELIGIBILITY_EVAL_COMPUTATION_STARTED.
   TRAIN_ELIGIBILITY_EVAL_COMPUTATION_COMPLETED = 25;
 
+  // Client finished eligibility eval computation and result is eligible.
+  // Always preceded by TRAIN_ELIGIBILITY_EVAL_COMPUTATION_STARTED.
+  TRAIN_ELIGIBILITY_EVAL_COMPUTATION_ELIGIBLE = 51;
+
   // Client started computation.
   TRAIN_COMPUTATION_STARTED = 26;
 
@@ -165,6 +169,9 @@ enum TrainingEventKind {
   // Client finished computation.
   // Always preceded by TRAIN_COMPUTATION_STARTED.
   TRAIN_COMPUTATION_COMPLETED = 32;
+
+  // Client report result to server successfully
+  TRAIN_RESULT_REPORT_SUCCESS = 50;
 
   // Client starts to upload successfully computed results.
   TRAIN_RESULT_UPLOAD_STARTED = 33;
@@ -209,4 +216,19 @@ enum TrainingEventKind {
 
   // Client failed to initialize a component, and execution was halted.
   TRAIN_INITIALIZATION_ERROR_FATAL = 44;
+
+  // Client receives http status = 403 UNAUTHORIZED when creating task assignment.
+  TRAIN_TASK_ASSIGNMENT_UNAUTHORIZED= 45;
+
+  // Client is authorized to create task assignment.
+  TRAIN_TASK_ASSIGNMENT_AUTH_SUCCEEDED = 46;
+
+  // Client receives http status = 403 UNAUTHORIZED when reporting result.
+  TRAIN_REPORT_RESULT_UNAUTHORIZED= 47;
+
+  // Client is authorized to report result.
+  TRAIN_INITIATE_REPORT_RESULT_AUTH_SUCCEEDED = 48;
+
+  // Client successfully generates an attestation record.
+  TRAIN_KEY_ATTESTATION_SUCCEEDED = 49;
 }
