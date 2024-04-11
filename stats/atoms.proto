@@ -1456,6 +1456,7 @@ message Atom {
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
+    extensions 10209; // Reserved for b/324602949
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
