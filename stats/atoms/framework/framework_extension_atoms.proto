@@ -47,6 +47,7 @@ extend Atom {
             [(module) = "framework"];
     optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
     optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
+    optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209 [(module) = "framework"];
 }
 
 /**
@@ -613,4 +614,57 @@ message AppRestrictionStateChanged {
   }
   // The source of the change - initiated by the user, the system automatically, etc.
   optional RestrictionChangeSource source = 7;
+}
+
+/**
+ * Pulls detailed battery attribution slices.
+ *
+ * Pulled from:
+ *   frameworks/base/services/core/java/com/android/server/am/BatteryStatsService.java
+ *
+ * The charging_state and screen_state (and other states potentially) can be used as a dimensions
+ * for corresponding metrics to pull this atom and rely on statsd tracking of states instead
+ */
+message BatteryUsageStatsPerUid {
+
+  enum ProcessState {
+    UNSPECIFIED = 0;
+    FOREGROUND = 1;
+    BACKGROUND = 2;
+    FOREGROUND_SERVICE = 3;
+    CACHED = 4;
+  }
+
+  // Overall SessionStats data
+
+  // The session start timestamp in UTC milliseconds since January 1, 1970, per Date#getTime().
+  // All data is no older than this time.
+  optional int64 session_start_millis = 1;
+
+  // The session end timestamp in UTC milliseconds since January 1, 1970, per Date#getTime().
+  // All data is no more recent than this time.
+  optional int64 session_end_millis = 2;
+
+  // Length that the reported data covered. This usually will be equal to the entire session,
+  // session_end_millis - session_start_millis, but may not be if some data during this time frame
+  // is missing.
+  optional int64 session_duration_millis = 3;
+
+  // Sum of all discharge percentage point drops during the reported session.
+  // Reported by Health HAL - as an integer ranging from 0 to 100
+  optional int32 session_discharge_percentage = 4;
+
+  // Total amount of time battery was discharging during the reported session
+  optional int64 session_discharge_duration_millis = 5;
+
+  // Per Uid BatteryConsumer data
+
+  optional int32 uid = 6 [(is_uid) = true];    // for device-wide atom Process.INVALID_UID (-1)
+  optional ProcessState proc_state = 7;        // for device-wide atom ProcessState.UNSPECIFIED
+  optional int64 time_in_state_millis = 8;
+
+  optional string power_component_name = 9;
+  optional float total_consumed_power_mah = 10;
+  optional float consumed_power_mah = 11;
+  optional int64 duration_millis = 12;
 }

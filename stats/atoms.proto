@@ -1487,7 +1487,7 @@ message Atom {
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
-    extensions 10209; // Reserved for b/324602949
+    extensions 10209; // BatteryUsageStatsPerUid battery_usage_stats_per_uid
     extensions 10210; // Reserved for b/339008431
     extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
     extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
