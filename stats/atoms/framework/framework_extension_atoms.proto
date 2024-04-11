@@ -21,6 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -430,7 +431,7 @@ message ProxyBytesTransferByFgBg {
  message MobileBytesTransferByProcState {
     optional int32 uid = 1 [(is_uid) = true];
 
-    optional int32 proc_state = 2;
+    optional android.app.ProcessStateEnum proc_state = 2;
 
     optional int64 rx_bytes = 3;
 
