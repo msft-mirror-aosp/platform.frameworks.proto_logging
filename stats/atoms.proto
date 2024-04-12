@@ -1206,6 +1206,7 @@ message Atom {
     extensions 859; // PdfLoadReported pdf_load_reported
     extensions 860; // PdfApiUsageReported pdf_api_usage_reported
     extensions 861; // PdfSearchReported pdf_search_reported
+    extensions 862; // RemoteDeviceInformationWithMetricId remote_device_information_with_metric_id
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1456,6 +1457,7 @@ message Atom {
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
+    extensions 10209; // Reserved for b/324602949
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
