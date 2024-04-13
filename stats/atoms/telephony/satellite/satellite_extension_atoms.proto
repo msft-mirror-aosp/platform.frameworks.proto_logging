@@ -93,6 +93,23 @@ message SatelliteSession {
   optional android.telephony.NTRadioTechnology satellite_technology = 2;
   // Total count of times this event has occurred.
   optional int32 count = 3;
+  // The result for satellite service disablement
+  // set as dimension
+  optional android.telephony.SatelliteError satellite_service_termination_result = 4;
+  // the processing time to enable satellite session
+  optional int64 initialization_processing_time_millis = 5;
+  // the processing time to disable satellite session
+  optional int64 termination_processing_time_millis = 6;
+  // the duration from the satellite service is enabled to satellite is disabled
+  optional int32 session_duration_seconds = 7;
+  // the number of successful outgoing datagram transmission while the session is enabled
+  optional int32 count_of_outgoing_datagram_success = 8;
+  // the number of failed outgoing datagram transmission while the session is enabled
+  optional int32 count_of_outgoing_datagram_failed = 9;
+  // the number of successful incoming datagram transmission while the session is enabled
+  optional int32 count_of_incoming_datagram_success = 10;
+  // the number of failed incoming datagram transmission while the session is enabled
+  optional int32 count_of_incoming_datagram_failed = 11;
 }
 
 /**
