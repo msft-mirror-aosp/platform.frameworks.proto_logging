@@ -4678,6 +4678,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     MEDIA_DRM_SETTINGS = 2080;
+
+    // OPEN: Settings > Location > Location Services > Private
+    // CATEGORY: SETTINGS
+    // OS: V
+    LOCATION_SERVICES_FOR_PRIVATE_PROFILE = 2081;
 }
 
 // Battery Saver schedule types.
