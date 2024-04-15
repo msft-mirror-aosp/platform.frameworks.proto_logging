@@ -79,6 +79,7 @@ enum SoftInputShowHideReasonEnum {
     REASON_HIDE_SOFT_INPUT_REQUEST_HIDE_WITH_CONTROL = 52;
     REASON_SHOW_SOFT_INPUT_IME_TOGGLE_SOFT_INPUT = 53;
     REASON_SHOW_SOFT_INPUT_IMM_DEPRECATION = 54;
+    REASON_CONTROL_WINDOW_INSETS_ANIMATION = 55;
 }
 
 // The type of the IME request, used by android/view/inputmethod/ImeTracker.java.
@@ -89,6 +90,8 @@ enum ImeRequestTypeEnum {
     TYPE_SHOW = 1;
     // IME hide request type.
     TYPE_HIDE = 2;
+    // IME user-controlled animation request type.
+    TYPE_USER = 3;
 }
 
 // The status of the IME request, used by android/view/inputmethod/ImeTracker.java.
