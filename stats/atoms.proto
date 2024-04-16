@@ -22324,6 +22324,7 @@ message AdServicesMeasurementRegistrations {
     optional int32 retry_count = 10;
     optional int32 http_response_code = 11;
     optional bool is_redirect = 12;
+    optional bool is_pa_request = 13;
 }
 
 /**
