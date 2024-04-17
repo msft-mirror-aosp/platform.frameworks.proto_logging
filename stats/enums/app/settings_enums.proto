@@ -1588,6 +1588,58 @@ enum Action {
     // Category: SETTINGS
     // OS: V
     ACTION_SET_PRIVATE_SPACE_AUTOLOCK = 1908;
+
+    // ACTION: Settings > System > Touchpad > Tap dragging
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_GESTURE_TAP_DRAGGING_CHANGED = 1909;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TRIGGERED = 1910;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TRIGGERED = 1911;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TOGGLE_CLICKED = 1912;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
+
+    // ACTION: Settings > Sound & Vibration > Vibration & haptics
+    //                  > Adaptive Vibration > Use Adaptive Vibration
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_ADAPTIVE_VIBRATION_CHANGED = 1914;
+
+    // ACTION: Settings > Network & Internet > SIMs > ‘Select RAC eSIM’
+    // > Erase eSIM without Wi-Fi or data from second SIM
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_SETTINGS_ESIM_RAC_CONNECTIVITY_WARNING = 1915;
+
+    // ACTION: Settings -> System -> Reset Options -> Reset Mobile Network Settings
+    // > Check 'erase eSIMs' > Erase eSIM without Wi-Fi
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_MOBILE_NETWORK_RAC_CONNECTIVITY_WARNING = 1916;
+
+    // ACTION: Settings -> System -> Reset Options -> Erase eSIMs
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_ESIMS_RAC_CONNECTIVITY_WARNING = 1917;
 }
 
 /**
