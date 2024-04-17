@@ -1650,6 +1650,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: UQPR2
     ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_PAIR_SUCCEED = 1919;
+
+    // Action: Settings > Battery settings > Click the learn more link while wireless charging
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_WIRELESS_CHARGING_LEARN_MORE = 1920;
 }
 
 /**
