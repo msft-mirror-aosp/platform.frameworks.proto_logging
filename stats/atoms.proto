@@ -1212,6 +1212,7 @@ message Atom {
     extensions 866; // AppRestrictionStateChanged app_restriction_state_changed
     extensions 867; // ScreenDimReported screen_dim_reported
     extensions 868; // ChreSignificantMotionStateChanged chre_significant_motion_state_changed
+    extensions 869; // NavHandleTouchPoints nav_handle_touch_points
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
