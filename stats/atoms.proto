@@ -1210,6 +1210,7 @@ message Atom {
     extensions 863; // ComponentStateChangedReported component_state_changed_reported
     extensions 864; // AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration
     extensions 865; // AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp
+    extensions 866; // AppRestrictionStateChanged app_restriction_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
