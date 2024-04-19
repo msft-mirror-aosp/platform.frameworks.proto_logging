@@ -2089,6 +2089,9 @@ message WifiDisconnectReported {
 
     // Carrier id of the network.
     optional int32 carrier_id = 13;
+
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 14 [(is_uid) = true];
 }
 
 /**
