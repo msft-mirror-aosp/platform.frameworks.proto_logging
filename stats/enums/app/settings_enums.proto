@@ -1580,7 +1580,7 @@ enum Action {
     // ACTION: Allow or deny an app the run backup jobs permission
     // CATEGORY: SETTINGS
     // OS: V
-    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907;
+    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907 [deprecated = true];
 
     // ACTION: Settings > Security&Privacy > Private space
     // > Lock private space automatically
