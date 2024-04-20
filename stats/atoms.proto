@@ -16086,6 +16086,9 @@ message DataCallSession {
 
     // Whether the call is over non-terrestrial networks.
     optional bool is_ntn = 24;
+
+    // Determines if current data call was over satellite transport
+    optional bool is_satellite_transport = 25;
 }
 
 /**
