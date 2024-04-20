@@ -29,6 +29,9 @@ enum DatagramType {
   DATAGRAM_TYPE_SOS_MESSAGE = 1;
   // Datagram type indicating that the datagram to be sent or received is of type  location sharing.
   DATAGRAM_TYPE_LOCATION_SHARING = 2;
+  // Datagram type indicating that keep the device in satellite connected state or check if there is
+  // any incoming message.
+  DATAGRAM_TYPE_KEEP_ALIVE = 3;
 }
 
 // Result code of Incoming / Outgoing satellite datagram
