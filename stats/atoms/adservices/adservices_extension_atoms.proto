@@ -145,6 +145,11 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled = 849
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration = 864
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp = 865
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -476,6 +481,17 @@ message AdServicesConsentMigrated {
   optional int64 click_dedup_max_sources_per_click = 10;
 
   optional bool click_dedup_under_limit = 11;
+}
+
+message AdServicesMeasurementProcessOdpRegistration {
+  optional android.adservices.service.measurement.OdpRegistrationType odp_registration_type = 1;
+  optional android.adservices.service.measurement.OdpRegistrationStatus odp_registration_status = 2;
+}
+
+message AdServicesMeasurementNotifyRegistrationToOdp {
+  optional int64 odp_api_latency_ms = 1;
+  optional android.adservices.service.measurement.OdpApiCallStatus odp_api_call_status = 2;
+
 }
 
 /**
