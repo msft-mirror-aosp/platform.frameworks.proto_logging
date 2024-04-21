@@ -1098,6 +1098,8 @@ message Atom {
     extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
     extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
     extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
+    extensions 864; // AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration
+    extensions 865; // AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -21881,6 +21883,7 @@ message AdServicesMeasurementRegistrations {
     optional int32 retry_count = 10;
     optional int32 http_response_code = 11;
     optional bool is_redirect = 12;
+    optional bool is_pa_request = 13;
 }
 
 /**

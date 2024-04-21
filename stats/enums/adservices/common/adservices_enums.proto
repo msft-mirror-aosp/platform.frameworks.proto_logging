@@ -365,6 +365,24 @@ enum ErrorCode {
   // Error occurred when encountering invalid enrollment.
   ENROLLMENT_INVALID = 2015;
 
+  // Error occurred when trying to get instance of an ODP system event manager
+  MEASUREMENT_REGISTRATION_ODP_GET_MANAGER_ERROR = 2016;
+
+  // Error due to the ODP header being in an invalid format
+  MEASUREMENT_REGISTRATION_ODP_INVALID_HEADER_FORMAT_ERROR = 2017;
+
+  // Error due to the ODP header missing a required field
+  MEASUREMENT_REGISTRATION_ODP_MISSING_REQUIRED_HEADER_FIELD_ERROR = 2018;
+
+  // Error due to the ODP header containing a field with an invalid value
+  MEASUREMENT_REGISTRATION_ODP_INVALID_HEADER_FIELD_VALUE_ERROR = 2019;
+
+  // Error occurred when trying to parse the ODP header (JSON Exception)
+  MEASUREMENT_REGISTRATION_ODP_JSON_PARSING_ERROR = 2020;
+
+  // Error occurred when trying to parse the ODP header (Unknown Exception)
+  MEASUREMENT_REGISTRATION_ODP_PARSING_UNKNOWN_ERROR = 2021;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
