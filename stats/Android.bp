@@ -21,6 +21,13 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+
+// Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
+// Due to size grownth constraints proposed to reuse only what really imported
+shared_enum_protos = [
+    "enums/app/**/*.proto",
+]
+
 enum_protos = [
     "enums/adservices/common/*.proto",
     "enums/adservices/enrollment/*.proto",
@@ -28,7 +35,6 @@ enum_protos = [
     "enums/adservices/measurement/*.proto",
     "enums/anr/*.proto",
     "enums/apex/*.proto",
-    "enums/app/**/*.proto",
     "enums/appsearch/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
@@ -181,7 +187,7 @@ cc_library_host_shared {
     srcs: [
         "atom_field_options.proto",
         ":libstats_atom_message_protos",
-    ] + enum_protos + atom_protos,
+    ] + shared_enum_protos + enum_protos + atom_protos,
 
     cflags: [
         "-Wno-deprecated-declarations",
@@ -219,8 +225,13 @@ filegroup {
 }
 
 filegroup {
+    name: "libstats_shared_enum_protos",
+    srcs: shared_enum_protos,
+}
+
+filegroup {
     name: "libstats_atom_enum_protos",
-    srcs: enum_protos,
+    srcs: shared_enum_protos + enum_protos,
 }
 
 filegroup {
