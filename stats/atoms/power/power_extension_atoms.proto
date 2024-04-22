@@ -30,6 +30,7 @@ extend Atom {
       = 836 [(module) = "framework"];
   optional ScreenInteractiveSessionReported screen_interactive_session_reported
       = 837 [(module) = "framework"];
+  optional ScreenDimReported screen_dim_reported = 867 [(module) = "framework"];
 }
 
 /**
@@ -126,4 +127,39 @@ message ScreenInteractiveSessionReported {
    optional int64 last_user_activity_event_duration_millis = 5;
    // Duration between override timeout and default timeout
    optional int64 reduced_interactive_state_on_duration_millis = 6;
+}
+
+/**
+ * Logs For Screen Dim.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/power/ScreenSessionObserver.java
+ */
+message ScreenDimReported {
+   enum PolicyReason {
+       UNKNOWN = 0;
+       OFF_TIMEOUT = 1;
+       OFF_POWER_BUTTON = 2;
+       BRIGHT_UNDIM = 3;
+       BRIGHT_INITIATED_REVERT = 4;
+   }
+
+   // power group id is the superset of display_id used in PowerManagerService
+   // One power group id might have multiple displays or multiple display groups
+   optional int32 power_group_id = 1;
+
+   // Policy reason for studying dim
+   optional PolicyReason policy_reason = 2;
+
+   // User activity when the policy reason is tracked
+   optional ScreenInteractiveSessionReported.UserActivityEvent last_user_activity_event = 3;
+
+   // User activity duration
+   optional int32 last_user_activity_event_duration_millis = 4;
+
+   // Duration of dim
+   optional int32 dim_duration_millis = 5;
+
+   // Timeout default setting
+   optional int32 default_timeout_millis = 6;
 }
