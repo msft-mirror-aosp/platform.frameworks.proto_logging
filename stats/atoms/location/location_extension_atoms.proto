@@ -20,6 +20,7 @@ package android.os.statsd.location;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 
 option java_package = "com.android.os.location";
 option java_multiple_files = true;
@@ -27,6 +28,9 @@ option java_multiple_files = true;
 extend Atom {
   optional EmergencyStateChanged emergency_state_changed = 633
       [(module) = "framework"];
+
+ optional ChreSignificantMotionStateChanged
+      chre_significant_motion_state_changed = 868 [(module) = "chre"];
 }
 
 /**
@@ -40,4 +44,13 @@ message EmergencyStateChanged {
      (state_field_option).exclusive_state = true,
      (state_field_option).nested = false
   ];
+}
+
+/**
+ * Logs when the significant motion state changed. Motion is detected in the
+ * CHRE nanoapp. Significant motion has a specific definition "a motion that
+ * might lead to a change in the user location"
+ */
+message ChreSignificantMotionStateChanged {
+  optional android.contexthub.ContextHubSignificantMotionState state = 1;
 }
