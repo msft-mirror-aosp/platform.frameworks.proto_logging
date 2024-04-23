@@ -81,6 +81,22 @@ message SatelliteController {
   optional int32 total_battery_consumption_percent = 16;
   // The total duration of the battery being charged while satellite modem is on
   optional int32 total_battery_charged_time_sec = 17;
+  // Count of successful satellite service enablement in demo mode
+  optional int32 count_of_demo_mode_satellite_service_enablements_success = 18;
+  // Count of failed satellite service enablement in demo mode
+  optional int32 count_of_demo_mode_satellite_service_enablements_fail = 19;
+  // Total count of successful outgoing datagrams in demo mode.
+  optional int32 count_of_demo_mode_outgoing_datagram_success = 20;
+  // Total count of failed attempts for outgoing datagrams in demo mode.
+  optional int32 count_of_demo_mode_outgoing_datagram_fail = 21;
+  // Total count of successful incoming datagrams in demo mode.
+  optional int32 count_of_demo_mode_incoming_datagram_success = 22;
+  // Total count of failed attempts for incoming datagrams in demo mode.
+  optional int32 count_of_demo_mode_incoming_datagram_fail = 23;
+  // Total count of successful DATAGRAM_TYPE_KEEP_ALIVE request.
+  optional int32 count_of_datagram_type_keep_alive_success = 24;
+  // Total count of failed DATAGRAM_TYPE_KEEP_ALIVE request.
+  optional int32 count_of_datagram_type_keep_alive_fail = 25;
 }
 
 /**
@@ -93,6 +109,25 @@ message SatelliteSession {
   optional android.telephony.NTRadioTechnology satellite_technology = 2;
   // Total count of times this event has occurred.
   optional int32 count = 3;
+  // The result for satellite service disablement
+  // set as dimension
+  optional android.telephony.SatelliteError satellite_service_termination_result = 4;
+  // the processing time to enable satellite session
+  optional int64 initialization_processing_time_millis = 5;
+  // the processing time to disable satellite session
+  optional int64 termination_processing_time_millis = 6;
+  // the duration from the satellite service is enabled to satellite is disabled
+  optional int32 session_duration_seconds = 7;
+  // the number of successful outgoing datagram transmission while the session is enabled
+  optional int32 count_of_outgoing_datagram_success = 8;
+  // the number of failed outgoing datagram transmission while the session is enabled
+  optional int32 count_of_outgoing_datagram_failed = 9;
+  // the number of successful incoming datagram transmission while the session is enabled
+  optional int32 count_of_incoming_datagram_success = 10;
+  // the number of failed incoming datagram transmission while the session is enabled
+  optional int32 count_of_incoming_datagram_failed = 11;
+  // Whether this session is enabled for demo mode, code {true} if it is demo mode
+  optional bool is_demo_mode = 12;
 }
 
 /**
@@ -105,6 +140,8 @@ message SatelliteIncomingDatagram {
   optional int32 datagram_size_bytes = 2;
   // The amount of time took to receive the datagram.
   optional int64 datagram_transfer_time_millis = 3;
+  // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  optional bool is_demo_mode = 4;
 }
 
 /**
@@ -119,6 +156,8 @@ message SatelliteOutgoingDatagram {
   optional int32 datagram_size_bytes = 3;
   // The amount of time took to send the datagram.
   optional int64 datagram_transfer_time_millis = 4;
+  // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  optional bool is_demo_mode = 5;
 }
 
 /**

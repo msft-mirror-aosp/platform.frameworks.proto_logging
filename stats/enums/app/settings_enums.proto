@@ -1580,7 +1580,7 @@ enum Action {
     // ACTION: Allow or deny an app the run backup jobs permission
     // CATEGORY: SETTINGS
     // OS: V
-    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907;
+    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907 [deprecated = true];
 
     // ACTION: Settings > Security&Privacy > Private space
     // > Lock private space automatically
@@ -1623,6 +1623,38 @@ enum Action {
     // VALUE: false is off, true is on
     // OS: V
     ACTION_ADAPTIVE_VIBRATION_CHANGED = 1914;
+
+    // ACTION: Settings > Network & Internet > SIMs > ‘Select RAC eSIM’
+    // > Erase eSIM without Wi-Fi or data from second SIM
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_SETTINGS_ESIM_RAC_CONNECTIVITY_WARNING = 1915;
+
+    // ACTION: Settings -> System -> Reset Options -> Reset Mobile Network Settings
+    // > Check 'erase eSIMs' > Erase eSIM without Wi-Fi
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_MOBILE_NETWORK_RAC_CONNECTIVITY_WARNING = 1916;
+
+    // ACTION: Settings -> System -> Reset Options -> Erase eSIMs
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_ESIMS_RAC_CONNECTIVITY_WARNING = 1917;
+
+    // ACTION: Settings > Connected devices > Previously used with account
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_LIST = 1918;
+
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device succeed
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_PAIR_SUCCEED = 1919;
+
+    // Action: Settings > Battery settings > Click the learn more link while wireless charging
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_WIRELESS_CHARGING_LEARN_MORE = 1920;
 }
 
 /**
@@ -4487,12 +4519,12 @@ enum PageId {
     // ACTION: Allow Voice activation of an assistant app
     // CATEGORY: SETTINGS
     // OS: V
-    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046;
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046 [deprecated = true];
 
     // ACTION: Deny Voice activation of an assistant app
     // CATEGORY: SETTINGS
     // OS: V
-    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047;
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047 [deprecated = true];
 
     // OPEN: Settings > Connected devices > Connection preferences > Audio sharing
     // CATEGORY: SETTINGS
@@ -4661,6 +4693,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     MEDIA_DRM_SETTINGS = 2080;
+
+    // OPEN: Settings > Location > Location Services > Private
+    // CATEGORY: SETTINGS
+    // OS: V
+    LOCATION_SERVICES_FOR_PRIVATE_PROFILE = 2081;
 }
 
 // Battery Saver schedule types.

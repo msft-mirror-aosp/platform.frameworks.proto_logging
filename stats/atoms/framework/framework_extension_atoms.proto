@@ -21,6 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -45,6 +46,7 @@ extend Atom {
     optional SensitiveNotificationRedaction sensitive_notification_redaction = 833
             [(module) = "framework"];
     optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
+    optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
 }
 
 /**
@@ -430,7 +432,7 @@ message ProxyBytesTransferByFgBg {
  message MobileBytesTransferByProcState {
     optional int32 uid = 1 [(is_uid) = true];
 
-    optional int32 proc_state = 2;
+    optional android.app.ProcessStateEnum proc_state = 2;
 
     optional int64 rx_bytes = 3;
 
@@ -550,4 +552,45 @@ message SensitiveContentAppProtection {
  */
 message ExcessiveBinderProxyCountReported {
     optional int32 offending_uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Logs when an app's restriction state changes.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/AppRestrictionController.java
+ */
+message AppRestrictionStateChanged {
+  optional int32 uid = 1 [(is_uid) = true];
+
+  enum RestrictionType {
+    TYPE_UNKNOWN = 0;
+    TYPE_UNRESTRICTED = 1;
+    TYPE_EXEMPTED = 2;
+    TYPE_ADAPTIVE = 3;
+    TYPE_RESTRICTED_BUCKET = 4;
+    TYPE_BACKGROUND_RESTRICTED = 5;
+    TYPE_FORCE_STOPPED = 6;
+    TYPE_USER_LAUNCH_ONLY = 7;
+    TYPE_CUSTOM = 8;
+  }
+
+  optional RestrictionType restriction_type = 2;
+  optional bool enabled = 3;
+
+  enum RestrictionChangeReason {
+    REASON_UNKNOWN = 0;
+    REASON_DEFAULT = 1;
+    REASON_DORMANT = 2;
+    REASON_USAGE = 3; // For unrestriction
+    REASON_USER = 4;
+    REASON_USER_NUDGED = 5;
+    REASON_SYSTEM_HEALTH = 6;
+    REASON_REMOTE_TRIGGER = 7;
+    REASON_OTHER = 8;
+  }
+  // The main reason for restriction state change
+  optional RestrictionChangeReason main_reason = 4;
+  optional string sub_reason = 5; // At most 16 chars
+  optional int64 threshold_exceeded = 6;
 }

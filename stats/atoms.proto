@@ -1199,6 +1199,19 @@ message Atom {
     extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
     extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
     extensions 854; // DataRatStateChanged data_rat_state_changed
+    extensions 855; // NfcObserveModeStateChanged nfc_observe_mode_state_changed
+    extensions 856; // NfcFieldChanged nfc_field_changed
+    extensions 857; // NfcPollingLoopNotificationReported nfc_polling_loop_notification_reported
+    extensions 858; // NfcProprietaryCapabilitiesReported nfc_proprietary_capabilities_reported
+    extensions 859; // PdfLoadReported pdf_load_reported
+    extensions 860; // PdfApiUsageReported pdf_api_usage_reported
+    extensions 861; // PdfSearchReported pdf_search_reported
+    extensions 862; // RemoteDeviceInformationWithMetricId remote_device_information_with_metric_id
+    extensions 863; // ComponentStateChangedReported component_state_changed_reported
+    extensions 864; // AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration
+    extensions 865; // AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp
+    extensions 866; // AppRestrictionStateChanged app_restriction_state_changed
+    extensions 867; // ScreenDimReported screen_dim_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1449,6 +1462,7 @@ message Atom {
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
+    extensions 10209; // Reserved for b/324602949
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -2181,6 +2195,8 @@ message WifiP2pConnectionReported {
     optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
     // The try count of connection
     optional int32 try_count = 12;
+    // The Attribution tag to identify the caller
+    optional string attribution_tag = 13;
 }
 
 /**
@@ -14430,6 +14446,9 @@ message CameraActionEvent {
     optional bool used_ultrawide = 26;
 
     optional bool used_zoom_override = 27;
+
+    optional int32 most_requested_fps_range_min = 28;
+    optional int32 most_requested_fps_range_max = 29;
 }
 
 /**
@@ -15494,6 +15513,9 @@ message VoiceCallSession {
 
     // Whether Vonr is enabled
     optional bool vonr_enabled = 41;
+
+    // Whether the call is over non-terrestrial networks.
+    optional bool is_ntn = 42;
 }
 
 /**
@@ -15584,6 +15606,9 @@ message CellularServiceState {
     // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
     // cross-SIM calling (WiFi calling over other SIM's cellular data).
     optional bool is_iwlan_cross_sim = 15;
+
+    // Whether the device is using non-terrestrial networks.
+    optional bool is_ntn = 16;
 }
 
 /**
@@ -15713,6 +15738,18 @@ message TelephonyNetworkRequestsV2 {
         CBS = 3;
         // Enterprise capability was requested.
         ENTERPRISE = 4;
+        //Satellite internet restricted capability was requested.
+        SATELLITE_INTERNET_RESTRICTED = 5;
+        //Satellite mms restricted capability was requested.
+        SATELLITE_MMS_RESTRICTED = 6;
+        //Satellite ims restricted capability was requested.
+        SATELLITE_IMS_RESTRICTED = 7;
+        //Satellite xcap restricted capability was requested.
+        SATELLITE_XCAP_RESTRICTED = 8;
+        //Satellite eims restricted capability was requested.
+        SATELLITE_EIMS_RESTRICTED = 9;
+        //Satellite supl restricted capability was requested.
+        SATELLITE_SUPL_RESTRICTED =10;
     }
     // Carrier ID of the SIM card.
     // See https://source.android.com/devices/tech/config/carrierid.
@@ -16047,6 +16084,12 @@ message DataCallSession {
     // When the 'rat_at_end' field is IWLAN, determines if the data call setup was
     // over cross-SIM calling (Wifi calling over cellular data).
     optional bool is_iwlan_cross_sim = 23;
+
+    // Whether the call is over non-terrestrial networks.
+    optional bool is_ntn = 24;
+
+    // Determines if current data call was over satellite transport
+    optional bool is_satellite_transport = 25;
 }
 
 /**
@@ -22300,6 +22343,7 @@ message AdServicesMeasurementRegistrations {
     optional int32 retry_count = 10;
     optional int32 http_response_code = 11;
     optional bool is_redirect = 12;
+    optional bool is_pa_request = 13;
 }
 
 /**
