@@ -145,6 +145,11 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled = 849
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration = 864
+      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp = 865
+      [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -307,6 +312,14 @@ message AdServicesMeasurementAttribution {
   optional int32 event_report_count = 11;
   optional int32 event_debug_report_count = 12;
   optional int32 retry_count = 13;
+  // Number of null aggregate reports that were generated as a result of this
+  // attribution. A null aggregate report is an aggregate report meant to
+  // obscure the true number of aggregate reports sent to consumers of the
+  // Attribution Reporting API. An aggregate report is an input to the Private
+  // Aggregate API and contains detailed conversion data associated with an
+  // attribution. Obscuring the true number of aggregate reports preserves
+  // privacy.
+  optional int32 null_aggregate_report_count = 14;
 }
 
 /**
@@ -468,6 +481,17 @@ message AdServicesConsentMigrated {
   optional int64 click_dedup_max_sources_per_click = 10;
 
   optional bool click_dedup_under_limit = 11;
+}
+
+message AdServicesMeasurementProcessOdpRegistration {
+  optional android.adservices.service.measurement.OdpRegistrationType odp_registration_type = 1;
+  optional android.adservices.service.measurement.OdpRegistrationStatus odp_registration_status = 2;
+}
+
+message AdServicesMeasurementNotifyRegistrationToOdp {
+  optional int64 odp_api_latency_ms = 1;
+  optional android.adservices.service.measurement.OdpApiCallStatus odp_api_call_status = 2;
+
 }
 
 /**
@@ -1004,7 +1028,7 @@ message UpdateSignalsApiCalled {
     optional JsonProcessingStatus json_processing_status = 3;
 
     // Uid of calling app, only included in error cases
-    optional int32 uid = 4;
+    optional int32 uid = 4 [(is_uid) = true];
 
     // Adtech's eTLD+1, only included in error cases
     optional string adtech_id = 5;
