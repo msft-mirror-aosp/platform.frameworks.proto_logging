@@ -131,6 +131,7 @@ enum OomChangeReasonEnum {
     OOM_ADJ_REASON_EXECUTING_SERVICE = 20;
     OOM_ADJ_REASON_RESTRICTION_CHANGE = 21;
     OOM_ADJ_REASON_COMPONENT_DISABLED = 22;
+    OOM_ADJ_REASON_FOLLOW_UP = 23;
 }
 
 // AppOpsManager.java - operation ids for logging
