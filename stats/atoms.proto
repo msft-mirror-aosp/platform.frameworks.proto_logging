@@ -1098,20 +1098,6 @@ message Atom {
     extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
     extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
     extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
-    extensions 850; // VpnConnectionStateChanged vpn_connection_state_changed
-    extensions 851; // VpnConnectionReported vpn_connection_reported
-    extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
-    extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
-    extensions 854; // DataRatStateChanged data_rat_state_changed
-    extensions 855; // NfcObserveModeStateChanged nfc_observe_mode_state_changed
-    extensions 856; // NfcFieldChanged nfc_field_changed
-    extensions 857; // NfcPollingLoopNotificationReported nfc_polling_loop_notification_reported
-    extensions 858; // NfcProprietaryCapabilitiesReported nfc_proprietary_capabilities_reported
-    extensions 859; // PdfLoadReported pdf_load_reported
-    extensions 860; // PdfApiUsageReported pdf_api_usage_reported
-    extensions 861; // PdfSearchReported pdf_search_reported
-    extensions 862; // RemoteDeviceInformationWithMetricId remote_device_information_with_metric_id
-    extensions 863; // ComponentStateChangedReported component_state_changed_reported
     extensions 864; // AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration
     extensions 865; // AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp
     extensions 9999; // Atom9999 atom_9999
