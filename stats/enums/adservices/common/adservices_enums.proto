@@ -76,7 +76,7 @@ enum AttributionType {
  * - Fledge errors: 3001-4000
  * - UX errors: 4001-5000
  * - FederatedCompute errors: 5001-6000
- * - AdExtDataServiceErrors: 6001-7000
+ * - Back Compat errors: 6001-7000
  * - IAPC errors: 7001 - 8000
  * - ODP errors: 8001-9000
  *
@@ -130,6 +130,9 @@ enum ErrorCode {
 
   // Encryption Keys no MDD files available.
   ENCRYPTION_KEYS_MDD_NO_FILE_AVAILABLE = 17;
+
+  // JobScheduler is not available.
+  JOB_SCHEDULER_IS_UNAVAILABLE = 18;
 
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
@@ -362,6 +365,24 @@ enum ErrorCode {
   // Error occurred when encountering invalid enrollment.
   ENROLLMENT_INVALID = 2015;
 
+  // Error occurred when trying to get instance of an ODP system event manager
+  MEASUREMENT_REGISTRATION_ODP_GET_MANAGER_ERROR = 2016;
+
+  // Error due to the ODP header being in an invalid format
+  MEASUREMENT_REGISTRATION_ODP_INVALID_HEADER_FORMAT_ERROR = 2017;
+
+  // Error due to the ODP header missing a required field
+  MEASUREMENT_REGISTRATION_ODP_MISSING_REQUIRED_HEADER_FIELD_ERROR = 2018;
+
+  // Error due to the ODP header containing a field with an invalid value
+  MEASUREMENT_REGISTRATION_ODP_INVALID_HEADER_FIELD_VALUE_ERROR = 2019;
+
+  // Error occurred when trying to parse the ODP header (JSON Exception)
+  MEASUREMENT_REGISTRATION_ODP_JSON_PARSING_ERROR = 2020;
+
+  // Error occurred when trying to parse the ODP header (Unknown Exception)
+  MEASUREMENT_REGISTRATION_ODP_PARSING_UNKNOWN_ERROR = 2021;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
@@ -430,11 +451,30 @@ enum ErrorCode {
   // Timeout exception while trying to iterate data.
   ITERATOR__NEXT_TIMEOUT = 5007;
 
+  // Back Compat errors: 6001-7000
   // AdExtDataService get failed
   GET_ADEXT_DATA_SERVICE_ERROR = 6001;
 
   // AdExtDataService put failed
   PUT_ADEXT_DATA_SERVICE_ERROR = 6002;
+
+  // Failed to cancel background jobs in back compat init.
+  BACK_COMPAT_INIT_CANCEL_JOB_FAILURE = 6003;
+
+  // Failed to update UI activity enabled setting in back compat init.
+  BACK_COMPAT_INIT_UPDATE_ACTIVITY_FAILURE = 6004;
+
+  // Failed to update service enabled setting in back compat init.
+  BACK_COMPAT_INIT_UPDATE_SERVICE_FAILURE = 6005;
+
+  // Failed to enable package changed receiver in back compat init.
+  BACK_COMPAT_INIT_ENABLE_RECEIVER_FAILURE = 6006;
+
+  // Failed to disable package changed receiver in back compat init.
+  BACK_COMPAT_INIT_DISABLE_RECEIVER_FAILURE = 6007;
+
+  // Failed to run back compat init in boot completed receiver.
+  BACK_COMPAT_INIT_BOOT_COMPLETED_RECEIVER_FAILURE = 6008;
 
   // IAPC errors: 7001-8000
   // AdIdProviderService is not available.
