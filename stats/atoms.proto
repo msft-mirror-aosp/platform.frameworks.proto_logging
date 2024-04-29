@@ -1264,6 +1264,7 @@ message Atom {
     extensions 930; // TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported
     extensions 931; // AppOpAccessTracked app_op_access_tracked
     extensions 932; // InputEventLatencyReported input_event_latency_reported
+    extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
