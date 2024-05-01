@@ -1219,6 +1219,8 @@ message Atom {
     extensions 873; // LeScanAbused le_scan_abused
     extensions 874; // LeAdvStateChanged le_adv_state_changed
     extensions 875; // LeAdvErrorReported le_adv_error_reported
+    extensions 876; // SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called
+    extensions 877; // ReportImpressionApiCalled report_impression_api_called
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -22033,6 +22035,10 @@ message RunAdScoringProcessReported {
     // the overall latency of the runAdScoring process.
     optional int32 run_ad_scoring_latency_in_millis = 14;
     optional int32 run_ad_scoring_result_code = 15;
+
+    /* Logs when data header is used in scoreAd. */
+    optional bool scoreAd_seller_additional_signals_contained_data_version = 16;
+    optional android.adservices.service.JsRunStatus scoreAd_js_script_result_code = 17;
 }
 
 /* Logs for the ad selection process when the runAdSelection() is called.*/
@@ -22074,6 +22080,13 @@ message RunAdBiddingPerCAProcessReported {
     // the overall latency of runBidding().
     optional int32 run_bidding_latency_in_millis = 13;
     optional int32 run_bidding_result_code = 14;
+
+    /* Logs when CPC is used. */
+    optional bool run_ad_bidding_per_ca_returned_ad_cost = 15;
+
+    /* Logs when data header is used in GenerateBid. */
+    optional bool generateBid_buyer_additional_signals_contained_data_version = 16;
+    optional android.adservices.service.JsRunStatus generateBid_js_script_result_code = 17;
 }
 
 /**
