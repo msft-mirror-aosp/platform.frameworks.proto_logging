@@ -21,11 +21,11 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
-
 // Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
 // Due to size grownth constraints proposed to reuse only what really imported
 shared_enum_protos = [
     "enums/app/**/*.proto",
+    "enums/display/*.proto",
 ]
 
 enum_protos = [
@@ -40,7 +40,6 @@ enum_protos = [
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
     "enums/debug/*.proto",
-    "enums/display/*.proto",
     "enums/dnd/*.proto",
     "enums/federatedcompute/*.proto",
     "enums/hardware/**/*.proto",

@@ -1212,6 +1212,13 @@ message Atom {
     extensions 866; // AppRestrictionStateChanged app_restriction_state_changed
     extensions 867; // ScreenDimReported screen_dim_reported
     extensions 868; // ChreSignificantMotionStateChanged chre_significant_motion_state_changed
+    extensions 869; // NavHandleTouchPoints nav_handle_touch_points
+    extensions 870; // LeAppScanStateChanged le_app_scan_state_changed
+    extensions 871; // LeRadioScanStopped le_radio_scan_stopped
+    extensions 872; // LeScanResultReceived le_scan_result_received
+    extensions 873; // LeScanAbused le_scan_abused
+    extensions 874; // LeAdvStateChanged le_adv_state_changed
+    extensions 875; // LeAdvErrorReported le_adv_error_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2090,6 +2097,9 @@ message WifiDisconnectReported {
 
     // Carrier id of the network.
     optional int32 carrier_id = 13;
+
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 14 [(is_uid) = true];
 }
 
 /**
