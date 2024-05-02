@@ -150,6 +150,11 @@ extend Atom {
       [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp = 865
       [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called = 876
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ReportImpressionApiCalled report_impression_api_called = 877
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -1076,18 +1081,6 @@ message EncodingJsFetch {
  * Logs per execution of the encoding javascript.
  */
 message EncodingJsExecution {
-    enum JsRunStatus {
-        UNSET = 0;
-        SUCCESS = 1;
-        TIMEOUT = 2;
-        JS_SYNTAX_ERROR = 3;
-        OUTPUT_SYNTAX_ERROR = 4;
-        OUTPUT_SEMANTIC_ERROR = 5;
-        OUTPUT_NON_ZERO_RESULT = 6;
-        DB_PERSIST_FAILURE = 7;
-        OTHER_FAILURE = 8;
-    }
-
     // The time to run the js
     optional android.adservices.service.Size js_latency = 1;
 
@@ -1095,7 +1088,7 @@ message EncodingJsExecution {
     optional android.adservices.service.Size encoded_signals_size = 2;
 
     // JS run status
-    optional JsRunStatus run_status = 3;
+    optional android.adservices.service.JsRunStatus run_status = 3;
 
     // How much memory did the JS use (if this is easy to gather)
     optional int32 js_memory_used = 4;
@@ -1194,4 +1187,50 @@ message ServerAuctionBackgroundKeyFetchScheduled {
   optional int32 count_auction_urls = 2;
 
   optional int32 count_join_urls = 3;
+}
+
+/*
+ * Logs for per API call for SelectAdsFromOutcomes API.
+ */
+message SelectAdsFromOutcomesApiCalled {
+  // Number of IDs passed to the mediation call
+  optional int32 count_ids = 1;
+
+  // Number of non existing IDs during mediation call
+  optional int32 count_non_existing_ids = 2;
+
+  // Specified whether the truncation API call used a prebuilt script.
+  optional bool used_prebuilt = 3;
+
+  // Mediation script download result code.
+  optional int32 download_result_code = 4;
+
+  // Mediation script download latency in milliseconds.
+  optional int32 download_latency_millis = 5;
+
+  // Mediation script execution result code.
+  optional android.adservices.service.JsRunStatus execution_result_code = 6;
+
+  // Mediation script execution latency in milliseconds.
+  optional int32 execution_latency_millis = 7;
+}
+
+/*
+ * Logs for per API call for ReportImpression API.
+ */
+message ReportImpressionApiCalled {
+  // Specified whether the BuyerContextualSignals contained ad cost
+  optional bool reportWin_buyer_additional_signals_contained_ad_cost = 1;
+
+  // Specified whether the BuyerContextualSignals contained data version
+  optional bool reportWin_buyer_additional_signals_contained_data_version = 2;
+
+  // Specified whether the SellerContextualSignals contained data version
+  optional bool reportResult_seller_additional_signals_contained_data_version = 3;
+
+  // Result code of the buyer JS script (reportWin)
+  optional android.adservices.service.JsRunStatus reportWin_js_script_result_code = 4;
+
+  // Result code of the seller JS script (reportResult)
+  optional android.adservices.service.JsRunStatus reportResult_js_script_result_code = 5;
 }
