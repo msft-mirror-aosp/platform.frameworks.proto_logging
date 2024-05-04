@@ -28,7 +28,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional CellularIdentifierDisclosed cellular_identifier_disclosed = 800
-  [(module) = "telephony", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  [(module) = "telephony", (restriction_category) = RESTRICTION_FRAUD_AND_ABUSE];
 }
 
 /**
