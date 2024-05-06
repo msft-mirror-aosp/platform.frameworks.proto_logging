@@ -1221,6 +1221,8 @@ message Atom {
     extensions 875; // LeAdvErrorReported le_adv_error_reported
     extensions 876; // SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called
     extensions 877; // ReportImpressionApiCalled report_impression_api_called
+    extensions 878; // Reserved for b/333882013
+    extensions 879; // Reserved for b/333882013
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -22597,6 +22599,11 @@ message AppBackgroundRestrictionsInfo {
         REASON_DPO_PROTECTED_APP = 322;
         REASON_DISALLOW_APPS_CONTROL = 323;
         REASON_ACTIVE_DEVICE_ADMIN = 324;
+        REASON_MEDIA_NOTIFICATION_TRANSFER = 325;
+        REASON_PACKAGE_INSTALLER = 326;
+        REASON_SYSTEM_EXEMPT_APP_OP = 327;
+        REASON_PACKAGE_UNARCHIVE = 328;
+        REASON_TILE_ONCLICK = 329;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
