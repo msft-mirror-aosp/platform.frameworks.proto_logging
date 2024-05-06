@@ -1221,6 +1221,8 @@ message Atom {
     extensions 875; // LeAdvErrorReported le_adv_error_reported
     extensions 876; // SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called
     extensions 877; // ReportImpressionApiCalled report_impression_api_called
+    extensions 878; // Reserved for b/333882013
+    extensions 879; // Reserved for b/333882013
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
