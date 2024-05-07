@@ -22841,6 +22841,9 @@ message AutofillPresentationEventReported {
   // Count of views that failed to receive autofill values. These are minimum counts.
   // It's possible that additional views themselves didn't fill correctly.
   optional int64 views_filled_failure_count = 34;
+
+  // AutofillID of the view that triggered the presentation
+  optional int32 focused_autofill_id = 35;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
