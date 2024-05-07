@@ -930,6 +930,7 @@ message Atom {
         wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
         wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
         wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
+        wearservices.WsNotificationLatency ws_notification_latency = 880 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -12019,6 +12020,9 @@ message GpuStatsAppInfo {
     // The list size is capped at 100 (GpuStatsAppInfo::MAX_NUM_EXTENSIONS).
     // Introduced in Android 14.
     repeated int32 vulkan_device_extensions_enabled = 16;
+
+    // Hash values of engine name from VkApplicationInfo
+    repeated string vulkan_engine_names = 17;
 }
 
 /*
