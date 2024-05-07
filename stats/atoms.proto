@@ -930,6 +930,7 @@ message Atom {
         wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
         wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
         wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
+        wearservices.WsNotificationLatency ws_notification_latency = 880 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
