@@ -1226,6 +1226,7 @@ message Atom {
     extensions 879; // Reserved for b/333882013
     extensions 881; // Reserved for b/339008431
     extensions 882; // ConnectedChannelChanged connected_channel_changed
+    extensions 883; // PreRebootDexoptJobEnded pre_reboot_dexopt_job_ended
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
