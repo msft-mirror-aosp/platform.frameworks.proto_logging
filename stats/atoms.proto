@@ -14470,6 +14470,9 @@ message CameraActionEvent {
 
     optional int32 most_requested_fps_range_min = 28;
     optional int32 most_requested_fps_range_max = 29;
+
+    // Extension metric
+    optional int32 ext_capture_format = 30;
 }
 
 /**
