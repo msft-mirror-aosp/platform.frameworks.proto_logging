@@ -14470,6 +14470,9 @@ message CameraActionEvent {
 
     optional int32 most_requested_fps_range_min = 28;
     optional int32 most_requested_fps_range_max = 29;
+
+    // Extension metric
+    optional int32 ext_capture_format = 30;
 }
 
 /**
@@ -22843,6 +22846,13 @@ message AutofillPresentationEventReported {
   optional bool webview_requested_credential = 32;
 
   // Count of views that can be filled as per the provider service.
+  // views_fillable_total_count = views_filled_failure_count +
+  //     views_filled_success_count + views_with_no_callback
+  // views_with_no_callback aren't logged explicitly, as it can be computed.
+  // There may be no callback due to views overriding default behavior, and
+  // not adhering to javadoc guidelines. They may correspond to autofill
+  // failing or being successful. There is no way for autofill framework to
+  // know such status.
   optional int64 views_fillable_total_count = 33;
 
   // Count of views that failed to receive autofill values. These are minimum counts.
@@ -22851,6 +22861,16 @@ message AutofillPresentationEventReported {
 
   // AutofillID of the view that triggered the presentation
   optional int32 focused_autofill_id = 35;
+
+  // Count of views that successfully received autofill values. These are guaranteed counts.
+  // They are confirmed by getting views autofill value, and comparing against what was attempted
+  // to be set.
+  optional int64 views_filled_success_count = 36;
+
+  // Count of views that successfully received autofill values, but don't belong to this event.
+  // This value is for confirmation that nothing is wrong. It's expected value is 0.
+  // If non-zero, there's likely some bug in our logging (or in autofill).
+  optional int64 views_filled_but_unexpected_count = 37;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
