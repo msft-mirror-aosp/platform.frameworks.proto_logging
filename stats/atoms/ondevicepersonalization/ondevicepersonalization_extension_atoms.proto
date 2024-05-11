@@ -72,4 +72,8 @@ message OnDevicePersonalizationApiCalled {
     optional int32 rpc_call_latency_millis = 6;
     // latency between service return and callback
     optional int32 rpc_return_latency_millis = 7;
+     // Log the package name that calls ODP API. Default is 0.
+    optional int32 app_uid = 8 [(is_uid) = true];
+    // Log the sdk package name that passed by app in API request.
+    optional string sdk_package_name = 9;
 }
