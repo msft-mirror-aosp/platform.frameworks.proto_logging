@@ -673,7 +673,8 @@ enum Command {
   COMMAND_AD_SELECTION_MOCK_AUCTION = 206;
 
   // Protected App Signals commands: 301-400
-  COMMAND_SIGNALS_GENERATE_INPUT_FOR_SIGNALS = 301;
+  reserved 301;
+  COMMAND_APP_SIGNALS_GENERATE_INPUT_FOR_ENCODING = 302;
 }
 
 // Result of the shell command

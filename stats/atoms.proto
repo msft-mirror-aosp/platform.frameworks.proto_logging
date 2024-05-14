@@ -1478,6 +1478,11 @@ message Atom {
     // 10208 is reserved due to removing the old atom.
     extensions 10209; // Reserved for b/324602949
     extensions 10210; // Reserved for b/339008431
+    extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
+    extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
+    extensions 10213; // ControllerStatsPerPackage controller_stats_per_package
+    extensions 10214; // SatelliteEntitlement satellite_entitlement
+    extensions 10215; // SatelliteConfigUpdater satellite_config_updater
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -11420,6 +11425,10 @@ message MediaCodecReported {
     // CBR = constant bit rate
     // VBR = variable bitrate
     optional string bitrate_mode = 27;
+    // The bitrate presented to the underlying codec, after any modifications by
+    // the framework to ensure a minimum quality.
+    // If the framework changed this, the app-requested bitrate is in
+    // original_bitrate.
     optional int32 bitrate = 28;
     // 0..n
     optional int64 lifetime_millis = 29;
@@ -11427,10 +11436,13 @@ message MediaCodecReported {
     optional string log_session_id = 31;
     optional int32 channel_count = 32;
     optional int32 sample_rate = 33;
+    // Total bytes produced by an encoder. When divided by video_encode_duration_us
+    // this yields the encoding's realized bitrate.
     optional int64 video_encode_bytes = 34;
     optional int64 video_encode_frames = 35;
     optional int64 video_input_bytes = 36;
     optional int64 video_input_frames = 37;
+    // The duration of the encoded video; NOT the encoding process duration
     optional int64 video_encode_duration_us = 38;
     optional int32 color_format = 39;
     optional float frame_rate = 40;
@@ -11443,6 +11455,8 @@ message MediaCodecReported {
     optional int32 video_qp_p_max = 47;
     optional int32 video_qp_b_min = 48;
     optional int32 video_qp_b_max = 49;
+    // The app-requested bitrate, present only if the framework modified the
+    // bitrate before passing it to the underlying codec.
     optional int32 original_bitrate = 50;
     optional int32 shaping_enhanced = 51;
     optional int32 original_video_qp_i_min = 52;
