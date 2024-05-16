@@ -4703,6 +4703,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     CONNECTED_DEVICE_PREFERENCES_THREAD = 2082;
+
+    // OPEN: SUW Welcome Screen -> Vision Settings -> Adaptive brightness
+    // CATEGORY: SETTINGS
+    // OS: V
+    SUW_ACCESSIBILITY_AUTO_BRIGHTNESS = 2083;
 }
 
 // Battery Saver schedule types.
