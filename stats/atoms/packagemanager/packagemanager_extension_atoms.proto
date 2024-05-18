@@ -66,4 +66,7 @@ message ComponentStateChangedReported {
 
   // True if it is for whole app. False if it is for a component.
   optional bool is_for_whole_app = 5;
+
+  // The UID for which the application calls this method.
+  optional int32 calling_uid = 6 [(is_uid) = true];
 }
