@@ -139,9 +139,9 @@ message ScreenDimReported {
    enum PolicyReason {
        // unknown policy reason
        UNKNOWN = 0;
-       // screen off by timeout
+       // screen interactive off by timeout
        OFF_TIMEOUT = 1;
-       // screen off by power button
+       // screen interactive off by power button
        OFF_POWER_BUTTON = 2;
        // screen on because undim
        BRIGHT_UNDIM = 3;
@@ -149,9 +149,9 @@ message ScreenDimReported {
        BRIGHT_INITIATED_REVERT = 4;
    }
 
-   // power group id is the superset of display_id used in PowerManagerService
-   // One power group id might have multiple displays or multiple display groups
-   optional int32 power_group_id = 1;
+   // display port id can be known from display id
+   // will be different between internal display and external display
+   optional int32 physical_display_port_id = 1;
 
    // Policy reason for studying dim
    optional PolicyReason policy_reason = 2;
