@@ -930,6 +930,7 @@ message Atom {
         wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
         wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
         wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
+        wearservices.WsNotificationLatency ws_notification_latency = 880 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -1221,12 +1222,16 @@ message Atom {
     extensions 875; // LeAdvErrorReported le_adv_error_reported
     extensions 876; // SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called
     extensions 877; // ReportImpressionApiCalled report_impression_api_called
+    extensions 878; // Reserved for b/333882013
+    extensions 879; // Reserved for b/333882013
+    extensions 881; // Reserved for b/339008431
+    extensions 882; // ConnectedChannelChanged connected_channel_changed
+    extensions 883; // PreRebootDexoptJobEnded pre_reboot_dexopt_job_ended
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10208
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1472,6 +1477,12 @@ message Atom {
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
     extensions 10209; // Reserved for b/324602949
+    extensions 10210; // Reserved for b/339008431
+    extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
+    extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
+    extensions 10213; // ControllerStatsPerPackage controller_stats_per_package
+    extensions 10214; // SatelliteEntitlement satellite_entitlement
+    extensions 10215; // SatelliteConfigUpdater satellite_config_updater
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -11414,6 +11425,10 @@ message MediaCodecReported {
     // CBR = constant bit rate
     // VBR = variable bitrate
     optional string bitrate_mode = 27;
+    // The bitrate presented to the underlying codec, after any modifications by
+    // the framework to ensure a minimum quality.
+    // If the framework changed this, the app-requested bitrate is in
+    // original_bitrate.
     optional int32 bitrate = 28;
     // 0..n
     optional int64 lifetime_millis = 29;
@@ -11421,10 +11436,13 @@ message MediaCodecReported {
     optional string log_session_id = 31;
     optional int32 channel_count = 32;
     optional int32 sample_rate = 33;
+    // Total bytes produced by an encoder. When divided by video_encode_duration_us
+    // this yields the encoding's realized bitrate.
     optional int64 video_encode_bytes = 34;
     optional int64 video_encode_frames = 35;
     optional int64 video_input_bytes = 36;
     optional int64 video_input_frames = 37;
+    // The duration of the encoded video; NOT the encoding process duration
     optional int64 video_encode_duration_us = 38;
     optional int32 color_format = 39;
     optional float frame_rate = 40;
@@ -11437,6 +11455,8 @@ message MediaCodecReported {
     optional int32 video_qp_p_max = 47;
     optional int32 video_qp_b_min = 48;
     optional int32 video_qp_b_max = 49;
+    // The app-requested bitrate, present only if the framework modified the
+    // bitrate before passing it to the underlying codec.
     optional int32 original_bitrate = 50;
     optional int32 shaping_enhanced = 51;
     optional int32 original_video_qp_i_min = 52;
@@ -12017,6 +12037,9 @@ message GpuStatsAppInfo {
     // The list size is capped at 100 (GpuStatsAppInfo::MAX_NUM_EXTENSIONS).
     // Introduced in Android 14.
     repeated int32 vulkan_device_extensions_enabled = 16;
+
+    // Hash values of engine name from VkApplicationInfo
+    repeated string vulkan_engine_names = 17;
 }
 
 /*
@@ -14461,6 +14484,9 @@ message CameraActionEvent {
 
     optional int32 most_requested_fps_range_min = 28;
     optional int32 most_requested_fps_range_max = 29;
+
+    // Extension metric
+    optional int32 ext_capture_format = 30;
 }
 
 /**
@@ -16877,6 +16903,13 @@ message AccessibilityShortcutStats {
     optional android.stats.accessibility.ShortcutType gesture_shortcut_type = 5;
     // Number of accessibility services in accessibility gesture shortcut.
     optional int32 gesture_shortcut_service_num = 6;
+
+    // The definition of the accessibility quick settings shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType qs_shortcut_type = 7;
+    // Boolean indicating whether the user turns on qs shortcut for any
+    // accessibility feature that support qs shortcut.
+    optional bool use_qs_shortcut = 8;
 }
 
 /**
@@ -22597,6 +22630,11 @@ message AppBackgroundRestrictionsInfo {
         REASON_DPO_PROTECTED_APP = 322;
         REASON_DISALLOW_APPS_CONTROL = 323;
         REASON_ACTIVE_DEVICE_ADMIN = 324;
+        REASON_MEDIA_NOTIFICATION_TRANSFER = 325;
+        REASON_PACKAGE_INSTALLER = 326;
+        REASON_SYSTEM_EXEMPT_APP_OP = 327;
+        REASON_PACKAGE_UNARCHIVE = 328;
+        REASON_TILE_ONCLICK = 329;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
@@ -22829,11 +22867,31 @@ message AutofillPresentationEventReported {
   optional bool webview_requested_credential = 32;
 
   // Count of views that can be filled as per the provider service.
+  // views_fillable_total_count = views_filled_failure_count +
+  //     views_filled_success_count + views_with_no_callback
+  // views_with_no_callback aren't logged explicitly, as it can be computed.
+  // There may be no callback due to views overriding default behavior, and
+  // not adhering to javadoc guidelines. They may correspond to autofill
+  // failing or being successful. There is no way for autofill framework to
+  // know such status.
   optional int64 views_fillable_total_count = 33;
 
   // Count of views that failed to receive autofill values. These are minimum counts.
   // It's possible that additional views themselves didn't fill correctly.
   optional int64 views_filled_failure_count = 34;
+
+  // AutofillID of the view that triggered the presentation
+  optional int32 focused_autofill_id = 35;
+
+  // Count of views that successfully received autofill values. These are guaranteed counts.
+  // They are confirmed by getting views autofill value, and comparing against what was attempted
+  // to be set.
+  optional int64 views_filled_success_count = 36;
+
+  // Count of views that successfully received autofill values, but don't belong to this event.
+  // This value is for confirmation that nothing is wrong. It's expected value is 0.
+  // If non-zero, there's likely some bug in our logging (or in autofill).
+  optional int64 views_filled_but_unexpected_count = 37;
 }
 
 // Tells how Autofill dataset was/will-be displayed.

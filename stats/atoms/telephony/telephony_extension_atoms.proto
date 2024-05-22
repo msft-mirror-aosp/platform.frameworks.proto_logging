@@ -30,6 +30,7 @@ extend Atom {
     optional EmergencyNumbersInfo emergency_numbers_info = 10180 [(module) = "telephony"];
     optional DataNetworkValidation data_network_validation = 10207 [(module) = "telephony"];
     optional DataRatStateChanged data_rat_state_changed = 854 [(module) = "telephony"];
+    optional ConnectedChannelChanged connected_channel_changed = 882 [(module) = "telephony"];
     // 10208 is reserved due to removing the old atom.
 }
 
@@ -127,6 +128,30 @@ message DataRatStateChanged {
     }
 
     optional DataRat data_rat = 1 [
+    (state_field_option).exclusive_state = true,
+    (state_field_option).nested = false
+  ];
+}
+
+/**
+ * Physical channel changing event.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/DataConnectionStateTracker.java
+ */
+message ConnectedChannelChanged {
+    enum ChannelCount {
+        CHANNEL_COUNT_UNSPECIFIED = 0;
+        // CHANNEL_COUNT_ONE indicates there is 0 or 1 connected channel
+        CHANNEL_COUNT_ONE = 1;
+        // CHANNEL_COUNT_TWO indicates there are 2 connected channels
+        CHANNEL_COUNT_TWO = 2;
+        CHANNEL_COUNT_THREE = 3;
+        CHANNEL_COUNT_FOUR = 4;
+        CHANNEL_COUNT_FIVE = 5;
+    }
+
+    optional ChannelCount connected_channel_count = 1 [
     (state_field_option).exclusive_state = true,
     (state_field_option).nested = false
   ];

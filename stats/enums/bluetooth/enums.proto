@@ -176,7 +176,7 @@ enum L2capCocConnectionResult {
 }
 
 enum CodePathCounterKeyEnum {
-    KEY_UNKNOWN = 0;
+    COUNTER_KEY_UNKNOWN = 0;
     // Reserver smaller counters for very important bt features
 
     // [100,000 - 120,000) profile connection related
@@ -301,6 +301,17 @@ enum CodePathCounterKeyEnum {
 
         HIDH_ERR_AUTH_FAILED = 103120;
         HIDH_ERR_SDP_BUSY = 103121;
+
+        //Native and Java
+        HIDH_COUNT_MAX_ADDED_DEVICE_LIMIT_REACHED = 103122;
+        HIDH_COUNT_VIRTUAL_UNPLUG_REQUESTED_BY_REMOTE_DEVICE = 103123;
+        HIDH_COUNT_CONNECT_REQ_WHEN_MAX_DEVICE_LIMIT_REACHED = 103124;
+        HIDH_COUNT_WRONG_REPORT_TYPE = 103125;
+        HIDH_COUNT_INCOMING_CONNECTION_REJECTED = 103126;
+        HIDH_COUNT_CONNECTION_POLICY_DISABLED = 103127;
+        HIDH_COUNT_SUPPORT_BOTH_HID_AND_HOGP = 103128;
+        HIDH_COUNT_SUPPORT_ONLY_HID_OR_HOGP = 103129;
+
 
     // [120,000 - 120,500) LE scan related
         // [120,000 - 120,100) LE scan enable/disable count
