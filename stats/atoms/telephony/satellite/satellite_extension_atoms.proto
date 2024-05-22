@@ -138,6 +138,8 @@ message SatelliteSession {
   optional int32 count_of_incoming_datagram_failed = 11;
   // Whether this session is enabled for demo mode, code {true} if it is demo mode
   optional bool is_demo_mode = 12;
+  // Max Ntn signal strength while the satellite session is enabled
+  optional int32 max_ntn_signal_strength_level = 13;
 }
 
 /**
