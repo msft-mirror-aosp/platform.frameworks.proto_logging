@@ -14941,9 +14941,13 @@ message CellBroadcastMessageReported {
     // The source of the report
     optional ReportSource source = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
+    // The roaming case will show mcc value, if not empty string
+    optional string roaming_mcc_mnc = 5;
+    // The language indicator, as defined in ISO 639 language codes set 1
+    optional string language_indicator = 6;
 }
 
 /**
@@ -14989,7 +14993,7 @@ message CellBroadcastMessageFiltered {
     // The source of the report
     optional FilterReason filter = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
 }
