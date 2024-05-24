@@ -14536,21 +14536,20 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 55.
+    // Next id: 57.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
         // Checkpoints inside perfetto_cmd before tracing is finished.
         PERFETTO_TRACE_BEGIN = 1;
         PERFETTO_BACKGROUND_TRACE_BEGIN = 2;
+        PERFETTO_CMD_CLONE_TRACE_BEGIN = 55;
+        PERFETTO_CMD_CLONE_TRIGGER_TRACE_BEGIN = 56;
         PERFETTO_ON_CONNECT = 3;
 
         // Guardrails inside perfetto_cmd before tracing is finished.
         PERFETTO_ON_TIMEOUT = 16;
         PERFETTO_CMD_USER_BUILD_TRACING_NOT_ALLOWED = 43;
-        PERFETTO_CMD_FAILED_TO_INIT_GUARDRAIL_STATE = 44;
-        PERFETTO_CMD_INVALID_GUARDRAIL_STATE = 45;
-        PERFETTO_CMD_HIT_UPLOAD_LIMIT = 46;
 
         // Checkpoints inside traced.
         PERFETTO_TRACED_ENABLE_TRACING = 37;
@@ -14623,6 +14622,11 @@ message PerfettoUploaded {
         // Contained status of Dropbox uploads. Removed as Perfetto no
         // longer supports uploading traces using Dropbox.
         reserved 5, 6, 7;
+
+        // Contained status of guardrail state initialization and upload limit
+        // in perfetto_cmd. Removed as perfetto no longer manages stateful
+        // guardrails
+        reserved 44, 45, 46;
     }
 
     // Which stage of the pipeline we are reporting from.
