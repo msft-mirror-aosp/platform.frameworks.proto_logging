@@ -574,8 +574,10 @@ message AppRestrictionStateChanged {
     TYPE_USER_LAUNCH_ONLY = 7;
     TYPE_CUSTOM = 8;
   }
-
+  // The type of restriction/unrestriction
   optional RestrictionType restriction_type = 2;
+
+  // Whether the restriction type is being enabled or disabled
   optional bool enabled = 3;
 
   enum RestrictionChangeReason {
@@ -584,13 +586,28 @@ message AppRestrictionStateChanged {
     REASON_DORMANT = 2;
     REASON_USAGE = 3; // For unrestriction
     REASON_USER = 4;
-    REASON_USER_NUDGED = 5;
+    reserved 5;
     REASON_SYSTEM_HEALTH = 6;
-    REASON_REMOTE_TRIGGER = 7;
+    REASON_POLICY = 7;
     REASON_OTHER = 8;
   }
   // The main reason for restriction state change
   optional RestrictionChangeReason main_reason = 4;
+
+  // An optional sub reason that provides more detail specific to the restriction type
   optional string sub_reason = 5; // At most 16 chars
+
+  // The threshold that was applied to make the decision
   optional int64 threshold_exceeded = 6;
+
+  enum RestrictionChangeSource {
+    SOURCE_UNKNOWN = 0;
+    SOURCE_USER = 1;
+    SOURCE_USER_NUDGED = 2;
+    SOURCE_SYSTEM = 3;
+    SOURCE_COMMAND_LINE = 4;
+    SOURCE_REMOTE_TRIGGER = 5;
+  }
+  // The source of the change - initiated by the user, the system automatically, etc.
+  optional RestrictionChangeSource source = 7;
 }
