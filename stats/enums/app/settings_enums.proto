@@ -1655,6 +1655,18 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_WIRELESS_CHARGING_LEARN_MORE = 1920;
+
+    // ACTION: Settings > Display > Touch Sensitivity > Adaptive touch
+    // VALUE: false is off, true is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADAPTIVE_TOUCH_SENSITIVITY_CHANGED = 1921;
+
+    // ACTION: Settings > Display > Touch Sensitivity > Screen protector mode
+    // VALUE: false is off, true is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_TOUCH_SENSITIVITY_CHANGED = 1922;
 }
 
 /**
