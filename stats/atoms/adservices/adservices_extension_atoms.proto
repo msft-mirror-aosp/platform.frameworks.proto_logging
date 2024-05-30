@@ -155,6 +155,8 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional ReportImpressionApiCalled report_impression_api_called = 877
   [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats = 885
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -390,6 +392,20 @@ message AdServicesEnrollmentFailed {
   optional string query_parameter = 4;
   optional android.stats.adservices.enrollment.ErrorCause error_cause = 5;
 }
+
+/**
+ * Logs when AdServices enrollment database is accessed.
+ */
+message AdServicesEnrollmentTransactionStats {
+  optional android.stats.adservices.enrollment.EnrollmentTransactionType transaction_type = 1;
+  optional android.stats.adservices.enrollment.TransactionStatus transaction_status = 2;
+  optional int32 transaction_parameter_count = 3;
+  optional int32 transaction_result_count = 4;
+  optional int32 query_result_count = 5;
+  optional int32 datasource_record_count_pre = 6;
+  optional int32 datasource_record_count_post = 7;
+  optional int32 enrollment_file_latest_build_id = 8;
+  }
 
 /**
  * Logs for AdServices Consent Migration after OTA.
