@@ -22,7 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_api_metrics_enums.proto";
-import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";

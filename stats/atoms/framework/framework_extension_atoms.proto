@@ -21,7 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
 
 option java_package = "com.android.os.framework";
 
