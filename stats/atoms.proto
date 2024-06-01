@@ -16103,6 +16103,9 @@ message DataCallSession {
 
     // Determines if current data call was over satellite transport
     optional bool is_satellite_transport = 25;
+
+    // Determines if current data call was over provisioning profile or not
+    optional bool is_provisioning_profile = 26;
 }
 
 /**
