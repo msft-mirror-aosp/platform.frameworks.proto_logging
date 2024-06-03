@@ -1580,7 +1580,7 @@ enum Action {
     // ACTION: Allow or deny an app the run backup jobs permission
     // CATEGORY: SETTINGS
     // OS: V
-    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907;
+    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907 [deprecated = true];
 
     // ACTION: Settings > Security&Privacy > Private space
     // > Lock private space automatically
@@ -1617,6 +1617,181 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
+
+    // ACTION: Settings > Sound & Vibration > Vibration & haptics
+    //                  > Adaptive Vibration > Use Adaptive Vibration
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_ADAPTIVE_VIBRATION_CHANGED = 1914;
+
+    // ACTION: Settings > Network & Internet > SIMs > ‘Select RAC eSIM’
+    // > Erase eSIM without Wi-Fi or data from second SIM
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_SETTINGS_ESIM_RAC_CONNECTIVITY_WARNING = 1915;
+
+    // ACTION: Settings -> System -> Reset Options -> Reset Mobile Network Settings
+    // > Check 'erase eSIMs' > Erase eSIM without Wi-Fi
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_MOBILE_NETWORK_RAC_CONNECTIVITY_WARNING = 1916;
+
+    // ACTION: Settings -> System -> Reset Options -> Erase eSIMs
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_ESIMS_RAC_CONNECTIVITY_WARNING = 1917;
+
+    // ACTION: Settings > Connected devices > Previously used with account
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_LIST = 1918;
+
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device succeed
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_PAIR_SUCCEED = 1919;
+
+    // Action: Settings > Battery settings > Click the learn more link while wireless charging
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_WIRELESS_CHARGING_LEARN_MORE = 1920;
+
+    // ACTION: Settings > Display > Touch Sensitivity > Adaptive touch
+    // VALUE: false is off, true is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADAPTIVE_TOUCH_SENSITIVITY_CHANGED = 1921;
+
+    // ACTION: Settings > Display > Touch Sensitivity > Screen protector mode
+    // VALUE: false is off, true is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_TOUCH_SENSITIVITY_CHANGED = 1922;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle on Share audio main switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_MAIN_SWITCH_ON = 1923;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle off Share audio main switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_MAIN_SWITCH_OFF = 1924;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on or
+    //         Settings > Connected devices > Start dialog > Click Share button
+    //         > Start audio sharing failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_START_FAILED= 1925;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle off or
+    //         Settings > Connected devices > Stop dialog > Click Stop sharing button
+    //         > Stop audio sharing failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_STOP_FAILED= 1926;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Active media devices > Change headset volume
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_CHANGE_MEDIA_DEVICE_VOLUME = 1927;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Click Play a test sound
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_PLAY_TEST_SOUND = 1928;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle Improve compatibility switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_IMPROVE_COMPATIBILITY = 1929;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Call audio >
+    //         Change device
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_CHANGE_CALL_AUDIO = 1930;
+
+    // Action: Audio sharing started > Show notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_AUDIO_SHARING_NOTIFICATION = 1931;
+
+    // Action: Audio sharing stopped > Cancel notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_CANCEL_AUDIO_SHARING_NOTIFICATION = 1932;
+
+    // Action: Settings > Audio sharing notification > Click Stop sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_STOP_AUDIO_SHARING_FROM_NOTIFICATION = 1933;
+
+    // Action: Settings > Connected devices > Click media devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MEDIA_DEVICE_CLICK = 1934;
+
+    // Action: Settings > Connected devices > Click audio sharing devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DEVICE_CLICK = 1935;
+
+    // Action: Settings > Connected devices > dialogs > Click Share button or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialogs
+    //                  > Click Share button or
+    //         Settings > Connected devices > Connection preferences > Audio sharing
+    //                  > Auto add device to sharing when toggle on
+    //         > Fail
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_JOIN_FAILED = 1936;
+
+    // Action: Settings > Connected devices > Disconnect device dialog > Click device button >
+    //         Fail to remove device from sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_LEAVE_FAILED = 1937;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on >
+    //         Auto add active device to sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUTO_JOIN_AUDIO_SHARING = 1938;
+
+    // Action: Settings > Connected devices or
+    //         Settings > Connected devices > Connection preferences > Audio sharing
+    //         > Show audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_AUDIO_SHARING_DIALOG = 1939;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Click positive button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_POSITIVE_BTN_CLICKED = 1940;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Click negative button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_NEGATIVE_BTN_CLICKED = 1941;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Auto dismiss
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_AUTO_DISMISS = 1942;
 }
 
 /**
@@ -4481,29 +4656,29 @@ enum PageId {
     // ACTION: Allow Voice activation of an assistant app
     // CATEGORY: SETTINGS
     // OS: V
-    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046;
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046 [deprecated = true];
 
     // ACTION: Deny Voice activation of an assistant app
     // CATEGORY: SETTINGS
     // OS: V
-    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047;
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047 [deprecated = true];
 
     // OPEN: Settings > Connected devices > Connection preferences > Audio sharing
     // CATEGORY: SETTINGS
     // OS: V
     AUDIO_SHARING_SETTINGS = 2048;
 
-    // Open: Audio sharing start dialog
+    // Open: Settings > Connected devices > Start audio sharing dialog
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_START_AUDIO_SHARING = 2049;
 
-    // Open: Audio sharing stop dialog
+    // Open: Settings > Connected devices > Stop audio sharing dialog
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_STOP_AUDIO_SHARING = 2050;
 
-    // Open: Audio sharing switch device dialog
+    // Open: Settings > Connected devices > Change device dialog in audio sharing
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_SHARING_SWITCH_DEVICE = 2051;
@@ -4511,7 +4686,7 @@ enum PageId {
     // Open: Audio sharing switch active dialog
     // CATEGORY: SETTINGS
     // OS: V
-    DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052;
+    DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052 [deprecated = true];
 
     // OPEN: Settings > System > Developer options > Widevine settings
     // CATEGORY: SETTINGS
@@ -4629,6 +4804,71 @@ enum PageId {
 
     // OPEN: Settings > Network & Internet > Cellular Security
     CELLULAR_SECURITY_SETTINGS = 2075;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog)
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_DIALOG = 2076;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog) > Delete
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_CONFIRM = 2077;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog) > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_CANCEL = 2078;
+
+    // OPEN: Settings > Storage > Dialog for temporary system files info
+    DIALOG_TEMPORARY_FILES_INFO = 2079;
+
+    // OPEN: Settings > System > Developer options > Media DRM settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    MEDIA_DRM_SETTINGS = 2080;
+
+    // OPEN: Settings > Location > Location Services > Private
+    // CATEGORY: SETTINGS
+    // OS: V
+    LOCATION_SERVICES_FOR_PRIVATE_PROFILE = 2081;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Thread
+    // CATEGORY: SETTINGS
+    // OS: V
+    CONNECTED_DEVICE_PREFERENCES_THREAD = 2082;
+
+    // OPEN: SUW Welcome Screen -> Vision Settings -> Adaptive brightness
+    // CATEGORY: SETTINGS
+    // OS: V
+    SUW_ACCESSIBILITY_AUTO_BRIGHTNESS = 2083;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Call audio
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_CALL_AUDIO = 2084;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing >
+    //       Toggle on Share audio main switch when no LEA device is connected
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_CONFIRMATION = 2085;
+
+    // OPEN: Settings > Connected devices or
+    //       Settings > Connected devices > Connection preferences > Audio sharing > Toggle on
+    //       > Add device to audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_ADD_DEVICE = 2086;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on >
+    //       Notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    NOTIFICATION_AUDIO_SHARING = 2087;
 }
 
 // Battery Saver schedule types.

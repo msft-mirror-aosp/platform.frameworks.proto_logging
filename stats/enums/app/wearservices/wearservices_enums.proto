@@ -553,6 +553,35 @@ enum NotificationActionType {
   NOTIFICATION_ACTION_TYPE_OTHERS = 3;
 }
 
+// Defines the notification flow component for which the latency is to be calculated.
+// Next ID: 3
+enum NotificationFlowComponent {
+  // Unknown value.
+  NOTIFICATION_FLOW_COMPONENT_UNKNOWN = 0;
+
+  // Notification flow representing flow when a notification is posted.
+  NOTIFICATION_FLOW_COMPONENT_POST_NOTIFICATION = 1;
+
+  // Notification flow representing flow when a notification is dismissed.
+  NOTIFICATION_FLOW_COMPONENT_DISMISS_NOTIFICATION = 2;
+}
+
+// Defines which component the latency is being calculated for.
+// Next ID: 4
+enum ComponentName {
+  // Unknown value.
+  COMPONENT_NAME_UNKNOWN = 0;
+
+  // The component is WearServices.
+  COMPONENT_NAME_WEAR_SERVICES = 1;
+
+  // The component is Companion.
+  COMPONENT_NAME_COMPANION = 2;
+
+  // The component is SysUI.
+  COMPONENT_NAME_SYSUI = 3;
+}
+
 // This enum depicts an action taken on a call
 // Next ID: 4
 enum CallAction {

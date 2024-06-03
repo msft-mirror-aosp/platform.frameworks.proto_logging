@@ -213,6 +213,10 @@ enum WakeLockLevelEnum {
     // is dozing. It currently has no effect unless the power manager is in
     // the dozing state.
     DRAW_WAKE_LOCK = 128;
+
+    // Allow system service could override the current screen timeout
+    // according to the polcy.
+    SCREEN_TIMEOUT_OVERRIDE_WAKE_LOCK = 256;
 }
 
 // They are primarily used by android/os/BatteryManager.java.

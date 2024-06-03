@@ -21,6 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -33,6 +34,8 @@ extend Atom {
     optional UserRiskEventReported user_risk_event_reported = 725 [(module) = "framework"];
     optional MediaProjectionStateChanged media_projection_state_changed = 729 [(module) = "framework"];
     optional MediaProjectionTargetChanged media_projection_target_changed = 730 [(module) = "framework"];
+    optional ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported = 853
+            [(module) = "framework"];
     optional ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg = 10200 [(module) = "framework"];
     optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state = 10204
             [(module) = "framework", (truncate_timestamp) = true];
@@ -43,6 +46,7 @@ extend Atom {
     optional SensitiveNotificationRedaction sensitive_notification_redaction = 833
             [(module) = "framework"];
     optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
+    optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
 }
 
 /**
@@ -428,7 +432,7 @@ message ProxyBytesTransferByFgBg {
  message MobileBytesTransferByProcState {
     optional int32 uid = 1 [(is_uid) = true];
 
-    optional int32 proc_state = 2;
+    optional android.app.ProcessStateEnum proc_state = 2;
 
     optional int64 rx_bytes = 3;
 
@@ -524,7 +528,7 @@ message SensitiveNotificationRedaction {
 
 message SensitiveContentAppProtection {
   // unique for each media projection session.
-  optional int64 sessionId = 1;
+  optional int64 session_id = 1;
   // uid which got flag_secure applied.
   optional int32 protected_uid = 2 [(is_uid) = true];
   // uid starting media projection.
@@ -537,4 +541,73 @@ message SensitiveContentAppProtection {
   // whether an app window got blocked or unblocked as sensitive view
   // become visible/invisible in the window.
   optional State state = 4;
+}
+
+/**
+ * Logs when there are too many binder proxies sent from certain UID to the system.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ */
+message ExcessiveBinderProxyCountReported {
+    optional int32 offending_uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Logs when an app's restriction state changes.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/AppRestrictionController.java
+ */
+message AppRestrictionStateChanged {
+  optional int32 uid = 1 [(is_uid) = true];
+
+  enum RestrictionType {
+    TYPE_UNKNOWN = 0;
+    TYPE_UNRESTRICTED = 1;
+    TYPE_EXEMPTED = 2;
+    TYPE_ADAPTIVE = 3;
+    TYPE_RESTRICTED_BUCKET = 4;
+    TYPE_BACKGROUND_RESTRICTED = 5;
+    TYPE_FORCE_STOPPED = 6;
+    TYPE_USER_LAUNCH_ONLY = 7;
+    TYPE_CUSTOM = 8;
+  }
+  // The type of restriction/unrestriction
+  optional RestrictionType restriction_type = 2;
+
+  // Whether the restriction type is being enabled or disabled
+  optional bool enabled = 3;
+
+  enum RestrictionChangeReason {
+    REASON_UNKNOWN = 0;
+    REASON_DEFAULT = 1;
+    REASON_DORMANT = 2;
+    REASON_USAGE = 3; // For unrestriction
+    REASON_USER = 4;
+    reserved 5;
+    REASON_SYSTEM_HEALTH = 6;
+    REASON_POLICY = 7;
+    REASON_OTHER = 8;
+  }
+  // The main reason for restriction state change
+  optional RestrictionChangeReason main_reason = 4;
+
+  // An optional sub reason that provides more detail specific to the restriction type
+  optional string sub_reason = 5; // At most 16 chars
+
+  // The threshold that was applied to make the decision
+  optional int64 threshold_exceeded = 6;
+
+  enum RestrictionChangeSource {
+    SOURCE_UNKNOWN = 0;
+    SOURCE_USER = 1;
+    SOURCE_USER_NUDGED = 2;
+    SOURCE_SYSTEM = 3;
+    SOURCE_COMMAND_LINE = 4;
+    SOURCE_REMOTE_TRIGGER = 5;
+  }
+  // The source of the change - initiated by the user, the system automatically, etc.
+  optional RestrictionChangeSource source = 7;
 }

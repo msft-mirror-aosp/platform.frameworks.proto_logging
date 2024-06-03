@@ -56,10 +56,14 @@ message FederatedComputeApiCalled {
 
     // response_code is the error/failure code for the given api.
     optional int32 response_code = 4;
+
+    // Log the sdk package name that passed by app in API request.
+    optional string sdk_package_name = 5;
 }
 
 /**
  * Logs when an federated computation training event occurs.
+ * Next Tag: 15
  */
 message FederatedComputeTrainingEventReported {
   optional int64 client_version = 1;
@@ -68,7 +72,11 @@ message FederatedComputeTrainingEventReported {
   optional android.federatedcompute.TrainingEventKind
       kind = 2;
 
-  // The task id of this run.
+  // The population id of this run. One population can have multiple tasks.
+  optional int64 population_id = 12;
+
+  // The task id of this run. Federated computation task id which has report
+  // goal (>1000) enforcement at server side.
   optional int64 task_id = 3;
 
   // For TRAIN_INTERRUPTED and TRAIN_COMPLETED:
@@ -81,6 +89,9 @@ message FederatedComputeTrainingEventReported {
   // the number of bytes (of serialized example protos) which had been fed
   // since the matching started event.
   optional int64 example_size = 5;
+
+  // The number of processed examples.
+  optional int64 example_count = 13;
 
   /////////////////////////////////////////////////////////
   // Information about data transfer for TRAIN_DOWNLOADED/TRAIN_UPLOADED events
@@ -108,6 +119,9 @@ message FederatedComputeTrainingEventReported {
 
   // The latency of starting ExampleStore query in nanoseconds.
   optional int64 example_store_start_query_latency_nanos = 11;
+
+  // Log the sdk package name that passed by app in API request.
+  optional string sdk_package_name = 14;
 }
 
 /**
