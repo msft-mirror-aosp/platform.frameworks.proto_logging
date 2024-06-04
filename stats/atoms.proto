@@ -15834,6 +15834,9 @@ message IncomingSms {
 
     // Whether the message was received over non-terrestrial networks.
     optional bool is_ntn = 17;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 18;
 }
 
 /**
