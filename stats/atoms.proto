@@ -15547,6 +15547,12 @@ message VoiceCallSession {
 
     // Whether the call is over non-terrestrial networks.
     optional bool is_ntn = 42;
+
+    // config supports_business_call_composer_bool which controls b2c feature
+    optional bool supports_business_call_composer = 43;
+
+    // The user-set status for enriched calling with call composer
+    optional android.telephony.CallComposerStatus call_composer_status = 44;
 }
 
 /**
