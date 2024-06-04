@@ -5212,7 +5212,7 @@ message VibratorStateChanged {
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
  */
-// Next tag: 26
+// Next tag: 27
 message VibrationReported {
   repeated AttributionNode attribution_node = 1;
 
@@ -5228,6 +5228,10 @@ message VibrationReported {
   // One of VibrationAttributes.USAGE_* constant values.
   optional int32 vibration_usage = 3;
   optional int32 vibration_status = 4;
+
+  // Vibration parameters.
+  // Adaptive scale value applied to this vibration, 0 if unset.
+  optional float adaptive_scale = 26;
 
   // Vibration completion causes.
   // Flag indicating if the vibration was canceled by the same process
