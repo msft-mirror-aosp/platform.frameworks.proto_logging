@@ -1490,6 +1490,7 @@ message Atom {
     extensions 10215; // SatelliteConfigUpdater satellite_config_updater
     extensions 10216; // DevicePolicyManagementMode
     extensions 10217; // DevicePolicyPolicyState
+    extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
