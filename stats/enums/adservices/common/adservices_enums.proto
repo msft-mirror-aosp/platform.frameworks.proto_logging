@@ -383,6 +383,9 @@ enum ErrorCode {
   // Error occurred when trying to parse the ODP header (Unknown Exception)
   MEASUREMENT_REGISTRATION_ODP_PARSING_UNKNOWN_ERROR = 2021;
 
+  // Error occurred when trying to initialize cobalt logger for measurement metrics.
+  MEASUREMENT_COBALT_LOGGER_INITIALIZATION_FAILURE = 2022;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 

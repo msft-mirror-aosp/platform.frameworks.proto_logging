@@ -669,3 +669,13 @@ enum NetworkValidationResult {
     VALIDATION_RESULT_SUCCESS = 3;
     VALIDATION_RESULT_FAILURE = 4;
 }
+
+/**
+ * enum for call composer status
+ */
+enum CallComposerStatus {
+    CALL_COMPOSER_UNKNOWN = 0;
+    CALL_COMPOSER_STATUS_OFF = 1;
+    CALL_COMPOSER_STATUS_ON = 2;
+    CALL_COMPOSER_STATUS_BUSINESS_ONLY = 3;
+}

@@ -1217,6 +1217,20 @@ message Atom {
     extensions 883; // PreRebootDexoptJobEnded pre_reboot_dexopt_job_ended
     extensions 884; // ScorerPredictionResultReported scorer_prediction_result_reported
     extensions 885; // AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats
+    extensions 886; // PhotopickerSessionInfoReported photopicker_session_info_reported
+    extensions 887; // PhotopickerApiInfoReported photopicker_api_info_reported
+    extensions 888; // PhotopickerUIEventLogged photopicker_ui_event_logged
+    extensions 889; // PhotopickerMediaItemStatusRepoprted photopicker_media_item_status_reported
+    extensions 890; // PhotopickerPreviewInfoLogged photopicker_preview_info_logged
+    extensions 891; // PhotopickerMenuInteractionLogged photopicker_menu_interaction_logged
+    extensions 892; // PhotopickerBannerInteractionLogged photopicker_banner_interaction_logged
+    extensions 893; // PhotopickerMediaLibraryInfoLogged photopicker_media_library_info_logged
+    extensions 894; // PhotopickerPageInfoLogged photopicker_page_info_logged
+    extensions 895; // PhotopickerMediaGridSyncInfoReported photopicker_media_grid_sync_info_reported
+    extensions 896; // PhotopickerAlbumSyncInfoReported photopicker_album_sync_info_reported
+    extensions 897; // PhotopickerSearchInfoReported photopicker_search_info_reported
+    extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
+    extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15533,6 +15547,12 @@ message VoiceCallSession {
 
     // Whether the call is over non-terrestrial networks.
     optional bool is_ntn = 42;
+
+    // config supports_business_call_composer_bool which controls b2c feature
+    optional bool supports_business_call_composer = 43;
+
+    // The user-set status for enriched calling with call composer
+    optional android.telephony.CallComposerStatus call_composer_status = 44;
 }
 
 /**
