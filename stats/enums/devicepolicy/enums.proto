@@ -1,0 +1,45 @@
+/*
+ * Copyright (C) 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.stats.devicepolicy;
+
+enum ManagementMode {
+  MANAGEMENT_MODE_UNSPECIFIED = 0;
+  // Device owner
+  // See https://developers.google.com/android/work/terminology#device_owner_do
+  DEVICE_OWNER = 1;
+  // Profile owner
+  // See https://developers.google.com/android/work/terminology#profile_owner_po
+  PROFILE_OWNER = 2;
+  // Corporate-owned, personally enabled
+  // See https://developers.google.com/android/work/terminology#corporate-owned_personally_enabled_cope
+  COPE = 3;
+  // A special DEVICE OWNER mode for financed device
+  DEVICE_OWNER_FINANCED = 4;
+}
+
+enum PasswordComplexity {
+  // The required password complexity.
+  // See https://developer.android.com/reference/android/app/admin/DevicePolicyManager#getRequiredPasswordComplexity()
+  COMPLEXITY_UNSPECIFIED = 0;  // If password complexity is none of the below
+  COMPLEXITY_NONE = 1;  // If password complexity is PASSWORD_COMPLEXITY_NONE
+  COMPLEXITY_LEGACY = 2; // If the password requirement is set with deprecated password quality
+  COMPLEXITY_LOW = 3; // If password complexity is PASSWORD_COMPLEXITY_LOW
+  COMPLEXITY_MEDIUM = 4; // If password complexity is PASSWORD_COMPLEXITY_MEDIUM
+  COMPLEXITY_HIGH = 5; // If password complexity is PASSWORD_COMPLEXITY_HIGH
+}
