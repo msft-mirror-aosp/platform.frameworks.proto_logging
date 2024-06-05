@@ -1184,19 +1184,16 @@ enum Action {
 
     // ACTION: Settings > System > Languages > Regional preferences > First day of week > Set the
     // preferred first day of week.
-    // VALUE: first day of week.
     // OS: U
     ACTION_SET_FIRST_DAY_OF_WEEK = 1827;
 
     // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
     // Choose the language
-    // VALUE: language.
     // OS: U
     ACTION_CHOOSE_LANGUAGE_FOR_NUMBERS_PREFERENCES = 1828;
 
     // ACTION: Settings > System > Languages > Regional preferences > Numbers preference >
     // Choose the language > Set the preferred numbers preferences.
-    // VALUE: numbers preferences.
     // OS: U
     ACTION_SET_NUMBERS_PREFERENCES = 1829;
 
@@ -1205,17 +1202,14 @@ enum Action {
     ACTION_LANGUAGES_LEARN_MORE = 1830;
 
     // ACTION: Settings > System > Languages > System Languages > Add a language
-    // VALUE: language.
     // OS: U
     ACTION_ADD_LANGUAGE = 1831;
 
     // ACTION: Settings > System > Languages > System Languages > Remove a language
-    // VALUE: language.
     // OS: U
     ACTION_REMOVE_LANGUAGE = 1832;
 
     // ACTION: Settings > System > Languages > System Languages > Re-order a language
-    // VALUE: language.
     // OS: U
     ACTION_REORDER_LANGUAGE = 1833;
 
@@ -1227,6 +1221,577 @@ enum Action {
     // ACTION: A group tile in Settings information architecture is added to the screen
     // OS: U
     ACTION_SETTINGS_GROUP_TILE_ADDED_TO_SCREEN = 1835;
+
+    // ACTION: Settings > System > Languages > System Languages > Select a not available language
+    // as system language
+    // OS: U
+    ACTION_NOT_SUPPORTED_SYSTEM_LANGUAGE = 1836;
+
+    // ACTION: Settings > System > Languages > App Languages > Change the app language from
+    // the suggested region
+    // OS: U
+    ACTION_CHANGE_APP_LANGUAGE_FROM_SUGGESTED = 1837;
+
+    // Custom tag to log that users open physical keyboard settings from which entry
+    // VALUE: integer which is from EntryPointType
+    // OS: U
+    ACTION_OPEN_PK_SETTINGS_FROM = 1838;
+
+    // Custom tag to log if users access the PK settings for a specific keyboard
+    // VALUE: false is no, true is yes
+    // OS: U
+    ACTION_USE_SPECIFIC_KEYBOARD = 1839;
+
+    // Custom tag to log the selected item change of the physical keyboard layout
+    // VALUE: language + layout
+    // OS: U
+    ACTION_PK_LAYOUT_CHANGED = 1840;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Caps lock
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_CAPS_LOCK_TO = 1841;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Ctrl
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_CTRL_TO = 1842;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Action key
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_ACTION_KEY_TO = 1843;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Alt
+    // VALUE: name of key
+    // OS: U
+    ACTION_FROM_ALT_TO = 1844;
+
+    // ACTION: Settings > System > Keyboard > Physical keyboard > Modifier keys > Reset all > Reset
+    // OS: U
+    ACTION_CLEAR_REMAPPINGS = 1845;
+
+    // ACTION: Settings > System > Touchpad > Tap to click
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_TAP_TO_CLICK_CHANGED = 1846;
+
+    // ACTION: Settings > System > Touchpad > Reverse scrolling
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_REVERSE_SCROLLING_CHANGED = 1847;
+
+    // ACTION: Settings > System > Touchpad > Bottom-right tap
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_BOTTOM_RIGHT_TAP_CHANGED = 1848;
+
+    // ACTION: Settings > System > Touchpad > Pointer speed
+    // VALUE: pointer speed
+    // OS: U
+    ACTION_GESTURE_POINTER_SPEED_CHANGED = 1849;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Go back
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_GO_BACK_CHANGED = 1850;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Go home
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_GO_HOME_CHANGED = 1851;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Recent apps
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_RECENT_APPS_CHANGED = 1852;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Notifications
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_NOTIFICATION_CHANGED = 1853;
+
+    // ACTION: Settings > System > Touchpad > Touchpad gestures > Switch apps
+    // VALUE: false is off, true is on
+    // OS: U
+    ACTION_GESTURE_SWITCH_APPS_CHANGED = 1854;
+
+    // ACTION: Settings > System > Touchpad > Learn touchpad gestures
+    // OS: U
+    ACTION_LEARN_TOUCHPAD_GESTURE_CLICK = 1855;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Not specified
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_NOT_SPECIFIED = 1856;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Feminine
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_FEMININE = 1857;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Masculine
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_MASCULINE = 1858;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address > Neutral
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_NEUTRAL = 1859;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_SHOW = 1860;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_ACCEPT = 1861;
+
+    // ACTION: Settings > Battery > Battery usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_BATTERY_TIPS_CARD_DISMISS = 1862;
+
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_BLUETOOTH_PAIR = 1863;
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device error
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_BLUETOOTH_PAIR_ERROR = 1864;
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device not found
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_BLUETOOTH_PAIR_NOT_FOUND = 1865;
+    // ACTION: Logged when user tries to pair a Fast pair Bluetooth device from Settings app
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_BLUETOOTH_PAIR_FAST_PAIR_DEVICE = 1866;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > App default selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_APP_DEFAULT_SELECTED = 1867;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > App default unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_APP_DEFAULT_UNSELECTED = 1868;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Full screen selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_FULL_SCREEN_SELECTED = 1869;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Full screen unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_FULL_SCREEN_UNSELECTED = 1870;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Half screen selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_HALF_SCREEN_SELECTED = 1871;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Half screen unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_HALF_SCREEN_UNSELECTED = 1872;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 4:3 selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_4_3_SELECTED = 1873;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 4:3 unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_4_3_UNSELECTED = 1874;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 16:9 selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_16_9_SELECTED = 1875;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 16:9 unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_16_9_UNSELECTED = 1876;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 3:2 selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_3_2_SELECTED = 1877;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > 3:2 unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_3_2_UNSELECTED = 1878;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Display size selected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_DISPLAY_SIZE_SELECTED = 1879;
+
+    // ACTION: Settings > Apps > App Info > Aspect Ratio > Display size unselected
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    ACTION_USER_ASPECT_RATIO_DISPLAY_SIZE_UNSELECTED = 1880;
+
+    // Action: Settings > Apps > AppInfo > Battery > allow background usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_APP_BATTERY_USAGE_ALLOW_BACKGROUND = 1881;
+
+    // Action: Settings > Apps > AppInfo > Battery > disable background usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_APP_BATTERY_USAGE_DISABLE_BACKGROUND = 1882;
+
+    // Action: Settings > Battery settings > Battery tip > Battery health
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_BATTERY_HEALTH_TIP = 1883;
+
+    // Private space setup flow
+    // OPEN: Settings > Security&Privacy > Private Space > Set up
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_START = 1884;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_CANCEL = 1885;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_SPACE_CREATED = 1886;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Error > Try again
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_TRY_CREATE_SPACE_AGAIN = 1887;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Error > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_CANCEL_CREATE_SPACE = 1888;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup > Sign in
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_SUCCESS = 1889;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup error > Try again
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_TRY_CREATE_ACCOUNT_AGAIN = 1890;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec >
+    // >  Choose new lock
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_NEW_LOCK = 1891;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec >
+    // > Use screen lock
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_USE_SCREEN_LOCK = 1892;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup > Sign in > Done
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_DONE = 1893;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_START = 1894;
+
+    // ACTION: Pop up the language notification recommendation
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_NOTIFICATION_FOR_SYSTEM_LOCALE = 1895;
+
+    // ACTION: Click the language notification recommendation
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_NOTIFICATION_CLICK_FOR_SYSTEM_LOCALE = 1896;
+
+    // ACTION: Swipe out the language notification recommendation
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_NOTIFICATION_SWIPE_FOR_SYSTEM_LOCALE = 1897;
+
+    // ACTION: Add the recommendation locale
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADD_SYSTEM_LOCALE_FROM_RECOMMENDATION = 1898;
+
+    // ACTION: Cancel the recommendation locale
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_CANCEL_SYSTEM_LOCALE_FROM_RECOMMENDATION = 1899;
+
+    // Action: Settings > Sound & vibration > Vibration & haptics > Keyboard vibration
+    // VALUE: false is off, true is on
+    // OS: U-QPR3
+    ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
+
+    // ACTION: Settings > Accessibility > Easy read > Enable easy read
+    // VALUE: false is off, true is on
+    // OS: U-QPR3
+    ACTION_EASY_MODE_CHANGED = 1901;
+
+    // OPEN: Settings > Security&Privacy > Private Space >
+    // Set up > Screen lock setup > Google account setup error > Skip for now
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_SKIP_ACCOUNT_LOGIN = 1902;
+
+    // Action: Settings > Battery settings > Battery tip > Wireless charging
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_WIRELESS_CHARGING_TIP = 1903;
+
+    // ACTION: Settings > Display > Screen timeout > Adaptive timeout
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADAPTIVE_TIMEOUT_CHANGED = 1904;
+
+    // ACTION: Settings > System > Languages > System Languages > Terms of address >
+    // > Change the system grammatical gender
+    // OS: V
+    ACTION_TERMS_OF_ADDRESS_SPECIFIED = 1905;
+
+    // ACTION: Settings > Battery > Battery Manager > Restricted apps
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_APP_RESTRICTED_LIST_MANAGED = 1906;
+
+    // ACTION: Allow or deny an app the run backup jobs permission
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_RUN_BACKUP_TASKS_TOGGLE = 1907 [deprecated = true];
+
+    // ACTION: Settings > Security&Privacy > Private space
+    // > Lock private space automatically
+    // Subtype on_device_lock = 0, after_inactivity = 1, never = 2
+    // Category: SETTINGS
+    // OS: V
+    ACTION_SET_PRIVATE_SPACE_AUTOLOCK = 1908;
+
+    // ACTION: Settings > System > Touchpad > Tap dragging
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_GESTURE_TAP_DRAGGING_CHANGED = 1909;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TRIGGERED = 1910;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TRIGGERED = 1911;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Spatial Audio toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_SPATIAL_AUDIO_TOGGLE_CLICKED = 1912;
+
+    // ACTION: Settings > Connected Devices > Bluetooth Device Details > Head Tracking toggle
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_HEAD_TRACKING_TOGGLE_CLICKED = 1913;
+
+    // ACTION: Settings > Sound & Vibration > Vibration & haptics
+    //                  > Adaptive Vibration > Use Adaptive Vibration
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_ADAPTIVE_VIBRATION_CHANGED = 1914;
+
+    // ACTION: Settings > Network & Internet > SIMs > ‘Select RAC eSIM’
+    // > Erase eSIM without Wi-Fi or data from second SIM
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_SETTINGS_ESIM_RAC_CONNECTIVITY_WARNING = 1915;
+
+    // ACTION: Settings -> System -> Reset Options -> Reset Mobile Network Settings
+    // > Check 'erase eSIMs' > Erase eSIM without Wi-Fi
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_MOBILE_NETWORK_RAC_CONNECTIVITY_WARNING = 1916;
+
+    // ACTION: Settings -> System -> Reset Options -> Erase eSIMs
+    // VALUE: cancel = 0, continue = 1
+    // OS: V
+    ACTION_RESET_ESIMS_RAC_CONNECTIVITY_WARNING = 1917;
+
+    // ACTION: Settings > Connected devices > Previously used with account
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_LIST = 1918;
+
+    // ACTION: Settings > Connected devices > Previously used with account -> Pair device succeed
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    ACTION_SETTINGS_PREVIOUSLY_USED_WITH_ACCOUNT_PAIR_SUCCEED = 1919;
+
+    // Action: Settings > Battery settings > Click the learn more link while wireless charging
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_WIRELESS_CHARGING_LEARN_MORE = 1920;
+
+    // ACTION: Settings > Display > Touch Sensitivity > Adaptive touch
+    // VALUE: false is off, true is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ADAPTIVE_TOUCH_SENSITIVITY_CHANGED = 1921;
+
+    // ACTION: Settings > Display > Touch Sensitivity > Screen protector mode
+    // VALUE: false is off, true is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_TOUCH_SENSITIVITY_CHANGED = 1922;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle on Share audio main switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_MAIN_SWITCH_ON = 1923;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle off Share audio main switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_MAIN_SWITCH_OFF = 1924;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on or
+    //         Settings > Connected devices > Start dialog > Click Share button
+    //         > Start audio sharing failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_START_FAILED= 1925;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle off or
+    //         Settings > Connected devices > Stop dialog > Click Stop sharing button
+    //         > Stop audio sharing failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_STOP_FAILED= 1926;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Active media devices > Change headset volume
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_CHANGE_MEDIA_DEVICE_VOLUME = 1927;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Click Play a test sound
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_PLAY_TEST_SOUND = 1928;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle Improve compatibility switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_IMPROVE_COMPATIBILITY = 1929;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Call audio >
+    //         Change device
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_CHANGE_CALL_AUDIO = 1930;
+
+    // Action: Audio sharing started > Show notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_AUDIO_SHARING_NOTIFICATION = 1931;
+
+    // Action: Audio sharing stopped > Cancel notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_CANCEL_AUDIO_SHARING_NOTIFICATION = 1932;
+
+    // Action: Settings > Audio sharing notification > Click Stop sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_STOP_AUDIO_SHARING_FROM_NOTIFICATION = 1933;
+
+    // Action: Settings > Connected devices > Click media devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MEDIA_DEVICE_CLICK = 1934;
+
+    // Action: Settings > Connected devices > Click audio sharing devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DEVICE_CLICK = 1935;
+
+    // Action: Settings > Connected devices > dialogs > Click Share button or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialogs
+    //                  > Click Share button or
+    //         Settings > Connected devices > Connection preferences > Audio sharing
+    //                  > Auto add device to sharing when toggle on
+    //         > Fail
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_JOIN_FAILED = 1936;
+
+    // Action: Settings > Connected devices > Disconnect device dialog > Click device button >
+    //         Fail to remove device from sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_LEAVE_FAILED = 1937;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on >
+    //         Auto add active device to sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUTO_JOIN_AUDIO_SHARING = 1938;
+
+    // Action: Settings > Connected devices or
+    //         Settings > Connected devices > Connection preferences > Audio sharing
+    //         > Show audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_AUDIO_SHARING_DIALOG = 1939;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Click positive button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_POSITIVE_BTN_CLICKED = 1940;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Click negative button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_NEGATIVE_BTN_CLICKED = 1941;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Auto dismiss
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_AUTO_DISMISS = 1942;
 }
 
 /**
@@ -4019,10 +4584,291 @@ enum PageId {
     // OS: U
     ACCOUNT_DETAIL = 2031;
 
+    // OPEN: Settings > About phone -> Battery information
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_BATTERY_INFORMATION = 2032;
+
     // OPEN: Settings > Wireless > VPN
     // CATEGORY: SETTINGS
     // OS: U
     VPN_APP_MANAGEMENT = 2033;
+
+    // OPEN: Settings > System > Languages > System Languages > Terms of address
+    // CATEGORY: SETTINGS
+    // OS: V
+    TERMS_OF_ADDRESS = 2034;
+
+    // OPEN: Settings > Notifications > Polite notifications
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_POLITE_NOTIFICATIONS = 2035;
+
+    // OPEN: Settings > Display > Screen saver > When to start
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_WHEN_TO_DREAM = 2036;
+
+    // OPEN: Settings > System > Software updates
+    // CATEGORY: SETTINGS
+    // OS: U
+    SETTINGS_SOFTWARE_UPDATES = 2037;
+
+    // OPEN: Settings > Display > Continue using apps on fold
+    // CATEGORY: SETTINGS
+    // OS: U
+    FOLD_LOCK_BEHAVIOR = 2038;
+
+    // OPEN: Settings > Connected devices > Previously used with account
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    FAST_PAIR_DEVICES = 2039;
+
+    // OPEN: Settings > Security & Privacy > Private Space
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETTINGS = 2040;
+
+    // OPEN: Settings > System > Developer options > Quarantined Apps
+    // CATEGORY: SETTINGS
+    // OS: V
+    QUARANTINED_APPS_DEV_CONTROL = 2041 [deprecated = true];
+
+    // OPEN: Settings > Developer Options > Enable 16k pages
+    // CATEGORY: SETTINGS
+    DIALOG_ENABLE_16K_PAGES = 2042;
+
+    // OPEN: Settings > Storage > Private profile tab
+    // CATEGORY: SETTINGS
+    // OS: V
+    SETTINGS_STORAGE_CATEGORY_PRIVATE = 2043;
+
+    // OPEN: Settings > Account > Private profile tab
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCOUNT_PRIVATE = 2044;
+
+    // OPEN: Settings > Privacy & Security > More security & privacy > Scanning for deceptive apps
+    // CATEGORY: SETTINGS
+    // OS: U
+    CONTENT_PROTECTION_PREFERENCE = 2045;
+
+    // ACTION: Allow Voice activation of an assistant app
+    // CATEGORY: SETTINGS
+    // OS: V
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_ALLOW = 2046 [deprecated = true];
+
+    // ACTION: Deny Voice activation of an assistant app
+    // CATEGORY: SETTINGS
+    // OS: V
+    APP_SPECIAL_PERMISSION_RECEIVE_SANDBOX_TRIGGER_AUDIO_DENY = 2047 [deprecated = true];
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_SHARING_SETTINGS = 2048;
+
+    // Open: Settings > Connected devices > Start audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_START_AUDIO_SHARING = 2049;
+
+    // Open: Settings > Connected devices > Stop audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_STOP_AUDIO_SHARING = 2050;
+
+    // Open: Settings > Connected devices > Change device dialog in audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_SWITCH_DEVICE = 2051;
+
+    // Open: Audio sharing switch active dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052 [deprecated = true];
+
+    // OPEN: Settings > System > Developer options > Widevine settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    WIDEVINE_SETTINGS = 2053;
+
+    // OPEN: Settings > Apps > App Info > Aspect Ratio
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    USER_ASPECT_RATIO_APP_INFO_SETTINGS = 2054;
+
+    // OPEN: Settings > Battery > [App Use details] > Manage background usage
+    // CATEGORY: SETTINGS
+    // OS: UQPR2
+    FUELGAUGE_POWER_USAGE_MANAGE_BACKGROUND = 2055;
+
+    // OPEN: Settings > Apps > Aspect Ratio
+    // CATEGORY: SETTINGS
+    // OS: UQPR1
+    USER_ASPECT_RATIO_APP_LIST_SETTINGS = 2056;
+
+    // OPEN: Settings > System > Developer options > Develop App picker
+    // CATEGORY: SETTINGS
+    // OS: V
+    DEVELOPMENT_APP_PICKER = 2057;
+
+    // OPEN: Settings > Security & Privacy > Private Space , when the feature is not set up
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_EDUCATION = 2058;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_SPACE_CREATION = 2059;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, Error
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_SPACE_CREATION_ERROR = 2060;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait,
+    // Success, If Network available Google Sign in
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_LOCK = 2061;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // Network available Google Sign in > Error
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_ACCOUNT_LOGIN_ERROR = 2062;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // Network available Google Sign in > Use screen lock > PreFinish > Set account
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_FINISH = 2063;
+
+    // OPEN: Settings > Apps > Special App Access > Change Media Output
+    // CATEGORY: SETTINGS
+    // OS: V
+    MEDIA_ROUTING_CONTROL = 2064;
+
+    // OPEN: Settings > Display > Touch sensitivity
+    // CATEGORY: SETTINGS
+    // OS: UQPR3
+    TOUCH_SENSITIVITY_SETTINGS = 2065;
+
+    // OPEN: Settings > Memory > Toggle "Enable memory profiling"
+    // CATEGORY: SETTINGS
+    // OS: UQPR3
+    DIALOG_FORCE_ENABLE_PSS_PROFILING = 2066;
+
+    // LEAVE: Settings > Battery > [App Usage details]
+    // CATEGORY: SETTINGS
+    // OS: V
+    LEAVE_APP_BATTERY_USAGE = 2067;
+
+    // OPEN: Settings > Battery > [App Usage details] > Manage background usage
+    // CATEGORY: SETTINGS
+    // OS: V
+    OPEN_POWER_USAGE_MANAGE_BACKGROUND = 2068;
+
+    // LEAVE: Settings > Battery > [App Usage details] > Manage background usage
+    // CATEGORY: SETTINGS
+    // OS: V
+    LEAVE_POWER_USAGE_MANAGE_BACKGROUND = 2069;
+
+    // OPEN: Settings > Accessibility > Easy read
+    // CATEGORY: SETTINGS
+    // OS: UQPR3
+    SETTINGS_EASY_PRESET = 2070;
+
+    // OPEN: Settings > Network & internet > SIMs > Satellite Messaging
+    // CATEGORY: SETTINGS
+    // OS: V
+    SATELLITE_SETTING = 2071;
+
+    // OPEN: Settings > Accessibility -> Color Contrast
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_COLOR_CONTRAST = 2072;
+
+    // OPEN: Settings > Security & Privacy > Private Space > Set up > Wait, If
+    // network available Google Sign in > Use screen lock > PreFinish
+    // CATEGORY: SETTINGS
+    // OS: V
+    PRIVATE_SPACE_SETUP_PRE_FINISH = 2073;
+
+    // OPEN: Settings > Sound & vibration > Vibration & haptics > Adaptive vibration
+    // CATEGORY: SETTINGS
+    // OS: V
+    ADAPTIVE_VIBRATION = 2074;
+
+    // OPEN: Settings > Network & Internet > Cellular Security
+    CELLULAR_SECURITY_SETTINGS = 2075;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog)
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_DIALOG = 2076;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog) > Delete
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_CONFIRM = 2077;
+
+    // OPEN: Settings > System > Reset options > Delete private space >
+    //       (confirmation dialog) > Cancel
+    // CATEGORY: SETTINGS
+    // OS: V
+    RESET_DELETE_PRIVATE_SPACE_CANCEL = 2078;
+
+    // OPEN: Settings > Storage > Dialog for temporary system files info
+    DIALOG_TEMPORARY_FILES_INFO = 2079;
+
+    // OPEN: Settings > System > Developer options > Media DRM settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    MEDIA_DRM_SETTINGS = 2080;
+
+    // OPEN: Settings > Location > Location Services > Private
+    // CATEGORY: SETTINGS
+    // OS: V
+    LOCATION_SERVICES_FOR_PRIVATE_PROFILE = 2081;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Thread
+    // CATEGORY: SETTINGS
+    // OS: V
+    CONNECTED_DEVICE_PREFERENCES_THREAD = 2082;
+
+    // OPEN: SUW Welcome Screen -> Vision Settings -> Adaptive brightness
+    // CATEGORY: SETTINGS
+    // OS: V
+    SUW_ACCESSIBILITY_AUTO_BRIGHTNESS = 2083;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Call audio
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_CALL_AUDIO = 2084;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing >
+    //       Toggle on Share audio main switch when no LEA device is connected
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_CONFIRMATION = 2085;
+
+    // OPEN: Settings > Connected devices or
+    //       Settings > Connected devices > Connection preferences > Audio sharing > Toggle on
+    //       > Add device to audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_ADD_DEVICE = 2086;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on >
+    //       Notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    NOTIFICATION_AUDIO_SHARING = 2087;
 }
 
 // Battery Saver schedule types.
@@ -4038,11 +4884,21 @@ enum SessionType {
     // The client app doesn't set session source.
     SESSION_UNKNOWN = 0;
     // The session start from opening the Settings app.
-    BROWSE = 1;
+    SESSION_BROWSE = 1;
     // The session start from Settings Search result.
-    SEARCH = 2;
+    SESSION_SEARCH = 2;
     // The session start from other app via Intent.
-    EXTERNAL = 3;
+    SESSION_EXTERNAL = 3;
     // The session start from the Slice invoking.
-    SLICE_TYPE = 4;
+    SESSION_SLICE_TYPE = 4;
+}
+
+// Physical keyboard settings entrypoint type of the from source.
+enum EntryPointType {
+    // access physical keyboard settings through keyboard configured notification entry point
+    KEYBOARD_CONFIGURED_NOTIFICATION = 0;
+    // access physical keyboard settings through keyboard settings entry point
+    KEYBOARD_SETTINGS = 1;
+    // access physical keyboard settings through connected devices settings entry point
+    CONNECTED_DEVICES_SETTINGS = 2;
 }

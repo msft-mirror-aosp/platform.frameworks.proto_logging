@@ -16,6 +16,13 @@
 
 #include "rust_writer.h"
 
+#include <stdio.h>
+
+#include <algorithm>
+#include <cctype>
+#include <map>
+
+#include "Collation.h"
 #include "utils.h"
 
 // Note that we prepend _ to variable names to avoid using Rust language keyword.
@@ -59,7 +66,7 @@ static string make_camel_case_name(const string& str) {
     const int N = str.size();
     bool justSawUnderscore = false;
     for (int i = 0; i < N; i++) {
-        char c = str[i];
+        const char c = str[i];
         if (c == '_') {
             justSawUnderscore = true;
             // Don't add the underscore to our result
@@ -77,7 +84,7 @@ static string make_snake_case_name(const string& str) {
     string result;
     const int N = str.size();
     for (int i = 0; i < N; i++) {
-        char c = str[i];
+        const char c = str[i];
         if (isupper(c)) {
             if (i > 0) {
                 result += "_";
@@ -155,7 +162,7 @@ static void write_rust_method_signature(FILE* out, const char* namePrefix, const
     fprintf(out, "\n");
 }
 
-static bool write_rust_usage(FILE* out, const string& method_name, const shared_ptr<AtomDecl> atom,
+static bool write_rust_usage(FILE* out, const string& method_name, const shared_ptr<AtomDecl>& atom,
                              const AtomDecl& attributionDecl, bool isNonChained,
                              const char* headerCrate) {
     fprintf(out, "    // Definition: ");
@@ -174,11 +181,11 @@ static void write_rust_atom_constants(FILE* out, const Atoms& atoms,
     build_non_chained_decl_map(atoms, &atom_code_to_non_chained_decl_map);
 
     for (const shared_ptr<AtomDecl>& atomDecl : atoms.decls) {
-        string constant = make_camel_case_name(atomDecl->name);
+        const string constant = make_camel_case_name(atomDecl->name);
         fprintf(out, "\n");
         fprintf(out, "    // %s %s\n", atomDecl->message.c_str(), atomDecl->name.c_str());
-        bool isSupported = write_rust_usage(out, "// stats_write", atomDecl, attributionDecl, false,
-                                            headerCrate);
+        const bool isSupported = write_rust_usage(out, "// stats_write", atomDecl, attributionDecl,
+                                                  false, headerCrate);
         if (!isSupported) {
             continue;
         }
@@ -227,7 +234,7 @@ static void write_rust_annotation_constants(FILE* out) {
     fprintf(out, "enum Annotations {\n");
 
     const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants();
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     for (const auto& [id, annotation] : ANNOTATION_ID_CONSTANTS) {
         fprintf(out, "    %s = %hhu,\n", make_camel_case_name(annotation.name).c_str(), id);
     }
@@ -239,7 +246,7 @@ static void write_rust_annotation_constants(FILE* out) {
 static void write_annotations(FILE* out, int argIndex, const AtomDecl& atomDecl,
                               const string& methodPrefix, const string& methodSuffix) {
     const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants();
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     auto annotationsIt = atomDecl.fieldNumberToAnnotations.find(argIndex);
     if (annotationsIt == atomDecl.fieldNumberToAnnotations.end()) {
         return;
@@ -389,7 +396,8 @@ static int write_rust_stats_write_method(FILE* out, const shared_ptr<AtomDecl>& 
         write_rust_method_signature(out, "add_astats_event", *atomDecl, attributionDecl, true,
                                     false, headerCrate);
     }
-    int ret = write_rust_method_body(out, *atomDecl, attributionDecl, minApiLevel, headerCrate);
+    const int ret =
+            write_rust_method_body(out, *atomDecl, attributionDecl, minApiLevel, headerCrate);
     if (ret != 0) {
         return ret;
     }
@@ -443,7 +451,7 @@ static bool needs_lifetime(const shared_ptr<AtomDecl>& atomDecl) {
 static void write_rust_struct(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
                               const AtomDecl& attributionDecl, const char* headerCrate) {
     // Write the struct.
-    bool lifetime = needs_lifetime(atomDecl);
+    const bool lifetime = needs_lifetime(atomDecl);
     if (lifetime) {
         fprintf(out, "    pub struct %s<'a> {\n", make_camel_case_name(atomDecl->name).c_str());
     } else {
@@ -468,7 +476,7 @@ static void write_rust_struct(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
     fprintf(out, "    }\n");
 
     // Write the impl
-    bool isPush = atomDecl->atomType == ATOM_TYPE_PUSHED;
+    const bool isPush = atomDecl->atomType == ATOM_TYPE_PUSHED;
     if (isPush) {
         if (lifetime) {
             fprintf(out, "    impl<'a> %s<'a> {\n", make_camel_case_name(atomDecl->name).c_str());
@@ -532,8 +540,8 @@ static int write_rust_stats_write_atoms(FILE* out, const AtomDeclSet& atomDeclSe
         fprintf(out, "\n");
         write_rust_atom_constant_values(out, atomDecl);
         write_rust_struct(out, atomDecl, attributionDecl, headerCrate);
-        int ret = write_rust_stats_write_method(out, atomDecl, attributionDecl, minApiLevel,
-                                                headerCrate);
+        const int ret = write_rust_stats_write_method(out, atomDecl, attributionDecl, minApiLevel,
+                                                      headerCrate);
         if (ret != 0) {
             return ret;
         }
@@ -591,7 +599,7 @@ int write_stats_log_rust(FILE* out, const Atoms& atoms, const AtomDecl& attribut
 
     write_rust_annotation_constants(out);
 
-    int errorCount = write_rust_stats_write_atoms(
+    const int errorCount = write_rust_stats_write_atoms(
             out, atoms.decls, attributionDecl, atoms.non_chained_decls, minApiLevel, headerCrate);
 
     return errorCount;

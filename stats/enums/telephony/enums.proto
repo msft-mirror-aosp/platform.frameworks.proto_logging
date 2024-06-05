@@ -92,6 +92,14 @@ enum NetworkTypeEnum {
     NETWORK_TYPE_NR = 20;
 }
 
+// Cellular radio power state, see android/telephony/TelephonyManager.java for definitions.
+enum CellularRadioPowerStateEnum {
+    RADIO_POWER_STATE_UNKNOWN = 0;
+    RADIO_POWER_STATE_OFF = 1;
+    RADIO_POWER_STATE_ON = 2;
+    RADIO_POWER_STATE_UNAVAILABLE = 3;
+}
+
 // Roaming type enums, see android.telephony.ServiceState.RoamingType for definitions.
 enum RoamingTypeEnum {
     ROAMING_TYPE_NOT_ROAMING = 0;
@@ -293,6 +301,7 @@ enum DataDeactivateReasonEnum {
     DEACTIVATE_REASON_RAT_NOT_ALLOWED = 10;
     DEACTIVATE_REASON_ROAMING_DISABLED = 11;
     DEACTIVATE_REASON_CONCURRENT_VOICE_DATA_NOT_ALLOWED = 12;
+    DEACTIVATE_REASON_DATA_SERVICE_OPTION_NOT_SUPPORTED = 13;
     DEACTIVATE_REASON_DATA_SERVICE_NOT_READY = 14;
     DEACTIVATE_REASON_POWER_OFF_BY_CARRIER = 15;
     DEACTIVATE_REASON_DATA_STALL = 16;
@@ -314,6 +323,8 @@ enum DataDeactivateReasonEnum {
     DEACTIVATE_REASON_ILLEGAL_STATE = 32;
     DEACTIVATE_REASON_ONLY_ALLOWED_SINGLE_NETWORK = 33;
     DEACTIVATE_REASON_PREFERRED_DATA_SWITCHED = 34;
+    DEACTIVATE_REASON_DATA_LIMIT_REACHED = 35;
+    DEACTIVATE_REASON_DATA_NETWORK_TRANSPORT_NOT_ALLOWED = 36;
 }
 
 // IP type of the data call
@@ -646,4 +657,25 @@ enum FoldState {
     STATE_HALF_OPENED = 2;
     STATE_OPENED = 3;
     STATE_FLIPPED = 4;
+}
+
+/**
+ * enum for result of data network validation.
+ */
+enum NetworkValidationResult {
+    VALIDATION_RESULT_UNSPECIFIED = 0;
+    VALIDATION_RESULT_NOT_SUPPORTED = 1;
+    VALIDATION_RESULT_ALREADY_IN_PROGRESS = 2;
+    VALIDATION_RESULT_SUCCESS = 3;
+    VALIDATION_RESULT_FAILURE = 4;
+}
+
+/**
+ * enum for call composer status
+ */
+enum CallComposerStatus {
+    CALL_COMPOSER_UNKNOWN = 0;
+    CALL_COMPOSER_STATUS_OFF = 1;
+    CALL_COMPOSER_STATUS_ON = 2;
+    CALL_COMPOSER_STATUS_BUSINESS_ONLY = 3;
 }

@@ -191,6 +191,8 @@ message AutofillSaveEventReported {
   // Whether the framework created the save info object.
   // This is true if provider didn't specify any autofill ids in saveInfo object.
   optional bool is_framework_created_save_info = 16;
+
+  optional int32 autofill_service_uid = 17 [(is_uid) = true];
 }
 
 /**
@@ -208,15 +210,29 @@ message AutofillSessionCommitted {
   optional AutofillCommitReason commit_reason = 4;
   // Duration of session: Time from session start to session end
   optional int64 session_duration_millis = 5;
+
+  optional int32 autofill_service_uid = 6 [(is_uid) = true];
 }
 
 /**
-* Logs Fieldclassification event. This event is captured after the request
+* Logs FieldClassification event. This event is captured after the request
 * for the classification service has been made.
 */
 message AutofillFieldClassificationEventReported {
-    // Latency of the request to the field classification service.
-    optional int64 latency_millis = 1;
-    // Count of fields that were classified.
-    optional int32 count_classifications = 2;
+  // Latency of the request to the field classification service.
+  optional int64 latency_millis = 1;
+  // Count of fields that were classified.
+  optional int32 count_classifications = 2;
+  // SessionId to attribute classifications within a session, and measure overall performance.
+  optional int32 session_id = 3;
+  // field_classification request id.
+  optional int32 request_id = 4;
+  // request_id of the next fill request that'll use this result.
+  optional int32 next_fill_request_id = 5;
+  // App package Uid
+  optional int32 app_package_uid = 6 [(is_uid) = true];
+  // Status of the request
+  optional FieldClassificationRequestStatus status = 7;
+  // Indicates the session that called this request was garbage collected
+  optional bool is_session_gc = 8;
 }

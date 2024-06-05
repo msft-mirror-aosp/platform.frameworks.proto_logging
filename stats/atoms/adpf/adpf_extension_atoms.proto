@@ -1,0 +1,163 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.adpf;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
+import "frameworks/proto_logging/stats/attribution_node.proto";
+import "frameworks/proto_logging/stats/enums/os/enums.proto";
+
+option java_package = "com.android.os.adpf";
+option java_multiple_files = true;
+
+extend Atom {
+    // Pushed atoms
+    optional ThermalStatusCalled thermal_status_called = 772 [(module) = "framework"];
+    optional ThermalHeadroomCalled thermal_headroom_called = 773 [(module) = "framework"];
+    optional ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called = 774 [(module) = "framework"];
+    optional AdpfHintSessionTidCleanup adpf_hint_session_tid_cleanup = 839 [(module) = "framework"];
+
+    // Pulled atoms
+    optional ThermalHeadroomThresholds thermal_headroom_thresholds = 10201 [(module) = "framework"];
+    optional AdpfSessionSnapshot adpf_session_snapshot = 10218 [(module) = "framework"];
+}
+
+enum ThermalApiStatus {
+    UNSPECIFIED_THERMAL_API_FAILURE = 0;
+    SUCCESS = 1;
+    HAL_NOT_READY = 2;
+    FEATURE_NOT_SUPPORTED = 3;
+    INVALID_ARGUMENT = 4;
+    // If the thermal HAL reports no temperature for SKIN type
+    NO_TEMPERATURE = 5;
+    // If the thermal HAL reports no matching threshold for the SKIN temperature
+    NO_TEMPERATURE_THRESHOLD = 6;
+}
+
+enum AdpfSessionUidState {
+    DEFAULT_UID_STATE = 0;
+    FOREGROUND = 1;
+    BACKGROUND = 2;
+}
+
+enum AdpfSessionState {
+    DEFAULT_SESSION_STATE = 0;
+    // This state is used to mark the session is paused.
+    PAUSE = 1;
+    // This state is used to mark the session is resumed.
+    RESUME = 2;
+}
+
+/**
+ * Logs the PowerManager#getCurrentThermalStatus API usage.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/ThermalManagerService.java.
+ */
+message ThermalStatusCalled {
+    // UID of the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // API call status.
+    optional ThermalApiStatus api_status = 2;
+
+    // Thermal throttling status.
+    optional android.os.ThrottlingSeverityEnum status = 3;
+}
+
+/**
+ * Logs the PowerManager#getThermalHeadroom API usage.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/ThermalManagerService.java.
+ */
+message ThermalHeadroomCalled {
+    // UID of the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // API call status.
+    optional ThermalApiStatus api_status = 2;
+
+    // Thermal headroom.
+    optional float headroom = 3;
+}
+
+/**
+ * Logs the PowerManager#getThermalHeadroomThresholds API usage.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/ThermalManagerService.java.
+ */
+message ThermalHeadroomThresholdsCalled {
+    // UID of the package.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // API call status.
+    optional ThermalApiStatus api_status = 2;
+}
+
+/**
+ * Logs the current thermal headroom thresholds of a device.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/ThermalManagerService.java.
+ */
+message ThermalHeadroomThresholds {
+    // Thermal headroom threshold for that status.
+    repeated float headroom = 1;
+}
+
+/**
+ * Logs the ADPF TID cleanup result.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
+ */
+message AdpfHintSessionTidCleanup {
+    optional int32 uid = 1 [(is_uid) = true];
+    // Total duration of cleaning up all sessions of the uid in microseconds
+    optional int32 total_duration_us = 2;
+    // Max duration of cleaning up a session in microseconds
+    optional int32 max_duration_us = 3;
+    // Total tid count for all sessions of the uid
+    optional int32 total_tid_count = 4;
+    // Total invalid tid count for all sessions of the uid
+    optional int32 total_invalid_tid_count = 5;
+    // Max invalid tid count per session
+    optional int32 max_invalid_tid_count = 6;
+    // Count of all session under the same uid
+    optional int32 session_count = 7;
+    // If the UID is foreground when running cleanup
+    optional bool is_uid_foreground = 8;
+}
+
+/*
+ * Logs the ADPF session snapshot upon pulled.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
+ */
+message AdpfSessionSnapshot {
+    // Uid of the session, this uid is per-app
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Uid process state (foreground, background)
+    optional AdpfSessionUidState uid_state = 2;
+
+    // Number of threads of this session
+    optional int32 tid_count = 3;
+
+    // Session tag of this session
+    optional AdpfSessionTag session_tag = 4;
+
+    // Session state (pause, resume)
+    optional AdpfSessionState session_state = 5;
+
+    // Power efficiency mode status
+    optional bool is_power_efficient = 6;
+}

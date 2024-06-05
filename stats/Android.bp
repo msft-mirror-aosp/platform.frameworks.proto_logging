@@ -21,23 +21,32 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+// Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
+// Due to size grownth constraints proposed to reuse only what really imported
+shared_enum_protos = [
+    "enums/app/**/*.proto",
+    "enums/display/*.proto",
+]
+
 enum_protos = [
     "enums/adservices/common/*.proto",
     "enums/adservices/enrollment/*.proto",
     "enums/adservices/fledge/*.proto",
-    "enums/anr/*.proto",
     "enums/adservices/measurement/*.proto",
-    "enums/app/**/*.proto",
+    "enums/anr/*.proto",
+    "enums/apex/*.proto",
+    "enums/appsearch/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
     "enums/debug/*.proto",
-    "enums/display/*.proto",
+    "enums/devicepolicy/*.proto",
     "enums/dnd/*.proto",
     "enums/federatedcompute/*.proto",
     "enums/hardware/**/*.proto",
     "enums/healthfitness/**/*.proto",
     "enums/hotword/*.proto",
+    "enums/input/*.proto",
     "enums/jank/*.proto",
     "enums/media/**/*.proto",
     "enums/mms/*.proto",
@@ -46,6 +55,8 @@ enum_protos = [
     "enums/neuralnetworks/*.proto",
     "enums/nfc/*.proto",
     "enums/os/*.proto",
+    "enums/photopicker/*.proto",
+    "enums/pdf/*.proto",
     "enums/server/*.proto",
     "enums/server/display/*.proto",
     "enums/server/job/*.proto",
@@ -74,9 +85,13 @@ enum_protos = [
     "enums/telephony/*.proto",
     "enums/telephony/qns/*.proto",
     "enums/telephony/satellite/*.proto",
+    "enums/telephony/security/*.proto",
+    "enums/transparency/*.proto",
     "enums/uwb/*.proto",
     "enums/view/**/*.proto",
+    "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
+    "enums/wear/modes/*.proto",
     "enums/wifi/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
@@ -96,6 +111,8 @@ atom_protos = [
     "attribution_node.proto",
     "atoms/adpf/*.proto",
     "atoms/agif/*.proto",
+    "atoms/apex/*.proto",
+    "atoms/aiwallpapers/*.proto",
     "atoms/art/*.proto",
     "atoms/appsearch/*.proto",
     "atoms/bluetooth/*.proto",
@@ -103,13 +120,16 @@ atom_protos = [
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
     "atoms/cronet/*.proto",
+    "atoms/devicepolicy/*.proto",
     "atoms/display/*.proto",
     "atoms/dnd/*.proto",
+    "atoms/dream/*.proto",
     "atoms/expresslog/*.proto",
     "atoms/framework/*.proto",
     "atoms/gps/*.proto",
     "atoms/grammaticalinflection/*.proto",
     "atoms/hardware/biometrics/*.proto",
+    "atoms/hdmi/*.proto",
     "atoms/healthfitness/**/*.proto",
     "atoms/hotword/*.proto",
     "atoms/ike/*.proto",
@@ -118,20 +138,27 @@ atom_protos = [
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
+    "atoms/nfc/*.proto",
+    "atoms/packagemanager/*.proto",
+    "atoms/pdf/*.proto",
     "atoms/permissioncontroller/*.proto",
     "atoms/placeholder/*.proto",
+    "atoms/power/*.proto",
     "atoms/rkpd/*.proto",
     "atoms/settings/*.proto",
     "atoms/sysui/*.proto",
     "atoms/tv/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
+    "atoms/photopicker/*.proto",
     "atoms/devicelogs/*.proto",
     "atoms/kernel/*.proto",
     "atoms/wearservices/*.proto",
     "atoms/wear/media/*.proto",
+    "atoms/wear/prototiles/*.proto",
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
+    "atoms/wear/modes/*.proto",
     "atoms/wearpas/*.proto",
     "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
@@ -140,12 +167,22 @@ atom_protos = [
     "atoms/memorysafety/*.proto",
     "atoms/wifi/*.proto",
     "atoms/telephony/satellite/*.proto",
+    "atoms/telephony/security/*.proto",
     "atoms/automotive/caruilib/*.proto",
     "atoms/uwb/*.proto",
     "atoms/ondevicepersonalization/*.proto",
     "atoms/federatedcompute/*.proto",
+    "atoms/wear/connectivity/*.proto",
+    "atoms/devicelock/*.proto",
+    "atoms/cpu/*.proto",
     "atoms/sdksandbox/*.proto",
+    "atoms/selinux/*.proto",
     "atoms/threadnetwork/*.proto",
+    "atoms/automotive/carlauncher/*.proto",
+    "atoms/transparency/*.proto",
+    "atoms/desktopmode/*.proto",
+    "atoms/adaptiveauth/*.proto",
+    "atoms/automotive/carpower/*.proto",
 ]
 
 cc_library_host_shared {
@@ -153,7 +190,7 @@ cc_library_host_shared {
     srcs: [
         "atom_field_options.proto",
         ":libstats_atom_message_protos",
-    ] + enum_protos + atom_protos,
+    ] + shared_enum_protos + enum_protos + atom_protos,
 
     cflags: [
         "-Wno-deprecated-declarations",
@@ -191,8 +228,13 @@ filegroup {
 }
 
 filegroup {
+    name: "libstats_shared_enum_protos",
+    srcs: shared_enum_protos,
+}
+
+filegroup {
     name: "libstats_atom_enum_protos",
-    srcs: enum_protos,
+    srcs: shared_enum_protos + enum_protos,
 }
 
 filegroup {
