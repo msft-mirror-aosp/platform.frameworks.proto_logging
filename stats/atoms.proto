@@ -1490,6 +1490,7 @@ message Atom {
     extensions 10215; // SatelliteConfigUpdater satellite_config_updater
     extensions 10216; // DevicePolicyManagementMode
     extensions 10217; // DevicePolicyPolicyState
+    extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -22340,6 +22341,8 @@ message AutofillPresentationEventReported {
            // where we trigger fill request at layout time.
     NONE_SHOWN_VIEW_FOCUSED_BEFORE_FILL_DIALOG_RESPONSE =
         9; // Users focus a field before the fill dialogs response is returned.
+    NONE_SHOWN_SUGGESTION_FILTER_OUT =
+        10; // Suggestions were filtered out due to pre-existing text
   }
 
   // Id number which increases for each subsequent request.
@@ -22411,7 +22414,7 @@ message AutofillPresentationEventReported {
   // can be calculated by suggestionSentTimestampMs - fillResponseReceivedTimestampMs
   optional int32 suggestion_sent_timestamp_ms = 15;
 
-  // Timestamp of when the suggestion is shown
+  // Timestamp of when the suggestion is first shown
   // The latency of showing suggestions can be calculated by
   // suggestionPresentedTimestampMs - suggestionSentTimestampMs
   optional int32 suggestion_presented_timestamp_ms = 16;
@@ -22481,7 +22484,7 @@ message AutofillPresentationEventReported {
   // It's possible that additional views themselves didn't fill correctly.
   optional int64 views_filled_failure_count = 34;
 
-  // AutofillID of the view that triggered the presentation
+  // ViewID of the AutofillID that triggered the presentation
   optional int32 focused_autofill_id = 35;
 
   // Count of views that successfully received autofill values. These are guaranteed counts.
@@ -22493,6 +22496,38 @@ message AutofillPresentationEventReported {
   // This value is for confirmation that nothing is wrong. It's expected value is 0.
   // If non-zero, there's likely some bug in our logging (or in autofill).
   optional int64 views_filled_but_unexpected_count = 37;
+
+  // Timestamp (relative to session start) of when user tapped a selection
+  optional int32 presentation_selected_timestamp_ms = 38;
+
+  // Timestamp (relative to session start) of filling into a field
+  optional int32 field_autofilled_timestamp_ms = 39;
+
+  // Timestamp (relative to session start) of when the field is first modified
+  // This is used to check if a field was modified before an Autofill suggestion
+  // was presented
+  optional int32 field_first_modified_timestamp_ms = 40;
+
+  // Timestamp (relative to session start) of when the field is last modified
+  // This is value is updated when the view value was changed manually
+  // (by app/user - not autofill)
+  // This will be the same as field_first_modified_timestamp_ms
+  // if field was only modified once
+  optional int32 field_last_modified_timestamp_ms = 41;
+
+  // Supplement to suggestion_presented_timestamp_ms. This is the timestamp
+  // of the last suggestion that was presented to the user. It is used to
+  // distinguish multiple presentations in the same field.
+  optional int32 suggestion_presented_last_timestamp_ms = 42;
+
+  // The virtual component (if any) of the autofill id
+  optional int32 focused_virtual_autofill_id = 43;
+
+  // Length of text already in the field when the event is initialized
+  optional int32 field_first_length = 44;
+
+  // Length of text already in the field when the event is logged
+  optional int32 field_last_length = 45;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
