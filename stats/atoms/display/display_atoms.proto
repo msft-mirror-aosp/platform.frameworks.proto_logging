@@ -19,7 +19,7 @@ syntax = "proto2";
 package android.os.statsd.display;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/display/enums.proto";
+import "frameworks/proto_logging/stats/enums/display/display_enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 
