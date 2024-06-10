@@ -76,6 +76,9 @@ message BalAllowed {
     optional bool real_caller_opt_in = 9;
     optional bool real_caller_opt_in_explicit = 10;
 
+    optional int32 caller_target_sdk = 11;
+    optional int32 real_caller_target_sdk = 12;
+
     enum Status {
         BAL_STATUS_UNKNOWN = 0;
         BAL_ALLOW_DEFAULT = 1;
