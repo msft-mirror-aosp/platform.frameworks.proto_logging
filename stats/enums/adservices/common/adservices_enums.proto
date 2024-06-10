@@ -134,6 +134,15 @@ enum ErrorCode {
   // JobScheduler is not available.
   JOB_SCHEDULER_IS_UNAVAILABLE = 18;
 
+  // Failed to encrypt data in Cobalt.
+  COBALT_ENCRYPTION_FAILED_EXCEPTION = 19;
+
+  // Failed to fabricate Cobalt observations.
+  COBALT_PRIVACY_GENERATION_EXCEPTION = 20;
+
+  // Cobalt logger initialization failed in AppNameApiErrorLogger.
+  COBALT_API_ERROR_LOGGER_INITIALIZATION_EXCEPTION = 21;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
@@ -382,6 +391,9 @@ enum ErrorCode {
 
   // Error occurred when trying to parse the ODP header (Unknown Exception)
   MEASUREMENT_REGISTRATION_ODP_PARSING_UNKNOWN_ERROR = 2021;
+
+  // Error occurred when trying to initialize cobalt logger for measurement metrics.
+  MEASUREMENT_COBALT_LOGGER_INITIALIZATION_FAILURE = 2022;
 
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
