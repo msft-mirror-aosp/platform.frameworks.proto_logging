@@ -49,6 +49,8 @@ extend Atom {
   [(module) = "telephony"];
   optional SatelliteConfigUpdater satellite_config_updater = 10215
   [(module) = "telephony"];
+  optional SatelliteAccessController satellite_access_controller = 10219
+  [(module) = "telephony"];
 }
 
 /**
@@ -107,6 +109,12 @@ message SatelliteController {
   optional int32 count_of_datagram_type_keep_alive_success = 24;
   // Total count of failed DATAGRAM_TYPE_KEEP_ALIVE request.
   optional int32 count_of_datagram_type_keep_alive_fail = 25;
+  // Total count of allowed satellite access.
+  optional int32 count_of_allowed_satellite_access = 26;
+  // Total count of disallowed satellite access.
+  optional int32 count_of_disallowed_satellite_access = 27;
+  // Total count of failed checking event for satellite access.
+  optional int32 count_of_satellite_access_check_fail = 28;
 }
 
 /**
@@ -302,4 +310,27 @@ message SatelliteConfigUpdater {
   optional android.telephony.ConfigUpdateResult carrier_config_result = 3;
   // Total number of times this event has occurred
   optional int32 count = 4;
+}
+
+message SatelliteAccessController {
+  // Satellite access control type.
+  optional android.telephony.AccessControlType access_control_type = 1;
+  // The amount of time took to query current location.
+  optional int64 location_query_time_millis = 2;
+  // The amount of time took to search for the current location in the on-device data.
+  optional int64 on_device_lookup_time_millis = 3;
+  // The total amount of time took to serve a request for checking if satellite communication is
+  // allowed at the current location.
+  optional int64 total_checking_time_millis = 4;
+  // Whether satellite service is allowed at the current location.
+  optional bool is_allowed = 5;
+  // Whether request is received in emergency mode.
+  optional bool is_emergency = 6;
+  // Result code of the request for checking if satellite communication is allowed at the current
+  // location.
+  optional android.telephony.SatelliteError result_code = 7;
+  // Country codes where the device resides.
+  repeated string country_codes = 8;
+  // Source of geofencing config data
+  optional android.telephony.ConfigDataSource config_data_source = 9;
 }
