@@ -50,6 +50,7 @@ message DesktopModeUIChanged {
     APP_FREEFORM_INTENT = 4; // This covers intent based starts from app-shortcut, taskbar, keyboard shortcuts where we don't use any custom transition
     KEYBOARD_SHORTCUT_ENTER = 5;
     SCREEN_ON = 6; // desktop mode visible after screen turned on
+    APP_FROM_OVERVIEW = 7;
   }
 
   // The reason for exiting desktopmode

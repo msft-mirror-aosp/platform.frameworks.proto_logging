@@ -134,6 +134,15 @@ enum ErrorCode {
   // JobScheduler is not available.
   JOB_SCHEDULER_IS_UNAVAILABLE = 18;
 
+  // Failed to encrypt data in Cobalt.
+  COBALT_ENCRYPTION_FAILED_EXCEPTION = 19;
+
+  // Failed to fabricate Cobalt observations.
+  COBALT_PRIVACY_GENERATION_EXCEPTION = 20;
+
+  // Cobalt logger initialization failed in AppNameApiErrorLogger.
+  COBALT_API_ERROR_LOGGER_INITIALIZATION_EXCEPTION = 21;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
