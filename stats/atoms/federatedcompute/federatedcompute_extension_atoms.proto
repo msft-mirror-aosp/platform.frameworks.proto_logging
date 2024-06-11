@@ -56,11 +56,14 @@ message FederatedComputeApiCalled {
 
     // response_code is the error/failure code for the given api.
     optional int32 response_code = 4;
+
+    // Log the sdk package name that passed by app in API request.
+    optional string sdk_package_name = 5;
 }
 
 /**
  * Logs when an federated computation training event occurs.
- * Next Tag: 14
+ * Next Tag: 15
  */
 message FederatedComputeTrainingEventReported {
   optional int64 client_version = 1;
@@ -116,6 +119,9 @@ message FederatedComputeTrainingEventReported {
 
   // The latency of starting ExampleStore query in nanoseconds.
   optional int64 example_store_start_query_latency_nanos = 11;
+
+  // Log the sdk package name that passed by app in API request.
+  optional string sdk_package_name = 14;
 }
 
 /**

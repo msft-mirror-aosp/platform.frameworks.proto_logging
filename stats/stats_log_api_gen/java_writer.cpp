@@ -16,6 +16,11 @@
 
 #include "java_writer.h"
 
+#include <stdio.h>
+
+#include <algorithm>
+
+#include "Collation.h"
 #include "java_writer_q.h"
 #include "utils.h"
 
@@ -39,28 +44,29 @@ static int write_java_q_logger_class(FILE* out, const SignatureInfoMap& signatur
     return 0;
 }
 
-static void write_java_annotation_constants(FILE* out, const int minApiLevel,
-                                            const int compileApiLevel) {
+// TODO(b/330817229): Get rid of these generated constants and inline the logic inside the generated
+// write/buildStatsEvent methods. Also add @RequiresApi support for annotations added in S and
+// earlier.
+static void write_java_annotation_constants(FILE* out, const int minApiLevel) {
     fprintf(out, "    // Annotation constants.\n");
 
     const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants();
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     for (const auto& [id, annotation] : ANNOTATION_ID_CONSTANTS) {
-        if (annotation.minApiLevel < API_U) {  // we don't generate annotation constants for U+
-            if (compileApiLevel <= API_R) {
-                fprintf(out, "    public static final byte %s = %hhu;\n", annotation.name.c_str(),
-                        id);
-            } else if (minApiLevel <= API_R) {  // compileApiLevel = S+
-                fprintf(out, "    public static final byte %s =\n", annotation.name.c_str());
-                fprintf(out, "            Build.VERSION.SDK_INT <= %s ?\n",
-                        get_java_build_version_code(API_R).c_str());
-                fprintf(out, "            %hhu : StatsLog.%s;\n", id, annotation.name.c_str());
-                fprintf(out, "\n");
-            } else {
-                fprintf(out, "    public static final byte %s = StatsLog.%s;\n",
-                        annotation.name.c_str(), annotation.name.c_str());
-            }
+        if (annotation.minApiLevel >= API_U) {  // we don't generate annotation constants for U+
+            continue;
         }
+        fprintf(out, "    @android.annotation.SuppressLint(\"InlinedApi\")\n");
+        if (minApiLevel <= API_R) {
+            fprintf(out, "    public static final byte %s =\n", annotation.name.c_str());
+            fprintf(out, "            Build.VERSION.SDK_INT <= %s ?\n",
+                    get_java_build_version_code(API_R).c_str());
+            fprintf(out, "            %hhu : StatsLog.%s;\n", id, annotation.name.c_str());
+        } else {
+            fprintf(out, "    public static final byte %s = StatsLog.%s;\n",
+                    annotation.name.c_str(), annotation.name.c_str());
+        }
+        fprintf(out, "\n");
     }
 
     fprintf(out, "\n");
@@ -68,14 +74,14 @@ static void write_java_annotation_constants(FILE* out, const int minApiLevel,
 
 static void write_annotations(FILE* out, int argIndex,
                               const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet) {
-    FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
+    const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
             fieldNumberToAtomDeclSet.find(argIndex);
     if (fieldNumberToAtomDeclSet.end() == fieldNumberToAtomDeclSetIt) {
         return;
     }
     const AtomDeclSet& atomDeclSet = fieldNumberToAtomDeclSetIt->second;
     const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants();
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
         const string atomConstant = make_constant_name(atomDecl->name);
         fprintf(out, "        if (%s == code) {\n", atomConstant.c_str());
@@ -125,27 +131,9 @@ static void write_annotations(FILE* out, int argIndex,
     }
 }
 
-static void write_method_signature(FILE* out, const vector<java_type_t>& signature,
-                                   const AtomDecl& attributionDecl) {
-    int argIndex = 1;
-    for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
-         arg++) {
-        if (*arg == JAVA_TYPE_ATTRIBUTION_CHAIN) {
-            for (const auto& chainField : attributionDecl.fields) {
-                fprintf(out, ", %s[] %s", java_type_name(chainField.javaType),
-                        chainField.name.c_str());
-            }
-        } else {
-            fprintf(out, ", %s arg%d", java_type_name(*arg), argIndex);
-        }
-        argIndex++;
-    }
-}
-
 static int write_method_body(FILE* out, const vector<java_type_t>& signature,
                              const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
-                             const AtomDecl& attributionDecl, const string& indent,
-                             const int minApiLevel) {
+                             const AtomDecl& attributionDecl, const string& indent) {
     // Start StatsEvent.Builder.
     fprintf(out,
             "%s        final StatsEvent.Builder builder = "
@@ -160,10 +148,6 @@ static int write_method_body(FILE* out, const vector<java_type_t>& signature,
     int argIndex = 1;
     for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
          arg++) {
-        if (minApiLevel < API_T && is_repeated_field(*arg)) {
-            fprintf(stderr, "Found repeated field type with min api level < T.");
-            return 1;
-        }
         switch (*arg) {
             case JAVA_TYPE_BOOLEAN:
                 fprintf(out, "%s        builder.writeBoolean(arg%d);\n", indent.c_str(), argIndex);
@@ -237,23 +221,33 @@ static int write_method_body(FILE* out, const vector<java_type_t>& signature,
     return 0;
 }
 
+static void write_requires_api_annotation(FILE* out, int minApiLevel,
+                                          const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
+                                          const vector<java_type_t>& signature) {
+    const auto fieldNumberToAtomDeclSetIt = fieldNumberToAtomDeclSet.find(ATOM_ID_FIELD_NUMBER);
+    const AtomDeclSet* atomDeclSet = fieldNumberToAtomDeclSetIt == fieldNumberToAtomDeclSet.end()
+                                             ? nullptr
+                                             : &fieldNumberToAtomDeclSetIt->second;
+    const int maxRequiresApiLevel = get_max_requires_api_level(minApiLevel, atomDeclSet, signature);
+    if (maxRequiresApiLevel > 0) {
+        // Suppress lint error complaining the @RequiresApi annotation is unnecessary because
+        // minSdk of the binary is already at least the SDK level specified in @RequiresApi.
+        fprintf(out, "    @android.annotation.SuppressLint(\"ObsoleteSdkInt\")\n");
+        fprintf(out, "    @RequiresApi(%s)\n",
+                get_java_build_version_code(maxRequiresApiLevel).c_str());
+    }
+}
+
 static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
                                      const AtomDecl& attributionDecl, const int minApiLevel) {
     for (auto signatureInfoMapIt = signatureInfoMap.begin();
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = signatureInfoMapIt->second;
-        FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
-            fieldNumberToAtomDeclSet.find(ATOM_ID_FIELD_NUMBER);
-        if (fieldNumberToAtomDeclSetIt != fieldNumberToAtomDeclSet.end()
-            && requires_api_needed(fieldNumberToAtomDeclSetIt->second)) {
-            fprintf(out, "    @RequiresApi(%s)\n",
-                    get_java_build_version_code(
-                        get_min_api_level(fieldNumberToAtomDeclSetIt->second)).c_str());
-        }
+        const vector<java_type_t>& signature = signatureInfoMapIt->first;
+        write_requires_api_annotation(out, minApiLevel, fieldNumberToAtomDeclSet, signature);
         // Print method signature.
         fprintf(out, "    public static void write(int code");
-        const vector<java_type_t>& signature = signatureInfoMapIt->first;
-        write_method_signature(out, signature, attributionDecl);
+        write_java_method_signature(out, signature, attributionDecl);
         fprintf(out, ") {\n");
 
         // Print method body.
@@ -264,8 +258,8 @@ static int write_java_pushed_methods(FILE* out, const SignatureInfoMap& signatur
             indent = "    ";
         }
 
-        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet, attributionDecl,
-                                    indent, minApiLevel);
+        const int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet, attributionDecl,
+                                          indent);
         if (ret != 0) {
             return ret;
         }
@@ -308,17 +302,20 @@ static int write_java_pulled_methods(FILE* out, const SignatureInfoMap& signatur
                                      const AtomDecl& attributionDecl, const int minApiLevel) {
     for (auto signatureInfoMapIt = signatureInfoMap.begin();
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
-        // Print method signature.
-        fprintf(out, "    public static StatsEvent buildStatsEvent(int code");
         const vector<java_type_t>& signature = signatureInfoMapIt->first;
         const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet = signatureInfoMapIt->second;
-        write_method_signature(out, signature, attributionDecl);
+        write_requires_api_annotation(out, minApiLevel, fieldNumberToAtomDeclSet, signature);
+        // Print method signature.
+        fprintf(out, "    public static StatsEvent buildStatsEvent(int code");
+        int ret = write_java_method_signature(out, signature, attributionDecl);
+        if (ret != 0) {
+            return ret;
+        }
         fprintf(out, ") {\n");
 
         // Print method body.
-        string indent("");
-        int ret = write_method_body(out, signature, fieldNumberToAtomDeclSet, attributionDecl,
-                                    indent, minApiLevel);
+        const string indent("");
+        ret = write_method_body(out, signature, fieldNumberToAtomDeclSet, attributionDecl, indent);
         if (ret != 0) {
             return ret;
         }
@@ -332,9 +329,24 @@ static int write_java_pulled_methods(FILE* out, const SignatureInfoMap& signatur
     return 0;
 }
 
+static int get_max_requires_api_level(int minApiLevel, const SignatureInfoMap& signatureInfoMap) {
+    int maxRequiresApiLevel = 0;
+    for (const auto& [signature, fieldNumberToAtomDeclSet] : signatureInfoMap) {
+        const auto fieldNumberToAtomDeclSetIt = fieldNumberToAtomDeclSet.find(ATOM_ID_FIELD_NUMBER);
+        const AtomDeclSet* atomDeclSet =
+                fieldNumberToAtomDeclSetIt == fieldNumberToAtomDeclSet.end()
+                        ? nullptr
+                        : &fieldNumberToAtomDeclSetIt->second;
+        maxRequiresApiLevel =
+                std::max(maxRequiresApiLevel,
+                         get_max_requires_api_level(minApiLevel, atomDeclSet, signature));
+    }
+    return maxRequiresApiLevel;
+}
+
 int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                          const string& javaClass, const string& javaPackage, const int minApiLevel,
-                         const int compileApiLevel, const bool supportWorkSource) {
+                         const bool supportWorkSource) {
     // Print prelude
     fprintf(out, "// This file is autogenerated\n");
     fprintf(out, "\n");
@@ -348,7 +360,10 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
 
     fprintf(out, "import android.util.StatsEvent;\n");
     fprintf(out, "import android.util.StatsLog;\n");
-    if (requires_api_needed(atoms.decls)) {
+    const int maxRequiresApiLevel =
+            std::max(get_max_requires_api_level(minApiLevel, atoms.signatureInfoMap),
+                     get_max_requires_api_level(minApiLevel, atoms.pulledAtomsSignatureInfoMap));
+    if (maxRequiresApiLevel > 0) {
         fprintf(out, "import androidx.annotation.RequiresApi;\n");
     }
 
@@ -361,7 +376,7 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
 
     write_java_atom_codes(out, atoms);
     write_java_enum_values(out, atoms);
-    write_java_annotation_constants(out, minApiLevel, compileApiLevel);
+    write_java_annotation_constants(out, minApiLevel);
 
     int errors = 0;
 
@@ -383,27 +398,6 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
 
     return errors;
 }
-
-int write_stats_log_java_vendor(FILE* out, const Atoms& atoms, const string& javaClass,
-                                const string& javaPackage) {
-    // Print prelude
-    fprintf(out, "// This file is autogenerated\n");
-    fprintf(out, "\n");
-    fprintf(out, "package %s;\n", javaPackage.c_str());
-    fprintf(out, "\n");
-    fprintf(out, "/**\n");
-    fprintf(out, " * Utility class for logging statistics events.\n");
-    fprintf(out, " */\n");
-    fprintf(out, "public final class %s {\n", javaClass.c_str());
-
-    write_java_atom_codes(out, atoms);
-    write_java_enum_values_vendor(out, atoms);
-
-    fprintf(out, "}\n");
-
-    return 0;
-}
-
 
 }  // namespace stats_log_api_gen
 }  // namespace android

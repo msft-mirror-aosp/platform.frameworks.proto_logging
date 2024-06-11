@@ -31,7 +31,6 @@ namespace stats_log_api_gen {
 
 using google::protobuf::Descriptor;
 using google::protobuf::FieldDescriptor;
-using google::protobuf::OneofDescriptor;
 using std::map;
 using std::set;
 using std::shared_ptr;
@@ -76,6 +75,31 @@ enum AnnotationId : uint8_t {
 const int ATOM_ID_FIELD_NUMBER = -1;
 
 const char DEFAULT_MODULE_NAME[] = "DEFAULT";
+
+const std::string UINT_ATOM_ALLOWLIST[22] = {
+        "AppDied",
+        "DevicePolicyEvent",
+        "NfcErrorOccurred",
+        "NfcHceTransactionOccurred",
+        "ScreenTimeoutExtensionReported",
+        "ThreadnetworkTelemetryDataReported",
+        "ThreadnetworkTopoEntryRepeated",
+        "SubsystemSleepState",
+        "BluetoothActivityInfo",
+        "CpuTimePerFreq",
+        "CpuTimePerUid",
+        "CpuTimePerUidFreq",
+        "WifiActivityInfo",
+        "ModemActivityInfo",
+        "SystemElapsedRealtime",
+        "SystemUptime",
+        "CpuActiveTime",
+        "CpuClusterTime",
+        "DiskSpace",
+        "OnDevicePowerMeasurement",
+        "GeneralExternalStorageAccessStats",
+        "CpuTimePerClusterFreq",
+};
 
 /**
  * The types for atom parameters.
@@ -226,8 +250,8 @@ struct Atoms {
 /**
  * Gather the information about the atoms.  Returns the number of errors.
  */
-int collate_atoms(const Descriptor* descriptor, const string& moduleName, Atoms* atoms);
-int collate_atom(const Descriptor* atom, AtomDecl* atomDecl, vector<java_type_t>* signature);
+int collate_atoms(const Descriptor& descriptor, const string& moduleName, Atoms& atoms);
+int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>& signature);
 
 }  // namespace stats_log_api_gen
 }  // namespace android

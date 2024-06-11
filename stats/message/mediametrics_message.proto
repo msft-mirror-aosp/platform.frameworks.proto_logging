@@ -131,7 +131,7 @@ message AudioTrackData {
  * Logged from:
  *   frameworks/av/media/libstagefright/MediaCodec.cpp
  *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
- * Next Tag: 73
+ * Next Tag: 75
  */
 message CodecData {
   optional string codec = 1;
@@ -157,15 +157,22 @@ message CodecData {
   optional int32 queue_input_buffer_error = 21;
   optional int32 queue_secure_input_buffer_error = 22;
   optional string bitrate_mode = 23;
+  // The bitrate presented to the underlying codec, after any modifications by
+  // the framework to ensure a minimum quality.
+  // If the framework changed this, the app-requested bitrate is in
+  // original_bitrate.
   optional int32 bitrate = 24;
   optional int64 lifetime_millis = 25;
   optional string log_session_id = 26;
   optional int32 channel_count = 27;
   optional int32 sample_rate = 28;
+  // Total bytes produced by an encoder. When divided by video_encode_duration_us
+  // this yields the encoding's realized bitrate.
   optional int64 video_encode_bytes = 29;
   optional int64 video_encode_frames = 30;
   optional int64 video_input_bytes = 31;
   optional int64 video_input_frames = 32;
+  // The duration of the encoded video; NOT the encoding process duration
   optional int64 video_encode_duration_us = 33;
   optional int32 color_format = 34;
   optional double frame_rate = 35;
@@ -178,6 +185,8 @@ message CodecData {
   optional int32 video_qp_p_max = 42;
   optional int32 video_qp_b_min = 43;
   optional int32 video_qp_b_max = 44;
+  // The app-requested bitrate, present only if the framework modified the
+  // bitrate before passing it to the underlying codec.
   optional int32 original_bitrate = 45;
   optional int32 shaping_enhanced = 46;
   optional int32 original_video_qp_i_min = 47;
@@ -210,6 +219,10 @@ message CodecData {
   optional int32 set_surface_count = 70;
   optional int32 resolution_change_count = 71;
   optional int32 component_color_format = 72;
+  // caller uid (replacing packagename)
+  // @Since U-QPR2
+  optional int32 caller_uid = 73;
+  optional int64 pixel_format = 74;
   // !!!WARNING!!!
   // Keep synchronized with MediaCodecReported in atoms.proto
   // Also keep AStatsEvent serialization synchronized in statsd_codec.cpp
