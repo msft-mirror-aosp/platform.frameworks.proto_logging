@@ -717,12 +717,6 @@ message WifiConfiguredNetworkInfo {
  * Logged after each scorer prediction interval is completed.
  */
 message ScorerPredictionResultReported {
-    enum PredictionStatus {
-        STATUS_UNKNOWN = 0;
-        STATUS_NONE = 1;
-        STATUS_USABLE = 2;
-        STATUS_UNUSABLE = 3;
-    };
     enum UnusableEvent {
         EVENT_UNKNOWN = 0;
         EVENT_NONE = 1;
@@ -736,11 +730,13 @@ message ScorerPredictionResultReported {
         STATE_PREDICT_ONLY = 1; // Measures theoretical performance. Collected when adaptive connectivity is off.
         STATE_CELLULAR_OFF = 2; // Cellular data is disabled.
         STATE_CELLULAR_UNAVAILABLE = 3; // Measures actual performance based on a subset of data collected cellular data is toggled on, but unavailable.
+        STATE_LINGERING = 4;
+        STATE_OTHERS = 5;
     }
     // The AttributionNode to identify the caller
     repeated AttributionNode attribution_node = 1;
     // The scorer's prediction of the current Wi-Fi state
-    optional PredictionStatus prediction_status = 2;
+    optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 2;
     // The type of unusable event happened during this prediction interval
     optional UnusableEvent unusable_event = 3;
     // Whether Wi-Fi is evaluated as sufficient by the end of the current prediction interval
