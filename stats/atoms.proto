@@ -1231,6 +1231,7 @@ message Atom {
     extensions 897; // PhotopickerSearchInfoReported photopicker_search_info_reported
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
+    extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
