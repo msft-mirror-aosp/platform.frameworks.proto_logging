@@ -37,4 +37,6 @@ message DevicePolicyManagementMode {
 message DevicePolicyState {
   // The password quality requirement policy enforced on the devices.
   optional android.stats.devicepolicy.PasswordComplexity password_complexity = 1;
+  // The management mode of the device.
+  optional android.stats.devicepolicy.ManagementMode management_mode = 2;
 }
