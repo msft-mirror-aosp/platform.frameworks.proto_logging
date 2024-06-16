@@ -1231,6 +1231,7 @@ message Atom {
     extensions 897; // PhotopickerSearchInfoReported photopicker_search_info_reported
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
+    extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -10297,6 +10298,9 @@ message NetworkIpProvisioningReported {
 
     // The random number between 0 ~ 999 for sampling
     optional int32 random_number = 7;
+
+    // Check which IPv6 provisioning mode is used for current connection
+    optional android.stats.connectivity.Ipv6ProvisioningMode ipv6_provisioning_mode = 8;
 }
 
 /**
@@ -14600,6 +14604,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
+        PERFETTO_TRACED_ENABLE_TRACING_FAILED_SESSION_SEMAPHORE_CHECK = 57;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -17051,6 +17056,9 @@ message AudioPowerUsageDataReported {
         OUTPUT_BLUETOOTH_SCO    = 0x10; // bluetooth sco
         OUTPUT_BLUETOOTH_A2DP   = 0x20; // a2dp
         OUTPUT_SPEAKER_SAFE     = 0x40; // bottom speaker
+        OUTPUT_BLUETOOTH_BLE    = 0x80; // ble
+        OUTPUT_DOCK             = 0x100; // dock
+        OUTPUT_HDMI             = 0x200; // hdmi
 
         INPUT_DEVICE_BIT        = 0x40000000; // non-negative positive int32.
         INPUT_BUILTIN_MIC       = 0x40000001; // buildin mic
@@ -17058,6 +17066,7 @@ message AudioPowerUsageDataReported {
         INPUT_WIRED_HEADSET_MIC = 0x40000004; // 3.5mm headset mic
         INPUT_USB_HEADSET_MIC   = 0x40000008; // usb headset mic
         INPUT_BLUETOOTH_SCO     = 0x40000010; // bluetooth sco mic
+        INPUT_BLUETOOTH_BLE     = 0x40000020; // ble mic
     }
     optional AudioDevice audio_device = 1;
 
@@ -22314,6 +22323,8 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
+ *
+ * Next ID: 47
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22473,6 +22484,10 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
+
+  // Count of views that are filtered because they are not in current session
+  // before autofill framework calls AutofillManager.autofill().
+  optional int64 views_fillable_excluded_by_session_count = 46;
 
   // Count of views that can be filled as per the provider service.
   // views_fillable_total_count = views_filled_failure_count +
