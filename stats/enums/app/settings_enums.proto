@@ -1667,6 +1667,214 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_TOUCH_SENSITIVITY_CHANGED = 1922;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle on Share audio main switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_MAIN_SWITCH_ON = 1923;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle off Share audio main switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_MAIN_SWITCH_OFF = 1924;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on or
+    //         Settings > Connected devices > Start dialog > Click Share button
+    //         > Start audio sharing failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_START_FAILED= 1925;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle off or
+    //         Settings > Connected devices > Stop dialog > Click Stop sharing button
+    //         > Stop audio sharing failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_STOP_FAILED= 1926;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Active media devices > Change headset volume
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_CHANGE_MEDIA_DEVICE_VOLUME = 1927;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Click Play a test sound
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_PLAY_TEST_SOUND = 1928;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing >
+    //         Toggle Improve compatibility switch
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_IMPROVE_COMPATIBILITY = 1929;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Call audio >
+    //         Change device
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_CHANGE_CALL_AUDIO = 1930;
+
+    // Action: Audio sharing started > Show notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_AUDIO_SHARING_NOTIFICATION = 1931;
+
+    // Action: Audio sharing stopped > Cancel notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_CANCEL_AUDIO_SHARING_NOTIFICATION = 1932;
+
+    // Action: Settings > Audio sharing notification > Click Stop sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_STOP_AUDIO_SHARING_FROM_NOTIFICATION = 1933;
+
+    // Action: Settings > Connected devices > Click media devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MEDIA_DEVICE_CLICK = 1934;
+
+    // Action: Settings > Connected devices > Click audio sharing devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DEVICE_CLICK = 1935;
+
+    // Action: Settings > Connected devices > dialogs > Click Share button or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialogs
+    //                  > Click Share button or
+    //         Settings > Connected devices > Connection preferences > Audio sharing
+    //                  > Auto add device to sharing when toggle on
+    //         > Fail
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_JOIN_FAILED = 1936;
+
+    // Action: Settings > Connected devices > Disconnect device dialog > Click device button >
+    //         Fail to remove device from sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_LEAVE_FAILED = 1937;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on >
+    //         Auto add active device to sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUTO_JOIN_AUDIO_SHARING = 1938;
+
+    // Action: Settings > Connected devices or
+    //         Settings > Connected devices > Connection preferences > Audio sharing
+    //         > Show audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_AUDIO_SHARING_DIALOG = 1939;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Click positive button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_POSITIVE_BTN_CLICKED = 1940;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Click negative button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_NEGATIVE_BTN_CLICKED = 1941;
+
+    // Action: Settings > Connected devices > dialog or
+    //         Settings > Connected devices > Connection preferences > Audio sharing > dialog
+    //         > Auto dismiss
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_DIALOG_AUTO_DISMISS = 1942;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing
+    //         > Audio stream name
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_NAME_UPDATED = 1943;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing
+    //         > Audio stream password
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_PASSWORD_UPDATED = 1944;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Join request
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN = 1945;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Join request succeed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN_SUCCEED = 1946;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Audio stream detail > Leave button clicked
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_LEAVE_BUTTON_CLICK = 1947;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Audio stream detail > Leave failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_LEAVE_FAILED = 1948;
+
+    // Action: Settings > Audio stream confirm dialog > Launch audio stream main page button clicked
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_CONFIRM_LAUNCH_MAIN_BUTTON_CLICK = 1949;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Audio stream qr code scan > Code parse succeed
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_QR_CODE_SCAN_SUCCEED = 1950;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Audio stream notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_NOTIFICATION_LEAVE_BUTTON_CLICK = 1951;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Audio stream notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_NOTIFICATION_MUTE_BUTTON_CLICK = 1952;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Join response bad code
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN_FAILED_BAD_CODE = 1953;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Join response timeout
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN_FAILED_TIMEOUT = 1954;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Join response other failure
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN_FAILED_OTHER = 1955;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Wait for sync timeout
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN_FAILED_WAIT_FOR_SYNC_TIMEOUT = 1956;
 }
 
 /**
@@ -4543,17 +4751,17 @@ enum PageId {
     // OS: V
     AUDIO_SHARING_SETTINGS = 2048;
 
-    // Open: Audio sharing start dialog
+    // Open: Settings > Connected devices > Start audio sharing dialog
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_START_AUDIO_SHARING = 2049;
 
-    // Open: Audio sharing stop dialog
+    // Open: Settings > Connected devices > Stop audio sharing dialog
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_STOP_AUDIO_SHARING = 2050;
 
-    // Open: Audio sharing switch device dialog
+    // Open: Settings > Connected devices > Change device dialog in audio sharing
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_SHARING_SWITCH_DEVICE = 2051;
@@ -4561,7 +4769,7 @@ enum PageId {
     // Open: Audio sharing switch active dialog
     // CATEGORY: SETTINGS
     // OS: V
-    DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052;
+    DIALOG_AUDIO_SHARING_SWITCH_ACTIVE = 2052 [deprecated = true];
 
     // OPEN: Settings > System > Developer options > Widevine settings
     // CATEGORY: SETTINGS
@@ -4720,6 +4928,91 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     SUW_ACCESSIBILITY_AUTO_BRIGHTNESS = 2083;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Call audio
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_CALL_AUDIO = 2084;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing >
+    //       Toggle on Share audio main switch when no LEA device is connected
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_CONFIRMATION = 2085;
+
+    // OPEN: Settings > Connected devices or
+    //       Settings > Connected devices > Connection preferences > Audio sharing > Toggle on
+    //       > Add device to audio sharing dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_ADD_DEVICE = 2086;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on >
+    //       Notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    NOTIFICATION_AUDIO_SHARING = 2087;
+
+    // OPEN: Settings > Audio stream confirm dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_CONFIRM_LISTEN = 2088;
+
+    // OPEN: Settings > Audio stream unsupported dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_CONFIRM_FEATURE_UNSUPPORTED = 2089;
+
+    // OPEN: Settings > Audio stream error dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_CONFIRM_DATA_ERROR = 2090;
+
+    // OPEN: Settings > Audio stream no device dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_CONFIRM_NO_LE_DEVICE = 2091;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream >
+    //       > Audio stream detail
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_STREAM_DETAIL = 2092;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_STREAM_MAIN = 2093;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Stream name
+    //       > QR code
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_STREAM_QR_CODE = 2094;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //       > Scan QR code
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_STREAM_QR_CODE_SCAN = 2095;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //       > No device dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_MAIN_NO_LE_DEVICE = 2096;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //       > Wait for sync timeout dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_MAIN_WAIT_FOR_SYNC_TIMEOUT = 2097;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //       > Join timeout dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_STREAM_MAIN_JOIN_FAILED_TIMEOUT = 2098;
 }
 
 // Battery Saver schedule types.
