@@ -21,7 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -75,6 +75,9 @@ message BalAllowed {
     optional Status real_caller_allowed_reason = 8;
     optional bool real_caller_opt_in = 9;
     optional bool real_caller_opt_in_explicit = 10;
+
+    optional int32 caller_target_sdk = 11;
+    optional int32 real_caller_target_sdk = 12;
 
     enum Status {
         BAL_STATUS_UNKNOWN = 0;
