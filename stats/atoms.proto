@@ -1240,6 +1240,7 @@ message Atom {
     extensions 906; // DeviceOrientationChanged device_orientation_changed
     extensions 907; // HealthConnectExportImportInvoked
     extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
+    extensions 909; // AppSearchAppsIndexerStatsReported app_search_apps_indexer_stats_reported
     extensions 910; // AccessibilityCheckResultReported accessibility_check_result_reported
     extensions 9999; // Atom9999 atom_9999
 
