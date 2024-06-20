@@ -119,6 +119,7 @@ enum InteractionType {
     LAUNCHER_PRIVATE_SPACE_UNLOCK = 103;
     DESKTOP_MODE_MAXIMIZE_WINDOW = 104;
     FOLD_ANIM = 105;
+    DESKTOP_MODE_RESIZE_WINDOW = 106;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.
