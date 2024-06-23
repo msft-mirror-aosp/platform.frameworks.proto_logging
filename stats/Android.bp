@@ -135,6 +135,7 @@ atom_protos = [
     "atoms/ike/*.proto",
     "atoms/input/*.proto",
     "atoms/locale/*.proto",
+    "atoms/microxr/*.proto",
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
