@@ -205,6 +205,10 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats = 885
   [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported = 902
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported = 903
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -1983,4 +1987,30 @@ message AdServicesApiCalled {
 
   // response_code is the error code for the given api.
   optional int32 response_code = 6;
+}
+
+/**
+ * Logs Cobalt logging events in AdServices. This provides information about
+ * Cobalt operational metrics.
+ */
+message AdServicesCobaltLoggerEventReported{
+  // The Cobalt metric id of the event that is being logged. The metric id is defined in
+  // packages/modules/AdServices/adservices/libraries/cobalt/proto/metric_definition.proto
+  optional int32 metric_id = 1;
+
+  // The Cobalt report id of the event that is being logged. The report id is defined in
+  // packages/modules/AdServices/adservices/libraries/cobalt/proto/report_definition.proto
+  optional int32 report_id = 2;
+
+  // Logging event which is over the defined threshold in the registry.
+  optional android.adservices.CobaltLoggingEvent cobalt_logging_event = 3;
+}
+
+/**
+ * Logs Cobalt periodic job execution events in AdServices. The periodic job
+ * event contains
+ * Cobalt metrics upload status.
+ */
+message AdServicesCobaltPeriodicJobEventReported {
+  optional android.adservices.CobaltPeriodicJobEvent cobalt_periodic_job_event = 1;
 }
