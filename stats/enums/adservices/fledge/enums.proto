@@ -143,3 +143,11 @@ enum JsRunStatus {
     REFERENCE_ERROR = 9;
 }
 
+// Denotes the result of the getAdSelectionDataPayload optimization
+enum PayloadOptimizationResult {
+  PAYLOAD_OPTIMIZATION_RESULT_UNKNOWN = 0;
+  // there was still data available on the device but ran out of space
+  PAYLOAD_TRUNCATED_FOR_REQUESTED_MAX = 1;
+  // there was not enough data on the device so the max was not reached
+  PAYLOAD_WITHIN_REQUESTED_MAX = 2;
+}
