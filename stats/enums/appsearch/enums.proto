@@ -24,7 +24,15 @@ option java_multiple_files = true;
 /**
  * The enum class of AppSearch query correction type compared with the previous query.
  *
- * Next tag: 4
+ * It is used to tag the transition type between adjacent query pairs in the search intent sequence
+ * within a single search session.
+ *
+ * For example, the user has 4 search intents with queries "a" -> "app" -> "apple" -> "pear". Then
+ * there will be 5 transitions:
+ *     ("", "a"), ("a", "app"), ("app" -> "apple"), ("apple", "pear"), ("pear", "")
+ * AppSearch will analyze each pair and tag the query correction type.
+ *
+ * Next tag: 5
  */
 enum QueryCorrectionType {
     UNKNOWN = 0;
@@ -33,10 +41,18 @@ enum QueryCorrectionType {
     // query.
     FIRST_QUERY = 1;
 
-    // Indicates that the current query is refined from the previous query.
+    // Indicates that the current query is refined (slightly adjustment, e.g. adding new
+    // characters, fixing typo) from the previous query.
     REFINEMENT = 2;
 
     // Indicates that the previous query is considered abandoned and the user
     // starts over the search with a different query.
     ABANDONMENT = 3;
+
+    // Indicates that the user ends the search session with this search query.
+    //
+    // Whether it is a good or bad end session (i.e. the user is satisfied with the returned
+    // document(s) or not when ending the session) can be determined by other atom fields, e.g.
+    // num_good_clicks, clicks_time_stay_on_result_millis.
+    END_SESSION = 4;
 }
