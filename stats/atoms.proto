@@ -1231,12 +1231,17 @@ message Atom {
     extensions 897; // PhotopickerSearchInfoReported photopicker_search_info_reported
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
+    extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
+    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
+    extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 9999; // Atom9999 atom_9999
+
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10218
+    // Next: 10221
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1491,6 +1496,8 @@ message Atom {
     extensions 10216; // DevicePolicyManagementMode
     extensions 10217; // DevicePolicyPolicyState
     extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
+    extensions 10219; // SatelliteAccessController satellite_access_controller
+    extensions 10220; // AndroidHardwareHealthBattery android_hardware_health_battery
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -10296,6 +10303,9 @@ message NetworkIpProvisioningReported {
 
     // The random number between 0 ~ 999 for sampling
     optional int32 random_number = 7;
+
+    // Check which IPv6 provisioning mode is used for current connection
+    optional android.stats.connectivity.Ipv6ProvisioningMode ipv6_provisioning_mode = 8;
 }
 
 /**
@@ -14599,6 +14609,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
+        PERFETTO_TRACED_ENABLE_TRACING_FAILED_SESSION_SEMAPHORE_CHECK = 57;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -14942,9 +14953,13 @@ message CellBroadcastMessageReported {
     // The source of the report
     optional ReportSource source = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
+    // The roaming case will show mcc value, if not empty string
+    optional string roaming_mcc_mnc = 5;
+    // The language indicator, as defined in ISO 639 language codes set 1
+    optional string language_indicator = 6;
 }
 
 /**
@@ -14990,7 +15005,7 @@ message CellBroadcastMessageFiltered {
     // The source of the report
     optional FilterReason filter = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
 }
@@ -15862,6 +15877,9 @@ message IncomingSms {
 
     // Whether the message was received over non-terrestrial networks.
     optional bool is_ntn = 17;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 18;
 }
 
 /**
@@ -17047,6 +17065,9 @@ message AudioPowerUsageDataReported {
         OUTPUT_BLUETOOTH_SCO    = 0x10; // bluetooth sco
         OUTPUT_BLUETOOTH_A2DP   = 0x20; // a2dp
         OUTPUT_SPEAKER_SAFE     = 0x40; // bottom speaker
+        OUTPUT_BLUETOOTH_BLE    = 0x80; // ble
+        OUTPUT_DOCK             = 0x100; // dock
+        OUTPUT_HDMI             = 0x200; // hdmi
 
         INPUT_DEVICE_BIT        = 0x40000000; // non-negative positive int32.
         INPUT_BUILTIN_MIC       = 0x40000001; // buildin mic
@@ -17054,6 +17075,7 @@ message AudioPowerUsageDataReported {
         INPUT_WIRED_HEADSET_MIC = 0x40000004; // 3.5mm headset mic
         INPUT_USB_HEADSET_MIC   = 0x40000008; // usb headset mic
         INPUT_BLUETOOTH_SCO     = 0x40000010; // bluetooth sco mic
+        INPUT_BLUETOOTH_BLE     = 0x40000020; // ble mic
     }
     optional AudioDevice audio_device = 1;
 
@@ -22310,6 +22332,8 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
+ *
+ * Next ID: 47
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22469,6 +22493,10 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
+
+  // Count of views that are filtered because they are not in current session
+  // before autofill framework calls AutofillManager.autofill().
+  optional int64 views_fillable_excluded_by_session_count = 46;
 
   // Count of views that can be filled as per the provider service.
   // views_fillable_total_count = views_filled_failure_count +
