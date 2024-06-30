@@ -54,6 +54,15 @@ message MediatorUpdated {
 
   // Timestamp of the event log time in ElapsedRealtime
   optional int64 timestamp_millis = 5;
+
+  // Timestamp(ElapsedRealtime) of when the last linger(the one that actually fired) before the mediator starts the action.
+  // A "Linger" is a delay that sometimes the mediator applies before actually turning off the radio after the mediator
+  // decides to turn off the radio due to certain signals(e.g. proxy reconnected), for various purposes, such as
+  // avoid proxy connection thrashing causing the mediator to frequently toggle the radio.
+  optional int64 last_linger_start_timestamp_millis = 6;
+
+  // Count of times the linger canceled before the action was actually performed.
+  optional int32 linger_canceled_count = 7;
 }
 
 /**
