@@ -210,8 +210,16 @@ message AutofillSessionCommitted {
   optional AutofillCommitReason commit_reason = 4;
   // Duration of session: Time from session start to session end
   optional int64 session_duration_millis = 5;
-
   optional int32 autofill_service_uid = 6 [(is_uid) = true];
+  // Count of save infos in current session
+  optional int32 save_info_count = 7;
+  // Count of distinct save data types in current session
+  // For example, if there are three save infos, two with type password
+  // and another with type payment, the total count of save data types would
+  // be two
+  optional int32 save_data_types_count = 8;
+  // Whether the last fill response has save info
+  optional bool last_fill_response_has_save_info = 9;
 }
 
 /**
