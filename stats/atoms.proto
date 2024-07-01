@@ -1231,11 +1231,17 @@ message Atom {
     extensions 897; // PhotopickerSearchInfoReported photopicker_search_info_reported
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
+    extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
+    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
+    extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 9999; // Atom9999 atom_9999
+
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
+    // Next: 10221
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1487,6 +1493,11 @@ message Atom {
     extensions 10213; // ControllerStatsPerPackage controller_stats_per_package
     extensions 10214; // SatelliteEntitlement satellite_entitlement
     extensions 10215; // SatelliteConfigUpdater satellite_config_updater
+    extensions 10216; // DevicePolicyManagementMode
+    extensions 10217; // DevicePolicyPolicyState
+    extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
+    extensions 10219; // SatelliteAccessController satellite_access_controller
+    extensions 10220; // AndroidHardwareHealthBattery android_hardware_health_battery
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -10292,6 +10303,9 @@ message NetworkIpProvisioningReported {
 
     // The random number between 0 ~ 999 for sampling
     optional int32 random_number = 7;
+
+    // Check which IPv6 provisioning mode is used for current connection
+    optional android.stats.connectivity.Ipv6ProvisioningMode ipv6_provisioning_mode = 8;
 }
 
 /**
@@ -14595,6 +14609,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
+        PERFETTO_TRACED_ENABLE_TRACING_FAILED_SESSION_SEMAPHORE_CHECK = 57;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -14938,9 +14953,13 @@ message CellBroadcastMessageReported {
     // The source of the report
     optional ReportSource source = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
+    // The roaming case will show mcc value, if not empty string
+    optional string roaming_mcc_mnc = 5;
+    // The language indicator, as defined in ISO 639 language codes set 1
+    optional string language_indicator = 6;
 }
 
 /**
@@ -14986,7 +15005,7 @@ message CellBroadcastMessageFiltered {
     // The source of the report
     optional FilterReason filter = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
 }
@@ -15858,6 +15877,9 @@ message IncomingSms {
 
     // Whether the message was received over non-terrestrial networks.
     optional bool is_ntn = 17;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 18;
 }
 
 /**
@@ -17043,6 +17065,9 @@ message AudioPowerUsageDataReported {
         OUTPUT_BLUETOOTH_SCO    = 0x10; // bluetooth sco
         OUTPUT_BLUETOOTH_A2DP   = 0x20; // a2dp
         OUTPUT_SPEAKER_SAFE     = 0x40; // bottom speaker
+        OUTPUT_BLUETOOTH_BLE    = 0x80; // ble
+        OUTPUT_DOCK             = 0x100; // dock
+        OUTPUT_HDMI             = 0x200; // hdmi
 
         INPUT_DEVICE_BIT        = 0x40000000; // non-negative positive int32.
         INPUT_BUILTIN_MIC       = 0x40000001; // buildin mic
@@ -17050,6 +17075,7 @@ message AudioPowerUsageDataReported {
         INPUT_WIRED_HEADSET_MIC = 0x40000004; // 3.5mm headset mic
         INPUT_USB_HEADSET_MIC   = 0x40000008; // usb headset mic
         INPUT_BLUETOOTH_SCO     = 0x40000010; // bluetooth sco mic
+        INPUT_BLUETOOTH_BLE     = 0x40000020; // ble mic
     }
     optional AudioDevice audio_device = 1;
 
@@ -22306,6 +22332,8 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
+ *
+ * Next ID: 47
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22337,6 +22365,8 @@ message AutofillPresentationEventReported {
            // where we trigger fill request at layout time.
     NONE_SHOWN_VIEW_FOCUSED_BEFORE_FILL_DIALOG_RESPONSE =
         9; // Users focus a field before the fill dialogs response is returned.
+    NONE_SHOWN_SUGGESTION_FILTER_OUT =
+        10; // Suggestions were filtered out due to pre-existing text
   }
 
   // Id number which increases for each subsequent request.
@@ -22408,7 +22438,7 @@ message AutofillPresentationEventReported {
   // can be calculated by suggestionSentTimestampMs - fillResponseReceivedTimestampMs
   optional int32 suggestion_sent_timestamp_ms = 15;
 
-  // Timestamp of when the suggestion is shown
+  // Timestamp of when the suggestion is first shown
   // The latency of showing suggestions can be calculated by
   // suggestionPresentedTimestampMs - suggestionSentTimestampMs
   optional int32 suggestion_presented_timestamp_ms = 16;
@@ -22464,6 +22494,10 @@ message AutofillPresentationEventReported {
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
 
+  // Count of views that are filtered because they are not in current session
+  // before autofill framework calls AutofillManager.autofill().
+  optional int64 views_fillable_excluded_by_session_count = 46;
+
   // Count of views that can be filled as per the provider service.
   // views_fillable_total_count = views_filled_failure_count +
   //     views_filled_success_count + views_with_no_callback
@@ -22478,7 +22512,7 @@ message AutofillPresentationEventReported {
   // It's possible that additional views themselves didn't fill correctly.
   optional int64 views_filled_failure_count = 34;
 
-  // AutofillID of the view that triggered the presentation
+  // ViewID of the AutofillID that triggered the presentation
   optional int32 focused_autofill_id = 35;
 
   // Count of views that successfully received autofill values. These are guaranteed counts.
@@ -22490,6 +22524,38 @@ message AutofillPresentationEventReported {
   // This value is for confirmation that nothing is wrong. It's expected value is 0.
   // If non-zero, there's likely some bug in our logging (or in autofill).
   optional int64 views_filled_but_unexpected_count = 37;
+
+  // Timestamp (relative to session start) of when user tapped a selection
+  optional int32 presentation_selected_timestamp_ms = 38;
+
+  // Timestamp (relative to session start) of filling into a field
+  optional int32 field_autofilled_timestamp_ms = 39;
+
+  // Timestamp (relative to session start) of when the field is first modified
+  // This is used to check if a field was modified before an Autofill suggestion
+  // was presented
+  optional int32 field_first_modified_timestamp_ms = 40;
+
+  // Timestamp (relative to session start) of when the field is last modified
+  // This is value is updated when the view value was changed manually
+  // (by app/user - not autofill)
+  // This will be the same as field_first_modified_timestamp_ms
+  // if field was only modified once
+  optional int32 field_last_modified_timestamp_ms = 41;
+
+  // Supplement to suggestion_presented_timestamp_ms. This is the timestamp
+  // of the last suggestion that was presented to the user. It is used to
+  // distinguish multiple presentations in the same field.
+  optional int32 suggestion_presented_last_timestamp_ms = 42;
+
+  // The virtual component (if any) of the autofill id
+  optional int32 focused_virtual_autofill_id = 43;
+
+  // Length of text already in the field when the event is initialized
+  optional int32 field_first_length = 44;
+
+  // Length of text already in the field when the event is logged
+  optional int32 field_last_length = 45;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
