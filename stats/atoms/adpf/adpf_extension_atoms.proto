@@ -93,6 +93,9 @@ message ThermalHeadroomCalled {
 
     // Thermal headroom.
     optional float headroom = 3;
+
+    // Forcast seconds.
+    optional int32 forecast_seconds = 4;
 }
 
 /**
