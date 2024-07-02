@@ -1034,8 +1034,8 @@ message GetAdSelectionDataApiCalled {
   // The source of the coordinator used, i.e., DEFAULT or provided via API
   optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 4;
 
-  // Target size set by the seller
-  optional int32 seller_target_size_kb = 5;
+  // Maximum size set by the seller
+  optional int32 seller_max_size_kb = 5;
 
   // Result of payload optimization
   optional android.adservices.service.PayloadOptimizationResult payload_optimization_result = 6;
