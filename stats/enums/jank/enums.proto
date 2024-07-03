@@ -124,6 +124,7 @@ enum InteractionType {
     DESKTOP_MODE_EXIT_MODE = 108;
     DESKTOP_MODE_MINIMIZE_WINDOW = 109;
     DESKTOP_MODE_DRAG_WINDOW = 110;
+    STATUS_BAR_LAUNCH_DIALOG_FROM_CHIP = 111;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.
