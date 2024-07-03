@@ -1235,7 +1235,7 @@ message Atom {
     extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
     extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
     extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
-    extensions 904; // A2dpSession a2dp_session
+    extensions 904; // A2dpSessionReported a2dp_session_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.

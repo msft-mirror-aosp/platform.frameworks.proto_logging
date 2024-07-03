@@ -62,7 +62,7 @@ extend Atom {
         = 874 [(module) = "bluetooth"];
     optional LeAdvErrorReported le_adv_error_reported
         = 875 [(module) = "bluetooth"];
-    optional A2dpSession a2dp_session
+    optional A2dpSessionReported a2dp_session_reported
         = 904 [(module) = "bluetooth"];
 }
 
@@ -476,7 +476,7 @@ message LeAdvErrorReported {
  * Logged from:
  *     packages/modules/Bluetooth
  */
-message A2dpSession {
+message A2dpSessionReported {
   // Full duration of the session in milliseconds.
   optional int64 duration_ms = 1;
   // Minimum duration of the media timer in milliseconds.
