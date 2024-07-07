@@ -26,6 +26,7 @@ package {
 shared_enum_protos = [
     "enums/app/**/*.proto",
     "enums/display/*.proto",
+    "enums/hardware/biometrics/*.proto",
 ]
 
 enum_protos = [
