@@ -5013,6 +5013,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_STREAM_MAIN_JOIN_FAILED_TIMEOUT = 2098;
+
+    // OPEN: Settings > Network & internet > Internet > Click a connected Wifi Network > Share
+    // CATEGORY: SETTINGS
+    // OS: V
+    SETTINGS_WIFI_DPP_QR_SHARING = 2099;
 }
 
 // Battery Saver schedule types.
