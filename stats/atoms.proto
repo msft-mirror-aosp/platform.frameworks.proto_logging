@@ -1232,12 +1232,17 @@ message Atom {
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
+    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
+    extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
+    extensions 904; // A2dpSessionReported a2dp_session_reported
     extensions 9999; // Atom9999 atom_9999
+
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10218
+    // Next: 10226
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1493,6 +1498,12 @@ message Atom {
     extensions 10217; // DevicePolicyPolicyState
     extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
     extensions 10219; // SatelliteAccessController satellite_access_controller
+    extensions 10220; // AndroidHardwareHealthBattery android_hardware_health_battery
+    extensions 10221; // CallStats call_stats
+    extensions 10222; // CallAudioRouteStats call_audio_route_stats
+    extensions 10223; // TelecomApiStats telecom_api_stats
+    extensions 10224; // TelecomErrorStats telecom_error_stats
+    extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
