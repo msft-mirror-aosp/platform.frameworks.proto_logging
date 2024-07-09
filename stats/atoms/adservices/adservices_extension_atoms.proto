@@ -205,6 +205,10 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats = 885
   [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported = 902
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported = 903
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -1029,6 +1033,21 @@ message GetAdSelectionDataApiCalled {
 
   // The source of the coordinator used, i.e., DEFAULT or provided via API
   optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 4;
+
+  // Maximum size set by the seller
+  optional int32 seller_max_size_kb = 5;
+
+  // Result of payload optimization
+  optional android.adservices.service.PayloadOptimizationResult payload_optimization_result = 6;
+
+  // Latency of buyer input generation
+  optional int32 input_generation_latency_ms = 7;
+
+  // Version of compressed buyer input creator
+  optional int32 compressed_buyer_input_creator_version = 8;
+
+  // Number of times the entire payload was recompressed to update the current size estimation
+  optional int32 num_re_estimations = 9;
 }
 
 /**
@@ -1943,6 +1962,7 @@ message AdServicesMeasurementReportsUploaded {
     VERBOSE_DEBUG_TRIGGER_EVENT_NO_MATCHING_TRIGGER_DATA = 30;
     VERBOSE_DEBUG_TRIGGER_EVENT_ATTRIBUTIONS_PER_SOURCE_DESTINATION_LIMIT = 31;
     VERBOSE_DEBUG_TRIGGER_AGG_ATTRIBUTIONS_PER_SOURCE_DESTINATION_LIMIT = 32;
+    VERBOSE_DEBUG_HEADER_ERROR = 33;
     VERBOSE_DEBUG_UNKNOWN = 9999;
   }
 
@@ -1982,4 +2002,30 @@ message AdServicesApiCalled {
 
   // response_code is the error code for the given api.
   optional int32 response_code = 6;
+}
+
+/**
+ * Logs Cobalt logging events in AdServices. This provides information about
+ * Cobalt operational metrics.
+ */
+message AdServicesCobaltLoggerEventReported{
+  // The Cobalt metric id of the event that is being logged. The metric id is defined in
+  // packages/modules/AdServices/adservices/libraries/cobalt/proto/metric_definition.proto
+  optional int32 metric_id = 1;
+
+  // The Cobalt report id of the event that is being logged. The report id is defined in
+  // packages/modules/AdServices/adservices/libraries/cobalt/proto/report_definition.proto
+  optional int32 report_id = 2;
+
+  // Logging event which is over the defined threshold in the registry.
+  optional android.adservices.CobaltLoggingEvent cobalt_logging_event = 3;
+}
+
+/**
+ * Logs Cobalt periodic job execution events in AdServices. The periodic job
+ * event contains
+ * Cobalt metrics upload status.
+ */
+message AdServicesCobaltPeriodicJobEventReported {
+  optional android.adservices.CobaltPeriodicJobEvent cobalt_periodic_job_event = 1;
 }
