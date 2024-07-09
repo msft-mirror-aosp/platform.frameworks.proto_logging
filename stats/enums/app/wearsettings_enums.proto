@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 512
+// Next ID: 516
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -288,6 +288,10 @@ enum ItemId {
   MAIN_SOUND_NOTIFICATION = 254;
   MAIN_SYSTEM = 298;
   MAIN_VIBRATION = 364;
+  MAIN_PRIORITY_MODES = 512;
+  PRIORITY_MODES_DO_NOT_DISTURB = 513;
+  PRIORITY_MODES_DND_SWITCH = 514;
+  PRIORITY_MODES_DND_CUSTOMIZE = 515;
   NFC_TAP_AND_PAY = 258;
   POWER_OFF = 299;
   PREPAIR_ACCESSIBILITY = 300;
