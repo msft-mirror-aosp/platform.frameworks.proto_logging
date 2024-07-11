@@ -29,6 +29,7 @@ extend Atom {
     optional FullScreenIntentLaunched full_screen_intent_launched = 631 [(module) = "framework"];
     optional BalAllowed bal_allowed = 632 [(module) = "framework"];
     optional InTaskActivityStarted in_task_activity_started = 685 [(module) = "framework"];
+    optional DeviceOrientationChanged device_orientation_changed = 906 [(module) = "framework"];
     optional CachedAppsHighWaterMark cached_apps_high_watermark = 10189 [(module) = "framework"];
     optional StylusPredictionMetricsReported stylus_prediction_metrics_reported = 718 [(module) = "libinput"];
     optional UserRiskEventReported user_risk_event_reported = 725 [(module) = "framework"];
@@ -125,6 +126,24 @@ message InTaskActivityStarted {
 
     // The timestamp(SystemClock#elapsedRealtime()) when starting activity.
     optional int64 activity_start_timestamp_millis = 6;
+}
+
+/**
+ * Logs when the device (i.e. default display) orientation is changed.
+ * Logged from: com.android.server.wm.ActivityTaskManagerService
+ * Estimated Logging Rate:
+ *   Peak: 6 times in 1 min | Avg: 8 times per device per day
+ */
+message DeviceOrientationChanged {
+    enum Orientation {
+        UNDEFINED = 0;
+        PORTRAIT = 1;
+        LANDSCAPE = 2;
+    }
+    optional Orientation orientation = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
