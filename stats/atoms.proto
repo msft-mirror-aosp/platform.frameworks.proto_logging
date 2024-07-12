@@ -1241,6 +1241,10 @@ message Atom {
     extensions 907; // HealthConnectExportImportInvoked
     extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
     extensions 910; // AccessibilityCheckResultReported accessibility_check_result_reported
+    extensions 911; // WearTimeSyncRequested wear_time_sync_requested
+    extensions 912; // WearTimeUpdateStarted wear_time_update_started
+    extensions 913; // WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed
+    extensions 914; // WearTimeChanged wear_time_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
