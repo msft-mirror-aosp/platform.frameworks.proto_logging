@@ -1450,6 +1450,7 @@ message AdServicesMeasurementRegistrations {
   optional int32 http_response_code = 11;
   optional bool is_redirect = 12;
   optional bool is_pa_request = 13;
+  optional int32 num_entities_deleted = 14;
 }
 
 
