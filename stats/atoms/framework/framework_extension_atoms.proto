@@ -81,17 +81,20 @@ message BalAllowed {
 
     enum Status {
         BAL_STATUS_UNKNOWN = 0;
-        BAL_ALLOW_DEFAULT = 1;
+        BAL_ALLOW_DEFAULT = 1; // never serialized
         BAL_ALLOW_ALLOWLISTED_UID = 2;
         BAL_ALLOW_ALLOWLISTED_COMPONENT = 3;
         BAL_ALLOW_VISIBLE_WINDOW = 4;
-        BAL_ALLOW_PENDING_INTENT = 5;
+        BAL_ALLOW_PENDING_INTENT = 5; // obsolete
         BAL_ALLOW_BAL_PERMISSION = 6;
         BAL_ALLOW_SAW_PERMISSION = 7;
         BAL_ALLOW_GRACE_PERIOD = 8;
         BAL_ALLOW_FOREGROUND = 9;
         BAL_ALLOW_SDK_SANDBOX = 10;
         BAL_ALLOW_NON_APP_VISIBLE_WINDOW = 11;
+        BAL_ALLOW_TOKEN = 12;
+        BAL_ALLOW_BOUND_BY_FOREGROUND = 13;
+        BAL_BLOCKED = 127; // largest int32 serializable as 1 byte
     }
 
 }

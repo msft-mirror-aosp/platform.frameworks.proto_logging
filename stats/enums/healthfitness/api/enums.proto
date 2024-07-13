@@ -116,6 +116,7 @@ enum DataType {
   WHEELCHAIR_PUSHES = 34;
   SKIN_TEMPERATURE =  35;
   PLANNED_EXERCISE_SESSION =  36;
+  MINDFULNESS_SESSION = 37;
 }
 
 enum ForegroundState {
