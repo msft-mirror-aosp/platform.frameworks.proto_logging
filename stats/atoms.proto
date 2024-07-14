@@ -1236,6 +1236,7 @@ message Atom {
     extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
     extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 904; // A2dpSessionReported a2dp_session_reported
+    extensions 905; // UpdateSignalsProcessReported update_signals_process_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1487,7 +1488,7 @@ message Atom {
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
-    extensions 10209; // Reserved for b/324602949
+    extensions 10209; // BatteryUsageStatsPerUid battery_usage_stats_per_uid
     extensions 10210; // Reserved for b/339008431
     extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
     extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
