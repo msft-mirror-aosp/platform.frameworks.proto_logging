@@ -32,6 +32,14 @@ enum DatagramType {
   // Datagram type indicating that keep the device in satellite connected state or check if there is
   // any incoming message.
   DATAGRAM_TYPE_KEEP_ALIVE = 3;
+  // Datagram type indicating that the datagram to be sent or received is of type SOS message and
+  // is the last message to emergency service provider indicating still needs help.
+  DATAGRAM_TYPE_LAST_SOS_MESSAGE_STILL_NEED_HELP = 4;
+  // Datagram type indicating that the datagram to be sent or received is of type SOS message and
+  // is the last message to emergency service provider indicating no more help is needed.
+  DATAGRAM_TYPE_LAST_SOS_MESSAGE_NO_HELP_NEEDED = 5;
+  // Datagram type indicating that the message to be sent or received is of type SMS.
+  DATAGRAM_TYPE_SMS = 6;
 }
 
 // Result code of Incoming / Outgoing satellite datagram
