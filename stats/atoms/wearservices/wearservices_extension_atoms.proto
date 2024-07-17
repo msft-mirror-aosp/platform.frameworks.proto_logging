@@ -66,6 +66,9 @@ extend Atom {
 
   optional WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot = 10206
       [(module) = "wearservices"];
+
+  optional WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot = 10225
+      [(module) = "wearservices"];
 }
 
 /**
@@ -269,6 +272,23 @@ message WsFavouriteWatchFaceSnapshot {
 
   // Indicates whether this watch face is restricted.
   optional bool is_restricted = 8;
+}
+
+/**
+ * Snapshot of a photos watch face feature for the watch face favorite.
+ */
+message WsPhotosWatchFaceFeatureSnapshot {
+  // Watch face package uid.
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
+
+  // An ID number generated on a watch to uniquely identify watch face instances.
+  // An Androidx watch face can be added multiple times to the favorites list and this field is used
+  // to differentiate each instance, without leaking any information about the watch face itself.
+  // Note: equals to -1 in case of WSL watch faces.
+  optional int32 favorite_id = 2;
+
+  // Contains types for photo selection.
+  optional android.app.wearservices.PhotoSelectionType photo_selection_type = 3;
 }
 
 /**
