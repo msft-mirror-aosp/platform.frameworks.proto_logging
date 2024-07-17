@@ -1238,6 +1238,8 @@ message Atom {
     extensions 904; // A2dpSessionReported a2dp_session_reported
     extensions 905; // UpdateSignalsProcessReported update_signals_process_reported
     extensions 906; // DeviceOrientationChanged device_orientation_changed
+    extensions 907; // HealthConnectExportImportInvoked
+    extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1506,6 +1508,7 @@ message Atom {
     extensions 10223; // TelecomApiStats telecom_api_stats
     extensions 10224; // TelecomErrorStats telecom_error_stats
     extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
+    extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
