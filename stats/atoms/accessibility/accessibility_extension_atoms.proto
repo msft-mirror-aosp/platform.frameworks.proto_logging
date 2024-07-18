@@ -1,0 +1,40 @@
+syntax = "proto2";
+
+package android.os.statsd.accessibility;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/accessibility/enums.proto";
+
+option java_package = "com.android.os.accessibility";
+option java_multiple_files = true;
+
+extend Atom {
+    optional AccessibilityCheckResultReported accessibility_check_result_reported = 910
+    [(module) = "accessibility", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+}
+
+/** Logs the result of an AccessibilityCheck. */
+message AccessibilityCheckResultReported {
+    // Package name of the app containing the checked View.
+    optional string package_name = 1;
+    // Version code of the app containing the checked View.
+    optional int64 app_version = 2;
+    // The path of the View starting from the root element in the window. Each element is
+    // represented by the View's resource id, when available, or the View's class name.
+    optional string ui_element_path = 3;
+    // Class name of the activity containing the checked View.
+    optional string activity_name = 4;
+    // Title of the window containing the checked View.
+    optional string window_title = 5;
+    // The flattened component name of the app running the AccessibilityService which provided the a11y node.
+    optional string source_component_name = 6;
+    // Version code of the app running the AccessibilityService that provided the a11y node.
+    optional int64 source_version = 7;
+    // Class Name of the AccessibilityCheck that produced the result.
+    optional android.accessibility.AccessibilityCheckClass result_check_class = 8;
+    // Result type of the AccessibilityCheckResult.
+    optional android.accessibility.AccessibilityCheckResultType result_type = 9;
+    // Result ID of the AccessibilityCheckResult.
+    optional int32 result_id = 10;
+}
