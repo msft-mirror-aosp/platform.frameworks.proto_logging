@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package com.google.android.apps.wearable.settings;
+
+/**
+ * Indicates the type of intent that kicked off sync.
+ */
+enum RequestTypeEnum {
+  REQUEST_TYPE_UNSPECIFIED = 0;
+  REQUEST_TYPE_POLL = 1;
+  REQUEST_TYPE_EVALUATE = 2;
+  REQUEST_TYPE_COMPANION = 3;
+}
+
+/**
+ * Indicates the location from which the sync was started.
+ */
+enum SourceTypeEnum {
+  SOURCE_TYPE_UNSPECIFIED = 0;
+  SOURCE_TYPE_BOOT = 1;
+  SOURCE_TYPE_OOBE = 2;
+  SOURCE_TYPE_COMPANION_CONNECTION = 3;
+  SOURCE_TYPE_TOGGLE = 4;
+  SOURCE_TYPE_PERIODIC_JOB = 5;
+}
+
+/**
+ * Indicates the source of information the sync uses to get its result.
+ */
+enum OriginTypeEnum {
+  ORIGIN_TYPE_UNSPECIFIED = 0;
+  ORIGIN_TYPE_COMPANION = 1;
+  ORIGIN_TYPE_NETWORK = 2;
+  ORIGIN_TYPE_NITZ = 3;
+  ORIGIN_TYPE_GNSS = 4;
+  ORIGIN_TYPE_MANUAL = 5;
+}
+
+/**
+ * Indicates the reason for the sync operation failure.
+ */
+enum FailureReasonEnum {
+  FAILURE_REASON_UNSPECIFIED = 0;
+  FAILURE_REASON_TIMEOUT = 1;
+  FAILURE_REASON_LATENCY = 2;
+  FAILURE_REASON_COMPANION_INVALID_RESPONSE = 3;
+  FAILURE_REASON_DISCONNECTED = 4;
+}
