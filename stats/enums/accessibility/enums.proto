@@ -25,7 +25,7 @@ enum AccessibilityCheckClass {
 
 /** The type of AccessibilityCheckResult */
 enum AccessibilityCheckResultType {
-  UNKNOWN = 0;
-  ERROR = 1;
-  WARNING = 2;
+  UNKNOWN_CHECK_RESULT_TYPE = 0;
+  ERROR_CHECK_RESULT_TYPE = 1;
+  WARNING_CHECK_RESULT_TYPE = 2;
 }
