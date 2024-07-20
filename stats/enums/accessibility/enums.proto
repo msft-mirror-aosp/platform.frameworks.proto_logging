@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+package android.accessibility;
+
+option java_outer_classname = "AccessibilityEnums";
+option java_multiple_files = true;
+
+/** The AccessibilityCheck class. */
+enum AccessibilityCheckClass {
+  UNKNOWN_CHECK = 0;
+  CLASS_NAME_CHECK = 1;
+  CLICKABLE_SPAN_CHECK = 2;
+  DUPLICATE_CLICKABLE_BOUNDS_CHECK = 3;
+  DUPLICATE_SPEAKABLE_TEXT_CHECK = 4;
+  EDITABLE_CONTENT_DESC_CHECK = 5;
+  IMAGE_CONTRAST_CHECK = 6;
+  LINK_PURPOSE_UNCLEAR_CHECK = 7;
+  REDUNDANT_DESCRIPTION_CHECK = 8;
+  SPEAKABLE_TEXT_PRESENT_CHECK = 9;
+  TEXT_CONTRAST_CHECK = 10;
+  TEXT_SIZE_CHECK = 11;
+  TOUCH_TARGET_SIZE_CHECK = 12;
+  TRAVERSAL_ORDER_CHECK = 13;
+}
+
+/** The type of AccessibilityCheckResult */
+enum AccessibilityCheckResultType {
+  UNKNOWN_CHECK_RESULT_TYPE = 0;
+  ERROR_CHECK_RESULT_TYPE = 1;
+  WARNING_CHECK_RESULT_TYPE = 2;
+}
