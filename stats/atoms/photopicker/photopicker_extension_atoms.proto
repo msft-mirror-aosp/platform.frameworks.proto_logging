@@ -62,9 +62,9 @@ extend Atom {
  */
 message PhotopickerSessionInfoReported {
   optional int32 session_id = 1;
-  optional int32 package_uid = 2;
+  optional int32 package_uid = 2 [(is_uid) = true];
   optional android.photopicker.PickerPermittedSelection picker_permitted_selection= 3;
-  optional int32 cloud_provider_uid = 4;
+  optional int32 cloud_provider_uid = 4 [(is_uid) = true];
   optional android.photopicker.UserProfile user_profile = 5;
   optional android.photopicker.PickerStatus picker_status = 6;
   optional int32 picked_items_count = 7;
@@ -97,7 +97,7 @@ message PhotopickerApiInfoReported {
  */
 message PhotopickerUIEventLogged {
   optional int32 session_id = 1;
-  optional int32 package_uid = 2;
+  optional int32 package_uid = 2 [(is_uid) = true];
   optional android.photopicker.UiEvent ui_event = 3;
 }
 
@@ -131,7 +131,7 @@ Logs the user's interaction with the photopicker menu
  */
 message PhotopickerMenuInteractionLogged {
   optional int32 session_id = 1;
-  optional int32 package_uid = 2;
+  optional int32 package_uid = 2 [(is_uid) = true];
   optional android.photopicker.MenuItemSelected menu_item_selected = 3;
 }
 
@@ -149,13 +149,13 @@ message PhotopickerBannerInteractionLogged {
  */
 message PhotopickerMediaLibraryInfoLogged {
   optional int32 session_id = 1;
-  optional int32 cloud_provider_uid = 2;
+  optional int32 cloud_provider_uid = 2 [(is_uid) = true];
   optional int32 library_size = 3;
   optional int32 media_count = 4;
 }
 
 /*
-  Ccaptures the picker's paging details: can give an estimate of how far the user scrolled and
+  Captures the picker's paging details: can give an estimate of how far the user scrolled and
   the items loaded in.
  */
 message PhotopickerPageInfoLogged {
@@ -220,6 +220,6 @@ message SearchDataExtractionDetailsReported {
 message EmbeddedPhotopickerInfoReported {
   optional int32 session_id = 1;
   optional bool is_surface_package_creation_successful = 2;
-  optional int32 surface_package_delivery_start_time = 3;
-  optional int32 surface_package_delivery_end_time = 4;
+  optional int32 surface_package_delivery_start_time_millis = 3;
+  optional int32 surface_package_delivery_end_time_millis = 4;
 }
