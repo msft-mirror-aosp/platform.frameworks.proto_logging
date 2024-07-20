@@ -225,7 +225,9 @@ message NavHandleTouchPoints {
  * Pushed atom. Logs an event for widgets in the communal hub.
  *
  * Logged from:
- * frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ * Estimated Logging Rate:
+ *   Avg: 5 per device per day
  */
 message CommunalHubWidgetEventReported {
   enum Action {
@@ -253,12 +255,12 @@ message CommunalHubWidgetEventReported {
  * Pulled atom. Logs a snapshot of content in the communal hub.
  *
  * Logged from:
- * frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
  */
 message CommunalHubSnapshot {
   // A list of component names of first party widgets in the communal hub.
   repeated string component_names = 1;
 
   // The total number of widgets in the communal hub.
-  optional int32 widgetCount = 2;
+  optional int32 widget_count = 2;
 }
