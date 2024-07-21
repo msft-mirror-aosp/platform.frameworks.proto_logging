@@ -1239,6 +1239,15 @@ message Atom {
     extensions 905; // UpdateSignalsProcessReported update_signals_process_reported
     extensions 906; // DeviceOrientationChanged device_orientation_changed
     extensions 907; // HealthConnectExportImportInvoked
+    extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
+    extensions 909; // AppSearchAppsIndexerStatsReported app_search_apps_indexer_stats_reported
+    extensions 910; // AccessibilityCheckResultReported accessibility_check_result_reported
+    extensions 911; // WearTimeSyncRequested wear_time_sync_requested
+    extensions 912; // WearTimeUpdateStarted wear_time_update_started
+    extensions 913; // WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed
+    extensions 914; // WearTimeChanged wear_time_changed
+    extensions 915; // TestUprobeStatsAtomReported
+    extensions 916; // BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1507,6 +1516,7 @@ message Atom {
     extensions 10223; // TelecomApiStats telecom_api_stats
     extensions 10224; // TelecomErrorStats telecom_error_stats
     extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
+    extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -22342,7 +22352,7 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
  *
- * Next ID: 47
+ * Next ID: 52
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22565,6 +22575,23 @@ message AutofillPresentationEventReported {
 
   // Length of text already in the field when the event is logged
   optional int32 field_last_length = 45;
+
+  // Count of views that failed prior to refill attempt
+  optional int32 view_failed_prior_to_refill_count = 47;
+
+  // Count of views that were able to be filled during refill
+  // Note that this doesn't include views that were filled successfully prior
+  // to refill.
+  optional int32 view_filled_on_refill_count = 48;
+
+  // Count of views that failed in refill attempt
+  optional int32 view_failed_on_refill_count = 49;
+
+  // Count of times response wasn't expired due to pending authentication.
+  optional int32 fix_expire_response_auth_count = 50;
+
+  // Count of times notifyViewEntered wasn't done due to pending authentication
+  optional int32 notify_view_entered_ignored_auth_count = 51;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
