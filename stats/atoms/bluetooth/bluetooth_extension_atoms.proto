@@ -64,7 +64,7 @@ extend Atom {
         = 875 [(module) = "bluetooth"];
     optional A2dpSessionReported a2dp_session_reported
         = 904 [(module) = "bluetooth"];
-    optional BluetoothEventReported bluetooth_event_reported
+    optional BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
         = 916 [(module) = "bluetooth"];
 }
 
@@ -519,18 +519,18 @@ message A2dpSessionReported {
   * Logged from:
   *     packages/modules/Bluetooth
 */
-message BluetoothEventReported {
+message BluetoothCrossLayerEventReported {
   // Type of Bluetooth Event
-  required android.bluetooth.EventType event_type = 1;
+  optional android.bluetooth.EventType event_type = 1;
 
   // Addition Details about the event, specific to the event type
-  required android.bluetooth.State state = 2;
-
-  // Identifier for the remote device/metric id
-  required int32 remote_device_id = 4;
+  optional android.bluetooth.State state = 2;
 
   // Identifier for the app that initiates the CUJ (if applicable)
   optional int32 uid = 3 [(is_uid) = true];
+
+  // Identifier for the remote device/metric id
+  optional int32 metric_id = 4;
 
   // Remote Device Information
   optional BluetoothRemoteDeviceInformation remote_device_information = 5
