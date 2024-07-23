@@ -1875,6 +1875,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_AUDIO_STREAM_JOIN_FAILED_WAIT_FOR_SYNC_TIMEOUT = 1956;
+
+    // ACTION: Settings > Security > Device Unlock > [Fingerprint] > Delete
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_FINGERPRINT_DELETE = 1957;
+
+    // ACTION: Settings > Security > Device Unlock > [Fingerprint] > Rename
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_FINGERPRINT_RENAME = 1958;
 }
 
 /**
