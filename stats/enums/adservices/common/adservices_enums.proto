@@ -441,6 +441,9 @@ enum ErrorCode {
   // commit 94af8756d2f03ff17924721ee1b7c4a4520377ff
   RESERVED_ERROR_CODE_4015 = 4015;
 
+  // UX Enum is unsupported
+  UNSUPPORTED_UX = 4016;
+
   // FederatedCompute errors: 5001-6000
   // Datastore exception while deleting a federated task.
   DELETE_TASK_FAILURE = 5001;
