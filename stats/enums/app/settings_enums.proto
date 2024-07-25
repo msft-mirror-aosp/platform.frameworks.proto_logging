@@ -1885,6 +1885,21 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_FINGERPRINT_RENAME = 1958;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Fill
+    // VALUE: fill style
+    // OS: V
+    ACTION_POINTER_ICON_FILL_STYLE_CHANGED = 1959;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Stroke
+    // VALUE: stroke style
+    // OS: V
+    ACTION_POINTER_ICON_STROKE_STYLE_CHANGED = 1960;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Scale
+    // VALUE: scale
+    // OS: V
+    ACTION_POINTER_ICON_SCALE_CHANGED = 1961;
 }
 
 /**
