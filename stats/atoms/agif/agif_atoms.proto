@@ -19,7 +19,7 @@ syntax = "proto2";
 package android.os.statsd.agif;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 
 option java_package = "com.android.os.agif";
 option java_multiple_files = true;
