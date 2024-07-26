@@ -41,5 +41,20 @@ message MediaProviderVolumeRecoveryReported {
     optional int64 rows_recovered = 3;
     // Dirty rows count
     optional int64 dirty_rows_found = 4;
-}
+    // Count of rows in level db batch
+    optional int64 total_leveldb_rows = 5;
+    // Count of insertion failures
+    optional int64 insertionFailures = 6;
 
+    enum Status {
+        STATUS_UNKNOWN = 0;
+        SUCCESS = 1;
+        BACKUP_MISSING = 2;
+        VOLUME_NOT_ATTACHED = 3;
+        FUSE_DAEMON_TIMEOUT = 4;
+        GET_BACKUP_DATA_FAILURE = 5;
+        OTHER_ERROR = 6;
+    }
+    // Status code of volume recovery event
+    optional Status status = 7;
+}

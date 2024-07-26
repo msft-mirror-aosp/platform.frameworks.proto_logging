@@ -209,6 +209,9 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported = 903
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional UpdateSignalsProcessReported update_signals_process_reported = 905
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -1034,8 +1037,8 @@ message GetAdSelectionDataApiCalled {
   // The source of the coordinator used, i.e., DEFAULT or provided via API
   optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 4;
 
-  // Target size set by the seller
-  optional int32 seller_target_size_kb = 5;
+  // Maximum size set by the seller
+  optional int32 seller_max_size_kb = 5;
 
   // Result of payload optimization
   optional android.adservices.service.PayloadOptimizationResult payload_optimization_result = 6;
@@ -1447,6 +1450,8 @@ message AdServicesMeasurementRegistrations {
   optional int32 http_response_code = 11;
   optional bool is_redirect = 12;
   optional bool is_pa_request = 13;
+  optional int32 num_entities_deleted = 14;
+  optional bool is_event_level_epsilon_configured = 15;
 }
 
 
@@ -2028,4 +2033,37 @@ message AdServicesCobaltLoggerEventReported{
  */
 message AdServicesCobaltPeriodicJobEventReported {
   optional android.adservices.CobaltPeriodicJobEvent cobalt_periodic_job_event = 1;
+}
+
+// Logs when updateSignals api is called.
+message UpdateSignalsProcessReported {
+  // The updated signals process latency in milliseconds for this API call.
+  optional int32 update_signals_process_latency_millis = 1;
+
+  // Adservices api status code for this API call.
+  optional int32 adservices_api_status_code = 2;
+
+  // Number of signals written for this API call.
+  optional int32 signals_written_count = 3;
+
+  // Number of keys from downloaded JSON for this API call.
+  optional int32 keys_stored_count = 4;
+
+  // Number of values from downloaded JSON for this API call.
+  optional int32 values_stored_count = 5;
+
+  // Number of eviction rules for this API call.
+  optional int32 eviction_rules_count = 6;
+
+  // The bucketed size of the buyer who called the APIs signals.
+  optional android.adservices.service.Size per_buyer_signal_size = 7;
+
+  // The average size of raw protected signals per buyer in bytes.
+  optional float mean_raw_protected_signals_size_bytes = 8;
+
+  // The maximum size of raw protected signals per buyer in bytes.
+  optional float max_raw_protected_signals_size_bytes = 9;
+
+  // The minimum size of raw protected signals per buyer in bytes.
+  optional float min_raw_protected_signals_size_bytes = 10;
 }
