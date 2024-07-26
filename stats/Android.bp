@@ -24,7 +24,7 @@ package {
 // Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
 // Due to size grownth constraints proposed to reuse only what really imported
 shared_enum_protos = [
-    "enums/app/**/*.proto",
+    "enums/app_shared/*.proto",
     "enums/display/*.proto",
     "enums/hardware/biometrics/*.proto",
 ]
@@ -37,6 +37,7 @@ enum_protos = [
     "enums/adservices/measurement/*.proto",
     "enums/anr/*.proto",
     "enums/apex/*.proto",
+    "enums/app/**/*.proto",
     "enums/appsearch/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",

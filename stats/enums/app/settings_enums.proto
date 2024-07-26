@@ -1900,6 +1900,12 @@ enum Action {
     // VALUE: scale
     // OS: V
     ACTION_POINTER_ICON_SCALE_CHANGED = 1961;
+
+    // ACTION: Settings > Display > Robust open/close detection
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
 }
 
 /**
