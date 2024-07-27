@@ -45,7 +45,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
@@ -1682,7 +1682,7 @@ message ActivityActionBlocked {
 message UidProcessStateChanged {
     optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
 
-    // The state, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 2
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
@@ -1699,7 +1699,7 @@ message ProcessStateChanged {
     optional string package_name = 3;
     // TODO: remove this when validation is done
     optional int64 version = 5;
-    // The state, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 4;
 }
 
@@ -20180,7 +20180,7 @@ message AlarmScheduled {
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
-    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum calling_process_state = 9;
 }
 
