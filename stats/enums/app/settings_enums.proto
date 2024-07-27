@@ -1545,9 +1545,9 @@ enum Action {
     // OS: U-QPR3
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 
-    // ACTION: Settings > Accessibility > Easy read > Enable easy read
+    // ACTION: Settings > Accessibility > Simple View > Use Simple View
     // VALUE: false is off, true is on
-    // OS: U-QPR3
+    // OS: V
     ACTION_EASY_MODE_CHANGED = 1901;
 
     // OPEN: Settings > Security&Privacy > Private Space >
@@ -1900,6 +1900,17 @@ enum Action {
     // VALUE: scale
     // OS: V
     ACTION_POINTER_ICON_SCALE_CHANGED = 1961;
+
+    // ACTION: Settings > Display > Robust open/close detection
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
+
+    // ACTION: Welcome > Set up with Simple View > Use Simple View
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
 }
 
 /**
