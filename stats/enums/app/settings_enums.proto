@@ -1545,9 +1545,9 @@ enum Action {
     // OS: U-QPR3
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 
-    // ACTION: Settings > Accessibility > Easy read > Enable easy read
+    // ACTION: Settings > Accessibility > Simple View > Use Simple View
     // VALUE: false is off, true is on
-    // OS: U-QPR3
+    // OS: V
     ACTION_EASY_MODE_CHANGED = 1901;
 
     // OPEN: Settings > Security&Privacy > Private Space >
@@ -1875,6 +1875,42 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_AUDIO_STREAM_JOIN_FAILED_WAIT_FOR_SYNC_TIMEOUT = 1956;
+
+    // ACTION: Settings > Security > Device Unlock > [Fingerprint] > Delete
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_FINGERPRINT_DELETE = 1957;
+
+    // ACTION: Settings > Security > Device Unlock > [Fingerprint] > Rename
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_FINGERPRINT_RENAME = 1958;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Fill
+    // VALUE: fill style
+    // OS: V
+    ACTION_POINTER_ICON_FILL_STYLE_CHANGED = 1959;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Stroke
+    // VALUE: stroke style
+    // OS: V
+    ACTION_POINTER_ICON_STROKE_STYLE_CHANGED = 1960;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Scale
+    // VALUE: scale
+    // OS: V
+    ACTION_POINTER_ICON_SCALE_CHANGED = 1961;
+
+    // ACTION: Settings > Display > Robust open/close detection
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
+
+    // ACTION: Welcome > Set up with Simple View > Use Simple View
+    // VALUE: false is off, true is on
+    // OS: V
+    ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
 }
 
 /**
@@ -5013,6 +5049,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_STREAM_MAIN_JOIN_FAILED_TIMEOUT = 2098;
+
+    // OPEN: Settings > Network & internet > Internet > Click a connected Wifi Network > Share
+    // CATEGORY: SETTINGS
+    // OS: V
+    SETTINGS_WIFI_DPP_QR_SHARING = 2099;
 }
 
 // Battery Saver schedule types.
