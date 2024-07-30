@@ -77,28 +77,28 @@ enum Operation {
   OPERATION_UPSERT = 1;
 }
 
-enum ExportImportOperation {
-  EXPORT_IMPORT_OPERATION_UNSPECIFIED = 0;
-  EXPORT_IMPORT_OPERATION_EXPORT = 1;
-  EXPORT_IMPORT_OPERATION_IMPORT = 2;
+// Each of these represents a value in ExportStatus.java.
+enum ExportStatus {
+  EXPORT_STATUS_UNSPECIFIED = 0;
+
+  EXPORT_STATUS_STARTED = 1;
+  EXPORT_STATUS_ERROR_NONE = 2;
+  EXPORT_STATUS_ERROR_UNKNOWN = 3;
+
+  EXPORT_STATUS_ERROR_LOST_FILE_ACCESS = 4;
+  EXPORT_STATUS_ERROR_OUT_OF_STORAGE = 5;
 }
 
-// See ImportStatus.java and ExportStatus.java for more details
-enum ExportImportStatus {
-  EXPORT_IMPORT_STATUS_UNSPECIFIED = 0;
+// Each of these represents a value in ImportStatus.java.
+enum ImportStatus {
+  IMPORT_STATUS_UNSPECIFIED = 0;
 
-  // Currently used for export and import
-  EXPORT_IMPORT_STATUS_STARTED = 1;
-  EXPORT_IMPORT_STATUS_SUCCESS = 2;
-  EXPORT_IMPORT_STATUS_ERROR_UNKNOWN = 3;
+  IMPORT_STATUS_STARTED = 1;
+  IMPORT_STATUS_ERROR_NONE = 2;
+  IMPORT_STATUS_ERROR_UNKNOWN = 3;
 
-  // Currently used for import only
-  EXPORT_IMPORT_STATUS_ERROR_WRONG_FILE = 4;
-  EXPORT_IMPORT_STATUS_ERROR_VERSION_MISMATCH = 5;
-
-  // Currently used for export only
-  EXPORT_IMPORT_STATUS_ERROR_LOST_FILE_ACCESS = 6;
-  EXPORT_IMPORT_STATUS_ERROR_OUT_OF_STORAGE = 7;
+  IMPORT_STATUS_ERROR_WRONG_FILE = 4;
+  IMPORT_STATUS_ERROR_VERSION_MISMATCH = 5;
 }
 
 enum DataType {
