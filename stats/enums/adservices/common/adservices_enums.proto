@@ -134,6 +134,15 @@ enum ErrorCode {
   // JobScheduler is not available.
   JOB_SCHEDULER_IS_UNAVAILABLE = 18;
 
+  // Failed to encrypt data in Cobalt.
+  COBALT_ENCRYPTION_FAILED_EXCEPTION = 19;
+
+  // Failed to fabricate Cobalt observations.
+  COBALT_PRIVACY_GENERATION_EXCEPTION = 20;
+
+  // Cobalt logger initialization failed in AppNameApiErrorLogger.
+  COBALT_API_ERROR_LOGGER_INITIALIZATION_EXCEPTION = 21;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
@@ -432,6 +441,9 @@ enum ErrorCode {
   // commit 94af8756d2f03ff17924721ee1b7c4a4520377ff
   RESERVED_ERROR_CODE_4015 = 4015;
 
+  // UX Enum is unsupported
+  UNSUPPORTED_UX = 4016;
+
   // FederatedCompute errors: 5001-6000
   // Datastore exception while deleting a federated task.
   DELETE_TASK_FAILURE = 5001;
@@ -674,10 +686,12 @@ enum Command {
   COMMAND_AD_SELECTION_CONSENTED_DEBUG_HELP = 204;
   COMMAND_AD_SELECTION_GET_AD_SELECTION_DATA = 205;
   COMMAND_AD_SELECTION_MOCK_AUCTION = 206;
+  COMMAND_AD_SELECTION_VIEW_AUCTION_RESULT = 207;
 
   // Protected App Signals commands: 301-400
   reserved 301;
   COMMAND_APP_SIGNALS_GENERATE_INPUT_FOR_ENCODING = 302;
+  COMMAND_APP_SIGNALS_TRIGGER_ENCODING = 303;
 }
 
 // Result of the shell command
@@ -691,3 +705,17 @@ enum CommandResult {
   COMMAND_RESULT_NOT_ENABLED = 6;
 }
 
+// Cobalt logging event
+enum CobaltLoggingEvent {
+  LOGGING_EVENT_UNSPECIFIED = 0;
+  LOGGING_EVENT_OVER_STRING_BUFFER_MAX = 1;
+  LOGGING_EVENT_OVER_EVENT_VECTOR_BUFFUER_MAX = 2;
+  LOGGING_EVENT_OVER_MAX_VALUE = 3;
+}
+
+// Cobalt upload event
+enum CobaltPeriodicJobEvent {
+  UPLOAD_EVENT_UNSPECIFIED = 0;
+  UPLOAD_EVENT_SUCCESS = 1;
+  UPLOAD_EVENT_FAILURE = 2;
+}

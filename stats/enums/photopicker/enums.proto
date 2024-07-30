@@ -27,6 +27,7 @@ option java_multiple_files = true;
 enum PickerPermittedSelection {
   SINGLE = 0;
   MULTIPLE = 1;
+  UNSET_PICKER_PERMITTED_SELECTION = 2;
 }
 
 /*
@@ -37,6 +38,7 @@ enum UserProfile {
   PERSONAL = 1;
   PRIVATE_SPACE = 2;
   UNKNOWN = 3;
+  UNSET_USER_PROFILE = 4;
 }
 
 /*
@@ -46,6 +48,7 @@ enum PickerStatus {
   OPENED = 0;
   CANCELED = 1;
   CONFIRMED = 2;
+  UNSET_PICKER_STATUS = 3;
 }
 
 /*
@@ -55,6 +58,7 @@ enum PickerMode {
   REGULAR_PICKER = 0;
   EMBEDDED_PICKER = 1;
   PERMISSION_MODE_PICKER = 2;
+  UNSET_PICKER_MODE = 3;
 }
 
 /*
@@ -64,6 +68,8 @@ enum PickerCloseMethod {
   SWIPE_DOWN = 0;
   CROSS_BUTTON  =1;
   BACK_BUTTON = 2;
+  PICKER_SELECTION_CONFIRMED = 3;
+  UNSET_PICKER_CLOSE_METHOD = 4;
 }
 
 /*
@@ -72,6 +78,7 @@ enum PickerCloseMethod {
 enum PickerSize {
   COLLAPSED = 0;
   EXPANDED = 1;
+  UNSET_PICKER_SIZE = 2;
 }
 
 /*
@@ -80,6 +87,8 @@ enum PickerSize {
 enum PickerIntentAction {
   ACTION_PICK_IMAGES = 0;
   ACTION_GET_CONTENT = 1;
+  ACTION_USER_SELECT = 2;
+  UNSET_PICKER_INTENT_ACTION = 3;
 }
 
 /*
@@ -88,9 +97,11 @@ enum PickerIntentAction {
 enum MediaType {
   PHOTO = 0;
   VIDEO = 1;
-  GIF = 2;
-  LIVE_PHOTO = 3;
-  OTHER = 4;
+  PHOTO_VIDEO = 2;
+  GIF = 3;
+  LIVE_PHOTO = 4;
+  OTHER = 5;
+  UNSET_MEDIA_TYPE = 6;
 }
 
 /*
@@ -100,6 +111,7 @@ enum SelectedTab {
   PHOTOS = 0;
   ALBUMS = 1;
   COLLECTIONS = 2;
+  UNSET_SELECTED_TAB = 3;
 }
 
 /*
@@ -113,6 +125,7 @@ enum SelectedAlbum {
   VIDEOS = 4;
   UNDEFINED_LOCAL = 5;
   UNDEFINED_CLOUD = 6;
+  UNSET_SELECTED_ALBUM = 7;
 }
 
 /*
@@ -153,6 +166,7 @@ enum UiEvent {
   PICKER_BROWSE_DOCUMENTS_UI = 31;
   ENTER_PICKER_SEARCH = 32;
   SELECT_SEARCH_CATEGORY = 33;
+  UNSET_UI_EVENT = 34;
 }
 
 /*
@@ -161,6 +175,7 @@ enum UiEvent {
 enum MediaStatus {
   SELECTED = 0;
   UNSELECTED = 1;
+  UNSET_MEDIA_STATUS = 2;
 }
 
 /*
@@ -170,6 +185,7 @@ enum MediaLocation {
   MAIN_GRID = 0;
   ALBUM = 1;
   GROUP = 2;
+  UNSET_MEDIA_LOCATION = 3;
 }
 
 /*
@@ -178,6 +194,7 @@ enum MediaLocation {
 enum PreviewModeEntry {
   VIEW_SELECTED = 0;
   LONG_PRESS = 1;
+  UNSET_PREVIEW_MODE_ENTRY = 2;
 }
 
 /*
@@ -187,14 +204,16 @@ enum VideoPlayBackInteractions {
   PLAY = 0;
   PAUSE = 1;
   MUTE = 2;
+  UNSET_VIDEO_PLAYBACK_INTERACTION = 3;
 }
 
 /*
- Picket menu item options
+ Picker menu item options
  */
 enum MenuItemSelected {
   BROWSE = 0;
   CLOUD_SETTINGS = 1;
+  UNSET_MENU_ITEM_SELECTED = 2;
 }
 
 /*
@@ -205,6 +224,7 @@ enum BannerType {
   ACCOUNT_UPDATED = 1;
   CHOOSE_ACCOUNT = 2;
   CHOOSE_APP = 3;
+  UNSET_BANNER_TYPE = 4;
 }
 
 /*
@@ -214,6 +234,7 @@ enum UserBannerInteraction {
   CLICK_BANNER_ACTION_BUTTON = 0;
   CLICK_BANNER_DISMISS_BUTTON = 1;
   CLICK_BANNER = 2;
+  UNSET_USER_BANNER_INTERACTION = 3;
 }
 
 /*
@@ -223,4 +244,5 @@ enum SearchMethod {
   SEARCH_QUERY = 0;
   COLLECTION = 1;
   SUGGESTED_SEARCHES = 2;
+  UNSET_SEARCH_METHOD = 3;
 }
