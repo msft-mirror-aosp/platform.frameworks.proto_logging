@@ -441,6 +441,9 @@ enum ErrorCode {
   // commit 94af8756d2f03ff17924721ee1b7c4a4520377ff
   RESERVED_ERROR_CODE_4015 = 4015;
 
+  // UX Enum is unsupported
+  UNSUPPORTED_UX = 4016;
+
   // FederatedCompute errors: 5001-6000
   // Datastore exception while deleting a federated task.
   DELETE_TASK_FAILURE = 5001;
@@ -683,10 +686,12 @@ enum Command {
   COMMAND_AD_SELECTION_CONSENTED_DEBUG_HELP = 204;
   COMMAND_AD_SELECTION_GET_AD_SELECTION_DATA = 205;
   COMMAND_AD_SELECTION_MOCK_AUCTION = 206;
+  COMMAND_AD_SELECTION_VIEW_AUCTION_RESULT = 207;
 
   // Protected App Signals commands: 301-400
   reserved 301;
   COMMAND_APP_SIGNALS_GENERATE_INPUT_FOR_ENCODING = 302;
+  COMMAND_APP_SIGNALS_TRIGGER_ENCODING = 303;
 }
 
 // Result of the shell command
