@@ -149,18 +149,18 @@ message AdpfSessionSnapshot {
     // Uid of the session, this uid is per-app
     optional int32 uid = 1 [(is_uid) = true];
 
-    // Uid process state (foreground, background)
-    optional AdpfSessionUidState uid_state = 2;
+    // Session tag of the snapshot. One uid can generate session with different tags.
+    optional AdpfSessionTag session_tag = 2;
 
-    // Number of threads of this session
-    optional int32 tid_count = 3;
+    // Maximum number of sessions that concurrently existed
+    optional int32 max_concurrent_session = 3;
 
-    // Session tag of this session
-    optional AdpfSessionTag session_tag = 4;
-
-    // Session state (pause, resume)
-    optional AdpfSessionState session_state = 5;
+    // Maximum number of threads created in one session
+    optional int32 max_tid_count = 4;
 
     // Power efficiency mode status
-    optional bool is_power_efficient = 6;
+    optional int32 num_power_efficient_session = 5;
+
+    // list of different target durations requested
+    repeated int64 target_duration_ns = 6;
 }
