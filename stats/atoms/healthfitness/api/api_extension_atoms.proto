@@ -35,6 +35,10 @@ extend Atom {
   optional HealthConnectApiInvoked health_connect_api_invoked = 643 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 
   optional ExerciseRouteApiCalled exercise_route_api_called = 654 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectExportInvoked health_connect_export_invoked = 907 [(module) = "healthfitness"];
+
+  optional HealthConnectImportInvoked health_connect_import_invoked = 918 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -107,6 +111,42 @@ message ExerciseRouteApiCalled {
   // Number of records under operation
   optional int32 number_of_records = 3;
 
+}
+
+/**
+ * Tracks when a data export is started or changes status.
+ */
+message HealthConnectExportInvoked {
+
+  // Status of the export (started/success/failure)
+  optional android.healthfitness.api.ExportStatus status = 1;
+
+  // Time taken between the start of the export and its conclusion.
+  optional int32 time_to_succeed_or_fail_millis = 2;
+
+  // Size of the original data before it is compressed for the export.
+  optional int32 original_data_size_kb = 3;
+
+  // Size of the compressed data being exported.
+  optional int32 compressed_data_size_kb = 4;
+}
+
+/**
+ * Tracks when a data import is started or changes status.
+ */
+message HealthConnectImportInvoked {
+
+  // Status of the import (started/success/failure)
+  optional android.healthfitness.api.ImportStatus status = 1;
+
+  // Time taken between the start of the import and its conclusion.
+  optional int32 time_to_succeed_or_fail_millis = 2;
+
+  // Size of the original data after it is decompressed after the import.
+  optional int32 original_data_size_kb = 3;
+
+  // Size of the compressed data being imported.
+  optional int32 compressed_data_size_kb = 4;
 }
 
 // Track Health Connect API operations stats.
