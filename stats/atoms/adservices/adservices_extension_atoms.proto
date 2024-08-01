@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_api_metrics_enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/common/adservices_cel_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
@@ -283,7 +284,7 @@ message AdServicesMeasurementDebugKeys {
  * Logs AdServices errors/exceptions.
  */
 message AdServicesErrorReported {
-  optional android.adservices.ErrorCode error_code = 1;
+  optional android.adservices.common.ErrorCode error_code = 1;
 
   // Name of the PPAPI if possible where error is occurring.
   optional android.adservices.PpapiName ppapi_name = 2;
