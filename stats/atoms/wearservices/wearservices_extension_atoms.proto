@@ -275,6 +275,20 @@ message WsFavouriteWatchFaceSnapshot {
 }
 
 /**
+ * Snapshot for the types of watch face customizations done by the user till date.
+ */
+message WsWatchFaceCustomizationSnapshot {
+  // Indicates that the user customized a WF any time in the past.
+  optional bool customized_wf = 1;
+
+  // Indicates that the user switched to a pre-installed WF any time in the past.
+  optional bool switched_to_pre_installed_wf = 2;
+
+  // Indicates that the user switched to a non preinstalled WF any time in the past.
+  optional bool switched_to_non_preinstalled_wf = 3;
+}
+
+/**
  * Snapshot of a photos watch face feature for the watch face favorite.
  */
 message WsPhotosWatchFaceFeatureSnapshot {
