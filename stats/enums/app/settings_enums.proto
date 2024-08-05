@@ -1911,6 +1911,11 @@ enum Action {
     // VALUE: false is off, true is on
     // OS: V
     ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_SPACE_ERRORS = 1964;
 }
 
 /**
