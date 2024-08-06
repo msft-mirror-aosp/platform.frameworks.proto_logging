@@ -1250,6 +1250,7 @@ message Atom {
     extensions 916; // BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
     extensions 917; // FirstOverlayStateChanged first_overlay_state_changed
     extensions 918; // HealthConnectImportInvoked
+    extensions 919; // HealthConnectExportImportStatsReported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
