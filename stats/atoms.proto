@@ -1275,6 +1275,8 @@ message Atom {
     extensions 941; // WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync
     extensions 942; // PeripheralTutorialLaunched peripheral_tutorial_launched
     extensions 943; // AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called
+    extensions 944; // BiometricUnenrolled biometric_unenrolled
+    extensions 945; // BiometricEnumerated biometric_enumerated
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -6512,6 +6514,8 @@ message BiometricEnrolled {
     optional float ambient_light_lux = 6;
     // The source for where this enrollment came frame
     optional android.hardware.biometrics.EnrollmentSourceEnum enroll_source = 7;
+    // Numerical ID for enrolled template that increments with every new enrollment. Eg: 1, 2...
+    optional int32 template_id = 8;
 }
 
 
