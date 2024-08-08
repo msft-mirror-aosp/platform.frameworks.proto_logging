@@ -6380,6 +6380,8 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6431,6 +6433,8 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
