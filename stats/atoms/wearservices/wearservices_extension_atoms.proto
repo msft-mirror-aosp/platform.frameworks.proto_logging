@@ -69,6 +69,9 @@ extend Atom {
 
   optional WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot = 10225
       [(module) = "wearservices"];
+
+  optional WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot = 10227
+      [(module) = "wearservices"];
 }
 
 /**
