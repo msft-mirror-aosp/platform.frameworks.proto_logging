@@ -5260,15 +5260,27 @@ message VibratorStateChanged {
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
  */
-// Next tag: 27
+// Next tag: 28
 message VibrationReported {
   repeated AttributionNode attribution_node = 1;
 
   enum VibrationType {
+
+    // Unknown vibration type.
     UNKNOWN = 0;
+
+    // One-off vibration effect/pattern.
     SINGLE = 1;
+
+    // Infinitely repeating vibration pattern.
     REPEATED = 2;
+
+    // Vibration defined in the platform outside the vibrator service
+    // (e.g. from audio-coupled haptics or haptic generator).
     EXTERNAL = 3;
+
+    // Vibration defined by vendor apps/services.
+    VENDOR = 4;
   }
 
   // Vibration identifiers for aggregation.
@@ -5312,6 +5324,7 @@ message VibrationReported {
   optional int32 hal_perform_count = 17;
   optional int32 hal_set_amplitude_count = 18;
   optional int32 hal_set_external_control_count = 19;
+  optional int32 hal_perform_vendor_count = 27;
 
   // Vibrator hardware HAL API constants used (deduped).
   // Values from CompositionPrimitive.aidl successfully triggered by this vibration at least once.
