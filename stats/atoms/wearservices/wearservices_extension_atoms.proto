@@ -69,6 +69,9 @@ extend Atom {
 
   optional WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot = 10225
       [(module) = "wearservices"];
+
+  optional WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot = 10227
+      [(module) = "wearservices"];
 }
 
 /**
@@ -272,6 +275,20 @@ message WsFavouriteWatchFaceSnapshot {
 
   // Indicates whether this watch face is restricted.
   optional bool is_restricted = 8;
+}
+
+/**
+ * Snapshot for the types of watch face customizations done by the user till date.
+ */
+message WsWatchFaceCustomizationSnapshot {
+  // Indicates that the user customized a WF any time in the past.
+  optional bool customized_wf = 1;
+
+  // Indicates that the user switched to a pre-installed WF any time in the past.
+  optional bool switched_to_pre_installed_wf = 2;
+
+  // Indicates that the user switched to a non preinstalled WF any time in the past.
+  optional bool switched_to_non_preinstalled_wf = 3;
 }
 
 /**
