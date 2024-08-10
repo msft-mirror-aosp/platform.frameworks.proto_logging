@@ -127,6 +127,9 @@ enum ErrorCode {
   // Failure of the customized logic in onStopJob().
   SPE_JOB_ON_STOP_EXECUTION_FAILURE = 910;
 
+  // Error during future cancellation process.
+  SPE_FUTURE_CANCELLATION_ERROR = 911;
+
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
   GET_TOPICS_REMOTE_EXCEPTION = 1001;
