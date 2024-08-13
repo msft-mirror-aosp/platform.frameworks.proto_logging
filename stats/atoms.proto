@@ -15578,6 +15578,10 @@ message VoiceCallSession {
 
     // The user-set status for enriched calling with call composer
     optional android.telephony.CallComposerStatus call_composer_status = 44;
+
+    // The call state on call setup
+    optional android.telephony.CallState call_state_on_setup = 45;
+
 }
 
 /**
