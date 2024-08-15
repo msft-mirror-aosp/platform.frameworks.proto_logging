@@ -1,0 +1,225 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.photopicker;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/photopicker/enums.proto";
+
+// This file contains extension atoms for photopicker.
+option java_package = "com.android.os.photopicker";
+option java_multiple_files = true;
+
+extend Atom {
+  optional PhotopickerSessionInfoReported photopicker_session_info_reported = 886
+  [(module) = "mediaprovider"];
+  optional PhotopickerApiInfoReported photopicker_api_info_reported = 887
+  [(module) = "mediaprovider"];
+  optional PhotopickerUIEventLogged photopicker_ui_event_logged = 888
+  [(module) = "mediaprovider"];
+  optional PhotopickerMediaItemStatusReported photopicker_media_item_status_reported = 889
+  [(module) = "mediaprovider"];
+  optional PhotopickerPreviewInfoLogged photopicker_preview_info_logged = 890
+  [(module) = "mediaprovider"];
+  optional PhotopickerMenuInteractionLogged photopicker_menu_interaction_logged = 891
+  [(module) = "mediaprovider"];
+  optional PhotopickerBannerInteractionLogged photopicker_banner_interaction_logged = 892
+  [(module) = "mediaprovider"];
+  optional PhotopickerMediaLibraryInfoLogged photopicker_media_library_info_logged = 893
+  [(module) = "mediaprovider"];
+  optional PhotopickerPageInfoLogged photopicker_page_info_logged = 894
+  [(module) = "mediaprovider"];
+  optional PhotopickerMediaGridSyncInfoReported photopicker_media_grid_sync_info_reported = 895
+  [(module) = "mediaprovider"];
+  optional PhotopickerAlbumSyncInfoReported photopicker_album_sync_info_reported = 896
+  [(module) = "mediaprovider"];
+  optional PhotopickerSearchInfoReported photopicker_search_info_reported = 897
+  [(module) = "mediaprovider"];
+  optional SearchDataExtractionDetailsReported search_data_extraction_details_reported = 898
+  [(module) = "mediaprovider"];
+  optional EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported = 899
+  [(module) = "mediaprovider"];
+}
+
+/*
+  Logs details about the launched picker session
+ */
+message PhotopickerSessionInfoReported {
+  optional int32 session_id = 1;
+  optional int32 package_uid = 2 [(is_uid) = true];
+  optional android.photopicker.PickerPermittedSelection picker_permitted_selection= 3;
+  optional int32 cloud_provider_uid = 4 [(is_uid) = true];
+  optional android.photopicker.UserProfile user_profile = 5;
+  optional android.photopicker.PickerStatus picker_status = 6;
+  optional int32 picked_items_count = 7;
+  optional int32 picked_items_size = 8;
+  optional bool is_profile_switch_button_visible = 9;
+  optional android.photopicker.PickerMode picker_mode = 10;
+  optional android.photopicker.PickerCloseMethod picker_close_method = 11;
+}
+
+/*
+ Logs details about how the picker was launched including information on the set picker options
+ */
+message PhotopickerApiInfoReported {
+  optional int32 session_id = 1;
+  optional android.photopicker.PickerIntentAction picker_intent_action = 2;
+  optional android.photopicker.PickerSize screen_size = 3;
+  optional android.photopicker.MediaType media_filter = 4;
+  optional int32 max_picked_item_count = 5;
+  optional android.photopicker.SelectedTab selected_tab = 6;
+  optional android.photopicker.SelectedAlbum selected_album = 7;
+  optional bool is_ordered_selection_set = 8;
+  optional bool is_accent_color_set = 9;
+  optional bool is_default_tab_set = 10;
+  optional bool is_search_enabled = 11;
+}
+
+/*
+ A general atom capturing any and all user interactions with the picker with other atoms focusing
+ on more specific interactions detailing the same.
+ */
+message PhotopickerUIEventLogged {
+  optional int32 session_id = 1;
+  optional int32 package_uid = 2 [(is_uid) = true];
+  optional android.photopicker.UiEvent ui_event = 3;
+}
+
+/*
+ Details out the information of a picker media item
+ */
+message PhotopickerMediaItemStatusReported {
+  optional int32 session_id = 1;
+  optional android.photopicker.MediaStatus media_status = 2;
+  optional android.photopicker.MediaLocation media_location = 3;
+  optional int32 item_position = 4;
+  optional android.photopicker.SelectedAlbum selected_album = 5;
+  optional android.photopicker.MediaType media_type = 6;
+  optional bool cloud_only = 7;
+  optional android.photopicker.PickerSize picker_size = 8;
+}
+
+/*
+ Captures details of the picker's preview mode
+ */
+message PhotopickerPreviewInfoLogged {
+  optional int32 session_id = 1;
+  optional android.photopicker.PreviewModeEntry preview_mode_entry = 2;
+  optional int32 preview_item_count = 3;
+  optional android.photopicker.MediaType media_type = 4;
+  optional android.photopicker.VideoPlayBackInteractions video_interactions = 5;
+}
+
+/*
+Logs the user's interaction with the photopicker menu
+ */
+message PhotopickerMenuInteractionLogged {
+  optional int32 session_id = 1;
+  optional int32 package_uid = 2 [(is_uid) = true];
+  optional android.photopicker.MenuItemSelected menu_item_selected = 3;
+}
+
+/*
+ Logs the user's interaction with different picker banners
+ */
+message PhotopickerBannerInteractionLogged {
+  optional int32 session_id = 1;
+  optional android.photopicker.BannerType banner_type = 2;
+  optional android.photopicker.UserBannerInteraction user_banner_interaction = 3;
+}
+
+/*
+ Logs details of the picker media library size
+ */
+message PhotopickerMediaLibraryInfoLogged {
+  optional int32 session_id = 1;
+  optional int32 cloud_provider_uid = 2 [(is_uid) = true];
+  optional int32 library_size = 3;
+  optional int32 media_count = 4;
+}
+
+/*
+  Captures the picker's paging details: can give an estimate of how far the user scrolled and
+  the items loaded in.
+ */
+message PhotopickerPageInfoLogged {
+  optional int32 session_id = 1;
+  optional int32 page_number = 2;
+  optional int32 items_loaded_in_page = 3;
+}
+
+/*
+ Logs picker media sync information: both sync start/end and incremental syncs.
+ */
+message PhotopickerMediaGridSyncInfoReported {
+  optional int32 session_id = 1;
+  optional int32 media_collection_info_start_time_millis = 2;
+  optional int32 media_collection_info_end_time_millis = 3;
+  optional int32 media_sync_start_time_millis = 4;
+  optional int32 media_sync_end_time_millis = 5;
+  optional int32 incremental_media_sync_start_time_millis = 6;
+  optional int32 incremental_media_sync_end_time_millis = 7;
+  optional int32 incremental_deleted_media_sync_start_time_millis = 8;
+  optional int32 incremental_deleted_media_sync_end_time_millis = 9;
+}
+
+/*
+  Logs sync information for picker albums: both the album details and its content
+ */
+message PhotopickerAlbumSyncInfoReported {
+  optional int32 session_id_time_millis = 1;
+  optional int32 get_albums_start_time_millis = 2;
+  optional int32 get_albums_end_time_millis = 3;
+  optional int32 get_album_media_start_time_millis = 4;
+  optional int32 get_album_media_end_time_millis = 5;
+}
+
+/*
+ Logs information about the picker's search functionality
+ */
+message PhotopickerSearchInfoReported {
+  optional int32 session_id = 1;
+  optional android.photopicker.SearchMethod search_method = 2;
+  // items picked in a particular search method
+  optional int32 picked_items = 3;
+  optional int32 start_time_millis = 4;
+  optional int32 end_time_millis = 5;
+}
+
+/*
+ Logs details about the requests made for extracting search data
+ */
+message SearchDataExtractionDetailsReported {
+  optional int32 session_id = 1;
+  optional int32 unprocessed_images_count = 2;
+  optional int32 processing_start_time_millis = 3;
+  optional int32 processing_end_time_millis = 4;
+  optional bool is_processing_successful = 5;
+  optional bool is_response_received = 6;
+}
+
+/*
+ Logs information about the embedded photopicker(implementation details)
+ */
+message EmbeddedPhotopickerInfoReported {
+  optional int32 session_id = 1;
+  optional bool is_surface_package_creation_successful = 2;
+  optional int32 surface_package_delivery_start_time_millis = 3;
+  optional int32 surface_package_delivery_end_time_millis = 4;
+}

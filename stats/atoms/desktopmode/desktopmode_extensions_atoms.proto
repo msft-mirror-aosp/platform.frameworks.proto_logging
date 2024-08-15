@@ -50,6 +50,7 @@ message DesktopModeUIChanged {
     APP_FREEFORM_INTENT = 4; // This covers intent based starts from app-shortcut, taskbar, keyboard shortcuts where we don't use any custom transition
     KEYBOARD_SHORTCUT_ENTER = 5;
     SCREEN_ON = 6; // desktop mode visible after screen turned on
+    APP_FROM_OVERVIEW = 7;
   }
 
   // The reason for exiting desktopmode
@@ -86,6 +87,26 @@ message DesktopModeSessionTaskUpdate {
     TASK_REMOVED = 2;
     TASK_INFO_CHANGED = 3; // covers both size and position changes of the app
   }
+
+  // The reason a task was minimized
+  enum MinimizeReason {
+    // Unset means the task did not get minimized
+    UNSET_MINIMIZE = 0;
+    MINIMIZE_TASK_LIMIT = 1;
+    MINIMIZE_BUTTON = 2;
+  }
+
+  // The reason a task was unminimized
+  enum UnminimizeReason {
+    // Unset means the task did not get minimized
+    UNSET_UNMINIMIZE = 0;
+    // Unknown means we don't know what caused the unminimize action
+    UNMINIMIZE_UNKNOWN = 1;
+    UNMINIMIZE_TASKBAR_TAP = 2;
+    UNMINIMIZE_ALT_TAB = 3;
+    UNMINIMIZE_TASK_LAUNCH = 4;
+  }
+
   // The event associated with this app update
   optional TaskEvent task_event = 1;
   // The instance_id of this task
@@ -102,4 +123,8 @@ message DesktopModeSessionTaskUpdate {
   optional int32 task_y = 7;
   // An id used to identify a desktop mode instance
   optional int32 session_id = 8;
+  // The reason the task was minimized
+  optional MinimizeReason minimize_reason = 9;
+  // The reason the task was unminimized
+  optional UnminimizeReason unminimize_reason = 10;
 }
