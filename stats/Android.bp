@@ -24,7 +24,7 @@ package {
 // Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
 // Due to size grownth constraints proposed to reuse only what really imported
 shared_enum_protos = [
-    "enums/app/**/*.proto",
+    "enums/app_shared/*.proto",
     "enums/display/*.proto",
     "enums/hardware/biometrics/*.proto",
 ]
@@ -37,6 +37,7 @@ enum_protos = [
     "enums/adservices/measurement/*.proto",
     "enums/anr/*.proto",
     "enums/apex/*.proto",
+    "enums/app/**/*.proto",
     "enums/appsearch/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
@@ -94,6 +95,7 @@ enum_protos = [
     "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
     "enums/wear/modes/*.proto",
+    "enums/wear/time/*.proto",
     "enums/wifi/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
@@ -164,6 +166,7 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wear/modes/*.proto",
+    "atoms/wear/time/*.proto",
     "atoms/wearpas/*.proto",
     "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
@@ -189,6 +192,7 @@ atom_protos = [
     "atoms/adaptiveauth/*.proto",
     "atoms/automotive/carpower/*.proto",
     "atoms/camera/*.proto",
+    "atoms/uprobestats/*.proto",
 ]
 
 cc_library_host_shared {

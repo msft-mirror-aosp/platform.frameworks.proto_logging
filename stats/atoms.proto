@@ -45,7 +45,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
@@ -688,7 +688,7 @@ message Atom {
         ClipboardCleared clipboard_cleared = 408 [(module) = "framework"];
         VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
         NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
-        CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
+        // reserved 411 for a deprecated CameraCompatControlEventReported.
         ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
         MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported =
             413 [(module) = "media_metrics"];
@@ -1238,16 +1238,27 @@ message Atom {
     extensions 904; // A2dpSessionReported a2dp_session_reported
     extensions 905; // UpdateSignalsProcessReported update_signals_process_reported
     extensions 906; // DeviceOrientationChanged device_orientation_changed
-    extensions 907; // HealthConnectExportImportInvoked
+    extensions 907; // HealthConnectExportInvoked
     extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
+    extensions 909; // AppSearchAppsIndexerStatsReported app_search_apps_indexer_stats_reported
     extensions 910; // AccessibilityCheckResultReported accessibility_check_result_reported
+    extensions 911; // WearTimeSyncRequested wear_time_sync_requested
+    extensions 912; // WearTimeUpdateStarted wear_time_update_started
+    extensions 913; // WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed
+    extensions 914; // WearTimeChanged wear_time_changed
+    extensions 915; // TestUprobeStatsAtomReported
+    extensions 916; // BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
+    extensions 917; // FirstOverlayStateChanged first_overlay_state_changed
+    extensions 918; // HealthConnectImportInvoked
+    extensions 919; // HealthConnectExportImportStatsReported
+    extensions 920; // WsRemoteEventUsageReported ws_remote_event_usage_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10226
+    // Next: 10228
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1510,6 +1521,7 @@ message Atom {
     extensions 10224; // TelecomErrorStats telecom_error_stats
     extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
     extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
+    extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -1675,7 +1687,7 @@ message ActivityActionBlocked {
 message UidProcessStateChanged {
     optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
 
-    // The state, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 2
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
@@ -1692,7 +1704,7 @@ message ProcessStateChanged {
     optional string package_name = 3;
     // TODO: remove this when validation is done
     optional int64 version = 5;
-    // The state, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 4;
 }
 
@@ -5249,15 +5261,27 @@ message VibratorStateChanged {
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
  */
-// Next tag: 27
+// Next tag: 28
 message VibrationReported {
   repeated AttributionNode attribution_node = 1;
 
   enum VibrationType {
+
+    // Unknown vibration type.
     UNKNOWN = 0;
+
+    // One-off vibration effect/pattern.
     SINGLE = 1;
+
+    // Infinitely repeating vibration pattern.
     REPEATED = 2;
+
+    // Vibration defined in the platform outside the vibrator service
+    // (e.g. from audio-coupled haptics or haptic generator).
     EXTERNAL = 3;
+
+    // Vibration defined by vendor apps/services.
+    VENDOR = 4;
   }
 
   // Vibration identifiers for aggregation.
@@ -5301,6 +5325,7 @@ message VibrationReported {
   optional int32 hal_perform_count = 17;
   optional int32 hal_set_amplitude_count = 18;
   optional int32 hal_set_external_control_count = 19;
+  optional int32 hal_perform_vendor_count = 27;
 
   // Vibrator hardware HAL API constants used (deduped).
   // Values from CompositionPrimitive.aidl successfully triggered by this vibration at least once.
@@ -5670,36 +5695,6 @@ message SizeCompatRestartButtonEventReported {
 
     // The event that was reported.
     optional Event event = 2;
-}
-
-/**
- * Logs events reported for the Camera App Compat control, which is used to
- * correct stretched viewfinder in apps that don't handle all possible
- * configurations, and changes between them, correctly.
- *
- * Logged from:
- *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
- */
-message CameraCompatControlEventReported {
-  // UID of the package that has the control.
-  optional int32 uid = 1 [(is_uid) = true];
-
-  enum Event {
-    UNKNOWN = 0;
-    // Button to apply the treatment appeared.
-    APPEARED_APPLY_TREATMENT = 1;
-    // Button to revert the treatment appeared.
-    APPEARED_REVERT_TREATMENT = 2;
-    // Users clicked on the button to apply the treatment.
-    CLICKED_APPLY_TREATMENT = 3;
-    // Users clicked on the button to revert the treatment.
-    CLICKED_REVERT_TREATMENT = 4;
-    // Users clicked on the button to dismiss the control.
-    CLICKED_DISMISS = 5;
-  }
-
-  // The event that was reported.
-  optional Event event = 2;
 }
 
 /**
@@ -15584,6 +15579,10 @@ message VoiceCallSession {
 
     // The user-set status for enriched calling with call composer
     optional android.telephony.CallComposerStatus call_composer_status = 44;
+
+    // The call state on call setup
+    optional android.telephony.CallState call_state_on_setup = 45;
+
 }
 
 /**
@@ -20173,7 +20172,7 @@ message AlarmScheduled {
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
-    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum calling_process_state = 9;
 }
 
