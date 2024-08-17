@@ -1253,6 +1253,7 @@ message Atom {
     extensions 919; // HealthConnectExportImportStatsReported
     extensions 920; // WsRemoteEventUsageReported ws_remote_event_usage_reported
     extensions 921; // WearCompanionConnectionState
+    extensions 922; // BroadcastSent broadcast_sent
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
