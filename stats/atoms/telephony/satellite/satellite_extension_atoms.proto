@@ -94,6 +94,9 @@ message SatelliteController {
   // The total duration of the battery being charged while satellite modem is on
   optional int32 total_battery_charged_time_sec = 17;
   // Count of successful satellite service enablement in demo mode
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional int32 count_of_demo_mode_satellite_service_enablements_success = 18;
   // Count of failed satellite service enablement in demo mode
   optional int32 count_of_demo_mode_satellite_service_enablements_fail = 19;
@@ -145,6 +148,9 @@ message SatelliteSession {
   // the number of failed incoming datagram transmission while the session is enabled
   optional int32 count_of_incoming_datagram_failed = 11;
   // Whether this session is enabled for demo mode, code {true} if it is demo mode
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional bool is_demo_mode = 12;
   // Max Ntn signal strength while the satellite session is enabled
   optional int32 max_ntn_signal_strength_level = 13;
@@ -161,6 +167,9 @@ message SatelliteIncomingDatagram {
   // The amount of time took to receive the datagram.
   optional int64 datagram_transfer_time_millis = 3;
   // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional bool is_demo_mode = 4;
 }
 
@@ -177,6 +186,9 @@ message SatelliteOutgoingDatagram {
   // The amount of time took to send the datagram.
   optional int64 datagram_transfer_time_millis = 4;
   // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional bool is_demo_mode = 5;
 }
 
@@ -329,7 +341,14 @@ message SatelliteAccessController {
   // Result code of the request for checking if satellite communication is allowed at the current
   // location.
   optional android.telephony.SatelliteError result_code = 7;
-  // Country codes where the device resides.
+  // ISO 3166-1 alpha-2 uppercase country codes representing the device's
+  // location.
+  // Country codes are determined based on the device's current location
+  // information, obtained from the cellular network.
+  // Country code can be obtained only when there is available cellular network,
+  // or empty list will be given.
+  // Cellular networks may provide multiple codes at locations near country
+  // borders.
   repeated string country_codes = 8;
   // Source of geofencing config data
   optional android.telephony.ConfigDataSource config_data_source = 9;
