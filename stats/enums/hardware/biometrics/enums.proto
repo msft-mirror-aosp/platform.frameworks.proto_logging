@@ -57,6 +57,8 @@ enum IssueEnum {
     ISSUE_UNKNOWN_TEMPLATE_ENROLLED_HAL = 3;
     // When the HAL has not sent ERROR_CANCELED within the specified timeout.
     ISSUE_CANCEL_TIMED_OUT = 4;
+    // When there is fingerprint loss of enrollment happens.
+    ISSUE_FINGERPRINTS_LOE = 5;
 }
 
 enum SessionTypeEnum {

@@ -1,0 +1,51 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.telephony.iwlan;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/telephony/iwlan/enums.proto";
+
+option java_package = "com.android.os.telephony.iwlan";
+option java_multiple_files = true;
+
+extend Atom {
+  optional IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported = 923
+  [(module) = "iwlan"];
+}
+
+/**
+ * Logs when Iwlan trigger underlying network validation. pushed
+ *
+ * Logged from:
+ *   packages/services/Iwlan/src/com/google/android/iwlan/epdg/EpdgTunnelManager.java
+ */
+message IwlanUnderlyingNetworkValidationResultReported {
+  // Underlying network validation trigger event
+  optional android.telephony.iwlan.UnderlyingNetworkValidationEvent trigger_event = 1;
+
+  // Underlying network validation result
+  optional android.telephony.iwlan.UnderlyingNetworkValidationResult validation_result = 2;
+
+  // Underlying network transport type
+  optional android.telephony.iwlan.TransportType transport_type = 3;
+
+  // Time for receiving the validation result
+  optional int32 validation_duration_millis = 4;
+}
