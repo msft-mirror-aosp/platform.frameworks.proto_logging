@@ -1050,6 +1050,7 @@ message Atom {
     extensions 718; // StylusPredictionMetricsReported stylus_prediction_metrics_reported
     extensions 729; // MediaProjectionStateChanged media_projection_state_changed
     extensions 730; // MediaProjectionTargetChanged media_projection_target_changed
+    extensions 731; // CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
