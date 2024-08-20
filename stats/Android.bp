@@ -206,6 +206,7 @@ atom_protos = [
     "atoms/telephony/iwlan/*.proto",
     "atoms/performance/*.proto",
     "atoms/coregraphics/*.proto",
+    "atoms/automotive/carsystemui/*.proto",
 ]
 
 cc_library_host_shared {
