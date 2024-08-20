@@ -96,6 +96,12 @@ enum ErrorCode {
   // Cobalt logger initialization failed in AppNameApiErrorLogger.
   COBALT_API_ERROR_LOGGER_INITIALIZATION_EXCEPTION = 21;
 
+  // Write to atomic file datastore failed.
+  ATOMIC_FILE_DATASTORE_WRITE_FAILURE = 22;
+
+  // Read from atomic file datastore failed.
+  ATOMIC_FILE_DATASTORE_READ_FAILURE = 23;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
