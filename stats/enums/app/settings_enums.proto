@@ -5121,6 +5121,13 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ZEN_MODE_INTERSTITIAL_DRIVING = 2110;
+
+    // ACTION: Settings > Sound / Notifications > Priority Modes
+    //         > (Choose Mode that can be disabled) > Toggle On/Off "When to turn on Automatically"
+    //   SUBTYPE: false is disabled, true is enabled
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ZEN_MODE_ENABLE_TOGGLE = 2111;
 }
 
 // Battery Saver schedule types.
