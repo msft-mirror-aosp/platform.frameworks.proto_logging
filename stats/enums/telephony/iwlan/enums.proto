@@ -40,14 +40,20 @@ enum UnderlyingNetworkValidationResult {
   // Unspecified validation result
   NETWORK_VALIDATION_RESULT_UNSPECIFIED = 0;
 
-  // Indicates the network passed validation
-  NETWORK_VALIDATION_RESULT_VALIDATED = 1;
+  // The overall status of the network is that it is invalid; it neither provides connectivity nor
+  // has been exempted from validation.
+  NETWORK_VALIDATION_RESULT_INVALID = 1;
 
-  // Indicates the network failed validation
-  NETWORK_VALIDATION_RESULT_NOT_VALIDATED = 2;
+  // The overall status of the network is that it is invalid; it neither provides connectivity nor
+  // has been exempted from validation.
+  NETWORK_VALIDATION_RESULT_VALID = 2;
 
-  // Indicates the validation is cancelled
-  NETWORK_VALIDATION_RESULT_CANCELLED = 3;
+  // The overall status of the network is that it provides partial connectivity; some probed
+  // services succeeded but others failed.
+  NETWORK_VALIDATION_RESULT_PARTIALLY_VALID = 3;
+
+  // Due to the properties of the network, validation was not performed.
+  NETWORK_VALIDATION_RESULT_SKIPPED = 4;
 }
 
 // Transport types for the underlying network
