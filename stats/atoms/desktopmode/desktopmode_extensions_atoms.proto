@@ -127,4 +127,6 @@ message DesktopModeSessionTaskUpdate {
   optional MinimizeReason minimize_reason = 9;
   // The reason the task was unminimized
   optional UnminimizeReason unminimize_reason = 10;
+  // The number of visible tasks
+  optional int32 visible_task_count = 11;
 }
