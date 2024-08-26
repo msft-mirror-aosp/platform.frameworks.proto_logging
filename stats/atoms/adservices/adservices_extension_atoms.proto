@@ -1453,6 +1453,7 @@ message AdServicesMeasurementRegistrations {
   optional bool is_pa_request = 13;
   optional int32 num_entities_deleted = 14;
   optional bool is_event_level_epsilon_configured = 15;
+  optional bool is_trigger_aggregatable_value_filters_configured = 16;
 }
 
 
