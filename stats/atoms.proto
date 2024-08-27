@@ -1272,6 +1272,7 @@ message Atom {
     extensions 938; // WsBugreportFinished ws_bugreport_finished
     extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
     extensions 974; // CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported
+    extensions 975; // CarSettingsDataSubscriptionEventReported car_settings_data_subscription_event_reported
     extensions 1030; // SensitiveAppLockStateChanged sensitive_app_lock_state_changed
     extensions 9999; // Atom9999 atom_9999
 
