@@ -373,8 +373,19 @@ enum ElementId {
 
     SEE_APP_DATA_BUTTON = 256;
 
-    // Next available: 257;
+    // Categorised UNKNOWN elements to reduce default value dependency
+    UNKNOWN_BANNER = 257;
+    UNKNOWN_BANNER_BUTTON = 258;
+    UNKNOWN_HEALTH_PREFERENCE = 259;
+    UNKNOWN_DIALOG = 260;
+    UNKNOWN_DIALOG_POSITIVE_BUTTON = 261;
+    UNKNOWN_DIALOG_NEGATIVE_BUTTON = 262;
+    UNKNOWN_DIALOG_NEUTRAL_BUTTON = 263;
+    UNKNOWN_SWITCH_ACTIVE_PREFERENCE = 264;
+    UNKNOWN_SWITCH_INACTIVE_PREFERENCE = 265;
+    UNKNOWN_BUTTON = 266;
 
+    // Next available: 267;
 }
 
 enum PageId {
@@ -440,6 +451,7 @@ enum Action {
     ACTION_CLICK = 1;
     ACTION_TOGGLE_ON = 2;
     ACTION_TOGGLE_OFF = 3;
+    ACTION_DISMISS = 4;
 }
 
 enum Source {
