@@ -5128,11 +5128,6 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_ZEN_MODE_ENABLE_TOGGLE = 2111;
-
-    // OPEN Settings > Bluetooth > Attempt to connect to device, but failed due to key missing.
-    // CATEGORY: SETTINGS
-    // OS: V
-    BLUETOOTH_KEY_MISSING_DIALOG_FRAGMENT = 2112;
 }
 
 // Battery Saver schedule types.
