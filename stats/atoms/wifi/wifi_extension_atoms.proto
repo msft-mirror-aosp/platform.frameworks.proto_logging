@@ -233,6 +233,8 @@ message SoftApStarted {
     optional android.net.wifi.StaStatus sta_status = 7;
     // Authentication type of the Soft AP
     optional android.net.wifi.WifiAuthType auth_type = 8;
+    // The uid of the caller
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
