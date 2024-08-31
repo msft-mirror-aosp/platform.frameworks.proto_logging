@@ -49,6 +49,8 @@ extend Atom {
     optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
     optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
     optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209 [(module) = "framework"];
+    optional PostGCMemorySnapshot postgc_memory_snapshot = 924 [(module) = "framework"];
+    optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
 }
 
 /**
@@ -689,4 +691,65 @@ message BatteryUsageStatsPerUid {
   optional float total_consumed_power_mah = 10;
   optional float consumed_power_mah = 11;
   optional int64 duration_millis = 12;
+}
+
+/**
+ * Logs the post-GC memory state for a process
+ */
+message PostGCMemorySnapshot {
+    // The process uid
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The process name.
+    optional string process_name = 2;
+
+    // The pid of the process.
+    // Allows to disambiguate instances of the process.
+    optional int32 pid = 3;
+
+    // The current OOM score adjustment value.
+    // Placeholder -1001 (OOM_SCORE_ADJ_MIN - 1, outside of allowed range) for native ones.
+    optional int32 oom_score_adj = 4;
+
+    // The current RSS of the process.
+    // VmRSS from /proc/pid/status.
+    optional int32 rss_in_kb = 5;
+
+    // The current anon RSS of the process.
+    // RssAnon from /proc/pid/status.
+    optional int32 anon_rss_in_kb = 6;
+
+    // The current swap size of the process.
+    // VmSwap from /proc/pid/status.
+    optional int32 swap_in_kb = 7;
+
+    // The sum of rss_in_kilobytes and swap_in_kilobytes.
+    optional int32 anon_rss_and_swap_in_kb = 8;
+
+    // Names of the classes with native allocations registered
+    repeated string native_allocation_class = 9;
+
+    // Numbers of malloced native allocations registered
+    repeated int64  native_allocation_malloced_count = 10;
+
+    // Memory sizes in bytes of malloced native allocations registered
+    repeated int64  native_allocation_malloced_bytes = 11;
+
+    // Numbers of nonmalloced native allocations registered
+    repeated int64  native_allocation_nonmalloced_count = 12;
+
+    // Memory sizes in bytes of nonmalloced native allocations registered
+    repeated int64  native_allocation_nonmalloced_bytes = 13;
+}
+
+/**
+ * A PowerSaveTempAllowlistChanged atom indicates that an app is added to or removed from
+ * the temp allowlist, which contains a list of apps that are allowed to bypass
+ * certain power or process management restrictions.
+ *
+ * Logged from: OomAdjuster.setUidTempAllowlistStateLSP via Hummingbird
+ */
+message PowerSaveTempAllowlistChanged {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional bool add_to_allowlist = 2;
 }

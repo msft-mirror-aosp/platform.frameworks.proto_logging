@@ -1255,6 +1255,9 @@ message Atom {
     extensions 921; // WearCompanionConnectionState
     extensions 922; // BroadcastSent broadcast_sent
     extensions 923; // IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported
+    extensions 924; // PostGcMemorySnapshot postgc_memory_snapshot
+    extensions 925; // TetheringActiveSessionsReported
+    extensions 926; // PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
