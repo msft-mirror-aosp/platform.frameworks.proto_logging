@@ -50,6 +50,7 @@ extend Atom {
     optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
     optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209 [(module) = "framework"];
     optional PostGCMemorySnapshot postgc_memory_snapshot = 924 [(module) = "framework"];
+    optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
 }
 
 /**
@@ -739,4 +740,16 @@ message PostGCMemorySnapshot {
 
     // Memory sizes in bytes of nonmalloced native allocations registered
     repeated int64  native_allocation_nonmalloced_bytes = 13;
+}
+
+/**
+ * A PowerSaveTempAllowlistChanged atom indicates that an app is added to or removed from
+ * the temp allowlist, which contains a list of apps that are allowed to bypass
+ * certain power or process management restrictions.
+ *
+ * Logged from: OomAdjuster.setUidTempAllowlistStateLSP via Hummingbird
+ */
+message PowerSaveTempAllowlistChanged {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional bool add_to_allowlist = 2;
 }
