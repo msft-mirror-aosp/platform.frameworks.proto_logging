@@ -1255,6 +1255,9 @@ message Atom {
     extensions 921; // WearCompanionConnectionState
     extensions 922; // BroadcastSent broadcast_sent
     extensions 923; // IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported
+    extensions 924; // PostGcMemorySnapshot postgc_memory_snapshot
+    extensions 925; // TetheringActiveSessionsReported
+    extensions 926; // PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -6397,6 +6400,8 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6448,6 +6453,8 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
