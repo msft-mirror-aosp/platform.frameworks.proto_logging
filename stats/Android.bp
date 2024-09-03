@@ -36,6 +36,7 @@ enum_protos = [
     "enums/anr/*.proto",
     "enums/apex/*.proto",
     "enums/appsearch/*.proto",
+    "enums/art/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
