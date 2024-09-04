@@ -1237,6 +1237,7 @@ message Atom {
     extensions 925; // TetheringActiveSessionsReported
     extensions 927; // BroadcastAudioSessionReported broadcast_audio_session_reported
     extensions 928; // BroadcastAudioSyncReported broadcast_audio_sync_reported
+    extensions 929; // ArtDex2OatReported art_dex2oat_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
