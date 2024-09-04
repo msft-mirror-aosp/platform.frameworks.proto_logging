@@ -60,6 +60,9 @@ extend Atom {
     ws_complications_impacted_notification_event_reported = 804
       [(module) = "wearservices"];
 
+  optional WsRemoteEventUsageReported ws_remote_event_usage_reported = 920
+      [(module) = "wearservices"];
+
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
       [(module) = "wearservices"];
@@ -68,6 +71,9 @@ extend Atom {
       [(module) = "wearservices"];
 
   optional WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot = 10225
+      [(module) = "wearservices"];
+
+  optional WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot = 10227
       [(module) = "wearservices"];
 }
 
@@ -196,6 +202,7 @@ message WsWearTimeSession {
  */
 message WsOnBodyStateChanged {
   optional android.app.wearservices.OnBodyState on_body_state = 1;
+  optional int64 sensor_event_timestamp_nanos = 2;
 }
 
 /**
@@ -275,6 +282,20 @@ message WsFavouriteWatchFaceSnapshot {
 }
 
 /**
+ * Snapshot for the types of watch face customizations done by the user till date.
+ */
+message WsWatchFaceCustomizationSnapshot {
+  // Indicates that the user customized a WF any time in the past.
+  optional bool customized_wf = 1;
+
+  // Indicates that the user switched to a pre-installed WF any time in the past.
+  optional bool switched_to_pre_installed_wf = 2;
+
+  // Indicates that the user switched to a non preinstalled WF any time in the past.
+  optional bool switched_to_non_preinstalled_wf = 3;
+}
+
+/**
  * Snapshot of a photos watch face feature for the watch face favorite.
  */
 message WsPhotosWatchFaceFeatureSnapshot {
@@ -338,4 +359,19 @@ message WsComplicationsImpactedNotificationEventReported {
     CLICKED = 2;
   }
   optional Event event = 1;
+}
+
+/**
+ * Logged whenever a remote event is being sent to the companion.
+ *
+ * Logged from package :
+ * vendor/google_clockwork_partners/packages/WearServices
+ */
+message WsRemoteEventUsageReported {
+
+  // Indicates the type of remote event being reported.
+  optional android.app.wearservices.RemoteEventType remote_event_type = 1;
+
+  // Indicates the status of the remote event being sent.
+  optional bool is_successful = 2;
 }
