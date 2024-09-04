@@ -1250,13 +1250,23 @@ message Atom {
     extensions 916; // BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
     extensions 917; // FirstOverlayStateChanged first_overlay_state_changed
     extensions 918; // HealthConnectImportInvoked
+    extensions 919; // HealthConnectExportImportStatsReported
+    extensions 920; // WsRemoteEventUsageReported ws_remote_event_usage_reported
+    extensions 921; // WearCompanionConnectionState
+    extensions 922; // BroadcastSent broadcast_sent
+    extensions 923; // IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported
+    extensions 924; // PostGcMemorySnapshot postgc_memory_snapshot
+    extensions 925; // TetheringActiveSessionsReported
+    extensions 926; // PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed
+    extensions 927; // BroadcastAudioSessionReported broadcast_audio_session_reported
+    extensions 928; // BroadcastAudioSyncReported broadcast_audio_sync_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10226
+    // Next: 10228
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1519,6 +1529,7 @@ message Atom {
     extensions 10224; // TelecomErrorStats telecom_error_stats
     extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
     extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
+    extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5258,15 +5269,27 @@ message VibratorStateChanged {
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
  */
-// Next tag: 27
+// Next tag: 28
 message VibrationReported {
   repeated AttributionNode attribution_node = 1;
 
   enum VibrationType {
+
+    // Unknown vibration type.
     UNKNOWN = 0;
+
+    // One-off vibration effect/pattern.
     SINGLE = 1;
+
+    // Infinitely repeating vibration pattern.
     REPEATED = 2;
+
+    // Vibration defined in the platform outside the vibrator service
+    // (e.g. from audio-coupled haptics or haptic generator).
     EXTERNAL = 3;
+
+    // Vibration defined by vendor apps/services.
+    VENDOR = 4;
   }
 
   // Vibration identifiers for aggregation.
@@ -5310,6 +5333,7 @@ message VibrationReported {
   optional int32 hal_perform_count = 17;
   optional int32 hal_set_amplitude_count = 18;
   optional int32 hal_set_external_control_count = 19;
+  optional int32 hal_perform_vendor_count = 27;
 
   // Vibrator hardware HAL API constants used (deduped).
   // Values from CompositionPrimitive.aidl successfully triggered by this vibration at least once.
@@ -6378,6 +6402,8 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6429,6 +6455,8 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -15563,6 +15591,10 @@ message VoiceCallSession {
 
     // The user-set status for enriched calling with call composer
     optional android.telephony.CallComposerStatus call_composer_status = 44;
+
+    // The call state on call setup
+    optional android.telephony.CallState call_state_on_setup = 45;
+
 }
 
 /**
