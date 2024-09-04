@@ -16,6 +16,7 @@ extend Atom {
     // Deprecated in favour of the ArtDeviceStatus pulled atom
     optional ArtDeviceDatumReported art_device_datum_reported = 550 [(module) = "art", deprecated = true];
     optional ArtDatumDeltaReported art_datum_delta_reported = 565 [(module) = "art"];
+    optional ArtDex2OatReported art_dex2oat_reported = 929 [(module) = "art"];
 
     // Pulled atoms
     optional ArtDeviceStatus art_device_status = 10205 [(module) = "art"];
@@ -103,6 +104,41 @@ message ArtDatumDeltaReported {
 
     // The support for userfaultfd and minor fault mode.
     optional ArtUffdSupport uffd_support = 13;
+}
+
+message ArtDex2OatReported {
+    // The UID of the app that ART is running on behalf of.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The target compiler filter, passed as the `--compiler-filer` option to dex2oat.
+    optional ArtCompileFilter compiler_filter = 2;
+
+    // The compilation reason, passed as the `--compilation-reason` option to dex2oat.
+    optional ArtCompilationReason compilation_reason = 3;
+
+    // The type of DM file.
+    optional ArtDexMetadataType dex_metadata_type = 4;
+
+    // The type of the APK file.
+    optional ArtApkType apk_type = 5;
+
+    // The ISA (instruction set architecture) of the device.
+    optional ArtIsa isa = 6;
+
+    // Status for the dex2oat run.
+    optional ExecResultStatus result_status = 7;
+
+    // Exit code for the dex2oat run if status is EXEC_RESULT_STATUS_EXITED, else -1.
+    optional int32 result_exit_code = 8;
+
+    // Signal for the dex2oat run if status is EXEC_RESULT_STATUS_SIGNALED, else 0.
+    optional int32 result_signal = 9;
+
+    // Total size of dex2oat artifacts, in kilobytes.
+    optional int32 artifacts_size_kb = 10;
+
+    // Total compilation time, in milliseconds.
+    optional int32 compilation_time_millis = 11;
 }
 
 /**
