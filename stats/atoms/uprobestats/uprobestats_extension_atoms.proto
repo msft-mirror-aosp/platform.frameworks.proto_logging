@@ -29,7 +29,7 @@ extend Atom {
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
 message TestUprobeStatsAtomReported {
-    optional int32 first_field = 1;
-    optional int32 second_field = 2;
-    optional int32 third_field = 3;
+    optional int64 first_field = 1;
+    optional int64 second_field = 2;
+    optional int64 third_field = 3;
 }

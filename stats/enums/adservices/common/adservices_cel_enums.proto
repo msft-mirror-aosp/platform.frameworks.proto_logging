@@ -96,6 +96,21 @@ enum ErrorCode {
   // Cobalt logger initialization failed in AppNameApiErrorLogger.
   COBALT_API_ERROR_LOGGER_INITIALIZATION_EXCEPTION = 21;
 
+  // Write to atomic file datastore failed.
+  ATOMIC_FILE_DATASTORE_WRITE_FAILURE = 22;
+
+  // Read from atomic file datastore failed.
+  ATOMIC_FILE_DATASTORE_READ_FAILURE = 23;
+
+  // Error while parsing bytes to proto failure.
+  PROTO_PARSER_INVALID_PROTO_ERROR = 24;
+
+  // Error while decoding Base64 encoded string to bytes.
+  PROTO_PARSER_DECODE_BASE64_ENCODED_STRING_TO_BYTES_ERROR = 25;
+
+  // Error code is present multiple times in the custom sampling proto
+  ERROR_CODE_PRESENT_MULTIPLE_TIMES_IN_PROTO = 26;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
@@ -126,6 +141,9 @@ enum ErrorCode {
 
   // Failure of the customized logic in onStopJob().
   SPE_JOB_ON_STOP_EXECUTION_FAILURE = 910;
+
+  // Error during future cancellation process.
+  SPE_FUTURE_CANCELLATION_ERROR = 911;
 
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.
