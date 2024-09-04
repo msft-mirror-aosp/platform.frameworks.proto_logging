@@ -66,6 +66,10 @@ extend Atom {
         = 904 [(module) = "bluetooth"];
     optional BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
         = 916 [(module) = "bluetooth"];
+    optional BroadcastAudioSessionReported broadcast_audio_session_reported
+        = 927 [(module) = "bluetooth"];
+    optional BroadcastAudioSyncReported broadcast_audio_sync_reported
+        = 928 [(module) = "bluetooth"];
 }
 
 /**
@@ -538,4 +542,67 @@ message BluetoothCrossLayerEventReported {
   // Remote Device Information
   optional BluetoothRemoteDeviceInformation remote_device_information = 5
      [(log_mode) = MODE_BYTES];
+}
+
+/**
+  * Logs LE Audio Broadcast Audio Session
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BroadcastAudioSessionReported {
+  // Identifier randomly generated for every broadcast session
+  // Default: -1 if the broadcast id is unknown
+  optional int32 broadcast_id = 1;
+
+  // Number of audio groups in this broadcast session
+  optional int32 audio_group_size = 2;
+
+  // Broadcast audio quality configuration for all subgroups
+  repeated android.bluetooth.BroadcastAudioQualityType audio_quality = 3;
+
+  // Number of devices in this broadcast session
+  optional int32 group_size = 4;
+
+  // Broadcast session duration
+  optional int64 duration_ms = 5;
+
+  // Broadcast session in configured state latency
+  optional int64 latency_broadcast_configured_ms = 6;
+
+  // Broadcast session in streaming state latency
+  optional int64 latency_broadcast_streaming_ms = 7;
+
+  // Status of broadcast session setup
+  optional android.bluetooth.BroadcastSessionSetupStatus session_setup_status = 8;
+}
+
+/**
+  * Logs LE Audio Broadcast Audio Sync
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BroadcastAudioSyncReported {
+  // Identifier randomly generated for every broadcast session
+  // Default: -1 if the broadcast id is unknown
+  optional int32 broadcast_id = 1;
+
+  // Local broadcast or external broadcast
+  optional bool is_local_broadcast = 2;
+
+  // Broadcast session duration
+  optional int64 duration_ms = 3;
+
+  // Latency from adding source to PA synced
+  optional int64 latency_pa_sync_ms = 4;
+
+  // Latency from adding source to BIS synced
+  optional int64 latency_bis_sync_ms = 5;
+
+  // Status of broadcast sync
+  optional android.bluetooth.BroadcastSyncStatus sync_status = 6;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 7 [(log_mode) = MODE_BYTES];
 }
