@@ -1,0 +1,79 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.broadcasts;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+
+option java_package = "com.android.os.broadcasts";
+option java_multiple_files = true;
+
+extend Atom {
+  optional BroadcastSent broadcast_sent = 922 [(module) = "framework"];
+}
+
+/**
+ * Logged when a broadcast is sent.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ * Logging frequency (based on the data from traces):
+ *   Max count / min - 858
+ *   P99 count / min - 442
+ */
+message BroadcastSent {
+    // The action of the broadcast intent
+    optional string intent_action = 1;
+    // The flags used for the broadcast intent. These could be any flags that can be set
+    // via Intent#setFlags() API.
+    optional int32 intent_flags = 2;
+    // The flags that are set in the broadcast intent by the sender. These could be any flags
+    // that can be set via Intent#setFlags() API.
+    optional int32 original_intent_flags = 3;
+    // The uid of the broadcast sender
+    optional int32 sender_uid = 4 [(is_uid) = true];
+    // The uid of the real broadcast sender if the broadcast is triggered from PendingIntent
+    optional int32 real_sender_uid = 5 [(is_uid) = true];
+    // Whether the broadcast is targeting a package
+    optional bool package_targeted = 6;
+    // Whether the broadcast is targeting a component
+    optional bool component_targeted = 7;
+    // No. of target broadcast receivers
+    optional int32 num_receivers = 8;
+
+    enum Result {
+        UNKNOWN = 0;
+        SUCCESS = 1;
+        FAILED_STICKY_CANT_HAVE_PERMISSION = 2;
+        FAILED_USER_STOPPED = 3;
+    }
+    // The result of sending a broadcast
+    optional Result result = 9;
+
+    // The delivery group policy set for the broadcast
+    optional android.app.BroadcastDeliveryGroupPolicy delivery_group_policy = 10;
+    // The procstate of the sender process
+    optional android.app.ProcessStateEnum sender_proc_state = 11;
+    // The procstate of the sender uid
+    optional android.app.ProcessStateEnum sender_uid_state = 12;
+    // Type of broadcast
+    repeated android.app.BroadcastType broadcast_types = 13;
+}
