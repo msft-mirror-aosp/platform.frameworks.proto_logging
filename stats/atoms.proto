@@ -1252,13 +1252,23 @@ message Atom {
     extensions 918; // HealthConnectImportInvoked
     extensions 919; // HealthConnectExportImportStatsReported
     extensions 920; // WsRemoteEventUsageReported ws_remote_event_usage_reported
+    extensions 921; // WearCompanionConnectionState
+    extensions 922; // BroadcastSent broadcast_sent
+    extensions 923; // IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported
+    extensions 924; // PostGcMemorySnapshot postgc_memory_snapshot
+    extensions 925; // TetheringActiveSessionsReported
+    extensions 926; // PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed
+    extensions 927; // BroadcastAudioSessionReported broadcast_audio_session_reported
+    extensions 928; // BroadcastAudioSyncReported broadcast_audio_sync_reported
+    extensions 929; // ArtDex2OatReported art_dex2oat_reported
+    extensions 930; // TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10228
+    // Next: 10229
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1522,6 +1532,7 @@ message Atom {
     extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
     extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
+    extensions 10228; // InputEventLatency input_event_latency
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -6394,6 +6405,8 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6445,6 +6458,8 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**

@@ -5104,11 +5104,34 @@ enum PageId {
     // OS: V
     ZEN_MODE_DISPLAY_SETTINGS = 2107;
 
-    // OPEN: Settings > Sound / Notifications > Priority Modes > (Choose a disabled Mode)
-    //       > Interstitial
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a disabled Mode of Type not Bedtime or Driving) > Interstitial
     // CATEGORY: SETTINGS
     // OS: V
     ZEN_MODE_INTERSTITIAL = 2108;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a disabled Mode of Type Bedtime) > Interstitial
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_INTERSTITIAL_BEDTIME = 2109;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a disabled Mode of Type Driving) > Interstitial
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_INTERSTITIAL_DRIVING = 2110;
+
+    // ACTION: Settings > Sound / Notifications > Priority Modes
+    //         > (Choose Mode that can be disabled) > Toggle On/Off "When to turn on Automatically"
+    //   SUBTYPE: false is disabled, true is enabled
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ZEN_MODE_ENABLE_TOGGLE = 2111;
+
+    // Settings -> Keyboard -> Physical keyboard -> Keyboard & touchpad accessibility
+    // CATEGORY: SETTINGS
+    PHYSICAL_KEYBOARD_A11Y = 2112;
 }
 
 // Battery Saver schedule types.

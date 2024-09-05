@@ -28,6 +28,7 @@ import "frameworks/proto_logging/stats/enums/corenetworking/connectivity/enums.p
 extend Atom {
     optional DailykeepaliveInfoReported daily_keepalive_info_reported = 650 [(module) = "connectivity"];
     optional NetworkRequestStateChanged network_request_state_changed = 779 [(module) = "connectivity"];
+    optional TetheringActiveSessionsReported tethering_active_sessions_reported = 925 [(module) = "connectivity"];
 }
 
 /**
@@ -142,4 +143,15 @@ message NetworkRequestStateChanged {
 
     // Duration in millis of the network request since it was received
     optional int32 duration_ms = 6;
+}
+
+/**
+ * Logs the information to observe the number of Tethering active sessions.
+ * Logged from:
+ * packages/modules/Connectivity/Tethering/src/com/android/networkstack/
+ * tethering/BpfCoordinator.java
+ */
+message TetheringActiveSessionsReported {
+    // The maximum number of sessions last 5 minute.
+    optional int32 last_max_session_count = 1;
 }
