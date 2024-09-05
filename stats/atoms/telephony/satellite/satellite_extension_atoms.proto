@@ -118,6 +118,8 @@ message SatelliteController {
   optional int32 count_of_disallowed_satellite_access = 27;
   // Total count of failed checking event for satellite access.
   optional int32 count_of_satellite_access_check_fail = 28;
+  // Whether this device is provisioned or not.
+  optional bool is_provisioned = 29;
 }
 
 /**
@@ -227,6 +229,10 @@ message SatelliteSosMessageRecommender {
   optional android.telephony.RecommendingHandoverType recommending_handover_type = 7;
   // Whether satellite communication is allowed in current location.
   optional bool is_satellite_allowed_in_current_location = 8;
+  // Whether Wi-Fi is available when the emergency call attempted.
+  optional bool is_wifi_connected = 9;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 10;
 }
 
 /**
