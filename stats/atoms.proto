@@ -20311,6 +20311,7 @@ message PermissionUsageFragmentInteraction {
         MICROPHONE_ACCESS_TIMELINE_VIEWED = 4;
         SHOW_SYSTEM_CLICKED = 5;
         SEE_OTHER_PERMISSIONS_CLICKED = 6;
+        SHOW_7DAYS_CLICKED = 7;
     }
 
     // The action the user took to interact with the fragment
@@ -20332,6 +20333,9 @@ message PermissionDetailsInteraction {
         UNDEFINED = 0;
         SHOW_SYSTEM_CLICKED = 1;
         INFO_ICON_CLICKED = 2;
+        TIMELINE_ROW_CLICKED = 3;
+        SHOW_7DAYS_CLICKED = 4;
+        MANAGE_PERMISSIONS_CLICKED = 5;
     }
 
     // Package name for which the info icon was clicked.
