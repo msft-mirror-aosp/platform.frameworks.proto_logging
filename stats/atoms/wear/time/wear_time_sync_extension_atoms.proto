@@ -100,6 +100,6 @@ message WearTimeChanged {
   optional com.google.android.apps.wearable.settings.OriginTypeEnum origin_type = 1;
 
   // The absolute difference (skew) in timestamps between the old and new times
-  optional int64 time_difference = 2;
+  optional int64 time_difference_ms = 2;
 }
 

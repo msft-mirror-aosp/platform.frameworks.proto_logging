@@ -39,6 +39,7 @@ enum_protos = [
     "enums/apex/*.proto",
     "enums/app/**/*.proto",
     "enums/appsearch/*.proto",
+    "enums/art/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
@@ -97,6 +98,7 @@ enum_protos = [
     "enums/wear/modes/*.proto",
     "enums/wear/time/*.proto",
     "enums/wifi/*.proto",
+    "enums/telephony/iwlan/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
     ":dns_resolver_proto",
@@ -193,6 +195,8 @@ atom_protos = [
     "atoms/automotive/carpower/*.proto",
     "atoms/camera/*.proto",
     "atoms/uprobestats/*.proto",
+    "atoms/broadcasts/*.proto",
+    "atoms/telephony/iwlan/*.proto",
 ]
 
 cc_library_host_shared {
