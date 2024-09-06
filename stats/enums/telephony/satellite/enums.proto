@@ -29,6 +29,9 @@ enum DatagramType {
   DATAGRAM_TYPE_SOS_MESSAGE = 1;
   // Datagram type indicating that the datagram to be sent or received is of type  location sharing.
   DATAGRAM_TYPE_LOCATION_SHARING = 2;
+  // Datagram type indicating that keep the device in satellite connected state or check if there is
+  // any incoming message.
+  DATAGRAM_TYPE_KEEP_ALIVE = 3;
 }
 
 // Result code of Incoming / Outgoing satellite datagram
@@ -77,3 +80,57 @@ enum RecommendingHandoverType {
   RECOMMENDING_HANDOVER_TYPE_SOS = 1;
   RECOMMENDING_HANDOVER_TYPE_T911 = 2;
 }
+
+// Data source of carrier roaming satellite network
+enum ConfigDataSource {
+  CONFIG_DATA_SOURCE_UNKNOWN = 0;
+  CONFIG_DATA_SOURCE_ENTITLEMENT = 1;
+  CONFIG_DATA_SOURCE_CONFIG_UPDATER = 2;
+  CONFIG_DATA_SOURCE_CARRIER_CONFIG = 3;
+  CONFIG_DATA_SOURCE_DEVICE_CONFIG = 4;
+}
+
+// Satellite entitlement status of the subscription
+enum SatelliteEntitlementStatus {
+  // Satellite entitlement status unknown
+  SATELLITE_ENTITLEMENT_STATUS_UNKNOWN = 0;
+  // SatMode allowed, but not yet provisioned and activated on the network.
+  SATELLITE_ENTITLEMENT_STATUS_DISABLED = 1;
+  // SatMode service allowed, provisioned and activated on the network. User can access the
+  // satellite service.
+  SATELLITE_ENTITLEMENT_STATUS_ENABLED = 2;
+  // SatMode cannot be offered for network or device.
+  SATELLITE_ENTITLEMENT_STATUS_INCOMPATIBLE = 3;
+  // SatMode is being provisioned on the network. Not yet activated.
+  SATELLITE_ENTITLEMENT_STATUS_PROVISIONING = 4;
+}
+
+// Config update result codes.
+enum ConfigUpdateResult {
+  CONFIG_UPDATE_RESULT_UNKNOWN = 0;
+  CONFIG_UPDATE_RESULT_SUCCESS = 1;
+  CONFIG_UPDATE_RESULT_INVALID_DOMAIN = 2;
+  CONFIG_UPDATE_RESULT_INVALID_VERSION = 3;
+  CONFIG_UPDATE_RESULT_NO_DATA = 4;
+  CONFIG_UPDATE_RESULT_NO_SATELLITE_DATA = 5;
+  CONFIG_UPDATE_RESULT_PARSE_ERROR = 6;
+  CONFIG_UPDATE_RESULT_CARRIER_DATA_INVALID_PLMN = 7;
+  CONFIG_UPDATE_RESULT_CARRIER_DATA_INVALID_SUPPORTED_SERVICES = 8;
+  CONFIG_UPDATE_RESULT_DEVICE_DATA_INVALID_COUNTRY_CODE = 9;
+  CONFIG_UPDATE_RESULT_DEVICE_DATA_INVALID_S2_CELL_FILE = 10;
+  CONFIG_UPDATE_RESULT_IO_ERROR = 11;
+}
+
+// Satellite access control type
+enum AccessControlType {
+  ACCESS_CONTROL_TYPE_UNKNOWN = 0;
+  // Network country code is used for satellite access decision
+  ACCESS_CONTROL_TYPE_NETWORK_COUNTRY_CODE = 1;
+  // Device's current location is used for satellite access decision
+  ACCESS_CONTROL_TYPE_CURRENT_LOCATION = 2;
+  // Device's last known location is used for satellite access decision
+  ACCESS_CONTROL_TYPE_LAST_KNOWN_LOCATION = 3;
+  // Cached country codes are used for satellite access decision
+  ACCESS_CONTROL_TYPE_CACHED_COUNTRY_CODE = 4;
+}
+
