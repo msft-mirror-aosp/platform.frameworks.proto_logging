@@ -5132,6 +5132,11 @@ enum PageId {
     // Settings -> Keyboard -> Physical keyboard -> Keyboard & touchpad accessibility
     // CATEGORY: SETTINGS
     PHYSICAL_KEYBOARD_A11Y = 2112;
+
+    // OPEN Settings > Bluetooth > Attempt to connect to device, but failed due to key missing.
+    // CATEGORY: SETTINGS
+    // OS: V
+    BLUETOOTH_KEY_MISSING_DIALOG_FRAGMENT = 2113;
 }
 
 // Battery Saver schedule types.
