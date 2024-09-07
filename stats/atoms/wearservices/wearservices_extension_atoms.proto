@@ -202,6 +202,7 @@ message WsWearTimeSession {
  */
 message WsOnBodyStateChanged {
   optional android.app.wearservices.OnBodyState on_body_state = 1;
+  optional int64 sensor_event_timestamp_nanos = 2;
 }
 
 /**
