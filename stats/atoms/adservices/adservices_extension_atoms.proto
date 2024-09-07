@@ -213,9 +213,6 @@ extend Atom {
 
   optional UpdateSignalsProcessReported update_signals_process_reported = 905
   [(module) = "adservices", (truncate_timestamp) = true];
-
-  optional TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported = 930
-  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -2071,36 +2068,4 @@ message UpdateSignalsProcessReported {
 
   // The minimum size of raw protected signals per buyer in bytes.
   optional float min_raw_protected_signals_size_bytes = 10;
-}
-
-/** Logs for Topics epoch job setting during scheduling EpochJobService. */
-message TopicsScheduleEpochJobSettingReported {
-  // Status when forcing reschedule EpochJob.
-  enum RescheduleEpochJobStatus {
-    STATUS_UNSET = 0;
-    RESCHEDULE_SUCCESS = 1;
-    SKIP_RESCHEDULE_EMPTY_JOB_SCHEDULER = 2;
-    SKIP_RESCHEDULE_EMPTY_PENDING_JOB = 3;
-  }
-
-  // Epoch job setting of the EpochJob.
-  enum EpochJobBatteryConstraint {
-    UNKNOWN_SETTING = 0;
-    REQUIRES_CHARGING = 1;
-    REQUIRES_BATTERY_NOT_LOW = 2;
-  }
-
-  // Status when forcing reschedule EpochJob.
-  optional RescheduleEpochJobStatus reschedule_epoch_job_status = 1;
-
-  // The previous epoch job setting.
-  // This field will be UNKNOWN_SETTING when reschedule_epoch_job_status is not RESCHEDULE_SUCCESS.
-  optional EpochJobBatteryConstraint previous_epoch_job_setting = 2;
-
-  // The current epoch job setting.
-  // This field will be UNKNOWN_SETTING when reschedule_epoch_job_status is not RESCHEDULE_SUCCESS.
-  optional EpochJobBatteryConstraint current_epoch_job_setting = 3;
-
-  // The epoch job setting when scheduling the epoch job in EpochJobService.scheduleIfNeeded().
-  optional EpochJobBatteryConstraint schedule_if_needed_epoch_job_status = 4;
 }
