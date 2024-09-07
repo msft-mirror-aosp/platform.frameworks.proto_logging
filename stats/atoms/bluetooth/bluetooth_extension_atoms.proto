@@ -383,7 +383,7 @@ message LeAppScanStateChanged {
 message LeRadioScanStopped {
   // Attribution of the app with most aggressive scanning parameters, which
   // will be used by the LE radio for the scanning.
-  repeated AttributionNode attribution_node_most_aggressive_app = 1;
+  repeated AttributionNode attribution_node = 1;
   optional android.bluetooth.le.LeScanType le_scan_type_most_aggressive_app = 2;
   optional android.bluetooth.le.LeScanMode le_scan_mode_most_aggressive_app = 3;
   // Radio scan interval in milliseconds.
