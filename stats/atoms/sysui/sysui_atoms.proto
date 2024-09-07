@@ -232,6 +232,22 @@ message LauncherUIChanged {
          TYPE_PRIVATE = 4;
     }
     optional UserType user_type = 29;
+
+    // Indicates the current rotation of the display. Uses android.view.Surface values.
+    enum DisplayRotation {
+         ROTATION_0 = 0;
+         ROTATION_90 = 1;
+         ROTATION_180 = 2;
+         ROTATION_270 = 3;
+    }
+    optional DisplayRotation display_rotation = 30;
+
+    enum RecentsOrientationHandler {
+        PORTRAIT = 0;
+        LANDSCAPE = 1;
+        SEASCAPE = 2;
+    }
+    optional RecentsOrientationHandler recents_orientation_handler = 31;
 }
 
 message LauncherAttributes {
