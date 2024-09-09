@@ -42,4 +42,5 @@ enum PreinstallPartition {
     PARTITION_SYSTEM = 3;
     PARTITION_SYSTEM_EXT = 4;
     PARTITION_VENDOR = 5;
+    PARTITION_ODM = 6;
 }
