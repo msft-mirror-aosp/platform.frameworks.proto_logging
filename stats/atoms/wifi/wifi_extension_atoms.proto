@@ -765,4 +765,8 @@ message ScorerPredictionResultReported {
     optional TrueFalseUnknown speed_sufficient_network_capabilities_ds = 8;
     // NetworkCapabilities calculated link speed is sufficient in the upstream direction.
     optional TrueFalseUnknown speed_sufficient_network_capabilities_us = 9;
+    // ThroughputPredictor calculated link speed is sufficient in the downstream direction.
+    optional TrueFalseUnknown speed_sufficient_throughput_predictor_ds = 10;
+    // ThroughputPredictor calculated link speed is sufficient in the upstream direction.
+    optional TrueFalseUnknown speed_sufficient_throughput_predictor_us = 11;
 }
