@@ -221,6 +221,7 @@ enum Command {
   COMMAND_IS_ALLOWED_TOPICS_ACCESS = 6;
   COMMAND_ENABLE_ADSERVICES = 7;
   COMMAND_RESET_CONSENT_DATA = 8;
+  COMMAND_DEV_SESSION = 9;  // Command to enable or disable adservices developer mode.
 
   // Custom audience commands: 101-200
   COMMAND_CUSTOM_AUDIENCE_VIEW = 101;
