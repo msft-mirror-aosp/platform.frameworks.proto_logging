@@ -309,6 +309,8 @@ message CarrierRoamingSatelliteControllerStats {
   optional int32 satellite_session_gap_max_sec = 7;
   // Carrier id of the subscription connected to non-terrestrial network
   optional int32 carrier_id = 8;
+  // Whether this device is entitled or not.
+  optional bool is_device_entitled = 9;
 }
 
 /**
