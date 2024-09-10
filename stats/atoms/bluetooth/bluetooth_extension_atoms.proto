@@ -64,6 +64,12 @@ extend Atom {
         = 875 [(module) = "bluetooth"];
     optional A2dpSessionReported a2dp_session_reported
         = 904 [(module) = "bluetooth"];
+    optional BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
+        = 916 [(module) = "bluetooth"];
+    optional BroadcastAudioSessionReported broadcast_audio_session_reported
+        = 927 [(module) = "bluetooth"];
+    optional BroadcastAudioSyncReported broadcast_audio_sync_reported
+        = 928 [(module) = "bluetooth"];
 }
 
 /**
@@ -287,6 +293,9 @@ message BluetoothRemoteDeviceInformation {
 
   // The first three bytes of MAC address
   optional int32 oui = 3;
+
+  // Device type metadata
+  optional android.bluetooth.RemoteDeviceTypeMetadata device_type_metadata = 4;
 }
 
 /**
@@ -374,7 +383,7 @@ message LeAppScanStateChanged {
 message LeRadioScanStopped {
   // Attribution of the app with most aggressive scanning parameters, which
   // will be used by the LE radio for the scanning.
-  repeated AttributionNode attribution_node_most_aggressive_app = 1;
+  repeated AttributionNode attribution_node = 1;
   optional android.bluetooth.le.LeScanType le_scan_type_most_aggressive_app = 2;
   optional android.bluetooth.le.LeScanMode le_scan_mode_most_aggressive_app = 3;
   // Radio scan interval in milliseconds.
@@ -509,4 +518,91 @@ message A2dpSessionReported {
   optional int64 codec_id = 10;
   // Indicates whether the session is offloaded or not.
   optional bool offload = 11;
+}
+
+/**
+  * Logs a Bluetooth Event
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BluetoothCrossLayerEventReported {
+  // Type of Bluetooth Event
+  optional android.bluetooth.EventType event_type = 1;
+
+  // Addition Details about the event, specific to the event type
+  optional android.bluetooth.State state = 2;
+
+  // Identifier for the app that initiates the CUJ (if applicable)
+  optional int32 uid = 3 [(is_uid) = true];
+
+  // Identifier for the remote device/metric id
+  optional int32 metric_id = 4;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 5
+     [(log_mode) = MODE_BYTES];
+}
+
+/**
+  * Logs LE Audio Broadcast Audio Session
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BroadcastAudioSessionReported {
+  // Identifier randomly generated for every broadcast session
+  // Default: -1 if the broadcast id is unknown
+  optional int32 broadcast_id = 1;
+
+  // Number of audio groups in this broadcast session
+  optional int32 audio_group_size = 2;
+
+  // Broadcast audio quality configuration for all subgroups
+  repeated android.bluetooth.BroadcastAudioQualityType audio_quality = 3;
+
+  // Number of devices in this broadcast session
+  optional int32 group_size = 4;
+
+  // Broadcast session duration
+  optional int64 duration_ms = 5;
+
+  // Broadcast session in configured state latency
+  optional int64 latency_broadcast_configured_ms = 6;
+
+  // Broadcast session in streaming state latency
+  optional int64 latency_broadcast_streaming_ms = 7;
+
+  // Status of broadcast session setup
+  optional android.bluetooth.BroadcastSessionSetupStatus session_setup_status = 8;
+}
+
+/**
+  * Logs LE Audio Broadcast Audio Sync
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BroadcastAudioSyncReported {
+  // Identifier randomly generated for every broadcast session
+  // Default: -1 if the broadcast id is unknown
+  optional int32 broadcast_id = 1;
+
+  // Local broadcast or external broadcast
+  optional bool is_local_broadcast = 2;
+
+  // Broadcast session duration
+  optional int64 duration_ms = 3;
+
+  // Latency from adding source to PA synced
+  optional int64 latency_pa_sync_ms = 4;
+
+  // Latency from adding source to BIS synced
+  optional int64 latency_bis_sync_ms = 5;
+
+  // Status of broadcast sync
+  optional android.bluetooth.BroadcastSyncStatus sync_status = 6;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 7 [(log_mode) = MODE_BYTES];
 }

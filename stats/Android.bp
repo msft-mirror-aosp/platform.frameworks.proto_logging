@@ -24,19 +24,22 @@ package {
 // Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
 // Due to size grownth constraints proposed to reuse only what really imported
 shared_enum_protos = [
-    "enums/app/**/*.proto",
+    "enums/app_shared/*.proto",
     "enums/display/*.proto",
     "enums/hardware/biometrics/*.proto",
 ]
 
 enum_protos = [
+    "enums/accessibility/*.proto",
     "enums/adservices/common/*.proto",
     "enums/adservices/enrollment/*.proto",
     "enums/adservices/fledge/*.proto",
     "enums/adservices/measurement/*.proto",
     "enums/anr/*.proto",
     "enums/apex/*.proto",
+    "enums/app/**/*.proto",
     "enums/appsearch/*.proto",
+    "enums/art/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
@@ -93,7 +96,9 @@ enum_protos = [
     "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
     "enums/wear/modes/*.proto",
+    "enums/wear/time/*.proto",
     "enums/wifi/*.proto",
+    "enums/telephony/iwlan/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
     ":dns_resolver_proto",
@@ -110,6 +115,7 @@ enum_protos = [
 atom_protos = [
     "atoms.proto",
     "attribution_node.proto",
+    "atoms/accessibility/*.proto",
     "atoms/adpf/*.proto",
     "atoms/agif/*.proto",
     "atoms/apex/*.proto",
@@ -162,6 +168,7 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wear/modes/*.proto",
+    "atoms/wear/time/*.proto",
     "atoms/wearpas/*.proto",
     "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
@@ -187,6 +194,9 @@ atom_protos = [
     "atoms/adaptiveauth/*.proto",
     "atoms/automotive/carpower/*.proto",
     "atoms/camera/*.proto",
+    "atoms/uprobestats/*.proto",
+    "atoms/broadcasts/*.proto",
+    "atoms/telephony/iwlan/*.proto",
 ]
 
 cc_library_host_shared {
