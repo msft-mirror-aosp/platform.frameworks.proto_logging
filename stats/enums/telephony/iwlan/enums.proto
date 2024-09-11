@@ -44,8 +44,9 @@ enum UnderlyingNetworkValidationResult {
   // has been exempted from validation.
   NETWORK_VALIDATION_RESULT_INVALID = 1;
 
-  // The overall status of the network is that it is invalid; it neither provides connectivity nor
-  // has been exempted from validation.
+  // The overall status of the network is that it is valid, this may be because it provides full
+  // Internet access (all probes succeeded), or because other properties of the network caused
+  // probes not to be run.
   NETWORK_VALIDATION_RESULT_VALID = 2;
 
   // The overall status of the network is that it provides partial connectivity; some probed
