@@ -51,6 +51,7 @@ extend Atom {
     optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209 [(module) = "framework"];
     optional PostGCMemorySnapshot postgc_memory_snapshot = 924 [(module) = "framework"];
     optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
+    optional AppOpAccessTracked app_op_access_tracked = 931 [(module) = "framework"];
 }
 
 /**
@@ -752,4 +753,47 @@ message PostGCMemorySnapshot {
 message PowerSaveTempAllowlistChanged {
     optional int32 uid = 1 [(is_uid) = true];
     optional bool add_to_allowlist = 2;
+}
+
+/**
+ * [Pushed Atom] Logs when an AppOp is accessed through noteOp, startOp, finishOp and that access
+ * history can be stored in the AppOp discrete access data store.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/DiscreteRegistry.java
+ */
+message AppOpAccessTracked {
+    enum AccessType {
+        UNKNOWN = 0;
+        NOTE_OP = 1;
+        START_OP = 2;
+        FINISH_OP = 3;
+        PAUSE_OP = 4;
+        RESUME_OP = 5;
+    }
+
+    // Uid of the package requesting the op
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // operation id
+    optional android.app.AppOpEnum op_id = 2 [default = APP_OP_NONE];
+
+    // One of the access types
+    optional AccessType access_type = 3 ;
+
+    // The uid state of the package performing the op
+    optional int32 uid_state = 4;
+
+    // The flags of the op
+    optional int32 op_flag = 5;
+
+    // The flags of the attribution chain
+    optional int32 attribution_flag = 6;
+
+    // attribution_tag; provided by developer when accessing related API, limited at 50 chars by
+    // API. Attributions must be provided through manifest using <attribution> tag available in R
+    // and above.
+    optional string attribution_tag = 7;
+
+    // Chain Id that is used to link a finish_op to a start_op
+    optional int32 attribution_chain_id = 8;
 }
