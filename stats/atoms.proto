@@ -1232,6 +1232,7 @@ message Atom {
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
+    extensions 904; // A2dpSessionReported a2dp_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -22323,6 +22324,8 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
+ *
+ * Next ID: 47
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22482,6 +22485,10 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
+
+  // Count of views that are filtered because they are not in current session
+  // before autofill framework calls AutofillManager.autofill().
+  optional int64 views_fillable_excluded_by_session_count = 46;
 
   // Count of views that can be filled as per the provider service.
   // views_fillable_total_count = views_filled_failure_count +
