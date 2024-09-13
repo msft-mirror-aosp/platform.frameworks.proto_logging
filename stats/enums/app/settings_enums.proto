@@ -5137,6 +5137,16 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     BLUETOOTH_KEY_MISSING_DIALOG_FRAGMENT = 2113;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_TOUCHPAD = 2114;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad -> Pointer Color Customization
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_COLOR_CUSTOMIZATION = 2115;
 }
 
 // Battery Saver schedule types.
