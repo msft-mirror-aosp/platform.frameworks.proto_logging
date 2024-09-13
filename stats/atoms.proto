@@ -1269,7 +1269,7 @@ message Atom {
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10229
+    // Next: 10230
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1534,6 +1534,7 @@ message Atom {
     extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     extensions 10228; // InputEventLatency input_event_latency
+    extensions 10229; // PressureStallInformation pressure_stall_information
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -12359,6 +12360,7 @@ message CarPowerStateChanged {
        WAIT_FOR_FINISH = 3;
        SUSPEND = 4;
        SIMULATE_SLEEP = 5;
+       SIMULATE_HIBERNATION = 6;
     }
     optional State state = 1;
 }
