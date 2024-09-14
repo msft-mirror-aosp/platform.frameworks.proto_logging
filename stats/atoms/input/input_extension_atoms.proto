@@ -29,9 +29,9 @@ extend Atom {
     optional KeyboardConfigured keyboard_configured = 682 [(module) = "framework"];
     optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683 [(module) = "framework"];
     optional InputDeviceUsageReported inputdevice_usage_reported = 686 [(module) = "framework"];
+    optional InputEventLatencyReported input_event_latency_reported = 932 [(module) = "framework"];
 
     optional TouchpadUsage touchpad_usage = 10191 [(module) = "framework"];
-    optional InputEventLatency input_event_latency = 10228 [(module) = "framework"];
 }
 
 // Keyboard layout configured when the device is connected
@@ -182,24 +182,21 @@ message TouchpadUsage {
 /**
  * Logs input event latency statistics using histograms on a per device granular level.
  *
- * The data gathered is cleared and the counters (histogram_counts) are reset in 2 cases:
- * - after the atom is pulled
- * - if input events gathered span over a period longer than 3 days (there was no successful pull
- *   since at least 3 days)
- * We expect the reset to happen after the atom is pulled, but the 3 days threshold ensures that
- * we're not gathering too much data if pulls aren't happening (e.g. there's no metric).
+ * This atom will be pushed every 6 hours.
+ * The data gathered is cleared and the counters (histogram_counts) are reset after each push.
  *
  * If an input device was used and then disconnected, the latency data related to it is stored on
- * the Android device until the atom is pulled/ 3 days pass.
+ * the Android device until the atom is pushed.
  * Histograms are created in memory for an input device only if that device is connected and
  * produces input events. If an input device is connected and disconnected multiple times before
- * pulling the atoms, counters aren't reset, so we continue counting the latencies where we left
+ * pushing the atom, counters aren't reset, so we continue counting the latencies where we left
  * off before the device was disconnected.
  *
  * Logged from:
  *     frameworks/native/services/inputflinger
  */
-message InputEventLatency {
+
+message InputEventLatencyReported {
     // The input device Vendor ID
     optional int32 vendor_id = 1;
     // The input device Product ID
@@ -213,7 +210,7 @@ message InputEventLatency {
     optional android.input.LatencyStage latency_stage = 5;
     // Histogram version. This version number is mapped to an array
     // containing the boundary values between histogram bins.
-    // Each bucket represents a range of latency values (in ms).
+    // Each bucket represents a range of latency values (in hundreds of microseconds).
     optional int32 histogram_version = 6;
     // The latency value counts for each of the histogram bins
     // Expected number of fields: 20
