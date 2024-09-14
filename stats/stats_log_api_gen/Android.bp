@@ -130,6 +130,10 @@ cc_test_host {
         ":libstats_internal_protos",
         "test_external.proto",
     ],
+
+    test_options: {
+        unit_test: true,
+    },
 }
 
 // Filegroup for stats-log-api-gen test proto.
