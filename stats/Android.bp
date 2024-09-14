@@ -197,6 +197,7 @@ atom_protos = [
     "atoms/uprobestats/*.proto",
     "atoms/broadcasts/*.proto",
     "atoms/telephony/iwlan/*.proto",
+    "atoms/performance/*.proto",
 ]
 
 cc_library_host_shared {
