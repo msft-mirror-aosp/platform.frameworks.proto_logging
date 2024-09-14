@@ -1263,6 +1263,8 @@ message Atom {
     extensions 929; // ArtDex2OatReported art_dex2oat_reported
     extensions 930; // TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported
     extensions 931; // AppOpAccessTracked app_op_access_tracked
+    extensions 932; // InputEventLatencyReported input_event_latency_reported
+    extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1533,14 +1535,14 @@ message Atom {
     extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
     extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
-    extensions 10228; // InputEventLatency input_event_latency
+    // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
