@@ -21,6 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -39,7 +40,13 @@ extend Atom {
     optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state = 10204
             [(module) = "framework", (truncate_timestamp) = true];
     optional BiometricFRRNotification biometric_frr_notification = 817 [(module) = "framework"];
-
+    optional SensitiveContentMediaProjectionSession sensitive_content_media_projection_session = 830 [(module) = "framework"];
+    optional SensitiveNotificationAppProtectionSession sensitive_notification_app_protection_session = 831 [(module) = "framework"];
+    optional SensitiveNotificationAppProtectionApplied sensitive_notification_app_protection_applied = 832 [(module) = "framework"];
+    optional SensitiveNotificationRedaction sensitive_notification_redaction = 833
+            [(module) = "framework"];
+    optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
+    optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
 }
 
 /**
@@ -68,6 +75,9 @@ message BalAllowed {
     optional Status real_caller_allowed_reason = 8;
     optional bool real_caller_opt_in = 9;
     optional bool real_caller_opt_in_explicit = 10;
+
+    optional int32 caller_target_sdk = 11;
+    optional int32 real_caller_target_sdk = 12;
 
     enum Status {
         BAL_STATUS_UNKNOWN = 0;
@@ -425,7 +435,7 @@ message ProxyBytesTransferByFgBg {
  message MobileBytesTransferByProcState {
     optional int32 uid = 1 [(is_uid) = true];
 
-    optional int32 proc_state = 2;
+    optional android.app.ProcessStateEnum proc_state = 2;
 
     optional int64 rx_bytes = 3;
 
@@ -447,6 +457,95 @@ message BiometricFRRNotification {
     optional android.hardware.biometrics.ModalityEnum modality = 2;
 }
 
+/*
+ * Logs that indicate a sensitive protection session has started
+ *
+ * Logs from :
+ * packages/SystemUI/src/com/android/systemui/statusbar/policy/SensitiveNotificationProtectionControllerImpl.java
+ * frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+ */
+message SensitiveContentMediaProjectionSession {
+    optional int64 session_id = 1;
+    optional int32 projection_app_uid = 2 [(is_uid) = true];
+    optional bool exempted = 3;
+    optional State state = 4;
+    enum State {
+       UNDEFINED_STATE = 0;
+       START = 1;
+       STOP = 2;
+    }
+    optional LoggingSource source = 5;
+    enum LoggingSource {
+       UNDEFINED_SOURCE = 0;
+       SYS_UI = 1;
+       FRAMEWORKS = 2;
+    }
+}
+
+/*
+ * Logs that a sensitive content session has started
+ *
+ * Logs from : frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+ *
+ */
+message SensitiveNotificationAppProtectionSession {
+    // id which identifies single screen share session
+    optional int64 session_id = 1;
+    optional int32 num_notifications = 2;
+    optional int32 num_otp_notifications = 3;
+}
+
+/*
+ * Logs that an app has been opened from a sensitive context
+ *
+ * Logs from :  com.android.server.wm
+ *
+ */
+message SensitiveNotificationAppProtectionApplied {
+    // id which identifies single screen share session
+    optional int64 session_id = 1;
+    // uid of app to be protected
+    optional int32 uid = 2 [(is_uid) = true];
+}
+
+/**
+ * Reports a notification got an Adjustment with the KEY_SENSITIVE_CONTENT value set, and whether
+ * the system redacted the notification
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/notification/
+ */
+message SensitiveNotificationRedaction {
+     optional bool receive_adjustment_before_post = 1;
+     optional bool redact = 2;
+     optional int32 latency_ms = 3;
+}
+
+
+/**
+* Logged when a user has started screen sharing and then opens an app activity
+* which renders sensitive content (i.e. username, password) on the screen.
+*
+* Logs from: frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+*/
+
+message SensitiveContentAppProtection {
+  // unique for each media projection session.
+  optional int64 session_id = 1;
+  // uid which got flag_secure applied.
+  optional int32 protected_uid = 2 [(is_uid) = true];
+  // uid starting media projection.
+  optional int32 projection_uid = 3 [(is_uid) = true];
+  enum State {
+    UNKNOWN = 0;
+    BLOCKED = 1;
+    UNBLOCKED = 2;
+  }
+  // whether an app window got blocked or unblocked as sensitive view
+  // become visible/invisible in the window.
+  optional State state = 4;
+}
+
 /**
  * Logs when there are too many binder proxies sent from certain UID to the system.
  *
@@ -456,4 +555,62 @@ message BiometricFRRNotification {
  */
 message ExcessiveBinderProxyCountReported {
     optional int32 offending_uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Logs when an app's restriction state changes.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/AppRestrictionController.java
+ */
+message AppRestrictionStateChanged {
+  optional int32 uid = 1 [(is_uid) = true];
+
+  enum RestrictionType {
+    TYPE_UNKNOWN = 0;
+    TYPE_UNRESTRICTED = 1;
+    TYPE_EXEMPTED = 2;
+    TYPE_ADAPTIVE = 3;
+    TYPE_RESTRICTED_BUCKET = 4;
+    TYPE_BACKGROUND_RESTRICTED = 5;
+    TYPE_FORCE_STOPPED = 6;
+    TYPE_USER_LAUNCH_ONLY = 7;
+    TYPE_CUSTOM = 8;
+  }
+  // The type of restriction/unrestriction
+  optional RestrictionType restriction_type = 2;
+
+  // Whether the restriction type is being enabled or disabled
+  optional bool enabled = 3;
+
+  enum RestrictionChangeReason {
+    REASON_UNKNOWN = 0;
+    REASON_DEFAULT = 1;
+    REASON_DORMANT = 2;
+    REASON_USAGE = 3; // For unrestriction
+    REASON_USER = 4;
+    reserved 5;
+    REASON_SYSTEM_HEALTH = 6;
+    REASON_POLICY = 7;
+    REASON_OTHER = 8;
+  }
+  // The main reason for restriction state change
+  optional RestrictionChangeReason main_reason = 4;
+
+  // An optional sub reason that provides more detail specific to the restriction type
+  optional string sub_reason = 5; // At most 16 chars
+
+  // The threshold that was applied to make the decision
+  optional int64 threshold_exceeded = 6;
+
+  enum RestrictionChangeSource {
+    SOURCE_UNKNOWN = 0;
+    SOURCE_USER = 1;
+    SOURCE_USER_NUDGED = 2;
+    SOURCE_SYSTEM = 3;
+    SOURCE_COMMAND_LINE = 4;
+    SOURCE_REMOTE_TRIGGER = 5;
+  }
+  // The source of the change - initiated by the user, the system automatically, etc.
+  optional RestrictionChangeSource source = 7;
 }

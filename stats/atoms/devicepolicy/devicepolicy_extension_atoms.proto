@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.devicepolicy;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/devicepolicy/enums.proto";
+
+option java_package = "com.android.os.devicepolicy";
+
+extend Atom {
+  optional DevicePolicyManagementMode device_policy_management_mode = 10216 [(module) = "devicepolicy"];
+  optional DevicePolicyState device_policy_state = 10217 [(module) = "devicepolicy"];
+}
+
+message DevicePolicyManagementMode {
+  // The management mode of the device.
+  optional android.stats.devicepolicy.ManagementMode management_mode = 1;
+}
+
+message DevicePolicyState {
+  // The password quality requirement policy enforced on the devices.
+  optional android.stats.devicepolicy.PasswordComplexity password_complexity = 1;
+  // The management mode of the device.
+  optional android.stats.devicepolicy.ManagementMode management_mode = 2;
+}
