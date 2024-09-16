@@ -25,6 +25,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 extend Atom {
   optional DesktopModeUIChanged desktop_mode_ui_changed = 818 [(module) = "framework"];
   optional DesktopModeSessionTaskUpdate desktop_mode_session_task_update = 819 [(module) = "framework"];
+  optional DesktopModeTaskSizeUpdated desktop_mode_task_size_updated = 935 [(module) = "framework"];
 }
 
 /**
@@ -129,4 +130,80 @@ message DesktopModeSessionTaskUpdate {
   optional UnminimizeReason unminimize_reason = 10;
   // The number of visible tasks
   optional int32 visible_task_count = 11;
+}
+
+/**
+* Logged when a task size is updated (resizing, snapping or maximizing to
+* stable bounds) during a desktop mode session.
+*
+* Logged from
+* frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/desktopmode/DesktopModeEventLogger.kt
+*/
+message DesktopModeTaskSizeUpdated {
+  // The trigger for task resize
+  enum ResizeTrigger {
+    UNKNOWN_RESIZE_TRIGGER = 0;
+    // Resize task from its corner bounds
+    CORNER_RESIZE_TRIGGER = 1;
+    // Resize task from its edges
+    EDGE_RESIZE_TRIGGER = 2;
+    // Resize two tiled apps simultaneously using the divider
+    TILING_DIVIDER_RESIZE_TRIGGER = 3;
+    // Resize task to fit the stable bounds by clicking on the maximize button
+    // on the app header
+    MAXIMIZE_BUTTON_RESIZE_TRIGGER = 4;
+    // Resize task to fit the stable bounds by double tapping the app header
+    DOUBLE_TAP_APP_HEADER_RESIZE_TRIGGER = 5;
+    // Snap a resizable task to the left half of the screen by dragging the task
+    // to the left
+    DRAG_LEFT_RESIZE_TRIGGER = 6;
+    // Snap a resizable task to the right half of the screen by dragging the
+    // task to the right
+    DRAG_RIGHT_RESIZE_TRIGGER = 7;
+    // Snap a resizable task to the left half of the screen by clicking on the
+    // snap left menu on the app header
+    SNAP_LEFT_MENU_RESIZE_TRIGGER = 8;
+    // Snap a resizable task to the right half of the screen by clicking on the
+    // snap right menu on the app header
+    SNAP_RIGHT_MENU_RESIZE_TRIGGER = 9;
+  }
+
+  // The stage at which a task is being resized
+  enum ResizingStage {
+    UNKNOWN_RESIZING_STAGE = 0;
+    // Stage before the task was resized
+    START_RESIZING_STAGE = 1;
+    // Stage when task resize is complete
+    END_RESIZING_STAGE = 2;
+  }
+
+  // The input method for resizing the task
+  enum InputMethod {
+    UNKNOWN_INPUT_METHOD = 0;
+    TOUCH_INPUT_METHOD = 1;
+    STYLUS_INPUT_METHOD = 2;
+    MOUSE_INPUT_METHOD = 3;
+    TOUCHPAD_INPUT_METHOD = 4;
+    // Only tiling and maximizing window actions have keyboard shortcuts
+    KEYBOARD_INPUT_METHOD = 5;
+  }
+
+  // How this task was resized
+  optional ResizeTrigger resize_trigger = 1;
+  // The stage of resizing this task
+  optional ResizingStage resizing_stage = 2;
+  // The input method for resizing this task
+  optional InputMethod input_method = 3;
+  // ID used to identify the Desktop mode session
+  optional int32 desktop_mode_session_id = 4;
+  // The instance_id of this task
+  optional int32 instance_id = 5;
+  // The UID of the app associated with this task
+  optional int32 uid = 6;
+  // The height of this task in dp
+  optional int32 task_height = 7;
+  // The width of this task in dp
+  optional int32 task_width = 8;
+  // The display area of the device in dp^2
+  optional int32 display_area = 9;
 }
