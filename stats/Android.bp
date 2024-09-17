@@ -127,6 +127,7 @@ atom_protos = [
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
     "atoms/cronet/*.proto",
+    "atoms/conscrypt/*.proto",
     "atoms/devicepolicy/*.proto",
     "atoms/display/*.proto",
     "atoms/dnd/*.proto",
