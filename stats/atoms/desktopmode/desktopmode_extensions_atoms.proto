@@ -128,5 +128,8 @@ message DesktopModeSessionTaskUpdate {
   // The reason the task was unminimized
   optional UnminimizeReason unminimize_reason = 10;
   // The number of visible tasks
-  optional int32 visible_task_count = 11;
+  optional int32 visible_task_count = 11 [
+    (state_field_option).exclusive_state = true,
+    (state_field_option).nested = false
+  ];
 }
