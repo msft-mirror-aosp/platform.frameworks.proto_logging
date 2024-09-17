@@ -12337,6 +12337,7 @@ message CarPowerStateChanged {
        WAIT_FOR_FINISH = 3;
        SUSPEND = 4;
        SIMULATE_SLEEP = 5;
+       SIMULATE_HIBERNATION = 6;
     }
     optional State state = 1;
 }
