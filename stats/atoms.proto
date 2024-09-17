@@ -1266,6 +1266,7 @@ message Atom {
     extensions 932; // InputEventLatencyReported input_event_latency_reported
     extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
     extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
+    extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
