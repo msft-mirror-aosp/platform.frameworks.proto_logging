@@ -85,6 +85,12 @@ enum PpapiName {
   ADEXT_DATA_SERVICE = 9;
   // Represents ondevicepersonalization APK of OnDevicePersonalization module.
   ODP = 10;
+  // Represents Protected App Signals API.
+  PAS = 11;
+  // Represents GetAdSelectionData API of B&A.
+  GET_AD_SELECTION_DATA = 12;
+  // Represents PersistAdSelectionResult API of B&A.
+  PERSIST_AD_SELECTION_RESULT = 13;
 }
 
 /**
