@@ -1267,6 +1267,10 @@ message Atom {
     extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
     extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
     extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
+    extensions 936; // WsBugreportRequested ws_bugreport_requested
+    extensions 937; // WsBugreportTriggered ws_bugreport_triggered
+    extensions 938; // WsBugreportFinished ws_bugreport_finished
+    extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
