@@ -35,7 +35,7 @@ message CertificateTransparencyLogListStateChanged {
     optional LogListCompatibilityVersion loaded_compat_version = 2;
 
     // All compatibility versions available.
-    repeated LogListCompatibilityVersion available_compat_versions = 3;
+    repeated LogListCompatibilityVersion available_compat_versions = 3 [packed = true];
 
     // Log list version.
     optional int32 major_version = 4;
