@@ -24,8 +24,12 @@ option java_multiple_files = true;
 // Indicates the type of the APK.
 enum ArtApkType {
   ART_APK_TYPE_UNKNOWN = 0;
+  // Primary DEX file in a base APK.
   ART_APK_TYPE_BASE = 1;
+  // Primary DEX file in a split APK.
   ART_APK_TYPE_SPLIT = 2;
+  // Secondary DEX file.
+  ART_APK_TYPE_SECONDARY = 3;
 }
 
 // Indicates which compile filter was used for the package being loaded in an ART session.
@@ -139,4 +143,6 @@ enum ExecResultStatus {
   EXEC_RESULT_STATUS_START_FAILED = 4;
   // Process was not run.
   EXEC_RESULT_STATUS_NOT_RUN = 5;
+  // Process was cancelled.
+  EXEC_RESULT_STATUS_CANCELLED = 6;
 }
