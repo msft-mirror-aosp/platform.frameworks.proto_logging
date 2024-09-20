@@ -113,7 +113,7 @@ message DesktopModeSessionTaskUpdate {
   // The instance_id of this task
   optional int32 instance_id = 2;
   // The uid of the app associated with this task
-  optional int32 uid = 3;
+  optional int32 uid = 3 [(is_uid) = true];
   // The height of this task in px
   optional int32 task_height = 4;
   // The width of this task in px
