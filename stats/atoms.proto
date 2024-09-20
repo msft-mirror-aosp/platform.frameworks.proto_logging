@@ -14784,6 +14784,9 @@ message GraphicsStats {
     // The version code of the app
     optional int64 version_code = 2;
 
+    // The uid of the app
+    optional int32 uid = 17 [(is_uid) = true];
+
     // The start & end timestamps in UTC as
     // milliseconds since January 1, 1970
     // Compatible with java.util.Date#setTime()
@@ -14838,6 +14841,8 @@ message GraphicsStats {
     // day (yesterday). Stats from yesterday stay constant, while stats from today may change as
     // more apps are running / rendering.
     optional bool is_today = 16;
+
+    // next id = 18
 }
 
 /**
