@@ -818,3 +818,29 @@ enum RemoteEventType {
   EVENT_TYPE_SEND_SMS = 6;
   EVENT_TYPE_LOCALE_SETTINGS_DEEPLINK = 7;
 }
+
+// This enum depicts different components of the bugreport flow
+// Next ID: 3
+enum BugreportComponent {
+  // Depicts an unknown component
+  BUGREPORT_COMPONENT_UNKNOWN = 0;
+
+  // Depicts the companion app
+  BUGREPORT_COMPONENT_COMPANION_APP = 1;
+
+  // Depicts the watch UI
+  BUGREPORT_COMPONENT_WATCH_UI = 2;
+}
+
+// This enum depicts the result of the bugreport
+// Next ID: 3
+enum BugreportResult {
+  // Depicts an unknown bugreport result
+  BUGREPORT_RESULT_UNKNOWN = 0;
+
+  // Depicts a successful bugreport result
+  BUGREPORT_RESULT_SUCCESS = 1;
+
+  // Depicts a failure bugreport result
+  BUGREPORT_RESULT_FAILURE = 2;
+}

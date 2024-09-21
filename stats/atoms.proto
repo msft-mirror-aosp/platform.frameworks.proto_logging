@@ -1265,6 +1265,12 @@ message Atom {
     extensions 931; // AppOpAccessTracked app_op_access_tracked
     extensions 932; // InputEventLatencyReported input_event_latency_reported
     extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
+    extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
+    extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
+    extensions 936; // WsBugreportRequested ws_bugreport_requested
+    extensions 937; // WsBugreportTriggered ws_bugreport_triggered
+    extensions 938; // WsBugreportFinished ws_bugreport_finished
+    extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1714,7 +1720,7 @@ message UidProcessStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java
  */
 message ProcessStateChanged {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // TODO: remove this when validation is done
@@ -1827,7 +1833,7 @@ message MemoryFactorStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
  */
 message ExcessiveCpuUsageReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // package version. TODO: remove this when validation is done
@@ -1841,7 +1847,7 @@ message ExcessiveCpuUsageReported {
  *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
  */
 message CachedKillReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // TODO: remove this when validation is done
@@ -2349,7 +2355,7 @@ message BedtimeModeStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java
  */
 message ProcessMemoryStatReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     //TODO: remove this when validation is done
@@ -11713,7 +11719,7 @@ message MediametricsAudiotrackReported {
  */
 message MediametricsMidiDeviceCloseReported {
     // The UID of the app or service that disconnects the device
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     // Device Id from MidiDeviceInfo. After a restart, this starts at 1 for the first device.
     // This increments each time a new MIDI device is added.
     // See Id in frameworks/base/media/java/android/media/midi/MidiDeviceInfo.java
@@ -14778,6 +14784,9 @@ message GraphicsStats {
     // The version code of the app
     optional int64 version_code = 2;
 
+    // The uid of the app
+    optional int32 uid = 17 [(is_uid) = true];
+
     // The start & end timestamps in UTC as
     // milliseconds since January 1, 1970
     // Compatible with java.util.Date#setTime()
@@ -14832,6 +14841,8 @@ message GraphicsStats {
     // day (yesterday). Stats from yesterday stay constant, while stats from today may change as
     // more apps are running / rendering.
     optional bool is_today = 16;
+
+    // next id = 18
 }
 
 /**
@@ -19726,7 +19737,7 @@ message LongRebootBlockingReported {
     optional string component_name = 2;
 
     // The uid of an app that is running in the background.
-    optional int32 uid = 3;
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
