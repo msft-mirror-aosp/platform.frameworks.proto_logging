@@ -1546,7 +1546,7 @@ enum Action {
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 
     // ACTION: Settings > Accessibility > Simple View > Use Simple View
-    // VALUE: false is off, true is on
+    // VALUE: integer which is from SimpleViewUsageTimeType
     // OS: V
     ACTION_EASY_MODE_CHANGED = 1901;
 
@@ -1908,7 +1908,7 @@ enum Action {
     ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
 
     // ACTION: Welcome > Set up with Simple View > Use Simple View
-    // VALUE: false is off, true is on
+    // VALUE: integer which is from SimpleViewUsageTimeType
     // OS: V
     ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
 
@@ -5179,4 +5179,20 @@ enum EntryPointType {
     KEYBOARD_SETTINGS = 1;
     // access physical keyboard settings through connected devices settings entry point
     CONNECTED_DEVICES_SETTINGS = 2;
+}
+
+// Simple view usage time types
+enum SimpleViewUsageTimeType {
+    // started to access simple view
+    SIMPLE_VIEW_USAGE_TYPE_ENABLED = 0;
+    // disabled simple view within 5 minutes
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_FIVE_MINUTES = 1;
+    // disabled simple view within 1 hour
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_HOUR = 2;
+    // disabled simple view within 1 day
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_DAY = 3;
+    // disabled simple view within 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_WEEK = 4;
+    // disabled simple view over 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_OVER_ONE_WEEK = 5;
 }
