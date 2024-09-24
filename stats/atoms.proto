@@ -1896,7 +1896,7 @@ message WifiHealthStatReported {
     optional int32 rx_kbps = 7 [default = -1];
    // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
    // AOSP scorer.
-   optional int32 scorer_uid = 8;
+   optional int32 scorer_uid = 8 [(is_uid) = true];
    // Whether or not Wi-Fi is predicted as usable by the scorer
    // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
@@ -4537,7 +4537,7 @@ message BluetoothCodePathCounter {
  *
  */
 message BluetoothLeBatchScanReportDelay {
-    optional int32 application_uid = 1;
+    optional int32 application_uid = 1 [(is_uid) = true];
     optional int64 application_report_delay_millis = 2;
 }
 
@@ -5125,7 +5125,7 @@ message AppCrashOccurred {
     // UID of the process that tried to read a page from the app but failed.
     // This shows whether the read was initiated by the system, the app itself, or some other apps.
     // -1 means there was no read error or the app is not installed on Incremental.
-    optional int32 last_read_error_uid = 19;
+    optional int32 last_read_error_uid = 19 [(is_uid) = true];
 
     // Duration since that last read failure.
     // -1 means there was no read error or the app is not installed on Incremental.
@@ -5234,7 +5234,7 @@ message ANROccurred {
     // UID of the process that tried to read a page from the app but failed.
     // This shows whether the read was initiated by the system, the app itself, or some other apps.
     // -1 means there was no read error or the app is not installed on Incremental.
-    optional int32 last_read_error_uid = 19;
+    optional int32 last_read_error_uid = 19 [(is_uid) = true];
 
     // Duration since that last read failure.
     // -1 means there was no read error or the app is not installed on Incremental.
@@ -5791,12 +5791,12 @@ message ForegroundServiceStateChanged {
     // FGS service's targetSdkVersion.
     optional int32 target_sdk_version = 6;
     // uid of the app that start/bind this service.
-    optional int32 calling_uid = 7;
+    optional int32 calling_uid = 7 [(is_uid) = true];
     // targetSdkVersion of the app that start/bind this service.
     optional int32 caller_target_sdk_version = 8;
     // uid of the app that set the temp-allowlist, INVALID_UID (-1) if not in any
     // temp-allowlist.
-    optional int32 temp_allow_list_calling_uid = 9;
+    optional int32 temp_allow_list_calling_uid = 9 [(is_uid) = true];
     // FGS notification was deferred.
     optional bool fgs_notification_deferred = 10;
     // FGS notification was shown before the FGS finishes, or it wasn't deferred in the first place.
@@ -5965,11 +5965,10 @@ message ForegroundServiceAppOpSessionEnded {
  */
 message IsolatedUidChanged {
     // The host UID. Generally, we should attribute metrics from the isolated uid to the host uid.
-    // NOTE: DO NOT annotate uid field in this atom. This atom is specially handled in statsd.
     // This field is ignored when event == REMOVED.
-    optional int32 parent_uid = 1;
+    optional int32 parent_uid = 1 [(is_uid) = true];
 
-    optional int32 isolated_uid = 2;
+    optional int32 isolated_uid = 2 [(is_uid) = true];
 
     // We expect an isolated uid to be removed before if it's used for another parent uid.
     enum Event {
@@ -6591,7 +6590,7 @@ message AuthEnrollActionInvoked {
      // The deprecated API feature that was used.
      optional APIEnum deprecated_api = 1;
      // The UID of the application that used the deprecated API.
-     optional int32 app_uid = 2;
+     optional int32 app_uid = 2 [(is_uid) = true];
      // The target SDK version (API level) of the application that used the deprecated API.
      optional int32 target_sdk = 3;
  }
@@ -7193,7 +7192,7 @@ message TombStoneOccurred {
  */
 message RoleRequestResultReported {
     // UID of application requesting the role
-    optional int32 requesting_uid = 1;
+    optional int32 requesting_uid = 1 [(is_uid) = true];
 
     // Package name of application requesting the role
     optional string requesting_package_name = 2;
@@ -7205,14 +7204,14 @@ message RoleRequestResultReported {
     optional int32 qualifying_count = 4;
 
     // UID of application current granted the role
-    optional int32 current_uid = 5;
+    optional int32 current_uid = 5 [(is_uid) = true];
 
     // Package name of application current granted the role
     optional string current_package_name = 6;
 
     // UID of another application that user chose to grant the role to, instead of the requesting
     // application
-    optional int32 granted_another_uid = 7;
+    optional int32 granted_another_uid = 7 [(is_uid) = true];
 
     // Package name of another application that user chose to grant the role to, instead of the
     // requesting application
@@ -8621,7 +8620,7 @@ message BinderCalls {
     // If not set, the value will be -1.
     optional int32 uid = 1 [(is_uid) = true];
     // UID of the process executing the binder transaction.
-    optional int32 direct_caller_uid = 14;
+    optional int32 direct_caller_uid = 14 [(is_uid) = true];
     // Fully qualified class name of the API call.
     //
     // This is a system server class name.
@@ -12852,7 +12851,7 @@ message LocationAccessCheckNotificationAction {
     optional int64 session_id = 1;
 
     // Uid of package for which location access check is presented
-    optional int32 package_uid = 2;
+    optional int32 package_uid = 2 [(is_uid) = true];
 
     // Name of package for which location access check is presented
     optional string package_name = 3;
@@ -24406,7 +24405,7 @@ message UnsafeIntentEventReported {
     // Type of matching event.
     optional EventType event_type = 1;
     // The calling UID.
-    optional int32 calling_uid = 2;
+    optional int32 calling_uid = 2 [(is_uid) = true];
     // The component name of the intent.
     optional string component_name = 3;
     // The package name of the intent.
