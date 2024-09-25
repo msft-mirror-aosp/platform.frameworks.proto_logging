@@ -24405,7 +24405,7 @@ message UnsafeIntentEventReported {
     // Type of matching event.
     optional EventType event_type = 1;
     // The calling UID.
-    optional int32 calling_uid = 2;
+    optional int32 calling_uid = 2 [(is_uid) = true];
     // The component name of the intent.
     optional string component_name = 3;
     // The package name of the intent.
