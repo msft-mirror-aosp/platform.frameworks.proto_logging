@@ -581,7 +581,7 @@ message Atom {
                 316 [(module) = "media_metrics"];
         TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
         TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
-        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "car"];
+        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "car", (module) = "framework"];
         MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
         MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
         MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
@@ -18837,9 +18837,11 @@ message IsolatedCompilationEnded {
  *
  * Keep in sync with proto file at
  * packages/services/Car/service/src/com/android/car/watchdog/proto/atoms.proto
+ * frameworks/opt/car/services/builtInServices/proto/src/atoms.proto
  *
  * Pushed from:
  *  packages/services/Car/service/src/com/android/car/watchdog/WatchdogPerfHandler.java
+ *  frameworks/opt/car/services/builtInServices/src/com/android/internal/car/CarServiceHelperService.java
  */
 message CarWatchdogKillStatsReported {
     // Linux process uid for the package.
