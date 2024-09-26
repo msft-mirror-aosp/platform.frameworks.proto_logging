@@ -5147,6 +5147,12 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     ACCESSIBILITY_POINTER_COLOR_CUSTOMIZATION = 2115;
+
+    // OPEN: Settings > Connected Devices > Bluetooth > (click on details link for a paired device)
+    //       > More Settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    BLUETOOTH_DEVICE_DETAILS_MORE_SETTINGS = 2116;
 }
 
 // Battery Saver schedule types.
