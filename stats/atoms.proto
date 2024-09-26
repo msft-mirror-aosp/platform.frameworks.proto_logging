@@ -1271,6 +1271,7 @@ message Atom {
     extensions 937; // WsBugreportTriggered ws_bugreport_triggered
     extensions 938; // WsBugreportFinished ws_bugreport_finished
     extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
+    extensions 940; // DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
