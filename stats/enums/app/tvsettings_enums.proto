@@ -1106,6 +1106,21 @@ enum ItemId {
     // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Repeat rate > Fast
     SYSTEM_A11Y_KEY_REPEAT_RATE_FAST = 0x178E2300;
 
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys
+    SYSTEM_A11Y_BOUNCE_KEYS = 0x178F0000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > OFF
+    SYSTEM_A11Y_BOUNCE_KEYS_OFF = 0x178F1000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > ON > 0.5 seconds
+    SYSTEM_A11Y_BOUNCE_KEYS_HALF_SECONDS = 0x178F2000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > ON > 1 second
+    SYSTEM_A11Y_BOUNCE_KEYS_ONE_SECONDS = 0x178F3000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > ON > 2 second
+    SYSTEM_A11Y_BOUNCE_KEYS_TWO_SECONDS = 0x178F4000;
+
     // TvSettings > System > Reboot
     SYSTEM_REBOOT = 0x17900000;
 
