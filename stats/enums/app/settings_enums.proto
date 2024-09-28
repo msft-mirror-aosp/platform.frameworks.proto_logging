@@ -5153,6 +5153,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     BLUETOOTH_DEVICE_DETAILS_MORE_SETTINGS = 2116;
+
+    // ACTION: Settings > Apps > Contacts storage > Select an account to set as default contacts account.
+    // CATEGORY: SETTINGS
+    // OS: V
+    CONTACTS_STORAGE = 2117;
 }
 
 // Battery Saver schedule types.
