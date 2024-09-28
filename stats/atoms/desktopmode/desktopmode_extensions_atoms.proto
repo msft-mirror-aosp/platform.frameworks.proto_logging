@@ -202,7 +202,7 @@ message DesktopModeTaskSizeUpdated {
   // The instance_id of this task
   optional int32 instance_id = 5;
   // The UID of the app associated with this task
-  optional int32 uid = 6;
+  optional int32 uid = 6 [(is_uid) = true];
   // The height of this task in dp
   optional int32 task_height = 7;
   // The width of this task in dp

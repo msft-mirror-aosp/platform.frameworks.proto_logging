@@ -53,6 +53,7 @@ extend Atom {
     optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
     optional AppOpAccessTracked app_op_access_tracked = 931 [(module) = "framework"];
     optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
+    optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
 }
 
 /**
@@ -754,6 +755,21 @@ message PostGCMemorySnapshot {
 message PowerSaveTempAllowlistChanged {
     optional int32 uid = 1 [(is_uid) = true];
     optional bool add_to_allowlist = 2;
+}
+
+/**
+ * Records invocations of ActivityManagerService$LocalService.updateDeviceIdleTempAllowlist
+ *
+ * Logged via Hummingbird
+ */
+message DeviceIdleTempAllowlistUpdated {
+    optional int32 changing_uid = 1 [(is_uid) = true];
+    optional bool adding = 2;
+    optional int64 duration_ms = 3;
+    optional int32 type = 4;
+    optional int32 reason_code = 5;
+    optional string reason = 6;
+    optional int32 calling_uid = 7 [(is_uid) = true];
 }
 
 /**
