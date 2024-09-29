@@ -1061,23 +1061,65 @@ enum ItemId {
     // TvSettings > System > Accessibility > Color Correction > Grayscale
     SYSTEM_A11Y_COLOR_CORRECTION_GRAYSCALE = 0x178C5000;
 
-    // TvSettings > System > Accessibility > Time to take action
+    // TvSettings > System > Accessibility > Keyboard accessibility > Time to take action
     SYSTEM_A11Y_TIMEOUT = 0x178D0000;
 
-    // TvSettings > System > Accessibility > Time to take action > Default
+    // TvSettings > System > Accessibility > Keyboard accessibility > Time to take action > Default
     SYSTEM_A11Y_TIMEOUT_DEFAULT = 0x178D1000;
 
-    // TvSettings > System > Accessibility > Time to take action > 10 seconds
+    // TvSettings > System > Accessibility > Keyboard accessibility > Time to take action > 10 seconds
     SYSTEM_A11Y_TIMEOUT_TEN_SECONDS = 0x178D2000;
 
-    // TvSettings > System > Accessibility > Time to take action > 30 seconds
+    // TvSettings > System > Accessibility > Keyboard accessibility > Time to take action > 30 seconds
     SYSTEM_A11Y_TIMEOUT_THIRTY_SECONDS = 0x178D3000;
 
-    // TvSettings > System > Accessibility > Time to take action > 1 minute
+    // TvSettings > System > Accessibility > Keyboard accessibility > Time to take action > 1 minute
     SYSTEM_A11Y_TIMEOUT_ONE_MINUTE = 0x178D4000;
 
-    // TvSettings > System > Accessibility > Time to take action > 2 minute
+    // TvSettings > System > Accessibility > Keyboard accessibility > Time to take action > 2 minute
     SYSTEM_A11Y_TIMEOUT_TWO_MINUTE = 0x178D5000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay
+    SYSTEM_A11Y_KEY_REPEAT = 0x178E0000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Delay before repeat
+    SYSTEM_A11Y_KEY_REPEAT_DELAY = 0x178E1000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Delay before repeat > Default
+    SYSTEM_A11Y_KEY_REPEAT_DELAY_DEFAULT = 0x178E1100;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Delay before repeat > 3 seconds
+    SYSTEM_A11Y_KEY_REPEAT_DELAY_THREE_SECONDS = 0x178E1200;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Delay before repeat > 5 seconds
+    SYSTEM_A11Y_KEY_REPEAT_DELAY_FIVE_SECONDS = 0x178E1300;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Repeat rate
+    SYSTEM_A11Y_KEY_REPEAT_RATE = 0x178E2000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Repeat rate > Default
+    SYSTEM_A11Y_KEY_REPEAT_RATE_DEFAULT = 0x178E2100;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Repeat rate > Slow
+    SYSTEM_A11Y_KEY_REPEAT_RATE_SLOW = 0x178E2200;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Key repeat delay > Repeat rate > Fast
+    SYSTEM_A11Y_KEY_REPEAT_RATE_FAST = 0x178E2300;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys
+    SYSTEM_A11Y_BOUNCE_KEYS = 0x178F0000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > OFF
+    SYSTEM_A11Y_BOUNCE_KEYS_OFF = 0x178F1000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > ON > 0.5 seconds
+    SYSTEM_A11Y_BOUNCE_KEYS_HALF_SECONDS = 0x178F2000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > ON > 1 second
+    SYSTEM_A11Y_BOUNCE_KEYS_ONE_SECONDS = 0x178F3000;
+
+    // TvSettings > System > Accessibility > Keyboard accessibility > Bounce keys > ON > 2 second
+    SYSTEM_A11Y_BOUNCE_KEYS_TWO_SECONDS = 0x178F4000;
 
     // TvSettings > System > Reboot
     SYSTEM_REBOOT = 0x17900000;
