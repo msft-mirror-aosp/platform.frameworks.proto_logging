@@ -1274,6 +1274,7 @@ message Atom {
     extensions 940; // DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated
     extensions 941; // WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync
     extensions 942; // PeripheralTutorialLaunched peripheral_tutorial_launched
+    extensions 943; // AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
