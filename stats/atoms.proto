@@ -14592,7 +14592,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 57.
+    // Next id: 60.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -14602,6 +14602,8 @@ message PerfettoUploaded {
         PERFETTO_CMD_CLONE_TRACE_BEGIN = 55;
         PERFETTO_CMD_CLONE_TRIGGER_TRACE_BEGIN = 56;
         PERFETTO_ON_CONNECT = 3;
+        PERFETTO_CMD_ON_SESSION_CLONE = 58;
+        PERFETTO_CMD_ON_TRIGGER_CLONE = 59;
 
         // Guardrails inside perfetto_cmd before tracing is finished.
         PERFETTO_ON_TIMEOUT = 16;
