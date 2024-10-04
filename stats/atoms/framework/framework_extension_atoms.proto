@@ -54,6 +54,7 @@ extend Atom {
     optional AppOpAccessTracked app_op_access_tracked = 931 [(module) = "framework"];
     optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
     optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
+    optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
 }
 
 /**
@@ -813,6 +814,33 @@ message AppOpAccessTracked {
 
     // Chain Id that is used to link a finish_op to a start_op
     optional int32 attribution_chain_id = 8;
+}
+
+/**
+ * [Pushed Atom] Logs when AppOp checkOperation and noteOperation binder APIs are called in
+ * AppOpsService
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/AppOpsService.java
+ */
+message AppOpNoteOpOrCheckOpBinderApiCalled {
+    enum BinderApi {
+        UNKNOWN = 0;
+        CHECK_OPERATION = 1;
+        NOTE_OPERATION = 2;
+        NOTE_PROXY_OPERATION = 3;
+    }
+
+    // Uid of the package requesting the op
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // AppOp code
+    optional android.app.AppOpEnum op_id = 2 [default = APP_OP_NONE];
+
+    // One of the BinderApi
+    optional BinderApi binder_api = 3;
+
+    // Whether the binder call has attribution tag in the arguments
+    optional bool has_attribution_tag = 4;
 }
 
 /**
