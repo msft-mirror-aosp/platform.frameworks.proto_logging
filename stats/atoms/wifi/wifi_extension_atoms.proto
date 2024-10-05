@@ -479,6 +479,8 @@ message WifiSettingInfo {
         WIFI_ENHANCED_MAC_RANDOMIZATION = 6;
         WIFI_NETWORKS_AVAILABLE_NOTIFICATION = 7;
         LOCATION_MODE = 8;
+        // A flag controlled by DeviceConfig to dry run external scorer or not.
+        EXTERNAL_SCORER_DRY_RUN = 9;
     }
 
     // Name of the Wifi setting

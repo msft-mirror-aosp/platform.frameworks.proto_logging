@@ -63,7 +63,7 @@ extend Atom {
   optional WsRemoteEventUsageReported ws_remote_event_usage_reported = 920
       [(module) = "wearservices"];
 
-    optional WsBugreportRequested ws_bugreport_requested = 936
+  optional WsBugreportRequested ws_bugreport_requested = 936
       [(module) = "wearservices"];
 
   optional WsBugreportTriggered ws_bugreport_triggered = 937

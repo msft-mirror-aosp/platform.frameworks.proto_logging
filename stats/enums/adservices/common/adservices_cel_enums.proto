@@ -111,6 +111,27 @@ enum ErrorCode {
   // Error code is present multiple times in the custom sampling proto
   ERROR_CODE_PRESENT_MULTIPLE_TIMES_IN_PROTO = 26;
 
+  // Package Deny process failure unknown.
+  PACKAGE_DENY_PROCESS_ERROR_FAILURE_UNKNOWN = 27;
+
+  // Package Deny process failure due to no file found.
+  PACKAGE_DENY_PROCESS_ERROR_NO_FILE_FOUND = 28;
+
+  // Package Deny process failure due to reading file.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_READING_FILE = 29;
+
+  // Package Deny process failure in filtering installed packages.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_FILTERING_INSTALLED_PACKAGES = 30;
+
+  // Package Deny process failure due to updating cache.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_UPDATING_CACHE = 31;
+
+  // Package Deny process failure due failure reading cache.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_READING_CACHE = 32;
+
+  // Package Deny process failure service disabled.
+  PACKAGE_DENY_PROCESS_ERROR_DISABLED = 33;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
