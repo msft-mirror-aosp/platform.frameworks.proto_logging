@@ -59,6 +59,8 @@ message OnDevicePersonalizationApiCalled {
         MODEL_MANAGER_RUN = 20;
         FEDERATED_COMPUTE_CANCEL = 21;
         NOTIFY_MEASUREMENT_EVENT = 22;
+        ADSERVICES_GET_COMMON_STATES = 23;
+        LOG_RECORD = 24;
     }
     optional OnDevicePersonalizationApiClassType api_class = 1;
     optional OnDevicePersonalizationApiName api_name = 2;

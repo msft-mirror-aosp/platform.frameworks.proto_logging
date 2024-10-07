@@ -29,6 +29,7 @@ extend Atom {
     optional KeyboardConfigured keyboard_configured = 682 [(module) = "framework"];
     optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683 [(module) = "framework"];
     optional InputDeviceUsageReported inputdevice_usage_reported = 686 [(module) = "framework"];
+    optional InputEventLatencyReported input_event_latency_reported = 932 [(module) = "framework"];
 
     optional TouchpadUsage touchpad_usage = 10191 [(module) = "framework"];
 }
@@ -176,4 +177,42 @@ message TouchpadUsage {
     optional int32 four_finger_swipe_gesture_count = 9;
     // The number of pinch gestures recognized by the framework.
     optional int32 pinch_gesture_count = 10;
+}
+
+/**
+ * Logs input event latency statistics using histograms on a per device granular level.
+ *
+ * This atom will be pushed every 6 hours.
+ * The data gathered is cleared and the counters (histogram_counts) are reset after each push.
+ *
+ * If an input device was used and then disconnected, the latency data related to it is stored on
+ * the Android device until the atom is pushed.
+ * Histograms are created in memory for an input device only if that device is connected and
+ * produces input events. If an input device is connected and disconnected multiple times before
+ * pushing the atom, counters aren't reset, so we continue counting the latencies where we left
+ * off before the device was disconnected.
+ *
+ * Logged from:
+ *     frameworks/native/services/inputflinger
+ */
+
+message InputEventLatencyReported {
+    // The input device Vendor ID
+    optional int32 vendor_id = 1;
+    // The input device Product ID
+    optional int32 product_id = 2;
+    // Source(s) of the input device
+    repeated android.input.InputDeviceUsageType sources = 3;
+    // Type of Input Event: can be either a Key Event (Up and Down), or some specific Motion Event
+    // action type (Down/Move/Up/...)
+    optional android.input.InputEventType input_event_type = 4;
+    // The latency stage for which latency metric is collected
+    optional android.input.LatencyStage latency_stage = 5;
+    // Histogram version. This version number is mapped to an array
+    // containing the boundary values between histogram bins.
+    // Each bucket represents a range of latency values (in hundreds of microseconds).
+    optional int32 histogram_version = 6;
+    // The latency value counts for each of the histogram bins
+    // Expected number of fields: 20
+    repeated int32 histogram_counts = 7;
 }

@@ -31,6 +31,7 @@ extend Atom {
   optional NotificationListenerService notification_listener_service = 829 [(module) = "sysui"];
   optional NavHandleTouchPoints nav_handle_touch_points = 869 [(module) = "sysui"];
   optional CommunalHubWidgetEventReported communal_hub_widget_event_reported = 908 [(module) = "sysui"];
+  optional PeripheralTutorialLaunched peripheral_tutorial_launched = 942 [(module) = "sysui"];
   optional CommunalHubSnapshot communal_hub_snapshot = 10226 [(module) = "sysui"];
 }
 
@@ -250,6 +251,45 @@ message CommunalHubWidgetEventReported {
   // The rank or order of the widget in the communal hub.
   optional int32 rank = 3;
 }
+
+/**
+ * Pushed atom. Logs from where the keyboard/touchpad tutorial is launched.
+ *
+ * Logged from:
+ *  frameworks/base/packages/SystemUI/src/com/android/systemui/inputdevice/tutorial/ui/view/KeyboardTouchpadTutorialActivity.kt
+ *  frameworks/base/packages/SystemUI/src/com/android/systemui/touchpad/tutorial/ui/view/TouchpadTutorialActivity.kt
+ *
+ * Estimated Logging Rate:
+ *   Avg: < 1 per device per day
+*/
+
+message PeripheralTutorialLaunched {
+    enum EntryPoint {
+        UNSPECIFIED_ENTRY = 0;
+        // Launched from Settings
+        SETTINGS = 1;
+        // Launched from scheduled notification
+        SCHEDULED = 2;
+        // Launched from contextual education notification
+        CONTEXTUAL_EDU = 3;
+        // Launched from Companion App
+        APP = 4;
+    }
+
+    enum TutorialType {
+        UNSPECIFIED_TYPE = 0;
+        KEYBOARD = 1;
+        TOUCHPAD = 2;
+        BOTH = 3;
+    }
+
+    // The entry point that triggered the tutorial.
+    optional EntryPoint entry_point = 1;
+
+    // The type of tutorial launched.
+    optional TutorialType tutorial_type = 2;
+}
+
 
 /**
  * Pulled atom. Logs a snapshot of content in the communal hub.
