@@ -1282,6 +1282,7 @@ message Atom {
     extensions 948; // SurfaceControlEvent surface_control_event
     extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
     extensions 950; // JankFrameCountByWidget
+    extensions 951; // AccountManagerEvent account_manager_event
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
