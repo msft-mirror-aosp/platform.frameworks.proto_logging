@@ -87,6 +87,7 @@ message DesktopModeSessionTaskUpdate {
     TASK_ADDED = 1;
     TASK_REMOVED = 2;
     TASK_INFO_CHANGED = 3; // covers both size and position changes of the app
+    TASK_INIT_STATSD = 4;  // Used to initialise state field in statsd
   }
 
   // The reason a task was minimized
