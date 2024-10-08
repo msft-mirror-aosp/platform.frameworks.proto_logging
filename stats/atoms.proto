@@ -1277,6 +1277,9 @@ message Atom {
     extensions 943; // AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called
     extensions 944; // BiometricUnenrolled biometric_unenrolled
     extensions 945; // BiometricEnumerated biometric_enumerated
+    extensions 946; // HardwareRendererEvent hardware_renderer_event 
+    extensions 947; // TextureViewEvent texture_view_event
+    extensions 948; // SurfaceControlEvent surface_control_event
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
