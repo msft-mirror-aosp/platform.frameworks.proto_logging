@@ -247,6 +247,9 @@ enum Command {
   reserved 301;
   COMMAND_APP_SIGNALS_GENERATE_INPUT_FOR_ENCODING = 302;
   COMMAND_APP_SIGNALS_TRIGGER_ENCODING = 303;
+
+  // Attribution-reporting commands: 401-500
+  COMMAND_ATTRIBUTION_REPORTING_LIST_SOURCE_REGISTRATIONS = 401;
 }
 
 // Result of the shell command
