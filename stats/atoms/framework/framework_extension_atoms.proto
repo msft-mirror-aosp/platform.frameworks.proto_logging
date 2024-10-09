@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -55,6 +56,7 @@ extend Atom {
     optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
     optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
     optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
+    optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
 }
 
 /**
@@ -872,4 +874,27 @@ message ContentOrFileUriEventReported {
   optional string uri_authority = 8;
   optional string uri_type = 9;
   optional string uri_mime_type = 10;
+}
+
+/**
+ * Logs aggregate time and count of framework wakelocks.
+ */
+message FrameworkWakelockInfo {
+  // The primary (index 0) uid for this WakeLock in the attribution chain.
+  optional int32 attribution_uid = 1 [(is_uid) = true];
+  optional string attribution_tag = 2;
+
+  // The type (level) of the wakelock; e.g. a partial wakelock or a full wakelock.
+  // From frameworks/proto_logging/stats/enums/os/enums.proto.
+  optional android.os.WakeLockLevelEnum type = 3;
+
+  // Accumulated uptime attributed to this WakeLock since boot, where overlap
+  // between WakeLocks with the same UID and tag is ignored. Specifically, if two
+  // WakeLocks with the same UID and tag were acquired at exactly the same time and
+  // held for 100 ms, the total contribution of the two WakeLocks to uptime_millis
+  // is 100 ms.
+  optional int64 uptime_millis = 4;
+
+  // Count of WakeLocks that have been acquired and then released.
+  optional int64 completed_count = 5;
 }
