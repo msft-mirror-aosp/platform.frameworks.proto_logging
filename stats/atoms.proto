@@ -1299,6 +1299,7 @@ message Atom {
     extensions 969; // ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported scheduled_custom_audience_update_performed_attempted_failure_reported
     extensions 970; // ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran
     extensions 971; // ContextualEducationTriggered contextual_education_triggered
+    extensions 972; // CertificateTransparencyLogListUpdateFailed certificate_transparency_log_list_update_failed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
