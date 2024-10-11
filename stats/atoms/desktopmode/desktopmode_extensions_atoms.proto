@@ -170,6 +170,9 @@ message DesktopModeTaskSizeUpdated {
     // Snap a resizable task to the right half of the screen by clicking on the
     // snap right menu on the app header
     SNAP_RIGHT_MENU_RESIZE_TRIGGER = 9;
+    // Resize task to fit stable bounds by clicking on the maximize menu that
+    // appears when the app header button is long pressed or hovered over
+    MAXIMIZE_MENU_RESIZE_TRIGGER = 10;
   }
 
   // The stage at which a task is being resized
