@@ -96,6 +96,7 @@ enum_protos = [
     "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
     "enums/wear/modes/*.proto",
+    "enums/wear/setupwizard/*.proto",
     "enums/wear/time/*.proto",
     "enums/wifi/*.proto",
     "enums/telephony/iwlan/*.proto",
