@@ -1280,6 +1280,7 @@ message Atom {
     extensions 946; // HardwareRendererEvent hardware_renderer_event 
     extensions 947; // TextureViewEvent texture_view_event
     extensions 948; // SurfaceControlEvent surface_control_event
+    extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
