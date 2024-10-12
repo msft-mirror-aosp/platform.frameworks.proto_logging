@@ -31,6 +31,7 @@ shared_enum_protos = [
 
 enum_protos = [
     "enums/accessibility/*.proto",
+    "enums/accounts/*.proto",
     "enums/adservices/common/*.proto",
     "enums/adservices/enrollment/*.proto",
     "enums/adservices/fledge/*.proto",
@@ -96,6 +97,7 @@ enum_protos = [
     "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
     "enums/wear/modes/*.proto",
+    "enums/wear/setupwizard/*.proto",
     "enums/wear/time/*.proto",
     "enums/wifi/*.proto",
     "enums/telephony/iwlan/*.proto",
@@ -116,6 +118,7 @@ atom_protos = [
     "atoms.proto",
     "attribution_node.proto",
     "atoms/accessibility/*.proto",
+    "atoms/accounts/*.proto",
     "atoms/adpf/*.proto",
     "atoms/agif/*.proto",
     "atoms/apex/*.proto",
@@ -199,6 +202,7 @@ atom_protos = [
     "atoms/broadcasts/*.proto",
     "atoms/telephony/iwlan/*.proto",
     "atoms/performance/*.proto",
+    "atoms/coregraphics/*.proto",
 ]
 
 cc_library_host_shared {

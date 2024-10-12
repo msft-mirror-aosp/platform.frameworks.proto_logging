@@ -269,6 +269,12 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                                 "::android::String16(arg%d)));\n",
                                 atomVal, atomVal, argIndex);
                         break;
+                    case JAVA_TYPE_STRING_ARRAY:
+                        fprintf(out,
+                                "    atom.values.push_back(%smake<%sstringArrayValue>("
+                                "arg%d.begin(), arg%d.end()));\n",
+                                atomVal, atomVal, argIndex, argIndex);
+                        break;
                     default:
                         // Unsupported types: OBJECT, DOUBLE, ATTRIBUTION_CHAIN,
                         // and all repeated fields

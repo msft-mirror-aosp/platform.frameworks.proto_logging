@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -55,6 +56,8 @@ extend Atom {
     optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
     optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
     optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
+    optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
+    optional JankFrameCountByWidget jank_frame_count_by_widget = 950 [(module)="framework"];
 }
 
 /**
@@ -872,4 +875,106 @@ message ContentOrFileUriEventReported {
   optional string uri_authority = 8;
   optional string uri_type = 9;
   optional string uri_mime_type = 10;
+}
+
+/**
+ * Logs aggregate time and count of framework wakelocks.
+ */
+message FrameworkWakelockInfo {
+  // The primary (index 0) uid for this WakeLock in the attribution chain.
+  optional int32 attribution_uid = 1 [(is_uid) = true];
+  optional string attribution_tag = 2;
+
+  // The type (level) of the wakelock; e.g. a partial wakelock or a full wakelock.
+  // From frameworks/proto_logging/stats/enums/os/enums.proto.
+  optional android.os.WakeLockLevelEnum type = 3;
+
+  // Accumulated uptime attributed to this WakeLock since boot, where overlap
+  // between WakeLocks with the same UID and tag is ignored. Specifically, if two
+  // WakeLocks with the same UID and tag were acquired at exactly the same time and
+  // held for 100 ms, the total contribution of the two WakeLocks to uptime_millis
+  // is 100 ms.
+  optional int64 uptime_millis = 4;
+
+  // Count of WakeLocks that have been acquired and then released.
+  optional int64 completed_count = 5;
+}
+/**
+ * [Pushed atom] Logged after a set number of JankData batches have been processed or when an Activity is
+ * paused.
+ *
+ * Pushed from:
+ *   frameworks/base/core/java/android/app/jank/JankDataProcessor.java
+ *
+ * Estimated Logging Rate:
+ *  Peak: 25 times every 20 sec while frames are being rendered.
+ *  Avg: 500 times per device per day.
+ */
+message JankFrameCountByWidget {
+  // UID of the app
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // The name of the activity that is currently collecting frame metrics.
+  optional string activity_name = 2;
+
+  // The id that has been set for the widget.
+  optional string widget_id = 3;
+
+  // The refresh rate of the display when logged.
+  optional int32 refresh_rate = 4;
+
+  // High level categories to group functionally similar UI elements.
+  enum WidgetCategory {
+    // Category not set.
+    WIDGET_CATEGORY_UNSPECIFIED = 0;
+    // UI elements that facilitate scrolling.
+    SCROLL = 1;
+    // UI elements that facilitate playing animations.
+    ANIMATION = 2;
+    // UI elements that facilitate media playback or streaming.
+    MEDIA = 3;
+    // UI elements that facilitate in app navigation.
+    NAVIGATION = 4;
+    // UI elements that facilitate displaying, hiding or interacting with keyboard.
+    KEYBOARD = 5;
+    // UI elements that facilitate predictive back gesture navigation.
+    PREDICTIVE_BACK = 6;
+    // UI elements that don't fall in on of the other categories.
+    OTHER = 7;
+  }
+  optional WidgetCategory widget_type = 5;
+
+  // The states that the UI elements can report
+  enum WidgetState {
+    // State not set.
+    WIDGET_STATE_UNSPECIFIED = 0;
+    // Element that is idle or not in any active state.
+    NONE = 1;
+    // Element that is currently scrolling.
+    SCROLLING = 2;
+    // Element that is currently being flung.
+    FLINGING = 3;
+    // Element that is currently being swiped.
+    SWIPING = 4;
+    // Element that is currently being dragged.
+    DRAGGING = 5;
+    // Element that is currently zooming.
+    ZOOMING = 6;
+    // Element that is currently animating.
+    ANIMATING = 7;
+    // Element that is currently engaging in media playback.
+    PLAYBACK = 8;
+    // Element that is currently being tapped on.
+    TAPPING = 9;
+  }
+  optional WidgetState widget_state = 6;
+
+  // The number of frames reported during this state.
+  optional int64 total_frames = 7;
+
+  // Total number of frames determined to be janky during the reported state.
+  optional int64 janky_frames = 8;
+
+  // Histogram of frame duration overruns.
+  repeated int32 frame_overrun_histogram = 9;
 }

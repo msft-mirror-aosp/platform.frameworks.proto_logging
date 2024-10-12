@@ -1275,13 +1275,21 @@ message Atom {
     extensions 941; // WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync
     extensions 942; // PeripheralTutorialLaunched peripheral_tutorial_launched
     extensions 943; // AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called
+    extensions 944; // BiometricUnenrolled biometric_unenrolled
+    extensions 945; // BiometricEnumerated biometric_enumerated
+    extensions 946; // HardwareRendererEvent hardware_renderer_event
+    extensions 947; // TextureViewEvent texture_view_event
+    extensions 948; // SurfaceControlEvent surface_control_event
+    extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
+    extensions 950; // JankFrameCountByWidget
+    extensions 951; // AccountManagerEvent account_manager_event
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10230
+    // Next: 10231
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1547,6 +1555,7 @@ message Atom {
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
+    extensions 10230; // FrameworkWakelockInfo framework_wakelock_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -6512,6 +6521,8 @@ message BiometricEnrolled {
     optional float ambient_light_lux = 6;
     // The source for where this enrollment came frame
     optional android.hardware.biometrics.EnrollmentSourceEnum enroll_source = 7;
+    // Numerical ID for enrolled template that increments with every new enrollment. Eg: 1, 2...
+    optional int32 template_id = 8;
 }
 
 
@@ -9662,6 +9673,7 @@ message BatteryUsageStatsAtomsProto {
                 FOREGROUND = 1;
                 BACKGROUND = 2;
                 FOREGROUND_SERVICE = 3;
+                // Keep in sync with BatteryUsageStatsPerUid.ProcessState.
             }
 
             optional ProcessState process_state = 2;
@@ -9688,6 +9700,7 @@ message BatteryUsageStatsAtomsProto {
                 FOREGROUND = 1;
                 BACKGROUND = 2;
                 FOREGROUND_SERVICE = 3;
+                // Keep in sync with BatteryUsageStatsPerUid.ProcessState.
             }
 
             optional ProcessState process_state = 1;

@@ -829,6 +829,13 @@ enum ErrorCode {
   // Exception because all APIs consent disabled for Fledge API.
   FLEDGE_CONSENT_FILTER_ALL_APIS_CONSENT_DISABLED = 3142;
 
+  // Error occurred because interaction URI length exceeds the maximum allowed
+  // in PersistAdSelectionResultRunner.
+  PERSIST_AD_SELECTION_RESULT_RUNNER_INTERACTION_URI_EXCEEDS_MAXIMUM_LIMIT = 3143;
+
+  // Error occurred when a revoke consent error is silently handled with notifying an empty success.
+  PERSIST_AD_SELECTION_RESULT_RUNNER_NOTIFY_EMPTY_SUCCESS_SILENT_CONSENT_FAILURE = 3144;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
