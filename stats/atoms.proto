@@ -1277,10 +1277,12 @@ message Atom {
     extensions 943; // AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called
     extensions 944; // BiometricUnenrolled biometric_unenrolled
     extensions 945; // BiometricEnumerated biometric_enumerated
-    extensions 946; // HardwareRendererEvent hardware_renderer_event 
+    extensions 946; // HardwareRendererEvent hardware_renderer_event
     extensions 947; // TextureViewEvent texture_view_event
     extensions 948; // SurfaceControlEvent surface_control_event
     extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
+    extensions 950; // JankFrameCountByWidget
+    extensions 951; // AccountManagerEvent account_manager_event
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -9671,6 +9673,7 @@ message BatteryUsageStatsAtomsProto {
                 FOREGROUND = 1;
                 BACKGROUND = 2;
                 FOREGROUND_SERVICE = 3;
+                // Keep in sync with BatteryUsageStatsPerUid.ProcessState.
             }
 
             optional ProcessState process_state = 2;
@@ -9697,6 +9700,7 @@ message BatteryUsageStatsAtomsProto {
                 FOREGROUND = 1;
                 BACKGROUND = 2;
                 FOREGROUND_SERVICE = 3;
+                // Keep in sync with BatteryUsageStatsPerUid.ProcessState.
             }
 
             optional ProcessState process_state = 1;
