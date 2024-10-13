@@ -30,14 +30,19 @@ extend Atom {
 
 /**
  * Logs information related to CPU policies such as frequency limits.
+ * This atom is pushed when scaling_max_freq_khz changes.
  */
 message CpuPolicy {
     // The cpufreq policy ID.
     optional int32 policy = 1;
 
-    // The current maximum frequency.
+    // To reduce power consumption, the kernel or firmware governors may lower
+    // the CPU frequency.  This is the maximum allowed frequency by the governors.
     optional int32 scaling_max_freq_khz = 2;
 
-    // The normal maximum frequency.
+    // If kernel frequency scaling is enabled, this is the maximum frequency of
+    // the CPU that the governors can activate.  If kernel frequency scaling is
+    // disabled, this is the frequency that the CPU has been locked to.
+    //   scaling_max_freq_khz <= cpuinfo_max_freq_khz
     optional int32 cpuinfo_max_freq_khz = 3;
 }
