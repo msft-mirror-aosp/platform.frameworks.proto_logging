@@ -1267,10 +1267,6 @@ message Atom {
     extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
     extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
     extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
-    extensions 936; // WsBugreportRequested ws_bugreport_requested
-    extensions 937; // WsBugreportTriggered ws_bugreport_triggered
-    extensions 938; // WsBugreportFinished ws_bugreport_finished
-    extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
     extensions 940; // DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated
     extensions 941; // WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync
     extensions 942; // PeripheralTutorialLaunched peripheral_tutorial_launched
@@ -1295,6 +1291,8 @@ message Atom {
     extensions 961; // WearSetupWizardSystemUpdateTriggered wear_setup_wizard_system_update_triggered
     extensions 962; // WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
     extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
+    extensions 964; // WsBugreportEventReported ws_bugreport_event_reported
+
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1573,7 +1571,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
