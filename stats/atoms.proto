@@ -1283,6 +1283,18 @@ message Atom {
     extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
     extensions 950; // JankFrameCountByWidget
     extensions 951; // AccountManagerEvent account_manager_event
+    extensions 952; // OnDevicePersonalizationTraceEvent ondevicepersonalization_trace_event
+    extensions 953; // WearSetupWizardDeviceStatusReported wear_setup_wizard_device_status_reported
+    extensions 954; // WearSetupWizardPairingCompleted wear_setup_wizard_pairing_completed
+    extensions 955; // WearSetupWizardConnectionEstablished wear_setup_wizard_connection_established
+    extensions 956; // WearSetupWizardCheckinCompleted wear_setup_wizard_checkin_completed
+    extensions 957; // WearSetupWizardCompanionTimeReported wear_setup_wizard_companion_time_reported
+    extensions 958; // WearSetupWizardStatusReported wear_setup_wizard_status_reported
+    extensions 959; // WearSetupWizardHeartbeatReported wear_setup_wizard_hearbeat_reported
+    extensions 960; // WearSetupWizardFrpTriggered wear_setup_wizard_frp_triggered
+    extensions 961; // WearSetupWizardSystemUpdateTriggered wear_setup_wizard_system_update_triggered
+    extensions 962; // WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
+    extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -21949,8 +21961,10 @@ message MobileBundledAppInfoGathered {
         UPDATED_PRELOAD = 2;
         NEW_MBA = 3;
         UPDATED_NEW_MBA = 4;
+        DOWNGRADED_PRELOADED = 5;
+        UNINSTALLED_MBA = 6;
     }
-    // whether or not the MBA is preloaded or dynamically installed
+    // whether the MBA is preloaded, dynamically installed, or uninstalled/downgraded
     optional MBAStatus mba_status = 6;
     // the package that initiated the installation of this MBA
     optional string initiator = 7;
