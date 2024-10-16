@@ -21959,8 +21959,10 @@ message MobileBundledAppInfoGathered {
         UPDATED_PRELOAD = 2;
         NEW_MBA = 3;
         UPDATED_NEW_MBA = 4;
+        DOWNGRADED_PRELOADED = 5;
+        UNINSTALLED_MBA = 6;
     }
-    // whether or not the MBA is preloaded or dynamically installed
+    // whether the MBA is preloaded, dynamically installed, or uninstalled/downgraded
     optional MBAStatus mba_status = 6;
     // the package that initiated the installation of this MBA
     optional string initiator = 7;
