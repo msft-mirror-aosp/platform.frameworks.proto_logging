@@ -173,6 +173,7 @@ atom_protos = [
     "atoms/adservices/*.proto",
     "atoms/wear/modes/*.proto",
     "atoms/wear/time/*.proto",
+    "atoms/wear/setupwizard/*.proto",
     "atoms/wearpas/*.proto",
     "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
