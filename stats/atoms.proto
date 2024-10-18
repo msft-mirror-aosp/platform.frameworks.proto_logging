@@ -14667,17 +14667,22 @@ message PerfettoTrigger {
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
-        PERFETTO_CMD_TRIGGER = 1;
-        PERFETTO_CMD_TRIGGER_FAIL = 2;
-
-        PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3;
-        PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4;
-
         PERFETTO_TRACED_LIMIT_PROBABILITY = 5;
         PERFETTO_TRACED_LIMIT_MAX_PER_24_H = 6;
 
-        PERFETTO_PROBES_PRODUCER_TRIGGER = 7;
-        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8;
+        PERFETTO_TRACED_TRIGGER = 9;
+
+        // Contained events of logging triggers through perfetto_cmd, probes and
+        // trigger_perfetto. Obsolete because of logging dirctly in traced instead.
+        // Removed in W (Oct 2024) and replaced by |kTracedTrigger|.
+        PERFETTO_CMD_TRIGGER = 1 [deprecated = true];
+        PERFETTO_CMD_TRIGGER_FAIL = 2 [deprecated = true];
+
+        PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3 [deprecated = true];
+        PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4 [deprecated = true];
+
+        PERFETTO_PROBES_PRODUCER_TRIGGER = 7 [deprecated = true];
+        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8 [deprecated = true];
     }
 
     // The event which fired.
