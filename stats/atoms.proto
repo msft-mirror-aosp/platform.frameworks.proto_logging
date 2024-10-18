@@ -1292,6 +1292,7 @@ message Atom {
     extensions 962; // WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
     extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
     extensions 964; // WsBugreportEventReported ws_bugreport_event_reported
+    extensions 965; // ConscryptAlgorithmUsed conscrypt_algorithm_used
 
     extensions 9999; // Atom9999 atom_9999
 
