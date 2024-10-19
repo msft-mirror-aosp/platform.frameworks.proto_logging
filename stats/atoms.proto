@@ -1293,7 +1293,7 @@ message Atom {
     extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
     extensions 964; // WsBugreportEventReported ws_bugreport_event_reported
     extensions 965; // ConscryptAlgorithmUsed conscrypt_algorithm_used
-
+    extensions 966; // MediaControlApiUsageReported media_control_api_usage_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
