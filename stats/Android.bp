@@ -126,6 +126,7 @@ atom_protos = [
     "atoms/art/*.proto",
     "atoms/appsearch/*.proto",
     "atoms/bluetooth/*.proto",
+    "atoms/conscrypt/**/*.proto",
     "atoms/corenetworking/**/*.proto",
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
