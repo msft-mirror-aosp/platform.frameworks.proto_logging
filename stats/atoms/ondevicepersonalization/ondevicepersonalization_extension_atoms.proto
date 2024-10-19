@@ -95,6 +95,7 @@ message OnDevicePersonalizationTraceEvent {
         WEBVIEW = 4;
         TRAINING = 5;
         MAINTENANCE = 6;
+        WEB_TRIGGER = 7;
     }
     enum EventType {
         UNKNOWN = 0;
