@@ -146,6 +146,7 @@ enum DataType {
   INTERMENSTRUAL_BLEEDING = 40;
   MENSTRUATION_PERIOD = 41;
   SLEEP_SESSION = 42;
+  ACTIVITY_INTENSITY = 43;
 }
 
 enum ForegroundState {

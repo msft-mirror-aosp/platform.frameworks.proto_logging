@@ -42,3 +42,58 @@ message CertificateTransparencyLogListStateChanged {
     optional int32 minor_version = 5;
 }
 
+
+/**
+ * Pushed algorithm usage counters from Conscrypt.
+ * Pushed from:
+ *   external/conscrypt/common/src/main/java/org/conscrypt/metrics/ConscryptStatsLog.java
+ */
+
+enum Algorithm {
+  UNKNOWN_ALGORITHM = 0;
+  CIPHER = 1;
+  SIGNATURE = 2;
+}
+
+enum Cipher {
+  UNKNOWN_CIPHER = 0;
+  AES = 1;
+  DES = 2;
+  DESEDE = 3;
+  DSA = 4;
+  BLOWFISH = 5;
+  CHACHA20 = 6;
+  RSA = 7;
+  ARC4 = 8;
+}
+
+enum Mode {
+  NO_MODE = 0;
+  CBC = 1;
+  CTR = 2;
+  ECB = 3;
+  CFB = 4;
+  CTS = 5;
+  GCM = 6;
+  GCM_SIV = 7;
+  OFB = 8;
+  POLY1305 = 9;
+}
+
+enum Padding {
+  NO_PADDING = 0;
+  OAEP_SHA512 = 1;
+  OAEP_SHA384 = 2;
+  OAEP_SHA256 = 3;
+  OAEP_SHA224 = 4;
+  OAEP_SHA1 = 5;
+  PKCS1 = 6;
+  PKCS5 = 7;
+  ISO10126 = 8;
+}
+message ConscryptServiceUsed {
+  optional Algorithm algorithm = 1;
+  optional Cipher cipher = 2;
+  optional Mode mode = 3;
+  optional Padding padding = 4;
+}

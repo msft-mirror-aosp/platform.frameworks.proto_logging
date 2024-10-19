@@ -28,7 +28,7 @@ enum ThermalStatus {
   THERMAL_STATUS_SEVERE = 3;
   THERMAL_STATUS_CRITICAL = 4;
   THERMAL_STATUS_EMERGENCY = 5;
-  THERMAL_STATUS_SHUTODWN = 6;
+  THERMAL_STATUS_SHUTDOWN = 6;
 }
 
 /**
@@ -52,12 +52,29 @@ enum WristOrientation {
 }
 
 /**
+ * Indicates setupwizard application status
+ */
+enum SetupWizardStatus {
+  SETUP_WIZARD_STATUS_NOT_COMPLETED = 0;
+  SETUP_WIZARD_STATUS_COMPLETED = 1;
+}
+
+
+/**
  * Indicates how pairing started between watch and companion
  */
 enum PairingType {
   PAIRING_TYPE_FASTPAIR = 0;
   PAIRING_TYPE_LOCALE = 1;
   PAIRING_TYPE_REGULARPAIR = 2;
+}
+
+/**
+ * Indicates pairing status
+ */
+enum PairingStatus {
+  PAIRING_STATUS_NOT_COMPLETED = 0;
+  PAIRING_STATUS_COMPLETED = 1;
 }
 
 /**
@@ -69,11 +86,46 @@ enum CompanionOsType {
 }
 
 /**
+ * Indicates connection status between watch and companion
+ */
+enum ConnectionStatus {
+  CONNECTION_STATUS_NOT_ESTABLISHED = 0;
+  CONNECTION_STATUS_ESTABLISHED = 1;
+}
+
+/**
+ * Indicates watch Checkin status
+ */
+enum CheckinStatus {
+  CHECKIN_STATUS_NOT_COMPLETED = 0;
+  CHECKIN_STATUS_COMPLETED = 1;
+}
+
+/**
  * Indicates the watch's role when exchanging messages with companion
  */
 enum MessageRole {
   MESSAGE_ROLE_SENDER = 0;
   MESSAGE_ROLE_RECEIVER = 1;
+}
+
+/**
+ * Indicates the status of the phone or the watch during the status
+ * exchange in setup
+ */
+enum MessageStatus {
+  MESSAGE_STATUS_STATE_UNKNOWN = 0;
+  MESSAGE_STATUS_READY = 1;
+  MESSAGE_STATUS_COMPLETE_PENDING = 2;
+  MESSAGE_STATUS_COMPLETE = 3;
+  MESSAGE_STATUS_UPDATING = 4;
+  MESSAGE_STATUS_OOBE_DONE = 5;
+  MESSAGE_STATUS_READY_RESUMABLE_OOBE = 6;
+  MESSAGE_STATUS_START_RESUMABLE_OOBE = 7;
+  MESSAGE_STATUS_CRITICAL_PHASE_COMPLETE = 8;
+  MESSAGE_STATUS_EXITING_TO_WATCHFACE = 9;
+  MESSAGE_STATUS_WATCH_FAILURE = 10;
+  MESSAGE_STATUS_PHONE_FAILURE = 11;
 }
 
 /**
@@ -96,6 +148,14 @@ enum FrpStatus {
   FRP_STATUS_ACCOUNT_MISMATCH_FAILURE = 4;
   FRP_STATUS_MEDIATOR_SERVICE_NULL_ERROR = 5;
   FRP_STATUS_UNLOCK_FRP_FOR_WEAR_ERROR = 6;
+}
+
+/**
+ *  Indicates system update progress status
+ */
+enum SystemUpdateProgressStatus {
+  SYSTEM_UPDATE_PROGRESS_STATUS_NOT_COMPLETED = 0;
+  SYSTEM_UPDATE_PROGRESS_STATUS_COMPLETED = 1;
 }
 
 /**

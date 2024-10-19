@@ -41,6 +41,8 @@ extend Atom {
   optional HealthConnectImportInvoked health_connect_import_invoked = 918 [(module) = "healthfitness"];
 
   optional HealthConnectExportImportStatsReported health_connect_export_import_stats_reported = 919 [(module) = "healthfitness"];
+
+  optional HealthConnectPermissionStats health_connect_permission_stats = 963 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -66,6 +68,9 @@ message HealthConnectApiCalled {
 
   // The API caller's foreground status
   optional android.healthfitness.api.ForegroundState caller_foreground_state = 7;
+
+  // Package calling the API. We will remove any package with less than certain number of installs (500k for now) from aggregations.
+  optional string package_name = 8;
 }
 
 // Track if users are connecting apps with Health Connect
@@ -206,4 +211,16 @@ message HealthConnectApiInvoked {
   optional android.healthfitness.api.DataType data_type_six = 11
   [(field_restriction_option).health_connect = true];
 
+}
+
+/**
+ * Information about a permission granted to each package using HC.
+ */
+message HealthConnectPermissionStats {
+
+  // Name of package. We will remove any package with less than certain number of installs (500k for now) from aggregations.
+  optional string package_name = 1;
+
+  // Health Connect permission granted to the given package
+  repeated string permission_name = 2;
 }

@@ -820,7 +820,7 @@ enum RemoteEventType {
 }
 
 // This enum depicts different components of the bugreport flow
-// Next ID: 3
+// Next ID: 4
 enum BugreportComponent {
   // Depicts an unknown component
   BUGREPORT_COMPONENT_UNKNOWN = 0;
@@ -830,10 +830,13 @@ enum BugreportComponent {
 
   // Depicts the watch UI
   BUGREPORT_COMPONENT_WATCH_UI = 2;
+
+  // Depicts when the component is not set
+  BUGREPORT_COMPONENT_UNSET = 3;
 }
 
 // This enum depicts the result of the bugreport
-// Next ID: 3
+// Next ID: 4
 enum BugreportResult {
   // Depicts an unknown bugreport result
   BUGREPORT_RESULT_UNKNOWN = 0;
@@ -843,4 +846,17 @@ enum BugreportResult {
 
   // Depicts a failure bugreport result
   BUGREPORT_RESULT_FAILURE = 2;
+
+  // Depicts an empty bugreport result
+  BUGREPORT_RESULT_UNSET = 3;
+}
+
+// This enum depicts a bugreport event
+// Next ID: 5
+enum BugreportEvent {
+  EVENT_BUGREPORT_UNKNOWN = 0;
+  EVENT_BUGREPORT_REQUESTED = 1;
+  EVENT_BUGREPORT_TRIGGERED = 2;
+  EVENT_BUGREPORT_FINISHED = 3;
+  EVENT_BUGREPORT_RESULT_RECEIVED = 4;
 }
