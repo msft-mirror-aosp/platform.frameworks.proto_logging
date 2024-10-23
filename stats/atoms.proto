@@ -1292,7 +1292,7 @@ message Atom {
     extensions 962; // WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
     extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
     extensions 964; // WsBugreportEventReported ws_bugreport_event_reported
-    extensions 965; // ConscryptAlgorithmUsed conscrypt_algorithm_used
+    extensions 965; // ConscryptServiceUsed conscrypt_service_used
     extensions 966; // MediaControlApiUsageReported media_control_api_usage_reported
     extensions 967; // ScheduledCustomAudienceUpdateScheduleAttempted scheduled_custom_audience_update_schedule_attempted
     extensions 968; // ScheduledCustomAudienceUpdatePerformed scheduled_custom_audience_update_performed
