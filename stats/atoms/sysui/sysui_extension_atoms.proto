@@ -32,6 +32,7 @@ extend Atom {
   optional NavHandleTouchPoints nav_handle_touch_points = 869 [(module) = "sysui"];
   optional CommunalHubWidgetEventReported communal_hub_widget_event_reported = 908 [(module) = "sysui"];
   optional PeripheralTutorialLaunched peripheral_tutorial_launched = 942 [(module) = "sysui"];
+  optional ContextualEducationTriggered contextual_education_triggered = 971 [(module) = "sysui"];
   optional CommunalHubSnapshot communal_hub_snapshot = 10226 [(module) = "sysui"];
 }
 
@@ -250,6 +251,38 @@ message CommunalHubWidgetEventReported {
 
   // The rank or order of the widget in the communal hub.
   optional int32 rank = 3;
+}
+
+/**
+ * Pushed atom. Logs from where the contextual education is triggered.
+ *
+ * Logged from:
+ *  frameworks/base/packages/SystemUI/src/com/android/systemui/education/domain/interactor/KeyboardTouchpadEduInteractor.kt
+ *
+ * Estimated Logging Rate:
+ *   Avg: < 1 per device per day
+ */
+
+message ContextualEducationTriggered {
+    enum EducationType {
+        EDU_TYPE_UNSPECIFIED = 0;
+        TOAST = 1;
+        NOTIFICATION = 2;
+    }
+
+    enum GestureType {
+        GESTURE_TYPE_UNSPECIFIED = 0;
+        BACK = 1;
+        HOME = 2;
+        OVERVIEW = 3;
+        ALL_APPS = 4;
+    }
+
+    // The education type being triggered.
+    optional EducationType education_type = 1;
+
+    // The gesture type of the education.
+    optional GestureType gesture_type = 2;
 }
 
 /**
