@@ -9,6 +9,8 @@ option java_package = "com.android.os.conscrypt";
 
 extend Atom {
     optional CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed = 934 [(module) = "conscrypt"];
+    optional ConscryptServiceUsed conscrypt_service_used = 965
+        [(module) = "conscrypt"];
 }
 
 enum LogListStatus {
