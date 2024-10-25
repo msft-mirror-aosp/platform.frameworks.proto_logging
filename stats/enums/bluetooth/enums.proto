@@ -567,6 +567,7 @@ enum EventType {
   AUTHENTICATION_COMPLETE_FAIL = 14;
   BONDING = 15;
   INITIATOR_CONNECTION = 16;
+  BOND = 17;
 }
 
 enum State {
@@ -591,6 +592,7 @@ enum State {
   CONNECTION_TIMEOUT = 18;
   CONNECTION_ACCEPT_TIMEOUT = 19;
   TRANSACTION_RESPONSE_TIMEOUT = 20;
+  STATE_NONE = 21;
 }
 
 enum RemoteDeviceTypeMetadata {
