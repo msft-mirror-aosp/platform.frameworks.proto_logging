@@ -20,6 +20,7 @@ package android.os.statsd.coregraphics;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/coregraphics/enums.proto";
 
 option java_multiple_files = true;
 option java_package = "com.android.os.coregraphics";
@@ -28,6 +29,7 @@ extend Atom {
   optional HardwareRendererEvent hardware_renderer_event = 946 [(module) = "hwui"];
   optional TextureViewEvent texture_view_event = 947 [(module) = "hwui"];
   optional SurfaceControlEvent surface_control_event = 948 [(module) = "surfaceflinger"];
+  optional ImageDecoded image_decoded = 977 [(module) = "hwui"];
 }
 
 /**
@@ -111,3 +113,26 @@ message SurfaceControlEvent {
     optional int32 previous_dataspace = 3;
 }
 
+/**
+ * An event logged whenever an application decodes an image.
+ *
+ * Logged from ImageDecoder, AImageDecoder, and BitmapFactory
+ *
+ * Estimated Logging Rate:
+ *    Peak: 4 times in 50ms | Avg: 11000 per device per day
+ * The peak logging rate is estimated from decoding 4 jpegs in 50ms over 4
+ * cores.
+ * The average logging rate is estimated from typical usage, where an app's icon
+ * is decoded, the app shows decodes 10 images as part of its UI, and a user
+ * opens ~1000 apps per day.
+ */
+message ImageDecoded {
+    // UID of the application decoding the image
+    optional int32 uid = 1 [(is_uid) = true];
+    // Color transfer of the image.
+    optional android.coregraphics.ColorSpaceTransfer color_space_transfer = 2;
+    // Whether the image has a gainmap
+    optional bool has_gainmap = 3;
+    // The underlying format of the image
+    optional android.coregraphics.BitmapFormat format = 4;
+}

@@ -1301,6 +1301,10 @@ message Atom {
     extensions 971; // ContextualEducationTriggered contextual_education_triggered
     extensions 972; // CertificateTransparencyLogListUpdateFailed certificate_transparency_log_list_update_failed
     extensions 973; // Reserved for b/375457523
+    extensions 974; // CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported
+    extensions 975; // CarSettingsDataSubscriptionEventReported car_settings_data_subscription_event_reported
+    extensions 976; // CarQcLibEventReported car_qc_lib_event_reported
+    extensions 977; // ImageDecoded image_decoded
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
