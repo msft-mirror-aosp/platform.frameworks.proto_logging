@@ -379,7 +379,11 @@ message WsRemoteEventUsageReported {
   optional android.app.wearservices.RemoteEventType remote_event_type = 1;
 
   // Indicates the status of the remote event being sent.
-  optional bool is_successful = 2;
+  // Note: This field is deprecated.
+  optional bool is_successful = 2 [deprecated = true];
+
+  // Indicates the state of the remote event.
+  optional android.app.wearservices.RemoteEventState remote_event_state = 3;
 }
 
 /** Logged when a bugreport event takes place. */

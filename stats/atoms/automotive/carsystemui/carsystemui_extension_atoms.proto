@@ -1,0 +1,65 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto2";
+
+package android.os.statsd.automotive.carsystemui;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.automotive.carsystemui";
+option java_multiple_files = true;
+
+extend Atom {
+  optional CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported = 974 [(module) = "carsystemui"];
+}
+
+/**
+ * Logs when a data subscription event occurs in carsystemui.
+ *
+ * Logged from package: packages/apps/Car/SystemUI
+ *  Estimated Logging Rate:
+ *  Peak: 1 times in 30000 ms | Avg: 10 per device per day
+ */
+
+message CarSystemUiDataSubscriptionEventReported {
+    // Describes current type of data subscription event
+    enum DataSubscriptionEventType {
+    // Unknown data subscrition event type
+    UNSPECIFIED_EVENT_TYPE = 0;
+    // Event starts (e.g. popup appears)
+    SESSION_STARTED = 1;
+    // Event fisnishes (e.g. popup dismisses)
+    SESSION_FINISHED = 2;
+    // The user clicks on the button in the popup
+    BUTTON_CLICKED = 3;
+  }
+
+    // Describes the current type of the data subscription message
+    enum DataSubscriptionMessageType {
+    // Unknown data subscription message type
+    UNSPECIFIED_MESSAGE_TYPE = 0;
+    // Proactive message type
+    PROACTIVE = 1;
+    // Reactive message type
+    REACTIVE = 2;
+  }
+
+  // session of one data subscription cycle, marked a start event to a finish event
+  optional int64 session_id = 1;
+  optional DataSubscriptionEventType event_type = 2;
+  optional DataSubscriptionMessageType message_type = 3;
+}

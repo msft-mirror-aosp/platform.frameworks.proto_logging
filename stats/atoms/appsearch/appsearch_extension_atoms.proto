@@ -304,4 +304,13 @@ message AppSearchAppsIndexerStatsReported {
   // Timestamps
   optional int64 update_start_wallclock_timestamp_millis = 12;
   optional int64 last_app_updated_wallclock_timestamp_millis = 13;
+
+  // App Function counts
+  optional int32 number_of_functions_added = 14;
+  optional int32 number_of_functions_removed = 15;
+  optional int32 number_of_functions_updated = 16;
+  optional int32 number_of_functions_unchanged = 17;
+
+  // App Function removal latency
+  optional int64 remove_functions_from_appsearch_appsearch_latency_millis = 18;
 }

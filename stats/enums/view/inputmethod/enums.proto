@@ -265,5 +265,8 @@ enum ImeRequestPhaseEnum {
     PHASE_WM_INVOKING_IME_REQUESTED_LISTENER = 64;
     // IME is requested to be hidden, but already hidden. Don't hide to avoid another animation.
     PHASE_CLIENT_ALREADY_HIDDEN = 65;
+    // The view's handler is needed to check if we're running on a different thread. We can't
+    // continue without.
+    PHASE_CLIENT_VIEW_HANDLER_AVAILABLE = 66;
 }
 

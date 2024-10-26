@@ -116,6 +116,8 @@ enum KeyboardSystemEvent {
     MULTI_WINDOW_NAVIGATION = 49;
     // Change split screen focus
     CHANGE_SPLITSCREEN_FOCUS = 50;
+    // Move a task into next display
+    MOVE_TO_NEXT_DISPLAY = 51;
 }
 
 /**
