@@ -60,6 +60,7 @@ enum_protos = [
     "enums/neuralnetworks/*.proto",
     "enums/nfc/*.proto",
     "enums/os/*.proto",
+    "enums/performance/*.proto",
     "enums/photopicker/*.proto",
     "enums/pdf/*.proto",
     "enums/server/*.proto",
