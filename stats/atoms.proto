@@ -1292,12 +1292,19 @@ message Atom {
     extensions 962; // WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
     extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
     extensions 964; // WsBugreportEventReported ws_bugreport_event_reported
-    extensions 965; // ConscryptAlgorithmUsed conscrypt_algorithm_used
+    extensions 965; // ConscryptServiceUsed conscrypt_service_used
     extensions 966; // MediaControlApiUsageReported media_control_api_usage_reported
     extensions 967; // ScheduledCustomAudienceUpdateScheduleAttempted scheduled_custom_audience_update_schedule_attempted
     extensions 968; // ScheduledCustomAudienceUpdatePerformed scheduled_custom_audience_update_performed
     extensions 969; // ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported scheduled_custom_audience_update_performed_attempted_failure_reported
     extensions 970; // ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran
+    extensions 971; // ContextualEducationTriggered contextual_education_triggered
+    extensions 972; // CertificateTransparencyLogListUpdateFailed certificate_transparency_log_list_update_failed
+    extensions 973; // Reserved for b/375457523
+    extensions 974; // CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported
+    extensions 975; // CarSettingsDataSubscriptionEventReported car_settings_data_subscription_event_reported
+    extensions 976; // CarQcLibEventReported car_qc_lib_event_reported
+    extensions 977; // ImageDecoded image_decoded
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
