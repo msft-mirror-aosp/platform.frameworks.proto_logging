@@ -63,6 +63,7 @@ message DesktopModeUIChanged {
     RETURN_HOME_OR_OVERVIEW = 4; // user swiped up to go to overview, or home screen
     TASK_FINISHED = 5; // the task finished or dismissed
     SCREEN_OFF = 6;
+    TASK_MINIMIZED = 7; // the task gets minimized
   }
 
   optional Event event = 1;
