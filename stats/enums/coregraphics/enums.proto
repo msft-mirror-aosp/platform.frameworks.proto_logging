@@ -1,0 +1,44 @@
+/*
+ * Copyright 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.coregraphics;
+
+option java_package = "com.android.os.coregraphics";
+option java_multiple_files = true;
+
+// ColorSpace transfer
+// The ColorSpace transfer corresponds to skcms types, so these are not exact
+// transfers. E.g., SRGB is really a transfer curve that "looks" like an sRGB
+// transfer, but may use different constants
+enum ColorSpaceTransfer {
+    COLOR_SPACE_TRANSFER_UNKNOWN = 0;
+    COLOR_SPACE_TRANSFER_SRGBISH = 1;
+    COLOR_SPACE_TRANSFER_PQISH = 2;
+    COLOR_SPACE_TRANSFER_HLGISH = 3;
+}
+
+// Bitmap formats
+// Deprecated formats like ARGB4444 map to UNKNOWN
+enum BitmapFormat {
+    BITMAP_FORMAT_UNKNOWN = 0;
+    BITMAP_FORMAT_A_8 = 1;
+    BITMAP_FORMAT_RGB_565 = 2;
+    BITMAP_FORMAT_ARGB_8888 = 3;
+    BITMAP_FORMAT_RGBA_F16 = 4;
+    BITMAP_FORMAT_RGBA_1010102 = 5;
+}
