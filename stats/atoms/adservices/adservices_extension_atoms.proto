@@ -2215,6 +2215,7 @@ message ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported {
     JSON_PARSING_ERROR = 6;
     INTERNAL_ERROR = 7;
     HTTP_IO_EXCEPTION = 8;
+    HTTP_CONTENT_SIZE_EXCEPTION = 9;
   }
   /// Enum denoting the action that caused the failure.
   enum FailureAction {
