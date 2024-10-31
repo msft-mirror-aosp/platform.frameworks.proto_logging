@@ -74,6 +74,7 @@ bool CodeGeneratorJava::generateCodeImpl(FILE* fd, const MetricInfoMap& metricsI
     fprintf(fd, "public final class %s {\n\n", mClassName.c_str());
 
     // TODO: auto-generate enum int constants
+    fprintf(fd, "public static final long INVALID_METRIC_ID = 0;\n");
     fprintf(fd, "public static final int METRIC_TYPE_UNKNOWN = 0;\n");
     fprintf(fd, "public static final int METRIC_TYPE_COUNTER = 1;\n");
     fprintf(fd, "public static final int METRIC_TYPE_HISTOGRAM = 2;\n");
@@ -93,12 +94,8 @@ bool CodeGeneratorJava::generateCodeImpl(FILE* fd, const MetricInfoMap& metricsI
 
     fprintf(fd, "static long getMetricIdHash(String metricId, int type) {\n");
     fprintf(fd, "    MetricInfo info = metricIds.get(metricId);\n");
-    fprintf(fd, "    if(info == null) {\n");
-    fprintf(fd,
-            "        throw new IllegalArgumentException(\"Metric is undefined \" + metricId);\n");
-    fprintf(fd, "    }\n");
-    fprintf(fd, "    if(info.mType != type) {\n");
-    fprintf(fd, "        throw new InputMismatchException(\"Metric type is not \" + type);\n");
+    fprintf(fd, "    if(info == null || info.mType != type) {\n");
+    fprintf(fd, "        return INVALID_METRIC_ID;\n");
     fprintf(fd, "    }\n");
     fprintf(fd, "    return info.mHash;\n");
     fprintf(fd, "}\n\n");

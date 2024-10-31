@@ -85,6 +85,12 @@ enum PpapiName {
   ADEXT_DATA_SERVICE = 9;
   // Represents ondevicepersonalization APK of OnDevicePersonalization module.
   ODP = 10;
+  // Represents Protected App Signals API.
+  PAS = 11;
+  // Represents GetAdSelectionData API of B&A.
+  GET_AD_SELECTION_DATA = 12;
+  // Represents PersistAdSelectionResult API of B&A.
+  PERSIST_AD_SELECTION_RESULT = 13;
 }
 
 /**
@@ -221,6 +227,7 @@ enum Command {
   COMMAND_IS_ALLOWED_TOPICS_ACCESS = 6;
   COMMAND_ENABLE_ADSERVICES = 7;
   COMMAND_RESET_CONSENT_DATA = 8;
+  COMMAND_DEV_SESSION = 9;  // Command to enable or disable adservices developer mode.
 
   // Custom audience commands: 101-200
   COMMAND_CUSTOM_AUDIENCE_VIEW = 101;
@@ -240,6 +247,9 @@ enum Command {
   reserved 301;
   COMMAND_APP_SIGNALS_GENERATE_INPUT_FOR_ENCODING = 302;
   COMMAND_APP_SIGNALS_TRIGGER_ENCODING = 303;
+
+  // Attribution-reporting commands: 401-500
+  COMMAND_ATTRIBUTION_REPORTING_LIST_SOURCE_REGISTRATIONS = 401;
 }
 
 // Result of the shell command
