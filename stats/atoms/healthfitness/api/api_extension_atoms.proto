@@ -43,6 +43,8 @@ extend Atom {
   optional HealthConnectExportImportStatsReported health_connect_export_import_stats_reported = 919 [(module) = "healthfitness"];
 
   optional HealthConnectPermissionStats health_connect_permission_stats = 963 [(module) = "healthfitness"];
+
+  optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 }
 
 // Track HealthDataService API operations.
@@ -211,6 +213,25 @@ message HealthConnectApiInvoked {
   optional android.healthfitness.api.DataType data_type_six = 11
   [(field_restriction_option).health_connect = true];
 
+}
+
+// Track Health Connect API operations stats.
+message HealthConnectPhrApiInvoked {
+
+  // API method invoked.
+  optional android.healthfitness.api.ApiMethod api_method = 1;
+
+  // Status whether the API call executed successfully or not.
+  optional android.healthfitness.api.ApiStatus api_status = 2;
+
+  // Package name of the client that invoked the API.
+  optional string package_name = 3;
+
+  // Medical resource type under consideration in the API call (if any).
+  // When there are multiple resource types in an API call, multiple HealthConnectPhrApiInvoked
+  // messages will be created and logged.
+  optional android.healthfitness.api.MedicalResourceType medical_resource_type = 4
+    [(field_restriction_option).health_connect = true];
 }
 
 /**
