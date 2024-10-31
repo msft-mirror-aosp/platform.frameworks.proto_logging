@@ -1,0 +1,138 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.coregraphics;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/coregraphics/enums.proto";
+
+option java_multiple_files = true;
+option java_package = "com.android.os.coregraphics";
+
+extend Atom {
+  optional HardwareRendererEvent hardware_renderer_event = 946 [(module) = "hwui"];
+  optional TextureViewEvent texture_view_event = 947 [(module) = "hwui"];
+  optional SurfaceControlEvent surface_control_event = 948 [(module) = "surfaceflinger"];
+  optional ImageDecoded image_decoded = 977 [(module) = "hwui"];
+}
+
+/**
+ * An event logged from HardwareRenderer describing a subset of the HardwareRenderer's state
+ * immediately prior to logging this event.
+
+ * Logged from HardwareRenderer.java
+
+ * Estimated Logging Rate:
+ *    Peak: 1 time in 16ms | Avg: 1000 per device per day
+ * The peak logging rate is pessimally estimated from one color mode change per frame
+ * rendered on a 60Hz device.
+ * The average logging rate is estimated from typical usage, where an app's color
+ * mode changes once open being opened, so this assumes that a user opens
+ * 1000 applications per day.
+ */
+message HardwareRendererEvent {
+    // UID of the application rendering to the ViewRoot
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Duration in milliseconds of how far in the past the ViewRoot state was
+    // updated
+    optional int64 time_since_last_event_millis = 2;
+
+    // The window's color mode, controlling the colorspace the ViewRoot is
+    // rendering into
+    enum ColorMode {
+        DEFAULT = 0;
+        WIDE_COLOR = 1;
+        HDR = 2;
+    }
+    // The previous color mode for the window
+    optional ColorMode previous_color_mode = 3;
+}
+
+/**
+ * An event logged from TextureView describing a subset of the TextureView's content
+ * immediately prior to logging this event.
+ *
+ * Logged from DeferredLayerUpdater.cpp
+ *
+ * Estimated Logging Rate:
+ *    Peak: 1 time in 16ms | Avg: 500 per device per day
+ * The peak logging rate is pessimally estimated from one dataspace change per video
+ * frame decoded from 60Hz video source files
+ * The average logging rate is estimated from typical usage, where the dataspace
+ * exactly once per video file, so this assumes that a user is watching ~500 videos,
+ * including short-form video, per day.
+ */
+message TextureViewEvent {
+    // UID of the application using the TextureView.
+    optional int32 uid = 1 [(is_uid) = true];
+    // Duration in milliseconds of how far in the past the TextureView state was
+    // updated
+    optional int64 time_since_last_event_millis = 2;
+    // The previous dataspace of the TextureView's content
+    optional int32 previous_dataspace = 3;
+}
+
+/**
+ * An event logged from SurfaceFlinger describing a subset of a SurfaceControl's state
+ * immediately prior to logging this event.
+ *
+ * Logged from system_server, routed from SurfaceFlinger
+ *
+ * Estimated Logging Rate:
+ *    Peak: 1 time in 16ms | Avg: 1000 per device per day
+ * The peak logging rate is pessimally estimated from one dataspace change per layer
+ * updated on a 60Hz device.
+ * The average logging rate is estimated from typical usage, where a layer's dataspace
+ * changes exactly once while it is on-screen. A typical app sends 1 layer to the screen,
+ * so this assumes that a user opens ~1000 apps per day.
+ */
+message SurfaceControlEvent {
+    // UID of the application owning the SurfaceControl
+    optional int32 uid = 1 [(is_uid) = true];
+    // Duration in milliseconds of how far in the past the SurfaceControl state was
+    // updated
+    optional int64 time_since_last_event_millis = 2;
+    // The previous dataspace of the SurfaceControl's content
+    optional int32 previous_dataspace = 3;
+}
+
+/**
+ * An event logged whenever an application decodes an image.
+ *
+ * Logged from ImageDecoder, AImageDecoder, and BitmapFactory
+ *
+ * Estimated Logging Rate:
+ *    Peak: 4 times in 50ms | Avg: 11000 per device per day
+ * The peak logging rate is estimated from decoding 4 jpegs in 50ms over 4
+ * cores.
+ * The average logging rate is estimated from typical usage, where an app's icon
+ * is decoded, the app shows decodes 10 images as part of its UI, and a user
+ * opens ~1000 apps per day.
+ */
+message ImageDecoded {
+    // UID of the application decoding the image
+    optional int32 uid = 1 [(is_uid) = true];
+    // Color transfer of the image.
+    optional android.coregraphics.ColorSpaceTransfer color_space_transfer = 2;
+    // Whether the image has a gainmap
+    optional bool has_gainmap = 3;
+    // The underlying format of the image
+    optional android.coregraphics.BitmapFormat format = 4;
+}

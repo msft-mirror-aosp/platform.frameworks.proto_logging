@@ -120,6 +120,14 @@ message SatelliteController {
   optional int32 count_of_satellite_access_check_fail = 28;
   // Whether this device is provisioned or not.
   optional bool is_provisioned = 29;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 30;
+  // Count of satellite allowed state changed events
+  optional int32 count_of_satellite_allowed_state_changed_events = 31;
+  // Count of successful location queries
+  optional int32 count_of_successful_location_queries = 32;
+  // Count of failed location queries
+  optional int32 count_of_failed_location_queries = 33;
 }
 
 /**
@@ -156,6 +164,14 @@ message SatelliteSession {
   optional bool is_demo_mode = 12;
   // Max Ntn signal strength while the satellite session is enabled
   optional int32 max_ntn_signal_strength_level = 13;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 14;
+  // Total number of times the user is notified that the device is eligible for satellite service
+  optional int32 count_of_satellite_notification_displayed = 15;
+  // Total number of times exit P2P message service automatically due to screen is off and timer is expired
+  optional int32 count_of_auto_exit_due_to_screen_off = 16;
+  // Total number of times exit P2P message service automatically when a TN network is detected during idle scanning mode
+  optional int32 count_of_auto_exit_due_to_tn_network = 17;
 }
 
 /**
@@ -173,6 +189,8 @@ message SatelliteIncomingDatagram {
   // considering that the first use of the satellite service is likely to be in
   // an emergency.
   optional bool is_demo_mode = 4;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 5;
 }
 
 /**
@@ -192,6 +210,8 @@ message SatelliteOutgoingDatagram {
   // considering that the first use of the satellite service is likely to be in
   // an emergency.
   optional bool is_demo_mode = 5;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 6;
 }
 
 /**
@@ -207,6 +227,8 @@ message SatelliteProvision {
   optional bool is_provision_request = 3;
   // Whether the provisioning request was canceled.
   optional bool is_canceled = 4;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 5;
 }
 
 /**
@@ -291,6 +313,10 @@ message CarrierRoamingSatelliteControllerStats {
   optional int32 satellite_session_gap_avg_sec = 6;
   // Maximum gap between satellite sessions
   optional int32 satellite_session_gap_max_sec = 7;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 8;
+  // Whether this device is entitled or not.
+  optional bool is_device_entitled = 9;
 }
 
 /**
@@ -298,6 +324,8 @@ message CarrierRoamingSatelliteControllerStats {
  */
 message ControllerStatsPerPackage {
   optional int32 uid = 1  [(is_uid) = true];
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 2;
 }
 
 /**
@@ -358,4 +386,8 @@ message SatelliteAccessController {
   repeated string country_codes = 8;
   // Source of geofencing config data
   optional android.telephony.ConfigDataSource config_data_source = 9;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 10;
+  // From which reason the Satellite Access Controller operation was triggered.
+  optional android.telephony.TriggeringEvent triggering_event = 11;
 }
