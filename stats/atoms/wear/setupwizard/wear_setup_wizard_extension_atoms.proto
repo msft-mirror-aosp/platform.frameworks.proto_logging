@@ -1,0 +1,213 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.wear.setupwizard;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/wear/setupwizard/enums.proto";
+
+option java_package = "com.android.os.wear.setupwizard";
+option java_multiple_files = true;
+
+/**
+ * All logs are logged from packages:
+ * vendor/google_clockwork/packages/SetupWizard/src/com/google/google/android/wearable/setupwizard
+ * vendor/google_clockwork/libs/setup
+ */
+
+extend Atom {
+  optional  WearSetupWizardDeviceStatusReported wear_setup_wizard_device_status_reported
+    = 953 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardPairingCompleted wear_setup_wizard_pairing_completed
+    = 954 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardConnectionEstablished wear_setup_wizard_connection_established
+    = 955 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardCheckinCompleted wear_setup_wizard_checkin_completed
+    = 956 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardCompanionTimeReported wear_setup_wizard_companion_time_reported
+    = 957 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardStatusReported wear_setup_wizard_status_reported
+    = 958 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardHeartbeatReported wear_setup_wizard_heartbeat_reported
+    = 959 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardFrpTriggered wear_setup_wizard_frp_triggered
+    = 960 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardSystemUpdateTriggered wear_setup_wizard_system_update_triggered
+    = 961 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
+    = 962 [(module) = "wear_setupwizard"];
+}
+
+/**
+ * Logged at the start and end of OOBE
+ */
+message WearSetupWizardDeviceStatusReported {
+  // The battery level of the watch
+  optional int32 battery_level = 1;
+
+  // Thermal status of the watch
+  // either LIGHT, MODERATE, SEVERE, CRITICAL, EMERGENCY, or SHUTDOWN
+  optional com.google.android.clockwork.setup.ThermalStatus thermal_status = 2;
+
+  // Whether the watch was on charger
+  optional bool is_on_charger = 3;
+
+  // Tether configuration set during OOBE
+  // either UNKNOWN, STANDALONE, TETHERED, or RESTRICTED
+  optional com.google.android.clockwork.setup.TetherConfiguration tether_configuration = 4;
+
+  // Wrist orientation set on companion during OOBE
+  // either LEFT_WRIST_WRIST_ORIENTATION_0, LEFT_WRIST_ORIENTATION_180, RIGHT_ORIENTATION_0, RIGHT_ORIENTATION_180
+  optional com.google.android.clockwork.setup.WristOrientation wrist_orientation = 5;
+
+  // SetupWizard application status
+  // either NOT_COMPLETED (in the OOBE process) or COMPLETED
+  optional com.google.android.clockwork.setup.SetupWizardStatus setup_wizard_status = 6;
+}
+
+/**
+ * Logged at pairing step
+ */
+message WearSetupWizardPairingCompleted {
+  // How pairing started / at which screen did pairing take place on the watch
+  // either FASTPAIR, LOCALE, or REGULARPAIR
+  optional com.google.android.clockwork.setup.PairingType pairing_type = 1;
+
+  // The companion OS type that is pairing with the watch
+  // either ANDROID or IOS
+  optional com.google.android.clockwork.setup.CompanionOsType companion_os_type = 2;
+
+  // Pairing step status
+  // either NOT_COMPLETED (in the pairing step) or COMPLETED
+  optional com.google.android.clockwork.setup.PairingStatus pairing_status  = 3;
+}
+
+/**
+ * Logged when comms connection established (done in WearServices)
+ * Essential during OOBE for message exchange between watch and companion
+ */
+message WearSetupWizardConnectionEstablished {
+  // Connection status between watch and companion
+  // either NOT_ESTABLISHED (comms in progress) or ESTABLISHED
+  optional com.google.android.clockwork.setup.ConnectionStatus connection_status = 1;
+}
+
+/**
+ * Logged at checkin step
+ */
+message WearSetupWizardCheckinCompleted {
+  // Number of attempts it took for successful checkin
+  optional int32 num_attempts = 1;
+
+  // Watch checkin status
+  // either NOT_COMPLETED (checkin in progress) or COMPLETED
+  optional com.google.android.clockwork.setup.CheckinStatus checkin_status = 2;
+}
+
+/**
+ * Logged when companion sends a message to sync time (watch syncs to companion time)
+ */
+message WearSetupWizardCompanionTimeReported {
+  // Companion current time expressed in ms
+  optional int64 companion_time_ms = 1;
+
+  // Watch current time expressed in ms
+  optional int64 watch_time_ms = 2;
+}
+
+/**
+ * Logged during status message exchange between watch and companion
+ */
+message WearSetupWizardStatusReported {
+  // Role of the watch during message exchange
+  // Either SENDER if watch sends a status, or RECEIVER upon receiving status
+  optional com.google.android.clockwork.setup.MessageRole message_role = 1;
+
+  // Status of the message sent or received
+  // Refer to frameworks/proto_logging/stats/atoms/wear/setupwizard atoms.proto file for possible message status types
+  optional com.google.android.clockwork.setup.MessageStatus message_status = 2;
+}
+
+/**
+ * Logged during heartbeat message exchange between watch and companion (only if resumable OOBE is triggered)
+ */
+message WearSetupWizardHeartbeatReported {
+  // Role of the watch during message exchange
+  // Either SENDER if watch sends a status, or RECEIVER upon receiving status
+  optional com.google.android.clockwork.setup.MessageRole message_role  = 1;
+
+  // Heartbeat message type of the message sent or received
+  // Either REQUEST, RESPONSE, or UNSUPPORTED_COMMAND
+  optional com.google.android.clockwork.setup.HeartbeatMessageType
+    heartbeat_message_type = 2;
+}
+
+/**
+ * Logged at FRP step (if triggered)
+ * Triggered under the conditions of
+ * 1. Watch previously setup
+ * 2. During watch setup user provided a google account
+ * 3. Factory resetting the watch was triggered from companion
+ */
+message WearSetupWizardFrpTriggered {
+  // Statuses encountered during FRP
+  // Refer to frameworks/proto_logging/stats/atoms/wear/setupwizard atoms.proto file for possible frp status types
+  optional com.google.android.clockwork.setup.FrpStatus frp_status = 1;
+}
+
+/**
+ * Logged during system update step (if triggered)
+ * Triggered if pending day 0 OTA is detected
+ */
+message WearSetupWizardSystemUpdateTriggered {
+  // Whether the OTA detected is day 0
+  // True if it is a day 0 OTA (watch needs to be updated during setup) and false otherwise
+  optional bool is_day_zero_ota = 1;
+
+  // Whether the OTA has completed successfully
+  // True if OTA status reaches a successful terminal status
+  // False if OTA status reached a failure terminal status
+  optional bool is_successful = 2;
+
+  // System update progress status
+  // either NOT_COMPLETED (system update in progress) or COMPLETED
+  optional com.google.android.clockwork.setup.SystemUpdateProgressStatus
+    system_update_progress_status = 3;
+}
+
+/**
+ * Logged during phone switching
+ */
+message WearSetupWizardPhoneSwitchTriggered {
+  // How phone switching was triggered
+  // either NONE, WATCH, COMPANION_USER_CONFIRMATION, or COMPANION
+  // COMPANION_USER_CONFIRMATION is when a new phone is going through setup and user transfer devices from an old phone to the new phone
+  optional com.google.android.clockwork.setup.PhoneSwitchingRequestSource
+    phone_switching_request_source = 1;
+
+  // Statuses encountered during phone switching
+  // Refer to frameworks/proto_logging/stats/atoms/wear/setupwizard atoms.proto file for possible phone switching statuses
+  optional com.google.android.clockwork.setup.PhoneSwitchingStatus
+    phone_switching_status = 2;
+
+  // Companion OS change after phone switching is completed
+  // Either ANDROID_TO_ANDROID, IOS_TO_ANDROID, or IOS_TO_IOS
+  optional com.google.android.clockwork.setup.PhoneSwitchingCompanionOsTypeChange
+    phone_switching_companion_os_type_change = 3;
+}

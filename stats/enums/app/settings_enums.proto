@@ -1546,7 +1546,7 @@ enum Action {
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 
     // ACTION: Settings > Accessibility > Simple View > Use Simple View
-    // VALUE: false is off, true is on
+    // VALUE: integer which is from SimpleViewUsageTimeType
     // OS: V
     ACTION_EASY_MODE_CHANGED = 1901;
 
@@ -1908,7 +1908,7 @@ enum Action {
     ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
 
     // ACTION: Welcome > Set up with Simple View > Use Simple View
-    // VALUE: false is off, true is on
+    // VALUE: integer which is from SimpleViewUsageTimeType
     // OS: V
     ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
 
@@ -5137,6 +5137,27 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     BLUETOOTH_KEY_MISSING_DIALOG_FRAGMENT = 2113;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_TOUCHPAD = 2114;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad -> Pointer Color Customization
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_COLOR_CUSTOMIZATION = 2115;
+
+    // OPEN: Settings > Connected Devices > Bluetooth > (click on details link for a paired device)
+    //       > More Settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    BLUETOOTH_DEVICE_DETAILS_MORE_SETTINGS = 2116;
+
+    // ACTION: Settings > Apps > Contacts storage > Select an account to set as default contacts account.
+    // CATEGORY: SETTINGS
+    // OS: V
+    CONTACTS_STORAGE = 2117;
 }
 
 // Battery Saver schedule types.
@@ -5169,4 +5190,20 @@ enum EntryPointType {
     KEYBOARD_SETTINGS = 1;
     // access physical keyboard settings through connected devices settings entry point
     CONNECTED_DEVICES_SETTINGS = 2;
+}
+
+// Simple view usage time types
+enum SimpleViewUsageTimeType {
+    // started to access simple view
+    SIMPLE_VIEW_USAGE_TYPE_ENABLED = 0;
+    // disabled simple view within 5 minutes
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_FIVE_MINUTES = 1;
+    // disabled simple view within 1 hour
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_HOUR = 2;
+    // disabled simple view within 1 day
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_DAY = 3;
+    // disabled simple view within 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_WEEK = 4;
+    // disabled simple view over 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_OVER_ONE_WEEK = 5;
 }

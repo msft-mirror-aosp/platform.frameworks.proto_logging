@@ -204,7 +204,7 @@ message AutofillSaveEventReported {
  */
 message AutofillSessionCommitted {
   optional int32 session_id = 1;
-  optional int32 component_package_uid = 2;
+  optional int32 component_package_uid = 2 [(is_uid) = true];
   optional int64 request_count = 3;
   // Commit reason
   optional AutofillCommitReason commit_reason = 4;
