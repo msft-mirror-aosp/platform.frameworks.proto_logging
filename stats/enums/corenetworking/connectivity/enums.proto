@@ -75,3 +75,11 @@ enum FastDataInputState {
   FDIS_ENABLED= 1;
   FDIS_DISABLED = 2;
 }
+
+// Type of terrible error.
+enum TerribleErrorType {
+  TYPE_UNKNOWN = 0;
+  // Indicate the error state that the NetworkAgent sent messages to
+  // connectivity service before it is connected.
+  TYPE_MESSAGE_QUEUED_BEFORE_CONNECT = 1;
+}
