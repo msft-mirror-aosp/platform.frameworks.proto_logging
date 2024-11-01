@@ -1306,6 +1306,7 @@ message Atom {
     extensions 976; // CarQcLibEventReported car_qc_lib_event_reported
     extensions 977; // ImageDecoded image_decoded
     extensions 978; // IntentCreatorTokenAdded intent_creator_token_added
+    extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
     extensions 980; // HealthConnectPhrApiInvoked health_connect_phr_api_invoked
     extensions 9999; // Atom9999 atom_9999
 
