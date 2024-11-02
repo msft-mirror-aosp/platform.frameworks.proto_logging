@@ -850,7 +850,7 @@ enum RemoteEventState {
   REMOTE_EVENT_RESPONSE_SECURITY_EXCEPTION = 7;
 
   // The RemoteEvent triggered by the caller is not recognized/supported by the Companion.
-  EMOTE_EVENT_RESPONSE_INVALID_REMOTE_EVENT_TYPE = 8;
+  REMOTE_EVENT_RESPONSE_INVALID_REMOTE_EVENT_TYPE = 8;
 
   // Failure when trying to execute the RemoteEvent on the phone.
   REMOTE_EVENT_RESPONSE_REMOTE_EXECUTION_EXCEPTION = 9;

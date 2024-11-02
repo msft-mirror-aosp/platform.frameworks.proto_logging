@@ -58,6 +58,7 @@ extend Atom {
     optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
     optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
     optional JankFrameCountByWidget jank_frame_count_by_widget = 950 [(module)="framework"];
+    optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
 }
 
 /**
@@ -977,4 +978,20 @@ message JankFrameCountByWidget {
 
   // Histogram of frame duration overruns.
   repeated int32 frame_overrun_histogram = 9;
+}
+
+/**
+ * [Pushed atom] Logged when an IntentCreatorToken is added to an Intent.
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *      #addCreatorToken
+ *
+ * Estimated Logging Rate:
+ *  Peak: 100 times per device per day.
+ *  Avg: 20 times per device per day.
+ */
+message IntentCreatorTokenAdded {
+  // creator uid
+  optional int32 creator_uid = 1 [(is_uid) = true];
 }
