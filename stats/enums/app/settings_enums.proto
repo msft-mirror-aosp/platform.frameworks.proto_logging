@@ -5178,6 +5178,21 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     CONTACTS_STORAGE = 2117;
+
+    // OPEN: Settings > Developer Options > Enable Linux terminal
+    // CATEGORY: SETTINGS
+    // OS: W
+    LINUX_TERMINAL_DASHBOARD = 2118;
+
+    // OPEN: Settings > System > Language > Regional preferences > Measurement system
+    // CATEGORY: SETTINGS
+    // OS: W
+    MEASUREMENT_SYSTEM_PREFERENCE = 2119;
+
+    // ACTION: Settings > Notifications > Bundle notifications
+    // CATEGORY: SETTINGS
+    // OS: B
+    BUNDLED_NOTIFICATIONS = 2120;
 }
 
 // Battery Saver schedule types.
