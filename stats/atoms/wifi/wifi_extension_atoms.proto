@@ -479,6 +479,8 @@ message WifiSettingInfo {
         WIFI_ENHANCED_MAC_RANDOMIZATION = 6;
         WIFI_NETWORKS_AVAILABLE_NOTIFICATION = 7;
         LOCATION_MODE = 8;
+        // A flag controlled by DeviceConfig to dry run external scorer or not.
+        EXTERNAL_SCORER_DRY_RUN = 9;
     }
 
     // Name of the Wifi setting
@@ -742,6 +744,11 @@ message ScorerPredictionResultReported {
         FRAMEWORK_STATE_CONNECTED = 2; // Normal operation (most of the time is spent in this state).
         FRAMEWORK_STATE_LINGERING = 3; // We are in the lingering period. i.e. We have recommended a switch to cellular but have not forecefully closed the WiFi connection yet.
     }
+    enum TrueFalseUnknown {
+        UNKNOWN = 0;
+        TRUE = 1;
+        FALSE = 2;
+    }
     // The AttributionNode to identify the caller
     repeated AttributionNode attribution_node = 1;
     // The scorer's prediction of the current Wi-Fi state
@@ -756,4 +763,12 @@ message ScorerPredictionResultReported {
     optional int32 rssi_polling_interval_ms = 6;
     // Current state of the WiFi framework.
     optional WifiFrameworkState wifi_framework_state = 7;
+    // NetworkCapabilities calculated link speed is sufficient in the downstream direction.
+    optional TrueFalseUnknown speed_sufficient_network_capabilities_ds = 8;
+    // NetworkCapabilities calculated link speed is sufficient in the upstream direction.
+    optional TrueFalseUnknown speed_sufficient_network_capabilities_us = 9;
+    // ThroughputPredictor calculated link speed is sufficient in the downstream direction.
+    optional TrueFalseUnknown speed_sufficient_throughput_predictor_ds = 10;
+    // ThroughputPredictor calculated link speed is sufficient in the upstream direction.
+    optional TrueFalseUnknown speed_sufficient_throughput_predictor_us = 11;
 }
