@@ -3935,7 +3935,7 @@ enum PageId {
     // OPEN: Settings > Emergency settings
     // CATEGORY: SETTINGS
     // OS: S
-   EMERGENCY_SETTINGS = 1859;
+    EMERGENCY_SETTINGS = 1859;
 
     // OPEN: Settings -> Apps -> APP -> Extra App Info
     // CATEGORY: SETTINGS
@@ -5158,6 +5158,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     CONTACTS_STORAGE = 2117;
+
+    // OPEN: Settings > Developer Options > Enable Linux terminal
+    // CATEGORY: SETTINGS
+    // OS: W
+    LINUX_TERMINAL_DASHBOARD = 2118;
 }
 
 // Battery Saver schedule types.
