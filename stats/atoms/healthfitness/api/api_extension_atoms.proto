@@ -41,6 +41,12 @@ extend Atom {
   optional HealthConnectImportInvoked health_connect_import_invoked = 918 [(module) = "healthfitness"];
 
   optional HealthConnectExportImportStatsReported health_connect_export_import_stats_reported = 919 [(module) = "healthfitness"];
+
+  optional HealthConnectPermissionStats health_connect_permission_stats = 963 [(module) = "healthfitness"];
+
+  optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectPhrUsageStats health_connect_phr_usage_stats = 981 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -66,6 +72,9 @@ message HealthConnectApiCalled {
 
   // The API caller's foreground status
   optional android.healthfitness.api.ForegroundState caller_foreground_state = 7;
+
+  // Package calling the API. We will remove any package with less than certain number of installs (500k for now) from aggregations.
+  optional string package_name = 8;
 }
 
 // Track if users are connecting apps with Health Connect
@@ -79,6 +88,25 @@ message HealthConnectUsageStats {
 
   // Set true is the user has one app reading or writing in past 30 days
   optional bool is_monthly_active_user = 3;
+
+}
+
+// Track if users are connecting personal health record apps with Health Connect
+message HealthConnectPhrUsageStats {
+
+  // Number of connected medical data sources
+  optional int32 connected_medical_datasource_count = 1;
+
+  // Number of stored medical resources.
+  optional int32 medical_resource_count = 2;
+
+  // Set true if the user has one read medical resources API call in past 30
+  // days. PHR stands for Personal Health Record.
+  optional bool is_monthly_active_phr_user = 3;
+
+  // Number of apps that have been granted at least one medical data read
+  // permission. PHR stands for Personal Health Record.
+  optional int32 granted_phr_apps_count = 4;
 
 }
 
@@ -206,4 +234,35 @@ message HealthConnectApiInvoked {
   optional android.healthfitness.api.DataType data_type_six = 11
   [(field_restriction_option).health_connect = true];
 
+}
+
+// Track Health Connect API operations stats.
+message HealthConnectPhrApiInvoked {
+
+  // API method invoked.
+  optional android.healthfitness.api.ApiMethod api_method = 1;
+
+  // Status whether the API call executed successfully or not.
+  optional android.healthfitness.api.ApiStatus api_status = 2;
+
+  // Package name of the client that invoked the API.
+  optional string package_name = 3;
+
+  // Medical resource type under consideration in the API call (if any).
+  // When there are multiple resource types in an API call, multiple HealthConnectPhrApiInvoked
+  // messages will be created and logged.
+  optional android.healthfitness.api.MedicalResourceType medical_resource_type = 4
+    [(field_restriction_option).health_connect = true];
+}
+
+/**
+ * Information about a permission granted to each package using HC.
+ */
+message HealthConnectPermissionStats {
+
+  // Name of package. We will remove any package with less than certain number of installs (500k for now) from aggregations.
+  optional string package_name = 1;
+
+  // Health Connect permission granted to the given package
+  repeated string permission_name = 2;
 }

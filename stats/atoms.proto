@@ -46,6 +46,7 @@ import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
@@ -1267,23 +1268,55 @@ message Atom {
     extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
     extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
     extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
-    extensions 936; // WsBugreportRequested ws_bugreport_requested
-    extensions 937; // WsBugreportTriggered ws_bugreport_triggered
-    extensions 938; // WsBugreportFinished ws_bugreport_finished
-    extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
     extensions 940; // DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated
     extensions 941; // WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync
     extensions 942; // PeripheralTutorialLaunched peripheral_tutorial_launched
     extensions 943; // AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called
     extensions 944; // BiometricUnenrolled biometric_unenrolled
     extensions 945; // BiometricEnumerated biometric_enumerated
+    extensions 946; // HardwareRendererEvent hardware_renderer_event
+    extensions 947; // TextureViewEvent texture_view_event
+    extensions 948; // SurfaceControlEvent surface_control_event
+    extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
+    extensions 950; // JankFrameCountByWidget
+    extensions 951; // AccountManagerEvent account_manager_event
+    extensions 952; // OnDevicePersonalizationTraceEvent ondevicepersonalization_trace_event
+    extensions 953; // WearSetupWizardDeviceStatusReported wear_setup_wizard_device_status_reported
+    extensions 954; // WearSetupWizardPairingCompleted wear_setup_wizard_pairing_completed
+    extensions 955; // WearSetupWizardConnectionEstablished wear_setup_wizard_connection_established
+    extensions 956; // WearSetupWizardCheckinCompleted wear_setup_wizard_checkin_completed
+    extensions 957; // WearSetupWizardCompanionTimeReported wear_setup_wizard_companion_time_reported
+    extensions 958; // WearSetupWizardStatusReported wear_setup_wizard_status_reported
+    extensions 959; // WearSetupWizardHeartbeatReported wear_setup_wizard_hearbeat_reported
+    extensions 960; // WearSetupWizardFrpTriggered wear_setup_wizard_frp_triggered
+    extensions 961; // WearSetupWizardSystemUpdateTriggered wear_setup_wizard_system_update_triggered
+    extensions 962; // WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
+    extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
+    extensions 964; // WsBugreportEventReported ws_bugreport_event_reported
+    extensions 965; // ConscryptServiceUsed conscrypt_service_used
+    extensions 966; // MediaControlApiUsageReported media_control_api_usage_reported
+    extensions 967; // ScheduledCustomAudienceUpdateScheduleAttempted scheduled_custom_audience_update_schedule_attempted
+    extensions 968; // ScheduledCustomAudienceUpdatePerformed scheduled_custom_audience_update_performed
+    extensions 969; // ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported scheduled_custom_audience_update_performed_attempted_failure_reported
+    extensions 970; // ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran
+    extensions 971; // ContextualEducationTriggered contextual_education_triggered
+    extensions 972; // CertificateTransparencyLogListUpdateFailed certificate_transparency_log_list_update_failed
+    extensions 973; // Reserved for b/375457523
+    extensions 974; // CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported
+    extensions 975; // CarSettingsDataSubscriptionEventReported car_settings_data_subscription_event_reported
+    extensions 976; // CarQcLibEventReported car_qc_lib_event_reported
+    extensions 977; // ImageDecoded image_decoded
+    extensions 978; // IntentCreatorTokenAdded intent_creator_token_added
+    extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
+    extensions 980; // HealthConnectPhrApiInvoked health_connect_phr_api_invoked
+    extensions 981; // HealthConnectPhrUsageStats health_connect_phr_usage_stats
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10230
+    // Next: 10231
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1549,12 +1582,13 @@ message Atom {
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
+    extensions 10230; // FrameworkWakelockInfo framework_wakelock_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
@@ -9666,6 +9700,7 @@ message BatteryUsageStatsAtomsProto {
                 FOREGROUND = 1;
                 BACKGROUND = 2;
                 FOREGROUND_SERVICE = 3;
+                // Keep in sync with BatteryUsageStatsPerUid.ProcessState.
             }
 
             optional ProcessState process_state = 2;
@@ -9692,6 +9727,7 @@ message BatteryUsageStatsAtomsProto {
                 FOREGROUND = 1;
                 BACKGROUND = 2;
                 FOREGROUND_SERVICE = 3;
+                // Keep in sync with BatteryUsageStatsPerUid.ProcessState.
             }
 
             optional ProcessState process_state = 1;
@@ -14713,17 +14749,22 @@ message PerfettoTrigger {
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
-        PERFETTO_CMD_TRIGGER = 1;
-        PERFETTO_CMD_TRIGGER_FAIL = 2;
-
-        PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3;
-        PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4;
-
         PERFETTO_TRACED_LIMIT_PROBABILITY = 5;
         PERFETTO_TRACED_LIMIT_MAX_PER_24_H = 6;
 
-        PERFETTO_PROBES_PRODUCER_TRIGGER = 7;
-        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8;
+        PERFETTO_TRACED_TRIGGER = 9;
+
+        // Contained events of logging triggers through perfetto_cmd, probes and
+        // trigger_perfetto. Obsolete because of logging dirctly in traced instead.
+        // Removed in W (Oct 2024) and replaced by |kTracedTrigger|.
+        PERFETTO_CMD_TRIGGER = 1 [deprecated = true];
+        PERFETTO_CMD_TRIGGER_FAIL = 2 [deprecated = true];
+
+        PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3 [deprecated = true];
+        PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4 [deprecated = true];
+
+        PERFETTO_PROBES_PRODUCER_TRIGGER = 7 [deprecated = true];
+        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8 [deprecated = true];
     }
 
     // The event which fired.
@@ -21940,8 +21981,10 @@ message MobileBundledAppInfoGathered {
         UPDATED_PRELOAD = 2;
         NEW_MBA = 3;
         UPDATED_NEW_MBA = 4;
+        DOWNGRADED_PRELOADED = 5;
+        UNINSTALLED_MBA = 6;
     }
-    // whether or not the MBA is preloaded or dynamically installed
+    // whether the MBA is preloaded, dynamically installed, or uninstalled/downgraded
     optional MBAStatus mba_status = 6;
     // the package that initiated the installation of this MBA
     optional string initiator = 7;
