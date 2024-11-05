@@ -1916,6 +1916,12 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_SPACE_ERRORS = 1964;
+
+    // ACTION: Settings > System > Languages > Regional preferences
+    //         > Measurement system > Set the preferred measurement system.
+    // CATEGORY: SETTINGS
+    // OS: W
+    ACTION_SET_MEASUREMENT_SYSTEM = 1965;
 }
 
 /**
@@ -5163,6 +5169,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: W
     LINUX_TERMINAL_DASHBOARD = 2118;
+
+    // OPEN: Settings > System > Language > Regional preferences > Measurement system
+    // CATEGORY: SETTINGS
+    // OS: W
+    MEASUREMENT_SYSTEM_PREFERENCE = 2119;
 }
 
 // Battery Saver schedule types.
