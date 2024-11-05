@@ -46,6 +46,7 @@ import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
@@ -1308,6 +1309,7 @@ message Atom {
     extensions 978; // IntentCreatorTokenAdded intent_creator_token_added
     extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
     extensions 980; // HealthConnectPhrApiInvoked health_connect_phr_api_invoked
+    extensions 981; // HealthConnectPhrUsageStats health_connect_phr_usage_stats
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
