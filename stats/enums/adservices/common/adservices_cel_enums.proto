@@ -111,6 +111,27 @@ enum ErrorCode {
   // Error code is present multiple times in the custom sampling proto
   ERROR_CODE_PRESENT_MULTIPLE_TIMES_IN_PROTO = 26;
 
+  // Package Deny process failure unknown.
+  PACKAGE_DENY_PROCESS_ERROR_FAILURE_UNKNOWN = 27;
+
+  // Package Deny process failure due to no file found.
+  PACKAGE_DENY_PROCESS_ERROR_NO_FILE_FOUND = 28;
+
+  // Package Deny process failure due to reading file.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_READING_FILE = 29;
+
+  // Package Deny process failure in filtering installed packages.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_FILTERING_INSTALLED_PACKAGES = 30;
+
+  // Package Deny process failure due to updating cache.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_UPDATING_CACHE = 31;
+
+  // Package Deny process failure due failure reading cache.
+  PACKAGE_DENY_PROCESS_ERROR_FAILED_READING_CACHE = 32;
+
+  // Package Deny process failure service disabled.
+  PACKAGE_DENY_PROCESS_ERROR_DISABLED = 33;
+
   // SPE Errors: 901 - 1000
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
@@ -765,6 +786,55 @@ enum ErrorCode {
 
   // Exception because URI to fetch active key of type is null in AdSelectionEncryptionKeyManager.
   AD_SELECTION_ENCRYPTION_KEY_MANAGER_NULL_FETCH_URI = 3129;
+
+  // Exception because Fledge API not available in AdSelectionService.
+  AD_SELECTION_SERVICE_AUCTION_SERVER_API_NOT_AVAILABLE = 3130;
+
+  // Exception while AdSelectionService has a null argument.
+  AD_SELECTION_SERVICE_NULL_ARGUMENT = 3131;
+
+  // Exception because AdSelectionService get illegal calling UID.
+  AD_SELECTION_SERVICE_GET_CALLING_UID_ILLEGAL_STATE = 3132;
+
+  // Exception because no match found, failing calling package name match
+  // in FledgeAuthorizationFilter.
+  FLEDGE_AUTHORIZATION_FILTER_NO_MATCH_PACKAGE_NAME = 3133;
+
+  // Exception because one permission not declared by caller in FledgeAuthorizationFilter.
+  FLEDGE_AUTHORIZATION_FILTER_PERMISSION_FAILURE = 3134;
+
+  // Exception because any permission not declared by caller in FledgeAuthorizationFilter.
+  FLEDGE_AUTHORIZATION_FILTER_ANY_PERMISSION_FAILURE = 3135;
+
+  // Exception because enrollment data match not found for ad tech while
+  // calling FledgeAuthorizationFilter.
+  FLEDGE_AUTHORIZATION_FILTER_ENROLLMENT_DATA_MATCH_NOT_FOUND = 3136;
+
+  // Error occurred because app package name with ad tech identifier not authorized
+  // to call Fledge API.
+  FLEDGE_AUTHORIZATION_FILTER_AD_TECH_NOT_AUTHORIZED_BY_APP = 3137;
+
+  // Error occurred because enrollment is in block list to call Fledge API.
+  FLEDGE_AUTHORIZATION_FILTER_NOT_ALLOWED_ENROLLMENT_BLOCKLISTED = 3138;
+
+  // Exception because user consent for Fledge API is not given.
+  FLEDGE_CONSENT_FILTER_USER_CONSENT_FOR_API_IS_NOT_GIVEN = 3139;
+
+  // Exception because user consent for Fledge API is revoked.
+  FLEDGE_CONSENT_FILTER_CONSENT_REVOKED_FOR_APP = 3140;
+
+  // Exception because of Fledge API missing any notification displayed.
+  FLEDGE_CONSENT_FILTER_MISSING_ANY_NOTIFICATION_DISPLAYED = 3141;
+
+  // Exception because all APIs consent disabled for Fledge API.
+  FLEDGE_CONSENT_FILTER_ALL_APIS_CONSENT_DISABLED = 3142;
+
+  // Error occurred because interaction URI length exceeds the maximum allowed
+  // in PersistAdSelectionResultRunner.
+  PERSIST_AD_SELECTION_RESULT_RUNNER_INTERACTION_URI_EXCEEDS_MAXIMUM_LIMIT = 3143;
+
+  // Error occurred when a revoke consent error is silently handled with notifying an empty success.
+  PERSIST_AD_SELECTION_RESULT_RUNNER_NOTIFY_EMPTY_SUCCESS_SILENT_CONSENT_FAILURE = 3144;
 
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
