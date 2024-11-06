@@ -42,8 +42,6 @@ import "frameworks/proto_logging/stats/atoms/sysui/sysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
-import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
@@ -96,7 +94,6 @@ import "frameworks/proto_logging/stats/enums/stats/intelligence/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
-import "frameworks/proto_logging/stats/enums/stats/mobiledatadownload/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/privacysignals/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
@@ -1310,6 +1307,7 @@ message Atom {
     extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
     extensions 980; // HealthConnectPhrApiInvoked health_connect_phr_api_invoked
     extensions 981; // HealthConnectPhrUsageStats health_connect_phr_usage_stats
+    extensions 982; // BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
