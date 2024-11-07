@@ -1922,6 +1922,20 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: W
     ACTION_SET_MEASUREMENT_SYSTEM = 1965;
+
+    // ACTION: Settings > Connected devices > Bluetooth > Pair new device > failed
+    //         > retry A2DP profile connection
+    //  SUBTYPE: 0 is fail, 1 is success
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_CONNECTION_A2DP_RETRY_TRIGGERED = 1966;
+
+    // ACTION: Settings > Connected devices > Bluetooth > Pair new device > failed
+    //         > retry HEADSET profile connection
+    //  SUBTYPE: 0 is fail, 1 is success
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_CONNECTION_HEADSET_RETRY_TRIGGERED = 1967;
 }
 
 /**
@@ -3941,7 +3955,7 @@ enum PageId {
     // OPEN: Settings > Emergency settings
     // CATEGORY: SETTINGS
     // OS: S
-    EMERGENCY_SETTINGS = 1859;
+   EMERGENCY_SETTINGS = 1859;
 
     // OPEN: Settings -> Apps -> APP -> Extra App Info
     // CATEGORY: SETTINGS
@@ -5174,6 +5188,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: W
     MEASUREMENT_SYSTEM_PREFERENCE = 2119;
+
+    // ACTION: Settings > Notifications > Bundle notifications
+    // CATEGORY: SETTINGS
+    // OS: B
+    BUNDLED_NOTIFICATIONS = 2120;
 }
 
 // Battery Saver schedule types.

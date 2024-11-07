@@ -60,6 +60,7 @@ extend Atom {
     optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
     optional JankFrameCountByWidget jank_frame_count_by_widget = 950 [(module)="framework"];
     optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
+    optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
 }
 
 /**
@@ -995,4 +996,26 @@ message JankFrameCountByWidget {
 message IntentCreatorTokenAdded {
   // creator uid
   optional int32 creator_uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Reports a notification got an Adjustment with the KEY_TYPE value set
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/notification/
+ * Estimated Logging Rate:
+ *   Peak: 300 times per device per day. | Avg: 40 times per device per day.
+ *
+ */
+message NotificationChannelClassification {
+    // Was the notification reclassified to a new channel after it was already posted.
+    optional bool receive_adjustment_after_post = 1;
+
+    // Was the notification high enough priority to be "alerting" before it got reclassified.
+    optional bool was_alerting = 2;
+
+    // The new channel category the notification has been reclassified as.
+    optional int32 category = 3;
+
+    // The length of the lifetime of the notification up to when it got reclassified.
+    optional int32 latency_ms = 4;
 }
