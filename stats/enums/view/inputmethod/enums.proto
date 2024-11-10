@@ -268,5 +268,8 @@ enum ImeRequestPhaseEnum {
     // The view's handler is needed to check if we're running on a different thread. We can't
     // continue without.
     PHASE_CLIENT_VIEW_HANDLER_AVAILABLE = 66;
+    // ImeInsetsSourceProvider sets the reported visibility of the caller/client  window (either the
+    // app or the RemoteInsetsControlTarget).
+    PHASE_SERVER_UPDATE_CLIENT_VISIBILITY = 67;
 }
 
