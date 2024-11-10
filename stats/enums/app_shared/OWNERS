@@ -1,0 +1,1 @@
+per-file app_op_enums.proto = file:platform/frameworks/base:/core/java/android/permission/OWNERS

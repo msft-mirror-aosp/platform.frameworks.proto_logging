@@ -45,6 +45,8 @@ extend Atom {
   optional HealthConnectPermissionStats health_connect_permission_stats = 963 [(module) = "healthfitness"];
 
   optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectPhrUsageStats health_connect_phr_usage_stats = 981 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -86,6 +88,25 @@ message HealthConnectUsageStats {
 
   // Set true is the user has one app reading or writing in past 30 days
   optional bool is_monthly_active_user = 3;
+
+}
+
+// Track if users are connecting personal health record apps with Health Connect
+message HealthConnectPhrUsageStats {
+
+  // Number of connected medical data sources
+  optional int32 connected_medical_datasource_count = 1;
+
+  // Number of stored medical resources.
+  optional int32 medical_resource_count = 2;
+
+  // Set true if the user has one read medical resources API call in past 30
+  // days. PHR stands for Personal Health Record.
+  optional bool is_monthly_active_phr_user = 3;
+
+  // Number of apps that have been granted at least one medical data read
+  // permission. PHR stands for Personal Health Record.
+  optional int32 granted_phr_apps_count = 4;
 
 }
 
