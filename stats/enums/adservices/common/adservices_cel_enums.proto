@@ -1176,6 +1176,63 @@ enum ErrorCode {
   // Error occurs when the version in the header of fetch JS response is not a numeric value.
   JS_FETCHER_NON_NUMERIC_VERSION_FOR_JS_PAYLOAD = 3257;
 
+  // Error occurred when API type is unknown while trying to get enrollment data for an Ad tech.
+  FLEDGE_AUTHORIZATION_FILTER_INVALID_API_TYPE = 3258;
+
+  // Error occurred when failed to fetch enrollment data for an Ad tech.
+  FLEDGE_AUTHORIZATION_FILTER_ENROLLMENT_NOT_FOUND = 3259;
+
+  // Error occurred when an Ad tech from given URI is blocked.
+  FLEDGE_AUTHORIZATION_FILTER_NOT_ALLOWED_ENROLLMENT_FROM_URI_BLOCKED = 3260;
+
+  // Error occurred when the feature of scheduling an CA update is disabled.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_DISABLED = 3261;
+
+  // Error occurred when the user consent is revoked when attempting to schedule an CA update.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_USER_CONSENT_REVOKED = 3262;
+
+  // Error occurred when failed to filter a schedule CA update request.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_FILTER_EXCEPTION = 3263;
+
+  // Error occurred when failed schedule an CA update due to a pending schedule.
+  CUSTOM_AUDIENCE_DAO_FAILED_DUE_TO_PENDING_SCHEDULE = 3264;
+
+  // Error occurred when failed to notify success after scheduled an CA update.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_SUCCESS_TO_CALLER_FAILED = 3265;
+
+  // Error occurred when failed to schedule an CA update because the user consent is revoked.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_USER_CONSENT_REVOKED = 3266;
+
+  // Error occurred when failed to schedule an CA update because the caller is from background.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_BACKGROUND_CALLER = 3267;
+
+  // Error occurred when failed to schedule an CA update because the caller package is not allowed.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_CALLER_NOT_ALLOWED = 3268;
+
+  // Error occurred when failed to schedule an CA update because the caller is not authorized.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_UNAUTHORIZED = 3269;
+
+  // Error occurred when failed to schedule an CA update because the caller exceeded rate limit.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_RATE_LIMIT_REACHED = 3270;
+
+  // Error occurred when failed to schedule an CA update because of an invalid object.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_INVALID_OBJECT = 3271;
+
+  // Error occurred when failed to schedule an CA update because request reached server rate limit.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_SERVER_RATE_LIMIT_REACHED = 3272;
+
+  // Error occurred when failed to schedule an CA update because of an invalid argument.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_INVALID_ARGUMENT = 3273;
+
+  // Error occurred when failed to schedule an CA update because of a pending schedule.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_UPDATE_ALREADY_PENDING_ERROR = 3274;
+
+  // Error occurred when failed to schedule an CA update because of an unexpected error.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_INTERNAL_ERROR = 3275;
+
+  // Error occurred when failed to schedule an CA update when fail to notify failure to the caller.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_TO_CALLER_FAILED = 3276;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 

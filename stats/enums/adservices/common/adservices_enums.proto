@@ -101,7 +101,8 @@ enum PpapiName {
   LEAVE_CUSTOM_AUDIENCE = 17;
   // Represents fetchAndJoinCustomAudience API of FLEDGE.
   FETCH_AND_JOIN_CUSTOM_AUDIENCE = 18;
-
+  // Represents scheduleCustomAudienceUpdate API of FLEDGE.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 19;
 }
 
 /**
