@@ -233,6 +233,8 @@ message SoftApStarted {
     optional android.net.wifi.StaStatus sta_status = 7;
     // Authentication type of the Soft AP
     optional android.net.wifi.WifiAuthType auth_type = 8;
+    // The uid of the caller
+    optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
@@ -727,11 +729,23 @@ message ScorerPredictionResultReported {
     }
     enum DeviceState {
         STATE_UNKNOWN = 0;
-        STATE_PREDICT_ONLY = 1; // Measures theoretical performance. Collected when adaptive connectivity is off.
-        STATE_CELLULAR_OFF = 2; // Cellular data is disabled.
-        STATE_CELLULAR_UNAVAILABLE = 3; // Measures actual performance based on a subset of data collected cellular data is toggled on, but unavailable.
-        STATE_LINGERING = 4;
-        STATE_OTHERS = 5;
+        STATE_NO_CELLULAR_MODEM = 1; // Cellular modem not available
+        STATE_NO_SIM_INSERTED = 2; // SIM not inserted
+        STATE_SCORING_DISABLED = 3; // Measures theoretical performance. Collected when adaptive connectivity is toggled off on Pixel, or scoring is disabled.
+        STATE_CELLULAR_OFF = 4; // Cellular data is disabled.
+        STATE_CELLULAR_UNAVAILABLE = 5; // Measures actual performance based on a subset of data collected cellular data is toggled on, but unavailable.
+        STATE_OTHERS = 6;
+    }
+    enum WifiFrameworkState {
+        FRAMEWORK_STATE_UNKNOWN = 0;
+        FRAMEWORK_STATE_AWAKENING = 1; // WiFi framework just woke up and this is the first RSSI poll.
+        FRAMEWORK_STATE_CONNECTED = 2; // Normal operation (most of the time is spent in this state).
+        FRAMEWORK_STATE_LINGERING = 3; // We are in the lingering period. i.e. We have recommended a switch to cellular but have not forecefully closed the WiFi connection yet.
+    }
+    enum TrueFalseUnknown {
+        UNKNOWN = 0;
+        TRUE = 1;
+        FALSE = 2;
     }
     // The AttributionNode to identify the caller
     repeated AttributionNode attribution_node = 1;
@@ -745,4 +759,14 @@ message ScorerPredictionResultReported {
     optional DeviceState device_state = 5;
     // RSSI polling interval, which affects the scorer's prediction interval.
     optional int32 rssi_polling_interval_ms = 6;
+    // Current state of the WiFi framework.
+    optional WifiFrameworkState wifi_framework_state = 7;
+    // NetworkCapabilities calculated link speed is sufficient in the downstream direction.
+    optional TrueFalseUnknown speed_sufficient_network_capabilities_ds = 8;
+    // NetworkCapabilities calculated link speed is sufficient in the upstream direction.
+    optional TrueFalseUnknown speed_sufficient_network_capabilities_us = 9;
+    // ThroughputPredictor calculated link speed is sufficient in the downstream direction.
+    optional TrueFalseUnknown speed_sufficient_throughput_predictor_ds = 10;
+    // ThroughputPredictor calculated link speed is sufficient in the upstream direction.
+    optional TrueFalseUnknown speed_sufficient_throughput_predictor_us = 11;
 }

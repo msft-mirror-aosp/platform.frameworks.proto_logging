@@ -60,11 +60,32 @@ extend Atom {
     ws_complications_impacted_notification_event_reported = 804
       [(module) = "wearservices"];
 
+  optional WsRemoteEventUsageReported ws_remote_event_usage_reported = 920
+      [(module) = "wearservices"];
+
+    optional WsBugreportRequested ws_bugreport_requested = 936
+      [(module) = "wearservices"];
+
+  optional WsBugreportTriggered ws_bugreport_triggered = 937
+      [(module) = "wearservices"];
+
+  optional WsBugreportFinished ws_bugreport_finished = 938
+      [(module) = "wearservices"];
+
+  optional WsBugreportResultReceived ws_bugreport_result_received = 939
+      [(module) = "wearservices"];
+
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
       [(module) = "wearservices"];
 
   optional WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot = 10206
+      [(module) = "wearservices"];
+
+  optional WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot = 10225
+      [(module) = "wearservices"];
+
+  optional WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot = 10227
       [(module) = "wearservices"];
 }
 
@@ -193,6 +214,7 @@ message WsWearTimeSession {
  */
 message WsOnBodyStateChanged {
   optional android.app.wearservices.OnBodyState on_body_state = 1;
+  optional int64 sensor_event_timestamp_nanos = 2;
 }
 
 /**
@@ -272,6 +294,37 @@ message WsFavouriteWatchFaceSnapshot {
 }
 
 /**
+ * Snapshot for the types of watch face customizations done by the user till date.
+ */
+message WsWatchFaceCustomizationSnapshot {
+  // Indicates that the user customized a WF any time in the past.
+  optional bool customized_wf = 1;
+
+  // Indicates that the user switched to a pre-installed WF any time in the past.
+  optional bool switched_to_pre_installed_wf = 2;
+
+  // Indicates that the user switched to a non preinstalled WF any time in the past.
+  optional bool switched_to_non_preinstalled_wf = 3;
+}
+
+/**
+ * Snapshot of a photos watch face feature for the watch face favorite.
+ */
+message WsPhotosWatchFaceFeatureSnapshot {
+  // Watch face package uid.
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
+
+  // An ID number generated on a watch to uniquely identify watch face instances.
+  // An Androidx watch face can be added multiple times to the favorites list and this field is used
+  // to differentiate each instance, without leaking any information about the watch face itself.
+  // Note: equals to -1 in case of WSL watch faces.
+  optional int32 favorite_id = 2;
+
+  // Contains types for photo selection.
+  optional android.app.wearservices.PhotoSelectionType photo_selection_type = 3;
+}
+
+/**
  * Logged whenever a user adds a watch face to the list of favorites and it contains
  * restricted default complications.
  */
@@ -318,4 +371,55 @@ message WsComplicationsImpactedNotificationEventReported {
     CLICKED = 2;
   }
   optional Event event = 1;
+}
+
+/**
+ * Logged whenever a remote event is being sent to the companion.
+ *
+ * Logged from package :
+ * vendor/google_clockwork_partners/packages/WearServices
+ */
+message WsRemoteEventUsageReported {
+
+  // Indicates the type of remote event being reported.
+  optional android.app.wearservices.RemoteEventType remote_event_type = 1;
+
+  // Indicates the status of the remote event being sent.
+  optional bool is_successful = 2;
+}
+
+/** Logged when WearServices triggers a bugreport to be captured. */
+message WsBugreportTriggered {
+}
+
+/** Logged when WearServices receives a request to capture a bugreport. */
+message WsBugreportRequested {
+
+  // Depicts the request source of the bugreport
+  // Values: (BUGREPORT_COMPONENT_UNKNOWN, BUGREPORT_COMPONENT_COMPANION_APP, BUGREPORT_COMPONENT_WATCH_UI)
+  optional android.app.wearservices.BugreportComponent requester = 1;
+
+}
+
+/** Logged when WearServices receives back the captured bugreport. */
+message WsBugreportFinished {
+
+  // Depicts the result of the bugreport
+  // Values: (BUGREPORT_RESULT_UNKNOWN, BUGREPORT_RESULT_SUCCESS, BUGREPORT_RESULT_FAILURE)
+  optional android.app.wearservices.BugreportResult result = 1;
+
+  // Depicts the size of the bugreport in bytes
+  optional int32 bugreport_size_bytes = 2;
+}
+
+/** Logged when a component receives back the captured bugreport. */
+message WsBugreportResultReceived {
+
+  // Depicts the receiver of the bugreport
+  // Values: (BUGREPORT_COMPONENT_UNKNOWN, BUGREPORT_COMPONENT_COMPANION_APP, BUGREPORT_COMPONENT_WATCH_UI)
+  optional android.app.wearservices.BugreportComponent receiver = 1;
+
+  // Depicts the result of the bugreport
+  // Values: (BUGREPORT_RESULT_UNKNOWN, BUGREPORT_RESULT_SUCCESS, BUGREPORT_RESULT_FAILURE)
+  optional android.app.wearservices.BugreportResult result = 2;
 }

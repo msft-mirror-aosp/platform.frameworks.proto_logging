@@ -18,7 +18,7 @@
 // Build the host executable: stats-log-api-gen
 // ==========================================================
 package {
-    default_team: "trendy_team_android_telemetry_infra",
+    default_team: "trendy_team_android_telemetry_client_infra",
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
@@ -130,6 +130,10 @@ cc_test_host {
         ":libstats_internal_protos",
         "test_external.proto",
     ],
+
+    test_options: {
+        unit_test: true,
+    },
 }
 
 // Filegroup for stats-log-api-gen test proto.

@@ -94,6 +94,9 @@ message SatelliteController {
   // The total duration of the battery being charged while satellite modem is on
   optional int32 total_battery_charged_time_sec = 17;
   // Count of successful satellite service enablement in demo mode
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional int32 count_of_demo_mode_satellite_service_enablements_success = 18;
   // Count of failed satellite service enablement in demo mode
   optional int32 count_of_demo_mode_satellite_service_enablements_fail = 19;
@@ -115,6 +118,16 @@ message SatelliteController {
   optional int32 count_of_disallowed_satellite_access = 27;
   // Total count of failed checking event for satellite access.
   optional int32 count_of_satellite_access_check_fail = 28;
+  // Whether this device is provisioned or not.
+  optional bool is_provisioned = 29;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 30;
+  // Count of satellite allowed state changed events
+  optional int32 count_of_satellite_allowed_state_changed_events = 31;
+  // Count of successful location queries
+  optional int32 count_of_successful_location_queries = 32;
+  // Count of failed location queries
+  optional int32 count_of_failed_location_queries = 33;
 }
 
 /**
@@ -145,9 +158,20 @@ message SatelliteSession {
   // the number of failed incoming datagram transmission while the session is enabled
   optional int32 count_of_incoming_datagram_failed = 11;
   // Whether this session is enabled for demo mode, code {true} if it is demo mode
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional bool is_demo_mode = 12;
   // Max Ntn signal strength while the satellite session is enabled
   optional int32 max_ntn_signal_strength_level = 13;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 14;
+  // Total number of times the user is notified that the device is eligible for satellite service
+  optional int32 count_of_satellite_notification_displayed = 15;
+  // Total number of times exit P2P message service automatically due to screen is off and timer is expired
+  optional int32 count_of_auto_exit_due_to_screen_off = 16;
+  // Total number of times exit P2P message service automatically when a TN network is detected during idle scanning mode
+  optional int32 count_of_auto_exit_due_to_tn_network = 17;
 }
 
 /**
@@ -161,7 +185,12 @@ message SatelliteIncomingDatagram {
   // The amount of time took to receive the datagram.
   optional int64 datagram_transfer_time_millis = 3;
   // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional bool is_demo_mode = 4;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 5;
 }
 
 /**
@@ -177,7 +206,12 @@ message SatelliteOutgoingDatagram {
   // The amount of time took to send the datagram.
   optional int64 datagram_transfer_time_millis = 4;
   // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
   optional bool is_demo_mode = 5;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 6;
 }
 
 /**
@@ -193,6 +227,8 @@ message SatelliteProvision {
   optional bool is_provision_request = 3;
   // Whether the provisioning request was canceled.
   optional bool is_canceled = 4;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 5;
 }
 
 /**
@@ -215,6 +251,10 @@ message SatelliteSosMessageRecommender {
   optional android.telephony.RecommendingHandoverType recommending_handover_type = 7;
   // Whether satellite communication is allowed in current location.
   optional bool is_satellite_allowed_in_current_location = 8;
+  // Whether Wi-Fi is available when the emergency call attempted.
+  optional bool is_wifi_connected = 9;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 10;
 }
 
 /**
@@ -273,6 +313,10 @@ message CarrierRoamingSatelliteControllerStats {
   optional int32 satellite_session_gap_avg_sec = 6;
   // Maximum gap between satellite sessions
   optional int32 satellite_session_gap_max_sec = 7;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 8;
+  // Whether this device is entitled or not.
+  optional bool is_device_entitled = 9;
 }
 
 /**
@@ -280,6 +324,8 @@ message CarrierRoamingSatelliteControllerStats {
  */
 message ControllerStatsPerPackage {
   optional int32 uid = 1  [(is_uid) = true];
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 2;
 }
 
 /**
@@ -329,8 +375,19 @@ message SatelliteAccessController {
   // Result code of the request for checking if satellite communication is allowed at the current
   // location.
   optional android.telephony.SatelliteError result_code = 7;
-  // Country codes where the device resides.
+  // ISO 3166-1 alpha-2 uppercase country codes representing the device's
+  // location.
+  // Country codes are determined based on the device's current location
+  // information, obtained from the cellular network.
+  // Country code can be obtained only when there is available cellular network,
+  // or empty list will be given.
+  // Cellular networks may provide multiple codes at locations near country
+  // borders.
   repeated string country_codes = 8;
   // Source of geofencing config data
   optional android.telephony.ConfigDataSource config_data_source = 9;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 10;
+  // From which reason the Satellite Access Controller operation was triggered.
+  optional android.telephony.TriggeringEvent triggering_event = 11;
 }

@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/common/adservices_api_metrics_enums.proto";
+import "frameworks/proto_logging/stats/enums/adservices/common/adservices_cel_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/enrollment/enums.proto";
 import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
@@ -205,6 +206,16 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats = 885
   [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported = 902
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported = 903
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional UpdateSignalsProcessReported update_signals_process_reported = 905
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported = 930
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -276,7 +287,7 @@ message AdServicesMeasurementDebugKeys {
  * Logs AdServices errors/exceptions.
  */
 message AdServicesErrorReported {
-  optional android.adservices.ErrorCode error_code = 1;
+  optional android.adservices.common.ErrorCode error_code = 1;
 
   // Name of the PPAPI if possible where error is occurring.
   optional android.adservices.PpapiName ppapi_name = 2;
@@ -1029,6 +1040,21 @@ message GetAdSelectionDataApiCalled {
 
   // The source of the coordinator used, i.e., DEFAULT or provided via API
   optional android.adservices.service.ServerAuctionCoordinatorSource coordinator_source = 4;
+
+  // Maximum size set by the seller
+  optional int32 seller_max_size_kb = 5;
+
+  // Result of payload optimization
+  optional android.adservices.service.PayloadOptimizationResult payload_optimization_result = 6;
+
+  // Latency of buyer input generation
+  optional int32 input_generation_latency_ms = 7;
+
+  // Version of compressed buyer input creator
+  optional int32 compressed_buyer_input_creator_version = 8;
+
+  // Number of times the entire payload was recompressed to update the current size estimation
+  optional int32 num_re_estimations = 9;
 }
 
 /**
@@ -1428,6 +1454,9 @@ message AdServicesMeasurementRegistrations {
   optional int32 http_response_code = 11;
   optional bool is_redirect = 12;
   optional bool is_pa_request = 13;
+  optional int32 num_entities_deleted = 14;
+  optional bool is_event_level_epsilon_configured = 15;
+  optional bool is_trigger_aggregatable_value_filters_configured = 16;
 }
 
 
@@ -1983,4 +2012,95 @@ message AdServicesApiCalled {
 
   // response_code is the error code for the given api.
   optional int32 response_code = 6;
+}
+
+/**
+ * Logs Cobalt logging events in AdServices. This provides information about
+ * Cobalt operational metrics.
+ */
+message AdServicesCobaltLoggerEventReported{
+  // The Cobalt metric id of the event that is being logged. The metric id is defined in
+  // packages/modules/AdServices/adservices/libraries/cobalt/proto/metric_definition.proto
+  optional int32 metric_id = 1;
+
+  // The Cobalt report id of the event that is being logged. The report id is defined in
+  // packages/modules/AdServices/adservices/libraries/cobalt/proto/report_definition.proto
+  optional int32 report_id = 2;
+
+  // Logging event which is over the defined threshold in the registry.
+  optional android.adservices.CobaltLoggingEvent cobalt_logging_event = 3;
+}
+
+/**
+ * Logs Cobalt periodic job execution events in AdServices. The periodic job
+ * event contains
+ * Cobalt metrics upload status.
+ */
+message AdServicesCobaltPeriodicJobEventReported {
+  optional android.adservices.CobaltPeriodicJobEvent cobalt_periodic_job_event = 1;
+}
+
+// Logs when updateSignals api is called.
+message UpdateSignalsProcessReported {
+  // The updated signals process latency in milliseconds for this API call.
+  optional int32 update_signals_process_latency_millis = 1;
+
+  // Adservices api status code for this API call.
+  optional int32 adservices_api_status_code = 2;
+
+  // Number of signals written for this API call.
+  optional int32 signals_written_count = 3;
+
+  // Number of keys from downloaded JSON for this API call.
+  optional int32 keys_stored_count = 4;
+
+  // Number of values from downloaded JSON for this API call.
+  optional int32 values_stored_count = 5;
+
+  // Number of eviction rules for this API call.
+  optional int32 eviction_rules_count = 6;
+
+  // The bucketed size of the buyer who called the APIs signals.
+  optional android.adservices.service.Size per_buyer_signal_size = 7;
+
+  // The average size of raw protected signals per buyer in bytes.
+  optional float mean_raw_protected_signals_size_bytes = 8;
+
+  // The maximum size of raw protected signals per buyer in bytes.
+  optional float max_raw_protected_signals_size_bytes = 9;
+
+  // The minimum size of raw protected signals per buyer in bytes.
+  optional float min_raw_protected_signals_size_bytes = 10;
+}
+
+/** Logs for Topics epoch job setting during scheduling EpochJobService. */
+message TopicsScheduleEpochJobSettingReported {
+  // Status when forcing reschedule EpochJob.
+  enum RescheduleEpochJobStatus {
+    STATUS_UNSET = 0;
+    RESCHEDULE_SUCCESS = 1;
+    SKIP_RESCHEDULE_EMPTY_JOB_SCHEDULER = 2;
+    SKIP_RESCHEDULE_EMPTY_PENDING_JOB = 3;
+  }
+
+  // Epoch job setting of the EpochJob.
+  enum EpochJobBatteryConstraint {
+    UNKNOWN_SETTING = 0;
+    REQUIRES_CHARGING = 1;
+    REQUIRES_BATTERY_NOT_LOW = 2;
+  }
+
+  // Status when forcing reschedule EpochJob.
+  optional RescheduleEpochJobStatus reschedule_epoch_job_status = 1;
+
+  // The previous epoch job setting.
+  // This field will be UNKNOWN_SETTING when reschedule_epoch_job_status is not RESCHEDULE_SUCCESS.
+  optional EpochJobBatteryConstraint previous_epoch_job_setting = 2;
+
+  // The current epoch job setting.
+  // This field will be UNKNOWN_SETTING when reschedule_epoch_job_status is not RESCHEDULE_SUCCESS.
+  optional EpochJobBatteryConstraint current_epoch_job_setting = 3;
+
+  // The epoch job setting when scheduling the epoch job in EpochJobService.scheduleIfNeeded().
+  optional EpochJobBatteryConstraint schedule_if_needed_epoch_job_status = 4;
 }
