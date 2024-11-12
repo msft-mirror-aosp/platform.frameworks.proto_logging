@@ -2891,7 +2891,8 @@ message InteractiveStateChanged {
         OFF = 0;
         ON = 1;
     }
-    optional State state = 1;
+    optional State state = 1
+            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
 
 /**
