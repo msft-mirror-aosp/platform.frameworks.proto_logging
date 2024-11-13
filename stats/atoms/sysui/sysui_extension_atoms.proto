@@ -241,6 +241,8 @@ message CommunalHubWidgetEventReported {
     REMOVE = 2;
     // User taps a widget in the communal hub.
     TAP = 3;
+    // User resizes a widget
+    RESIZE = 4;
   }
 
   // The action that triggered the event.
@@ -251,6 +253,9 @@ message CommunalHubWidgetEventReported {
 
   // The rank or order of the widget in the communal hub.
   optional int32 rank = 3;
+
+  // The height of the widget, defined in number of grid cells
+  optional int32 span_y = 4;
 }
 
 /**
