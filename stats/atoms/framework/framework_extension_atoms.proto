@@ -996,6 +996,8 @@ message JankFrameCountByWidget {
 message IntentCreatorTokenAdded {
   // creator uid
   optional int32 creator_uid = 1 [(is_uid) = true];
+  // true if the creator and top level intent target share the same package
+  optional bool is_optimized = 2;
 }
 
 /**
