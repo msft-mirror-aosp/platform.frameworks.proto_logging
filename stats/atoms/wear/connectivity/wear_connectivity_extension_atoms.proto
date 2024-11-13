@@ -138,6 +138,9 @@ message SysproxyServiceStateUpdated {
   // Total count of cmds retried in the iptables operation.
   // Compare with iptables_failed_cmd_count to understand how many cmds succeeded with retry.
   optional int32 iptables_retried_cmd_count = 6;
+
+  // Total count of iptables recovery attempted in the background since the service is started.
+  optional int32 iptables_recovery_attempt_count = 7;
 }
 
 /**
