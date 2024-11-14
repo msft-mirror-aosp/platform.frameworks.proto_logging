@@ -1316,6 +1316,7 @@ message Atom {
     extensions 988; // BluetoothLeConnection bluetooth_le_connection
     extensions 989; // CertificateTransparencyVerificationReported certificate_transparency_verification_reported
     extensions 990; // MediaSubscriptionChanged media_subscription_changed
+    extensions 991; // HdmiPowerStateChangeOnActiveSourceLostToggled hdmi_power_state_change_on_active_source_lost_toggled
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
