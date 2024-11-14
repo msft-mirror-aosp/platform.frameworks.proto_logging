@@ -5193,6 +5193,38 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: B
     BUNDLED_NOTIFICATIONS = 2120;
+
+    // Settings -> Keyboard -> Mouse
+    // CATEGORY: SETTINGS
+    SETTINGS_KEYBOARD_MOUSE = 2121;
+
+    // Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility -> Mouse Keys
+    // CATEGORY: SETTINGS
+    SETTINGS_PHYSICAL_KEYBOARD_MOUSE_KEYS = 2122;
+
+    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
+    //         > Toggle On/Off "Sticky keys"
+    // CATEGORY: SETTINGS
+    ACTION_STICKY_KEYS_ENABLED = 2123;
+    ACTION_STICKY_KEYS_DISABLED = 2124;
+
+    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
+    //         > Toggle On/Off "Bounce keys"
+    // CATEGORY: SETTINGS
+    ACTION_BOUNCE_KEYS_ENABLED = 2125;
+    ACTION_BOUNCE_KEYS_DISABLED = 2126;
+
+    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
+    //         > Toggle On/Off "Slow keys"
+    // CATEGORY: SETTINGS
+    ACTION_SLOW_KEYS_ENABLED = 2127;
+    ACTION_SLOW_KEYS_DISABLED = 2128;
+
+    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
+    //         > Toggle On/Off "Mouse keys"
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_KEYS_ENABLED = 2129;
+    ACTION_MOUSE_KEYS_DISABLED = 2130;
 }
 
 // Battery Saver schedule types.

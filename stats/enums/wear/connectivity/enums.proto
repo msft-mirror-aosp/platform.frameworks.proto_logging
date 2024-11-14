@@ -187,6 +187,7 @@ enum Reason {
     OFF_NO_DATA_ENABLED = 50;
     OFF_POOR_SIGNAL = 51;
     ON_PEEK_SIGNAL = 52;
+    ON_MODE_MANAGER = 53;
 }
 
 /**
