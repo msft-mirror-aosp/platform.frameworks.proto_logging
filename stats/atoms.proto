@@ -3117,7 +3117,8 @@ message WifiLockStateChanged {
  */
 message WifiSignalStrengthChanged {
     // Signal strength, from frameworks/proto_logging/stats/enums/telephony/enums.proto.
-    optional android.telephony.SignalStrengthEnum signal_strength = 1;
+    optional android.telephony.SignalStrengthEnum signal_strength = 1
+            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
 
 /**
@@ -4854,12 +4855,16 @@ message ThermalThrottlingSeverityStateChanged {
 /**
  * Logs phone signal strength changes.
  *
+ * The atom doesn't tell which SIM had signal strength changed -- use with caution when there are
+ * multiple SIMs present.
+ *
  * Logged from:
  *   frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java
  */
 message PhoneSignalStrengthChanged {
     // Signal strength, from frameworks/proto_logging/stats/enums/telephony/enums.proto.
-    optional android.telephony.SignalStrengthEnum signal_strength = 1;
+    optional android.telephony.SignalStrengthEnum signal_strength = 1
+            [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
 
 
