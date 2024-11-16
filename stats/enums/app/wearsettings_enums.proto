@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 525
+// Next ID: 526
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -167,6 +167,7 @@ enum ItemId {
   CONNECTIVITY_UWB = 499;
   DATE_TIME_AUTO_DATE_TIME = 129;
   DATE_TIME_AUTO_TIME_ZONE = 130;
+  DATE_TIME_LOCATION_TIME_ZONE_DETECTION = 525;
   DATE_TIME_HOUR_FORMAT = 198;
   DATE_TIME_MANUAL_DATE = 211;
   DATE_TIME_MANUAL_TIME = 212;
