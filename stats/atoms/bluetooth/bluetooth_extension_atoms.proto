@@ -520,6 +520,8 @@ message A2dpSessionReported {
   optional int64 codec_id = 10;
   // Indicates whether the session is offloaded or not.
   optional bool offload = 11;
+  // Identifier for the remote device.
+  optional int32 metric_id = 12;
 }
 
 /**
