@@ -47,6 +47,8 @@ extend Atom {
   optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 
   optional HealthConnectPhrUsageStats health_connect_phr_usage_stats = 981 [(module) = "healthfitness"];
+
+  optional HealthConnectPhrStorageStats health_connect_phr_storage_stats = 984 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -144,7 +146,11 @@ message HealthConnectStorageStats {
 
   // Total number of changelog counts.
   optional int64 changelog_count = 5;
+}
 
+// Monitor PHR database in HC (PHR stands for Personal Health Record)
+message HealthConnectPhrStorageStats {
+  optional int64 phr_data_size = 1;
 }
 
 // Track when ExerciseRoute is being read/written.

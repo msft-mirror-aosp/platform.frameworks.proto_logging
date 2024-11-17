@@ -184,8 +184,10 @@ enum MediaStatus {
 enum MediaLocation {
   MAIN_GRID = 0;
   ALBUM = 1;
-  GROUP = 2;
+  GROUP = 2 [deprecated = true];
   UNSET_MEDIA_LOCATION = 3;
+  CATEGORY = 4;
+  SEARCH_GRID = 5;
 }
 
 /*
@@ -242,7 +244,8 @@ enum UserBannerInteraction {
  */
 enum SearchMethod {
   SEARCH_QUERY = 0;
-  COLLECTION = 1;
+  COLLECTION = 1 [deprecated = true];
   SUGGESTED_SEARCHES = 2;
   UNSET_SEARCH_METHOD = 3;
+  CATEGORY_SEARCH = 4;
 }
