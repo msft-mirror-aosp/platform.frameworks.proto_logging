@@ -1312,6 +1312,7 @@ message Atom {
     extensions 984; // HealthConnectPhrStorageStats health_connect_phr_storage_stats
     extensions 985; // HealthConnectRestrictedEcosystemStats health_connect_restricted_ecosystem_stats
     extensions 986; // HealthConnectEcosystemStats health_connect_ecosystem_stats
+    extensions 987; // BackportedFixStatusReported backported_fix_status_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
