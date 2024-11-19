@@ -48,6 +48,7 @@ message FederatedComputeApiCalled {
         API_NAME_UNKNOWN = 0;
         SCHEDULE = 1;
         CANCEL = 2;
+        IS_FEATURE_ENABLED = 3;
     }
 
     optional FederatedComputeApiClassType api_class = 1;
