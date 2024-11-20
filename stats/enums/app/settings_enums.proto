@@ -1936,6 +1936,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_BLUETOOTH_PROFILE_CONNECTION_HEADSET_RETRY_TRIGGERED = 1967;
+
+    // Action: Settings > System > Touchpad & Mouse > Three finger tap
+    // VALUE: boolean
+    // OS: V
+    ACTION_TOUCHPAD_THREE_FINGER_TAP_CUSTOMIZATION_CHANGED = 1968;
 }
 
 /**
@@ -5225,6 +5230,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     ACTION_MOUSE_KEYS_ENABLED = 2129;
     ACTION_MOUSE_KEYS_DISABLED = 2130;
+
+    // OPEN: Settings > System -> Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    TOUCHPAD_THREE_FINGER_TAP = 2131;
 }
 
 // Battery Saver schedule types.
