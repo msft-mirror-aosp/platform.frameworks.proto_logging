@@ -18329,6 +18329,17 @@ message HdmiCecMessageReported {
 
     // The reason for the feature abort.
     optional android.stats.hdmi.FeatureAbortReason feature_abort_reason = 9;
+
+    // The physical address in <Report Physical Address> messages. Consists of
+    // four hexadecimal nibbles. Examples: 0x1234, 0x0000 (root device). 0xFFFF
+    // represents an unknown or invalid address.
+    //
+    // Physical address is assigned to each device through a discovery process.
+    // It indicates the connection hierarchy, for example, 1:2:0:0 is under
+    // 1:0:0:0, which is under 0:0:0:0.
+    //
+    // See section 8.7 in the HDMI 1.4b spec for details.
+    optional int32 physical_address = 10;
 }
 
 /**
