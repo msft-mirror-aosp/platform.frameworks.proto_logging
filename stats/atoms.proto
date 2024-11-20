@@ -1237,6 +1237,7 @@ message Atom {
     extensions 929; // ArtDex2OatReported art_dex2oat_reported
     extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
     extensions 982; // BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
+    extensions 988; // BluetoothLeConnection bluetooth_le_connection
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
