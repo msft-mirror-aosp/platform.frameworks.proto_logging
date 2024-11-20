@@ -63,6 +63,7 @@ extend Atom {
     optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
     optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
     optional CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed = 999 [(module) = "framework"];
+    optional NotificationBundleInteracted notification_bundle_interacted = 1000 [(module) = "framework"];
 }
 
 /**
@@ -1081,6 +1082,35 @@ message NotificationChannelClassification {
 
     // The uid of the activity which posted the notification.
     optional int32 uid = 7 [(is_uid) = true];
+}
+
+/**
+ * Reports that an instance of a notification bundle was interacted with.
+ * (go/sysui-notification-bundle-metrics)
+ *
+ * A notification bundle is a grouping of a number of notifications, based on their type, rather
+ * than based on the app that posted them. For example, a number of notifications from different
+ * apps that are all news related may be categorized as such, and grouped together in a UI element
+ * that groups, or "bundles" them.
+ *
+ * This proto indicates that a particular bundle was interacted with in some way; for example, a
+ * user may choose to dismiss an entire bundle, which would log a NotificationBundleInteracted
+ * with an event_id that represents bundle dismissal.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/
+ * Estimated Logging Rate:
+ *   Peak: 300 times per device per day. | Avg: <40 times per device per day.
+ */
+message NotificationBundleInteracted {
+    // As for UiEventReported; used to indicate the modification made.
+    optional int32 event_id = 1;
+
+    // The channel type of the bundle (e.g., TYPE_NEWS).
+    optional int32 type = 2;
+
+    // Whether the full contents of this bundle have ever been shown to the user.
+    optional bool contents_shown = 3;
 }
 
 /**
