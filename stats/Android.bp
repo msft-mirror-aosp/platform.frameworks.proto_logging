@@ -61,6 +61,7 @@ enum_protos = [
     "enums/os/*.proto",
     "enums/photopicker/*.proto",
     "enums/pdf/*.proto",
+    "enums/ranging/*.proto",
     "enums/server/*.proto",
     "enums/server/display/*.proto",
     "enums/server/job/*.proto",
@@ -199,6 +200,7 @@ atom_protos = [
     "atoms/broadcasts/*.proto",
     "atoms/telephony/iwlan/*.proto",
     "atoms/performance/*.proto",
+    "atoms/ranging/*.proto",
 ]
 
 cc_library_host_shared {
