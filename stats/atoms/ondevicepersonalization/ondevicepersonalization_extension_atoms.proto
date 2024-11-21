@@ -29,7 +29,7 @@ extend Atom {
       952 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
 /**
- * Logs when an OnDevicePersonalization api is called.
+ * Logs when a public ODP api is called.
  */
 message OnDevicePersonalizationApiCalled {
     enum OnDevicePersonalizationApiClassType {

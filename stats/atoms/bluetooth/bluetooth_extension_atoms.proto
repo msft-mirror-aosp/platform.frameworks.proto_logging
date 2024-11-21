@@ -72,6 +72,8 @@ extend Atom {
         = 928 [(module) = "bluetooth"];
     optional BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
         = 982 [(module) = "bluetooth"];
+    optional BluetoothLeConnection bluetooth_le_connection
+        = 988 [(module) = "bluetooth"];
 }
 
 /**
@@ -255,6 +257,20 @@ message BluetoothProfileConnectionAttempted {
 
   // Remote Device Information
   optional BluetoothRemoteDeviceInformation remote_device_information = 6 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs LE connection success or failure.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ */
+message BluetoothLeConnection {
+  // Result of LE connection
+  optional android.bluetooth.LeConnectionResult result = 1;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 2 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -520,6 +536,8 @@ message A2dpSessionReported {
   optional int64 codec_id = 10;
   // Indicates whether the session is offloaded or not.
   optional bool offload = 11;
+  // Identifier for the remote device.
+  optional int32 metric_id = 12;
 }
 
 /**
