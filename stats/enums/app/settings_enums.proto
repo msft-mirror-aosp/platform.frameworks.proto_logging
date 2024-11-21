@@ -1941,6 +1941,17 @@ enum Action {
     // VALUE: boolean
     // OS: V
     ACTION_TOUCHPAD_THREE_FINGER_TAP_CUSTOMIZATION_CHANGED = 1968;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item shown
+    //  SUBTYPE: 0 is invisible, 1 is visible
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_SHOWN = 1969;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item clicked
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_CLICKED = 1970;
 }
 
 /**
