@@ -1936,12 +1936,54 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_BLUETOOTH_PROFILE_CONNECTION_HEADSET_RETRY_TRIGGERED = 1967;
+
+    // Action: Settings > System > Touchpad & Mouse > Three finger tap
+    // VALUE: boolean
+    // OS: V
+    ACTION_TOUCHPAD_THREE_FINGER_TAP_CUSTOMIZATION_CHANGED = 1968;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item shown
+    //  SUBTYPE: 0 is invisible, 1 is visible
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_SHOWN = 1969;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item clicked
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_CLICKED = 1970;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Sticky keys"
+    // CATEGORY: SETTINGS
+    ACTION_STICKY_KEYS_ENABLED = 1971;
+    ACTION_STICKY_KEYS_DISABLED = 1972;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Bounce keys"
+    // CATEGORY: SETTINGS
+    ACTION_BOUNCE_KEYS_ENABLED = 1973;
+    ACTION_BOUNCE_KEYS_DISABLED = 1974;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Slow keys"
+    // CATEGORY: SETTINGS
+    ACTION_SLOW_KEYS_ENABLED = 1975;
+    ACTION_SLOW_KEYS_DISABLED = 1976;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Mouse keys"
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_KEYS_ENABLED = 1977;
+    ACTION_MOUSE_KEYS_DISABLED = 1978;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
 enum PageId {
+    reserved 2123 to 2130;
+
     // Unknown page. Should not be used in production code.
     PAGE_UNKNOWN = 0;
 
@@ -5202,29 +5244,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     SETTINGS_PHYSICAL_KEYBOARD_MOUSE_KEYS = 2122;
 
-    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
-    //         > Toggle On/Off "Sticky keys"
+    // OPEN: Settings > System -> Touchpad
     // CATEGORY: SETTINGS
-    ACTION_STICKY_KEYS_ENABLED = 2123;
-    ACTION_STICKY_KEYS_DISABLED = 2124;
-
-    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
-    //         > Toggle On/Off "Bounce keys"
-    // CATEGORY: SETTINGS
-    ACTION_BOUNCE_KEYS_ENABLED = 2125;
-    ACTION_BOUNCE_KEYS_DISABLED = 2126;
-
-    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
-    //         > Toggle On/Off "Slow keys"
-    // CATEGORY: SETTINGS
-    ACTION_SLOW_KEYS_ENABLED = 2127;
-    ACTION_SLOW_KEYS_DISABLED = 2128;
-
-    // ACTION: Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility
-    //         > Toggle On/Off "Mouse keys"
-    // CATEGORY: SETTINGS
-    ACTION_MOUSE_KEYS_ENABLED = 2129;
-    ACTION_MOUSE_KEYS_DISABLED = 2130;
+    // OS: V
+    TOUCHPAD_THREE_FINGER_TAP = 2131;
 }
 
 // Battery Saver schedule types.

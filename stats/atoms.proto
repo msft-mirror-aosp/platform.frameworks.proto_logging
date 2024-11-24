@@ -1310,6 +1310,12 @@ message Atom {
     extensions 982; // BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
     extensions 983; // NotificationChannelClassification notification_channel_classification
     extensions 984; // HealthConnectPhrStorageStats health_connect_phr_storage_stats
+    extensions 985; // HealthConnectRestrictedEcosystemStats health_connect_restricted_ecosystem_stats
+    extensions 986; // HealthConnectEcosystemStats health_connect_ecosystem_stats
+    extensions 987; // BackportedFixStatusReported backported_fix_status_reported
+    extensions 988; // BluetoothLeConnection bluetooth_le_connection
+    extensions 989; // CertificateTransparencyVerificationReported certificate_transparency_verification_reported
+    extensions 990; // MediaSubscriptionChanged media_subscription_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.

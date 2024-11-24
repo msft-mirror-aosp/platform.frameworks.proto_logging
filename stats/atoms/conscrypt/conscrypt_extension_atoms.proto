@@ -4,30 +4,20 @@ package android.os.statsd.conscrypt;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/conscrypt/ct/enums.proto";
 
 option java_package = "com.android.os.conscrypt";
 
 extend Atom {
     optional CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed = 934 [(module) = "conscrypt"];
-    optional ConscryptServiceUsed conscrypt_service_used = 965
-        [(module) = "conscrypt"];
-}
-
-enum LogListStatus {
-    STATUS_UNKNOWN = 0;
-    STATUS_SUCCESS = 1;           // The list was loaded successfully.
-    STATUS_NOT_FOUND = 2;         // The list file was not found.
-    STATUS_PARSING_FAILED = 3;    // The list file failed to parse.
-    STATUS_EXPIRED = 4;           // The timestamp on the list is older than expected for the policy.
-}
-
-enum LogListCompatibilityVersion {
-    COMPAT_VERSION_UNKNOWN = 0;
-    COMPAT_VERSION_V1 = 1;
+    optional ConscryptServiceUsed conscrypt_service_used = 965 [(module) = "conscrypt"];
+    optional CertificateTransparencyVerificationReported certificate_transparency_verification_reported = 989 [(module) = "conscrypt"];
 }
 
 /*
  * Pushed atom on how successful was the loading of the log list.
+ * Pushed from:
+ *   external/conscrypt/common/src/main/java/org/conscrypt/metrics/StatsLogImpl.java
  */
 message CertificateTransparencyLogListStateChanged {
     // The status of the log list.
@@ -44,11 +34,33 @@ message CertificateTransparencyLogListStateChanged {
     optional int32 minor_version = 5;
 }
 
+/*
+ * Pushed atom on certificate transparency verification outcome.
+ * Pushed from:
+ *   external/conscrypt/common/src/main/java/org/conscrypt/metrics/StatsLogImpl.java
+ */
+message CertificateTransparencyVerificationReported {
+  // The outcome of the verification.
+  optional VerificationResult result = 1;
+
+  // Why was the verification triggered? Is it a default or opt-in by the app?
+  optional VerificationReason reason = 2;
+
+  // Log list version and the compatibility version.
+  optional LogListCompatibilityVersion policy_compatibility_version = 3;
+  optional int32 major_version = 4;
+  optional int32 minor_version = 5;
+
+  // The number of SCTs found for each origin.
+  optional int32 num_cert_scts = 6;
+  optional int32 num_ocsp_scts = 7;
+  optional int32 num_tls_scts = 8;
+}
 
 /**
  * Pushed algorithm usage counters from Conscrypt.
  * Pushed from:
- *   external/conscrypt/common/src/main/java/org/conscrypt/metrics/ConscryptStatsLog.java
+ *   external/conscrypt/common/src/main/java/org/conscrypt/metrics/StatsLogImpl.java
  */
 
 enum Algorithm {

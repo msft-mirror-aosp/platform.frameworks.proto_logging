@@ -1,0 +1,35 @@
+syntax = "proto2";
+
+package android.os.statsd.conscrypt;
+
+option java_package = "com.android.os.conscrypt";
+
+enum LogListStatus {
+    STATUS_UNKNOWN = 0;
+    STATUS_SUCCESS = 1;           // The list was loaded successfully.
+    STATUS_NOT_FOUND = 2;         // The list file was not found.
+    STATUS_PARSING_FAILED = 3;    // The list file failed to parse.
+    STATUS_EXPIRED = 4;           // The timestamp on the list is older than expected for the policy.
+}
+
+enum LogListCompatibilityVersion {
+    COMPAT_VERSION_UNKNOWN = 0;
+    COMPAT_VERSION_V1 = 1;
+}
+enum VerificationResult {
+    RESULT_UNKNOWN = 0;
+    RESULT_SUCCESS = 1;
+    RESULT_GENERIC_FAILURE = 2;
+    RESULT_FAILURE_NO_SCTS_FOUND = 3;
+    RESULT_FAILURE_SCTS_NOT_COMPLIANT = 4;
+    RESULT_FAIL_OPEN_NO_LOG_LIST_AVAILABLE = 5;
+    RESULT_FAIL_OPEN_LOG_LIST_NOT_COMPLIANT = 6;
+}
+
+enum VerificationReason {
+    REASON_UNKNOWN = 0;
+    REASON_DEVICE_WIDE_ENABLED = 1;
+    REASON_SDK_TARGET_DEFAULT_ENABLED = 2;
+    REASON_NSCONFIG_APP_OPT_IN = 3;
+    REASON_NSCONFIG_DOMAIN_OPT_IN = 4;
+}

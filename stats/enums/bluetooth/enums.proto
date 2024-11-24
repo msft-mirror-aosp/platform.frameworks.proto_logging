@@ -489,6 +489,12 @@ enum ProfileConnectionReason {
     REASON_INCOMING_CONN_REJECTED = 4;
 }
 
+enum LeConnectionResult {
+    LE_CONNECTION_RESULT_UNKNOWN = 0;
+    LE_CONNECTION_RESULT_SUCCESS = 1;
+    LE_CONNECTION_RESULT_FAILURE = 2;
+}
+
 // Comment added to those whose enum names do not match the actual file names.
 enum ContentProfileFileName {
   BLUETOOTH_FILE_NAME_UNKNOWN = 0;

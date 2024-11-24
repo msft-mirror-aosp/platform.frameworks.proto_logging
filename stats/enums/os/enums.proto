@@ -20,6 +20,29 @@ package android.os;
 option java_outer_classname = "OsProtoEnums";
 option java_multiple_files = true;
 
+/**
+ * The status of a backported fix for a known issue on this device.
+ *
+ * Keep in sync with frameworks/base/core/java/android/os/Build.java
+ *
+ * Since android BAKLAVA
+ */
+enum BackportedFixStatus {
+    /** The status of the known issue on this device is not known. */
+    BACKPORTED_FIX_STATUS_UNKNOWN = 0;
+    /** The known issue is fixed on this device. */
+    BACKPORTED_FIX_STATUS_FIXED = 1;
+    /**
+     * The known issue is not applicable to this device.
+     *
+     * For example if the issue only affects a specific brand, devices from other brands would
+     * report not applicable.
+     */
+    BACKPORTED_FIX_STATUS_NOT_APPLICABLE = 2;
+    /** The known issue is not fixed on this device. */
+    BACKPORTED_FIX_STATUS_NOT_FIXED = 3;
+}
+
 // These constants are defined in hardware/interfaces/health/1.0/types.hal
 // They are primarily used by android/os/BatteryManager.java.
 enum BatteryHealthEnum {
