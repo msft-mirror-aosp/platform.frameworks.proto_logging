@@ -42,6 +42,7 @@ enum_protos = [
     "enums/appsearch/*.proto",
     "enums/art/*.proto",
     "enums/autofill/**/*.proto",
+    "enums/conscrypt/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/coregraphics/*.proto",
     "enums/corenetworking/**/*.proto",
