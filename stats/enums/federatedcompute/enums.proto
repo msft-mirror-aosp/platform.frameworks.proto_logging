@@ -297,3 +297,13 @@ enum TrainingEventKind {
   // Fetch encryption keys finished successfully.
   TRAIN_ENCRYPTION_KEY_FETCH_SUCCESS = 78;
 }
+
+// Enum used to track federated computation trace events.
+// Next Tag: 2
+enum TraceEventKind {
+  // Undefined value.
+  TRACE_EVENT_KIND_UNSPECIFIED = 0;
+
+  // Trace for key fetch background job.
+  BACKGROUND_ENCRYPTION_KEY_FETCH = 1;
+}
