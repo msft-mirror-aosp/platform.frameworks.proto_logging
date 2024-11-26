@@ -60,6 +60,7 @@ extend Atom {
     optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
     optional JankFrameCountByWidget jank_frame_count_by_widget = 950 [(module)="framework"];
     optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
+    optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
 }
 
 /**
@@ -342,6 +343,10 @@ message MediaProjectionStateChanged {
   // Only present when in state MEDIA_PROJECTION_STATE_INITIATED.
   optional SessionCreationSource creation_source = 7;
 
+  // Where this session stopped.
+  // Only present when in state MEDIA_PROJECTION_STATE_STOPPED.
+  optional SessionStopSource stop_source = 8;
+
   // Possible states for a MediaProjection session.
   enum MediaProjectionState {
     MEDIA_PROJECTION_STATE_UNKNOWN = 0;
@@ -378,6 +383,31 @@ message MediaProjectionStateChanged {
     // Created through Cast SDK, e.g. screencast quick settings tile.
     CREATION_SOURCE_CAST = 3;
   }
+
+  // The possible exit points for the session.
+  enum SessionStopSource {
+    STOP_SOURCE_UNKNOWN = 0;
+    // Stopped through calling MediaProjection#stop()
+    STOP_SOURCE_HOST_APP_STOP = 1;
+    // Stopped by the capture target calling onRemoved() after being exited
+    STOP_SOURCE_TASK_APP_CLOSE = 2;
+    // Stopped by the device keyguard being locked
+    STOP_SOURCE_DEVICE_LOCK = 3;
+    // Stopped via the MediaProjection status bar privacy chip
+    STOP_SOURCE_STATUS_BAR_CHIP_STOP = 4;
+    // Stopped via the Quick Settings cast tile
+    STOP_SOURCE_QS_TILE = 5;
+    // Stopped due to the device switching users
+    STOP_SOURCE_USER_SWITCH = 6;
+    // Stopped due to a change in the MediaProjection foreground service
+    STOP_SOURCE_FOREGROUND_SERVICE_CHANGE = 7;
+    // Stopped due to a new MediaProjection coming to replace the currently active projection
+    STOP_SOURCE_NEW_PROJECTION = 8;
+    // Stopped due to a new MediaRoute being chosen while casting
+    STOP_SOURCE_NEW_MEDIA_ROUTE = 9;
+    // Stopped due to some error affecting the MediaProjection capture process
+    STOP_SOURCE_ERROR = 10;
+  }
 }
 
 /**
@@ -397,6 +427,9 @@ message MediaProjectionTargetChanged {
   // An incrementing integer that persists across device reboots.
   optional int32 session_id = 1 [(state_field_option).primary_field = true];
 
+  // The classification for the type of change applied to the capture target
+  optional TargetChangeType target_change_type = 10;
+
   // The area that is being captured.
   optional TargetType target_type = 2;
 
@@ -415,6 +448,22 @@ message MediaProjectionTargetChanged {
     (state_field_option).exclusive_state = true,
     (state_field_option).nested = false
   ];
+
+  optional int32 width = 6;
+  optional int32 height = 7;
+  optional int32 center_x = 8;
+  optional int32 center_y = 9;
+
+  // Enum that represents the type of change happening to the capture target
+  enum TargetChangeType {
+    TARGET_CHANGE_TYPE_UNKNOWN = 0;
+    // The target has updated its windowing mode (full screen, split screen, freeform, etc.)
+    TARGET_CHANGE_WINDOWING_MODE = 1;
+    // The target has changed the position it is centered at (size remains unchanged)
+    TARGET_CHANGE_POSITION = 2;
+    // The target has changed its bounds (changed size and centered position)
+    TARGET_CHANGE_BOUNDS = 3;
+  }
 
   // Enum that represents the type of area that is being captured.
   enum TargetType {
@@ -995,4 +1044,28 @@ message JankFrameCountByWidget {
 message IntentCreatorTokenAdded {
   // creator uid
   optional int32 creator_uid = 1 [(is_uid) = true];
+  // true if the creator and top level intent target share the same package
+  optional bool is_optimized = 2;
+}
+
+/**
+ * Reports a notification got an Adjustment with the KEY_TYPE value set
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/notification/
+ * Estimated Logging Rate:
+ *   Peak: 300 times per device per day. | Avg: 40 times per device per day.
+ *
+ */
+message NotificationChannelClassification {
+    // Was the notification reclassified to a new channel after it was already posted.
+    optional bool receive_adjustment_after_post = 1;
+
+    // Was the notification high enough priority to be "alerting" before it got reclassified.
+    optional bool was_alerting = 2;
+
+    // The new channel type the notification has been reclassified as (e.g., Adjustment.TYPE_NEWS).
+    optional int32 type = 3;
+
+    // The length of the lifetime of the notification up to when it got reclassified.
+    optional int32 latency_ms = 4;
 }
