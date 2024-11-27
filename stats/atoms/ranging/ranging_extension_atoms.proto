@@ -1,0 +1,121 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.ranging;
+
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/ranging/enums.proto";
+
+option java_package = "com.android.os.ranging";
+option java_multiple_files = true;
+
+extend Atom {
+  optional RangingSessionConfigured ranging_session_configured = 993 [(module) = "ranging"];
+  optional RangingSessionStarted ranging_session_started = 994 [(module) = "ranging"];
+  optional RangingSessionClosed ranging_session_closed = 995 [(module) = "ranging"];
+  optional RangingTechnologyStarted ranging_technology_started = 996 [(module) = "ranging"];
+  optional RangingTechnologyStopped ranging_technology_stopped = 997 [(module) = "ranging"];
+}
+
+/*
+ * A ranging session has been configured, either after OOB negotiation or directly from raw
+ * parameters.
+ */
+message RangingSessionConfigured {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // The duration it took to do OOB in milliseconds. Omitted if the session was configured directly.
+  optional int64 oob_duration_ms = 2;
+
+  // Whether the configuration was reached via OOB negotiation or provided directly through the API.
+  optional android.ranging.SessionType type = 3;
+
+  // The role of the local device in this session.
+  optional android.ranging.DeviceRole device_role = 4;
+
+  // Number of peers to range with as specified in the configuration.
+  optional int32 num_peers = 5;
+}
+
+/*
+ * A ranging session has started.
+ */
+message RangingSessionStarted {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // UID of the process that requested ranging through the API.
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // The duration it took to start the session after configuring in milliseconds.
+  optional int64 start_latency_ms = 3;
+}
+
+/*
+ * A ranging session has been closed.
+ */
+message RangingSessionClosed {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // State the session was in before it closed.
+  optional android.ranging.SessionState last_state = 2;
+
+  // Duration the session was in the 'last_state' before closing, in milliseconds.
+  optional int64 last_state_duration_ms = 3;
+
+  // Reason why the session closed.
+  optional android.ranging.ClosedReason reason = 4;
+}
+
+/*
+ * A ranging technology has started within a session.
+ */
+message RangingTechnologyStarted {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // Technology that started.
+  optional android.ranging.Technology technology = 2;
+
+  // Number of peers that started using this technology.
+  optional int32 num_peers = 3;
+}
+
+/*
+ * A ranging technology has stopped within a session.
+ */
+message RangingTechnologyStopped {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // Technology that stopped.
+  optional android.ranging.Technology technology = 2;
+
+  // State the session was in when this technology stopped.
+  optional android.ranging.SessionState state = 3;
+
+  // Reason why this technology stopped.
+  optional android.ranging.StoppedReason reason = 4;
+
+  // Number of peers that stopped using this technology.
+  optional int32 num_peers = 5;
+}
