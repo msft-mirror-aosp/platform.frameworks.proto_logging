@@ -19413,6 +19413,12 @@ message PackageInstallationSessionReported {
     optional bool is_move_install = 25;
     // Whether this is a staged installation
     optional bool is_staged = 26;
+
+    // Set when this session was configured to automatically install any missing dependencies.
+    optional bool is_install_dependencies_enabled = 27;
+    // Number of dependencies that are missing and are required for this install to be successful.
+    // Provided when is_install_dependencies_enabled is set.
+    optional int32 missing_dependencies_count = 28;
 }
 
 message PackageUninstallationReported {
