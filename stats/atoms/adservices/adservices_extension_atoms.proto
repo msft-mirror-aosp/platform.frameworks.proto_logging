@@ -1466,6 +1466,7 @@ message AdServicesMeasurementRegistrations {
   optional int32 num_entities_deleted = 14;
   optional bool is_event_level_epsilon_configured = 15;
   optional bool is_trigger_aggregatable_value_filters_configured = 16;
+  optional bool is_trigger_filtering_id_configured = 17;
 }
 
 
@@ -2214,6 +2215,8 @@ message ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported {
     HTTP_SERVER_ERROR = 5;
     JSON_PARSING_ERROR = 6;
     INTERNAL_ERROR = 7;
+    HTTP_IO_EXCEPTION = 8;
+    HTTP_CONTENT_SIZE_EXCEPTION = 9;
   }
   /// Enum denoting the action that caused the failure.
   enum FailureAction {

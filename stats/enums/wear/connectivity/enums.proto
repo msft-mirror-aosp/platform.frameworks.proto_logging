@@ -187,6 +187,7 @@ enum Reason {
     OFF_NO_DATA_ENABLED = 50;
     OFF_POOR_SIGNAL = 51;
     ON_PEEK_SIGNAL = 52;
+    ON_MODE_MANAGER = 53;
 }
 
 /**
@@ -228,6 +229,7 @@ enum SysproxyServiceState {
     SYSPROXY_SERVICE_STATE_UNKNOWN = 0;
     SERVICE_STARTUP_FINISHED = 1;
     SERVICE_SHUTDOWN_FINISHED = 2;
+    SERVICE_IPTABLES_RECOVERY_ATTEMPTED = 3;
 }
 
 enum SysproxyIptablesState {
@@ -251,6 +253,8 @@ enum CompanionConnectionType {
     COMPANION_CONNECTION_TYPE_UNKNOWN = 0;
     BLE_ACL = 1;
     BTC_ACL = 2;
+    BTC_COMMS = 3;
+    BLE_COMMS = 4;
 }
 
 enum CompanionConnectionChange {

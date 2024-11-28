@@ -29,6 +29,8 @@ extend Atom {
   optional HdmiEarcStatusReported hdmi_earc_status_reported = 701 [(module) = "framework"];
   optional HdmiSoundbarModeStatusReported hdmi_soundbar_mode_status_reported
       = 724 [(module) = "framework"];
+  optional HdmiPowerStateChangeOnActiveSourceLostToggled
+      hdmi_power_state_change_on_active_source_lost_toggled = 991 [(module) = "framework"];
 }
 /**
 * Push atom that logs the status of the eARC feature in 3 dimensions: whether the
@@ -66,4 +68,26 @@ message HdmiSoundbarModeStatusReported {
   optional bool is_enabled = 2;
   // the event that triggered the log.
   optional android.stats.hdmi.DynamicSoundbarModeLogReason log_reason = 3;
+}
+
+/**
+* Push atom that logs the status of POWER_STATE_CHANGE_ON_ACTIVE_SOURCE_LOST in 2 dimensions:
+* whether the setting is enabled and connected device manufacturer information (PNP Id, year,
+* week).
+*
+* Logged whenever the setting is toggled.
+**/
+
+message HdmiPowerStateChangeOnActiveSourceLostToggled {
+  // whether the setting is enabled.
+  optional bool is_enabled = 1;
+  // the event that triggered the log.
+  optional android.stats.hdmi.PowerStateChangeOnActiveSourceLostToggleReason log_reason = 2;
+  // stores the PNP Id reported in the EDID by the connected device. The PNP Id can be
+  // decoded here - https://uefi.org/PNP_ID_List.
+  optional string manufacturer_device_pnp_id = 3;
+  // stores the manufacturer year reported in the EDID by the connected device
+  optional int32 manufacturer_device_year = 4;
+  // stores the manufacturer week reported in the EDID by the connected device
+  optional int32 manufacturer_device_week = 5;
 }

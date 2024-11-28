@@ -118,6 +118,19 @@ enum KeyboardSystemEvent {
     CHANGE_SPLITSCREEN_FOCUS = 50;
     // Move a task into next display
     MOVE_TO_NEXT_DISPLAY = 51;
+    // Resize a freeform window to fit the left half of the screen in desktop mode
+    SNAP_LEFT_FREEFORM_WINDOW = 52;
+    // Resize a freeform window to fit the right half of the screen in desktop mode
+    SNAP_RIGHT_FREEFORM_WINDOW = 53;
+    // Maximize a freeform window to the stable bounds in desktop mode
+    MAXIMIZE_FREEFORM_WINDOW = 54;
+    // Restore a freeform window size to its previous bounds in desktop mode
+    RESTORE_FREEFORM_WINDOW_SIZE = 55 [deprecated=true];
+    // Toggle between maximizing a freeform window to the stable bounds in
+    // desktop mode and restoring to its previous bounds
+    TOGGLE_MAXIMIZE_FREEFORM_WINDOW = 56;
+    // Minimize a window in desktop mode
+    MINIMIZE_FREEFORM_WINDOW = 57;
 }
 
 /**
