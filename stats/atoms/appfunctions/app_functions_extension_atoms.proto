@@ -1,0 +1,45 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.appfunctions;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.appfunctions";
+option java_multiple_files = true;
+
+extend Atom {
+  optional AppFunctionsRequestReported app_functions_request_reported = 998 [(module) = "appfunctions"];
+}
+
+/** Logs information on AppFunction execution requests. */
+message AppFunctionsRequestReported {
+  // Uid of the agent app.
+  optional int32 caller_package_uid = 1 [(is_uid) = true];
+  // Uid of the app that hosts the function.
+  optional int32 target_package_uid = 2 [(is_uid) = true];
+  // The response code of the request.
+  optional int64 response_code = 3;
+  // The size of the request in bytes.
+  optional int64 request_size_bytes = 4;
+  // The size of the response in bytes.
+  optional int64 response_size_bytes = 5;
+  // The duration of the request in milliseconds.
+  optional int64 request_duration_ms = 6;
+}
