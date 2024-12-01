@@ -122,6 +122,9 @@ message WsNotificationUpdated {
   // Whether this notification has set FLAG_FOREGROUND_SERVICE. Which means the
   // notification may be frequently updated.
   optional bool is_foreground_service = 21;
+
+  // Whether this notification has set FLAG_PROMOTED_ONGOING.
+  optional bool is_promoted_ongoing = 22;
 }
 
 /** Logged when a notification is updated in the WearServices application. */

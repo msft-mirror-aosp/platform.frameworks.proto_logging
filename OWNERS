@@ -17,3 +17,7 @@ per-file adservices_cel_enums.proto=binhnguyen@google.com,pdevpura@google.com
 
 # Input Framework
 per-file stats/enums/input/... = file:platform/frameworks/base:/INPUT_OWNERS
+
+# Health Connect
+per-file stats/enums/healthfitness/ui/enums.proto=mridulagarwal@google.com
+

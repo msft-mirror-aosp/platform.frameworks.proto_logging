@@ -1976,6 +1976,18 @@ enum Action {
     // CATEGORY: SETTINGS
     ACTION_MOUSE_KEYS_ENABLED = 1977;
     ACTION_MOUSE_KEYS_DISABLED = 1978;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn on LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_ON = 1979;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn off LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_OFF = 1980;
 }
 
 /**
