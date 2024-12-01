@@ -1316,6 +1316,14 @@ message Atom {
     extensions 988; // BluetoothLeConnection bluetooth_le_connection
     extensions 989; // CertificateTransparencyVerificationReported certificate_transparency_verification_reported
     extensions 990; // MediaSubscriptionChanged media_subscription_changed
+    extensions 991; // HdmiPowerStateChangeOnActiveSourceLostToggled hdmi_power_state_change_on_active_source_lost_toggled
+    extensions 992; // FederatedComputeTraceEventReported federated_compute_trace_event_reported
+    extensions 993; // RangingSessionConfigured ranging_session_configured
+    extensions 994; // RangingSessionStarted ranging_session_started
+    extensions 995; // RangingSessionClosed ranging_session_closed
+    extensions 996; // RangingTechnologyStarted ranging_technology_started
+    extensions 997; // RangingTechnologyStopped ranging_technology_stopped
+    extensions 998; // AppFunctionsRequestReported app_functions_request_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -18340,6 +18348,17 @@ message HdmiCecMessageReported {
 
     // The reason for the feature abort.
     optional android.stats.hdmi.FeatureAbortReason feature_abort_reason = 9;
+
+    // The physical address in <Report Physical Address> messages. Consists of
+    // four hexadecimal nibbles. Examples: 0x1234, 0x0000 (root device). 0xFFFF
+    // represents an unknown or invalid address.
+    //
+    // Physical address is assigned to each device through a discovery process.
+    // It indicates the connection hierarchy, for example, 1:2:0:0 is under
+    // 1:0:0:0, which is under 0:0:0:0.
+    //
+    // See section 8.7 in the HDMI 1.4b spec for details.
+    optional int32 physical_address = 10;
 }
 
 /**
