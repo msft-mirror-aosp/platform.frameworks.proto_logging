@@ -82,6 +82,7 @@ enum SoftInputShowHideReasonEnum {
     REASON_CONTROL_WINDOW_INSETS_ANIMATION = 55;
     REASON_SHOW_INPUT_TARGET_CHANGED = 56;
     REASON_HIDE_INPUT_TARGET_CHANGED = 57;
+    REASON_HIDE_WINDOW_LOST_FOCUS = 58;
 }
 
 // The type of the IME request, used by android/view/inputmethod/ImeTracker.java.
