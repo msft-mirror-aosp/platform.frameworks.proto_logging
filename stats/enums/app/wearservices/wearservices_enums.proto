@@ -259,13 +259,16 @@ enum NotificationGroupType {
 }
 
 // The style of the notification.
-// Next ID: 8
+// Next ID: 9
 enum NotificationStyle {
   // Unknown value.
   NOTIFICATION_STYLE_UNKNOWN = 0;
 
   // The notification has not specific any style.
   NOTIFICATION_STYLE_UNSPECIFIED = 1;
+
+  // All other notification styles not listed by this enum.
+  NOTIFICATION_STYLE_OTHER = 8;
 
   // The notification is InboxStyle.
   NOTIFICATION_STYLE_INBOX = 2;
