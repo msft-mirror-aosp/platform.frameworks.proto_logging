@@ -1336,6 +1336,7 @@ message Atom {
     extensions 1007; // AdServicesProcessStableFlagsReported ad_services_process_stable_flags_reported
     extensions 1008; // AdServicesFlagUpdateReported ad_services_flag_update_reported
     extensions 1009; // SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported
+    extensions 1010; // WifiSoftApCallbackOnClientsDisconnected wifi_soft_ap_callback_on_clients_disconnected
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
