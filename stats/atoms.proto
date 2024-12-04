@@ -2577,7 +2577,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 54
+ * Next tag: 57
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2766,6 +2766,21 @@ message ScheduledJobStateChanged {
     // JobInfo.Builder.addDebugTag(). Basic PII filtering has been applied,
     // but further filtering should be done by clients.
     repeated string filtered_debug_tags = 53;
+
+    // Number of reschedules due to job being abandoned.
+    optional int32 num_reschedules_due_to_abandonment = 54;
+
+    // Back off policy applied to the job that gets rescheduled.
+    // This is defined in JobInfo.java (See JobInfo.BACKOFF_POLICY_*).
+    enum BackOffPolicyType {
+        UNKNOWN_POLICY = 0;
+        LINEAR = 1;
+        EXPONENTIAL = 2;
+    }
+    // Back off policy applied to the job that gets rescheduled.
+    optional BackOffPolicyType back_off_policy_type  = 55;
+    // Is back off policy restriction applied due to abandoned job.
+    optional bool is_back_off_policy_restriction_applied = 56;
 }
 
 /**
