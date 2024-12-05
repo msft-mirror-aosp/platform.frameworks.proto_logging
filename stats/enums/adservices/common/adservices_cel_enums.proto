@@ -836,6 +836,403 @@ enum ErrorCode {
   // Error occurred when a revoke consent error is silently handled with notifying an empty success.
   PERSIST_AD_SELECTION_RESULT_RUNNER_NOTIFY_EMPTY_SUCCESS_SILENT_CONSENT_FAILURE = 3144;
 
+  // Error occurs when a Custom Audience API was called with null parameters.
+  CUSTOM_AUDIENCE_SERVICE_NULL_ARGUMENT = 3145;
+
+  // Error occurs when a Custom Audience API failed to get the UID of the caller app.
+  CUSTOM_AUDIENCE_SERVICE_GET_CALLING_UID_ILLEGAL_STATE = 3146;
+
+  // Error occurs when a Custom Audience API failed to notify success to the caller.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_SUCCESS_TO_CALLER_FAILED = 3147;
+
+  // Error occurs when a Custom Audience API failed because of invalid arguments.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_FAILURE_INVALID_ARGUMENT = 3148;
+
+  // Error occurs when a Custom Audience API is called by a background caller.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_FAILURE_BACKGROUND_CALLER = 3149;
+
+  // Error occurs when a Custom Audience API is called by an unauthorized caller.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_FAILURE_UNAUTHORIZED = 3150;
+
+  // Error occurs when a caller of a Custom Audience API is not allowed.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_FAILURE_CALLER_NOT_ALLOWED = 3151;
+
+  // Error occurs when a call to a Custom Audience API reached the rate limit.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_FAILURE_RATE_LIMIT_REACHED = 3152;
+
+  // Error occurs when a call to Custom Audience API runs into an unexpected error.
+  CUSTOM_AUDIENCE_SERVICE_NOTIFY_FAILURE_INTERNAL_ERROR = 3153;
+
+  // Error occurs when a coming call to a FLEDGE API is throttled.
+  FLEDGE_API_THROTTLE_FILTER_RATE_LIMIT_REACHED = 3154;
+
+  // Error occurs when a caller crossed the user boundary,
+  APP_IMPORTANCE_FILTER_IMPORTANCE_CALLER_NOT_ALLOWED_TO_CROSS_USER_BOUNDARIES = 3155;
+
+  // Error occurs when a caller's importance value is too high.
+  // The higher the importance, the less possible it is from foreground.
+  APP_IMPORTANCE_FILTER_IMPORTANCE_EXCEEDED_THRESHOLD = 3156;
+
+  // Error occurs when the caller package is not in the FLEDGE allow-list.
+  FLEDGE_ALLOW_LISTS_FILTER_PACKAGE_NOT_IN_ALLOW_LIST = 3157;
+
+  // Error occurs when the total  owners of CAs on a device reached max allowed value.
+  CUSTOM_AUDIENCE_QUANTITY_CHECKER_REACHED_MAX_NUMBER_OF_OWNER = 3158;
+
+  // Error occurs when the CA counts on a device reached max allowed value.
+  CUSTOM_AUDIENCE_QUANTITY_CHECKER_REACHED_MAX_NUMBER_OF_TOTAL_CUSTOM_AUDIENCE = 3159;
+
+  // Error occurs when the per owner CA counts on a device reached max allowed value.
+  CUSTOM_AUDIENCE_QUANTITY_CHECKER_REACHED_MAX_NUMBER_OF_CUSTOM_AUDIENCE_PER_OWNER = 3160;
+
+  // Error occurs when fetchCustomAudience is disabled.
+  FETCH_CUSTOM_AUDIENCE_IMPL_DISABLED = 3161;
+
+  // Error occurs when the associated owner-buyer pair is quarantined.
+  FETCH_CUSTOM_AUDIENCE_IMPL_QUARANTINED = 3162;
+
+  // Error occurs when the header of a fetch Custom Audience request is too large.
+  FETCH_CUSTOM_AUDIENCE_IMPL_REQUEST_CUSTOM_HEADER_EXCEEDS_SIZE_LIMIT = 3163;
+
+  // Error occurs when fails to parse the fetch Custom Audience response string as a JSONObject.
+  FETCH_CUSTOM_AUDIENCE_IMPL_INVALID_JSON_RESPONSE = 3164;
+
+  // Error occurs when the fused Custom Audience object is missing field values.
+  FETCH_CUSTOM_AUDIENCE_IMPL_INCOMPLETE_FUSED_CUSTOM_AUDIENCE = 3165;
+
+  // Error occurs when the fused Custom Audience object exceeded max allows byte length.
+  FETCH_CUSTOM_AUDIENCE_IMPL_FUSED_CUSTOM_AUDIENCE_EXCEEDS_SIZE_LIMIT = 3166;
+
+  // Error occurs when the failed to send fetch CA success notification to caller.
+  FETCH_CUSTOM_AUDIENCE_IMPL_UNABLE_TO_SEND_SUCCESSFUL_RESULT_TO_CALLBACK = 3167;
+
+  // Error occurs when the failed to notify fetch CA failure to caller.
+  FETCH_CUSTOM_AUDIENCE_IMPL_UNABLE_TO_SEND_FAILURE_TO_CALLBACK = 3168;
+
+  // Error occurs when the user consent is revoked while fetching CA.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_USER_CONSENT_REVOKED = 3169;
+
+  // Error occurs when the caller of fetch CA is from background.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_BACKGROUND_CALLER = 3170;
+
+  // Error occurs when the caller of fetch CA is not allowed.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_CALLER_NOT_ALLOWED = 3171;
+
+  // Error occurs when the caller of fetch CA is unauthorized.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_UNAUTHORIZED = 3172;
+
+  // Error occurs when the caller of fetch CA reached the rate limit.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_RATE_LIMIT_REACHED = 3173;
+
+  // Error occurs when fetch CA call captured invalid arguments.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_ILLEGAL_ARGUMENT_ERROR = 3174;
+
+  // Error occurs when fetch CA call captured invalid  objects.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_INVALID_OBJECT_ERROR = 3175;
+
+  // Error occurs when fetch CA call reached server rate limit.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_SERVER_RATE_LIMIT_REACHED = 3176;
+
+  // Error occurs when fetch CA call captured unexpected error.
+  FETCH_CUSTOM_AUDIENCE_IMPL_NOTIFY_FAILURE_INTERNAL_ERROR = 3177;
+
+  // Error occurs when failed to parse an Ad selection signal string to JSONObject.
+  CUSTOM_AUDIENCE_BLOB_FAILED_PARSING_AD_SELECTION_SIGNALS_STRING_TO_JSON = 3178;
+
+  // Error occurs when failed to initiate an AdSelectionSignals instance from a JSONObject.
+  CUSTOM_AUDIENCE_BLOB_FAILED_INITIATING_AD_SELECTION_SIGNALS_FROM_JSON = 3179;
+
+  // Error occurs when failed to get a string value from a JSONObject.
+  CUSTOM_AUDIENCE_BLOB_FAILED_GETTING_STRING_VALUE_FROM_JSON_BY_KEY = 3180;
+
+  // Error occurs when failed to get a time instant value from a JSONObject.
+  CUSTOM_AUDIENCE_BLOB_FAILED_GETTING_TIME_INSTANT_FROM_JSON_BY_KEY = 3181;
+
+  // Error occurs when failed to initiate a TrustedBiddingData instance fomr JSONObject.
+  CUSTOM_AUDIENCE_BLOB_FAILED_GETTING_TRUSTED_BIDDING_DATA_FROM_JSON = 3182;
+
+  // Error occurs when failed to get a string value from a JSONArray given index.
+  CUSTOM_AUDIENCE_BLOB_FAILED_GETTING_STRING_FROM_JSON_ARRAY = 3183;
+
+  // Error occurs when getting a null value from a JSONArray given index.
+  CUSTOM_AUDIENCE_BLOB_NULL_ARGUMENT = 3184;
+
+  // Error occurs when failed to create a JSONObject from a TrustedBiddingData instance.
+  CUSTOM_AUDIENCE_BLOB_FAILED_GETTING_TRUSTED_BIDDING_DATA_AS_JSON_OBJECT = 3185;
+
+  // Error occurs when failed to create a list of AdData instances from a JSONObject.
+  CUSTOM_AUDIENCE_BLOB_FAILED_GETTING_ADS_FROM_JSON_OBJECT = 3186;
+
+  // Error occurs when failed to get a string valure representing a render URI from a JSONObject given the key.
+  CUSTOM_AUDIENCE_BLOB_FAILED_PARSING_RENDER_URI_IN_ADS_JSON_ARRAY = 3187;
+
+  // Error occurs when Quarantine table maximum has been reached.
+  CUSTOM_AUDIENCE_DAO_QUARANTINE_TABLE_MAX_REACHED = 3188;
+
+  // Error occurs when caught invalid JSON invoking seller script during reporting impression.
+  IMPRESSION_REPORTER_INVALID_JSON_SELLER = 3189;
+
+  // Error occurs when caught invalid JSON invoking buyer script during reporting impression.
+  IMPRESSION_REPORTER_INVALID_JSON_BUYER = 3190;
+
+  // Error occurs when failed to fetch buyer script given a URI.
+  IMPRESSION_REPORTER_ERROR_FETCHING_BUYER_SCRIPT_FROM_URI = 3191;
+
+  // Error occurs when the seller's reporting URI is invalid.
+  IMPRESSION_REPORTER_INVALID_SELLER_REPORTING_URI = 3192;
+
+  // Error occurs when the buyer's reporting URI is invalid.
+  IMPRESSION_REPORTER_INVALID_BUYER_REPORTING_URI = 3193;
+
+  // Error occurs when failed to notify success to caller of reportImpression.
+  IMPRESSION_REPORTER_NOTIFY_SUCCESS_TO_CALLER_FAILED = 3194;
+
+  // Error occurs when GET call to a reporting URI failed.
+  IMPRESSION_REPORTER_HTTP_GET_REPORTING_URL_FAILED = 3195;
+
+  // Error occurs when report impression failed due to IO error.
+  IMPRESSION_REPORTER_FAILED_DUE_TO_IO_ERROR_DURING_REPORTING = 3196;
+
+  // Error occurs when report impression failed.
+  IMPRESSION_REPORTER_FAILED_DURING_REPORTING = 3197;
+
+  // Error occurs when the user consent is revoked while reporting impression.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_USER_CONSENT_REVOKED = 3198;
+
+  // Error occurs when the caller of reporting impression is from background.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_BACKGROUND_CALLER = 3199;
+
+  // Error occurs when the caller of reporting impression is not allowed.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_CALLER_NOT_ALLOWED = 3200;
+
+  // Error occurs when the caller of reporting impression is unauthorized.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_UNAUTHORIZED = 3201;
+
+  // Error occurs when the caller of reporting impression reached the rate limit.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_RATE_LIMIT_REACHED = 3202;
+
+  // Error occurs when reporting impressioncall captured invalid arguments.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_INVALID_ARGUMENT = 3203;
+
+  // Error occurs when reporting impression call captured unexpected error.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_INTERNAL_ERROR = 3204;
+
+  // Error occurs when failed to notify failure to caller during reporting impression call.
+  IMPRESSION_REPORTER_NOTIFY_FAILURE_TO_CALLER_FAILED = 3205;
+
+  // Error occurs when the interaction key size exceeded max during reporting impression call.
+  IMPRESSION_REPORTER_INTERACTION_KEY_SIZE_EXCEEDS_MAX = 3206;
+
+  // Error occurs when the reporting URI size exceeded max during reporting impression call.
+  IMPRESSION_REPORTER_INTERACTION_REPORTING_URI_SIZE_EXCEEDS_MAX = 3207;
+
+  // Error occurs when the interaction URI is invalid during reporting impression call.
+  IMPRESSION_REPORTER_INVALID_INTERACTION_URI = 3208;
+
+  // Error occurs when the outcome selection logic is missing fetching seller reporting logic.
+  JS_FETCHER_SELLER_MISSING_OUTCOME_SELECTION_LOGIC = 3209;
+
+  // Error occurs when the outcome selection logic is missing fetching buyer reporting logic.
+  JS_FETCHER_BUYER_MISSING_OUTCOME_SELECTION_LOGIC = 3210;
+
+  // Error occurs when caught invalid JSON invoking seller script during reporting impression using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_INVALID_JSON = 3211;
+
+  // Error occurs when failed to fetch buyer script given a URI using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_FETCHING_BUYER_SCRIPT_FAILED = 3212;
+
+  // Error occurs when failed to notify success to caller of reportImpression using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_SUCCESS_TO_CALLER_FAILED = 3213;
+
+  // Error occurs when GET call to a reporting URI failed using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_GETTING_REPORTING_URL_FAILED = 3214;
+
+  // Error occurs when the seller's reporting URI is invalid using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_INVALID_SELLER_REPORTING_URI = 3215;
+
+  // Error occurs when the buyer's reporting URI is invalid using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_INVALID_BUYER_REPORTING_URI = 3216;
+
+  // Error occurs when report impression failed due to IO error using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_FAILED_DUE_TO_IO_ERROR = 3217;
+
+  // Error occurs when report impression failed using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_FAILED = 3218;
+
+  // Error occurs when the user consent is revoked while reporting impression using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_FILTER_EXCEPTION_USER_CONSENT_REVOKED = 3219;
+
+  // Error occurs when the caller of reporting impression is from background using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_FILTER_EXCEPTION_BACKGROUND_CALLER = 3220;
+
+  // Error occurs when the caller of reporting impression is not allowed using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_FILTER_EXCEPTION_CALLER_NOT_ALLOWED = 3221;
+
+  // Error occurs when the caller of reporting impression is unauthorized using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_FILTER_EXCEPTION_UNAUTHORIZED = 3222;
+
+  // Error occurs when the caller of reporting impression reached the rate limit using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_FILTER_EXCEPTION_RATE_LIMIT_REACHED = 3223;
+
+  // Error occurs when reporting impressioncall captured invalid arguments using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_INVALID_ARGUMENT = 3224;
+
+  // Error occurs when reporting impression call captured unexpected error using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_INTERNAL_ERROR = 3225;
+
+  // Error occurs when failed to notify failure to caller during reporting impression call using the legacy reporter.
+  IMPRESSION_REPORTER_LEGACY_NOTIFY_FAILURE_TO_CALLER_FAILED = 3226;
+
+  // Error occurs when caught a malformed URI in https client.
+  AD_SERVICES_HTTPS_CLIENT_URI_IS_MALFORMED = 3227;
+
+  // Error occurs when failed to initiate connection with URL in https client.
+  AD_SERVICES_HTTPS_CLIENT_OPENING_URL_FAILED = 3228;
+
+  // Error occurs when caught a regular error in the response in https client.
+  AD_SERVICES_HTTPS_CLIENT_HTTP_REQUEST_ERROR = 3229;
+
+  // Error occurs when caught a retriable error in the response in https client.
+  AD_SERVICES_HTTPS_CLIENT_HTTP_REQUEST_RETRIABLE_ERROR = 3230;
+
+  // Error occurs when connection timeout reading response in https client.
+  AD_SERVICES_HTTPS_CLIENT_TIMEOUT_READING_RESPONSE = 3231;
+
+  // Error occurs when a null URI is passed to EnrollmentDao.
+  ENROLLMENT_DAO_URI_INVALID = 3232;
+
+  // Error occurs when a null API is passed to EnrollmentDao.
+  ENROLLMENT_DAO_PRIVACY_API_INVALID = 3233;
+
+  // Error occurs when failed to match an enrollment in EnrollmentDao.
+  ENROLLMENT_DAO_URI_ENROLLMENT_MATCH_FAILED = 3234;
+
+  // Error occurs when failed to get FLEDGE enrollment data from DB.
+  ENROLLMENT_DAO_GET_FLEDGE_ENROLLMENT_DATA_FROM_DB_FAILED = 3235;
+
+  // Error occurs when failed to get PAS enrollment data from DB.
+  ENROLLMENT_DAO_GET_PAS_ENROLLMENT_DATA_FROM_DB_FAILED = 3236;
+
+  // Error occurs when got llegal result returned by our calling function during report impression.
+  REPORT_IMPRESSION_SCRIPT_ENGINE_ILLEGAL_RESULT_RETURNED_BY_CALLING_FUNCTION = 3237;
+
+  // Error occurs when report result output has unexpected structure during report impression.
+  REPORT_IMPRESSION_SCRIPT_ENGINE_UNEXPECTED_RESULT_STRUCTURE = 3238;
+
+  // Error occurs when caught JS reference error during report impression.
+  REPORT_IMPRESSION_SCRIPT_ENGINE_JS_REFERENCE_ERROR = 3239;
+
+  // Error occurs when caught other JS error during report impression.
+  REPORT_IMPRESSION_SCRIPT_ENGINE_JS_OTHER_ERROR = 3240;
+
+  // Error occurs when failed to notify success to caller during an event reporting.
+  EVENT_REPORTER_NOTIFY_SUCCESS_TO_CALLER_FAILED = 3241;
+
+  // Error occurs when the user consent is revoked during an event reporting.
+  EVENT_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_USER_CONSENT_REVOKED = 3242;
+
+  // Error occurs when the caller of event reporting is from background.
+  EVENT_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_BACKGROUND_CALLER = 3243;
+
+  // Error occurs when the caller of event reporting is not allowed.
+  EVENT_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_CALLER_NOT_ALLOWED = 3244;
+
+  // Error occurs when the caller of event reporting is unauthorized.
+  EVENT_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_UNAUTHORIZED = 3245;
+
+  // Error occurs when the caller of event reporting reached the rate limit.
+  EVENT_REPORTER_NOTIFY_FAILURE_FILTER_EXCEPTION_RATE_LIMIT_REACHED = 3246;
+
+  // Error occurs when event reporting captured invalid arguments.
+  EVENT_REPORTER_NOTIFY_FAILURE_INVALID_ARGUMENT = 3247;
+
+  // Error occurs when event reporting call captured unexpected error.
+  EVENT_REPORTER_NOTIFY_FAILURE_INTERNAL_ERROR = 3248;
+
+  // Error occurs when failed to notify failure to caller during event reporting.
+  EVENT_REPORTER_NOTIFY_FAILURE_TO_CALLER_FAILED = 3249;
+
+  // Error occurs when failed to register an event during event reporting.
+  REPORT_AND_REGISTER_EVENT_IMPL_REGISTER_EVENT_FAILED = 3250;
+
+  // Error occurs when failed to report and register event due to IO exception.
+  REPORT_AND_REGISTER_EVENT_IMPL_FAILED_DUE_TO_IO_EXCEPTION = 3251;
+
+  // Error occurs when failed to report and register event due to unexpected error.
+  REPORT_AND_REGISTER_EVENT_IMPL_FAILED_DUE_TO_INTERNAL_ERROR = 3252;
+
+  // Error occurs when failed to report and register event due to IO exception using fallback.
+  REPORT_AND_REGISTER_EVENT_FALLBACK_IMPL_FAILED_DUE_TO_IO_EXCEPTION = 3253;
+
+  // Error occurs when failed to report and register event due to unexpected error using fallback.
+  REPORT_AND_REGISTER_EVENT_FALLBACK_IMPL_FAILED_DUE_TO_INTERNAL_ERROR = 3254;
+
+  // Error occurs when failed to report event due to IO exception using fallback.
+  REPORT_EVENT_IMPL_FAILED_DUE_TO_IO_EXCEPTION = 3255;
+
+  // Error occurs when failed to report event due to unexpected error using fallback.
+  REPORT_EVENT_IMPL_FAILED_DUE_TO_INTERNAL_ERROR = 3256;
+
+  // Error occurs when the version in the header of fetch JS response is not a numeric value.
+  JS_FETCHER_NON_NUMERIC_VERSION_FOR_JS_PAYLOAD = 3257;
+
+  // Error occurred when API type is unknown while trying to get enrollment data for an Ad tech.
+  FLEDGE_AUTHORIZATION_FILTER_INVALID_API_TYPE = 3258;
+
+  // Error occurred when failed to fetch enrollment data for an Ad tech.
+  FLEDGE_AUTHORIZATION_FILTER_ENROLLMENT_NOT_FOUND = 3259;
+
+  // Error occurred when an Ad tech from given URI is blocked.
+  FLEDGE_AUTHORIZATION_FILTER_NOT_ALLOWED_ENROLLMENT_FROM_URI_BLOCKED = 3260;
+
+  // Error occurred when the feature of scheduling an CA update is disabled.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_DISABLED = 3261;
+
+  // Error occurred when the user consent is revoked when attempting to schedule an CA update.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_USER_CONSENT_REVOKED = 3262;
+
+  // Error occurred when failed to filter a schedule CA update request.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_FILTER_EXCEPTION = 3263;
+
+  // Error occurred when failed schedule an CA update due to a pending schedule.
+  CUSTOM_AUDIENCE_DAO_FAILED_DUE_TO_PENDING_SCHEDULE = 3264;
+
+  // Error occurred when failed to notify success after scheduled an CA update.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_SUCCESS_TO_CALLER_FAILED = 3265;
+
+  // Error occurred when failed to schedule an CA update because the user consent is revoked.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_USER_CONSENT_REVOKED = 3266;
+
+  // Error occurred when failed to schedule an CA update because the caller is from background.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_BACKGROUND_CALLER = 3267;
+
+  // Error occurred when failed to schedule an CA update because the caller package is not allowed.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_CALLER_NOT_ALLOWED = 3268;
+
+  // Error occurred when failed to schedule an CA update because the caller is not authorized.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_UNAUTHORIZED = 3269;
+
+  // Error occurred when failed to schedule an CA update because the caller exceeded rate limit.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_FILTER_EXCEPTION_RATE_LIMIT_REACHED = 3270;
+
+  // Error occurred when failed to schedule an CA update because of an invalid object.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_INVALID_OBJECT = 3271;
+
+  // Error occurred when failed to schedule an CA update because request reached server rate limit.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_SERVER_RATE_LIMIT_REACHED = 3272;
+
+  // Error occurred when failed to schedule an CA update because of an invalid argument.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_INVALID_ARGUMENT = 3273;
+
+  // Error occurred when failed to schedule an CA update because of a pending schedule.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_UPDATE_ALREADY_PENDING_ERROR = 3274;
+
+  // Error occurred when failed to schedule an CA update because of an unexpected error.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_INTERNAL_ERROR = 3275;
+
+  // Error occurred when failed to schedule an CA update when fail to notify failure to the caller.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_TO_CALLER_FAILED = 3276;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 

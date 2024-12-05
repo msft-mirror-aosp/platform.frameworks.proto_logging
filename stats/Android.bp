@@ -42,6 +42,7 @@ enum_protos = [
     "enums/appsearch/*.proto",
     "enums/art/*.proto",
     "enums/autofill/**/*.proto",
+    "enums/conscrypt/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/coregraphics/*.proto",
     "enums/corenetworking/**/*.proto",
@@ -64,6 +65,7 @@ enum_protos = [
     "enums/performance/*.proto",
     "enums/photopicker/*.proto",
     "enums/pdf/*.proto",
+    "enums/ranging/*.proto",
     "enums/server/*.proto",
     "enums/server/display/*.proto",
     "enums/server/job/*.proto",
@@ -127,6 +129,7 @@ atom_protos = [
     "atoms/aiwallpapers/*.proto",
     "atoms/art/*.proto",
     "atoms/appsearch/*.proto",
+    "atoms/backported_fixes/*.proto",
     "atoms/bluetooth/*.proto",
     "atoms/conscrypt/**/*.proto",
     "atoms/corenetworking/**/*.proto",
@@ -210,6 +213,8 @@ atom_protos = [
     "atoms/automotive/carsystemui/*.proto",
     "atoms/automotive/carsettings/*.proto",
     "atoms/automotive/carqclib/*.proto",
+    "atoms/ranging/*.proto",
+    "atoms/appfunctions/*.proto",
 ]
 
 cc_library_host_shared {

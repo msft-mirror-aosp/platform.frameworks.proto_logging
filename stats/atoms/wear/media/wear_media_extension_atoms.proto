@@ -41,6 +41,9 @@ extend Atom {
   optional MediaControlApiUsageReported media_control_api_usage_reported = 966
       [(module) = "wearmedia"];
 
+  optional MediaSubscriptionChanged media_subscription_changed = 990
+      [(module) = "wearmedia"];
+
   optional WearMediaOutputSwitcherDeviceScanApiLatency
       wear_media_output_switcher_device_scan_api_latency = 757 [(module) = "MediaOutputSwitcher"];
 
@@ -143,6 +146,27 @@ message MediaSessionStateChanged {
   // Version of the media session apk installed in the device.
   optional int64 version_code = 8;
 
+}
+
+/**
+ * Logs when the watch changes the media subscription of the Adaptive Media
+ * Bridging (go/wear-dd-adaptive-media-bridging) implementation.
+ *
+ * Adaptive Media Bridging changes the amount of media data to be bridged to the
+ * watch depending on whether the user is actively controlling phone media on
+ * the watch. Every time the subscription changes, the watch will log this atom.
+ *
+ * This will help estimate the power drain of Adaptive Media Bridging, and
+ * whether Adaptive Media Bridging is enabled.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ * Estimated Logging Rate:
+ * Peak: 10 times in 30s | Avg: 20 per device per day
+ */
+message MediaSubscriptionChanged {
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 1;
 }
 
 /**
