@@ -1275,7 +1275,7 @@ message Atom {
     extensions 947; // TextureViewEvent texture_view_event
     extensions 948; // SurfaceControlEvent surface_control_event
     extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
-    extensions 950; // JankFrameCountByWidget
+    extensions 950; // JankFrameCountByWidgetReported jank_frame_count_by_widget_reported
     extensions 951; // AccountManagerEvent account_manager_event
     extensions 952; // OnDevicePersonalizationTraceEvent ondevicepersonalization_trace_event
     extensions 953; // WearSetupWizardDeviceStatusReported wear_setup_wizard_device_status_reported
