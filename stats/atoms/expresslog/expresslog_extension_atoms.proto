@@ -26,7 +26,7 @@ option java_multiple_files = true;
 
 extend Atom {
     optional ExpressEventReported express_event_reported =
-            528 [(module) = "framework", (module) = "expresslog"];
+            528 [(module) = "framework", (module) = "expresslog", (module) = "statsdtest"];
     optional ExpressHistogramSampleReported express_histogram_sample_reported =
             593 [(module) = "framework", (module) = "expresslog"];
     optional ExpressUidEventReported express_uid_event_reported =

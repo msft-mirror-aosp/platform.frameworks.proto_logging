@@ -45,6 +45,14 @@ extend Atom {
   optional HealthConnectPermissionStats health_connect_permission_stats = 963 [(module) = "healthfitness"];
 
   optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectPhrUsageStats health_connect_phr_usage_stats = 981 [(module) = "healthfitness"];
+
+  optional HealthConnectPhrStorageStats health_connect_phr_storage_stats = 984 [(module) = "healthfitness"];
+
+  optional HealthConnectRestrictedEcosystemStats health_connect_restricted_ecosystem_stats = 985 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectEcosystemStats health_connect_ecosystem_stats = 986 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -89,6 +97,25 @@ message HealthConnectUsageStats {
 
 }
 
+// Track if users are connecting personal health record apps with Health Connect
+message HealthConnectPhrUsageStats {
+
+  // Number of connected medical data sources
+  optional int32 connected_medical_datasource_count = 1;
+
+  // Number of stored medical resources.
+  optional int32 medical_resource_count = 2;
+
+  // Set true if the user has one read medical resources API call in past 30
+  // days. PHR stands for Personal Health Record.
+  optional bool is_monthly_active_phr_user = 3;
+
+  // Number of apps that have been granted at least one medical data read
+  // permission. PHR stands for Personal Health Record.
+  optional int32 granted_phr_apps_count = 4;
+
+}
+
 /**
  *  Tracks the daily usage stats of the Health Connect export/import feature.
  *
@@ -123,7 +150,11 @@ message HealthConnectStorageStats {
 
   // Total number of changelog counts.
   optional int64 changelog_count = 5;
+}
 
+// Monitor PHR database in HC (PHR stands for Personal Health Record)
+message HealthConnectPhrStorageStats {
+  optional int64 phr_data_size = 1;
 }
 
 // Track when ExerciseRoute is being read/written.
@@ -244,4 +275,45 @@ message HealthConnectPermissionStats {
 
   // Health Connect permission granted to the given package
   repeated string permission_name = 2;
+}
+
+/**
+ * Information about Health Connect Ecosystem for the user.
+ */
+message HealthConnectEcosystemStats {
+
+  // Datatypes read or written in past 30 days
+  repeated android.healthfitness.api.DataType read_or_write = 1;
+
+  // Datatypes read in past 30 days
+  repeated android.healthfitness.api.DataType read = 2;
+
+  // Datatypes written in past 30 days
+  repeated android.healthfitness.api.DataType write = 3;
+
+  // Datatypes shared in past 30 days
+  repeated android.healthfitness.api.DataType shared = 4;
+
+}
+
+/**
+ * Sensitive Ecosystem metrics being collected via PWW.
+ */
+message HealthConnectRestrictedEcosystemStats {
+
+  // Package name writing data in directional pairings.
+  // First package name alphabetically for non-directional pairings.
+  optional string package_name_one = 1;
+
+  // Package name reading data in directional pairings.
+  // Second package name alphabetically for non-directional pairings.
+  optional string package_name_two = 2;
+
+  // Data type being shared among packages.
+  optional android.healthfitness.api.DataType data_type = 3
+  [(field_restriction_option).health_connect = true];
+
+  // Enum telling which metric is being represented by the atom.
+  optional android.healthfitness.api.MetricType metric_type = 4;
+
 }
