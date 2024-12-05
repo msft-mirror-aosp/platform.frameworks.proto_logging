@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 525
+// Next ID: 527
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -167,6 +167,7 @@ enum ItemId {
   CONNECTIVITY_UWB = 499;
   DATE_TIME_AUTO_DATE_TIME = 129;
   DATE_TIME_AUTO_TIME_ZONE = 130;
+  DATE_TIME_LOCATION_TIME_ZONE_DETECTION = 525;
   DATE_TIME_HOUR_FORMAT = 198;
   DATE_TIME_MANUAL_DATE = 211;
   DATE_TIME_MANUAL_TIME = 212;
@@ -212,6 +213,7 @@ enum ItemId {
   DEVICE_VERSION_BUILD = 140;
   DISPLAY_ALWAYS_ON_SCREEN = 126;
   DISPLAY_BRIGHTNESS = 287;
+  DISPLAY_COLOR_THEME = 526;
   DISPLAY_FONT_SIZE = 289;
   DISPLAY_MANUAL_BRIGHTNESS_SLIDER = 380;
   // Item for high brightness-mode/sunlight boost
