@@ -22,6 +22,8 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/performance/enums.proto";
 
+option java_package = "com.android.os.performance";
+
 extend Atom {
     optional PressureStallInformation pressure_stall_information = 10229 [(module) = "framework"];
 }

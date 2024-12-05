@@ -91,6 +91,18 @@ enum PpapiName {
   GET_AD_SELECTION_DATA = 12;
   // Represents PersistAdSelectionResult API of B&A.
   PERSIST_AD_SELECTION_RESULT = 13;
+  // Represents reportImpression API of B&A
+  REPORT_IMPRESSION = 14;
+  // Represents reportInteraction API of B&A
+  REPORT_INTERACTION = 15;
+  // Represents joinCustomAudience API of FLEDGE.
+  JOIN_CUSTOM_AUDIENCE = 16;
+  // Represents leaveCustomAudience API of FLEDGE.
+  LEAVE_CUSTOM_AUDIENCE = 17;
+  // Represents fetchAndJoinCustomAudience API of FLEDGE.
+  FETCH_AND_JOIN_CUSTOM_AUDIENCE = 18;
+  // Represents scheduleCustomAudienceUpdate API of FLEDGE.
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 19;
 }
 
 /**
