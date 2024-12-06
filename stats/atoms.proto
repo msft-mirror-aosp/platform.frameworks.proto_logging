@@ -1324,6 +1324,7 @@ message Atom {
     extensions 996; // RangingTechnologyStarted ranging_technology_started
     extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 998; // AppFunctionsRequestReported app_functions_request_reported
+    extensions 999; // CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
