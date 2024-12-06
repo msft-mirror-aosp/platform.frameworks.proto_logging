@@ -58,7 +58,7 @@ extend Atom {
     optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
     optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
     optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
-    optional JankFrameCountByWidget jank_frame_count_by_widget = 950 [(module)="framework"];
+    optional JankFrameCountByWidgetReported jank_frame_count_by_widget_reported = 950 [(module)="framework"];
     optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
     optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
 }
@@ -961,7 +961,7 @@ message FrameworkWakelockInfo {
  *  Peak: 25 times every 20 sec while frames are being rendered.
  *  Avg: 500 times per device per day.
  */
-message JankFrameCountByWidget {
+message JankFrameCountByWidgetReported {
   // UID of the app
   optional int32 uid = 1 [(is_uid) = true];
 
