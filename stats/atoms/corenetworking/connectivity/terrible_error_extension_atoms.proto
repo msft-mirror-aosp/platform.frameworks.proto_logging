@@ -1,0 +1,48 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.corenetworking.connectivity;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/corenetworking/connectivity/enums.proto";
+
+option java_package = "com.android.os.corenetworking.connectivity";
+option java_multiple_files = true;
+
+extend Atom {
+    optional CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred =
+        979 [(module) = "connectivity", (module) = "network_stack", (module) = "resolv"];
+}
+
+/**
+ * This message will replace the Log.wtf() calls in the core networking
+ * code, as Log.wtf() output is not collected by Pitot in production environments.
+ *
+ * Logged from:
+ * packages/modules/Connectivity/
+ * packages/modules/NetworkStack/
+ * packages/modules/DnsResolver/
+ *
+ * Estimated Logging Rate:
+ * Peak: 10 times in 60 mins | Avg: < 1 per device per day
+ */
+message CoreNetworkingTerribleErrorOccurred {
+    // Type of terrible error.
+    optional android.corenetworking.connectivity.TerribleErrorType error_type = 1;
+}

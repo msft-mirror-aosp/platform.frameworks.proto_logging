@@ -216,6 +216,15 @@ extend Atom {
 
   optional TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported = 930
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional ScheduledCustomAudienceUpdateScheduleAttempted scheduled_custom_audience_update_schedule_attempted = 967
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdatePerformed scheduled_custom_audience_update_performed = 968
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported scheduled_custom_audience_update_performed_attempted_failure_reported = 969
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran = 970
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -1131,6 +1140,12 @@ message UpdateSignalsApiCalled {
  * Logs per encoding background job run
  */
 message EncodingJobRun {
+    enum EncodingSourceType {
+      UNSET = 0;
+      PAS_ENCODING_JOB_SERVICE = 1;
+      PAS_SERVICE_IMPL = 2;
+    }
+
     // The number of adtechs who successfully encoded in this background job run
     optional int32 signal_encoding_successes = 1;
 
@@ -1139,6 +1154,9 @@ message EncodingJobRun {
 
     // The number of adtechs skipped due to their signals being unmodified
     optional int32 signal_encoding_skips = 3;
+
+    // The encoding resource type
+    optional EncodingSourceType encoding_source_type = 4;
 }
 
 /*
@@ -1457,6 +1475,7 @@ message AdServicesMeasurementRegistrations {
   optional int32 num_entities_deleted = 14;
   optional bool is_event_level_epsilon_configured = 15;
   optional bool is_trigger_aggregatable_value_filters_configured = 16;
+  optional bool is_trigger_filtering_id_configured = 17;
 }
 
 
@@ -2104,3 +2123,119 @@ message TopicsScheduleEpochJobSettingReported {
   // The epoch job setting when scheduling the epoch job in EpochJobService.scheduleIfNeeded().
   optional EpochJobBatteryConstraint schedule_if_needed_epoch_job_status = 4;
 }
+
+/**
+ * Logs when an update for custom audience is scheduled using ScheduledCustomAudienceUpdate API.
+ *
+ * Pushed from:
+ *   packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/customaudience/ScheduleCustomAudienceUpdateImpl.java
+ */
+message ScheduledCustomAudienceUpdateScheduleAttempted {
+  // Denotes the existing status before the update is performed.
+  enum ExistingUpdateStatus {
+    UNKNOWN = 0;
+    DID_OVERWRITE_EXISTING_UPDATE = 1;
+    NO_EXISTING_UPDATE = 2;
+    REJECTED_BY_EXISTING_UPDATE = 3;
+  }
+
+  // Number of partial custom audiences in the schedule CA update.
+  optional int32 num_partial_custom_audiences = 1;
+
+  // Delay in minutes after which custom audiences are scheduled to be updated.
+  optional int32 min_delay_minutes = 2;
+
+  // Field denoting if there was an already pending update in the database.
+  optional ExistingUpdateStatus existing_update_status = 3;
+
+  // Number of leave custom audience in the schedule CA update.
+  optional int32 num_leave_custom_audiences = 4;
+
+  // boolean denoting if the schedule CA update scheduled is for the second hop.
+  optional bool is_second_hop = 5;
+}
+
+/**
+ * Logs for ScheduledCustomAudienceUpdate after the update is performed.
+ *
+ * Pushed from:
+ *   packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/customaudience/ScheduleUpdatesHandler.java
+ */
+message ScheduledCustomAudienceUpdatePerformed {
+  // number of partial custom audience in the schedule ca update request.
+  optional int32 num_partial_custom_audiences_in_request = 1;
+
+  // number of custom audiences to be joined in the response from the server.
+  optional int32 num_join_custom_audiences_in_response = 2;
+
+  // number of custom audiences actually joined.
+  optional int32 num_custom_audiences_joined = 3;
+
+  // number of custom audiences to leave in schedule ca update request.
+  optional int32 num_leave_custom_audiences_in_request = 4;
+
+  // number of custom audience to in the response from the server.
+  optional int32 num_leave_custom_audiences_in_response = 5;
+
+  // number of actual custom audiences left.
+  optional int32 num_custom_audiences_left = 6;
+
+  // boolean denoting if the schedule CA update performed was the initial hop.
+  optional bool was_initial_hop = 7;
+
+  // number of schedule CA updates in the response from the server.
+  optional int32 num_schedule_updates_in_response = 8;
+
+  // number of CA schedules for a update.
+  optional int32 num_updates_scheduled = 9;
+}
+
+/**
+ * Logs for the scheduleCustomAudienceUpdate background job.
+ *
+ * Pushed from:
+ *   packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/customaudience/ScheduleUpdatesHandler.java
+ *
+ * Estimated Logging Rate:
+ *  Peak: 1 time in 1 hour | Avg: 24 per device per day.
+ */
+message ScheduledCustomAudienceUpdateBackgroundJobRan {
+  // number of schedule custom audience update found in the queue (database).
+  optional int32 num_updates_found = 1;
+
+  // number of schedule custom audience updates performed successfully.
+  optional int32 num_successful_updates = 2;
+}
+
+/**
+ * Logs for failure during updating Scheduled custom audience.
+ *
+ * Pushed from:
+ *   packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/customaudience/ScheduleUpdatesHandler.java
+ */
+message ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported {
+  // Enum denoting the type of failure logged.
+  enum FailureType {
+    UNKNOWN = 0;
+    HTTP_UNKNOWN = 1;
+    HTTP_TOO_MANY_REQUESTS = 2;
+    HTTP_REDIRECTION = 3;
+    HTTP_CLIENT_ERROR = 4;
+    HTTP_SERVER_ERROR = 5;
+    JSON_PARSING_ERROR = 6;
+    INTERNAL_ERROR = 7;
+    HTTP_IO_EXCEPTION = 8;
+    HTTP_CONTENT_SIZE_EXCEPTION = 9;
+  }
+  /// Enum denoting the action that caused the failure.
+  enum FailureAction {
+    HTTP_CALL = 0;
+    LEAVE_CUSTOM_AUDIENCE = 1;
+    JOIN_CUSTOM_AUDIENCE = 2;
+    SCHEDULE_CUSTOM_AUDIENCE = 3;
+  }
+
+  optional FailureType failure_type = 1;
+  optional FailureAction failure_action = 2;
+}
+

@@ -63,6 +63,12 @@ extend Atom {
   optional WsRemoteEventUsageReported ws_remote_event_usage_reported = 920
       [(module) = "wearservices"];
 
+  optional WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync = 941
+      [(module) = "wearservices"];
+
+  optional WsBugreportEventReported ws_bugreport_event_reported = 964
+      [(module) = "wearservices"];
+
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
       [(module) = "wearservices"];
@@ -373,5 +379,54 @@ message WsRemoteEventUsageReported {
   optional android.app.wearservices.RemoteEventType remote_event_type = 1;
 
   // Indicates the status of the remote event being sent.
-  optional bool is_successful = 2;
+  // Note: This field is deprecated.
+  optional bool is_successful = 2 [deprecated = true];
+
+  // Indicates the state of the remote event.
+  optional android.app.wearservices.RemoteEventState remote_event_state = 3;
+}
+
+/** Logged when a bugreport event takes place. */
+message WsBugreportEventReported {
+
+  // Depicts the event that is being reported.
+  // Values: (EVENT_BUGREPORT_UNKNOWN, EVENT_BUGREPORT_REQUESTED, EVENT_BUGREPORT_TRIGGERED, EVENT_BUGREPORT_FINISHED, EVENT_BUGREPORT_RESULT_RECEIVED)
+  optional android.app.wearservices.BugreportEvent event = 1;
+
+  // Depicts the component involved in the bugreport flow.
+  // In the case of EVENT_BUGREPORT_REQUESTED, it refers to the component that requested the
+  // bugreport.
+  // In the case of EVENT_BUGREPORT_RESULT_RECEIVED, it refers to the component that received the
+  // bugreport result.
+  // It's set to BUGREPORT_COMPONENT_UNSET when the event is EVENT_BUGREPORT_TRIGGERED or
+  // EVENT_BUGREPORT_FINISHED.
+  // Values: (BUGREPORT_COMPONENT_UNKNOWN, BUGREPORT_COMPONENT_UNSET, BUGREPORT_COMPONENT_COMPANION_APP, BUGREPORT_COMPONENT_WATCH_UI)
+  optional android.app.wearservices.BugreportComponent component = 2;
+
+  // Depicts the result of the bugreport.
+  // It's set to BUGREPORT_RESULT_UNSET when the event is EVENT_BUGREPORT_REQUESTED or
+  // EVENT_BUGREPORT_TRIGGERED.
+  // Values: (BUGREPORT_RESULT_UNKNOWN, BUGREPORT_RESULT_UNSET, BUGREPORT_RESULT_SUCCESS, BUGREPORT_RESULT_FAILURE)
+  optional android.app.wearservices.BugreportResult result = 3;
+
+  // Depicts the size of the bugreport in kilobytes
+  // It's set to 0 when the event is EVENT_BUGREPORT_REQUESTED or EVENT_BUGREPORT_TRIGGERED.
+  optional int32 bugreport_size_kilobytes = 4;
+
+  // Depicts the duration of the bugreport event in seconds.
+  // It's set only for EVENT_BUGREPORT_FINISHED and EVENT_BUGREPORT_RESULT_RECEIVED.
+  optional int32 bugreport_event_duration_seconds = 5;
+}
+
+/** Logged when notification ID dismissal was synchronised between devices. */
+message WsNotificationManagedDismissalSync {
+  // Package name of the application that created the notification.
+  // We use package name instead of uid as the application may not be installed on the device.
+  optional string package_name = 1;
+
+  // Device that initiated the synchronisation.
+  optional android.app.wearservices.RequestSource source_device = 2;
+
+  // Size of the payload in bytes
+  optional int32 payload_size_bytes = 3;
 }

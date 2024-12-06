@@ -1,0 +1,204 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package com.google.android.clockwork.setup;
+
+/**
+ * Indicates the thermal status of the watch
+ */
+enum ThermalStatus {
+  THERMAL_STATUS_NONE = 0;
+  THERMAL_STATUS_LIGHT = 1;
+  THERMAL_STATUS_MODERATE = 2;
+  THERMAL_STATUS_SEVERE = 3;
+  THERMAL_STATUS_CRITICAL = 4;
+  THERMAL_STATUS_EMERGENCY = 5;
+  THERMAL_STATUS_SHUTDOWN = 6;
+}
+
+/**
+ * Indicates the tether configuration of the watch
+ */
+enum TetherConfiguration {
+  TETHER_CONFIGURATION_UNKNOWN = 0;
+  TETHER_CONFIGURATION_STANDALONE = 1;
+  TETHER_CONFIGURATION_TETHERED = 2;
+  TETHER_CONFIGURATION_RESTRICTED = 3;
+}
+
+/**
+ * Indicates the wrist orientation set of the watch
+ */
+enum WristOrientation {
+  WRIST_ORIENTATION_UNKNOWN = 0;
+  WRIST_ORIENTATION_LEFT_WRIST_ROTATION_0 = 1;
+  WRIST_ORIENTATION_LEFT_WRIST_ROTATION_180 = 2;
+  WRIST_ORIENTATION_RIGHT_WRIST_ROTATION_0 = 3;
+  WRIST_ORIENTATION_RIGHT_WRIST_ROTATION_180 = 4;
+}
+
+/**
+ * Indicates setupwizard application status
+ */
+enum SetupWizardStatus {
+  SETUP_WIZARD_STATUS_NOT_COMPLETED = 0;
+  SETUP_WIZARD_STATUS_COMPLETED = 1;
+}
+
+
+/**
+ * Indicates how pairing started between watch and companion
+ */
+enum PairingType {
+  PAIRING_TYPE_UNKNOWN = 0;
+  PAIRING_TYPE_FASTPAIR = 1;
+  PAIRING_TYPE_LOCALE = 2;
+  PAIRING_TYPE_REGULARPAIR = 3;
+}
+
+/**
+ * Indicates pairing status
+ */
+enum PairingStatus {
+  PAIRING_STATUS_NOT_COMPLETED = 0;
+  PAIRING_STATUS_COMPLETED = 1;
+}
+
+/**
+ * Indicates companion OS  type
+ */
+enum CompanionOsType {
+  COMPANION_OS_TYPE_UNKNOWN = 0;
+  COMPANION_OS_TYPE_ANDROID = 1;
+  COMPANION_OS_TYPE_IOS = 2;
+}
+
+/**
+ * Indicates connection status between watch and companion
+ */
+enum ConnectionStatus {
+  CONNECTION_STATUS_NOT_ESTABLISHED = 0;
+  CONNECTION_STATUS_ESTABLISHED = 1;
+}
+
+/**
+ * Indicates watch Checkin status
+ */
+enum CheckinStatus {
+  CHECKIN_STATUS_NOT_COMPLETED = 0;
+  CHECKIN_STATUS_COMPLETED = 1;
+}
+
+/**
+ * Indicates the watch's role when exchanging messages with companion
+ */
+enum MessageRole {
+  MESSAGE_ROLE_UNKNOWN = 0;
+  MESSAGE_ROLE_SENDER = 1;
+  MESSAGE_ROLE_RECEIVER = 2;
+}
+
+/**
+ * Indicates the status of the phone or the watch during the status
+ * exchange in setup
+ */
+enum MessageStatus {
+  MESSAGE_STATUS_STATE_UNKNOWN = 0;
+  MESSAGE_STATUS_READY = 1;
+  MESSAGE_STATUS_COMPLETE_PENDING = 2;
+  MESSAGE_STATUS_COMPLETE = 3;
+  MESSAGE_STATUS_UPDATING = 4;
+  MESSAGE_STATUS_OOBE_DONE = 5;
+  MESSAGE_STATUS_READY_RESUMABLE_OOBE = 6;
+  MESSAGE_STATUS_START_RESUMABLE_OOBE = 7;
+  MESSAGE_STATUS_CRITICAL_PHASE_COMPLETE = 8;
+  MESSAGE_STATUS_EXITING_TO_WATCHFACE = 9;
+  MESSAGE_STATUS_WATCH_FAILURE = 10;
+  MESSAGE_STATUS_PHONE_FAILURE = 11;
+}
+
+/**
+ * Indicates heartbeat message type when resumable OOBE is enabled
+ */
+enum HeartbeatMessageType {
+  HEARTBEAT_MESSAGE_TYPE_UNKNOWN = 0;
+  HEARTBEAT_MESSAGE_TYPE_REQUEST = 1;
+  HEARTBEAT_MESSAGE_TYPE_RESPONSE = 2;
+  HEARTBEAT_MESSAGE_TYPE_UNSUPPORTED_COMMAND= 3;
+}
+
+/**
+ * Indicates end statuses of FRP
+ */
+enum FrpStatus {
+  FRP_STATUS_UNKNOWN = 0;
+  FRP_STATUS_PIN_PATTERN_SUCCESS = 1;
+  FRP_STATUS_PIN_PATTERN_MISMATCH_FAILURE = 2;
+  FRP_STATUS_PIN_PATTERN_UNKNOWN_ERROR = 3;
+  FRP_STATUS_ACCOUNT_SUCCESS = 4;
+  FRP_STATUS_ACCOUNT_MISMATCH_FAILURE = 5;
+  FRP_STATUS_MEDIATOR_SERVICE_NULL_ERROR = 6;
+  FRP_STATUS_UNLOCK_FRP_FOR_WEAR_ERROR = 7;
+}
+
+/**
+ *  Indicates system update progress status
+ */
+enum SystemUpdateProgressStatus {
+  SYSTEM_UPDATE_PROGRESS_STATUS_NOT_COMPLETED = 0;
+  SYSTEM_UPDATE_PROGRESS_STATUS_COMPLETED = 1;
+}
+
+/**
+ * Indicates how phone switching was initiated
+ */
+enum PhoneSwitchingRequestSource {
+  PHONE_SWITCHING_REQUEST_SOURCE_NONE = 0;
+  PHONE_SWITCHING_REQUEST_SOURCE_WATCH = 1;
+  PHONE_SWITCHING_REQUEST_SOURCE_COMPANION_USER_CONFIRMATION = 2;
+  PHONE_SWITCHING_REQUEST_SOURCE_COMPANION = 3;
+}
+
+/**
+ * Indicates phone switching status throughout the flow
+ */
+enum PhoneSwitchingStatus {
+  PHONE_SWITCHING_STATUS_NOT_STARTED = 0;
+  PHONE_SWITCHING_STATUS_STARTED = 1;
+  PHONE_SWITCHING_STATUS_SUCCESS = 2;
+  PHONE_SWITCHING_STATUS_CANCELLED = 3;
+  PHONE_SWITCHING_STATUS_FAILED = 4;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_ADVERTISING = 5;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_BONDED = 6;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_PHONE_COMPLETE = 7;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_MIGRATION = 8;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_MIGRATION_FAILED = 9;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_MIGRATION_CANCELLED = 10;
+  PHONE_SWITCHING_STATUS_IN_PROGRESS_MIGRATION_SUCCESS = 11;
+  PHONE_SWITCHING_STATUS_ACCOUNTS_MATCHED = 12;
+}
+
+/**
+ * Indicates companion OS type change at the end of phone switching
+ */
+enum PhoneSwitchingCompanionOsTypeChange {
+  PHONE_SWITCHING_COMPANION_OS_TYPE_CHANGE_UNKNOWN = 0;
+  PHONE_SWITCHING_COMPANION_OS_TYPE_CHANGE_ANDROID_TO_ANDROID = 1;
+  PHONE_SWITCHING_COMPANION_OS_TYPE_CHANGE_IOS_TO_ANDROID = 2;
+  PHONE_SWITCHING_COMPANION_OS_TYPE_CHANGE_IOS_TO_IOS = 3;
+}

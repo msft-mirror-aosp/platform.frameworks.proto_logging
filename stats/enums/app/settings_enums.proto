@@ -1546,7 +1546,7 @@ enum Action {
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 
     // ACTION: Settings > Accessibility > Simple View > Use Simple View
-    // VALUE: false is off, true is on
+    // VALUE: integer which is from SimpleViewUsageTimeType
     // OS: V
     ACTION_EASY_MODE_CHANGED = 1901;
 
@@ -1908,7 +1908,7 @@ enum Action {
     ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
 
     // ACTION: Welcome > Set up with Simple View > Use Simple View
-    // VALUE: false is off, true is on
+    // VALUE: integer which is from SimpleViewUsageTimeType
     // OS: V
     ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
 
@@ -1916,12 +1916,86 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_PRIVATE_SPACE_SETUP_SPACE_ERRORS = 1964;
+
+    // ACTION: Settings > System > Languages > Regional preferences
+    //         > Measurement system > Set the preferred measurement system.
+    // CATEGORY: SETTINGS
+    // OS: W
+    ACTION_SET_MEASUREMENT_SYSTEM = 1965;
+
+    // ACTION: Settings > Connected devices > Bluetooth > Pair new device > failed
+    //         > retry A2DP profile connection
+    //  SUBTYPE: 0 is fail, 1 is success
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_CONNECTION_A2DP_RETRY_TRIGGERED = 1966;
+
+    // ACTION: Settings > Connected devices > Bluetooth > Pair new device > failed
+    //         > retry HEADSET profile connection
+    //  SUBTYPE: 0 is fail, 1 is success
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_CONNECTION_HEADSET_RETRY_TRIGGERED = 1967;
+
+    // Action: Settings > System > Touchpad & Mouse > Three finger tap
+    // VALUE: boolean
+    // OS: V
+    ACTION_TOUCHPAD_THREE_FINGER_TAP_CUSTOMIZATION_CHANGED = 1968;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item shown
+    //  SUBTYPE: 0 is invisible, 1 is visible
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_SHOWN = 1969;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item clicked
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_CLICKED = 1970;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Sticky keys"
+    // CATEGORY: SETTINGS
+    ACTION_STICKY_KEYS_ENABLED = 1971;
+    ACTION_STICKY_KEYS_DISABLED = 1972;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Bounce keys"
+    // CATEGORY: SETTINGS
+    ACTION_BOUNCE_KEYS_ENABLED = 1973;
+    ACTION_BOUNCE_KEYS_DISABLED = 1974;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Slow keys"
+    // CATEGORY: SETTINGS
+    ACTION_SLOW_KEYS_ENABLED = 1975;
+    ACTION_SLOW_KEYS_DISABLED = 1976;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Mouse keys"
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_KEYS_ENABLED = 1977;
+    ACTION_MOUSE_KEYS_DISABLED = 1978;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn on LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_ON = 1979;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn off LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_OFF = 1980;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
 enum PageId {
+    reserved 2123 to 2130;
+
     // Unknown page. Should not be used in production code.
     PAGE_UNKNOWN = 0;
 
@@ -5137,6 +5211,59 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     BLUETOOTH_KEY_MISSING_DIALOG_FRAGMENT = 2113;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_TOUCHPAD = 2114;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad -> Pointer Color Customization
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_COLOR_CUSTOMIZATION = 2115;
+
+    // OPEN: Settings > Connected Devices > Bluetooth > (click on details link for a paired device)
+    //       > More Settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    BLUETOOTH_DEVICE_DETAILS_MORE_SETTINGS = 2116;
+
+    // ACTION: Settings > Apps > Contacts storage > Select an account to set as default contacts account.
+    // CATEGORY: SETTINGS
+    // OS: V
+    CONTACTS_STORAGE = 2117;
+
+    // OPEN: Settings > Developer Options > Enable Linux terminal
+    // CATEGORY: SETTINGS
+    // OS: W
+    LINUX_TERMINAL_DASHBOARD = 2118;
+
+    // OPEN: Settings > System > Language > Regional preferences > Measurement system
+    // CATEGORY: SETTINGS
+    // OS: W
+    MEASUREMENT_SYSTEM_PREFERENCE = 2119;
+
+    // ACTION: Settings > Notifications > Bundle notifications
+    // CATEGORY: SETTINGS
+    // OS: B
+    BUNDLED_NOTIFICATIONS = 2120;
+
+    // Settings -> Keyboard -> Mouse
+    // CATEGORY: SETTINGS
+    SETTINGS_KEYBOARD_MOUSE = 2121;
+
+    // Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility -> Mouse Keys
+    // CATEGORY: SETTINGS
+    SETTINGS_PHYSICAL_KEYBOARD_MOUSE_KEYS = 2122;
+
+    // OPEN: Settings > System -> Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    TOUCHPAD_THREE_FINGER_TAP = 2131;
+
+    // OPEN: Settings > Notifications > Notifications on lock screen
+    // CATEGORY: SETTINGS
+    SETTINGS_NOTIFICATIONS_ON_LOCK_SCREEN = 2132;
 }
 
 // Battery Saver schedule types.
@@ -5169,4 +5296,20 @@ enum EntryPointType {
     KEYBOARD_SETTINGS = 1;
     // access physical keyboard settings through connected devices settings entry point
     CONNECTED_DEVICES_SETTINGS = 2;
+}
+
+// Simple view usage time types
+enum SimpleViewUsageTimeType {
+    // started to access simple view
+    SIMPLE_VIEW_USAGE_TYPE_ENABLED = 0;
+    // disabled simple view within 5 minutes
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_FIVE_MINUTES = 1;
+    // disabled simple view within 1 hour
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_HOUR = 2;
+    // disabled simple view within 1 day
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_DAY = 3;
+    // disabled simple view within 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_WEEK = 4;
+    // disabled simple view over 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_OVER_ONE_WEEK = 5;
 }

@@ -33,6 +33,8 @@ extend Atom {
       [(module) = "wearconnectivity"];
   optional WearCompanionConnectionState wear_companion_connection_state = 921
       [(module) = "wearconnectivity"];
+  optional SysproxyServiceStateUpdated sysproxy_service_state_updated = 949
+      [(module) = "wearconnectivity"];
 }
 
 /**
@@ -108,6 +110,37 @@ message SysproxyConnectionUpdated {
 
   // timestamp when reason was determined
   optional int64 reason_timestamp_millis = 6;
+}
+
+/**
+ * Captures Sysproxy service state updates, such as service bringup/teardown. Also captures
+ * additional details on the sysproxy service state, such as iptables rules states.
+ */
+message SysproxyServiceStateUpdated {
+  // The Sysproxy service state. e.g. SERVICE_STARTUP_FINISHED, SERVICE_SHUTDOWN_FINISHED.
+  optional com.google.android.wearable.connectivity.SysproxyServiceState service_state = 1;
+
+  // The iptables config state for sysproxy. e.g. RULES_SETUP_SUCCESS, RULES_SETUP_FAILURE.
+  optional com.google.android.wearable.connectivity.SysproxyIptablesState iptables_state = 2;
+
+  // The error code for the iptables operation(setup, teardown, etc.).
+  // If the operation didn't fail, 0 is logged.
+  // If there are multiple cmds failed in the operation, the first failed cmd error code is logged.
+  optional int64 iptables_failure_error_code = 3;
+
+  // The index of the failed iptables cmd in the setup/teardown cmd list.
+  // If all cmds succeeded, -1 is logged.
+  optional int32 iptables_first_failed_cmd_index = 4;
+
+  // Total count of cmds failed(even after retry) in the iptables operation(iptables setup/teardown).
+  optional int32 iptables_failed_cmd_count = 5;
+
+  // Total count of cmds retried in the iptables operation.
+  // Compare with iptables_failed_cmd_count to understand how many cmds succeeded with retry.
+  optional int32 iptables_retried_cmd_count = 6;
+
+  // Total count of iptables recovery attempted in the background since the service is started.
+  optional int32 iptables_recovery_attempt_count = 7;
 }
 
 /**

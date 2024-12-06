@@ -116,6 +116,21 @@ enum KeyboardSystemEvent {
     MULTI_WINDOW_NAVIGATION = 49;
     // Change split screen focus
     CHANGE_SPLITSCREEN_FOCUS = 50;
+    // Move a task into next display
+    MOVE_TO_NEXT_DISPLAY = 51;
+    // Resize a freeform window to fit the left half of the screen in desktop mode
+    SNAP_LEFT_FREEFORM_WINDOW = 52;
+    // Resize a freeform window to fit the right half of the screen in desktop mode
+    SNAP_RIGHT_FREEFORM_WINDOW = 53;
+    // Maximize a freeform window to the stable bounds in desktop mode
+    MAXIMIZE_FREEFORM_WINDOW = 54;
+    // Restore a freeform window size to its previous bounds in desktop mode
+    RESTORE_FREEFORM_WINDOW_SIZE = 55 [deprecated=true];
+    // Toggle between maximizing a freeform window to the stable bounds in
+    // desktop mode and restoring to its previous bounds
+    TOGGLE_MAXIMIZE_FREEFORM_WINDOW = 56;
+    // Minimize a window in desktop mode
+    MINIMIZE_FREEFORM_WINDOW = 57;
 }
 
 /**
@@ -229,7 +244,7 @@ enum InputDeviceBus {
 
 /**
  * Contains input event types we want to record latency values for.
- * Logged in InputEventLatency atom.
+ * Logged in InputEventLatencyReported atom.
  */
 enum InputEventType {
     UNKNOWN_INPUT_EVENT = 0;
@@ -251,7 +266,7 @@ enum InputEventType {
 /**
  * Contains the different stages of the input pipeline defined to capture the latency of input
    events.
- * Logged in InputEventLatency atom.
+ * Logged in InputEventLatencyReported atom.
  */
 enum LatencyStage {
     UNKNOWN_LATENCY_STAGE = 0;
@@ -259,7 +274,7 @@ enum LatencyStage {
     // End: the event was read in userspace (in EventHub)
     EVENT_TO_READ = 1;
     // Start: the event was read in EventHub
-    // End: the event was send to the app via the InputChannel (written to the socket)
+    // End: the event was sent to the app via the InputChannel (written to the socket)
     READ_TO_DELIVER = 2;
     // Start: the input event was sent to the app
     // End: the app consumed the input event
