@@ -200,8 +200,8 @@ message PhotopickerSearchInfoReported {
   optional android.photopicker.SearchMethod search_method = 2;
   // items picked in a particular search method
   optional int32 picked_items = 3 [deprecated = true];
-  optional int32 start_time_millis = 4;
-  optional int32 end_time_millis = 5;
+  optional int32 start_time_millis = 4 [deprecated = true];
+  optional int32 end_time_millis = 5 [deprecated = true];
 }
 
 /*

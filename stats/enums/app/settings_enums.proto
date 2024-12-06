@@ -1976,6 +1976,18 @@ enum Action {
     // CATEGORY: SETTINGS
     ACTION_MOUSE_KEYS_ENABLED = 1977;
     ACTION_MOUSE_KEYS_DISABLED = 1978;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn on LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_ON = 1979;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn off LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_OFF = 1980;
 }
 
 /**
@@ -5248,6 +5260,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     TOUCHPAD_THREE_FINGER_TAP = 2131;
+
+    // OPEN: Settings > Notifications > Notifications on lock screen
+    // CATEGORY: SETTINGS
+    SETTINGS_NOTIFICATIONS_ON_LOCK_SCREEN = 2132;
 }
 
 // Battery Saver schedule types.

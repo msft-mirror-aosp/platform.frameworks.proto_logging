@@ -1275,7 +1275,7 @@ message Atom {
     extensions 947; // TextureViewEvent texture_view_event
     extensions 948; // SurfaceControlEvent surface_control_event
     extensions 949; // SysproxyServiceStateUpdated sysproxy_service_state_updated
-    extensions 950; // JankFrameCountByWidget
+    extensions 950; // JankFrameCountByWidgetReported jank_frame_count_by_widget_reported
     extensions 951; // AccountManagerEvent account_manager_event
     extensions 952; // OnDevicePersonalizationTraceEvent ondevicepersonalization_trace_event
     extensions 953; // WearSetupWizardDeviceStatusReported wear_setup_wizard_device_status_reported
@@ -1316,6 +1316,15 @@ message Atom {
     extensions 988; // BluetoothLeConnection bluetooth_le_connection
     extensions 989; // CertificateTransparencyVerificationReported certificate_transparency_verification_reported
     extensions 990; // MediaSubscriptionChanged media_subscription_changed
+    extensions 991; // HdmiPowerStateChangeOnActiveSourceLostToggled hdmi_power_state_change_on_active_source_lost_toggled
+    extensions 992; // FederatedComputeTraceEventReported federated_compute_trace_event_reported
+    extensions 993; // RangingSessionConfigured ranging_session_configured
+    extensions 994; // RangingSessionStarted ranging_session_started
+    extensions 995; // RangingSessionClosed ranging_session_closed
+    extensions 996; // RangingTechnologyStarted ranging_technology_started
+    extensions 997; // RangingTechnologyStopped ranging_technology_stopped
+    extensions 998; // AppFunctionsRequestReported app_functions_request_reported
+    extensions 999; // CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -2569,7 +2578,7 @@ message DeferredJobStatsReported {
  *   frameworks/base/services/core/java/com/android/server/job/JobSchedulerService.java
  *   frameworks/base/services/core/java/com/android/server/job/JobServiceContext.java
  *
- * Next tag: 54
+ * Next tag: 57
  */
 message ScheduledJobStateChanged {
     repeated AttributionNode attribution_node = 1;
@@ -2758,6 +2767,21 @@ message ScheduledJobStateChanged {
     // JobInfo.Builder.addDebugTag(). Basic PII filtering has been applied,
     // but further filtering should be done by clients.
     repeated string filtered_debug_tags = 53;
+
+    // Number of reschedules due to job being abandoned.
+    optional int32 num_reschedules_due_to_abandonment = 54;
+
+    // Back off policy applied to the job that gets rescheduled.
+    // This is defined in JobInfo.java (See JobInfo.BACKOFF_POLICY_*).
+    enum BackOffPolicyType {
+        UNKNOWN_POLICY = 0;
+        LINEAR = 1;
+        EXPONENTIAL = 2;
+    }
+    // Back off policy applied to the job that gets rescheduled.
+    optional BackOffPolicyType back_off_policy_type  = 55;
+    // Is back off policy restriction applied due to abandoned job.
+    optional bool is_back_off_policy_restriction_applied = 56;
 }
 
 /**
@@ -24349,6 +24373,7 @@ message WsTileListChanged {
         EVENT_UNKNOWN = 0;
         TILE_ADDED = 1;
         TILE_REMOVED = 2;
+        TILE_UPDATED = 3;  // go/wear-dd-tiles-oem-metadata
     }
     // Component package for the tile that is being changed.
     optional int32 component_package_uid = 1 [(is_uid) = true];
@@ -24379,6 +24404,13 @@ message WsTileSnapshot {
 
     // Class name for the tiles.
     repeated string component_class_name = 2;
+
+    // The size in bytes of the vendor-specific metadata associated with this
+    // tile.  It will be zero (or not present) if no vendor-specific metadata is
+    // associated with the tile or the associated metadata is empty.
+    //
+    // See go/wear-dd-tiles-oem-metadata for details.
+    repeated int32 vendor_metadata_size_bytes = 3;
 }
 /*
 * Logs calls to getType of a contentProvider, where the caller has potentially no access to
