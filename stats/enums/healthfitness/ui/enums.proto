@@ -401,13 +401,22 @@ enum ElementId {
     ONBOARDING_MESSAGE_WITH_PHR = 276;
     // Home page
     BROWSE_HEALTH_RECORDS_BUTTON = 277;
-    // Combined app access page = 278;
+    // Combined app access page
     FITNESS_PERMISSIONS_BUTTON = 279;
     MEDICAL_PERMISSIONS_BUTTON = 280;
     REMOVE_ALL_PERMISSIONS_BUTTON = 281;
+    // Lock screen banner
+    LOCK_SCREEN_BANNER = 282;
+    LOCK_SCREEN_BANNER_BUTTON = 283;
+    LOCK_SCREEN_BANNER_DISMISS_BUTTON = 284;
+    // Raw Fhir sceen
+    RAW_FHIR_RESOURCE = 285;
+    // Request write medical permission screen
+    ALLOW_WRITE_HEALTH_RECORDS_BUTTON = 286;
+    CANCEL_WRITE_HEALTH_RECORDS_BUTTON = 287;
     // End of PHR
 
-    // Next available: 282;
+    // Next available: 288;
 }
 
 enum PageId {
@@ -475,8 +484,9 @@ enum PageId {
     MEDICAL_APP_ACCESS_PAGE = 52;
     SETTINGS_MANAGE_COMBINED_APP_PERMISSIONS_PAGE = 53;
     SETTINGS_MANAGE_MEDICAL_APP_PERMISSIONS_PAGE = 54;
+    REQUEST_WRITE_MEDICAL_PERMISSION_PAGE = 55;
 
-    // Next available: 55;
+    // Next available: 56;
 }
 
 enum Action {
