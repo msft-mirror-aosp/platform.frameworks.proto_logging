@@ -1324,6 +1324,7 @@ message Atom {
     extensions 996; // RangingTechnologyStarted ranging_technology_started
     extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 998; // AppFunctionsRequestReported app_functions_request_reported
+    extensions 999; // CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -24372,6 +24373,7 @@ message WsTileListChanged {
         EVENT_UNKNOWN = 0;
         TILE_ADDED = 1;
         TILE_REMOVED = 2;
+        TILE_UPDATED = 3;  // go/wear-dd-tiles-oem-metadata
     }
     // Component package for the tile that is being changed.
     optional int32 component_package_uid = 1 [(is_uid) = true];
@@ -24402,6 +24404,13 @@ message WsTileSnapshot {
 
     // Class name for the tiles.
     repeated string component_class_name = 2;
+
+    // The size in bytes of the vendor-specific metadata associated with this
+    // tile.  It will be zero (or not present) if no vendor-specific metadata is
+    // associated with the tile or the associated metadata is empty.
+    //
+    // See go/wear-dd-tiles-oem-metadata for details.
+    repeated int32 vendor_metadata_size_bytes = 3;
 }
 /*
 * Logs calls to getType of a contentProvider, where the caller has potentially no access to
