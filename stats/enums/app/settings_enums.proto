@@ -5260,6 +5260,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     TOUCHPAD_THREE_FINGER_TAP = 2131;
+
+    // OPEN: Settings > Notifications > Notifications on lock screen
+    // CATEGORY: SETTINGS
+    SETTINGS_NOTIFICATIONS_ON_LOCK_SCREEN = 2132;
 }
 
 // Battery Saver schedule types.
