@@ -1238,6 +1238,15 @@ message Atom {
     extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
     extensions 982; // BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
     extensions 988; // BluetoothLeConnection bluetooth_le_connection
+    extensions 989; // CertificateTransparencyVerificationReported certificate_transparency_verification_reported
+    extensions 990; // MediaSubscriptionChanged media_subscription_changed
+    extensions 991; // HdmiPowerStateChangeOnActiveSourceLostToggled hdmi_power_state_change_on_active_source_lost_toggled
+    extensions 992; // FederatedComputeTraceEventReported federated_compute_trace_event_reported
+    extensions 993; // RangingSessionConfigured ranging_session_configured
+    extensions 994; // RangingSessionStarted ranging_session_started
+    extensions 995; // RangingSessionClosed ranging_session_closed
+    extensions 996; // RangingTechnologyStarted ranging_technology_started
+    extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
