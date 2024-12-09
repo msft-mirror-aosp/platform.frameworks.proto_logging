@@ -884,7 +884,7 @@ enum RemoteEventState {
 }
 
 // This enum depicts different components of the bugreport flow
-// Next ID: 4
+// Next ID: 5
 enum BugreportComponent {
   // Depicts an unknown component
   BUGREPORT_COMPONENT_UNKNOWN = 0;
@@ -897,6 +897,9 @@ enum BugreportComponent {
 
   // Depicts when the component is not set
   BUGREPORT_COMPONENT_UNSET = 3;
+
+  // Atoms created by WCS auto upload feature
+  BUGREPORT_COMPONENT_WCS_AUTO_UPLOAD = 4;
 }
 
 // This enum depicts the result of the bugreport
