@@ -127,6 +127,30 @@ message FieldRestrictionOption {
     optional bool demographic_classification = 9;
 }
 
+message HistogramBinOption {
+    message ExplicitBins {
+        repeated float bin = 1;
+    }
+
+    message GeneratedBins {
+        enum Strategy {
+            UNKNOWN = 0;
+            LINEAR = 1;
+            EXPONENTIAL = 2;
+        }
+
+        optional float min = 1;
+        optional float max = 2;
+        optional int32 count = 3;
+        optional Strategy strategy = 4;
+    }
+
+    oneof binning_strategy {
+        GeneratedBins generated_bins = 1;
+        ExplicitBins explicit_bins = 2;
+    }
+}
+
 extend google.protobuf.FieldOptions {
     // Flags to decorate an atom that presents a state change.
     optional StateAtomFieldOption state_field_option = 50000;
@@ -143,4 +167,6 @@ extend google.protobuf.FieldOptions {
     optional RestrictionCategory restriction_category = 50006;
 
     optional FieldRestrictionOption field_restriction_option = 50007;
+
+    optional HistogramBinOption histogram_bin_option = 50008;
 }

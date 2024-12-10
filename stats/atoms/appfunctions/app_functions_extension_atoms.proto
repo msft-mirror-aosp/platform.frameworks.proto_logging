@@ -34,12 +34,12 @@ message AppFunctionsRequestReported {
   optional int32 caller_package_uid = 1 [(is_uid) = true];
   // Uid of the app that hosts the function.
   optional int32 target_package_uid = 2 [(is_uid) = true];
-  // The response code of the request.
-  optional int64 response_code = 3;
+  // The error code of the response, or -1 if no error is present.
+  optional int32 error_code = 3;
   // The size of the request in bytes.
-  optional int64 request_size_bytes = 4;
+  optional int32 request_size_bytes = 4;
   // The size of the response in bytes.
-  optional int64 response_size_bytes = 5;
+  optional int32 response_size_bytes = 5;
   // The duration of the request in milliseconds.
   optional int64 request_duration_ms = 6;
 }

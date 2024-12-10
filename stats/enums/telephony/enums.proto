@@ -90,6 +90,7 @@ enum NetworkTypeEnum {
     NETWORK_TYPE_IWLAN = 18;
     NETWORK_TYPE_LTE_CA = 19;
     NETWORK_TYPE_NR = 20;
+    NETWORK_TYPE_NB_IOT_NTN = 21;
 }
 
 // Cellular radio power state, see android/telephony/TelephonyManager.java for definitions.
