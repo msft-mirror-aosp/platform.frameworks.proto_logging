@@ -125,6 +125,10 @@ message WsNotificationUpdated {
 
   // Whether this notification has set FLAG_PROMOTED_ONGOING.
   optional bool is_promoted_ongoing = 22;
+
+  // Whether this notification has promotable characteristics, taken from
+  // Notification#hasPromotableCharacteristics().
+  optional bool has_promotable_characteristics = 23;
 }
 
 /** Logged when a notification is updated in the WearServices application. */
