@@ -1325,6 +1325,7 @@ message Atom {
     extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 998; // AppFunctionsRequestReported app_functions_request_reported
     extensions 999; // CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed
+    extensions 1000; // NotificationBundleInteracted notification_bundle_interacted
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -22757,6 +22758,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_COMPUTER = 4;
         DEVICE_PROFILE_GLASSES = 5;
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
+        DEVICE_PROFILE_SENSOR_DEVICE_STREAMING = 7;
     }
 
     // Action taken on the CDM association been created by companion apps.
