@@ -1325,6 +1325,7 @@ message Atom {
     extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 998; // AppFunctionsRequestReported app_functions_request_reported
     extensions 999; // CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed
+    extensions 1000; // NotificationBundleInteracted notification_bundle_interacted
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -19429,6 +19430,12 @@ message PackageInstallationSessionReported {
     optional bool is_move_install = 25;
     // Whether this is a staged installation
     optional bool is_staged = 26;
+
+    // Set when this session was configured to automatically install any missing dependencies.
+    optional bool is_install_dependencies_enabled = 27;
+    // Number of dependencies that are missing and are required for this install to be successful.
+    // Provided when is_install_dependencies_enabled is set.
+    optional int32 missing_dependencies_count = 28;
 }
 
 message PackageUninstallationReported {
@@ -22751,6 +22758,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_COMPUTER = 4;
         DEVICE_PROFILE_GLASSES = 5;
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
+        DEVICE_PROFILE_SENSOR_DEVICE_STREAMING = 7;
     }
 
     // Action taken on the CDM association been created by companion apps.
