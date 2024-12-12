@@ -40,6 +40,8 @@ message AppFunctionsRequestReported {
   optional int32 request_size_bytes = 4;
   // The size of the response in bytes.
   optional int32 response_size_bytes = 5;
-  // The duration of the request in milliseconds.
+  // The e2e latency of the request in milliseconds.
   optional int64 request_duration_ms = 6;
+  // The overhead duration of the request in milliseconds.
+  optional int64 request_overhead_ms = 7;
 }
