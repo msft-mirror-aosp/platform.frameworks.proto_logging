@@ -18,6 +18,7 @@ syntax = "proto2";
 
 package android.os.statsd.gps;
 
+import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/attribution_node.proto";
 
 option java_package = "com.android.os.gps";
@@ -36,6 +37,6 @@ message GpsScanStateChanged {
         OFF = 0;
         ON = 1;
     }
-    optional State state = 2;
+    optional State state = 2 [(state_field_option).exclusive_state = true];
 }
 

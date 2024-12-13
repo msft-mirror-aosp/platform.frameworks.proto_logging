@@ -61,7 +61,7 @@ message MediaActionReported {
 
   // Package name of the app that the user used to perform the action (eg: UMO
   // or a 3p media app)
-  optional int32 media_controls_package_uid = 2;
+  optional int32 media_controls_package_uid = 2 [(is_uid) = true];
 
   // Package name of the app that owns the media session. (This app is on the
   // paired phone, and not on the watch, hence cannot use uid)

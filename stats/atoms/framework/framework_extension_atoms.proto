@@ -21,7 +21,7 @@ package android.os.statsd.framework;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -29,6 +29,7 @@ extend Atom {
     optional FullScreenIntentLaunched full_screen_intent_launched = 631 [(module) = "framework"];
     optional BalAllowed bal_allowed = 632 [(module) = "framework"];
     optional InTaskActivityStarted in_task_activity_started = 685 [(module) = "framework"];
+    optional DeviceOrientationChanged device_orientation_changed = 906 [(module) = "framework"];
     optional CachedAppsHighWaterMark cached_apps_high_watermark = 10189 [(module) = "framework"];
     optional StylusPredictionMetricsReported stylus_prediction_metrics_reported = 718 [(module) = "libinput"];
     optional UserRiskEventReported user_risk_event_reported = 725 [(module) = "framework"];
@@ -47,6 +48,11 @@ extend Atom {
             [(module) = "framework"];
     optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
     optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
+    optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209 [(module) = "framework"];
+    optional PostGCMemorySnapshot postgc_memory_snapshot = 924 [(module) = "framework"];
+    optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
+    optional AppOpAccessTracked app_op_access_tracked = 931 [(module) = "framework"];
+    optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
 }
 
 /**
@@ -81,17 +87,20 @@ message BalAllowed {
 
     enum Status {
         BAL_STATUS_UNKNOWN = 0;
-        BAL_ALLOW_DEFAULT = 1;
+        BAL_ALLOW_DEFAULT = 1; // never serialized
         BAL_ALLOW_ALLOWLISTED_UID = 2;
         BAL_ALLOW_ALLOWLISTED_COMPONENT = 3;
         BAL_ALLOW_VISIBLE_WINDOW = 4;
-        BAL_ALLOW_PENDING_INTENT = 5;
+        BAL_ALLOW_PENDING_INTENT = 5; // obsolete
         BAL_ALLOW_BAL_PERMISSION = 6;
         BAL_ALLOW_SAW_PERMISSION = 7;
         BAL_ALLOW_GRACE_PERIOD = 8;
         BAL_ALLOW_FOREGROUND = 9;
         BAL_ALLOW_SDK_SANDBOX = 10;
         BAL_ALLOW_NON_APP_VISIBLE_WINDOW = 11;
+        BAL_ALLOW_TOKEN = 12;
+        BAL_ALLOW_BOUND_BY_FOREGROUND = 13;
+        BAL_BLOCKED = 127; // largest int32 serializable as 1 byte
     }
 
 }
@@ -125,6 +134,24 @@ message InTaskActivityStarted {
 
     // The timestamp(SystemClock#elapsedRealtime()) when starting activity.
     optional int64 activity_start_timestamp_millis = 6;
+}
+
+/**
+ * Logs when the device (i.e. default display) orientation is changed.
+ * Logged from: com.android.server.wm.ActivityTaskManagerService
+ * Estimated Logging Rate:
+ *   Peak: 6 times in 1 min | Avg: 8 times per device per day
+ */
+message DeviceOrientationChanged {
+    enum Orientation {
+        UNDEFINED = 0;
+        PORTRAIT = 1;
+        LANDSCAPE = 2;
+    }
+    optional Orientation orientation = 1 [
+        (state_field_option).exclusive_state = true,
+        (state_field_option).nested = false
+    ];
 }
 
 /**
@@ -308,6 +335,10 @@ message MediaProjectionStateChanged {
   // Only present when in state MEDIA_PROJECTION_STATE_INITIATED.
   optional SessionCreationSource creation_source = 7;
 
+  // Where this session stopped.
+  // Only present when in state MEDIA_PROJECTION_STATE_STOPPED.
+  optional SessionStopSource stop_source = 8;
+
   // Possible states for a MediaProjection session.
   enum MediaProjectionState {
     MEDIA_PROJECTION_STATE_UNKNOWN = 0;
@@ -344,6 +375,31 @@ message MediaProjectionStateChanged {
     // Created through Cast SDK, e.g. screencast quick settings tile.
     CREATION_SOURCE_CAST = 3;
   }
+
+  // The possible exit points for the session.
+  enum SessionStopSource {
+    STOP_SOURCE_UNKNOWN = 0;
+    // Stopped through calling MediaProjection#stop()
+    STOP_SOURCE_HOST_APP_STOP = 1;
+    // Stopped by the capture target calling onRemoved() after being exited
+    STOP_SOURCE_TASK_APP_CLOSE = 2;
+    // Stopped by the device keyguard being locked
+    STOP_SOURCE_DEVICE_LOCK = 3;
+    // Stopped via the MediaProjection status bar privacy chip
+    STOP_SOURCE_STATUS_BAR_CHIP_STOP = 4;
+    // Stopped via the Quick Settings cast tile
+    STOP_SOURCE_QS_TILE = 5;
+    // Stopped due to the device switching users
+    STOP_SOURCE_USER_SWITCH = 6;
+    // Stopped due to a change in the MediaProjection foreground service
+    STOP_SOURCE_FOREGROUND_SERVICE_CHANGE = 7;
+    // Stopped due to a new MediaProjection coming to replace the currently active projection
+    STOP_SOURCE_NEW_PROJECTION = 8;
+    // Stopped due to a new MediaRoute being chosen while casting
+    STOP_SOURCE_NEW_MEDIA_ROUTE = 9;
+    // Stopped due to some error affecting the MediaProjection capture process
+    STOP_SOURCE_ERROR = 10;
+  }
 }
 
 /**
@@ -363,6 +419,9 @@ message MediaProjectionTargetChanged {
   // An incrementing integer that persists across device reboots.
   optional int32 session_id = 1 [(state_field_option).primary_field = true];
 
+  // The classification for the type of change applied to the capture target
+  optional TargetChangeType target_change_type = 10;
+
   // The area that is being captured.
   optional TargetType target_type = 2;
 
@@ -381,6 +440,22 @@ message MediaProjectionTargetChanged {
     (state_field_option).exclusive_state = true,
     (state_field_option).nested = false
   ];
+
+  optional int32 width = 6;
+  optional int32 height = 7;
+  optional int32 center_x = 8;
+  optional int32 center_y = 9;
+
+  // Enum that represents the type of change happening to the capture target
+  enum TargetChangeType {
+    TARGET_CHANGE_TYPE_UNKNOWN = 0;
+    // The target has updated its windowing mode (full screen, split screen, freeform, etc.)
+    TARGET_CHANGE_WINDOWING_MODE = 1;
+    // The target has changed the position it is centered at (size remains unchanged)
+    TARGET_CHANGE_POSITION = 2;
+    // The target has changed its bounds (changed size and centered position)
+    TARGET_CHANGE_BOUNDS = 3;
+  }
 
   // Enum that represents the type of area that is being captured.
   enum TargetType {
@@ -613,4 +688,192 @@ message AppRestrictionStateChanged {
   }
   // The source of the change - initiated by the user, the system automatically, etc.
   optional RestrictionChangeSource source = 7;
+}
+
+/**
+ * Pulls detailed battery attribution slices.
+ *
+ * Pulled from:
+ *   frameworks/base/services/core/java/com/android/server/am/BatteryStatsService.java
+ *
+ * The charging_state and screen_state (and other states potentially) can be used as a dimensions
+ * for corresponding metrics to pull this atom and rely on statsd tracking of states instead
+ */
+message BatteryUsageStatsPerUid {
+
+  enum ProcessState {
+    UNSPECIFIED = 0;
+    FOREGROUND = 1;
+    BACKGROUND = 2;
+    FOREGROUND_SERVICE = 3;
+    CACHED = 4;
+  }
+
+  // Overall SessionStats data
+
+  // The session start timestamp in UTC milliseconds since January 1, 1970, per Date#getTime().
+  // All data is no older than this time.
+  optional int64 session_start_millis = 1;
+
+  // The session end timestamp in UTC milliseconds since January 1, 1970, per Date#getTime().
+  // All data is no more recent than this time.
+  optional int64 session_end_millis = 2;
+
+  // Length that the reported data covered. This usually will be equal to the entire session,
+  // session_end_millis - session_start_millis, but may not be if some data during this time frame
+  // is missing.
+  optional int64 session_duration_millis = 3;
+
+  // Sum of all discharge percentage point drops during the reported session.
+  // Reported by Health HAL - as an integer ranging from 0 to 100
+  optional int32 session_discharge_percentage = 4;
+
+  // Total amount of time battery was discharging during the reported session
+  optional int64 session_discharge_duration_millis = 5;
+
+  // Per Uid BatteryConsumer data
+
+  optional int32 uid = 6 [(is_uid) = true];    // for device-wide atom Process.INVALID_UID (-1)
+  optional ProcessState proc_state = 7;        // for device-wide atom ProcessState.UNSPECIFIED
+  optional int64 time_in_state_millis = 8;
+
+  optional string power_component_name = 9;
+  optional float total_consumed_power_mah = 10;
+  optional float consumed_power_mah = 11;
+  optional int64 duration_millis = 12;
+}
+
+/**
+ * Logs the post-GC memory state for a process
+ */
+message PostGCMemorySnapshot {
+    // The process uid
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The process name.
+    optional string process_name = 2;
+
+    // The pid of the process.
+    // Allows to disambiguate instances of the process.
+    optional int32 pid = 3;
+
+    // The current OOM score adjustment value.
+    // Placeholder -1001 (OOM_SCORE_ADJ_MIN - 1, outside of allowed range) for native ones.
+    optional int32 oom_score_adj = 4;
+
+    // The current RSS of the process.
+    // VmRSS from /proc/pid/status.
+    optional int32 rss_in_kb = 5;
+
+    // The current anon RSS of the process.
+    // RssAnon from /proc/pid/status.
+    optional int32 anon_rss_in_kb = 6;
+
+    // The current swap size of the process.
+    // VmSwap from /proc/pid/status.
+    optional int32 swap_in_kb = 7;
+
+    // The sum of rss_in_kilobytes and swap_in_kilobytes.
+    optional int32 anon_rss_and_swap_in_kb = 8;
+
+    // Names of the classes with native allocations registered
+    repeated string native_allocation_class = 9;
+
+    // Numbers of malloced native allocations registered
+    repeated int64  native_allocation_malloced_count = 10;
+
+    // Memory sizes in bytes of malloced native allocations registered
+    repeated int64  native_allocation_malloced_bytes = 11;
+
+    // Numbers of nonmalloced native allocations registered
+    repeated int64  native_allocation_nonmalloced_count = 12;
+
+    // Memory sizes in bytes of nonmalloced native allocations registered
+    repeated int64  native_allocation_nonmalloced_bytes = 13;
+}
+
+/**
+ * A PowerSaveTempAllowlistChanged atom indicates that an app is added to or removed from
+ * the temp allowlist, which contains a list of apps that are allowed to bypass
+ * certain power or process management restrictions.
+ *
+ * Logged from: OomAdjuster.setUidTempAllowlistStateLSP via Hummingbird
+ */
+message PowerSaveTempAllowlistChanged {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional bool add_to_allowlist = 2;
+}
+
+/**
+ * [Pushed Atom] Logs when an AppOp is accessed through noteOp, startOp, finishOp and that access
+ * history can be stored in the AppOp discrete access data store.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/DiscreteRegistry.java
+ */
+message AppOpAccessTracked {
+    enum AccessType {
+        UNKNOWN = 0;
+        NOTE_OP = 1;
+        START_OP = 2;
+        FINISH_OP = 3;
+        PAUSE_OP = 4;
+        RESUME_OP = 5;
+    }
+
+    // Uid of the package requesting the op
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // operation id
+    optional android.app.AppOpEnum op_id = 2 [default = APP_OP_NONE];
+
+    // One of the access types
+    optional AccessType access_type = 3 ;
+
+    // The uid state of the package performing the op
+    optional int32 uid_state = 4;
+
+    // The flags of the op
+    optional int32 op_flag = 5;
+
+    // The flags of the attribution chain
+    optional int32 attribution_flag = 6;
+
+    // attribution_tag; provided by developer when accessing related API, limited at 50 chars by
+    // API. Attributions must be provided through manifest using <attribution> tag available in R
+    // and above.
+    optional string attribution_tag = 7;
+
+    // Chain Id that is used to link a finish_op to a start_op
+    optional int32 attribution_chain_id = 8;
+}
+
+/**
+ * Logs when specific content and file URIs are encountered in several locations. See EventType for
+ * more details.
+ */
+message ContentOrFileUriEventReported {
+  enum EventType {
+    UNKNOWN = 0;
+    // When the caller tries to launch an activity with a Content URI it doesn't have read access to
+    // and the callee has requireContentUriPermissionFromCaller as "none"
+    CONTENT_URI_WITHOUT_CALLER_READ_PERMISSION = 1;
+    // When the ContentResolver receives a File URI
+    FILE_URI_IN_CONTENT_RESOLVER = 2;
+    // When the Icon receives a non Content URI
+    NON_CONTENT_URI_IN_ICON = 3;
+    // When the NotificationRecord receives a non Content URI
+    NON_CONTENT_URI_IN_NOTIFICATION_RECORD = 4;
+    // When the MediaDataManager receives a non Content URI
+    NON_CONTENT_URI_IN_MEDIA_DATA_MANAGER = 5;
+  }
+  optional EventType event_type = 1;
+  optional string action_type = 2;
+  optional int32 caller_uid = 3 [(is_uid) = true];
+  optional string caller_activity_class_name = 4;
+  optional int32 callee_uid = 5 [(is_uid) = true];
+  optional string callee_activity_class_name = 6;
+  optional bool is_start_activity_for_result = 7;
+  optional string uri_authority = 8;
+  optional string uri_type = 9;
+  optional string uri_mime_type = 10;
 }

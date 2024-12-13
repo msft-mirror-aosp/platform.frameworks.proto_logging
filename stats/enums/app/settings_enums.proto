@@ -1545,9 +1545,9 @@ enum Action {
     // OS: U-QPR3
     ACTION_KEYBOARD_VIBRATION_CHANGED = 1900;
 
-    // ACTION: Settings > Accessibility > Easy read > Enable easy read
-    // VALUE: false is off, true is on
-    // OS: U-QPR3
+    // ACTION: Settings > Accessibility > Simple View > Use Simple View
+    // VALUE: integer which is from SimpleViewUsageTimeType
+    // OS: V
     ACTION_EASY_MODE_CHANGED = 1901;
 
     // OPEN: Settings > Security&Privacy > Private Space >
@@ -1875,6 +1875,47 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_AUDIO_STREAM_JOIN_FAILED_WAIT_FOR_SYNC_TIMEOUT = 1956;
+
+    // ACTION: Settings > Security > Device Unlock > [Fingerprint] > Delete
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_FINGERPRINT_DELETE = 1957;
+
+    // ACTION: Settings > Security > Device Unlock > [Fingerprint] > Rename
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_FINGERPRINT_RENAME = 1958;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Fill
+    // VALUE: fill style
+    // OS: V
+    ACTION_POINTER_ICON_FILL_STYLE_CHANGED = 1959;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Stroke
+    // VALUE: stroke style
+    // OS: V
+    ACTION_POINTER_ICON_STROKE_STYLE_CHANGED = 1960;
+
+    // Action: Settings > System > Touchpad & Mouse > Pointer Scale
+    // VALUE: scale
+    // OS: V
+    ACTION_POINTER_ICON_SCALE_CHANGED = 1961;
+
+    // ACTION: Settings > Display > Robust open/close detection
+    //  SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ROBUST_OPEN_CLOSE_DETECTION_CHANGED = 1962;
+
+    // ACTION: Welcome > Set up with Simple View > Use Simple View
+    // VALUE: integer which is from SimpleViewUsageTimeType
+    // OS: V
+    ACTION_EASY_MODE_CHANGED_VIA_SETUPWIZARD = 1963;
+
+    // OPEN: Settings > Security&Privacy > Private Space > Set up > Wait 15 sec
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_PRIVATE_SPACE_SETUP_SPACE_ERRORS = 1964;
 }
 
 /**
@@ -5014,10 +5055,103 @@ enum PageId {
     // OS: V
     DIALOG_AUDIO_STREAM_MAIN_JOIN_FAILED_TIMEOUT = 2098;
 
+    // OPEN: Settings > Network & internet > Internet > Click a connected Wifi Network > Share
+    // CATEGORY: SETTINGS
+    // OS: V
+    SETTINGS_WIFI_DPP_QR_SHARING = 2099;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_PRIORITY_MODES_LIST = 2100;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes > (Choose a Mode)
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_PRIORITY_MODE = 2101;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes > Create your own mode
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_NEW_TYPE_CHOOSER_DIALOG = 2102;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes > Create your own mode
+    //       > (Choose a Type) > Custom
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_ADD_NEW = 2103;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes > (Choose a Custom Mode)
+    //       > Options Menu > Rename
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_EDIT_NAME_ICON = 2104;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a Schedule/Calendar-based mode) > Set a Schedule
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_SCHEDULE_CHOOSER_DIALOG = 2105;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes > (Choose a Mode)
+    //       > Apps > Selected Apps > Select more Apps > (Choose an App)
+    // CATEGORY: SETTINGS
+    // OS: V
+    NOTIFICATION_ZEN_MODE_OVERRIDING_APP_CHANNELS = 2106;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes > (Choose a Mode) > Display settings
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_DISPLAY_SETTINGS = 2107;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a disabled Mode of Type not Bedtime or Driving) > Interstitial
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_INTERSTITIAL = 2108;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a disabled Mode of Type Bedtime) > Interstitial
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_INTERSTITIAL_BEDTIME = 2109;
+
+    // OPEN: Settings > Sound / Notifications > Priority Modes
+    //       > (Choose a disabled Mode of Type Driving) > Interstitial
+    // CATEGORY: SETTINGS
+    // OS: V
+    ZEN_MODE_INTERSTITIAL_DRIVING = 2110;
+
+    // ACTION: Settings > Sound / Notifications > Priority Modes
+    //         > (Choose Mode that can be disabled) > Toggle On/Off "When to turn on Automatically"
+    //   SUBTYPE: false is disabled, true is enabled
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_ZEN_MODE_ENABLE_TOGGLE = 2111;
+
+    // Settings -> Keyboard -> Physical keyboard -> Keyboard & touchpad accessibility
+    // CATEGORY: SETTINGS
+    PHYSICAL_KEYBOARD_A11Y = 2112;
+
+    // OPEN Settings > Bluetooth > Attempt to connect to device, but failed due to key missing.
+    // CATEGORY: SETTINGS
+    // OS: V
+    BLUETOOTH_KEY_MISSING_DIALOG_FRAGMENT = 2113;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_TOUCHPAD = 2114;
+
+    // OPEN: Settings > Accessibility -> Pointer and Touchpad -> Pointer Color Customization
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACCESSIBILITY_POINTER_COLOR_CUSTOMIZATION = 2115;
+
     // OPEN: Settings > Developer Options > Enable Linux terminal
     // CATEGORY: SETTINGS
     // OS: W
-    LINUX_TERMINAL_DASHBOARD = 2099;
+    LINUX_TERMINAL_DASHBOARD = 2118;
 }
 
 // Battery Saver schedule types.
@@ -5050,4 +5184,20 @@ enum EntryPointType {
     KEYBOARD_SETTINGS = 1;
     // access physical keyboard settings through connected devices settings entry point
     CONNECTED_DEVICES_SETTINGS = 2;
+}
+
+// Simple view usage time types
+enum SimpleViewUsageTimeType {
+    // started to access simple view
+    SIMPLE_VIEW_USAGE_TYPE_ENABLED = 0;
+    // disabled simple view within 5 minutes
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_FIVE_MINUTES = 1;
+    // disabled simple view within 1 hour
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_HOUR = 2;
+    // disabled simple view within 1 day
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_DAY = 3;
+    // disabled simple view within 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_WEEK = 4;
+    // disabled simple view over 1 week
+    SIMPLE_VIEW_USAGE_TYPE_DISABLED_OVER_ONE_WEEK = 5;
 }

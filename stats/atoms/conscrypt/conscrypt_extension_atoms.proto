@@ -1,0 +1,44 @@
+syntax = "proto2";
+
+package android.os.statsd.conscrypt;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.conscrypt";
+
+extend Atom {
+    optional CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed = 934 [(module) = "conscrypt"];
+}
+
+enum LogListStatus {
+    STATUS_UNKNOWN = 0;
+    STATUS_SUCCESS = 1;           // The list was loaded successfully.
+    STATUS_NOT_FOUND = 2;         // The list file was not found.
+    STATUS_PARSING_FAILED = 3;    // The list file failed to parse.
+    STATUS_EXPIRED = 4;           // The timestamp on the list is older than expected for the policy.
+}
+
+enum LogListCompatibilityVersion {
+    COMPAT_VERSION_UNKNOWN = 0;
+    COMPAT_VERSION_V1 = 1;
+}
+
+/*
+ * Pushed atom on how successful was the loading of the log list.
+ */
+message CertificateTransparencyLogListStateChanged {
+    // The status of the log list.
+    optional LogListStatus status = 1;
+
+    // The compatibility version.
+    optional LogListCompatibilityVersion loaded_compat_version = 2;
+
+    // All compatibility versions available.
+    repeated LogListCompatibilityVersion available_compat_versions = 3 [packed = true];
+
+    // Log list version.
+    optional int32 major_version = 4;
+    optional int32 minor_version = 5;
+}
+

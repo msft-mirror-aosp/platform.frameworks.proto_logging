@@ -153,7 +153,7 @@ message AppDataSharingUpdatesFragmentActionReported {
  */
 message EnhancedConfirmationDialogResultReported {
   // UID of the restricted app
-  optional int32 uid = 1;
+  optional int32 uid = 1 [(is_uid) = true];
 
   // Identifier of the restricted setting
   optional string setting_identifier = 2;
@@ -193,5 +193,5 @@ message EnhancedConfirmationDialogResultReported {
  */
 message EnhancedConfirmationRestrictionCleared {
   // UID of the restricted app
-  optional int32 uid = 1;
+  optional int32 uid = 1 [(is_uid) = true];
 }

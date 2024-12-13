@@ -791,3 +791,56 @@ enum WatchFaceType {
   // Declarative watch face type.
   WATCH_FACE_TYPE_DWF = 3;
 }
+
+// Contains types for photo selection for the photos watch face feature.
+enum PhotoSelectionType {
+  // Unknown value, maps to MULTIPLE in Companion if not specified
+  PHOTO_SELECTION_NOT_SPECIFIED = 0;
+
+  // Single image supported
+  PHOTO_SELECTION_SELECT_SINGLE = 1;
+
+  // Multiple images supported
+  PHOTO_SELECTION_SELECT_MULTIPLE = 2;
+}
+
+// This enum represents the type of remote event that is being reported, they
+// are corresponding to
+// vendor/google_clockwork/libs/contract/companion/remoteevent/remoteeventtype.proto
+// Next ID: 8
+enum RemoteEventType {
+  EVENT_TYPE_UNKNOWN = 0;
+  EVENT_TYPE_ACCOUNT_DEEPLINK = 1;
+  EVENT_TYPE_OTA_NOTIFICATION = 2;
+  EVENT_TYPE_PHOTO_PICKER_DEEPLINK = 3;
+  EVENT_TYPE_BATTERY_FULLY_CHARGED = 4;
+  EVENT_TYPE_WATCH_OFF_CHARGER = 5;
+  EVENT_TYPE_SEND_SMS = 6;
+  EVENT_TYPE_LOCALE_SETTINGS_DEEPLINK = 7;
+}
+
+// This enum depicts different components of the bugreport flow
+// Next ID: 3
+enum BugreportComponent {
+  // Depicts an unknown component
+  BUGREPORT_COMPONENT_UNKNOWN = 0;
+
+  // Depicts the companion app
+  BUGREPORT_COMPONENT_COMPANION_APP = 1;
+
+  // Depicts the watch UI
+  BUGREPORT_COMPONENT_WATCH_UI = 2;
+}
+
+// This enum depicts the result of the bugreport
+// Next ID: 3
+enum BugreportResult {
+  // Depicts an unknown bugreport result
+  BUGREPORT_RESULT_UNKNOWN = 0;
+
+  // Depicts a successful bugreport result
+  BUGREPORT_RESULT_SUCCESS = 1;
+
+  // Depicts a failure bugreport result
+  BUGREPORT_RESULT_FAILURE = 2;
+}

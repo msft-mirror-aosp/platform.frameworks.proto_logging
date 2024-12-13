@@ -30,6 +30,8 @@ extend Atom {
   optional DisplaySwitchLatencyTracked display_switch_latency_tracked = 753 [(module) = "sysui"];
   optional NotificationListenerService notification_listener_service = 829 [(module) = "sysui"];
   optional NavHandleTouchPoints nav_handle_touch_points = 869 [(module) = "sysui"];
+  optional CommunalHubWidgetEventReported communal_hub_widget_event_reported = 908 [(module) = "sysui"];
+  optional CommunalHubSnapshot communal_hub_snapshot = 10226 [(module) = "sysui"];
 }
 
 /**
@@ -217,4 +219,48 @@ message NavHandleTouchPoints {
     repeated int32 delay = 5;
     // This is the motion action event associated with (x,y) touch. See https://developer.android.com/reference/android/view/MotionEvent#constants_1 for the motion events code.
     repeated int32 action = 6;
+}
+
+/**
+ * Pushed atom. Logs an event for widgets in the communal hub.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ * Estimated Logging Rate:
+ *   Avg: 5 per device per day
+ */
+message CommunalHubWidgetEventReported {
+  enum Action {
+    // Action is unknown.
+    UNKNOWN = 0;
+    // User adds a widget in the communal hub.
+    ADD = 1;
+    // User removes a widget from the communal hub.
+    REMOVE = 2;
+    // User taps a widget in the communal hub.
+    TAP = 3;
+  }
+
+  // The action that triggered the event.
+  optional Action action = 1;
+
+  // The component name of the widget in the communal hub.
+  optional string component_name = 2;
+
+  // The rank or order of the widget in the communal hub.
+  optional int32 rank = 3;
+}
+
+/**
+ * Pulled atom. Logs a snapshot of content in the communal hub.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ */
+message CommunalHubSnapshot {
+  // A list of component names of first party widgets in the communal hub.
+  repeated string component_names = 1;
+
+  // The total number of widgets in the communal hub.
+  optional int32 widget_count = 2;
 }

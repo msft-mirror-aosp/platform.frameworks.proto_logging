@@ -87,3 +87,17 @@ enum ActiveRuleType {
   // Intentional gap for future automatic rule types.
   TYPE_MANUAL = 999;
 }
+
+// Enum used in DNDStateChanged to represent the source of the change.
+// Mirrors values in ZenModeConfig.ConfigOrigin as defined in
+// frameworks/base/core/java/android/service/notification/ZenModeConfig.java.
+enum ChangeOrigin {
+  ORIGIN_UNKNOWN = 0;
+  ORIGIN_INIT = 1;
+  ORIGIN_INIT_USER = 2;
+  ORIGIN_USER_IN_SYSTEMUI = 3;
+  ORIGIN_APP = 4;
+  ORIGIN_SYSTEM = 5;
+  ORIGIN_RESTORE_BACKUP = 6;
+  ORIGIN_USER_IN_APP = 7;
+}

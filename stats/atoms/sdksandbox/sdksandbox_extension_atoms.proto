@@ -162,10 +162,10 @@ message SandboxActivityEventOccurred {
   optional int32 latency_millis = 3;
 
   // Uid of the client app for which the activity is created
-  optional int32 client_uid = 4;
+  optional int32 client_uid = 4 [(is_uid) = true];
 
   // Uid of the SDK that's loaded into client's sandbox process and for which the activity is created
-  optional int32 sdk_uid = 5;
+  optional int32 sdk_uid = 5 [(is_uid) = true];
 }
 
 message ActivityStartRequest {

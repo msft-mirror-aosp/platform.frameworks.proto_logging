@@ -69,4 +69,7 @@ message DNDStateChanged {
 
   // The types of rules that are currently active.
   repeated android.stats.dnd.ActiveRuleType active_rule_types = 10;
+
+  // The ZenModeConfig.ConfigChangeOrigin that is the source of this state change.
+  optional android.stats.dnd.ChangeOrigin change_origin = 11;
 }

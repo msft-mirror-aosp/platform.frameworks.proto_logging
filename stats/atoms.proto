@@ -43,7 +43,7 @@ import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
@@ -685,7 +685,7 @@ message Atom {
         ClipboardCleared clipboard_cleared = 408 [(module) = "framework"];
         VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
         NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
-        CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
+        // reserved 411 for a deprecated CameraCompatControlEventReported.
         ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
         MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported =
             413 [(module) = "media_metrics"];
@@ -1229,30 +1229,60 @@ message Atom {
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
+    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
+    extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 904; // A2dpSessionReported a2dp_session_reported
+    extensions 905; // UpdateSignalsProcessReported update_signals_process_reported
+    extensions 906; // DeviceOrientationChanged device_orientation_changed
+    extensions 907; // HealthConnectExportInvoked
+    extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
+    extensions 909; // AppSearchAppsIndexerStatsReported app_search_apps_indexer_stats_reported
+    extensions 910; // AccessibilityCheckResultReported accessibility_check_result_reported
+    extensions 911; // WearTimeSyncRequested wear_time_sync_requested
+    extensions 912; // WearTimeUpdateStarted wear_time_update_started
+    extensions 913; // WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed
+    extensions 914; // WearTimeChanged wear_time_changed
+    extensions 915; // TestUprobeStatsAtomReported
     extensions 916; // BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
+    extensions 917; // FirstOverlayStateChanged first_overlay_state_changed
+    extensions 918; // HealthConnectImportInvoked
+    extensions 919; // HealthConnectExportImportStatsReported
+    extensions 920; // WsRemoteEventUsageReported ws_remote_event_usage_reported
+    extensions 921; // WearCompanionConnectionState
+    extensions 922; // BroadcastSent broadcast_sent
+    extensions 923; // IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported
+    extensions 924; // PostGcMemorySnapshot postgc_memory_snapshot
     extensions 925; // TetheringActiveSessionsReported
+    extensions 926; // PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed
     extensions 927; // BroadcastAudioSessionReported broadcast_audio_session_reported
     extensions 928; // BroadcastAudioSyncReported broadcast_audio_sync_reported
     extensions 929; // ArtDex2OatReported art_dex2oat_reported
+    extensions 930; // TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported
+    extensions 931; // AppOpAccessTracked app_op_access_tracked
+    extensions 932; // InputEventLatencyReported input_event_latency_reported
+    extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
+    extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
+    extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
+    extensions 936; // WsBugreportRequested ws_bugreport_requested
+    extensions 937; // WsBugreportTriggered ws_bugreport_triggered
+    extensions 938; // WsBugreportFinished ws_bugreport_finished
+    extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
     extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
     extensions 982; // BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
     extensions 988; // BluetoothLeConnection bluetooth_le_connection
-    extensions 989; // CertificateTransparencyVerificationReported certificate_transparency_verification_reported
-    extensions 990; // MediaSubscriptionChanged media_subscription_changed
-    extensions 991; // HdmiPowerStateChangeOnActiveSourceLostToggled hdmi_power_state_change_on_active_source_lost_toggled
-    extensions 992; // FederatedComputeTraceEventReported federated_compute_trace_event_reported
     extensions 993; // RangingSessionConfigured ranging_session_configured
     extensions 994; // RangingSessionStarted ranging_session_started
     extensions 995; // RangingSessionClosed ranging_session_closed
     extensions 996; // RangingTechnologyStarted ranging_technology_started
     extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 9999; // Atom9999 atom_9999
+
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10218
+    // Next: 10230
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1497,7 +1527,7 @@ message Atom {
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
     // 10208 is reserved due to removing the old atom.
-    extensions 10209; // Reserved for b/324602949
+    extensions 10209; // BatteryUsageStatsPerUid battery_usage_stats_per_uid
     extensions 10210; // Reserved for b/339008431
     extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
     extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
@@ -1508,12 +1538,22 @@ message Atom {
     extensions 10217; // DevicePolicyPolicyState
     extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
     extensions 10219; // SatelliteAccessController satellite_access_controller
+    extensions 10220; // AndroidHardwareHealthBattery android_hardware_health_battery
+    extensions 10221; // CallStats call_stats
+    extensions 10222; // CallAudioRouteStats call_audio_route_stats
+    extensions 10223; // TelecomApiStats telecom_api_stats
+    extensions 10224; // TelecomErrorStats telecom_error_stats
+    extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
+    extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
+    extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
+    // 10228 is reserved due to removing the old atom
+    extensions 10229; // PressureStallInformation pressure_stall_information
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
@@ -1673,7 +1713,7 @@ message ActivityActionBlocked {
 message UidProcessStateChanged {
     optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
 
-    // The state, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 2
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
@@ -1685,12 +1725,12 @@ message UidProcessStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java
  */
 message ProcessStateChanged {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // TODO: remove this when validation is done
     optional int64 version = 5;
-    // The state, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 4;
 }
 
@@ -1798,7 +1838,7 @@ message MemoryFactorStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
  */
 message ExcessiveCpuUsageReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // package version. TODO: remove this when validation is done
@@ -1812,7 +1852,7 @@ message ExcessiveCpuUsageReported {
  *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
  */
 message CachedKillReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // TODO: remove this when validation is done
@@ -1861,7 +1901,7 @@ message WifiHealthStatReported {
     optional int32 rx_kbps = 7 [default = -1];
    // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
    // AOSP scorer.
-   optional int32 scorer_uid = 8;
+   optional int32 scorer_uid = 8 [(is_uid) = true];
    // Whether or not Wi-Fi is predicted as usable by the scorer
    // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
@@ -2320,7 +2360,7 @@ message BedtimeModeStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java
  */
 message ProcessMemoryStatReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     //TODO: remove this when validation is done
@@ -4502,7 +4542,7 @@ message BluetoothCodePathCounter {
  *
  */
 message BluetoothLeBatchScanReportDelay {
-    optional int32 application_uid = 1;
+    optional int32 application_uid = 1 [(is_uid) = true];
     optional int64 application_report_delay_millis = 2;
 }
 
@@ -5090,7 +5130,7 @@ message AppCrashOccurred {
     // UID of the process that tried to read a page from the app but failed.
     // This shows whether the read was initiated by the system, the app itself, or some other apps.
     // -1 means there was no read error or the app is not installed on Incremental.
-    optional int32 last_read_error_uid = 19;
+    optional int32 last_read_error_uid = 19 [(is_uid) = true];
 
     // Duration since that last read failure.
     // -1 means there was no read error or the app is not installed on Incremental.
@@ -5199,7 +5239,7 @@ message ANROccurred {
     // UID of the process that tried to read a page from the app but failed.
     // This shows whether the read was initiated by the system, the app itself, or some other apps.
     // -1 means there was no read error or the app is not installed on Incremental.
-    optional int32 last_read_error_uid = 19;
+    optional int32 last_read_error_uid = 19 [(is_uid) = true];
 
     // Duration since that last read failure.
     // -1 means there was no read error or the app is not installed on Incremental.
@@ -5247,15 +5287,27 @@ message VibratorStateChanged {
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
  */
-// Next tag: 27
+// Next tag: 28
 message VibrationReported {
   repeated AttributionNode attribution_node = 1;
 
   enum VibrationType {
+
+    // Unknown vibration type.
     UNKNOWN = 0;
+
+    // One-off vibration effect/pattern.
     SINGLE = 1;
+
+    // Infinitely repeating vibration pattern.
     REPEATED = 2;
+
+    // Vibration defined in the platform outside the vibrator service
+    // (e.g. from audio-coupled haptics or haptic generator).
     EXTERNAL = 3;
+
+    // Vibration defined by vendor apps/services.
+    VENDOR = 4;
   }
 
   // Vibration identifiers for aggregation.
@@ -5299,6 +5351,7 @@ message VibrationReported {
   optional int32 hal_perform_count = 17;
   optional int32 hal_set_amplitude_count = 18;
   optional int32 hal_set_external_control_count = 19;
+  optional int32 hal_perform_vendor_count = 27;
 
   // Vibrator hardware HAL API constants used (deduped).
   // Values from CompositionPrimitive.aidl successfully triggered by this vibration at least once.
@@ -5671,36 +5724,6 @@ message SizeCompatRestartButtonEventReported {
 }
 
 /**
- * Logs events reported for the Camera App Compat control, which is used to
- * correct stretched viewfinder in apps that don't handle all possible
- * configurations, and changes between them, correctly.
- *
- * Logged from:
- *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
- */
-message CameraCompatControlEventReported {
-  // UID of the package that has the control.
-  optional int32 uid = 1 [(is_uid) = true];
-
-  enum Event {
-    UNKNOWN = 0;
-    // Button to apply the treatment appeared.
-    APPEARED_APPLY_TREATMENT = 1;
-    // Button to revert the treatment appeared.
-    APPEARED_REVERT_TREATMENT = 2;
-    // Users clicked on the button to apply the treatment.
-    CLICKED_APPLY_TREATMENT = 3;
-    // Users clicked on the button to revert the treatment.
-    CLICKED_REVERT_TREATMENT = 4;
-    // Users clicked on the button to dismiss the control.
-    CLICKED_DISMISS = 5;
-  }
-
-  // The event that was reported.
-  optional Event event = 2;
-}
-
-/**
  * Logs a picture-in-picture action
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
@@ -5773,12 +5796,12 @@ message ForegroundServiceStateChanged {
     // FGS service's targetSdkVersion.
     optional int32 target_sdk_version = 6;
     // uid of the app that start/bind this service.
-    optional int32 calling_uid = 7;
+    optional int32 calling_uid = 7 [(is_uid) = true];
     // targetSdkVersion of the app that start/bind this service.
     optional int32 caller_target_sdk_version = 8;
     // uid of the app that set the temp-allowlist, INVALID_UID (-1) if not in any
     // temp-allowlist.
-    optional int32 temp_allow_list_calling_uid = 9;
+    optional int32 temp_allow_list_calling_uid = 9 [(is_uid) = true];
     // FGS notification was deferred.
     optional bool fgs_notification_deferred = 10;
     // FGS notification was shown before the FGS finishes, or it wasn't deferred in the first place.
@@ -5947,11 +5970,10 @@ message ForegroundServiceAppOpSessionEnded {
  */
 message IsolatedUidChanged {
     // The host UID. Generally, we should attribute metrics from the isolated uid to the host uid.
-    // NOTE: DO NOT annotate uid field in this atom. This atom is specially handled in statsd.
     // This field is ignored when event == REMOVED.
-    optional int32 parent_uid = 1;
+    optional int32 parent_uid = 1 [(is_uid) = true];
 
-    optional int32 isolated_uid = 2;
+    optional int32 isolated_uid = 2 [(is_uid) = true];
 
     // We expect an isolated uid to be removed before if it's used for another parent uid.
     enum Event {
@@ -6397,6 +6419,8 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6448,6 +6472,8 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6569,7 +6595,7 @@ message AuthEnrollActionInvoked {
      // The deprecated API feature that was used.
      optional APIEnum deprecated_api = 1;
      // The UID of the application that used the deprecated API.
-     optional int32 app_uid = 2;
+     optional int32 app_uid = 2 [(is_uid) = true];
      // The target SDK version (API level) of the application that used the deprecated API.
      optional int32 target_sdk = 3;
  }
@@ -7171,7 +7197,7 @@ message TombStoneOccurred {
  */
 message RoleRequestResultReported {
     // UID of application requesting the role
-    optional int32 requesting_uid = 1;
+    optional int32 requesting_uid = 1 [(is_uid) = true];
 
     // Package name of application requesting the role
     optional string requesting_package_name = 2;
@@ -7183,14 +7209,14 @@ message RoleRequestResultReported {
     optional int32 qualifying_count = 4;
 
     // UID of application current granted the role
-    optional int32 current_uid = 5;
+    optional int32 current_uid = 5 [(is_uid) = true];
 
     // Package name of application current granted the role
     optional string current_package_name = 6;
 
     // UID of another application that user chose to grant the role to, instead of the requesting
     // application
-    optional int32 granted_another_uid = 7;
+    optional int32 granted_another_uid = 7 [(is_uid) = true];
 
     // Package name of another application that user chose to grant the role to, instead of the
     // requesting application
@@ -8599,7 +8625,7 @@ message BinderCalls {
     // If not set, the value will be -1.
     optional int32 uid = 1 [(is_uid) = true];
     // UID of the process executing the binder transaction.
-    optional int32 direct_caller_uid = 14;
+    optional int32 direct_caller_uid = 14 [(is_uid) = true];
     // Fully qualified class name of the API call.
     //
     // This is a system server class name.
@@ -11697,7 +11723,7 @@ message MediametricsAudiotrackReported {
  */
 message MediametricsMidiDeviceCloseReported {
     // The UID of the app or service that disconnects the device
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     // Device Id from MidiDeviceInfo. After a restart, this starts at 1 for the first device.
     // This increments each time a new MIDI device is added.
     // See Id in frameworks/base/media/java/android/media/midi/MidiDeviceInfo.java
@@ -12830,7 +12856,7 @@ message LocationAccessCheckNotificationAction {
     optional int64 session_id = 1;
 
     // Uid of package for which location access check is presented
-    optional int32 package_uid = 2;
+    optional int32 package_uid = 2 [(is_uid) = true];
 
     // Name of package for which location access check is presented
     optional string package_name = 3;
@@ -14767,6 +14793,9 @@ message GraphicsStats {
     // The version code of the app
     optional int64 version_code = 2;
 
+    // The uid of the app
+    optional int32 uid = 17 [(is_uid) = true];
+
     // The start & end timestamps in UTC as
     // milliseconds since January 1, 1970
     // Compatible with java.util.Date#setTime()
@@ -14821,6 +14850,8 @@ message GraphicsStats {
     // day (yesterday). Stats from yesterday stay constant, while stats from today may change as
     // more apps are running / rendering.
     optional bool is_today = 16;
+
+    // next id = 18
 }
 
 /**
@@ -14969,9 +15000,13 @@ message CellBroadcastMessageReported {
     // The source of the report
     optional ReportSource source = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
+    // The roaming case will show mcc value, if not empty string
+    optional string roaming_mcc_mnc = 5;
+    // The language indicator, as defined in ISO 639 language codes set 1
+    optional string language_indicator = 6;
 }
 
 /**
@@ -15017,7 +15052,7 @@ message CellBroadcastMessageFiltered {
     // The source of the report
     optional FilterReason filter = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
 }
@@ -15584,6 +15619,10 @@ message VoiceCallSession {
 
     // The user-set status for enriched calling with call composer
     optional android.telephony.CallComposerStatus call_composer_status = 44;
+
+    // The call state on call setup
+    optional android.telephony.CallState call_state_on_setup = 45;
+
 }
 
 /**
@@ -19707,7 +19746,7 @@ message LongRebootBlockingReported {
     optional string component_name = 2;
 
     // The uid of an app that is running in the background.
-    optional int32 uid = 3;
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -20173,7 +20212,7 @@ message AlarmScheduled {
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
-    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app/app_enums.proto.
+    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum calling_process_state = 9;
 }
 
@@ -20305,6 +20344,7 @@ message PermissionUsageFragmentInteraction {
         MICROPHONE_ACCESS_TIMELINE_VIEWED = 4;
         SHOW_SYSTEM_CLICKED = 5;
         SEE_OTHER_PERMISSIONS_CLICKED = 6;
+        SHOW_7DAYS_CLICKED = 7;
     }
 
     // The action the user took to interact with the fragment
@@ -20326,6 +20366,9 @@ message PermissionDetailsInteraction {
         UNDEFINED = 0;
         SHOW_SYSTEM_CLICKED = 1;
         INFO_ICON_CLICKED = 2;
+        TIMELINE_ROW_CLICKED = 3;
+        SHOW_7DAYS_CLICKED = 4;
+        MANAGE_PERMISSIONS_CLICKED = 5;
     }
 
     // Package name for which the info icon was clicked.
@@ -22344,6 +22387,8 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
+ *
+ * Next ID: 52
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22504,6 +22549,10 @@ message AutofillPresentationEventReported {
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
 
+  // Count of views that are filtered because they are not in current session
+  // before autofill framework calls AutofillManager.autofill().
+  optional int64 views_fillable_excluded_by_session_count = 46;
+
   // Count of views that can be filled as per the provider service.
   // views_fillable_total_count = views_filled_failure_count +
   //     views_filled_success_count + views_with_no_callback
@@ -22562,6 +22611,23 @@ message AutofillPresentationEventReported {
 
   // Length of text already in the field when the event is logged
   optional int32 field_last_length = 45;
+
+  // Count of views that failed prior to refill attempt
+  optional int32 view_failed_prior_to_refill_count = 47;
+
+  // Count of views that were able to be filled during refill
+  // Note that this doesn't include views that were filled successfully prior
+  // to refill.
+  optional int32 view_filled_on_refill_count = 48;
+
+  // Count of views that failed in refill attempt
+  optional int32 view_failed_on_refill_count = 49;
+
+  // Count of times response wasn't expired due to pending authentication.
+  optional int32 fix_expire_response_auth_count = 50;
+
+  // Count of times notifyViewEntered wasn't done due to pending authentication
+  optional int32 notify_view_entered_ignored_auth_count = 51;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
@@ -24349,7 +24415,7 @@ message UnsafeIntentEventReported {
     // Type of matching event.
     optional EventType event_type = 1;
     // The calling UID.
-    optional int32 calling_uid = 2;
+    optional int32 calling_uid = 2 [(is_uid) = true];
     // The component name of the intent.
     optional string component_name = 3;
     // The package name of the intent.
