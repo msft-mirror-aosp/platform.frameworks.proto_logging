@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 527
+// Next ID: 528
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -104,6 +104,7 @@ enum ItemId {
   AUDIO_BALANCE_LEFT_RIGHT_TEXT = 411;
   BATTERY_SAVER_AUTO_BATTERY_SAVER_ENABLED = 324;
   BATTERY_SAVER_BATTERY_SAVER = 315;
+  BLUETOOTH_DEVICE_TYPE = 527;
   BLUETOOTH_ENABLED = 135;
   BLUETOOTH_HFP = 136;
   BLUETOOTH_HFP_EXPLANATION = 404;
