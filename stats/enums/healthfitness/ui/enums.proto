@@ -177,6 +177,7 @@ enum ElementId {
     DISCONNECT_ALL_APPS_DIALOG_CONTAINER = 85;
     DISCONNECT_ALL_APPS_DIALOG_CANCEL_BUTTON = 86;
     DISCONNECT_ALL_APPS_DIALOG_REMOVE_ALL_BUTTON = 87;
+    DISCONNECT_ALL_APPS_DIALOG_DELETE_CHECKBOX = 288;
 
     // Request permissions
     ALLOW_PERMISSIONS_BUTTON = 88;
@@ -416,7 +417,7 @@ enum ElementId {
     CANCEL_WRITE_HEALTH_RECORDS_BUTTON = 287;
     // End of PHR
 
-    // Next available: 288;
+    // Next available: 289;
 }
 
 enum PageId {
