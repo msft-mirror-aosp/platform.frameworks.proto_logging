@@ -294,6 +294,9 @@ message HealthConnectEcosystemStats {
   // Datatypes shared in past 30 days
   repeated android.healthfitness.api.DataType shared = 4;
 
+  // Number of apps sharing data
+    repeated int32 number_of_app_pairings = 5;
+
 }
 
 /**
