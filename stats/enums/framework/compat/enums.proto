@@ -24,11 +24,12 @@ option java_multiple_files = true;
 // The freeform camera compatibility mode the activity is in at the time the
 // camera opened or closed signal is received.
 enum FreeformCameraCompatMode {
-  NONE = 0;
-  PORTRAIT_DEVICE_IN_LANDSCAPE = 1;
-  LANDSCAPE_DEVICE_IN_LANDSCAPE = 2;
-  PORTRAIT_DEVICE_IN_PORTRAIT = 3;
-  LANDSCAPE_DEVICE_IN_PORTRAIT = 4;
+  MODE_UNSPECIFIED = 0;
+  NONE = 1;
+  PORTRAIT_DEVICE_IN_LANDSCAPE = 2;
+  LANDSCAPE_DEVICE_IN_LANDSCAPE = 3;
+  PORTRAIT_DEVICE_IN_PORTRAIT = 4;
+  LANDSCAPE_DEVICE_IN_PORTRAIT = 5;
 }
 
 // Whether this state is logged on camera opened or closed.
