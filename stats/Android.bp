@@ -50,6 +50,7 @@ enum_protos = [
     "enums/devicepolicy/*.proto",
     "enums/dnd/*.proto",
     "enums/federatedcompute/*.proto",
+    "enums/framework/compat/*.proto",
     "enums/hardware/**/*.proto",
     "enums/healthfitness/**/*.proto",
     "enums/hotword/*.proto",
@@ -214,6 +215,7 @@ atom_protos = [
     "atoms/automotive/carsettings/*.proto",
     "atoms/automotive/carqclib/*.proto",
     "atoms/ranging/*.proto",
+    "atoms/appfunctions/*.proto",
 ]
 
 cc_library_host_shared {
