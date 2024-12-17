@@ -132,6 +132,8 @@ message SatelliteController {
   optional int32 count_of_p2p_sms_available_notification_shown = 34;
   // Number of times the notification indicating P2P SMS availability was removed.
   optional int32 count_of_p2p_sms_available_notification_removed = 35;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 36;
 }
 
 /**
