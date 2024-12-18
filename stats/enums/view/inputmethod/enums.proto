@@ -80,6 +80,9 @@ enum SoftInputShowHideReasonEnum {
     REASON_SHOW_SOFT_INPUT_IME_TOGGLE_SOFT_INPUT = 53;
     REASON_SHOW_SOFT_INPUT_IMM_DEPRECATION = 54;
     REASON_CONTROL_WINDOW_INSETS_ANIMATION = 55;
+    REASON_SHOW_INPUT_TARGET_CHANGED = 56;
+    REASON_HIDE_INPUT_TARGET_CHANGED = 57;
+    REASON_HIDE_WINDOW_LOST_FOCUS = 58;
 }
 
 // The type of the IME request, used by android/view/inputmethod/ImeTracker.java.
@@ -265,5 +268,16 @@ enum ImeRequestPhaseEnum {
     PHASE_WM_INVOKING_IME_REQUESTED_LISTENER = 64;
     // IME is requested to be hidden, but already hidden. Don't hide to avoid another animation.
     PHASE_CLIENT_ALREADY_HIDDEN = 65;
+    // The view's handler is needed to check if we're running on a different thread. We can't
+    // continue without.
+    PHASE_CLIENT_VIEW_HANDLER_AVAILABLE = 66;
+    // ImeInsetsSourceProvider sets the reported visibility of the caller/client  window (either the
+    // app or the RemoteInsetsControlTarget).
+    PHASE_SERVER_UPDATE_CLIENT_VISIBILITY = 67;
+    // DisplayImeController received the requested visibility for the IME and stored it.
+    PHASE_WM_DISPLAY_IME_CONTROLLER_SET_IME_REQUESTED_VISIBLE = 68;
+    // The control target reported its requestedVisibleTypes back to WindowManagerService.
+    PHASE_WM_UPDATE_DISPLAY_WINDOW_REQUESTED_VISIBLE_TYPES = 69;
+
 }
 

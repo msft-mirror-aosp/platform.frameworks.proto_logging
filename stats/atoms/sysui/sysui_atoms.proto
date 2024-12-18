@@ -537,7 +537,7 @@ message NotificationList {
  */
 message NotificationMemoryUse {
     // UID if the application (can be mapped to package and version)
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     // Integer enum value showing aggregated notification style.
     optional int32 style = 2;
     // Number of notifications that were aggregated into this metric.

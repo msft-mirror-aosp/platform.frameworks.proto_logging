@@ -149,3 +149,14 @@ enum AccessControlType {
   ACCESS_CONTROL_TYPE_CACHED_COUNTRY_CODE = 4;
 }
 
+// Satellite access controller triggering event
+enum TriggeringEvent {
+  // Unknown reason.
+  TRIGGERING_EVENT_UNKNOWN = 0;
+  // Satellite Access Controller has been triggered by an external event.
+  TRIGGERING_EVENT_EXTERNAL_REQUEST = 1;
+  // Satellite Access Controller has been triggered by an MCC change event.
+  TRIGGERING_EVENT_MCC_CHANGED = 2;
+  //Satellite Access Controller has been triggered due to the location setting being enabled
+  TRIGGERING_EVENT_LOCATION_SETTINGS_ENABLED = 3;
+}

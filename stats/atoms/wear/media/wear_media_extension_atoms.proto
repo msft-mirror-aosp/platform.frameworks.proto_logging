@@ -38,6 +38,12 @@ extend Atom {
   optional MediaSessionStateChanged media_session_state_changed = 677
       [(module) = "wearmedia"];
 
+  optional MediaControlApiUsageReported media_control_api_usage_reported = 966
+      [(module) = "wearmedia"];
+
+  optional MediaSubscriptionChanged media_subscription_changed = 990
+      [(module) = "wearmedia"];
+
   optional WearMediaOutputSwitcherDeviceScanApiLatency
       wear_media_output_switcher_device_scan_api_latency = 757 [(module) = "MediaOutputSwitcher"];
 
@@ -61,7 +67,7 @@ message MediaActionReported {
 
   // Package name of the app that the user used to perform the action (eg: UMO
   // or a 3p media app)
-  optional int32 media_controls_package_uid = 2;
+  optional int32 media_controls_package_uid = 2 [(is_uid) = true];
 
   // Package name of the app that owns the media session. (This app is on the
   // paired phone, and not on the watch, hence cannot use uid)
@@ -143,6 +149,27 @@ message MediaSessionStateChanged {
 }
 
 /**
+ * Logs when the watch changes the media subscription of the Adaptive Media
+ * Bridging (go/wear-dd-adaptive-media-bridging) implementation.
+ *
+ * Adaptive Media Bridging changes the amount of media data to be bridged to the
+ * watch depending on whether the user is actively controlling phone media on
+ * the watch. Every time the subscription changes, the watch will log this atom.
+ *
+ * This will help estimate the power drain of Adaptive Media Bridging, and
+ * whether Adaptive Media Bridging is enabled.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ * Estimated Logging Rate:
+ * Peak: 10 times in 30s | Avg: 20 per device per day
+ */
+message MediaSubscriptionChanged {
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 1;
+}
+
+/**
  * Logs the latency of different device scan APIs used in OutputSwitcher.
  *
  * Logged from:
@@ -180,4 +207,39 @@ message WearMediaOutputSwitcherSassDeviceUnavailable {
 message WearMediaOutputSwitcherFastPairApiTimeout {
   // Name of the media app package from where Output Switcher got triggered.
   optional string triggering_package_name = 1;
+}
+
+/**
+ * Logs data when media control API is called.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message MediaControlApiUsageReported {
+  // Type of the API called.
+  enum MediaControlApiType {
+    API_TYPE_UNKNOWN = 0;
+    REQUEST_MEDIA_SESSION = 1;
+    REQUEST_MEDIA_SESSION_AND_REGISTER_LISTENER = 2;
+    UNREGISTER_MEDIA_SESSION_LIST_LISTENER = 3;
+    MEDIA_ACTION = 4;
+  }
+
+  // Status of the API.
+  enum MediaControlApiStatus {
+    STATUS_UNKNOWN = 0;
+    ACKNOWLEDGED = 1;
+    INVALID_SESSION_TOKEN = 2;
+    INVALID_LISTENER = 3;
+    UNKNOWN_ERROR = 4;
+  }
+
+  // Name of the package which called the API.
+  optional int32 caller_package_name = 1 [(is_uid) = true];
+
+  // The API which was called.
+  optional MediaControlApiType media_control_api_type = 2;
+
+  // Result status of the API call.
+  optional MediaControlApiStatus media_control_api_status = 3;
 }

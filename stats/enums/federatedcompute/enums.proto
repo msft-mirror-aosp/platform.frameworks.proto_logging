@@ -21,7 +21,7 @@ option java_outer_classname = "FederatedComputeProtoEnums";
 option java_multiple_files = true;
 
 // Enum used to track federated computation job stages.
-// Next Tag: 73
+// Next Tag: 85
 enum TrainingEventKind {
   // Undefined value.
   TRAIN_UNDEFINED = 0;
@@ -246,6 +246,13 @@ enum TrainingEventKind {
   // Client is authorized to report result.
   TRAIN_INITIATE_REPORT_RESULT_AUTH_SUCCEEDED = 48;
 
+  // Enums related to key attestation phase.
+  TRAIN_KEY_ATTESTATION_NO_SUCH_ALGORITHM_EXCEPTION = 79;
+  TRAIN_KEY_ATTESTATION_NO_SUCH_PROVIDER_EXCEPTION = 80;
+  TRAIN_KEY_ATTESTATION_IO_EXCEPTION = 81;
+  TRAIN_KEY_ATTESTATION_KEYSTORE_EXCEPTION = 82;
+  TRAIN_KEY_ATTESTATION_CERTIFICATE_EXCEPTION = 83;
+  TRAIN_KEY_ATTESTATION_ERROR = 84;
   // Client successfully generates an attestation record.
   TRAIN_KEY_ATTESTATION_SUCCEEDED = 49;
 
@@ -278,4 +285,32 @@ enum TrainingEventKind {
 
   // Additional conditions chaeck failed.
   TRAIN_RUN_FAILED_CONDITIONS_FAILED = 61;
+
+  // Failed to fetch encryption keys due to timeout.
+  TRAIN_ENCRYPTION_KEY_FETCH_TIMEOUT_ERROR = 73;
+
+  // Fetch encryption keys started.
+  TRAIN_ENCRYPTION_KEY_FETCH_START = 74;
+
+  // Failed to fetch encryption keys due to empty fetch URI.
+  TRAIN_ENCRYPTION_KEY_FETCH_FAILED_EMPTY_URI = 75;
+
+  // Failed to fetch encryption keys due to http request creation failure.
+  TRAIN_ENCRYPTION_KEY_FETCH_REQUEST_CREATION_FAILED = 76;
+
+  // Failed to fetch encryption keys due response parsing failure.
+  TRAIN_ENCRYPTION_KEY_FETCH_INVALID_PAYLOAD = 77;
+
+  // Fetch encryption keys finished successfully.
+  TRAIN_ENCRYPTION_KEY_FETCH_SUCCESS = 78;
+}
+
+// Enum used to track federated computation trace events.
+// Next Tag: 2
+enum TraceEventKind {
+  // Undefined value.
+  TRACE_EVENT_KIND_UNSPECIFIED = 0;
+
+  // Trace for key fetch background job.
+  BACKGROUND_ENCRYPTION_KEY_FETCH = 1;
 }
