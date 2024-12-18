@@ -1326,6 +1326,7 @@ message Atom {
     extensions 998; // AppFunctionsRequestReported app_functions_request_reported
     extensions 999; // CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed
     extensions 1000; // NotificationBundleInteracted notification_bundle_interacted
+    extensions 1001; // SettingsExtApiReported settings_extapi_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.

@@ -5313,3 +5313,28 @@ enum SimpleViewUsageTimeType {
     // disabled simple view over 1 week
     SIMPLE_VIEW_USAGE_TYPE_DISABLED_OVER_ONE_WEEK = 5;
 }
+
+// Settings External APIs request types
+enum ExtApiRequestType {
+    UNKNOWN_REQUEST = 0;
+    ACTION_READ = 1;
+    ACTION_WRITE = 2;
+}
+
+// Result of requesting Settings data (ResultCode from GetSettingsValue and SetSettings)
+enum ExtApiResultType {
+    UNKNOWN_RESULT = 0;
+    RESULT_OK = 1;
+    // For all failures do not match below failure reason
+    RESULT_FAILURE = 2;
+    // Failures from read/write settings request
+    RESULT_FAILURE_UNSUPPORTED = 3;
+    RESULT_FAILURE_UNAVAILABLE = 4;
+    RESULT_FAILURE_REQUIRE_APP_PERMISSION = 5;
+    RESULT_FAILURE_DISALLOW = 6;
+    RESULT_FAILURE_INVALID_REQUEST = 7;
+    RESULT_FAILURE_INTERNAL_ERROR = 8;
+    RESULT_FAILURE_DISABLED = 9;
+    RESULT_FAILURE_RESTRICTED = 10;
+    RESULT_FAILURE_REQUIRE_USER_CONSENT = 11;
+}
