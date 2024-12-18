@@ -229,5 +229,41 @@ enum ImeRequestPhaseEnum {
     PHASE_IME_PRIVILEGED_OPERATIONS = 46;
     // Checked that the calling IME is the currently active IME.
     PHASE_SERVER_CURRENT_ACTIVE_IME = 47;
+    // Reporting the new requested visible types.
+    PHASE_CLIENT_REPORT_REQUESTED_VISIBLE_TYPES = 48;
+    // Setting the IME visibility for the RemoteInsetsControlTarget.
+    PHASE_WM_SET_REMOTE_TARGET_IME_VISIBILITY = 49;
+    // IME has no insets pending and is server visible. Notify about changed controls.
+    PHASE_WM_POST_LAYOUT_NOTIFY_CONTROLS_CHANGED = 50;
+    // Handling the dispatch of the IME visibility change.
+    PHASE_CLIENT_HANDLE_DISPATCH_IME_VISIBILITY_CHANGED = 51;
+    // Notifying that the IME visibility change.
+    PHASE_CLIENT_NOTIFY_IME_VISIBILITY_CHANGED = 52;
+    // Updating the requested visible types.
+    PHASE_CLIENT_UPDATE_REQUESTED_VISIBLE_TYPES = 53;
+    // Reached the remote insets control target's setImeInputTargetRequestedVisibility method.
+    PHASE_WM_REMOTE_INSETS_CONTROL_TARGET_SET_REQUESTED_VISIBILITY = 54;
+    // Received a new insets source control with a leash.
+    PHASE_WM_GET_CONTROL_WITH_LEASH = 55;
+    // Updating the requested visible types in the WindowState and sending them to state controller.
+    PHASE_WM_UPDATE_REQUESTED_VISIBLE_TYPES = 56;
+    // Setting the requested IME visibility of a window.
+    PHASE_SERVER_SET_VISIBILITY_ON_FOCUSED_WINDOW = 57;
+    // Reached the redirect of InputMethodManager to InsetsController show/hide.
+    PHASE_CLIENT_HANDLE_SET_IME_VISIBILITY = 58;
+    // Reached the InputMethodManager Handler call to send the visibility.
+    PHASE_CLIENT_SET_IME_VISIBILITY = 59;
+    // Calling into the listener to show/hide the IME from the ImeInsetsSourceProvider.
+    PHASE_WM_DISPATCH_IME_REQUESTED_CHANGED = 60;
+    // An ongoing user animation will not be interrupted by a IMM#showSoftInput.
+    PHASE_CLIENT_NO_ONGOING_USER_ANIMATION = 61;
+    // Dispatching the token to the ImeInsetsSourceProvider.
+    PHASE_WM_NOTIFY_IME_VISIBILITY_CHANGED_FROM_CLIENT = 62;
+    // Now posting the IME visibility to the WMS handler.
+    PHASE_WM_POSTING_CHANGED_IME_VISIBILITY = 63;
+    // Inside the WMS handler calling into the listener that calls into IMMS show/hide.
+    PHASE_WM_INVOKING_IME_REQUESTED_LISTENER = 64;
+    // IME is requested to be hidden, but already hidden. Don't hide to avoid another animation.
+    PHASE_CLIENT_ALREADY_HIDDEN = 65;
 }
 

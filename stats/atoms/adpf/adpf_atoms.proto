@@ -23,6 +23,13 @@ enum AdpfSessionTag {
     APP = 4;
 }
 
+enum FmqStatus {
+    OTHER_STATUS = 0;
+    SUPPORTED = 1;
+    UNSUPPORTED = 2;
+    HAL_VERSION_NOT_MET = 3;
+}
+
 /**
  * Logs information related to Android Dynamic Performance Framework (ADPF).
  */
@@ -50,4 +57,7 @@ message ADPFSystemComponentInfo {
 
     // True if HWUI hint is enabled on the device.
     optional bool hwui_hint_enabled = 2;
+
+    // True if FMQ is supported and used on the device.
+    optional FmqStatus fmq_supported = 3;
 }

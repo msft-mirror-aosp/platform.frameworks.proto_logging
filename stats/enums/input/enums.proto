@@ -226,3 +226,56 @@ enum InputDeviceBus {
     // Universal Stylus Initiative (USI) protocol (https://universalstylus.org)
     USI = 3;
 }
+
+/**
+ * Contains input event types we want to record latency values for.
+ * Logged in InputEventLatencyReported atom.
+ */
+enum InputEventType {
+    UNKNOWN_INPUT_EVENT = 0;
+    // Motion events for ACTION_DOWN (when the pointer first goes down)
+    MOTION_ACTION_DOWN = 1;
+    // Motion events for ACTION_MOVE (characterizes scrolling motion)
+    MOTION_ACTION_MOVE = 2;
+    // Motion events for ACTION_UP (when the pointer first goes up)
+    MOTION_ACTION_UP = 3;
+    // Motion events for ACTION_HOVER_MOVE (pointer position on screen changes but pointer is not
+    // down)
+    MOTION_ACTION_HOVER_MOVE = 4;
+    // Motion events for ACTION_SCROLL (moving the mouse wheel)
+    MOTION_ACTION_SCROLL = 5;
+    // Key events for both ACTION_DOWN and ACTION_UP (key press and key release)
+    KEY = 6;
+}
+
+/**
+ * Contains the different stages of the input pipeline defined to capture the latency of input
+   events.
+ * Logged in InputEventLatencyReported atom.
+ */
+enum LatencyStage {
+    UNKNOWN_LATENCY_STAGE = 0;
+    // Start: the input event was created (an interrupt received in the driver)
+    // End: the event was read in userspace (in EventHub)
+    EVENT_TO_READ = 1;
+    // Start: the event was read in EventHub
+    // End: the event was sent to the app via the InputChannel (written to the socket)
+    READ_TO_DELIVER = 2;
+    // Start: the input event was sent to the app
+    // End: the app consumed the input event
+    DELIVER_TO_CONSUME = 3;
+    // Start: the app consumed the event
+    // End: the app's 'finishInputEvent' call was received in inputflinger
+    // The end point can also be called "the app finished processing input event"
+    CONSUME_TO_FINISH = 4;
+    // Start: the app consumed the input event
+    // End: the app produced a buffer
+    CONSUME_TO_GPU_COMPLETE = 5;
+    // Start: the app produced a buffer
+    // End: the frame was shown on the display
+    GPU_COMPLETE_TO_PRESENT = 6;
+    // The end-to-end latency
+    // Start: the input event was created (an interrupt received in the driver)
+    // End: the frame was presented on the display
+    END_TO_END = 7;
+}

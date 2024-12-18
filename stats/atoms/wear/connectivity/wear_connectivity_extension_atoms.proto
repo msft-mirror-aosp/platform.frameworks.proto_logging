@@ -31,6 +31,8 @@ extend Atom {
       [(module) = "wearconnectivity"];
   optional SysproxyConnectionUpdated sysproxy_connection_updated = 786
       [(module) = "wearconnectivity"];
+  optional WearCompanionConnectionState wear_companion_connection_state = 921
+      [(module) = "wearconnectivity"];
 }
 
 /**
@@ -54,6 +56,15 @@ message MediatorUpdated {
 
   // Timestamp of the event log time in ElapsedRealtime
   optional int64 timestamp_millis = 5;
+
+  // Timestamp(ElapsedRealtime) of when the last linger(the one that actually fired) before the mediator starts the action.
+  // A "Linger" is a delay that sometimes the mediator applies before actually turning off the radio after the mediator
+  // decides to turn off the radio due to certain signals(e.g. proxy reconnected), for various purposes, such as
+  // avoid proxy connection thrashing causing the mediator to frequently toggle the radio.
+  optional int64 last_linger_start_timestamp_millis = 6;
+
+  // Count of times the linger canceled before the action was actually performed.
+  optional int32 linger_canceled_count = 7;
 }
 
 /**
@@ -97,4 +108,20 @@ message SysproxyConnectionUpdated {
 
   // timestamp when reason was determined
   optional int64 reason_timestamp_millis = 6;
+}
+
+/**
+ * Captures updates of the connections to the companion phone.
+ * Only the one used for important data connectivity (Sysproxy, Comms, Assistant, etc.) is logged
+ * even when both are connected. Specifically, before the BLE migration is activated on the
+ * device(go/wear-ble), BTC_ACL is logged, after that, BLE_ACL is logged.
+ * Note that this atom does NOT aim to comprehensively log all the ongoing BT connection between
+ * the watch and the companion phone, but only limited to the logs described above. Connections(for
+ * example, BTC ACL after BLE migration) not being logged in this atom does NOT mean it's
+ * not connected(or not disconnected).
+ */
+message WearCompanionConnectionState {
+  optional com.google.android.wearable.connectivity.CompanionConnectionType connection_type = 1;
+
+  optional com.google.android.wearable.connectivity.CompanionConnectionChange connection_change = 2;
 }

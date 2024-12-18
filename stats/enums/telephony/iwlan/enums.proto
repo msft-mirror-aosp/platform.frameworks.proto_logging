@@ -1,0 +1,70 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+package android.telephony.iwlan;
+
+option java_outer_classname = "IwlanProtoEnums";
+option java_multiple_files = true;
+
+// Events which trigger underlying network validation
+enum UnderlyingNetworkValidationEvent {
+  // Unspecified event
+  NETWORK_VALIDATION_EVENT_UNSPECIFIED = 0;
+
+  // Trigger network validation when making a call.
+  NETWORK_VALIDATION_EVENT_MAKING_CALL = 1;
+
+  // Trigger network validation when screen on.
+  NETWORK_VALIDATION_EVENT_SCREEN_ON = 2;
+
+  // Trigger network validation when no response on network.
+  NETWORK_VALIDATION_EVENT_NO_RESPONSE = 3;
+}
+
+// Results for underlying network validation
+enum UnderlyingNetworkValidationResult {
+  // Unspecified validation result
+  NETWORK_VALIDATION_RESULT_UNSPECIFIED = 0;
+
+  // The overall status of the network is that it is invalid; it neither provides connectivity nor
+  // has been exempted from validation.
+  NETWORK_VALIDATION_RESULT_INVALID = 1;
+
+  // The overall status of the network is that it is valid, this may be because it provides full
+  // Internet access (all probes succeeded), or because other properties of the network caused
+  // probes not to be run.
+  NETWORK_VALIDATION_RESULT_VALID = 2;
+
+  // The overall status of the network is that it provides partial connectivity; some probed
+  // services succeeded but others failed.
+  NETWORK_VALIDATION_RESULT_PARTIALLY_VALID = 3;
+
+  // Due to the properties of the network, validation was not performed.
+  NETWORK_VALIDATION_RESULT_SKIPPED = 4;
+}
+
+// Transport types for the underlying network
+enum TransportType {
+  // Unspecified transport type
+  TRANSPORT_TYPE_UNSPECIFIED = 0;
+
+  // Indicates the network uses a Cellular transport.
+  TRANSPORT_TYPE_CELLULAR = 1;
+
+  // Indicates the network uses a Wi-Fi transport.
+  TRANSPORT_TYPE_WIFI = 2;
+}
