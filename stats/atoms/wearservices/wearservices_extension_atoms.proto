@@ -416,6 +416,9 @@ message WsBugreportEventReported {
   // Depicts the duration of the bugreport event in seconds.
   // It's set only for EVENT_BUGREPORT_FINISHED and EVENT_BUGREPORT_RESULT_RECEIVED.
   optional int32 bugreport_event_duration_seconds = 5;
+
+  // Depics the failure reason in case the bugreport event contains a failure.
+  optional android.app.wearservices.BugreportFailureReason failure_reason = 6;
 }
 
 /** Logged when notification ID dismissal was synchronised between devices. */
