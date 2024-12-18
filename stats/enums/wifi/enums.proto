@@ -373,4 +373,19 @@ enum WifiPredictedUsabilityState {
    WIFI_USABILITY_PREDICTED_UNKNOWN = 0;
    WIFI_USABILITY_PREDICTED_USABLE = 1;
    WIFI_USABILITY_PREDICTED_UNUSABLE = 2;
+   // Scorer doesn't predict or the prediction isn't for the current session.
+   WIFI_USABILITY_PREDICTED_NONE = 3;
  }
+
+/**
+ * Wi-Fi channel width
+ */
+enum WifiChannelWidth {
+  CHANNEL_WIDTH_UNKNOWN = 0;
+  CHANNEL_WIDTH_20MHZ = 1;
+  CHANNEL_WIDTH_40MHZ = 2;
+  CHANNEL_WIDTH_80MHZ = 3;
+  CHANNEL_WIDTH_160MHZ = 4;
+  CHANNEL_WIDTH_80MHZ_PLUS_MHZ = 5;
+  CHANNEL_WIDTH_320MHZ = 6;
+}

@@ -1,7 +1,26 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
 package android.os.statsd.appsearch;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/appsearch/enums.proto";
 
 option java_package = "com.android.os.appsearch";
 option java_multiple_files = true;
@@ -11,6 +30,16 @@ extend Atom {
   optional AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported = 385 [(module) = "appsearch"];
   optional AppSearchSchemaMigrationStatsReported
           app_search_schema_migration_stats_reported = 579 [(module) = "appsearch"];
+
+  optional AppSearchUsageSearchIntentStatsReported
+          app_search_usage_search_intent_stats_reported = 825 [(module) = "appsearch"];
+
+  optional AppSearchUsageSearchIntentRawQueryStatsReported
+          app_search_usage_search_intent_raw_query_stats_reported = 826
+          [(module) = "appsearch", (restriction_category) = RESTRICTION_SYSTEM_INTELLIGENCE];
+
+  optional AppSearchAppsIndexerStatsReported
+          app_search_apps_indexer_stats_reported = 909 [(module) = "appsearch"];
 }
 
 /**
@@ -162,4 +191,117 @@ message AppSearchSchemaMigrationStatsReported {
 
     // Number of migration failure during schema migration
     optional int32 schema_migration_failure_count = 14;
+}
+
+/**
+ * Usage detailed stats (excluding raw query string) for search intent in AppSearch.
+ *
+ * stats pushed from:
+ *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 10
+ */
+message AppSearchUsageSearchIntentStatsReported {
+    // Package UID of the application.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch.
+    optional int32 database = 2;
+
+    // Timestamp of search request issued by the client.
+    optional int64 search_intent_timestamp_millis = 3;
+
+    // How many result documents being fetched in this search intent.
+    optional int32 num_results_fetched = 4;
+
+    // The correction type of the query in this search intent compared with the previous search
+    // intent.
+    optional android.appsearch.QueryCorrectionType query_correction_type = 5;
+
+    // The following fields with prefix "clicks_" contain numbers (e.g. timestamp, rank) for all
+    // clicks associated with the search intent.
+    // Due to statsd restriction, we have to separate them into multiple repeated fields with
+    // primitive type.
+    repeated int64 clicks_timestamp_millis = 6;
+    repeated int64 clicks_time_stay_on_result_millis = 7;
+    repeated int32 clicks_result_rank_in_block = 8;
+    repeated int32 clicks_result_rank_global = 9;
+}
+
+/**
+ * Privacy preserved usage detailed stats (including raw query strings) for search intent in
+ * AppSearch.
+ *
+ * stats pushed from:
+ *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
+ *
+ * Next tag: 9
+ */
+message AppSearchUsageSearchIntentRawQueryStatsReported {
+    // Package name of the application.
+    optional string package_name = 1;
+
+    // Hash of the database name within AppSearch.
+    optional int32 database = 2;
+
+    // Raw query string of the previous search intent.
+    optional string prev_query = 3 [(field_restriction_option).system_search = true];
+
+    // Raw query string of the current search intent.
+    optional string curr_query = 4 [(field_restriction_option).system_search = true];
+
+    // How many result documents being fetched in this search intent.
+    optional int32 num_results_fetched = 5;
+
+    // How many click actions being taken in this search intent.
+    optional int32 num_clicks = 6;
+
+    // How many good click actions (i.e. the user stays on the clicked results for reasonable time)
+    // being taken in this search intent.
+    optional int32 num_good_clicks = 7;
+
+    // The correction type of the query in this search intent compared with the previous search
+    // intent.
+    optional android.appsearch.QueryCorrectionType query_correction_type = 8;
+}
+
+/**
+ * Reported when AppSearch Apps Indexer syncs apps from PackageManager to AppSearch.
+ *
+ * Logged from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/appsindexer/AppsIndexerManagerService.java
+ * Estimated Logging Rate:
+ *    Peak: 20 times in 10*1000 ms | Avg: 1 per device per day
+ *
+ * Next tag: 14
+ */
+message AppSearchAppsIndexerStatsReported {
+  enum UpdateType {
+    UNKNOWN = 0;
+    FULL = 1;
+  }
+
+  // Type of the update. An additional "package intent" update type may be added
+  optional UpdateType update_type = 1;
+
+  // Status codes for inserting/updating apps. If everything succeeds, this only contains [0]. If
+  // something fails, this contains all the error codes we got.
+  repeated int32 update_status_codes = 2;
+
+  // Update counts
+  optional int32 number_of_apps_added = 3;
+  optional int32 number_of_apps_removed = 4;
+  optional int32 number_of_apps_updated = 5;
+  optional int32 number_of_apps_unchanged = 6;
+
+  // Latencies
+  optional int64 total_latency_millis = 7;
+  optional int64 package_manager_latency_millis = 8;
+  optional int64 get_all_apps_from_appsearch_latency_millis = 9;
+  optional int64 set_schema_for_all_apps_latency_millis = 10;
+  optional int64 index_all_apps_to_appsearch_latency_millis = 11;
+
+  // Timestamps
+  optional int64 update_start_wallclock_timestamp_millis = 12;
+  optional int64 last_app_updated_wallclock_timestamp_millis = 13;
 }

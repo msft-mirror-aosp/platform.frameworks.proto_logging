@@ -19,10 +19,10 @@ syntax = "proto2";
 package android.media.editing;
 
 enum FinalState {
-  _UNSPECIFIED = 0;
-  SUCCEEDED = 1;
-  CANCELED = 2;
-  ERROR = 3;
+  FINAL_STATE_UNSPECIFIED = 0;
+  FINAL_STATE_SUCCEEDED = 1;
+  FINAL_STATE_CANCELED = 2;
+  FINAL_STATE_ERROR = 3;
 }
 
 enum ErrorCode {

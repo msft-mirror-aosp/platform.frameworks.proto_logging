@@ -21,7 +21,16 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+// Enum protos can be reused in multiple libraries (pixelatoms.proto, etc)
+// Due to size grownth constraints proposed to reuse only what really imported
+shared_enum_protos = [
+    "enums/app_shared/*.proto",
+    "enums/display/*.proto",
+    "enums/hardware/biometrics/*.proto",
+]
+
 enum_protos = [
+    "enums/accessibility/*.proto",
     "enums/adservices/common/*.proto",
     "enums/adservices/enrollment/*.proto",
     "enums/adservices/fledge/*.proto",
@@ -29,11 +38,13 @@ enum_protos = [
     "enums/anr/*.proto",
     "enums/apex/*.proto",
     "enums/app/**/*.proto",
+    "enums/appsearch/*.proto",
+    "enums/art/*.proto",
     "enums/autofill/**/*.proto",
     "enums/contexthub/*.proto",
     "enums/corenetworking/**/*.proto",
     "enums/debug/*.proto",
-    "enums/display/*.proto",
+    "enums/devicepolicy/*.proto",
     "enums/dnd/*.proto",
     "enums/federatedcompute/*.proto",
     "enums/hardware/**/*.proto",
@@ -48,6 +59,9 @@ enum_protos = [
     "enums/neuralnetworks/*.proto",
     "enums/nfc/*.proto",
     "enums/os/*.proto",
+    "enums/photopicker/*.proto",
+    "enums/pdf/*.proto",
+    "enums/ranging/*.proto",
     "enums/server/*.proto",
     "enums/server/display/*.proto",
     "enums/server/job/*.proto",
@@ -83,7 +97,9 @@ enum_protos = [
     "enums/wear/connectivity/*.proto",
     "enums/wear/media/*.proto",
     "enums/wear/modes/*.proto",
+    "enums/wear/time/*.proto",
     "enums/wifi/*.proto",
+    "enums/telephony/iwlan/*.proto",
     ":data_stall_event_proto",
     ":device_policy_proto",
     ":dns_resolver_proto",
@@ -100,6 +116,7 @@ enum_protos = [
 atom_protos = [
     "atoms.proto",
     "attribution_node.proto",
+    "atoms/accessibility/*.proto",
     "atoms/adpf/*.proto",
     "atoms/agif/*.proto",
     "atoms/apex/*.proto",
@@ -111,6 +128,8 @@ atom_protos = [
     "atoms/autofill/*.proto",
     "atoms/credentials/*.proto",
     "atoms/cronet/*.proto",
+    "atoms/conscrypt/*.proto",
+    "atoms/devicepolicy/*.proto",
     "atoms/display/*.proto",
     "atoms/dnd/*.proto",
     "atoms/dream/*.proto",
@@ -119,16 +138,20 @@ atom_protos = [
     "atoms/gps/*.proto",
     "atoms/grammaticalinflection/*.proto",
     "atoms/hardware/biometrics/*.proto",
+    "atoms/hardware/health/*.proto",
     "atoms/hdmi/*.proto",
     "atoms/healthfitness/**/*.proto",
     "atoms/hotword/*.proto",
     "atoms/ike/*.proto",
     "atoms/input/*.proto",
     "atoms/locale/*.proto",
+    "atoms/microxr/*.proto",
     "atoms/wearsysui/*.proto",
     "atoms/location/*.proto",
     "atoms/view/inputmethod/*.proto",
     "atoms/nfc/*.proto",
+    "atoms/packagemanager/*.proto",
+    "atoms/pdf/*.proto",
     "atoms/permissioncontroller/*.proto",
     "atoms/placeholder/*.proto",
     "atoms/power/*.proto",
@@ -138,6 +161,7 @@ atom_protos = [
     "atoms/tv/*.proto",
     "atoms/usb/*.proto",
     "atoms/providers/mediaprovider/*.proto",
+    "atoms/photopicker/*.proto",
     "atoms/devicelogs/*.proto",
     "atoms/kernel/*.proto",
     "atoms/wearservices/*.proto",
@@ -146,6 +170,7 @@ atom_protos = [
     "atoms/media/*.proto",
     "atoms/adservices/*.proto",
     "atoms/wear/modes/*.proto",
+    "atoms/wear/time/*.proto",
     "atoms/wearpas/*.proto",
     "atoms/statsd/*.proto",
     "atoms/telecomm/*.proto",
@@ -169,6 +194,13 @@ atom_protos = [
     "atoms/transparency/*.proto",
     "atoms/desktopmode/*.proto",
     "atoms/adaptiveauth/*.proto",
+    "atoms/automotive/carpower/*.proto",
+    "atoms/camera/*.proto",
+    "atoms/uprobestats/*.proto",
+    "atoms/broadcasts/*.proto",
+    "atoms/telephony/iwlan/*.proto",
+    "atoms/performance/*.proto",
+    "atoms/ranging/*.proto",
 ]
 
 cc_library_host_shared {
@@ -176,7 +208,7 @@ cc_library_host_shared {
     srcs: [
         "atom_field_options.proto",
         ":libstats_atom_message_protos",
-    ] + enum_protos + atom_protos,
+    ] + shared_enum_protos + enum_protos + atom_protos,
 
     cflags: [
         "-Wno-deprecated-declarations",
@@ -214,8 +246,13 @@ filegroup {
 }
 
 filegroup {
+    name: "libstats_shared_enum_protos",
+    srcs: shared_enum_protos,
+}
+
+filegroup {
     name: "libstats_atom_enum_protos",
-    srcs: enum_protos,
+    srcs: shared_enum_protos + enum_protos,
 }
 
 filegroup {

@@ -28,6 +28,10 @@ extend Atom {
   optional LockscreenShortcutTriggered lockscreen_shortcut_triggered = 612 [(module) = "sysui"];
   optional LauncherImpressionEventV2 launcher_impression_event_v2 = 716 [(module) = "sysui"];
   optional DisplaySwitchLatencyTracked display_switch_latency_tracked = 753 [(module) = "sysui"];
+  optional NotificationListenerService notification_listener_service = 829 [(module) = "sysui"];
+  optional NavHandleTouchPoints nav_handle_touch_points = 869 [(module) = "sysui"];
+  optional CommunalHubWidgetEventReported communal_hub_widget_event_reported = 908 [(module) = "sysui"];
+  optional CommunalHubSnapshot communal_hub_snapshot = 10226 [(module) = "sysui"];
 }
 
 /**
@@ -174,4 +178,89 @@ message DisplaySwitchLatencyTracked {
       SCREEN_OFF = 9;
     }
 
+}
+
+/*
+ * Denotes that a new notification service has been enabled or disabled.
+ *
+ * Logs from :
+ * frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/policy/SensitiveNotificationProtectionControllerImpl.java
+ * frameworks/base/services/core/java/com/android/server/SensitiveContentProtectionManagerService.java
+ */
+message NotificationListenerService {
+     optional int32 uid = 1 [(is_uid) = true];
+     optional bool is_enabled = 2;
+     optional bool is_preinstalled = 3;
+     optional bool is_pregranted = 4;
+}
+
+/**
+ * Logs for Launcher Nav Handle Touch Points.
+ *
+ * Logged from:
+ *      packages/apps/Launcher3/quickstep/src/com/android/quickstep/TouchInteractionService.java
+ *
+ * Next Tag: 7
+ */
+
+message NavHandleTouchPoints {
+    // The event id generated from go/uievents
+    // The event ids should indicate gesture type like HOME, OVERVIEW, QUICK_SWITCH, TASKBAR, LPNH etc.
+    optional int32 gesture_event_id = 1;
+
+    // The instance id to track the next gesture event if needed.
+    optional int32 instance_id = 2;
+
+    // Touch points that triggered the gesture
+    // This is set of downsampled touch points
+    repeated int32 x_points = 3;
+    repeated int32 y_points = 4;
+    // This is the delay between consecutive motion events. Delay will be 0 for the first motion event.
+    repeated int32 delay = 5;
+    // This is the motion action event associated with (x,y) touch. See https://developer.android.com/reference/android/view/MotionEvent#constants_1 for the motion events code.
+    repeated int32 action = 6;
+}
+
+/**
+ * Pushed atom. Logs an event for widgets in the communal hub.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ * Estimated Logging Rate:
+ *   Avg: 5 per device per day
+ */
+message CommunalHubWidgetEventReported {
+  enum Action {
+    // Action is unknown.
+    UNKNOWN = 0;
+    // User adds a widget in the communal hub.
+    ADD = 1;
+    // User removes a widget from the communal hub.
+    REMOVE = 2;
+    // User taps a widget in the communal hub.
+    TAP = 3;
+  }
+
+  // The action that triggered the event.
+  optional Action action = 1;
+
+  // The component name of the widget in the communal hub.
+  optional string component_name = 2;
+
+  // The rank or order of the widget in the communal hub.
+  optional int32 rank = 3;
+}
+
+/**
+ * Pulled atom. Logs a snapshot of content in the communal hub.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/communal/
+ */
+message CommunalHubSnapshot {
+  // A list of component names of first party widgets in the communal hub.
+  repeated string component_names = 1;
+
+  // The total number of widgets in the communal hub.
+  optional int32 widget_count = 2;
 }

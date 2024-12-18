@@ -36,5 +36,7 @@ enum Transport {
     TRANSPORT_WIFI_AWARE = 5;
     // Indicates this network uses a LoWPAN transport.
     TRANSPORT_LOWPAN = 6;
+    // Indicates this network uses a Satellite transport.
+    TRANSPORT_SATELLITE = 7;
 }
 

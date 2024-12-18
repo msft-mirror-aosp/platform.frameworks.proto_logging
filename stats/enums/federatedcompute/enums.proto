@@ -21,7 +21,7 @@ option java_outer_classname = "FederatedComputeProtoEnums";
 option java_multiple_files = true;
 
 // Enum used to track federated computation job stages.
-// Next Tag: 49
+// Next Tag: 73
 enum TrainingEventKind {
   // Undefined value.
   TRAIN_UNDEFINED = 0;
@@ -109,6 +109,9 @@ enum TrainingEventKind {
   // Client was rejected from a checkin request.
   // Always preceded by TRAIN_DOWNLOAD_STARTED.
   TRAIN_DOWNLOAD_TURNED_AWAY = 18;
+  TRAIN_DOWNLOAD_TURNED_AWAY_NO_TASK_AVAILABLE = 70;
+  TRAIN_DOWNLOAD_TURNED_AWAY_UNAUTHORIZED = 71;
+  TRAIN_DOWNLOAD_TURNED_AWAY_UNAUTHENTICATED = 72;
 
   // Client started eligibility eval computation.
   TRAIN_ELIGIBILITY_EVAL_COMPUTATION_STARTED = 19;
@@ -138,6 +141,24 @@ enum TrainingEventKind {
   // Always preceded by TRAIN_ELIGIBILITY_EVAL_COMPUTATION_STARTED.
   TRAIN_ELIGIBILITY_EVAL_COMPUTATION_COMPLETED = 25;
 
+  // Client finished eligibility eval computation and result is eligible.
+  // Always preceded by TRAIN_ELIGIBILITY_EVAL_COMPUTATION_STARTED.
+  TRAIN_ELIGIBILITY_EVAL_COMPUTATION_ELIGIBLE = 51;
+
+  // The status of FCP binds to client implemented ExampleStoreService.
+  TRAIN_EXAMPLE_STORE_BIND_START = 62;
+  TRAIN_EXAMPLE_STORE_BIND_SUCCESS = 63;
+  TRAIN_EXAMPLE_STORE_BIND_ERROR = 64;
+
+  // The status of ExampleStoreService.startQuery API.
+  TRAIN_EXAMPLE_STORE_START_QUERY_START = 65;
+  TRAIN_EXAMPLE_STORE_START_QUERY_TIMEOUT = 66;
+  // Indicates all failure cases except timeout when call ExampleStoreService.startQuery API.
+  TRAIN_EXAMPLE_STORE_START_QUERY_ERROR = 67;
+  TRAIN_EXAMPLE_STORE_START_QUERY_SUCCESS = 68;
+  // General error for uncaught failure cases for example store stage.
+  TRAIN_EXAMPLE_STORE_ERROR = 69;
+
   // Client started computation.
   TRAIN_COMPUTATION_STARTED = 26;
 
@@ -165,6 +186,9 @@ enum TrainingEventKind {
   // Client finished computation.
   // Always preceded by TRAIN_COMPUTATION_STARTED.
   TRAIN_COMPUTATION_COMPLETED = 32;
+
+  // Client report result to server successfully
+  TRAIN_RESULT_REPORT_SUCCESS = 50;
 
   // Client starts to upload successfully computed results.
   TRAIN_RESULT_UPLOAD_STARTED = 33;
@@ -221,4 +245,37 @@ enum TrainingEventKind {
 
   // Client is authorized to report result.
   TRAIN_INITIATE_REPORT_RESULT_AUTH_SUCCEEDED = 48;
+
+  // Client successfully generates an attestation record.
+  TRAIN_KEY_ATTESTATION_SUCCEEDED = 49;
+
+  // Client successfully finishes one round of training.
+  TRAIN_RUN_COMPLETE = 52;
+
+  // Log the fact that a trainging job was started.
+  TRAIN_RUN_STARTED = 53;
+
+  // If any throwable was caught during worker executing training logic.
+  TRAIN_RUN_FAILED_WITH_EXCEPTION = 54;
+
+  // Train failed during checkin at task assignment step.
+  TRAIN_RUN_FAILED_WITH_REJECTION = 55;
+
+  // Eligibility check failed during checkin.
+  TRAIN_RUN_FAILED_NOT_ELIGIBLE = 56;
+
+  // Model and plan download failed during checkin.
+  TRAIN_RUN_FAILED_DOWNLOAD_FAILED = 57;
+
+  // Actual ML computation failed.
+  TRAIN_RUN_FAILED_COMPUTATION_FAILED = 58;
+
+  // Report success to server failed.
+  TRAIN_RUN_FAILED_REPORT_FAILED = 59;
+
+  // Failed to fetch encryption keys.
+  TRAIN_RUN_FAILED_ENCRYPTION_KEY_FETCH_FAILED = 60;
+
+  // Additional conditions chaeck failed.
+  TRAIN_RUN_FAILED_CONDITIONS_FAILED = 61;
 }

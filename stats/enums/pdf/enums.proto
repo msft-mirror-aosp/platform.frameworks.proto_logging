@@ -1,0 +1,53 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.pdf;
+
+option java_outer_classname = "PdfEnums";
+option java_multiple_files = true;
+
+// The response of a PdfViewer API calls.
+enum ApiResponseStatus {
+  RESPONSE_UNKNOWN = 0;
+  RESPONSE_SUCCESS = 1;
+  RESPONSE_FAILURE = 2;
+}
+
+// The type of the PdfViewer API called.
+enum ApiType {
+  API_TYPE_UNKNOWN = 0;
+  // PDF Text selected
+  API_TYPE_SELECT_CONTENT = 1;
+}
+
+enum PdfLinearizedType {
+  UNKNOWN_TYPE = 0;
+  LINEARIZED_TYPE = 1;
+  NON_LINEARIZED_TYPE = 2;
+}
+
+// The result of a pdf load called on a document.
+enum PdfLoadResult {
+  RESULT_UNKNOWN = 0;
+  // PDF loaded successfully.
+  RESULT_LOADED = 1;
+  // PDF loading failed.
+  RESULT_ERROR = 2;
+  // Loaded with wrong password.
+  RESULT_WRONG_PASSWORD = 3;
+}

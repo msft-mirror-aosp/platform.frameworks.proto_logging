@@ -61,7 +61,7 @@ message SandboxApiCalled {
     LOAD_SANDBOX_AND_SDK = 2 [deprecated = true];
     SEND_DATA = 4 [deprecated = true];
   }
-  // The method which was called.
+  // The method which was called
   optional Method method = 1;
 
   // Next ID: 12
@@ -79,10 +79,10 @@ message SandboxApiCalled {
     TOTAL = 10;
     TOTAL_WITH_LOAD_SANDBOX = 11;
   }
-  // The stage at which latency is being measured.
+  // The stage at which latency is being measured
   optional Stage stage = 4;
 
-  // The success status of the callback
+  // The success status of the call at stage
   optional bool success = 3;
 
   //Time taken from the initiation of the API till the callback was received
@@ -90,6 +90,20 @@ message SandboxApiCalled {
 
   // Uid of the app that made a call to sandbox
   optional int32 uid = 5 [(is_uid) = true];
+
+  // Next ID: 7
+  enum ResultCode {
+    RESULT_CODE_UNSPECIFIED = 0;
+    LOAD_SDK_NOT_FOUND = 1;
+    LOAD_SDK_ALREADY_LOADED = 2;
+    LOAD_SDK_SDK_DEFINED_ERROR = 3;
+    LOAD_SDK_SDK_SANDBOX_DISABLED = 4;
+    LOAD_SDK_INTERNAL_ERROR = 5;
+    SDK_SANDBOX_PROCESS_NOT_AVAILABLE = 6;
+  }
+
+  // The result code of the overall call
+  optional ResultCode result_code = 6;
 }
 
 //Logs periodically the storage of SDKs used by the app
@@ -115,8 +129,8 @@ message SandboxActivityEventOccurred {
     // Register/unregister activity handlers APIs
     REGISTER_SDK_SANDBOX_ACTIVITY_HANDLER = 1;
     UNREGISTER_SDK_SANDBOX_ACTIVITY_HANDLER = 2;
-    // Putting/removing handlers from the map.
-    // Doesn't include repeated/non-existent handlers.
+    // Putting/removing handlers from the map
+    // Doesn't include repeated/non-existent handlers
     PUT_SDK_SANDBOX_ACTIVITY_HANDLER = 3;
     REMOVE_SDK_SANDBOX_SCTIVITY_HANDLER = 4;
     // Start activity APIs
@@ -148,10 +162,10 @@ message SandboxActivityEventOccurred {
   optional int32 latency_millis = 3;
 
   // Uid of the client app for which the activity is created
-  optional int32 client_uid = 4;
+  optional int32 client_uid = 4 [(is_uid) = true];
 
   // Uid of the SDK that's loaded into client's sandbox process and for which the activity is created
-  optional int32 sdk_uid = 5;
+  optional int32 sdk_uid = 5 [(is_uid) = true];
 }
 
 message ActivityStartRequest {

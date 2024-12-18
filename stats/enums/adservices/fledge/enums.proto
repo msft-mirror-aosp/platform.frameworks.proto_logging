@@ -39,11 +39,9 @@ enum BeaconReportingDestinationType {
 
 // Results of signature verification process.
 enum VerificationStatus {
-  UNKNOWN_FAILURE = 0;
-  VERIFIED = 1;
-  KEY_FETCH_FAILURE = 2;
-  NO_KEYS_FETCHED = 3;
-  VERIFICATION_FAILED = 4;
+    UNKNOWN = 0;
+    VERIFICATION_FAILED = 1;
+    VERIFIED = 2;
 }
 
 // The result code of a K-Anon Job (triggered immediately after auction or via background job)
@@ -96,4 +94,60 @@ enum KAnonKeyAttestationResult {
   KEY_ATTESTATION_RESULT_IO_EXCEPTION = 4;
   KEY_ATTESTATION_RESULT_NO_SUCH_ALGORITHM_EXCEPTION = 5;
   KEY_ATTESTATION_RESULT_SUCCESS = 6;
+}
+
+// Leaving these not tied to specific numbers gives us flexibility to change them later
+enum Size {
+    UNSET_SIZE = 0;
+    VERY_SMALL = 1;
+    SMALL = 2;
+    MEDIUM = 3;
+    LARGE = 4;
+    VERY_LARGE = 5;
+}
+
+enum ServerAuctionKeyFetchSource {
+  SERVER_AUCTION_KEY_FETCH_SOURCE_UNSET = 0;
+  SERVER_AUCTION_KEY_FETCH_SOURCE_BACKGROUND_FETCH = 1;
+  SERVER_AUCTION_KEY_FETCH_SOURCE_AUCTION = 2;
+}
+
+enum BackgroundKeyFetchStatus {
+  BACKGROUND_KEY_FETCH_STATUS_UNSET = 0;
+  BACKGROUND_KEY_FETCH_STATUS_NO_OP = 1;
+  BACKGROUND_KEY_FETCH_STATUS_REFRESH_KEYS_INITIATED = 2;
+}
+
+enum ServerAuctionCoordinatorSource {
+  SERVER_AUCTION_COORDINATOR_SOURCE_UNSET = 0;
+  SERVER_AUCTION_COORDINATOR_SOURCE_DEFAULT = 1;
+  SERVER_AUCTION_COORDINATOR_SOURCE_API = 2;
+}
+
+enum ServerAuctionEncryptionKeySource {
+  SERVER_AUCTION_ENCRYPTION_KEY_SOURCE_UNSET = 0;
+  SERVER_AUCTION_ENCRYPTION_KEY_SOURCE_DATABASE = 1;
+  SERVER_AUCTION_ENCRYPTION_KEY_SOURCE_NETWORK = 2;
+}
+
+enum JsRunStatus {
+    UNSET_STATUS = 0;
+    SUCCESS = 1;
+    TIMEOUT = 2;
+    JS_SYNTAX_ERROR = 3;
+    OUTPUT_SYNTAX_ERROR = 4;
+    OUTPUT_SEMANTIC_ERROR = 5;
+    OUTPUT_NON_ZERO_RESULT = 6;
+    DB_PERSIST_FAILURE = 7;
+    OTHER_FAILURE = 8;
+    REFERENCE_ERROR = 9;
+}
+
+// Denotes the result of the getAdSelectionDataPayload optimization
+enum PayloadOptimizationResult {
+  PAYLOAD_OPTIMIZATION_RESULT_UNKNOWN = 0;
+  // there was still data available on the device but ran out of space
+  PAYLOAD_TRUNCATED_FOR_REQUESTED_MAX = 1;
+  // there was not enough data on the device so the max was not reached
+  PAYLOAD_WITHIN_REQUESTED_MAX = 2;
 }

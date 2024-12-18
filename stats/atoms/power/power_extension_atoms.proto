@@ -26,8 +26,11 @@ option java_multiple_files = true;
 
 extend Atom {
   optional ScreenOffReported screen_off_reported = 776 [(module) = "framework"];
-  optional LastScreenOnFragmentReported last_screen_on_fragment_reported
-      = 801 [(module) = "framework"];
+  optional ScreenTimeoutOverrideReported screen_timeout_override_reported
+      = 836 [(module) = "framework"];
+  optional ScreenInteractiveSessionReported screen_interactive_session_reported
+      = 837 [(module) = "framework"];
+  optional ScreenDimReported screen_dim_reported = 867 [(module) = "framework"];
 }
 
 /**
@@ -54,32 +57,114 @@ message ScreenOffReported {
 }
 
 /**
- * Logs For Last Screen On Fragment.
+ * Logs For Screen Timeout Override.
  *
  * Logged from:
- *   frameworks/base/services/core/java/com/android/server/power/AttentionDetector.java
+ *   frameworks/base/services/core/java/com/android/server/power/WakefulnessSessionObserver.java
  */
-message LastScreenOnFragmentReported {
-  enum ScreenOffReason {
+message ScreenTimeoutOverrideReported {
+  enum OverrideOutcome {
+    // unknown outcome
     UNKNOWN = 0;
-    TIMEOUT = 1;
-    POWER_BTN = 2;
+    // timeout successful
+    TIMEOUT_SUCCESS = 1;
+    // timeout but user initiates screen immediately
+    TIMEOUT_USER_INITIATED_REVERT = 2;
+    // cancel the timeout because of client api call
+    CANCEL_CLIENT_API_CALL = 3;
+    // cancel the timeout because of user interaction
+    CANCEL_USER_INTERACTION = 4;
+    // cancel the timeout because of power button is triggered
+    CANCEL_POWER_BUTTON = 5;
+    // cancel the timeout because of client disconnected
+    CANCEL_CLIENT_DISCONNECTED = 6;
+    // cancel the timeout because of other than above outcomes
+    CANCEL_OTHER = 7;
   }
-  enum UserActivity {
-    UNSET = 0;
-    BUTTON = 1;
-    TOUCH = 2;
-    ACCESSBILITY = 3;
-    ATTENTION = 4;
-    FACE_DOWN = 5;
-    DEVICE_STATE = 6;
-  }
-  // Log the reason to off the screen this time
-  optional ScreenOffReason screen_off_reason = 1;
-  // Total time for this screen on to off
-  optional int64 screen_on_duration_millis = 2;
-  // Log the last user activity on this time
-  optional UserActivity last_user_activity = 3;
-  // Duration of last screen on fragment
-  optional int64 last_screen_on_fragment_millis = 4;
+  // power group id is the superset of display_id used in PowerManagerService
+  // One power group id might have multiple displays or multiple display groups
+  optional int32 power_group_id = 1;
+  // Log the outcome this time
+  optional OverrideOutcome override_outcome = 2;
+  // Timeout that be override
+  optional int64 override_timeout_millis = 3;
+  // Timeout from setting
+  optional int64 default_timeout_millis = 4;
+}
+
+/**
+ * Logs For Screen Interactive Session.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/power/WakefulnessSessionObserver.java
+ */
+message ScreenInteractiveSessionReported {
+   enum InteractiveStateOffReason {
+       UNKNOWN = 0;
+       TIMEOUT = 1;
+       POWER_BUTTON = 2;
+   }
+   enum UserActivityEvent {
+      OTHER = 0;
+      BUTTON = 1;
+      TOUCH = 2;
+      ACCESSIBILITY = 3;
+      ATTENTION = 4;
+      FACE_DOWN = 5;
+      DEVICE_STATE = 6;
+      SCREEN_TIMEOUT_OVERRIDE = 7;
+   }
+   // power group id is the superset of display_id used in PowerManagerService
+   // One power group id might have multiple displays or multiple display groups
+   optional int32 power_group_id = 1;
+   // Log the reason that interactive state off this time
+   optional InteractiveStateOffReason interactive_state_off_reason = 2;
+   // Total time for this interactive state on to off
+   optional int64 interactive_state_on_duration_millis = 3;
+   // Log the last user activity
+   optional UserActivityEvent last_user_activity_event = 4;
+   // Duration between last user activity event and interactive state off time
+   optional int64 last_user_activity_event_duration_millis = 5;
+   // Duration between override timeout and default timeout
+   optional int64 reduced_interactive_state_on_duration_millis = 6;
+}
+
+/**
+ * Logs For Screen Dim.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/power/WakefulnessSessionObserver.java
+ */
+message ScreenDimReported {
+   enum PolicyReason {
+       // unknown policy reason
+       UNKNOWN = 0;
+       // screen interactive off by timeout
+       OFF_TIMEOUT = 1;
+       // screen interactive off by power button
+       OFF_POWER_BUTTON = 2;
+       // screen on because undim
+       BRIGHT_UNDIM = 3;
+       // screen on because user initiates screen immediately
+       BRIGHT_INITIATED_REVERT = 4;
+   }
+
+   // display port id can be known from display id
+   // will be different between internal display and external display
+   optional int32 physical_display_port_id = 1;
+
+   // Policy reason for studying dim
+   optional PolicyReason policy_reason = 2;
+
+   // User activity when the policy reason is tracked
+   optional ScreenInteractiveSessionReported.UserActivityEvent last_user_activity_event = 3;
+
+   // User activity duration
+   optional int32 last_user_activity_event_duration_millis = 4;
+
+   // Duration of dim
+   optional int32 dim_duration_millis = 5;
+
+   // Timeout default setting
+   optional int32 default_timeout_millis = 6;
 }

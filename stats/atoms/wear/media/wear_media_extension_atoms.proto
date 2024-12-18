@@ -49,13 +49,19 @@ extend Atom {
 }
 
 message MediaActionReported {
+  enum SessionAdvertising {
+    SESSION_ADVERTISING_UNKNOWN = 0;
+    SESSION_ADVERTISING_NOTIFICATION = 1;
+    SESSION_ADVERTISING_SESSION_MANAGER = 2;
+  }
+
   // Depicts the action performed on the Media. Values : (PLAY, PAUSE,
   // SKIP_NEXT, SKIP_PREV,RESUME,VOLUME_INCREASE, VOLUME_DECREASE)
   optional com.google.android.wearable.media.sessions.MediaAction action = 1;
 
   // Package name of the app that the user used to perform the action (eg: UMO
   // or a 3p media app)
-  optional int32 media_controls_package_uid = 2;
+  optional int32 media_controls_package_uid = 2 [(is_uid) = true];
 
   // Package name of the app that owns the media session. (This app is on the
   // paired phone, and not on the watch, hence cannot use uid)
@@ -66,6 +72,9 @@ message MediaActionReported {
 
   // Version of the media session apk installed in the device.
   optional int64 version_code = 5;
+
+  // The way in which the media app advertised this media session.
+  optional SessionAdvertising session_advertising = 6;
 }
 
 message MediaControlsLaunched {

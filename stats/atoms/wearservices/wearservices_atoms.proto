@@ -124,6 +124,78 @@ message WsNotificationUpdated {
   optional bool is_foreground_service = 21;
 }
 
+/** Logged when a notification is updated in the WearServices application. */
+message WsNotificationDismissalActioned {
+  // Package name of the application that created the notification event.
+  optional string package_name = 1;
+
+  // Defining the actions for notification to be dismissed.
+  optional android.app.wearservices.NotificationDismissAction dismiss_action = 2;
+
+  // Device on which the notification event was created.
+  optional android.app.wearservices.RequestSource source_device = 3;
+
+  // Importance of the notification after this update.
+  optional android.app.wearservices.NotificationImportance importance = 4;
+
+  // The style of the notification.
+  optional android.app.wearservices.NotificationStyle style = 5;
+
+  // The categories for the notification.
+  optional android.app.wearservices.NotificationCategory category = 6;
+
+  // Whether this notification comes from apps running in the work profile.
+  optional bool is_work_profile = 7;
+
+  // Supported notification cancellation reasons for which the notification is being dismissed.
+  optional android.app.wearservices.NotificationCancelReason cancel_reason = 8;
+
+  // The group type of the notification.
+  optional android.app.wearservices.NotificationGroupType group_type = 9;
+}
+
+/** Logged when a notification is updated in the WearServices application. */
+message WsNotificationActioned {
+  // Package name of the application that created the notification event.
+  optional string package_name = 1;
+
+  // Defines the action for a particular update.
+  optional android.app.wearservices.NotificationActionType action_type = 2;
+
+  // Device on which the notification event was created.
+  optional android.app.wearservices.RequestSource source_device = 3;
+
+  // Importance of the notification after this update.
+  optional android.app.wearservices.NotificationImportance importance = 4;
+
+  // The style of the notification.
+  optional android.app.wearservices.NotificationStyle style = 5;
+
+  // The categories for the notification.
+  optional android.app.wearservices.NotificationCategory category = 6;
+
+  // Whether this notification comes from apps running in the work profile.
+  optional bool is_work_profile = 7;
+
+  // Representing string for the notification action title for the action pressed.
+  optional android.app.wearservices.NotificationActionTitle action_title = 8;
+}
+
+/** Logged when bridge mode configuration of notifications for an applications are updated. */
+message WsNotificationBridgemodeUpdated {
+  // Package name of the application that created the notification event.
+  optional string package_name = 1;
+
+  // Represents whether notification bridging is enabled in the configuration.
+  optional bool is_bridging_enabled = 2;
+
+  // Defines the bridge configuration type.
+  optional android.app.wearservices.BridgeConfig bridge_config = 3;
+
+  // Represents the number of excluded tags added.
+  optional android.app.wearservices.ExcludedTagsCount excluded_tags_count= 4;
+}
+
 /** Logged when a notification is blocked/unblocked in the WearServices application. */
 message WsNotificationBlocking {
   // Package name of the application that created the notification event.
@@ -140,6 +212,24 @@ message WsNotificationBlocking {
 
   // Blocking status of the notifications for the application.
   optional android.app.wearservices.NotificationBlockingStatus notification_blocking_status = 5;
+}
+
+/** Logged for estimating the latency of a specific notification in a component. */
+message WsNotificationLatency {
+  // Package name of the application that created the notification event.
+  optional string package_name = 1;
+
+  // Device on which the notification event was created.
+  optional android.app.wearservices.RequestSource source_device = 2;
+
+  // Defines the notification flow component for which the latency is to be calculated.
+  optional android.app.wearservices.NotificationFlowComponent component_flow = 3;
+
+  // Defines which component the latency is being calculated for.
+  optional android.app.wearservices.ComponentName component_name= 4;
+
+  // The latency in milliseconds for the specific notification flow.
+  optional int64 duration_millis = 5;
 }
 
 /** Logged when a complication is tapped by the user. */

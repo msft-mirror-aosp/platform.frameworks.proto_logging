@@ -42,11 +42,9 @@ import "frameworks/proto_logging/stats/atoms/sysui/sysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/adservices/fledge/enums.proto";
-import "frameworks/proto_logging/stats/enums/adservices/measurement/enums.proto";
 import "frameworks/proto_logging/stats/enums/anr/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/enums.proto";
-import "frameworks/proto_logging/stats/enums/app/job/enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
@@ -58,11 +56,10 @@ import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hfp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/leaudio/enums.proto";
-import "frameworks/proto_logging/stats/enums/bluetooth/rfcomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/smp/enums.proto";
 import "frameworks/proto_logging/stats/enums/contexthub/enums.proto";
 import "frameworks/proto_logging/stats/enums/debug/enums.proto";
-import "frameworks/proto_logging/stats/enums/display/enums.proto";
+import "frameworks/proto_logging/stats/enums/display/display_enums.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/jank/enums.proto";
 import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
@@ -96,7 +93,6 @@ import "frameworks/proto_logging/stats/enums/stats/intelligence/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/location/location_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediametrics/mediametrics.proto";
 import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
-import "frameworks/proto_logging/stats/enums/stats/mobiledatadownload/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/privacysignals/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/safetycenter/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/storage/storage_enums.proto";
@@ -689,7 +685,7 @@ message Atom {
         ClipboardCleared clipboard_cleared = 408 [(module) = "framework"];
         VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
         NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
-        CameraCompatControlEventReported camera_compat_control_event_reported = 411 [(module) = "framework"];
+        // reserved 411 for a deprecated CameraCompatControlEventReported.
         ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
         MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported =
             413 [(module) = "media_metrics"];
@@ -722,10 +718,6 @@ message Atom {
             [(module) = "framework"];
         hotword.HotwordDetectorEvents hotword_detector_events = 434
             [(module) = "framework"];
-        AdServicesApiCalled ad_services_api_called =
-            435 [(module) = "adservices", (truncate_timestamp) = true];
-        AdServicesMeasurementReportsUploaded ad_services_mesurement_reports_uploaded =
-            436 [(module) = "adservices", (truncate_timestamp) = true];
         BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
                 437 [(module) = "framework"];
         ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
@@ -779,30 +771,15 @@ message Atom {
         CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
         CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
         CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
-        JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483 [(module) = "adservices"];
         PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
         PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
         PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
         VibrationReported vibration_reported = 487 [(module) = "framework"];
         UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
-        MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490 [(module) = "adservices"];
         AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
         // reserved 492
-        AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493 [(module) = "adservices", (truncate_timestamp) = true];
         DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
         ActivityActionBlocked activity_action_blocked = 495 [(module) = "framework"];
-        BackgroundFetchProcessReported background_fetch_process_reported =
-                496 [(module) = "adservices"];
-        UpdateCustomAudienceProcessReported update_custom_audience_process_reported =
-                497 [(module) = "adservices"];
-        RunAdBiddingProcessReported run_ad_bidding_process_reported = 498 [(module) = "adservices"];
-        RunAdScoringProcessReported run_ad_scoring_process_reported = 499 [(module) = "adservices"];
-        RunAdSelectionProcessReported run_ad_selection_process_reported =
-                500 [(module) = "adservices"];
-        RunAdBiddingPerCAProcessReported run_ad_bidding_per_ca_process_reported =
-                501 [(module) = "adservices"];
-        MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502 [(module) = "adservices"];
-        MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503 [(module) = "adservices"];
         NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
         VmBooted vm_booted = 505 [(module) = "virtualizationservice"];
         VmExited vm_exited = 506 [(module) = "virtualizationservice"];
@@ -815,8 +792,6 @@ message Atom {
                 510 [(module) = "media_metrics"];
         MediametricsHeadTrackerDeviceSupportedReported mediametrics_headtrackerdevicesupported_reported =
                 511 [(module) = "media_metrics"];
-        AdServicesMeasurementRegistrations ad_services_measurement_registrations =
-            512 [(module) = "adservices", (truncate_timestamp) = true];
         HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
         DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
             514 [(module) = "framework"];
@@ -840,14 +815,6 @@ message Atom {
         BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
         BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
         BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
-        AdServicesGetTopicsReported ad_services_get_topics_reported =
-            535 [(module) = "adservices", (truncate_timestamp) = true];
-        AdServicesEpochComputationGetTopTopicsReported
-            ad_services_epoch_computation_get_top_topics_reported =
-                536 [(module) = "adservices", (truncate_timestamp) = true];
-        AdServicesEpochComputationClassifierReported
-            ad_services_epoch_computation_classifier_reported =
-                537 [(module) = "adservices", (truncate_timestamp) = true];
         WearMediaOutputSwitcherLaunched wear_media_output_switcher_launched =
             538 [(module) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherFinished wear_media_output_switcher_finished =
@@ -928,6 +895,10 @@ message Atom {
             network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
         wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
         wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
+        wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
+        wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
+        wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
+        wearservices.WsNotificationLatency ws_notification_latency = 880 [(module) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -935,9 +906,26 @@ message Atom {
     extensions 332; // ArtDatumReported art_datum_reported
     extensions 366; // OdrefreshReported odrefresh_reported
     extensions 385; // AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported
+    extensions 435; // AdServicesApiCalled ad_services_api_called
+    extensions 436; // AdServicesMeasurementReportsUploaded ad_services_mesurement_reports_uploaded
     extensions 467; // BackgroundDexoptJobEnded background_dexopt_job_ended
+    extensions 483; // JSScriptEngineLatencyReported jsscriptengine_latency_reported
     extensions 488; // SandboxApiCalled sandbox_api_called
+    extensions 490; // MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported
+    extensions 493; // AdServicesSettingsUsageReported ad_services_settings_usage_reported
+    extensions 496; // BackgroundFetchProcessReported background_fetch_process_reported
+    extensions 497; // UpdateCustomAudienceProcessReported update_custom_audience_process_reported
+    extensions 498; // RunAdBiddingProcessReported run_ad_bidding_process_reported
+    extensions 499; // RunAdScoringProcessReported run_ad_scoring_process_reported
+    extensions 500; //RunAdSelectionProcessReported run_ad_selection_process_reported
+    extensions 501; // RunAdBiddingPerCAProcessReported run_ad_bidding_per_ca_process_reported
+    extensions 502; // MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported
+    extensions 503; // MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported
+    extensions 512; // AdServicesMeasurementRegistrations ad_services_measurement_registrations
     extensions 528; // ExpressEventReported express_event_reported
+    extensions 535; // AdServicesGetTopicsReported ad_services_get_topics_reported
+    extensions 536; // AdServicesEpochComputationGetTopTopicsReported ad_services_epoch_computation_get_top_topics_reported
+    extensions 537; // ServicesEpochComputationClassifierReported ad_services_epoch_computation_classifier_reported
     extensions 548; // OdsignReported odsign_reported
     extensions 550; // ArtDeviceDatumReported art_device_datum_reported
     extensions 565; // ArtDatumDeltaReported art_datum_delta_reported
@@ -1145,7 +1133,7 @@ message Atom {
     extensions 798; // MediaEditingEndedReported media_editing_ended_reported
     extensions 799; // SELinux selinux_audit_log
     extensions 800; // CellularIdentifierDisclosed cellular_identifier_disclosed
-    extensions 801; // LastScreenOnFragmentReported last_screen_on_fragment_reported
+    // reserved 801
     extensions 802; // WsWatchFaceRestrictedComplicationsImpacted ws_watch_face_restricted_complications_impacted
     extensions 803; // WsWatchFaceDefaultRestrictedComplicationsRemoved ws_watch_face_default_restricted_complications_removed
     extensions 804; // WsComplicationsImpactedNotificationEventReported ws_complications_impacted_notification_event_reported
@@ -1166,29 +1154,135 @@ message Atom {
     extensions 819; // DesktopModeSessionTaskUpdate desktop_mode_session_task_update
     extensions 820; // AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported
     extensions 821; // NegotiatedSecurityAssociation negotiated_security_association
+    extensions 825; // AppSearchUsageSearchIntentStatsReported app_search_usage_search_intent_stats_reported
+    extensions 826; // AppSearchUsageSearchIntentRawQueryStatsReported app_search_usage_search_intent_raw_query_stats_reported
+    extensions 827; // EnhancedConfirmationDialogResultReported
+    extensions 828; // EnhancedConfirmationRestrictionCleared
+    extensions 829; // NotificationListenerService
+    extensions 830; // SensitiveContentMediaProjectionSession
+    extensions 831; // SensitiveNotificationAppProtectionSession
+    extensions 832; // SensitiveNotificationAppProtectionApplied
+    extensions 833; // SensitiveNotificationRedaction
+    extensions 834; // BackgroundJobSchedulingReported background_job_scheduling_reported
+    extensions 835; // SensitiveContentAppProtection
+    extensions 836; // ScreenTimeoutOverrideReported screen_timeout_override_reported
+    extensions 837; // ScreenInteractiveSessionReported screen_interactive_session_reported
+    extensions 838; // ExampleIteratorNextLatencyReported example_iterator_next_latency_reported
+    extensions 839; // AdpfHintSessionTidCleanup adpf_hint_session_tid_cleanup
+    extensions 840; // TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported
+    extensions 841; // TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported
+    extensions 842; // AdServicesShellCommandCalled adservices_shell_command_called
+    extensions 843; // UpdateSignalsApiCalled update_signals_api_called
+    extensions 844; // EncodingJobRun encoding_job_run
+    extensions 845; // EncodingJsFetch encoding_js_fetch
+    extensions 846; // EncodingJsExecution encoding_js_execution
+    extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
+    extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
+    extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
     extensions 850; // VpnConnectionStateChanged vpn_connection_state_changed
     extensions 851; // VpnConnectionReported vpn_connection_reported
+    extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
     extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
+    extensions 854; // DataRatStateChanged data_rat_state_changed
     extensions 855; // NfcObserveModeStateChanged nfc_observe_mode_state_changed
     extensions 856; // NfcFieldChanged nfc_field_changed
     extensions 857; // NfcPollingLoopNotificationReported nfc_polling_loop_notification_reported
     extensions 858; // NfcProprietaryCapabilitiesReported nfc_proprietary_capabilities_reported
+    extensions 859; // PdfLoadReported pdf_load_reported
+    extensions 860; // PdfApiUsageReported pdf_api_usage_reported
+    extensions 861; // PdfSearchReported pdf_search_reported
     extensions 862; // RemoteDeviceInformationWithMetricId remote_device_information_with_metric_id
+    extensions 863; // ComponentStateChangedReported component_state_changed_reported
+    extensions 864; // AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration
+    extensions 865; // AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp
+    extensions 866; // AppRestrictionStateChanged app_restriction_state_changed
+    extensions 867; // ScreenDimReported screen_dim_reported
+    extensions 868; // ChreSignificantMotionStateChanged chre_significant_motion_state_changed
+    extensions 869; // NavHandleTouchPoints nav_handle_touch_points
     extensions 870; // LeAppScanStateChanged le_app_scan_state_changed
     extensions 871; // LeRadioScanStopped le_radio_scan_stopped
     extensions 872; // LeScanResultReceived le_scan_result_received
     extensions 873; // LeScanAbused le_scan_abused
     extensions 874; // LeAdvStateChanged le_adv_state_changed
     extensions 875; // LeAdvErrorReported le_adv_error_reported
+    extensions 876; // SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called
+    extensions 877; // ReportImpressionApiCalled report_impression_api_called
+    extensions 878; // Reserved for b/333882013
+    extensions 879; // Reserved for b/333882013
+    extensions 881; // Reserved for b/339008431
+    extensions 882; // ConnectedChannelChanged connected_channel_changed
     extensions 883; // PreRebootDexoptJobEnded pre_reboot_dexopt_job_ended
+    extensions 884; // ScorerPredictionResultReported scorer_prediction_result_reported
+    extensions 885; // AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats
+    extensions 886; // PhotopickerSessionInfoReported photopicker_session_info_reported
+    extensions 887; // PhotopickerApiInfoReported photopicker_api_info_reported
+    extensions 888; // PhotopickerUIEventLogged photopicker_ui_event_logged
+    extensions 889; // PhotopickerMediaItemStatusRepoprted photopicker_media_item_status_reported
+    extensions 890; // PhotopickerPreviewInfoLogged photopicker_preview_info_logged
+    extensions 891; // PhotopickerMenuInteractionLogged photopicker_menu_interaction_logged
+    extensions 892; // PhotopickerBannerInteractionLogged photopicker_banner_interaction_logged
+    extensions 893; // PhotopickerMediaLibraryInfoLogged photopicker_media_library_info_logged
+    extensions 894; // PhotopickerPageInfoLogged photopicker_page_info_logged
+    extensions 895; // PhotopickerMediaGridSyncInfoReported photopicker_media_grid_sync_info_reported
+    extensions 896; // PhotopickerAlbumSyncInfoReported photopicker_album_sync_info_reported
+    extensions 897; // PhotopickerSearchInfoReported photopicker_search_info_reported
+    extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
+    extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
+    extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
+    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
+    extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 904; // A2dpSessionReported a2dp_session_reported
+    extensions 905; // UpdateSignalsProcessReported update_signals_process_reported
+    extensions 906; // DeviceOrientationChanged device_orientation_changed
+    extensions 907; // HealthConnectExportInvoked
+    extensions 908; // CommunalHubWidgetEventReported communal_hub_widget_event_reported
+    extensions 909; // AppSearchAppsIndexerStatsReported app_search_apps_indexer_stats_reported
+    extensions 910; // AccessibilityCheckResultReported accessibility_check_result_reported
+    extensions 911; // WearTimeSyncRequested wear_time_sync_requested
+    extensions 912; // WearTimeUpdateStarted wear_time_update_started
+    extensions 913; // WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed
+    extensions 914; // WearTimeChanged wear_time_changed
+    extensions 915; // TestUprobeStatsAtomReported
     extensions 916; // BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
+    extensions 917; // FirstOverlayStateChanged first_overlay_state_changed
+    extensions 918; // HealthConnectImportInvoked
+    extensions 919; // HealthConnectExportImportStatsReported
+    extensions 920; // WsRemoteEventUsageReported ws_remote_event_usage_reported
+    extensions 921; // WearCompanionConnectionState
+    extensions 922; // BroadcastSent broadcast_sent
+    extensions 923; // IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported
+    extensions 924; // PostGcMemorySnapshot postgc_memory_snapshot
+    extensions 925; // TetheringActiveSessionsReported
+    extensions 926; // PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed
+    extensions 927; // BroadcastAudioSessionReported broadcast_audio_session_reported
+    extensions 928; // BroadcastAudioSyncReported broadcast_audio_sync_reported
+    extensions 929; // ArtDex2OatReported art_dex2oat_reported
+    extensions 930; // TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported
+    extensions 931; // AppOpAccessTracked app_op_access_tracked
+    extensions 932; // InputEventLatencyReported input_event_latency_reported
+    extensions 933; // ContentOrFileUriEventReported content_or_file_uri_event_reported
+    extensions 934; // CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed
+    extensions 935; // DesktopModeTaskSizeUpdated desktop_mode_task_size_updated
+    extensions 936; // WsBugreportRequested ws_bugreport_requested
+    extensions 937; // WsBugreportTriggered ws_bugreport_triggered
+    extensions 938; // WsBugreportFinished ws_bugreport_finished
+    extensions 939; // WsBugreportResultReceived ws_bugreport_result_received
+    extensions 979; // CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred
+    extensions 982; // BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
+    extensions 988; // BluetoothLeConnection bluetooth_le_connection
+    extensions 993; // RangingSessionConfigured ranging_session_configured
+    extensions 994; // RangingSessionStarted ranging_session_started
+    extensions 995; // RangingSessionClosed ranging_session_closed
+    extensions 996; // RangingTechnologyStarted ranging_technology_started
+    extensions 997; // RangingTechnologyStopped ranging_technology_stopped
     extensions 9999; // Atom9999 atom_9999
+
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10208
+    // Next: 10230
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1432,12 +1526,34 @@ message Atom {
     extensions 10205; // ArtDeviceStatus art_device_status
     extensions 10206; // WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot
     extensions 10207; // DataNetworkValidation data_network_validation
+    // 10208 is reserved due to removing the old atom.
+    extensions 10209; // BatteryUsageStatsPerUid battery_usage_stats_per_uid
+    extensions 10210; // Reserved for b/339008431
+    extensions 10211; // CarrierRoamingSatelliteSession carrier_roaming_satellite_session
+    extensions 10212; // CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats
+    extensions 10213; // ControllerStatsPerPackage controller_stats_per_package
+    extensions 10214; // SatelliteEntitlement satellite_entitlement
+    extensions 10215; // SatelliteConfigUpdater satellite_config_updater
+    extensions 10216; // DevicePolicyManagementMode
+    extensions 10217; // DevicePolicyPolicyState
+    extensions 10218; // AdpfSessionSnapshot adpf_session_snapshot
+    extensions 10219; // SatelliteAccessController satellite_access_controller
+    extensions 10220; // AndroidHardwareHealthBattery android_hardware_health_battery
+    extensions 10221; // CallStats call_stats
+    extensions 10222; // CallAudioRouteStats call_audio_route_stats
+    extensions 10223; // TelecomApiStats telecom_api_stats
+    extensions 10224; // TelecomErrorStats telecom_error_stats
+    extensions 10225; // WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot
+    extensions 10226; // CommunalHubSnapshot communal_hub_snapshot
+    extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
+    // 10228 is reserved due to removing the old atom
+    extensions 10229; // PressureStallInformation pressure_stall_information
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 10008, 10036, 10040, 10041, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
@@ -1597,7 +1713,7 @@ message ActivityActionBlocked {
 message UidProcessStateChanged {
     optional int32 uid = 1 [(state_field_option).primary_field = true, (is_uid) = true];
 
-    // The state, from frameworks/proto_logging/stats/enums/app/enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 2
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 }
@@ -1609,12 +1725,12 @@ message UidProcessStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java
  */
 message ProcessStateChanged {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // TODO: remove this when validation is done
     optional int64 version = 5;
-    // The state, from frameworks/proto_logging/stats/enums/app/enums.proto.
+    // The state, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum state = 4;
 }
 
@@ -1722,7 +1838,7 @@ message MemoryFactorStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
  */
 message ExcessiveCpuUsageReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // package version. TODO: remove this when validation is done
@@ -1736,7 +1852,7 @@ message ExcessiveCpuUsageReported {
  *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
  */
 message CachedKillReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     // TODO: remove this when validation is done
@@ -1785,7 +1901,7 @@ message WifiHealthStatReported {
     optional int32 rx_kbps = 7 [default = -1];
    // External scorer UID if external scorer is enabled. Otherwise WIFI_UID for
    // AOSP scorer.
-   optional int32 scorer_uid = 8;
+   optional int32 scorer_uid = 8 [(is_uid) = true];
    // Whether or not Wi-Fi is predicted as usable by the scorer
    // Note: 'is_wifi_predicted_as_usable' is deprectaed by 'wifi_predicted_usability_state'.
    optional bool is_wifi_predicted_as_usable = 9;
@@ -2059,6 +2175,9 @@ message WifiDisconnectReported {
 
     // Carrier id of the network.
     optional int32 carrier_id = 13;
+
+    // uid of the caller who initiated this connection
+    optional int32 connection_uid = 14 [(is_uid) = true];
 }
 
 /**
@@ -2164,6 +2283,8 @@ message WifiP2pConnectionReported {
     optional bool fallback_to_negotiation_on_invite_status_info_unavailable = 11;
     // The try count of connection
     optional int32 try_count = 12;
+    // The Attribution tag to identify the caller
+    optional string attribution_tag = 13;
 }
 
 /**
@@ -2239,7 +2360,7 @@ message BedtimeModeStateChanged {
  *   frameworks/base/services/core/java/com/android/server/am/ProcessRecord.java
  */
 message ProcessMemoryStatReported {
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     optional string process_name = 2;
     optional string package_name = 3;
     //TODO: remove this when validation is done
@@ -4421,7 +4542,7 @@ message BluetoothCodePathCounter {
  *
  */
 message BluetoothLeBatchScanReportDelay {
-    optional int32 application_uid = 1;
+    optional int32 application_uid = 1 [(is_uid) = true];
     optional int64 application_report_delay_millis = 2;
 }
 
@@ -5009,7 +5130,7 @@ message AppCrashOccurred {
     // UID of the process that tried to read a page from the app but failed.
     // This shows whether the read was initiated by the system, the app itself, or some other apps.
     // -1 means there was no read error or the app is not installed on Incremental.
-    optional int32 last_read_error_uid = 19;
+    optional int32 last_read_error_uid = 19 [(is_uid) = true];
 
     // Duration since that last read failure.
     // -1 means there was no read error or the app is not installed on Incremental.
@@ -5118,7 +5239,7 @@ message ANROccurred {
     // UID of the process that tried to read a page from the app but failed.
     // This shows whether the read was initiated by the system, the app itself, or some other apps.
     // -1 means there was no read error or the app is not installed on Incremental.
-    optional int32 last_read_error_uid = 19;
+    optional int32 last_read_error_uid = 19 [(is_uid) = true];
 
     // Duration since that last read failure.
     // -1 means there was no read error or the app is not installed on Incremental.
@@ -5166,15 +5287,27 @@ message VibratorStateChanged {
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/vibrator/VibratorManagerService.java
  */
-// Next tag: 26
+// Next tag: 28
 message VibrationReported {
   repeated AttributionNode attribution_node = 1;
 
   enum VibrationType {
+
+    // Unknown vibration type.
     UNKNOWN = 0;
+
+    // One-off vibration effect/pattern.
     SINGLE = 1;
+
+    // Infinitely repeating vibration pattern.
     REPEATED = 2;
+
+    // Vibration defined in the platform outside the vibrator service
+    // (e.g. from audio-coupled haptics or haptic generator).
     EXTERNAL = 3;
+
+    // Vibration defined by vendor apps/services.
+    VENDOR = 4;
   }
 
   // Vibration identifiers for aggregation.
@@ -5182,6 +5315,10 @@ message VibrationReported {
   // One of VibrationAttributes.USAGE_* constant values.
   optional int32 vibration_usage = 3;
   optional int32 vibration_status = 4;
+
+  // Vibration parameters.
+  // Adaptive scale value applied to this vibration, 0 if unset.
+  optional float adaptive_scale = 26;
 
   // Vibration completion causes.
   // Flag indicating if the vibration was canceled by the same process
@@ -5214,6 +5351,7 @@ message VibrationReported {
   optional int32 hal_perform_count = 17;
   optional int32 hal_set_amplitude_count = 18;
   optional int32 hal_set_external_control_count = 19;
+  optional int32 hal_perform_vendor_count = 27;
 
   // Vibrator hardware HAL API constants used (deduped).
   // Values from CompositionPrimitive.aidl successfully triggered by this vibration at least once.
@@ -5396,7 +5534,26 @@ message AppStartOccurred {
     optional PackageStoppedState package_stopped_state = 25;
 
     // Reserved for b/281564325.
-    reserved 26;
+    optional bool is_xr_activity = 26;
+
+    // Whether this is the first launch of the app since install
+    optional bool first_launch = 27;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 28;
+
+    /**
+     * The type of multi-window launch.
+     * This should match the constants declared in ActivityMetricsLogger.
+     */
+    enum MultiWindowLaunchType {
+        LAUNCH_TYPE_UNSPECIFIED = 0;
+        LAUNCH_TYPE_APP_PAIR = 1;
+    }
+
+    // The multi-indow launch type
+    optional MultiWindowLaunchType multi_window_launch_type = 29;
 }
 
 message AppStartCanceled {
@@ -5567,36 +5724,6 @@ message SizeCompatRestartButtonEventReported {
 }
 
 /**
- * Logs events reported for the Camera App Compat control, which is used to
- * correct stretched viewfinder in apps that don't handle all possible
- * configurations, and changes between them, correctly.
- *
- * Logged from:
- *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
- */
-message CameraCompatControlEventReported {
-  // UID of the package that has the control.
-  optional int32 uid = 1 [(is_uid) = true];
-
-  enum Event {
-    UNKNOWN = 0;
-    // Button to apply the treatment appeared.
-    APPEARED_APPLY_TREATMENT = 1;
-    // Button to revert the treatment appeared.
-    APPEARED_REVERT_TREATMENT = 2;
-    // Users clicked on the button to apply the treatment.
-    CLICKED_APPLY_TREATMENT = 3;
-    // Users clicked on the button to revert the treatment.
-    CLICKED_REVERT_TREATMENT = 4;
-    // Users clicked on the button to dismiss the control.
-    CLICKED_DISMISS = 5;
-  }
-
-  // The event that was reported.
-  optional Event event = 2;
-}
-
-/**
  * Logs a picture-in-picture action
  * Logged from:
  *      frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
@@ -5669,12 +5796,12 @@ message ForegroundServiceStateChanged {
     // FGS service's targetSdkVersion.
     optional int32 target_sdk_version = 6;
     // uid of the app that start/bind this service.
-    optional int32 calling_uid = 7;
+    optional int32 calling_uid = 7 [(is_uid) = true];
     // targetSdkVersion of the app that start/bind this service.
     optional int32 caller_target_sdk_version = 8;
     // uid of the app that set the temp-allowlist, INVALID_UID (-1) if not in any
     // temp-allowlist.
-    optional int32 temp_allow_list_calling_uid = 9;
+    optional int32 temp_allow_list_calling_uid = 9 [(is_uid) = true];
     // FGS notification was deferred.
     optional bool fgs_notification_deferred = 10;
     // FGS notification was shown before the FGS finishes, or it wasn't deferred in the first place.
@@ -5843,11 +5970,10 @@ message ForegroundServiceAppOpSessionEnded {
  */
 message IsolatedUidChanged {
     // The host UID. Generally, we should attribute metrics from the isolated uid to the host uid.
-    // NOTE: DO NOT annotate uid field in this atom. This atom is specially handled in statsd.
     // This field is ignored when event == REMOVED.
-    optional int32 parent_uid = 1;
+    optional int32 parent_uid = 1 [(is_uid) = true];
 
-    optional int32 isolated_uid = 2;
+    optional int32 isolated_uid = 2 [(is_uid) = true];
 
     // We expect an isolated uid to be removed before if it's used for another parent uid.
     enum Event {
@@ -6293,6 +6419,8 @@ message BiometricAuthenticated {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6344,6 +6472,8 @@ message BiometricErrorOccurred {
     optional android.hardware.biometrics.WakeReasonEnum wake_reason = 19;
     // Additional modality-specific details that caused a biometric to be activated (often associated with a device wake_reason).
     repeated android.hardware.biometrics.WakeReasonDetailsEnum wake_reason_details = 20;
+    // If the authentication is due to identity check being enabled
+    optional bool identity_check = 21;
 }
 
 /**
@@ -6465,7 +6595,7 @@ message AuthEnrollActionInvoked {
      // The deprecated API feature that was used.
      optional APIEnum deprecated_api = 1;
      // The UID of the application that used the deprecated API.
-     optional int32 app_uid = 2;
+     optional int32 app_uid = 2 [(is_uid) = true];
      // The target SDK version (API level) of the application that used the deprecated API.
      optional int32 target_sdk = 3;
  }
@@ -6833,6 +6963,13 @@ message ServiceRequestEventReported {
 
     /** The process state of the service host before this service request */
     optional android.app.ProcessStateEnum service_process_state = 13;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 14;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 15;
 }
 
 /**
@@ -6901,6 +7038,13 @@ message BroadcastDeliveryEventReported {
 
     /** The procstate of the broadcast receiver before receiving this broadcast */
     optional android.app.ProcessStateEnum receiver_process_state = 17;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 18;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 19;
 }
 
 /**
@@ -6935,6 +7079,13 @@ message ProviderAcquisitionEventReported {
 
     /** The process state of the content provider host before being acquired */
     optional android.app.ProcessStateEnum provider_process_state = 8;
+
+    /** Whether this is the first launch of the app since install */
+    optional bool first_launch = 9;
+
+    // How long since this package was stopped, if it was in
+    // package_stopped_state == PACKAGE_STATE_STOPPED
+    optional int64 millis_since_stopped = 10;
 }
 
 /**
@@ -7046,7 +7197,7 @@ message TombStoneOccurred {
  */
 message RoleRequestResultReported {
     // UID of application requesting the role
-    optional int32 requesting_uid = 1;
+    optional int32 requesting_uid = 1 [(is_uid) = true];
 
     // Package name of application requesting the role
     optional string requesting_package_name = 2;
@@ -7058,14 +7209,14 @@ message RoleRequestResultReported {
     optional int32 qualifying_count = 4;
 
     // UID of application current granted the role
-    optional int32 current_uid = 5;
+    optional int32 current_uid = 5 [(is_uid) = true];
 
     // Package name of application current granted the role
     optional string current_package_name = 6;
 
     // UID of another application that user chose to grant the role to, instead of the requesting
     // application
-    optional int32 granted_another_uid = 7;
+    optional int32 granted_another_uid = 7 [(is_uid) = true];
 
     // Package name of another application that user chose to grant the role to, instead of the
     // requesting application
@@ -7092,6 +7243,9 @@ message RoleRequestResultReported {
         // role request was ignored because the user is blocked from changing
         // roles via DISALLOW_CONFIG_DEFAULT_APPS user restriction
         IGNORED_USER_RESTRICTION = 9;
+        // role request was ignored when the package is enhanced confiramtion
+        // restricted
+        IGNORED_ENHANCED_CONFIRMATION_RESTRICTION = 10;
     }
     // The result of the role request
     optional Result result = 9;
@@ -8471,7 +8625,7 @@ message BinderCalls {
     // If not set, the value will be -1.
     optional int32 uid = 1 [(is_uid) = true];
     // UID of the process executing the binder transaction.
-    optional int32 direct_caller_uid = 14;
+    optional int32 direct_caller_uid = 14 [(is_uid) = true];
     // Fully qualified class name of the API call.
     //
     // This is a system server class name.
@@ -10778,6 +10932,9 @@ message PermissionGrantRequestResultReported {
 
     // Whether Permission Rationale was shown on grant dialog
     optional bool permission_rationale_shown = 7;
+
+    // Whether the package was restricted by ECM
+    optional bool is_package_restricted_by_enhanced_confirmation = 8;
 }
 
 /**
@@ -10964,6 +11121,7 @@ message SplitscreenUIChanged {
         RECREATE_SPLIT = 10;
         FULLSCREEN_SHORTCUT = 11;
         DESKTOP_MODE = 12;
+        FULLSCREEN_REQUEST = 13;
     }
 
     // The event action
@@ -11325,6 +11483,10 @@ message MediaCodecReported {
     // CBR = constant bit rate
     // VBR = variable bitrate
     optional string bitrate_mode = 27;
+    // The bitrate presented to the underlying codec, after any modifications by
+    // the framework to ensure a minimum quality.
+    // If the framework changed this, the app-requested bitrate is in
+    // original_bitrate.
     optional int32 bitrate = 28;
     // 0..n
     optional int64 lifetime_millis = 29;
@@ -11332,10 +11494,13 @@ message MediaCodecReported {
     optional string log_session_id = 31;
     optional int32 channel_count = 32;
     optional int32 sample_rate = 33;
+    // Total bytes produced by an encoder. When divided by video_encode_duration_us
+    // this yields the encoding's realized bitrate.
     optional int64 video_encode_bytes = 34;
     optional int64 video_encode_frames = 35;
     optional int64 video_input_bytes = 36;
     optional int64 video_input_frames = 37;
+    // The duration of the encoded video; NOT the encoding process duration
     optional int64 video_encode_duration_us = 38;
     optional int32 color_format = 39;
     optional float frame_rate = 40;
@@ -11348,6 +11513,8 @@ message MediaCodecReported {
     optional int32 video_qp_p_max = 47;
     optional int32 video_qp_b_min = 48;
     optional int32 video_qp_b_max = 49;
+    // The app-requested bitrate, present only if the framework modified the
+    // bitrate before passing it to the underlying codec.
     optional int32 original_bitrate = 50;
     optional int32 shaping_enhanced = 51;
     optional int32 original_video_qp_i_min = 52;
@@ -11556,7 +11723,7 @@ message MediametricsAudiotrackReported {
  */
 message MediametricsMidiDeviceCloseReported {
     // The UID of the app or service that disconnects the device
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     // Device Id from MidiDeviceInfo. After a restart, this starts at 1 for the first device.
     // This increments each time a new MIDI device is added.
     // See Id in frameworks/base/media/java/android/media/midi/MidiDeviceInfo.java
@@ -11928,6 +12095,9 @@ message GpuStatsAppInfo {
     // The list size is capped at 100 (GpuStatsAppInfo::MAX_NUM_EXTENSIONS).
     // Introduced in Android 14.
     repeated int32 vulkan_device_extensions_enabled = 16;
+
+    // Hash values of engine name from VkApplicationInfo
+    repeated string vulkan_engine_names = 17;
 }
 
 /*
@@ -12202,6 +12372,7 @@ message CarPowerStateChanged {
        WAIT_FOR_FINISH = 3;
        SUSPEND = 4;
        SIMULATE_SLEEP = 5;
+       SIMULATE_HIBERNATION = 6;
     }
     optional State state = 1;
 }
@@ -12685,7 +12856,7 @@ message LocationAccessCheckNotificationAction {
     optional int64 session_id = 1;
 
     // Uid of package for which location access check is presented
-    optional int32 package_uid = 2;
+    optional int32 package_uid = 2 [(is_uid) = true];
 
     // Name of package for which location access check is presented
     optional string package_name = 3;
@@ -14369,6 +14540,12 @@ message CameraActionEvent {
     optional bool used_ultrawide = 26;
 
     optional bool used_zoom_override = 27;
+
+    optional int32 most_requested_fps_range_min = 28;
+    optional int32 most_requested_fps_range_max = 29;
+
+    // Extension metric
+    optional int32 ext_capture_format = 30;
 }
 
 /**
@@ -14417,21 +14594,20 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 55.
+    // Next id: 57.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
         // Checkpoints inside perfetto_cmd before tracing is finished.
         PERFETTO_TRACE_BEGIN = 1;
         PERFETTO_BACKGROUND_TRACE_BEGIN = 2;
+        PERFETTO_CMD_CLONE_TRACE_BEGIN = 55;
+        PERFETTO_CMD_CLONE_TRIGGER_TRACE_BEGIN = 56;
         PERFETTO_ON_CONNECT = 3;
 
         // Guardrails inside perfetto_cmd before tracing is finished.
         PERFETTO_ON_TIMEOUT = 16;
         PERFETTO_CMD_USER_BUILD_TRACING_NOT_ALLOWED = 43;
-        PERFETTO_CMD_FAILED_TO_INIT_GUARDRAIL_STATE = 44;
-        PERFETTO_CMD_INVALID_GUARDRAIL_STATE = 45;
-        PERFETTO_CMD_HIT_UPLOAD_LIMIT = 46;
 
         // Checkpoints inside traced.
         PERFETTO_TRACED_ENABLE_TRACING = 37;
@@ -14470,6 +14646,7 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_OOB_TARGET_BUFFER = 48;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
+        PERFETTO_TRACED_ENABLE_TRACING_FAILED_SESSION_SEMAPHORE_CHECK = 57;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
@@ -14504,6 +14681,11 @@ message PerfettoUploaded {
         // Contained status of Dropbox uploads. Removed as Perfetto no
         // longer supports uploading traces using Dropbox.
         reserved 5, 6, 7;
+
+        // Contained status of guardrail state initialization and upload limit
+        // in perfetto_cmd. Removed as perfetto no longer manages stateful
+        // guardrails
+        reserved 44, 45, 46;
     }
 
     // Which stage of the pipeline we are reporting from.
@@ -14526,17 +14708,22 @@ message PerfettoTrigger {
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
-        PERFETTO_CMD_TRIGGER = 1;
-        PERFETTO_CMD_TRIGGER_FAIL = 2;
-
-        PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3;
-        PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4;
-
         PERFETTO_TRACED_LIMIT_PROBABILITY = 5;
         PERFETTO_TRACED_LIMIT_MAX_PER_24_H = 6;
 
-        PERFETTO_PROBES_PRODUCER_TRIGGER = 7;
-        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8;
+        PERFETTO_TRACED_TRIGGER = 9;
+
+        // Contained events of logging triggers through perfetto_cmd, probes and
+        // trigger_perfetto. Obsolete because of logging dirctly in traced instead.
+        // Removed in W (Oct 2024) and replaced by |kTracedTrigger|.
+        PERFETTO_CMD_TRIGGER = 1 [deprecated = true];
+        PERFETTO_CMD_TRIGGER_FAIL = 2 [deprecated = true];
+
+        PERFETTO_TRIGGER_PERFETTO_TRIGGER = 3 [deprecated = true];
+        PERFETTO_TRIGGER_PERFETTO_TRIGGER_FAIL = 4 [deprecated = true];
+
+        PERFETTO_PROBES_PRODUCER_TRIGGER = 7 [deprecated = true];
+        PERFETTO_PROBES_PRODUCER_TRIGGER_FAIL = 8 [deprecated = true];
     }
 
     // The event which fired.
@@ -14606,6 +14793,9 @@ message GraphicsStats {
     // The version code of the app
     optional int64 version_code = 2;
 
+    // The uid of the app
+    optional int32 uid = 17 [(is_uid) = true];
+
     // The start & end timestamps in UTC as
     // milliseconds since January 1, 1970
     // Compatible with java.util.Date#setTime()
@@ -14660,6 +14850,8 @@ message GraphicsStats {
     // day (yesterday). Stats from yesterday stay constant, while stats from today may change as
     // more apps are running / rendering.
     optional bool is_today = 16;
+
+    // next id = 18
 }
 
 /**
@@ -14808,9 +15000,13 @@ message CellBroadcastMessageReported {
     // The source of the report
     optional ReportSource source = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
+    // The roaming case will show mcc value, if not empty string
+    optional string roaming_mcc_mnc = 5;
+    // The language indicator, as defined in ISO 639 language codes set 1
+    optional string language_indicator = 6;
 }
 
 /**
@@ -14856,7 +15052,7 @@ message CellBroadcastMessageFiltered {
     // The source of the report
     optional FilterReason filter = 2;
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.1
-    optional int32 serial_number = 3;
+    optional int32 serial_number = 3 [ deprecated = true ];
     // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
     optional int32 message_id = 4;
 }
@@ -15047,25 +15243,6 @@ message TifTuneStateChanged {
     // The HDMI port id
     // Only valid when type == HDMI
     optional int32 hdmi_port = 6  [(state_field_option).primary_field = true];
-}
-
-/*
- * Logs when JSScriptEngine is used to execute JavaScript code on device.
- *
- * Logged from Cell Broadcast module:
- *   packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/js/
- */
-message JSScriptEngineLatencyReported {
-    enum LatencyStat {
-      UNKNOWN = 0;
-      SANDBOX_INIT = 1;
-      ISOLATE_CREATE = 2;
-      JAVA_PROCESS_EXECUTION = 3;
-      WEBVIEW_PROCESS_EXECUTION = 4;
-    }
-
-    optional LatencyStat stat = 1;
-    optional int64 latency_millis = 2;
 }
 
 /**
@@ -15433,6 +15610,19 @@ message VoiceCallSession {
 
     // Whether Vonr is enabled
     optional bool vonr_enabled = 41;
+
+    // Whether the call is over non-terrestrial networks.
+    optional bool is_ntn = 42;
+
+    // config supports_business_call_composer_bool which controls b2c feature
+    optional bool supports_business_call_composer = 43;
+
+    // The user-set status for enriched calling with call composer
+    optional android.telephony.CallComposerStatus call_composer_status = 44;
+
+    // The call state on call setup
+    optional android.telephony.CallState call_state_on_setup = 45;
+
 }
 
 /**
@@ -15518,11 +15708,14 @@ message CellularServiceState {
     optional bool override_voice_service = 13;
 
     // Whether mobile data is enable.
-    optional bool isDataEnabled = 14;
+    optional bool is_data_enabled = 14;
 
     // When the voice RAT is NETWORK_TYPE_IWLAN, determines whether it is over
     // cross-SIM calling (WiFi calling over other SIM's cellular data).
     optional bool is_iwlan_cross_sim = 15;
+
+    // Whether the device is using non-terrestrial networks.
+    optional bool is_ntn = 16;
 }
 
 /**
@@ -15652,6 +15845,18 @@ message TelephonyNetworkRequestsV2 {
         CBS = 3;
         // Enterprise capability was requested.
         ENTERPRISE = 4;
+        //Satellite internet restricted capability was requested.
+        SATELLITE_INTERNET_RESTRICTED = 5;
+        //Satellite mms restricted capability was requested.
+        SATELLITE_MMS_RESTRICTED = 6;
+        //Satellite ims restricted capability was requested.
+        SATELLITE_IMS_RESTRICTED = 7;
+        //Satellite xcap restricted capability was requested.
+        SATELLITE_XCAP_RESTRICTED = 8;
+        //Satellite eims restricted capability was requested.
+        SATELLITE_EIMS_RESTRICTED = 9;
+        //Satellite supl restricted capability was requested.
+        SATELLITE_SUPL_RESTRICTED =10;
     }
     // Carrier ID of the SIM card.
     // See https://source.android.com/devices/tech/config/carrierid.
@@ -15720,6 +15925,12 @@ message IncomingSms {
 
     // Whether the message was received with an enterprise profile.
     optional bool is_managed_profile = 16;
+
+    // Whether the message was received over non-terrestrial networks.
+    optional bool is_ntn = 17;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 18;
 }
 
 /**
@@ -15800,6 +16011,12 @@ message OutgoingSms {
 
     // Whether the message was sent with an enterprise profile.
     optional bool is_managed_profile = 18;
+
+    // Whether the message is an emergency or not.
+    optional bool is_emergency = 19;
+
+    // Whether the message was sent over non-terrestrial networks.
+    optional bool is_ntn = 20;
 }
 
 /**
@@ -15977,6 +16194,15 @@ message DataCallSession {
     // When the 'rat_at_end' field is IWLAN, determines if the data call setup was
     // over cross-SIM calling (Wifi calling over cellular data).
     optional bool is_iwlan_cross_sim = 23;
+
+    // Whether the call is over non-terrestrial networks.
+    optional bool is_ntn = 24;
+
+    // Determines if current data call was over satellite transport
+    optional bool is_satellite_transport = 25;
+
+    // Determines if current data call was over provisioning profile or not
+    optional bool is_provisioning_profile = 26;
 }
 
 /**
@@ -16430,6 +16656,8 @@ message SharesheetStarted {
         CONTENT_PREVIEW_IMAGE = 1;  // The preview shown in the sharesheet is an image.
         CONTENT_PREVIEW_FILE = 2;  // The preview shown in the sharesheet is a file.
         CONTENT_PREVIEW_TEXT = 3;  // The preview shown in the sharesheet is text.
+        // Preview is toggleable media items (Shareousel):
+        CONTENT_PREVIEW_TOGGLEABLE_MEDIA = 4;
     }
     // How the sharesheet preview is presented.
     optional SharesheetPreviewType preview_type = 8;
@@ -16750,6 +16978,13 @@ message AccessibilityShortcutStats {
     optional android.stats.accessibility.ShortcutType gesture_shortcut_type = 5;
     // Number of accessibility services in accessibility gesture shortcut.
     optional int32 gesture_shortcut_service_num = 6;
+
+    // The definition of the accessibility quick settings shortcut.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType qs_shortcut_type = 7;
+    // Boolean indicating whether the user turns on qs shortcut for any
+    // accessibility feature that support qs shortcut.
+    optional bool use_qs_shortcut = 8;
 }
 
 /**
@@ -16881,6 +17116,9 @@ message AudioPowerUsageDataReported {
         OUTPUT_BLUETOOTH_SCO    = 0x10; // bluetooth sco
         OUTPUT_BLUETOOTH_A2DP   = 0x20; // a2dp
         OUTPUT_SPEAKER_SAFE     = 0x40; // bottom speaker
+        OUTPUT_BLUETOOTH_BLE    = 0x80; // ble
+        OUTPUT_DOCK             = 0x100; // dock
+        OUTPUT_HDMI             = 0x200; // hdmi
 
         INPUT_DEVICE_BIT        = 0x40000000; // non-negative positive int32.
         INPUT_BUILTIN_MIC       = 0x40000001; // buildin mic
@@ -16888,6 +17126,7 @@ message AudioPowerUsageDataReported {
         INPUT_WIRED_HEADSET_MIC = 0x40000004; // 3.5mm headset mic
         INPUT_USB_HEADSET_MIC   = 0x40000008; // usb headset mic
         INPUT_BLUETOOTH_SCO     = 0x40000010; // bluetooth sco mic
+        INPUT_BLUETOOTH_BLE     = 0x40000020; // ble mic
     }
     optional AudioDevice audio_device = 1;
 
@@ -18795,7 +19034,7 @@ message MediametricsPlaybackReported {
     optional string player_version = 10;
     // Player related experiment IDs
     optional Experiments experiment_ids = 11 [(log_mode) = MODE_BYTES];
-    // Number of frames played. Dropped frames included. -1 means unknown.
+    // Number of frames played. Dropped frames are not included.  -1 means unknown.
     optional int32 video_frames_played = 12;
     // Number of frames dropped. -1 means unknown.
     optional int32 video_frames_dropped = 13;
@@ -19507,7 +19746,7 @@ message LongRebootBlockingReported {
     optional string component_name = 2;
 
     // The uid of an app that is running in the background.
-    optional int32 uid = 3;
+    optional int32 uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -19973,7 +20212,7 @@ message AlarmScheduled {
     }
     optional ReasonCode exact_alarm_allowed_reason = 7;
     optional bool is_rtc = 8;
-    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app/enums.proto.
+    // The state of the callingUid, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum calling_process_state = 9;
 }
 
@@ -20105,6 +20344,7 @@ message PermissionUsageFragmentInteraction {
         MICROPHONE_ACCESS_TIMELINE_VIEWED = 4;
         SHOW_SYSTEM_CLICKED = 5;
         SEE_OTHER_PERMISSIONS_CLICKED = 6;
+        SHOW_7DAYS_CLICKED = 7;
     }
 
     // The action the user took to interact with the fragment
@@ -20126,6 +20366,9 @@ message PermissionDetailsInteraction {
         UNDEFINED = 0;
         SHOW_SYSTEM_CLICKED = 1;
         INFO_ICON_CLICKED = 2;
+        TIMELINE_ROW_CLICKED = 3;
+        SHOW_7DAYS_CLICKED = 4;
+        MANAGE_PERMISSIONS_CLICKED = 5;
     }
 
     // Package name for which the info icon was clicked.
@@ -20153,9 +20396,7 @@ message PrivacySensorToggleInteraction {
         ACTION_UNKNOWN = 0;
         TOGGLE_ON = 1;
         TOGGLE_OFF = 2;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_HELPFUL_APPS = 3;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_REQUIRED_APPS = 4;
-        AUTOMOTIVE_DRIVER_ASSISTANCE_APPS = 5;
+        TOGGLE_ON_EXCEPT_ALLOWLISTED_APPS = 3;
     }
 
     // Action taken on sensor.
@@ -21841,398 +22082,6 @@ message GameStateChanged {
 }
 
 /**
- *  Logs for a background fetch process when the runBackgroundFetch() is called.
- */
-message BackgroundFetchProcessReported {
-    optional int32 latency_in_millis = 1;
-    optional int32 num_of_eligible_to_update_cas = 2;
-    optional int32 result_code = 3;
-}
-
-/**
- *  Logs for an updating a single custom audience process when the updateCustomAudience() is called.
- */
-message UpdateCustomAudienceProcessReported {
-    optional int32 latency_in_millis = 1;
-    optional int32 result_code = 2;
-    optional int32 data_size_of_ads_in_bytes = 3;
-    optional int32 num_of_ads = 4;
-}
-
-/**
- * Logs for the bidding stage of an ad selection process when the getBuyersCustomAudience() or
- * the runAdBidding() is called.
- */
-message RunAdBiddingProcessReported {
-    /* Logs when the getBuyersCustomAudience() is called. */
-    optional int32 get_buyers_custom_audience_latency_in_millis = 1;
-    optional int32 get_buyers_custom_audience_result_code = 2;
-    optional int32 num_buyers_requested = 3;
-    optional int32 num_buyers_fetched = 4;
-
-    /* Logs when the runAdBidding() is called. */
-    optional int32 num_of_ads_entering_bidding = 5;
-    optional int32 num_of_cas_entering_bidding = 6;
-    optional int32 num_of_cas_post_bidding = 7;
-    optional float ratio_of_cas_selecting_rmkt_ads = 8;
-    optional int32 run_ad_bidding_latency_in_millis = 9;
-    optional int32 run_ad_bidding_result_code = 10;
-
-    /* Time from the start of the getBuyersCustomAudience() to the end of the runAdBidding(). */
-    optional int32 total_ad_bidding_stage_latency_in_millis = 11;
-}
-
-/**
- * Logs for the scoring stage of an ad selection process when the runAdScoring() is called.
- */
-message RunAdScoringProcessReported {
-    /* Logs when the getAdSelectionLogic() is called. */
-    optional int32 get_ad_selection_logic_latency_in_millis = 1;
-    optional int32 get_ad_selection_logic_result_code = 2;
-    optional android.adservices.service.ScriptType get_ad_selection_logic_script_type = 3;
-    optional int32 fetched_ad_selection_logic_script_size_in_bytes = 4;
-
-    /* Logs when the getTrustedScoringSignals() is called. */
-    optional int32 get_trusted_scoring_signals_latency_in_millis = 5;
-    optional int32 get_trusted_scoring_signals_result_code = 6;
-    optional int32 fetched_trusted_scoring_signals_data_size_in_bytes = 7;
-
-    /* Logs when the getAdScores() is called. */
-    // the total scoreAds script execution time when getAdScores() is called.
-    optional int32 score_ads_latency_in_millis = 8;
-    // the overall latency of the getAdScores().
-    optional int32 get_ad_scores_latency_in_millis = 9;
-    optional int32 get_ad_scores_result_code = 10;
-
-    optional int32 num_of_cas_entering_scoring = 11;
-    optional int32 num_of_remarketing_ads_entering_scoring = 12;
-    optional int32 num_of_contextual_ads_entering_scoring = 13;
-    // the overall latency of the runAdScoring process.
-    optional int32 run_ad_scoring_latency_in_millis = 14;
-    optional int32 run_ad_scoring_result_code = 15;
-}
-
-/* Logs for the ad selection process when the runAdSelection() is called.*/
-message RunAdSelectionProcessReported {
-    /* Logs for the persisting ad selection process. */
-    optional bool is_remarketing_ads_won = 1;
-    optional int32 db_ad_selection_size_in_bytes = 2;
-    optional int32 persist_ad_selection_latency_in_millis = 3;
-    optional int32 persist_ad_selection_result_code = 4;
-
-    /* Logs for the overall runAdSelection process. */
-    optional int32 run_ad_selection_latency_in_millis = 5;
-    optional int32 run_ad_selection_result_code = 6;
-}
-
-/**
- *  Logs for the bidding process on a single custom audience when the runAdBiddingPerCA() is called.
- */
-message RunAdBiddingPerCAProcessReported {
-    optional int32 num_of_ads_for_bidding = 1;
-    optional int32 run_ad_bidding_per_ca_latency_in_millis = 2;
-    optional int32 run_ad_bidding_per_ca_result_code = 3;
-
-    /* Logs for the getting buyer's decision logic script process. */
-    optional int32 get_buyer_decision_logic_latency_in_millis = 4;
-    optional int32 get_buyer_decision_logic_result_code = 5;
-    optional android.adservices.service.ScriptType buyer_decision_logic_script_type = 6;
-    optional int32 fetched_buyer_decision_logic_script_size_in_bytes = 7;
-
-    /* Logs for the getting trusted bidding signals process. */
-    optional int32 num_of_keys_of_trusted_bidding_signals = 8;
-    optional int32 fetched_trusted_bidding_signals_data_size_in_bytes = 9;
-    optional int32 get_trusted_bidding_signals_latency_in_millis = 10;
-    optional int32 get_trusted_bidding_signals_result_code = 11;
-
-    /* Logs when runBidding() is called. */
-    // the total generateBids script execution time when runBidding() is called..
-    optional int32 generate_bids_latency_in_millis = 12;
-    // the overall latency of runBidding().
-    optional int32 run_bidding_latency_in_millis = 13;
-    optional int32 run_bidding_result_code = 14;
-}
-
-/**
- * Logs for AdServices GetTopics API call on T+ only due to repeated fields.
- * Keep in sync with AdServicesBackCompatGetTopicsReported for R+ logging.
- */
-message AdServicesGetTopicsReported {
-    // List of topic ids returned.
-    repeated int32 topic_ids = 1;
-
-    // Number of filtered duplicate topics.
-    optional int32 duplicate_topic_count = 2;
-
-    // Number of filtered blocked topics.
-    optional int32 filtered_blocked_topic_count = 3;
-
-    // Number of topic ids returned.
-    optional int32 count_of_topic_ids = 4;
-}
-
-/**
- * Logs for AdServices Epoch computation GetTopTopics.
- */
-message AdServicesEpochComputationGetTopTopicsReported {
-    // Number of top topics generated.
-    optional int32 top_topics_count = 1;
-
-    // Number of padded random topics generated.
-    optional int32 padded_random_topics_count = 2;
-
-    // Number of apps considered for calculating top topics.
-    optional int32 apps_considered_count = 3;
-
-    // Number of sdks that called Topics API in the epoch.
-    optional int32 sdks_considered_count = 4;
-}
-
-/**
- * Logs for AdServices Epoch Computation Classifier on T+ only due to repeated fields.
- * Keep in sync with AdServicesBackCompatEpochComputationClassifierReported for R+ logging.
- * One atom should be logged for each app classification.
- */
-message AdServicesEpochComputationClassifierReported {
-
-    // List of topics returned by the classifier for each app. The classification
-    // does not depend on the user's usage of the app.
-    repeated int32 topic_ids = 1;
-
-    // Build id of the assets.
-    optional int32 build_id = 2;
-
-    // Version of the assets used.
-    optional string asset_version = 3;
-
-    // Type of the classifier used for classifying apps.
-    enum ClassifierType {
-       /** Unknown classifier option. */
-       UNKNOWN_CLASSIFIER = 0;
-       /** Only on-device classification. */
-       ON_DEVICE_CLASSIFIER = 1;
-       /** Only Precomputed classification. */
-       PRECOMPUTED_CLASSIFIER = 2;
-       /** Precomputed classification values are preferred over on-device classification values. */
-       PRECOMPUTED_THEN_ON_DEVICE_CLASSIFIER = 3;
-    }
-    optional ClassifierType classifier_type = 4;
-
-    // On Device classifier status.
-    enum OnDeviceClassifierStatus {
-       ON_DEVICE_CLASSIFIER_STATUS_UNSPECIFIED = 0;
-       ON_DEVICE_CLASSIFIER_STATUS_NOT_INVOKED = 1;
-       ON_DEVICE_CLASSIFIER_STATUS_SUCCESS = 2;
-       ON_DEVICE_CLASSIFIER_STATUS_FAILURE = 3;
-    }
-    optional OnDeviceClassifierStatus on_device_classifier_status = 5;
-
-    // Precomputed classifier status.
-    enum PrecomputedClassifierStatus {
-       PRECOMPUTED_CLASSIFIER_STATUS_UNSPECIFIED = 0;
-       PRECOMPUTED_CLASSIFIER_STATUS_NOT_INVOKED = 1;
-       PRECOMPUTED_CLASSIFIER_STATUS_SUCCESS = 2;
-       PRECOMPUTED_CLASSIFIER_STATUS_FAILURE = 3;
-    }
-    optional PrecomputedClassifierStatus precomputed_classifier_status = 6;
-}
-
-/**
- * Logs when an AdServices api is called.
- */
-message AdServicesApiCalled {
-    // The name of the api that was called.
-    // Can be classified as one of the following:
-    //
-    // Targeting
-    //  * GetTopics()
-    //
-    // FLEDGE
-    //  * joinCustomAudience()
-    //  * leaveCustomAudience()
-    //  * overrideCustomAudienceRemoteInfo()
-    //  * removeCustomAudienceRemoteInfoOverride()
-    //  * resetAllCustomAudienceOverrides()
-    //  * selectAds()
-    //  * reportImpression()
-    //  * overrideAdSelectionConfigRemoteInfo()
-    //  * removeAdSelectionConfigRemoteInfoOverride()
-    //  * resetAllAdSelectionConfigRemoteOverrides()
-    //  * setAppInstallAdvertisers()
-    //  * reportInteraction()
-    //  * updateAdCounterHistogram()
-    //  * fetchAndJoinCustomAudience()
-    //  * getAdSelectionData()
-    //  * persistAdSelectionResult()
-    //  * scheduleCustomAudienceUpdate()
-    //
-    // Measurement - client side
-    //   * register() : SOURCE
-    //   * register() : TRIGGER
-    //   * deleteRegistrations()
-    //   * registerWebSource()
-    //   * registerWebTrigger()
-    //   * getMeasurementApiStatus()
-    //   * registerSource() : accepts a list of source registration URIs
-    //
-    // AdId
-    //   * GetAdId()
-    //
-    // AppsetId
-    //   * GetAppsetId()
-    //
-    // AdExtDataService
-    //   * onGetAdServicesExtData()
-    //   * onPutAdServicesExtData()
-    //
-    // PAS
-    //   * updateSignals()
-
-
-    enum AdServicesApiClassType {
-        UNKNOWN = 0;
-        TARGETING = 1;
-        FLEDGE = 2;
-        MEASUREMENT = 3;
-        ADID = 4;
-        APPSETID = 5;
-        ADEXT_DATA_SERVICE = 6;
-        COMMON = 7;
-    }
-
-    enum AdServicesApiName {
-        API_NAME_UNKNOWN = 0;
-        GET_TOPICS = 1;
-        JOIN_CUSTOM_AUDIENCE = 2;
-        LEAVE_CUSTOM_AUDIENCE = 3;
-        SELECT_ADS = 4;
-        REGISTER_SOURCE = 5;
-        DELETE_REGISTRATIONS = 6;
-        REPORT_IMPRESSION = 7;
-        OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
-        REMOVE_CUSTOM_AUDIENCE_REMOTE_INFO_OVERRIDE = 9;
-        RESET_ALL_CUSTOM_AUDIENCE_OVERRIDES = 10;
-        OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
-        REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
-        RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
-        GET_ADID = 14;
-        GET_APPSETID = 15;
-        REGISTER_TRIGGER = 16;
-        REGISTER_WEB_SOURCE = 17;
-        REGISTER_WEB_TRIGGER = 18;
-        GET_MEASUREMENT_API_STATUS = 19;
-        GET_TOPICS_PREVIEW_API = 20;
-        SELECT_ADS_FROM_OUTCOMES = 21;
-        SET_APP_INSTALL_ADVERTISERS = 22;
-        REPORT_INTERACTION = 23;
-        UPDATE_AD_COUNTER_HISTOGRAM = 24;
-        FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
-        REGISTER_SOURCES = 26;
-        GET_AD_SERVICES_EXT_DATA = 27;
-        PUT_AD_SERVICES_EXT_DATA = 28;
-        GET_ADSERVICES_COMMON_STATES = 29;
-        GET_AD_SELECTION_DATA = 30;
-        PERSIST_AD_SELECTION_RESULT = 31;
-        UPDATE_SIGNALS = 32;
-        SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 33;
-    }
-
-    optional AdServicesApiClassType api_class = 1 [deprecated = true];
-
-    // The actual name of the api within the 3 classes described above.
-    optional AdServicesApiName  api_name = 2;
-
-    optional string app_package_name = 3;
-    optional string sdk_package_name = 4;
-
-    optional int32 latency_millis = 5;
-
-    // response_code is the error code for the given api.
-    optional int32 response_code = 6;
-}
-
-/**
- * Logs when an AdServices measurement reports are being uploaded.
- */
-message AdServicesMeasurementReportsUploaded {
-    enum ReportType {
-        UNKNOWN_REPORT = 0;
-        EVENT = 1;
-        AGGREGATE = 2;
-        DEBUG_EVENT = 3;
-        DEBUG_AGGREGATE = 4;
-        VERBOSE_DEBUG_SOURCE_DESTINATION_LIMIT = 5;
-        VERBOSE_DEBUG_SOURCE_NOISED = 6;
-        VERBOSE_DEBUG_SOURCE_STORAGE_LIMIT = 7;
-        VERBOSE_DEBUG_SOURCE_SUCCESS = 8;
-        VERBOSE_DEBUG_SOURCE_UNKNOWN_ERROR = 9;
-        VERBOSE_DEBUG_SOURCE_FLEXIBLE_EVENT_REPORT_VALUE_ERROR = 10;
-        VERBOSE_DEBUG_TRIGGER_AGGREGATE_DEDUPLICATED = 11;
-        VERBOSE_DEBUG_TRIGGER_AGGREGATE_INSUFFICIENT_BUDGET = 12;
-        VERBOSE_DEBUG_TRIGGER_AGGREGATE_NO_CONTRIBUTIONS = 13;
-        VERBOSE_DEBUG_TRIGGER_AGGREGATE_REPORT_WINDOW_PASSED = 14;
-        VERBOSE_DEBUG_TRIGGER_ATTRIBUTIONS_PER_SOURCE_DESTINATION_LIMIT = 15;
-        VERBOSE_DEBUG_TRIGGER_EVENT_DEDUPLICATED = 16;
-        VERBOSE_DEBUG_TRIGGER_EVENT_EXCESSIVE_REPORTS = 17;
-        VERBOSE_DEBUG_TRIGGER_EVENT_LOW_PRIORITY = 18;
-        VERBOSE_DEBUG_TRIGGER_EVENT_NO_MATCHING_CONFIGURATIONS = 19;
-        VERBOSE_DEBUG_TRIGGER_EVENT_NOISE = 20;
-        VERBOSE_DEBUG_TRIGGER_EVENT_REPORT_WINDOW_PASSED = 21;
-        VERBOSE_DEBUG_TRIGGER_NO_MATCHING_FILTER_DATA = 22;
-        VERBOSE_DEBUG_TRIGGER_NO_MATCHING_SOURCE = 23;
-        VERBOSE_DEBUG_TRIGGER_REPORTING_ORIGIN_LIMIT = 24;
-        VERBOSE_DEBUG_TRIGGER_EVENT_STORAGE_LIMIT = 25;
-        VERBOSE_DEBUG_TRIGGER_UNKNOWN_ERROR = 26;
-        VERBOSE_DEBUG_TRIGGER_AGGREGATE_STORAGE_LIMIT = 27;
-        VERBOSE_DEBUG_TRIGGER_AGGREGATE_EXCESSIVE_REPORTS = 28;
-        VERBOSE_DEBUG_UNKNOWN = 29;
-    }
-
-    optional ReportType type = 1;
-
-    enum ReportUploadStatus {
-        UNKNOWN_STATUS = 0;
-        SUCCESS = 1;
-        FAILURE = 2;
-    }
-
-    optional ReportUploadStatus response_code = 2;
-    optional android.adservices.service.measurement.ReportUploadFailureType failure_type = 3;
-    optional android.adservices.service.measurement.ReportUploadMethod upload_method = 4;
-    // delay (in milliseconds) between scheduled delivery time and actual delivery time.
-    optional int64 reporting_delay_millis = 5;
-    optional string app_package_name = 6;
-    optional int32 retry_count = 7;
-    optional int32 http_response_code = 8;
-    optional bool is_marked_for_deletion = 9;
-}
-
-/**
- * Logs registration response size when registration URI is pinged.
- */
-message AdServicesMeasurementRegistrations {
-    enum RegistrationType {
-        UNKNOWN_REGISTRATION = 0;
-        SOURCE = 1;
-        TRIGGER = 2;
-    }
-
-    optional RegistrationType type = 1;
-    optional int64 response_size_in_bytes = 2;
-    optional string adtech_url_domain_if_size_above_threshold = 3;
-    optional android.adservices.service.measurement.SourceType source_type = 4;
-    optional android.adservices.service.measurement.RegistrationSurfaceType surface_type = 5;
-    optional android.adservices.service.measurement.Status status = 6;
-    optional android.adservices.service.measurement.RegistrationFailureType failure_type = 7;
-    // delay (in milliseconds) between registration queue request and the time it gets processed
-    optional int64 registration_delay_millis = 8;
-    optional string app_package_name = 9;
-    optional int32 retry_count = 10;
-    optional int32 http_response_code = 11;
-    optional bool is_redirect = 12;
-}
-
-/**
  * Log the duration of executing all receivers of LOCKED_BOOT_COMPLETED or BOOT_COMPLETED broadcast.
  * The dispatch latency is the dispatchTime - enqueueTime.
  * The completion latency is the completeTime - enqueueTime.
@@ -22460,6 +22309,11 @@ message AppBackgroundRestrictionsInfo {
         REASON_DPO_PROTECTED_APP = 322;
         REASON_DISALLOW_APPS_CONTROL = 323;
         REASON_ACTIVE_DEVICE_ADMIN = 324;
+        REASON_MEDIA_NOTIFICATION_TRANSFER = 325;
+        REASON_PACKAGE_INSTALLER = 326;
+        REASON_SYSTEM_EXEMPT_APP_OP = 327;
+        REASON_PACKAGE_UNARCHIVE = 328;
+        REASON_TILE_ONCLICK = 329;
         // app requested to be exempt
         REASON_OPT_OUT_REQUESTED = 1000;
     }
@@ -22533,6 +22387,8 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
+ *
+ * Next ID: 52
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22564,6 +22420,8 @@ message AutofillPresentationEventReported {
            // where we trigger fill request at layout time.
     NONE_SHOWN_VIEW_FOCUSED_BEFORE_FILL_DIALOG_RESPONSE =
         9; // Users focus a field before the fill dialogs response is returned.
+    NONE_SHOWN_SUGGESTION_FILTER_OUT =
+        10; // Suggestions were filtered out due to pre-existing text
   }
 
   // Id number which increases for each subsequent request.
@@ -22635,7 +22493,7 @@ message AutofillPresentationEventReported {
   // can be calculated by suggestionSentTimestampMs - fillResponseReceivedTimestampMs
   optional int32 suggestion_sent_timestamp_ms = 15;
 
-  // Timestamp of when the suggestion is shown
+  // Timestamp of when the suggestion is first shown
   // The latency of showing suggestions can be calculated by
   // suggestionPresentedTimestampMs - suggestionSentTimestampMs
   optional int32 suggestion_presented_timestamp_ms = 16;
@@ -22690,6 +22548,86 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
+
+  // Count of views that are filtered because they are not in current session
+  // before autofill framework calls AutofillManager.autofill().
+  optional int64 views_fillable_excluded_by_session_count = 46;
+
+  // Count of views that can be filled as per the provider service.
+  // views_fillable_total_count = views_filled_failure_count +
+  //     views_filled_success_count + views_with_no_callback
+  // views_with_no_callback aren't logged explicitly, as it can be computed.
+  // There may be no callback due to views overriding default behavior, and
+  // not adhering to javadoc guidelines. They may correspond to autofill
+  // failing or being successful. There is no way for autofill framework to
+  // know such status.
+  optional int64 views_fillable_total_count = 33;
+
+  // Count of views that failed to receive autofill values. These are minimum counts.
+  // It's possible that additional views themselves didn't fill correctly.
+  optional int64 views_filled_failure_count = 34;
+
+  // ViewID of the AutofillID that triggered the presentation
+  optional int32 focused_autofill_id = 35;
+
+  // Count of views that successfully received autofill values. These are guaranteed counts.
+  // They are confirmed by getting views autofill value, and comparing against what was attempted
+  // to be set.
+  optional int64 views_filled_success_count = 36;
+
+  // Count of views that successfully received autofill values, but don't belong to this event.
+  // This value is for confirmation that nothing is wrong. It's expected value is 0.
+  // If non-zero, there's likely some bug in our logging (or in autofill).
+  optional int64 views_filled_but_unexpected_count = 37;
+
+  // Timestamp (relative to session start) of when user tapped a selection
+  optional int32 presentation_selected_timestamp_ms = 38;
+
+  // Timestamp (relative to session start) of filling into a field
+  optional int32 field_autofilled_timestamp_ms = 39;
+
+  // Timestamp (relative to session start) of when the field is first modified
+  // This is used to check if a field was modified before an Autofill suggestion
+  // was presented
+  optional int32 field_first_modified_timestamp_ms = 40;
+
+  // Timestamp (relative to session start) of when the field is last modified
+  // This is value is updated when the view value was changed manually
+  // (by app/user - not autofill)
+  // This will be the same as field_first_modified_timestamp_ms
+  // if field was only modified once
+  optional int32 field_last_modified_timestamp_ms = 41;
+
+  // Supplement to suggestion_presented_timestamp_ms. This is the timestamp
+  // of the last suggestion that was presented to the user. It is used to
+  // distinguish multiple presentations in the same field.
+  optional int32 suggestion_presented_last_timestamp_ms = 42;
+
+  // The virtual component (if any) of the autofill id
+  optional int32 focused_virtual_autofill_id = 43;
+
+  // Length of text already in the field when the event is initialized
+  optional int32 field_first_length = 44;
+
+  // Length of text already in the field when the event is logged
+  optional int32 field_last_length = 45;
+
+  // Count of views that failed prior to refill attempt
+  optional int32 view_failed_prior_to_refill_count = 47;
+
+  // Count of views that were able to be filled during refill
+  // Note that this doesn't include views that were filled successfully prior
+  // to refill.
+  optional int32 view_filled_on_refill_count = 48;
+
+  // Count of views that failed in refill attempt
+  optional int32 view_failed_on_refill_count = 49;
+
+  // Count of times response wasn't expired due to pending authentication.
+  optional int32 fix_expire_response_auth_count = 50;
+
+  // Count of times notifyViewEntered wasn't done due to pending authentication
+  optional int32 notify_view_entered_ignored_auth_count = 51;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
@@ -23253,6 +23191,9 @@ message IncomingMms {
 
     // Whether the MMS was received with an enterprise profile.
     optional bool is_managed_profile = 12;
+
+    // Whether the MMS was received over non-terrestrial networks.
+    optional bool is_ntn = 13;
 }
 
 /**
@@ -23306,6 +23247,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent with an enterprise profile.
     optional bool is_managed_profile = 13;
+
+    // Whether the MMS was sent over non-terrestrial networks.
+    optional bool is_ntn = 14;
 }
 
 message PrivacySignalNotificationInteraction {
@@ -23368,24 +23312,6 @@ message PrivacySignalsJobFailure {
 }
 
 /**
- * Logs stats on the download status of file groups. Provides information on
- * download latency and download penetration.
- */
-message MobileDataDownloadFileGroupDownloadStatusReported {
-  // The status of the file group on device: PENDING, DOWNLOADED, FAILED
-  optional android.stats.mobiledatadownload.DownloadStatus
-      file_group_download_status = 1;
-  // Timestamp of when this file group was added to the device.
-  optional int64 group_added_timestamp = 2;
-  // Timestamp of when MDD completed downloading the file group.
-  optional int64 group_downloaded_timestamp = 3;
-  // Stats specific to the file group
-  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
-  // Number of days since the last time the device attempted to log file group download status for any file group.
-  optional int32 days_since_last_log = 5;
-}
-
-/**
  * Contains information about different method and code contention durations in
  * the ANR code path
  */
@@ -23444,70 +23370,6 @@ message ANRLatencyReported {
     // Next ID: 20
 }
 
-/** Shared data among MobileDataDownload statistics. Not meant to be a top level atom proto.*/
-message MobileDataDownloadFileGroupStats {
-  // The name of the file group. This a string set server side used to retrieve
-  // the files. Does not contain PII.
-  optional string file_group_name = 1;
-  // Allows the clients to identify a file group based on a given set of
-  // properties. This string is set server side and does not contain PII.
-  optional string variant_id = 2;
-  // Identifier for the data file group created to identify the version of the
-  // file group.
-  optional int64 build_id = 3;
-  // The number of files in the file group.
-  optional int32 file_count = 4;
-  // Whether the file group has an account associated with it.
-  optional bool has_account = 5;
-  // Inverse of the sampling rate used to sample this event.
-  optional int32 sampling_interval = 6;
-  // Note: we do not have owner_package since that's already transmitted.
-}
-
-/**
-* Logs stats on the result of download attempts of file groups. Provides info on individual download attempts.
-*/
-message MobileDataDownloadDownloadResultReported {
-  // The result of the download attempt
-  optional android.stats.mobiledatadownload.DownloadResult download_result = 1;
-
-  // Specifies which file group the download attempt was for
-  optional MobileDataDownloadFileGroupStats file_group_stats = 2 [(log_mode) = MODE_BYTES];
-}
-
-/**
-* Logs stats on the amount of storage being used by file groups.
-*/
-message MobileDataDownloadFileGroupStorageStatsReported {
-  // Storage stats for all file groups in the MDD Instance
-  optional MobileDataDownloadStorageStats storage_stats = 1  [(log_mode) = MODE_BYTES];
-  // All the bytes used by mdd file groups
-  optional int64 total_mdd_bytes_used = 2;
-  // All the bytes used in the entire mdd directory
-  optional int64 total_mdd_directory_bytes_used = 3;
-}
-
-/**
-* Container for MobileDataDownloadFileGroupStorageStats
-*/
-message MobileDataDownloadStorageStats {
-    repeated MobileDataDownloadFileGroupStorageStats mobile_data_download_file_group_storage_stats = 1;
-}
-
-/**
-* Storage stats for a single file group. This is logged as a nested field and is not meant to be logged as a top level proto.
-*/
-message MobileDataDownloadFileGroupStorageStats {
-  // The total number of bytes used by this file group
-  optional int64 total_bytes_used = 1;
-  // The total number of inline file bytes used by this file group
-  optional int64 total_inline_bytes_used = 2;
-  // The number of bytes used for the downloaded version of the file group
-  optional int64 downloaded_group_bytes_used = 3;
-  // Specifies which file group this storage is associated with
-  optional MobileDataDownloadFileGroupStats file_group_stats = 4 [(log_mode) = MODE_BYTES];
-}
-
 // Logs Display Brightness change events.
 message DisplayBrightnessChanged {
 
@@ -23558,7 +23420,7 @@ message DisplayBrightnessChanged {
     // Reason that triggered the brightness event to occur.
     optional android.display.DisplayBrightnessChangeReasonEnum entire_reason = 12;
 
-    // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/enums.proto.
+    // New brightness bucket index, from frameworks/proto_logging/stats/enums/display/display_enums.proto.
     optional android.display.DisplayBrightnessRangeEnum bucket_index = 13
             [(state_field_option).exclusive_state = true, (state_field_option).nested = false];
 
@@ -23600,274 +23462,6 @@ message DisplayBrightnessChanged {
 
     // Whether low power mode is enabled.
     optional bool low_power_mode_enabled= 25;
-}
-
-
-/**
- * Logs when various Privacy Sandbox settings are used.
- */
-message AdServicesSettingsUsageReported {
-    // Region of the user who interacted with AdServicesSettings UI.
-    enum AdServiceSettingRegion {
-        // fallback when getDeviceRegion call failed.
-        REGION_UNSPECIFIED = 0;
-        // European Union user (based on isoCountryInfo).
-        EU = 1;
-        // Non-European Union user (based on isoCountryInfo).
-        ROW = 2;
-    }
-    // Region where the device was used.
-    optional AdServiceSettingRegion region = 1;
-
-    // UI settings page action performed by the user.
-    enum AdServiceSettingsName {
-        // fallback when getAction call failed.
-        ACTION_UNSPECIFIED = 0;
-        // notification was requested to be sent to the user.
-        REQUESTED_NOTIFICATION = 1;
-        // the notification landing page was displayed.
-        LANDING_PAGE_DISPLAYED = 2;
-        // user opt-in for PP API.
-        OPT_IN_SELECTED = 3;
-        // user opt-out of PP API.
-        OPT_OUT_SELECTED = 4;
-        // the topics page was displayed.
-        MANAGE_TOPICS_SELECTED = 5;
-        // the fledge page was displayed.
-        MANAGE_APPS_SELECTED = 6;
-        // user reset topics.
-        RESET_TOPIC_SELECTED = 7;
-        /// user reset fledge apps.
-        RESET_APP_SELECTED = 8;
-        // user blocked topics.
-        BLOCK_TOPIC_SELECTED = 9;
-        // user unblocked topics.
-        UNBLOCK_TOPIC_SELECTED = 10;
-        // user blocked fledge apps.
-        BLOCK_APP_SELECTED = 11;
-        // user unblocked fledge apps.
-        UNBLOCK_APP_SELECTED = 12;
-        // Measurement page and data reset.
-        MANAGE_MEASUREMENT_SELECTED = 13;
-        RESET_MEASUREMENT_SELECTED = 14;
-        // user opt-in to topics.
-        TOPICS_OPT_IN_SELECTED = 15;
-        // user opt-out of topics.
-        TOPICS_OPT_OUT_SELECTED = 16;
-        // user opt-in to fledge.
-        FLEDGE_OPT_IN_SELECTED = 17;
-        // user opt-out of fledge.
-        FLEDGE_OPT_OUT_SELECTED = 18;
-        // user opt-in to measurement.
-        MEASUREMENT_OPT_IN_SELECTED = 19;
-        // user opt-out of measurement.
-        MEASUREMENT_OPT_OUT_SELECTED = 20;
-        // Notification and landing page for kids policy
-        // notification was requested for GA  user.
-        GA_UX_NOTIFICATION_REQUESTED = 21;
-        // GA landing page was displayed.
-        GA_UX_NOTIFICATION_LANDING_PAGE_DISPLAYED = 22;
-        // GA confirmation page was displayed.
-        GA_UX_NOTIFICATION_CONFIRMATION_PAGE_DISPLAYED = 23;
-        // GA version of opt_in/out selected.
-        // opt-in for GA user.
-        NOTIFICATION_OPT_IN_SELECTED = 24;
-        // opt-out for GA user.
-        NOTIFICATION_OPT_OUT_SELECTED = 25;
-        // user selected manage settings in consent notification.
-        NOTIFICATION_MANAGE_SETTINGS_SELECTED = 26;
-        // the privacy sandbox settings page was displayed.
-        PRIVACY_SANDBOX_SETTINGS_PAGE_DISPLAYED = 27;
-        // the confirmation page was displayed for a user.
-        CONFIRMATION_PAGE_DISPLAYED = 28;
-        // notification was blocked by a user.
-        NOTIFICATION_DISABLED = 29;
-        // notification was blocked by a GA user.
-        GA_UX_NOTIFICATION_DISABLED = 30;
-        // notification was displayed to a user.
-        NOTIFICATION_DISPLAYED = 31;
-        // notification was displayed to a GA user.
-        GA_UX_NOTIFICATION_DISPLAYED = 32;
-        // user clicked on the more button on the landing page.
-        LANDING_PAGE_MORE_BUTTON_CLICKED = 33;
-        // GA user clicked on the more button on the landing page.
-        GA_UX_LANDING_PAGE_MORE_BUTTON_CLICKED = 34;
-        // user clicked the additional info button on the landing page.
-        LANDING_PAGE_ADDITIONAL_INFO_CLICKED = 35;
-        // GA user clicked the additional info button on the landing page.
-        GA_UX_LANDING_PAGE_ADDITIONAL_INFO_CLICKED = 36;
-        // user scrolled the landing page.
-        LANDING_PAGE_SCROLLED = 37;
-        // GA user scrolled the landing page.
-        GA_UX_LANDING_PAGE_SCROLLED = 38;
-        // user scrolled to the bottom of the landing page.
-        LANDING_PAGE_SCROLLED_TO_BOTTOM = 39;
-        // GA user scrolled to the bottom of the landing page.
-        GA_UX_LANDING_PAGE_SCROLLED_TO_BOTTOM = 40;
-        // user clicked the settings button on the landing page.
-        LANDING_PAGE_SETTINGS_BUTTON_CLICKED = 41;
-        // GA user clicked the settings button on the landing page.
-        GA_UX_LANDING_PAGE_SETTINGS_BUTTON_CLICKED = 42;
-        // user clicked the got it button on the landing page.
-        LANDING_PAGE_GOT_IT_BUTTON_CLICKED = 43;
-        // GA user clicked the got it button on the landing page.
-        GA_UX_LANDING_PAGE_GOT_IT_BUTTON_CLICKED = 44;
-        // user clicked opt-out on the landing page.
-        LANDING_PAGE_OPT_OUT_CLICKED = 45;
-        // GA user clicked opt-out on the landing page.
-        GA_UX_LANDING_PAGE_OPT_OUT_CLICKED = 46;
-        // user dismissed the landing page.
-        LANDING_PAGE_DISMISSED = 47;
-        // GA user dismissed the landing page.
-        GA_UX_LANDING_PAGE_DISMISSED = 48;
-        // user opt-in from the landing page.
-        LANDING_PAGE_OPT_IN = 49;
-        // GA user opt-in from the landing page.
-        GA_UX_LANDING_PAGE_OPT_IN = 50;
-        // user clicked settings on the opt-in confirmation page.
-        OPT_IN_CONFIRMATION_PAGE_SETTINGS_CLICKED = 51;
-        // GA user clicked settings on the opt-in confirmation page.
-        GA_UX_OPT_IN_CONFIRMATION_PAGE_SETTINGS_CLICKED = 52;
-        // user clicked settings on the opt-out confirmation page.
-        OPT_OUT_CONFIRMATION_PAGE_SETTINGS_CLICKED = 53;
-        // GA user clicked settings on the opt-out confirmation page.
-        GA_UX_OPT_OUT_CONFIRMATION_PAGE_SETTINGS_CLICKED = 54;
-        // user clicked got it on the opt-in confirmation page.
-        OPT_IN_CONFIRMATION_PAGE_GOT_IT_CLICKED = 55;
-        // GA user clicked got it on the opt-in confirmation page.
-        GA_UX_OPT_IN_CONFIRMATION_PAGE_GOT_IT_CLICKED = 56;
-        // user clicked got it on the opt-out confirmation page.
-        OPT_OUT_CONFIRMATION_PAGE_GOT_IT_CLICKED = 57;
-        // GA user clicked got it on the opt-out confirmation page.
-        GA_UX_OPT_OUT_CONFIRMATION_PAGE_GOT_IT_CLICKED = 58;
-        // user dismissed confirmation page.
-        CONFIRMATION_PAGE_DISMISSED = 59;
-        // GA user dismissed confirmation page.
-        GA_UX_CONFIRMATION_PAGE_DISMISSED = 60;
-        // user clicked more info on the opt in confirmation page.
-        OPT_IN_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 61;
-        // user clicked more info on the opt out confirmation page.
-        OPT_OUT_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 62;
-        // GA user clicked more info on the opt in confirmation page.
-        GA_UX_OPT_IN_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 63;
-        // GA user clicked more info on the opt out confirmation page.
-        GA_UX_OPT_OUT_CONFIRMATION_PAGE_MORE_INFO_CLICKED = 64;
-        // GA user clicked opt out on the landing page.
-        GA_UX_LANDING_PAGE_OPT_OUT = 65;
-        // user clicked opt out on the landing page.
-        LANDING_PAGE_OPT_OUT = 66;
-        // (enrolled) user clicked on the privacy sandbox entry point.
-        PRIVACY_SANDBOX_ENTRY_POINT_CLICKED = 67;
-        // daily maintenance job was run.
-        DAILY_MAINTENANCE_JOB_FINISHED = 68;
-        // GA user clicked the 2nd additional info button on the landing page.
-        GA_UX_LANDING_PAGE_ADDITIONAL_INFO_2_CLICKED = 69;
-    }
-    // UI action performed by user.
-    optional AdServiceSettingsName action = 2;
-
-    enum AdServicesSettingsDefaultConsent {
-        // fallback when getDefaultConsent failed.
-        CONSENT_UNSPECIFIED = 0;
-        // user was opted-in to PP API by default.
-        PP_API_DEFAULT_OPT_IN = 1;
-        // user was opted-out of PP API by default.
-        PP_API_DEFAULT_OPT_OUT = 2;
-        // user was opted-in to topics by default.
-        TOPICS_DEFAULT_OPT_IN = 3;
-        // user was opted-in to topics by default.
-        TOPICS_DEFAULT_OPT_OUT = 4;
-        // user was opted-in to fledge by default.
-        FLEDGE_DEFAULT_OPT_IN = 5;
-        // user was opted-in to fledge by default.
-        FLEDGE_DEFAULT_OPT_OUT = 6;
-        // user was opted-in to measurement by default.
-        MEASUREMENT_DEFAULT_OPT_IN = 7;
-        // user was opted-in to measurement by default.
-        MEASUREMENT_DEFAULT_OPT_OUT = 8;
-    }
-    // AdServices consents of a user when consent notification was first sent.
-    optional AdServicesSettingsDefaultConsent default_consent = 3;
-
-    // AdId state of a user when consent notification was first sent.
-    enum AdServicesSettingsDefaultAdIdState {
-        // fallback when getDefaultAdId failed.
-        STATE_UNSPECIFIED = 0;
-        // AdId was not zeroed-out when user first received consent notification.
-        AD_ID_ENABLED = 1;
-        // AdId was zeroed-out when user first received consent notification.
-        AD_ID_DISABLED = 2;
-    }
-
-    // Default ad id state when consent notification was first sent.
-    optional AdServicesSettingsDefaultAdIdState default_ad_id_state = 4;
-
-    // (Deprecated) Type of AdService feature running on device.
-    enum PrivacySandboxFeatureType {
-        // fallback when getFeature failed.
-        FEATURE_UNSPECIFIED = 0;
-        // the first consent feature is enabled.
-        PRIVACY_SANDBOX_FIRST_CONSENT = 1;
-        // the reconsent feature is enabled.
-        PRIVACY_SANDBOX_RECONSENT = 2;
-        // privacy sandbox is not yet supported on the device.
-        PRIVACY_SANDBOX_UNSUPPORTED = 3;
-        // privacy sandbox is already running on the device.
-        PRIVACY_SANDBOX_ALREADY_RUNNING = 4;
-        // the first consent feature with flipped flow is enabled.
-        PRIVACY_SANDBOX_FIRST_CONSENT_FF = 5;
-        // the reconsent feature with flipped flow is enabled.
-        PRIVACY_SANDBOX_RECONSENT_FF = 6;
-    }
-
-    // (Deprecated) Privacy sandbox feature currently running on the device.
-    optional PrivacySandboxFeatureType feature_type = 5 [deprecated = true];
-
-    // Type of privacy sandbox UX.
-    enum PrivacySandboxUx {
-        // fallback when no UX can be selected.
-        UNSUPPORTED_UX = 0;
-        // all UXs that are not unspecified.
-        UNSPECIFIED_UX = 1;
-        // GA UX.
-        GA_UX = 2;
-        // Beta UX.
-        BETA_UX = 3;
-        // UX for Android RVC.
-        RVC_UX = 4;
-        // GA UX with Updated PAS APIs
-        GA_UX_WITH_PAS = 5;
-    }
-
-    // Type of privacy sandbox UX.
-    optional PrivacySandboxUx ux = 6;
-
-    // Type of privacy sandbox enrollment channel.
-    enum PrivacySandboxUxEnrollmentChannel {
-        // fallback when no enrollment channel can be selected.
-        UNSUPPORTED_CHANNEL = 0;
-        // all enrollment channels that are unspecified.
-        UNSPECIFIED_CHANNEL = 1;
-        // already enrolled channel.
-        ALREADY_ENROLLED_CHANNEL = 2;
-        // consent notification debug channel.
-        CONSENT_NOTIFICATION_DEBUG_CHANNEL = 3;
-        // first consent notification.
-        FIRST_CONSENT_NOTIFICATION_CHANNEL = 4;
-        // reconsent notification.
-        RECONSENT_NOTIFICATION_CHANNEL = 5;
-        // consent notification reset channel.
-        CONSENT_NOTIFICATION_RESET_CHANNEL = 6;
-        // 2nd GA notification post R OTA.
-        RVC_POST_OTA_NOTIFICATION_CHANNEL = 7;
-        // PAS first notification channel
-        PAS_FIRST_NOTIFICATION_CHANNEL = 8;
-        // PAS renotify notification channel
-        PAS_RENOTIFY_NOTIFICATION_CHANNEL = 9;
-    }
-
-    // Type of privacy sandbox enrollment channel.
-    optional PrivacySandboxUxEnrollmentChannel enrollment_channel = 7;
 }
 
 // Logs daily ambient brightness stats.
@@ -24821,7 +24415,7 @@ message UnsafeIntentEventReported {
     // Type of matching event.
     optional EventType event_type = 1;
     // The calling UID.
-    optional int32 calling_uid = 2;
+    optional int32 calling_uid = 2 [(is_uid) = true];
     // The component name of the intent.
     optional string component_name = 3;
     // The package name of the intent.

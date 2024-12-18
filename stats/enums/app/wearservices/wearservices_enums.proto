@@ -394,6 +394,194 @@ enum NotificationBlockingStatus {
   NOTIFICATION_BLOCKING_STATUS_UNBLOCKED = 2;
 }
 
+// Defines the bridge configuration type.
+// Next ID: 3
+enum BridgeConfig {
+  // Unknown value
+  BRIDGE_CONFIG_UNKNOWN = 0;
+
+  // The bridge configuration type is defined as static.
+  BRIDGE_CONFIG_STATIC = 1;
+
+  // The bridge configuration type is defined as dynamic.
+  BRIDGE_CONFIG_DYNAMIC = 2;
+}
+
+// Represents the number of excluded tags added.
+// Next ID: 7
+enum ExcludedTagsCount {
+  // Unknown value
+  EXCLUDED_TAGS_COUNT_UNKNOWN = 0;
+
+  // The count of excluded tags added is one.
+  EXCLUDED_TAGS_COUNT_ONE = 1;
+
+  // The count of excluded tags added is two.
+  EXCLUDED_TAGS_COUNT_TWO= 2;
+
+  // The count of excluded tags added is three.
+  EXCLUDED_TAGS_COUNT_THREE= 3;
+
+  // The count of excluded tags added is four.
+  EXCLUDED_TAGS_COUNT_FOUR= 4;
+
+  // The count of excluded tags added is five and above.
+  EXCLUDED_TAGS_COUNT_FIVE_AND_ABOVE = 5;
+
+  // The count of excluded tags added is ten and above.
+  EXCLUDED_TAGS_COUNT_TEN_AND_ABOVE= 6;
+}
+
+// Representing string for the notification action title for the action pressed.
+// Next ID: 21
+enum NotificationActionTitle {
+  // Unknown value
+  NOTIFICATION_ACTION_TITLE_UNKNOWN = 0;
+
+  // The performed action title is any other than the above specified action titles.
+  NOTIFICATION_ACTION_TITLE_OTHERS= 1;
+
+  // The performed action title is Archive.
+  NOTIFICATION_ACTION_TITLE_ARCHIVE = 2;
+
+  // The performed action title is Call.
+  NOTIFICATION_ACTION_TITLE_CALL = 3;
+
+  // The performed action title is Delete.
+  NOTIFICATION_ACTION_TITLE_DELETE = 4;
+
+  // The performed action title is Smart Reply.
+  NOTIFICATION_ACTION_TITLE_SMART_REPLY = 5;
+
+  // The performed action title is Like This.
+  NOTIFICATION_ACTION_TITLE_FEWER_LIKE_THIS = 6;
+
+  // The performed action title is Join.
+  NOTIFICATION_ACTION_TITLE_JOIN = 7;
+
+  // The performed action title is Like.
+  NOTIFICATION_ACTION_TITLE_LIKE = 8;
+
+  // The performed action title is Map.
+  NOTIFICATION_ACTION_TITLE_MAP = 9;
+
+  // The performed action title is Mark As Read.
+  NOTIFICATION_ACTION_TITLE_MARK_AS_READ = 10;
+
+  // The performed action title is Message.
+  NOTIFICATION_ACTION_TITLE_MESSAGE = 11;
+
+  // The performed action title is Reply.
+  NOTIFICATION_ACTION_TITLE_REPLY = 12;
+
+  // The performed action title is Save.
+  NOTIFICATION_ACTION_TITLE_SAVE = 13;
+
+  // The performed action title is Share.
+  NOTIFICATION_ACTION_TITLE_SHARE = 14;
+
+  // The performed action title is Snooze.
+  NOTIFICATION_ACTION_TITLE_SNOOZE = 15;
+
+  // The performed action title is View Pass.
+  NOTIFICATION_ACTION_TITLE_VIEW_PASS= 16;
+
+  // The performed action title is Mute Chat.
+  NOTIFICATION_ACTION_TITLE_MUTE_CHAT= 17;
+
+  // The performed action title is Open.
+  NOTIFICATION_ACTION_TITLE_OPEN= 18;
+
+  // The performed action title is Open.
+  NOTIFICATION_ACTION_TITLE_OPEN_ON_PHONE= 19;
+
+  // The performed action title is Open.
+  NOTIFICATION_ACTION_TITLE_OPEN_ON_WATCH= 20;
+}
+
+// Defining the actions for notification to be dismissed.
+// Next ID: 6
+enum NotificationDismissAction {
+  // Unknown value.
+  NOTIFICATION_DISMISS_ACTION_UNKNOWN = 0;
+
+  // Notification in the stream is dismissed.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS = 1;
+
+  // ALl notifications in the stream are dismissed.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_ALL = 2;
+
+  // Multiple notifications in the stream are dismissed.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_MULTIPLE = 3;
+
+  // Notification in the stream is dismissed by swipe.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_FROM_SWIPE = 4;
+
+  // Notification in the stream is dismissed from MCU UI.
+  NOTIFICATION_DISMISS_ACTION_STREAM_DISMISS_FROM_MCU_UI = 5;
+}
+
+// Supported notification cancellation reasons for which the notification is being dismissed.
+// Next ID: 4
+enum NotificationCancelReason {
+  // Unknown value.
+  NOTIFICATION_CANCEL_REASON_UNKNOWN = 0;
+
+  // Notification was cancelled by the status bar reporting a notification click.
+  NOTIFICATION_CANCEL_REASON_CLICK = 1;
+
+  // Notification was cancelled by the status bar reporting a user dismissal.
+  NOTIFICATION_CANCEL_REASON_CANCEL = 2;
+
+  // Notification was cancelled by the status bar reporting a user dismiss all.
+  NOTIFICATION_CANCEL_REASON_CANCEL_ALL = 3;
+}
+
+// Defines the action for a particular update.
+// Next ID: 4
+enum NotificationActionType {
+  // Unknown value.
+  NOTIFICATION_ACTION_TYPE_UNKNOWN = 0;
+
+  // Notification action for open on watch.
+  NOTIFICATION_ACTION_TYPE_OPEN_ON_WATCH = 1;
+
+  // Notification action for open on phone.
+  NOTIFICATION_ACTION_TYPE_OPEN_ON_PHONE= 2;
+
+  // Notification action for other actions.
+  NOTIFICATION_ACTION_TYPE_OTHERS = 3;
+}
+
+// Defines the notification flow component for which the latency is to be calculated.
+// Next ID: 3
+enum NotificationFlowComponent {
+  // Unknown value.
+  NOTIFICATION_FLOW_COMPONENT_UNKNOWN = 0;
+
+  // Notification flow representing flow when a notification is posted.
+  NOTIFICATION_FLOW_COMPONENT_POST_NOTIFICATION = 1;
+
+  // Notification flow representing flow when a notification is dismissed.
+  NOTIFICATION_FLOW_COMPONENT_DISMISS_NOTIFICATION = 2;
+}
+
+// Defines which component the latency is being calculated for.
+// Next ID: 4
+enum ComponentName {
+  // Unknown value.
+  COMPONENT_NAME_UNKNOWN = 0;
+
+  // The component is WearServices.
+  COMPONENT_NAME_WEAR_SERVICES = 1;
+
+  // The component is Companion.
+  COMPONENT_NAME_COMPANION = 2;
+
+  // The component is SysUI.
+  COMPONENT_NAME_SYSUI = 3;
+}
+
 // This enum depicts an action taken on a call
 // Next ID: 4
 enum CallAction {
@@ -602,4 +790,57 @@ enum WatchFaceType {
 
   // Declarative watch face type.
   WATCH_FACE_TYPE_DWF = 3;
+}
+
+// Contains types for photo selection for the photos watch face feature.
+enum PhotoSelectionType {
+  // Unknown value, maps to MULTIPLE in Companion if not specified
+  PHOTO_SELECTION_NOT_SPECIFIED = 0;
+
+  // Single image supported
+  PHOTO_SELECTION_SELECT_SINGLE = 1;
+
+  // Multiple images supported
+  PHOTO_SELECTION_SELECT_MULTIPLE = 2;
+}
+
+// This enum represents the type of remote event that is being reported, they
+// are corresponding to
+// vendor/google_clockwork/libs/contract/companion/remoteevent/remoteeventtype.proto
+// Next ID: 8
+enum RemoteEventType {
+  EVENT_TYPE_UNKNOWN = 0;
+  EVENT_TYPE_ACCOUNT_DEEPLINK = 1;
+  EVENT_TYPE_OTA_NOTIFICATION = 2;
+  EVENT_TYPE_PHOTO_PICKER_DEEPLINK = 3;
+  EVENT_TYPE_BATTERY_FULLY_CHARGED = 4;
+  EVENT_TYPE_WATCH_OFF_CHARGER = 5;
+  EVENT_TYPE_SEND_SMS = 6;
+  EVENT_TYPE_LOCALE_SETTINGS_DEEPLINK = 7;
+}
+
+// This enum depicts different components of the bugreport flow
+// Next ID: 3
+enum BugreportComponent {
+  // Depicts an unknown component
+  BUGREPORT_COMPONENT_UNKNOWN = 0;
+
+  // Depicts the companion app
+  BUGREPORT_COMPONENT_COMPANION_APP = 1;
+
+  // Depicts the watch UI
+  BUGREPORT_COMPONENT_WATCH_UI = 2;
+}
+
+// This enum depicts the result of the bugreport
+// Next ID: 3
+enum BugreportResult {
+  // Depicts an unknown bugreport result
+  BUGREPORT_RESULT_UNKNOWN = 0;
+
+  // Depicts a successful bugreport result
+  BUGREPORT_RESULT_SUCCESS = 1;
+
+  // Depicts a failure bugreport result
+  BUGREPORT_RESULT_FAILURE = 2;
 }

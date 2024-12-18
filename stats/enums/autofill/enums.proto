@@ -68,6 +68,7 @@ enum FillResponseStatus {
   RESPONSE_STATUS_CANCELLED = 3;
   RESPONSE_STATUS_TIMEOUT = 4;
   RESPONSE_STATUS_SESSION_DESTROYED = 5;
+  RESPONSE_STATUS_TRANSACTION_TOO_LARGE = 6;
 }
 
 enum AuthenticationType {
@@ -100,6 +101,7 @@ enum SaveUiNotShownReason {
   NO_SAVE_REASON_DATASET_MATCH = 7;
   NO_SAVE_REASON_WITH_DONT_SAVE_ON_FINISH_FLAG = 8;
   NO_SAVE_REASON_SESSION_DESTROYED = 9;
+  NO_SAVE_REASON_SCREEN_HAS_CREDMAN_FIELD = 10;
 }
 
 // Determines the reason for committing the autofill Session.

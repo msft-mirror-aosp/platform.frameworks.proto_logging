@@ -66,6 +66,14 @@ extend Atom {
         = 904 [(module) = "bluetooth"];
     optional BluetoothCrossLayerEventReported bluetooth_cross_layer_event_reported
         = 916 [(module) = "bluetooth"];
+    optional BroadcastAudioSessionReported broadcast_audio_session_reported
+        = 927 [(module) = "bluetooth"];
+    optional BroadcastAudioSyncReported broadcast_audio_sync_reported
+        = 928 [(module) = "bluetooth"];
+    optional BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
+        = 982 [(module) = "bluetooth"];
+    optional BluetoothLeConnection bluetooth_le_connection
+        = 988 [(module) = "bluetooth"];
 }
 
 /**
@@ -252,6 +260,20 @@ message BluetoothProfileConnectionAttempted {
 }
 
 /**
+ * Logs LE connection success or failure.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ */
+message BluetoothLeConnection {
+  // Result of LE connection
+  optional android.bluetooth.LeConnectionResult result = 1;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 2 [(log_mode) = MODE_BYTES];
+}
+
+/**
  * Logs content profiles' caught exceptions or logs (ERROR, WARN)
  *
  * Logged from:
@@ -379,7 +401,7 @@ message LeAppScanStateChanged {
 message LeRadioScanStopped {
   // Attribution of the app with most aggressive scanning parameters, which
   // will be used by the LE radio for the scanning.
-  repeated AttributionNode attribution_node_most_aggressive_app = 1;
+  repeated AttributionNode attribution_node = 1;
   optional android.bluetooth.le.LeScanType le_scan_type_most_aggressive_app = 2;
   optional android.bluetooth.le.LeScanMode le_scan_mode_most_aggressive_app = 3;
   // Radio scan interval in milliseconds.
@@ -514,6 +536,8 @@ message A2dpSessionReported {
   optional int64 codec_id = 10;
   // Indicates whether the session is offloaded or not.
   optional bool offload = 11;
+  // Identifier for the remote device.
+  optional int32 metric_id = 12;
 }
 
 /**
@@ -540,3 +564,90 @@ message BluetoothCrossLayerEventReported {
      [(log_mode) = MODE_BYTES];
 }
 
+/**
+  * Logs LE Audio Broadcast Audio Session
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BroadcastAudioSessionReported {
+  // Identifier randomly generated for every broadcast session
+  // Default: -1 if the broadcast id is unknown
+  optional int32 broadcast_id = 1;
+
+  // Number of audio groups in this broadcast session
+  optional int32 audio_group_size = 2;
+
+  // Broadcast audio quality configuration for all subgroups
+  repeated android.bluetooth.BroadcastAudioQualityType audio_quality = 3;
+
+  // Number of devices in this broadcast session
+  optional int32 group_size = 4;
+
+  // Broadcast session duration
+  optional int64 duration_ms = 5;
+
+  // Broadcast session in configured state latency
+  optional int64 latency_broadcast_configured_ms = 6;
+
+  // Broadcast session in streaming state latency
+  optional int64 latency_broadcast_streaming_ms = 7;
+
+  // Status of broadcast session setup
+  optional android.bluetooth.BroadcastSessionSetupStatus session_setup_status = 8;
+}
+
+/**
+  * Logs LE Audio Broadcast Audio Sync
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+*/
+message BroadcastAudioSyncReported {
+  // Identifier randomly generated for every broadcast session
+  // Default: -1 if the broadcast id is unknown
+  optional int32 broadcast_id = 1;
+
+  // Local broadcast or external broadcast
+  optional bool is_local_broadcast = 2;
+
+  // Broadcast session duration
+  optional int64 duration_ms = 3;
+
+  // Latency from adding source to PA synced
+  optional int64 latency_pa_sync_ms = 4;
+
+  // Latency from adding source to BIS synced
+  optional int64 latency_bis_sync_ms = 5;
+
+  // Status of broadcast sync
+  optional android.bluetooth.BroadcastSyncStatus sync_status = 6;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 7 [(log_mode) = MODE_BYTES];
+}
+
+/**
+  * Logs RFCOMM connection attempts from the native layer after the connection closes
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+  *
+  * Estimated Logging Rate:
+  *     Peak: 5 times in 30 seconds | Avg: 4 per device per day
+  *
+*/
+message BluetoothRfcommConnectionReportedAtClose {
+  // Reason for error or closure
+  optional android.bluetooth.rfcomm.PortResult close_reason = 1;
+  // security level of the connection
+  optional android.bluetooth.rfcomm.SocketConnectionSecurity security = 2;
+  // two states prior to "CLOSED"
+  optional android.bluetooth.rfcomm.RfcommPortState second_previous_state = 3;
+  // state prior to "CLOSED"
+  optional android.bluetooth.rfcomm.RfcommPortState previous_state = 4;
+  // duration that the socket was opened, 0 if connection failed
+  optional int32 open_duration_ms = 5;
+  // uid of the app that called connect
+  optional int32 uid = 6 [(is_uid) = true];
+}

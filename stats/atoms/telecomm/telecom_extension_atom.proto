@@ -20,12 +20,17 @@ package android.os.statsd.telecom;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 
 option java_package = "com.android.os.telecom";
 option java_multiple_files = true;
 
 extend Atom {
     optional EmergencyNumberDialed emergency_number_dialed = 637 [(module) = "telecom"];
+    optional CallStats call_stats = 10221 [(module) = "telecom"];
+    optional CallAudioRouteStats call_audio_route_stats = 10222 [(module) = "telecom"];
+    optional TelecomApiStats telecom_api_stats = 10223 [(module) = "telecom"];
+    optional TelecomErrorStats telecom_error_stats = 10224 [(module) = "telecom"];
 }
 
 /**
@@ -43,4 +48,101 @@ message EmergencyNumberDialed {
 
     // mcc mnc of the latched network to make emergency call
     optional string network_mccmnc = 4;
+}
+
+/**
+ * Pulled atom to capture stats of the calls
+ */
+message CallStats {
+    // The call direction. Eg. INCOMING, OUTGOING, UNKNOWN
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.CallDirectionEnum call_direction = 1;
+
+    // True if call is external. External calls are calls on connected Wear
+    // devices but show up in Telecom so the user can pull them onto the device.
+    optional bool external_call = 2;
+
+    // True if call is emergency call.
+    optional bool emergency_call = 3;
+
+    // True if there are multiple audio routes available
+    optional bool multiple_audio_available = 4;
+
+    // The account type of the call. Eg. SIM, Managed, SelfManaged, VoipApi
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.AccountTypeEnum account_type = 5;
+
+
+    // UID of the package to init the call. This should always be -1/unknown for
+    // the private space calls
+    optional int32 uid = 6 [(is_uid) = true];
+
+    // Total number of the calls
+    optional int32 count = 7;
+
+    // Average elapsed time between CALL_STATE_ACTIVE to CALL_STATE_DISCONNECTED.
+    optional int32 average_duration_ms = 8;
+}
+
+/**
+ * Pulled atom to capture stats of the call audio route
+ */
+message CallAudioRouteStats {
+    // The source the call audio route. The types include CALL_AUDIO_ROUTE_UNSPECIFIED,
+    // CALL_AUDIO_ROUTE_PHONE_SPEAKER, CALL_AUDIO_ROUTE_WATCH_SPEAKER,
+    // CALL_AUDIO_ROUTE_BLUETOOTH, CALL_AUDIO_ROUTE_AUTO, or
+    // CALL_AUDIO_ROUTE_BLUETOOTH_LE from
+    // frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.CallAudioEnum route_source = 1;
+
+    // The destination of the audio route. The types are defined in
+    // frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.CallAudioEnum route_dest = 2;
+
+    // True if the route is successful.
+    optional bool success = 3;
+
+    // True if the route is revert
+    optional bool revert = 4;
+
+    // Total number of the audio route
+    optional int32 count = 5;
+
+    // Average time from the audio route start to complete
+    optional int32 average_latency_ms = 6;
+}
+
+/**
+ * Pulled atom to capture stats of Telecom API usage
+ */
+message TelecomApiStats {
+    // The api name
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.ApiNameEnum api_name = 1;
+
+    // UID of the caller. This is always -1/unknown for the private space.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // The result of the API call
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.ApiResultEnum api_result = 3;
+
+    // The number of times this event occurs
+    optional int32 count = 4;
+}
+
+/**
+ * Pulled atom to capture stats of Telecom module errors
+ */
+message TelecomErrorStats {
+    // The sub module name
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.SubmoduleNameEnum submodule_name = 1;
+
+    // The error name
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional android.telecom.ErrorNameEnum error_name = 2;
+
+    // The number of times this error occurs
+    optional int32 count = 3;
 }

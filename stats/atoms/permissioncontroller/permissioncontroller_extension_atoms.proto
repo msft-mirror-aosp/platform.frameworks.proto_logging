@@ -36,6 +36,10 @@ extend Atom {
         648 [(module) = "permissioncontroller"];
     optional AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported =
         649 [(module) = "permissioncontroller"];
+    optional EnhancedConfirmationDialogResultReported enhanced_confirmation_dialog_result_reported =
+        827 [(module) = "permissioncontroller"];
+    optional EnhancedConfirmationRestrictionCleared enhanced_confirmation_restriction_cleared =
+        828 [(module) = "permissioncontroller"];
 }
 
 /**
@@ -138,4 +142,56 @@ message AppDataSharingUpdatesFragmentActionReported {
 
     // Data sharing change associated with this data sharing update
     optional DataSharingChange data_sharing_change = 3;
+}
+
+/**
+ * Logged when the ECM (Enhanced Confirmation Mode) dialog is closed.
+ *
+ * Logs from: com.android.permissioncontroller
+ *            .permission.ui.GrantPermissionsActivity
+ *
+ */
+message EnhancedConfirmationDialogResultReported {
+  // UID of the restricted app
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Identifier of the restricted setting
+  optional string setting_identifier = 2;
+
+  // True if this is the first time showing this dialog for this app
+  optional bool first_show_for_app = 3;
+
+  enum SettingType {
+    SETTING_TYPE_UNSPECIFIED = 0;
+    SETTING_TYPE_APPOP = 1;
+    SETTING_TYPE_PERMISSION = 2;
+    SETTING_TYPE_ROLE = 3;
+    SETTING_TYPE_OTHER = 4;
+  }
+
+  // Which type of resource setting_identifier refers to
+  optional SettingType setting_type = 4;
+
+  enum Result {
+    RESULT_UNSPECIFIED = 0;
+    RESULT_CANCELLED = 1;
+    RESULT_LEARN_MORE = 2;
+    RESULT_OK = 3;
+    RESULT_SUPPRESSED = 4;
+  }
+
+  // Which button or action the user invoked to close the dialog
+  optional Result result = 5;
+}
+
+/**
+ * Logged when an app's ECM (Enhanced Confirmation Mode) restriction
+ * status is cleared by the user.
+ *
+ * Logs from: com.android.ecm.EnhancedConfirmationService
+ *
+ */
+message EnhancedConfirmationRestrictionCleared {
+  // UID of the restricted app
+  optional int32 uid = 1 [(is_uid) = true];
 }

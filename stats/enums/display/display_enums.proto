@@ -84,7 +84,7 @@ enum DisplayBrightnessChangeReasonEnum {
     REASON_SCREEN_OFF_BRIGHTNESS_SENSOR = 9;
     REASON_FOLLOWER = 10;
     REASON_OFFLOAD = 11;
-    REASON_DOZE_INITIAL = 12;
+    REASON_DOZE_MANUAL = 12;
 }
 
 // Contains vote different statuses.

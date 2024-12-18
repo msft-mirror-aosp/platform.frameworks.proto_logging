@@ -15,7 +15,7 @@
 //
 
 package {
-    default_team: "trendy_team_android_telemetry_infra",
+    default_team: "trendy_team_android_telemetry_client_infra",
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
@@ -34,7 +34,7 @@ android_test {
         "compatibility-device-util-axt",
     ],
     libs: [
-        "android.test.runner",
+        "android.test.runner.stubs.system",
     ],
 }
 

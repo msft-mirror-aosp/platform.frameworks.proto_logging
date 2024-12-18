@@ -57,6 +57,9 @@ message OnDevicePersonalizationApiCalled {
         LOG_READER_GET_JOINED_EVENTS = 18;
         FEDERATED_COMPUTE_SCHEDULE = 19;
         MODEL_MANAGER_RUN = 20;
+        FEDERATED_COMPUTE_CANCEL = 21;
+        NOTIFY_MEASUREMENT_EVENT = 22;
+        ADSERVICES_GET_COMMON_STATES = 23;
     }
     optional OnDevicePersonalizationApiClassType api_class = 1;
     optional OnDevicePersonalizationApiName api_name = 2;
@@ -66,4 +69,12 @@ message OnDevicePersonalizationApiCalled {
     optional int32 response_code = 4;
     // latency excluding time spent in user code
     optional int32 overhead_latency_millis = 5;
+    // latency between call and service entry
+    optional int32 rpc_call_latency_millis = 6;
+    // latency between service return and callback
+    optional int32 rpc_return_latency_millis = 7;
+     // Log the package name that calls ODP API. Default is 0.
+    optional int32 app_uid = 8 [(is_uid) = true];
+    // Log the sdk package name that passed by app in API request.
+    optional string sdk_package_name = 9;
 }

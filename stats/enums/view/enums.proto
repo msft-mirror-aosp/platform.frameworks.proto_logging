@@ -43,6 +43,26 @@ enum DisplayStateEnum {
     DISPLAY_STATE_ON_SUSPEND = 6;
 }
 
+// Screen state reasons.
+enum DisplayStateReason {
+    // The display state reason is unknown.
+    DISPLAY_STATE_REASON_UNKNOWN = 0;
+    // The display state reason is the default policy.
+    DISPLAY_STATE_REASON_DEFAULT_POLICY = 1;
+    // The display state is caused by a draw wake lock.
+    DISPLAY_STATE_REASON_DRAW_WAKE_LOCK = 2;
+    // The display state is caused by display offloading.
+    DISPLAY_STATE_REASON_OFFLOAD = 3;
+    // The display state is caused by a tilt.
+    DISPLAY_STATE_REASON_TILT = 4;
+    // The display state is caused by the dream manager.
+    DISPLAY_STATE_REASON_DREAM_MANAGER = 5;
+    // The display state is caused by an input key event.
+    DISPLAY_STATE_REASON_KEY = 6;
+    // The display state is caused by an input motion event.
+    DISPLAY_STATE_REASON_MOTION = 7;
+}
+
 // Constants found in android.view.WindowManager.
 enum TransitionTypeEnum {
     TRANSIT_NONE = 0;

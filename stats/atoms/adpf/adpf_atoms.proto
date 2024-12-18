@@ -7,6 +7,29 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 option java_package = "com.android.os.adpf";
 option java_multiple_files = true;
 
+enum AdpfSessionTag {
+    // This tag is used to mark uncategorized hint sessions.
+    OTHER = 0;
+    // This tag is used to mark the SurfaceFlinger hint session.
+    SURFACEFLINGER = 1;
+    // This tag is used to mark hint sessions created by HWUI.
+    HWUI = 2;
+    // This tag is used to mark hint sessions created by applications that are
+    // categorized as games.
+    GAME = 3;
+    // This tag is used to mark the hint session is created by the application.
+    // If an applications is categorized as game, then GAME should be used
+    // instead.
+    APP = 4;
+}
+
+enum FmqStatus {
+    OTHER_STATUS = 0;
+    SUPPORTED = 1;
+    UNSUPPORTED = 2;
+    HAL_VERSION_NOT_MET = 3;
+}
+
 /**
  * Logs information related to Android Dynamic Performance Framework (ADPF).
  */
@@ -21,8 +44,11 @@ message PerformanceHintSessionReported {
     // Hint session target duration, in nanoseconds.
     optional int64 target_duration_ns = 3;
 
-    // Number of threads affected by this session
+    // Number of threads affected by this session.
     optional int32 tid_count = 4;
+
+    // Session tag specifying the type of the session.
+    optional AdpfSessionTag session_tag = 5;
 }
 
 message ADPFSystemComponentInfo {
@@ -31,4 +57,7 @@ message ADPFSystemComponentInfo {
 
     // True if HWUI hint is enabled on the device.
     optional bool hwui_hint_enabled = 2;
+
+    // True if FMQ is supported and used on the device.
+    optional FmqStatus fmq_supported = 3;
 }

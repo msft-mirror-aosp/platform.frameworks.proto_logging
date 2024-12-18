@@ -1,0 +1,102 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.art;
+
+option java_package = "com.android.os.art";
+option java_multiple_files = true;
+
+// Keep in sync with the BcpCompilationType enum defined in art/odrefresh/odr_metrics.h
+enum OdrefreshBcpCompilationType {
+  ODREFRESH_BCP_COMPILATION_TYPE_UNKNOWN = 0;
+  // Compiles for both the primary boot image and the mainline extension.
+  ODREFRESH_BCP_COMPILATION_TYPE_PRIMARY_AND_MAINLINE = 1;
+  // Only compiles for the mainline extension.
+  ODREFRESH_BCP_COMPILATION_TYPE_MAINLINE = 2;
+}
+
+// Keep in sync with the Stage enum defined in art/odrefresh/odr_metrics.h
+enum OdrefreshStage {
+  // A placeholder for unknown values.
+  ODREFRESH_STAGE_UNKNOWN = 0;
+
+  // Checking stage.
+  ODREFRESH_STAGE_CHECK = 10;
+
+  // Preparation for compilation.
+  ODREFRESH_STAGE_PREPARATION = 20;
+
+  // Compilation of the boot classpath for the primary architecture
+  // ("primary boot classpath").
+  ODREFRESH_STAGE_PRIMARY_BOOT_CLASSPATH = 30;
+
+  // Compilation of the boot classpath for the secondary architecture
+  // ("secondary boot classpath"), if any.
+  ODREFRESH_STAGE_SECONDARY_BOOT_CLASSPATH = 40;
+
+  // Compilation of system_server classpath.
+  ODREFRESH_STAGE_SYSTEM_SERVER_CLASSPATH = 50;
+
+  // All stages completed.
+  ODREFRESH_STAGE_COMPLETE = 60;
+}
+
+// Keep in sync with the Status enum defined in art/odrefresh/odr_metrics.h
+enum OdrefreshStatus {
+  // A placeholder for unknown values.
+  ODREFRESH_STATUS_UNKNOWN = 0;
+
+  // OK, no problems encountered.
+  ODREFRESH_STATUS_OK = 1;
+
+  // Insufficient space.
+  ODREFRESH_STATUS_NO_SPACE = 2;
+
+  // Storage operation failed.
+  ODREFRESH_STATUS_IO_ERROR = 3;
+
+  // Dex2oat reported an error.
+  ODREFRESH_STATUS_DEX2OAT_ERROR = 4;
+
+  reserved 5; // was STATUS_TIME_LIMIT_EXCEEDED
+
+  // Failure creating staging area.
+  ODREFRESH_STATUS_STAGING_FAILED = 6;
+
+  // Installation of artifacts failed.
+  ODREFRESH_STATUS_INSTALL_FAILED = 7;
+
+  // Failed to access the dalvik-cache directory due to lack of
+  // permission.
+  ODREFRESH_STATUS_DALVIK_CACHE_PERMISSION_DENIED = 8;
+}
+
+// Keep in sync with the Trigger enum defined in art/odrefresh/odr_metrics.h
+enum OdrefreshTrigger {
+  // A placeholder for unknown values.
+  ODREFRESH_TRIGGER_UNKNOWN = 0;
+
+  // ART APEX version has changed since time artifacts were generated.
+  ODREFRESH_TRIGGER_APEX_VERSION_MISMATCH = 1;
+
+  // Dex files on the boot classpath or system_server classpath have changed.
+  ODREFRESH_TRIGGER_DEX_FILES_CHANGED = 2;
+
+  // Missing artifacts.
+  ODREFRESH_TRIGGER_MISSING_ARTIFACTS = 3;
+}

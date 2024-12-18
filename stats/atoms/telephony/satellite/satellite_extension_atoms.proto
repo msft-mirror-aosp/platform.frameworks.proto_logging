@@ -39,6 +39,18 @@ extend Atom {
   [(module) = "telephony"];
   optional SatelliteSosMessageRecommender satellite_sos_message_recommender = 10187
   [(module) = "telephony"];
+  optional CarrierRoamingSatelliteSession carrier_roaming_satellite_session = 10211
+  [(module) = "telephony"];
+  optional CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats = 10212
+  [(module) = "telephony"];
+  optional ControllerStatsPerPackage controller_stats_per_package = 10213
+  [(module) = "telephony"];
+  optional SatelliteEntitlement satellite_entitlement = 10214
+  [(module) = "telephony"];
+  optional SatelliteConfigUpdater satellite_config_updater = 10215
+  [(module) = "telephony"];
+  optional SatelliteAccessController satellite_access_controller = 10219
+  [(module) = "telephony"];
 }
 
 /**
@@ -81,6 +93,41 @@ message SatelliteController {
   optional int32 total_battery_consumption_percent = 16;
   // The total duration of the battery being charged while satellite modem is on
   optional int32 total_battery_charged_time_sec = 17;
+  // Count of successful satellite service enablement in demo mode
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
+  optional int32 count_of_demo_mode_satellite_service_enablements_success = 18;
+  // Count of failed satellite service enablement in demo mode
+  optional int32 count_of_demo_mode_satellite_service_enablements_fail = 19;
+  // Total count of successful outgoing datagrams in demo mode.
+  optional int32 count_of_demo_mode_outgoing_datagram_success = 20;
+  // Total count of failed attempts for outgoing datagrams in demo mode.
+  optional int32 count_of_demo_mode_outgoing_datagram_fail = 21;
+  // Total count of successful incoming datagrams in demo mode.
+  optional int32 count_of_demo_mode_incoming_datagram_success = 22;
+  // Total count of failed attempts for incoming datagrams in demo mode.
+  optional int32 count_of_demo_mode_incoming_datagram_fail = 23;
+  // Total count of successful DATAGRAM_TYPE_KEEP_ALIVE request.
+  optional int32 count_of_datagram_type_keep_alive_success = 24;
+  // Total count of failed DATAGRAM_TYPE_KEEP_ALIVE request.
+  optional int32 count_of_datagram_type_keep_alive_fail = 25;
+  // Total count of allowed satellite access.
+  optional int32 count_of_allowed_satellite_access = 26;
+  // Total count of disallowed satellite access.
+  optional int32 count_of_disallowed_satellite_access = 27;
+  // Total count of failed checking event for satellite access.
+  optional int32 count_of_satellite_access_check_fail = 28;
+  // Whether this device is provisioned or not.
+  optional bool is_provisioned = 29;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 30;
+  // Count of satellite allowed state changed events
+  optional int32 count_of_satellite_allowed_state_changed_events = 31;
+  // Count of successful location queries
+  optional int32 count_of_successful_location_queries = 32;
+  // Count of failed location queries
+  optional int32 count_of_failed_location_queries = 33;
 }
 
 /**
@@ -93,6 +140,38 @@ message SatelliteSession {
   optional android.telephony.NTRadioTechnology satellite_technology = 2;
   // Total count of times this event has occurred.
   optional int32 count = 3;
+  // The result for satellite service disablement
+  // set as dimension
+  optional android.telephony.SatelliteError satellite_service_termination_result = 4;
+  // the processing time to enable satellite session
+  optional int64 initialization_processing_time_millis = 5;
+  // the processing time to disable satellite session
+  optional int64 termination_processing_time_millis = 6;
+  // the duration from the satellite service is enabled to satellite is disabled
+  optional int32 session_duration_seconds = 7;
+  // the number of successful outgoing datagram transmission while the session is enabled
+  optional int32 count_of_outgoing_datagram_success = 8;
+  // the number of failed outgoing datagram transmission while the session is enabled
+  optional int32 count_of_outgoing_datagram_failed = 9;
+  // the number of successful incoming datagram transmission while the session is enabled
+  optional int32 count_of_incoming_datagram_success = 10;
+  // the number of failed incoming datagram transmission while the session is enabled
+  optional int32 count_of_incoming_datagram_failed = 11;
+  // Whether this session is enabled for demo mode, code {true} if it is demo mode
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
+  optional bool is_demo_mode = 12;
+  // Max Ntn signal strength while the satellite session is enabled
+  optional int32 max_ntn_signal_strength_level = 13;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 14;
+  // Total number of times the user is notified that the device is eligible for satellite service
+  optional int32 count_of_satellite_notification_displayed = 15;
+  // Total number of times exit P2P message service automatically due to screen is off and timer is expired
+  optional int32 count_of_auto_exit_due_to_screen_off = 16;
+  // Total number of times exit P2P message service automatically when a TN network is detected during idle scanning mode
+  optional int32 count_of_auto_exit_due_to_tn_network = 17;
 }
 
 /**
@@ -105,6 +184,13 @@ message SatelliteIncomingDatagram {
   optional int32 datagram_size_bytes = 2;
   // The amount of time took to receive the datagram.
   optional int64 datagram_transfer_time_millis = 3;
+  // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
+  optional bool is_demo_mode = 4;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 5;
 }
 
 /**
@@ -119,6 +205,13 @@ message SatelliteOutgoingDatagram {
   optional int32 datagram_size_bytes = 3;
   // The amount of time took to send the datagram.
   optional int64 datagram_transfer_time_millis = 4;
+  // Whether it is transferred in demo mode or not. if true, transferred in demo mode.
+  // Demo mode is a service that allows users to practise in a safe environment,
+  // considering that the first use of the satellite service is likely to be in
+  // an emergency.
+  optional bool is_demo_mode = 5;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 6;
 }
 
 /**
@@ -134,6 +227,8 @@ message SatelliteProvision {
   optional bool is_provision_request = 3;
   // Whether the provisioning request was canceled.
   optional bool is_canceled = 4;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 5;
 }
 
 /**
@@ -156,4 +251,143 @@ message SatelliteSosMessageRecommender {
   optional android.telephony.RecommendingHandoverType recommending_handover_type = 7;
   // Whether satellite communication is allowed in current location.
   optional bool is_satellite_allowed_in_current_location = 8;
+  // Whether Wi-Fi is available when the emergency call attempted.
+  optional bool is_wifi_connected = 9;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 10;
+}
+
+/**
+ * Stats about carrier roaming satellite session
+ */
+message CarrierRoamingSatelliteSession {
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 1;
+  // Whether device is connected to roaming non-terrestrial network
+  optional bool is_ntn_roaming_in_home_country = 2;
+  // Total time of satellite session
+  optional int32 total_satellite_mode_time_sec = 3;
+  // Number of times satellite signal is lost and gained within a session
+  optional int32 number_of_satellite_connections = 4;
+  // Average duration of a satellite connection
+  optional int32 avg_duration_of_satellite_connection_sec = 5;
+  // Minimum time gap between satellite connections in a satellite session
+  optional int32 satellite_connection_gap_min_sec = 6;
+  // Average time gap between satellite connections in a satellite session
+  optional int32 satellite_connection_gap_avg_sec = 7;
+  // Maximum time gap between satellite connections in a satellite session
+  optional int32 satellite_connection_gap_max_sec = 8;
+  // Average RSRP of non-terrestrial network
+  optional int32 rsrp_avg = 9;
+  // Median RSRP of non-terrestrial network
+  optional int32 rsrp_median = 10;
+  // Average RSSNR of non-terrestrial network
+  optional int32 rssnr_avg = 11;
+  // Median RSSNR of non-terrestrial network
+  optional int32 rssnr_median = 12;
+  // Total number of incoming sms received during the session
+  optional int32 count_of_incoming_sms = 13;
+  // Total number of outgoing sms sent during the session
+  optional int32 count_of_outgoing_sms = 14;
+  // Total number of incoming mms received during the session
+  optional int32 count_of_incoming_mms = 15;
+  // Total number of outgoing mms sent during the session
+  optional int32 count_of_outgoing_mms = 16;
+}
+
+/**
+ * Stats about usage of carrier roaming satellite network
+ */
+message CarrierRoamingSatelliteControllerStats {
+  // Data source of carrier roaming satellite network
+  optional android.telephony.ConfigDataSource config_data_source = 1;
+  // Total number of times entitlement status query request is sent to server
+  optional int32 count_of_entitlement_status_query_request = 2;
+  // Total number of times satellite config is updated
+  optional int32 count_of_satellite_config_update_request = 3;
+  // Total number of times auto-connected to satellite notification is displayed
+  optional int32 count_of_satellite_notification_displayed = 4;
+  // Minimum gap between satellite sessions
+  optional int32 satellite_session_gap_min_sec = 5;
+  // Average gap between satellite sessions
+  optional int32 satellite_session_gap_avg_sec = 6;
+  // Maximum gap between satellite sessions
+  optional int32 satellite_session_gap_max_sec = 7;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 8;
+  // Whether this device is entitled or not.
+  optional bool is_device_entitled = 9;
+}
+
+/**
+ * Stats about apps using carrier-roaming satellite services such as SMS, MMS and DATA
+ */
+message ControllerStatsPerPackage {
+  optional int32 uid = 1  [(is_uid) = true];
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 2;
+}
+
+/**
+ * Stats about satellite entitlement query request
+ */
+message SatelliteEntitlement {
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 1;
+  // Result of entitlement query request
+  optional int32 result = 2;
+  // Entitlement status of the subscription
+  optional android.telephony.SatelliteEntitlementStatus  entitlement_status = 3;
+  // Retry request for entitlement query
+  optional bool is_retry = 4;
+  // Total number of times this event has occurred
+  optional int32 count = 5;
+}
+
+/**
+ * Stats about satellite config update
+ */
+message SatelliteConfigUpdater {
+  // satellite config version used by the device
+  optional int32 config_version = 1;
+  // Result of OEM config update
+  optional android.telephony.ConfigUpdateResult oem_config_result = 2;
+  // Result of carrier config update
+  optional android.telephony.ConfigUpdateResult carrier_config_result = 3;
+  // Total number of times this event has occurred
+  optional int32 count = 4;
+}
+
+message SatelliteAccessController {
+  // Satellite access control type.
+  optional android.telephony.AccessControlType access_control_type = 1;
+  // The amount of time took to query current location.
+  optional int64 location_query_time_millis = 2;
+  // The amount of time took to search for the current location in the on-device data.
+  optional int64 on_device_lookup_time_millis = 3;
+  // The total amount of time took to serve a request for checking if satellite communication is
+  // allowed at the current location.
+  optional int64 total_checking_time_millis = 4;
+  // Whether satellite service is allowed at the current location.
+  optional bool is_allowed = 5;
+  // Whether request is received in emergency mode.
+  optional bool is_emergency = 6;
+  // Result code of the request for checking if satellite communication is allowed at the current
+  // location.
+  optional android.telephony.SatelliteError result_code = 7;
+  // ISO 3166-1 alpha-2 uppercase country codes representing the device's
+  // location.
+  // Country codes are determined based on the device's current location
+  // information, obtained from the cellular network.
+  // Country code can be obtained only when there is available cellular network,
+  // or empty list will be given.
+  // Cellular networks may provide multiple codes at locations near country
+  // borders.
+  repeated string country_codes = 8;
+  // Source of geofencing config data
+  optional android.telephony.ConfigDataSource config_data_source = 9;
+  // Carrier id of the subscription connected to non-terrestrial network
+  optional int32 carrier_id = 10;
+  // From which reason the Satellite Access Controller operation was triggered.
+  optional android.telephony.TriggeringEvent triggering_event = 11;
 }

@@ -1,0 +1,102 @@
+
+syntax = "proto2";
+package android.adservices.common.api.metrics;
+
+// Recommended setup in go/java-proto-names
+option java_outer_classname = "AdservicesApiMetricsProtoEnums";
+option java_multiple_files = true;
+
+// The name of the api that was called.
+// Can be classified as one of the following:
+//
+// Targeting
+//  * GetTopics()
+//
+// FLEDGE
+//  * joinCustomAudience()
+//  * leaveCustomAudience()
+//  * overrideCustomAudienceRemoteInfo()
+//  * removeCustomAudienceRemoteInfoOverride()
+//  * resetAllCustomAudienceOverrides()
+//  * selectAds()
+//  * reportImpression()
+//  * overrideAdSelectionConfigRemoteInfo()
+//  * removeAdSelectionConfigRemoteInfoOverride()
+//  * resetAllAdSelectionConfigRemoteOverrides()
+//  * setAppInstallAdvertisers()
+//  * reportInteraction()
+//  * updateAdCounterHistogram()
+//  * fetchAndJoinCustomAudience()
+//  * getAdSelectionData()
+//  * persistAdSelectionResult()
+//  * scheduleCustomAudienceUpdate()
+//
+// Measurement - client side
+//   * register() : SOURCE
+//   * register() : TRIGGER
+//   * deleteRegistrations()
+//   * registerWebSource()
+//   * registerWebTrigger()
+//   * getMeasurementApiStatus()
+//   * registerSource() : accepts a list of source registration URIs
+//
+// AdId
+//   * GetAdId()
+//
+// AppsetId
+//   * GetAppsetId()
+//
+// AdExtDataService
+//   * onGetAdServicesExtData()
+//   * onPutAdServicesExtData()
+//
+// PAS
+//   * updateSignals()
+
+enum AdServicesApiClassType {
+  UNKNOWN = 0;
+  TARGETING = 1;
+  FLEDGE = 2;
+  MEASUREMENT = 3;
+  ADID = 4;
+  APPSETID = 5;
+  ADEXT_DATA_SERVICE = 6;
+  COMMON = 7;
+}
+
+enum AdServicesApiName {
+  API_NAME_UNKNOWN = 0;
+  GET_TOPICS = 1;
+  JOIN_CUSTOM_AUDIENCE = 2;
+  LEAVE_CUSTOM_AUDIENCE = 3;
+  SELECT_ADS = 4;
+  REGISTER_SOURCE = 5;
+  DELETE_REGISTRATIONS = 6;
+  REPORT_IMPRESSION = 7;
+  OVERRIDE_CUSTOM_AUDIENCE_REMOTE_INFO = 8;
+  REMOVE_CUSTOM_AUDIENCE_REMOTE_INFO_OVERRIDE = 9;
+  RESET_ALL_CUSTOM_AUDIENCE_OVERRIDES = 10;
+  OVERRIDE_AD_SELECTION_CONFIG_REMOTE_INFO = 11;
+  REMOVE_AD_SELECTION_CONFIG_REMOTE_INFO_OVERRIDE = 12;
+  RESET_ALL_AD_SELECTION_CONFIG_REMOTE_OVERRIDES = 13;
+  GET_ADID = 14;
+  GET_APPSETID = 15;
+  REGISTER_TRIGGER = 16;
+  REGISTER_WEB_SOURCE = 17;
+  REGISTER_WEB_TRIGGER = 18;
+  GET_MEASUREMENT_API_STATUS = 19;
+  GET_TOPICS_PREVIEW_API = 20;
+  SELECT_ADS_FROM_OUTCOMES = 21;
+  SET_APP_INSTALL_ADVERTISERS = 22;
+  REPORT_INTERACTION = 23;
+  UPDATE_AD_COUNTER_HISTOGRAM = 24;
+  FETCH_AND_JOIN_CUSTOM_AUDIENCE = 25;
+  REGISTER_SOURCES = 26;
+  GET_AD_SERVICES_EXT_DATA = 27;
+  PUT_AD_SERVICES_EXT_DATA = 28;
+  GET_ADSERVICES_COMMON_STATES = 29;
+  GET_AD_SELECTION_DATA = 30;
+  PERSIST_AD_SELECTION_RESULT = 31;
+  UPDATE_SIGNALS = 32;
+  SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 33;
+}

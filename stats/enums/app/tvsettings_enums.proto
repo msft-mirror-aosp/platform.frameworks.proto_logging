@@ -116,6 +116,9 @@ enum ItemId {
     // [A connected network entry in available networks list] > IP settings
     NETWORK_AP_INFO_IP_SETTINGS = 0x11220000;
 
+    // See b/321892563
+    NETWORK_T_N = 0x11A00000;
+
     // TvSettings > Network & Internet >
     // [A connected network entry in available networks list] > Forget network
     NETWORK_AP_INFO_FORGET_NETWORK = 0x11230000;
@@ -1057,6 +1060,24 @@ enum ItemId {
 
     // TvSettings > System > Accessibility > Color Correction > Grayscale
     SYSTEM_A11Y_COLOR_CORRECTION_GRAYSCALE = 0x178C5000;
+
+    // TvSettings > System > Accessibility > Time to take action
+    SYSTEM_A11Y_TIMEOUT = 0x178D0000;
+
+    // TvSettings > System > Accessibility > Time to take action > Default
+    SYSTEM_A11Y_TIMEOUT_DEFAULT = 0x178D1000;
+
+    // TvSettings > System > Accessibility > Time to take action > 10 seconds
+    SYSTEM_A11Y_TIMEOUT_TEN_SECONDS = 0x178D2000;
+
+    // TvSettings > System > Accessibility > Time to take action > 30 seconds
+    SYSTEM_A11Y_TIMEOUT_THIRTY_SECONDS = 0x178D3000;
+
+    // TvSettings > System > Accessibility > Time to take action > 1 minute
+    SYSTEM_A11Y_TIMEOUT_ONE_MINUTE = 0x178D4000;
+
+    // TvSettings > System > Accessibility > Time to take action > 2 minute
+    SYSTEM_A11Y_TIMEOUT_TWO_MINUTE = 0x178D5000;
 
     // TvSettings > System > Reboot
     SYSTEM_REBOOT = 0x17900000;

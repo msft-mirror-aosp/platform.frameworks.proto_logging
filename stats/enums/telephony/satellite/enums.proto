@@ -29,32 +29,50 @@ enum DatagramType {
   DATAGRAM_TYPE_SOS_MESSAGE = 1;
   // Datagram type indicating that the datagram to be sent or received is of type  location sharing.
   DATAGRAM_TYPE_LOCATION_SHARING = 2;
+  // Datagram type indicating that keep the device in satellite connected state or check if there is
+  // any incoming message.
+  DATAGRAM_TYPE_KEEP_ALIVE = 3;
+  // Datagram type indicating that the datagram to be sent or received is of type SOS message and
+  // is the last message to emergency service provider indicating still needs help.
+  DATAGRAM_TYPE_LAST_SOS_MESSAGE_STILL_NEED_HELP = 4;
+  // Datagram type indicating that the datagram to be sent or received is of type SOS message and
+  // is the last message to emergency service provider indicating no more help is needed.
+  DATAGRAM_TYPE_LAST_SOS_MESSAGE_NO_HELP_NEEDED = 5;
+  // Datagram type indicating that the message to be sent or received is of type SMS.
+  DATAGRAM_TYPE_SMS = 6;
 }
 
 // Result code of Incoming / Outgoing satellite datagram
 // SatelliteServiceResultEnum is not completed yet, it'll be updated once design is fixed
 enum SatelliteError {
-  SATELLITE_ERROR_NONE = 0;
-  SATELLITE_ERROR = 1;
-  SATELLITE_SERVER_ERROR = 2;
-  SATELLITE_SERVICE_ERROR = 3;
-  SATELLITE_MODEM_ERROR = 4;
-  SATELLITE_NETWORK_ERROR = 5;
-  SATELLITE_INVALID_TELEPHONY_STATE = 6;
-  SATELLITE_INVALID_MODEM_STATE = 7;
-  SATELLITE_INVALID_ARGUMENTS = 8;
-  SATELLITE_REQUEST_FAILED = 9;
-  SATELLITE_RADIO_NOT_AVAILABLE = 10;
-  SATELLITE_REQUEST_NOT_SUPPORTED = 11;
-  SATELLITE_NO_RESOURCES = 12;
-  SATELLITE_SERVICE_NOT_PROVISIONED = 13;
-  SATELLITE_SERVICE_PROVISION_IN_PROGRESS = 14;
-  SATELLITE_REQUEST_ABORTED = 15;
-  SATELLITE_ACCESS_BARRED = 16;
-  SATELLITE_NETWORK_TIMEOUT = 17;
-  SATELLITE_NOT_REACHABLE = 18;
-  SATELLITE_NOT_AUTHORIZED = 19;
-  SATELLITE_NOT_SUPPORTED = 20;
+  SATELLITE_RESULT_SUCCESS = 0;
+  SATELLITE_RESULT_ERROR = 1;
+  SATELLITE_RESULT_SERVER_ERROR = 2;
+  SATELLITE_RESULT_SERVICE_ERROR = 3;
+  SATELLITE_RESULT_MODEM_ERROR = 4;
+  SATELLITE_RESULT_NETWORK_ERROR = 5;
+  SATELLITE_RESULT_INVALID_TELEPHONY_STATE = 6;
+  SATELLITE_RESULT_INVALID_MODEM_STATE = 7;
+  SATELLITE_RESULT_INVALID_ARGUMENTS = 8;
+  SATELLITE_RESULT_REQUEST_FAILED = 9;
+  SATELLITE_RESULT_RADIO_NOT_AVAILABLE = 10;
+  SATELLITE_RESULT_REQUEST_NOT_SUPPORTED = 11;
+  SATELLITE_RESULT_NO_RESOURCES = 12;
+  SATELLITE_RESULT_SERVICE_NOT_PROVISIONED = 13;
+  SATELLITE_RESULT_SERVICE_PROVISION_IN_PROGRESS = 14;
+  SATELLITE_RESULT_REQUEST_ABORTED = 15;
+  SATELLITE_RESULT_ACCESS_BARRED = 16;
+  SATELLITE_RESULT_NETWORK_TIMEOUT = 17;
+  SATELLITE_RESULT_NOT_REACHABLE = 18;
+  SATELLITE_RESULT_NOT_AUTHORIZED = 19;
+  SATELLITE_RESULT_NOT_SUPPORTED = 20;
+  SATELLITE_RESULT_REQUEST_IN_PROGRESS = 21;
+  SATELLITE_RESULT_MODEM_BUSY = 22;
+  SATELLITE_RESULT_ILLEGAL_STATE = 23;
+  SATELLITE_RESULT_MODEM_TIMEOUT = 24;
+  SATELLITE_RESULT_LOCATION_DISABLED = 25;
+  SATELLITE_RESULT_LOCATION_NOT_AVAILABLE = 26;
+  SATELLITE_RESULT_EMERGENCY_CALL_IN_PROGRESS = 27;
 }
 
 // Technology of Satellite Communication
@@ -76,4 +94,69 @@ enum RecommendingHandoverType {
   RECOMMENDING_HANDOVER_TYPE_UNKNOWN = 0;
   RECOMMENDING_HANDOVER_TYPE_SOS = 1;
   RECOMMENDING_HANDOVER_TYPE_T911 = 2;
+}
+
+// Data source of carrier roaming satellite network
+enum ConfigDataSource {
+  CONFIG_DATA_SOURCE_UNKNOWN = 0;
+  CONFIG_DATA_SOURCE_ENTITLEMENT = 1;
+  CONFIG_DATA_SOURCE_CONFIG_UPDATER = 2;
+  CONFIG_DATA_SOURCE_CARRIER_CONFIG = 3;
+  CONFIG_DATA_SOURCE_DEVICE_CONFIG = 4;
+}
+
+// Satellite entitlement status of the subscription
+enum SatelliteEntitlementStatus {
+  // Satellite entitlement status unknown
+  SATELLITE_ENTITLEMENT_STATUS_UNKNOWN = 0;
+  // SatMode allowed, but not yet provisioned and activated on the network.
+  SATELLITE_ENTITLEMENT_STATUS_DISABLED = 1;
+  // SatMode service allowed, provisioned and activated on the network. User can access the
+  // satellite service.
+  SATELLITE_ENTITLEMENT_STATUS_ENABLED = 2;
+  // SatMode cannot be offered for network or device.
+  SATELLITE_ENTITLEMENT_STATUS_INCOMPATIBLE = 3;
+  // SatMode is being provisioned on the network. Not yet activated.
+  SATELLITE_ENTITLEMENT_STATUS_PROVISIONING = 4;
+}
+
+// Config update result codes.
+enum ConfigUpdateResult {
+  CONFIG_UPDATE_RESULT_UNKNOWN = 0;
+  CONFIG_UPDATE_RESULT_SUCCESS = 1;
+  CONFIG_UPDATE_RESULT_INVALID_DOMAIN = 2;
+  CONFIG_UPDATE_RESULT_INVALID_VERSION = 3;
+  CONFIG_UPDATE_RESULT_NO_DATA = 4;
+  CONFIG_UPDATE_RESULT_NO_SATELLITE_DATA = 5;
+  CONFIG_UPDATE_RESULT_PARSE_ERROR = 6;
+  CONFIG_UPDATE_RESULT_CARRIER_DATA_INVALID_PLMN = 7;
+  CONFIG_UPDATE_RESULT_CARRIER_DATA_INVALID_SUPPORTED_SERVICES = 8;
+  CONFIG_UPDATE_RESULT_DEVICE_DATA_INVALID_COUNTRY_CODE = 9;
+  CONFIG_UPDATE_RESULT_DEVICE_DATA_INVALID_S2_CELL_FILE = 10;
+  CONFIG_UPDATE_RESULT_IO_ERROR = 11;
+}
+
+// Satellite access control type
+enum AccessControlType {
+  ACCESS_CONTROL_TYPE_UNKNOWN = 0;
+  // Network country code is used for satellite access decision
+  ACCESS_CONTROL_TYPE_NETWORK_COUNTRY_CODE = 1;
+  // Device's current location is used for satellite access decision
+  ACCESS_CONTROL_TYPE_CURRENT_LOCATION = 2;
+  // Device's last known location is used for satellite access decision
+  ACCESS_CONTROL_TYPE_LAST_KNOWN_LOCATION = 3;
+  // Cached country codes are used for satellite access decision
+  ACCESS_CONTROL_TYPE_CACHED_COUNTRY_CODE = 4;
+}
+
+// Satellite access controller triggering event
+enum TriggeringEvent {
+  // Unknown reason.
+  TRIGGERING_EVENT_UNKNOWN = 0;
+  // Satellite Access Controller has been triggered by an external event.
+  TRIGGERING_EVENT_EXTERNAL_REQUEST = 1;
+  // Satellite Access Controller has been triggered by an MCC change event.
+  TRIGGERING_EVENT_MCC_CHANGED = 2;
+  //Satellite Access Controller has been triggered due to the location setting being enabled
+  TRIGGERING_EVENT_LOCATION_SETTINGS_ENABLED = 3;
 }

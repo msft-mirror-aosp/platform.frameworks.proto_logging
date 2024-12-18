@@ -196,6 +196,8 @@ enum SysproxyConnectionAction {
     SYSPROXY_CONNECTION_ACTION_UNKNOWN = 0;
     SYSPROXY_CONNECTED = 1;
     SYSPROXY_DISCONNECTED = 2;
+    SYSPROXY_CONNECT_NATIVE_SERVICE_FAILED = 3;
+    SYSPROXY_CONNECT_NATIVE_SERVICE_TIMEOUT = 4;
 }
 
 /**
@@ -229,4 +231,16 @@ enum BluetoothConnectionChange {
     BLUETOOTH_CONNECTION_CHANGE_UNKNOWN = 0;
     ACL_CONNECT = 1;
     ACL_DISCONNECT = 2;
+}
+
+enum CompanionConnectionType {
+    COMPANION_CONNECTION_TYPE_UNKNOWN = 0;
+    BLE_ACL = 1;
+    BTC_ACL = 2;
+}
+
+enum CompanionConnectionChange {
+    COMPANION_CONNECTION_CHANGE_UNKNOWN = 0;
+    CONNECTED = 1;
+    DISCONNECTED = 2;
 }

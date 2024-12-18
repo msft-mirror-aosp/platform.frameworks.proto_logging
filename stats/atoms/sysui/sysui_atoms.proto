@@ -232,6 +232,22 @@ message LauncherUIChanged {
          TYPE_PRIVATE = 4;
     }
     optional UserType user_type = 29;
+
+    // Indicates the current rotation of the display. Uses android.view.Surface values.
+    enum DisplayRotation {
+         ROTATION_0 = 0;
+         ROTATION_90 = 1;
+         ROTATION_180 = 2;
+         ROTATION_270 = 3;
+    }
+    optional DisplayRotation display_rotation = 30;
+
+    enum RecentsOrientationHandler {
+        PORTRAIT = 0;
+        LANDSCAPE = 1;
+        SEASCAPE = 2;
+    }
+    optional RecentsOrientationHandler recents_orientation_handler = 31;
 }
 
 message LauncherAttributes {
@@ -498,6 +514,13 @@ message Notification {
         SECTION_ALERTING = 4;
         SECTION_SILENT = 5;
         SECTION_FOREGROUND_SERVICE = 6;
+        SECTION_PRIORITY_PEOPLE = 7;
+        SECTION_TOP_ONGOING = 8;
+        SECTION_TOP_UNSEEN = 9;
+        SECTION_NEWS = 10;
+        SECTION_SOCIAL = 11;
+        SECTION_RECS = 12;
+        SECTION_PROMO = 13;
     }
     optional NotificationSection section = 6;
 }
@@ -514,7 +537,7 @@ message NotificationList {
  */
 message NotificationMemoryUse {
     // UID if the application (can be mapped to package and version)
-    optional int32 uid = 1;
+    optional int32 uid = 1 [(is_uid) = true];
     // Integer enum value showing aggregated notification style.
     optional int32 style = 2;
     // Number of notifications that were aggregated into this metric.

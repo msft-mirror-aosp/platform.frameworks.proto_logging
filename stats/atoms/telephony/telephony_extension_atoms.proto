@@ -29,6 +29,9 @@ extend Atom {
     optional CellularRadioPowerStateChanged cellular_radio_power_state_changed = 713 [(module) = "telephony"];
     optional EmergencyNumbersInfo emergency_numbers_info = 10180 [(module) = "telephony"];
     optional DataNetworkValidation data_network_validation = 10207 [(module) = "telephony"];
+    optional DataRatStateChanged data_rat_state_changed = 854 [(module) = "telephony"];
+    optional ConnectedChannelChanged connected_channel_changed = 882 [(module) = "telephony"];
+    // 10208 is reserved due to removing the old atom.
 }
 
 message CellularRadioPowerStateChanged {
@@ -102,4 +105,54 @@ message DataNetworkValidation {
 
     // Number of network validation
     optional int32 network_validation_count = 7;
+}
+
+/**
+ * Data connection changing event.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/DataConnectionStateTracker.java
+ */
+message DataRatStateChanged {
+    enum DataRat {
+        DATA_RAT_UNSPECIFIED = 0;
+        NO_SIM = 1;
+        DATA_RAT_2G = 2;
+        DATA_RAT_3G = 3;
+        DATA_RAT_4G_LTE = 4;
+        DATA_RAT_5G_NSA_LTE = 5;
+        DATA_RAT_5G_NSA_FR1 = 6;
+        DATA_RAT_5G_NSA_FR2 = 7;
+        DATA_RAT_5G_SA_FR1 = 8;
+        DATA_RAT_5G_SA_FR2 = 9;
+    }
+
+    optional DataRat data_rat = 1 [
+    (state_field_option).exclusive_state = true,
+    (state_field_option).nested = false
+  ];
+}
+
+/**
+ * Physical channel changing event.
+ *
+ * Logged from:
+ *   frameworks/opt/telephony/src/java/com/android/internal/telephony/metrics/DataConnectionStateTracker.java
+ */
+message ConnectedChannelChanged {
+    enum ChannelCount {
+        CHANNEL_COUNT_UNSPECIFIED = 0;
+        // CHANNEL_COUNT_ONE indicates there is 0 or 1 connected channel
+        CHANNEL_COUNT_ONE = 1;
+        // CHANNEL_COUNT_TWO indicates there are 2 connected channels
+        CHANNEL_COUNT_TWO = 2;
+        CHANNEL_COUNT_THREE = 3;
+        CHANNEL_COUNT_FOUR = 4;
+        CHANNEL_COUNT_FIVE = 5;
+    }
+
+    optional ChannelCount connected_channel_count = 1 [
+    (state_field_option).exclusive_state = true,
+    (state_field_option).nested = false
+  ];
 }
