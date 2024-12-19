@@ -926,4 +926,54 @@ enum BugreportEvent {
   EVENT_BUGREPORT_TRIGGERED = 2;
   EVENT_BUGREPORT_FINISHED = 3;
   EVENT_BUGREPORT_RESULT_RECEIVED = 4;
+  // User consent is requested to upload a bug report.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_CONSENT_REQUESTED = 5;
+  // Result of the user consent request is received.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_CONSENT_RESULT_RECEIVED = 6;
+  // Bug report upload started.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_STARTED = 7;
+  // Bug report upload finished.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_FINISHED = 8;
+  // A stale bug report file is discarded without being uploaded.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_DISCARDED = 9;
+}
+
+// This enum depicts a bugreport failure reason
+// Only logged by WCS_AUTO_UPLOAD component.
+// Next ID: 13
+enum BugreportFailureReason {
+  // The failure reason is not specified.
+  BUGREPORT_FAILURE_REASON_UNKNOWN = 0;
+  // The event does not contain any failure.
+  BUGREPORT_FAILURE_REASON_EMPTY = 1;
+  // The request is rejected due to rate limiting.
+  BUGREPORT_FAILURE_REASON_TOO_MANY_REQUESTS = 2;
+  // The event failed because it is not possible to create an authentication
+  // token.
+  BUGREPORT_FAILURE_REASON_AUTHENTICATION_FAILED = 3;
+  // The event failed because the app does not have the required permission to
+  // use BugreportManager APIs.
+  BUGREPORT_FAILURE_REASON_PERMISSION_ERROR = 4;
+  // BugreportManager APIs failed while generating the bug report.
+  BUGREPORT_FAILURE_REASON_REPORT_GENERATION_ERROR = 5;
+  // BugreportManager APIs failed to generate or retrieve the bug report as
+  // another report generation is in progress.
+  BUGREPORT_FAILURE_REASON_ANOTHER_REPORT_GENERATION_IN_PROGRESS = 6;
+  // The user denied the consent to upload the bug report.
+  BUGREPORT_FAILURE_REASON_USER_DENIED_CONSENT = 7;
+  // The user didn't respond to the consent request in time.
+  BUGREPORT_FAILURE_REASON_USER_CONSENT_TIMED_OUT = 8;
+  // Bug report file to retrieve was not found.
+  BUGREPORT_FAILURE_REASON_FILE_NOT_FOUND = 9;
+  // Creating a Buganizer issue failed.
+  BUGREPORT_FAILURE_REASON_BUG_CREATION_FAILED = 10;
+  // Attaching the bug report file to Buganizer failed.
+  BUGREPORT_FAILURE_REASON_ATTACHMENT_UPLOAD_FAILED = 11;
+  // The bug report upload was canceled before it finished.
+  BUGREPORT_FAILURE_REASON_CANCELED = 12;
 }
