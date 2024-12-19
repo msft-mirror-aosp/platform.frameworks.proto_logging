@@ -64,6 +64,7 @@ message DesktopModeUIChanged {
     TASK_FINISHED = 5; // the task finished or dismissed
     SCREEN_OFF = 6;
     TASK_MINIMIZED = 7; // the task gets minimized
+    TASK_MOVED_TO_BACK = 8; // The task moved to back due to back gesture or button.
   }
 
   optional Event event = 1;
