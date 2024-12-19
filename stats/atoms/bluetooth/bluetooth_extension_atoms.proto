@@ -642,12 +642,14 @@ message BluetoothRfcommConnectionReportedAtClose {
   optional android.bluetooth.rfcomm.PortResult close_reason = 1;
   // security level of the connection
   optional android.bluetooth.rfcomm.SocketConnectionSecurity security = 2;
-  // two states prior to "CLOSED"
-  optional android.bluetooth.rfcomm.RfcommPortState second_previous_state = 3;
+  // last event processed by port state machine
+  optional android.bluetooth.rfcomm.RfcommPortEvent last_event = 3;
   // state prior to "CLOSED"
   optional android.bluetooth.rfcomm.RfcommPortState previous_state = 4;
   // duration that the socket was opened, 0 if connection failed
   optional int32 open_duration_ms = 5;
   // uid of the app that called connect
   optional int32 uid = 6 [(is_uid) = true];
+  // locally generated id for event matching
+  optional int32 metric_id = 7;
 }
