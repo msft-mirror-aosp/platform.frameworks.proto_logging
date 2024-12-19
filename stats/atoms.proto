@@ -15539,6 +15539,8 @@ message AppFreezeChanged {
         UFR_EXECUTING_SERVICE = 27;
         UFR_RESTRICTION_CHANGE = 28;
         UFR_COMPONENT_DISABLED = 29;
+        UFR_OOM_ADJ_FOLLOW_UP = 30;
+        UFR_OOM_ADJ_RECONFIGURATION = 31;
     }
 
     optional UnfreezeReason unfreeze_reason_v2 = 6;
