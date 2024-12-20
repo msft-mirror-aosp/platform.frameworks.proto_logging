@@ -182,6 +182,8 @@ message SatelliteSession {
   optional bool is_emergency = 18;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 19;
+  // Max user inactivity duration in seconds
+  optional int32 max_inactivity_duration_sec = 20;
 }
 
 /**
