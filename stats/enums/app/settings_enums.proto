@@ -5319,6 +5319,7 @@ enum ExtApiRequestType {
     UNKNOWN_REQUEST = 0;
     ACTION_READ = 1;
     ACTION_WRITE = 2;
+    ACTION_GET_METADATA = 3;
 }
 
 // Result of requesting Settings data (ResultCode from GetSettingsValue and SetSettings)
