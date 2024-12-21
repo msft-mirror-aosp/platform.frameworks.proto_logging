@@ -180,6 +180,8 @@ message SatelliteSession {
   optional int32 count_of_auto_exit_due_to_tn_network = 17;
   // Whether this session is enabled for emergency.
   optional bool is_emergency = 18;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 19;
 }
 
 /**
@@ -199,6 +201,8 @@ message SatelliteIncomingDatagram {
   optional bool is_demo_mode = 4;
   // Carrier id of the subscription connected to non-terrestrial network
   optional int32 carrier_id = 5;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 6;
 }
 
 /**
@@ -220,6 +224,8 @@ message SatelliteOutgoingDatagram {
   optional bool is_demo_mode = 5;
   // Carrier id of the subscription connected to non-terrestrial network
   optional int32 carrier_id = 6;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 7;
 }
 
 /**
@@ -237,6 +243,8 @@ message SatelliteProvision {
   optional bool is_canceled = 4;
   // Carrier id of the subscription connected to non-terrestrial network
   optional int32 carrier_id = 5;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 6;
 }
 
 /**
@@ -263,6 +271,8 @@ message SatelliteSosMessageRecommender {
   optional bool is_wifi_connected = 9;
   // Carrier id of the subscription connected to non-terrestrial network
   optional int32 carrier_id = 10;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 11;
 }
 
 /**
@@ -398,4 +408,6 @@ message SatelliteAccessController {
   optional int32 carrier_id = 10;
   // From which reason the Satellite Access Controller operation was triggered.
   optional android.telephony.TriggeringEvent triggering_event = 11;
+  // Whether this satellite service is from NTN only carrier.
+  optional bool is_ntn_only_carrier = 12;
 }

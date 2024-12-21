@@ -27,7 +27,8 @@ option java_multiple_files = true;
 
 extend Atom {
     optional CoreNetworkingTerribleErrorOccurred core_networking_terrible_error_occurred =
-        979 [(module) = "connectivity", (module) = "network_stack", (module) = "resolv"];
+        979 [(module) = "connectivity", (module) = "network_stack",
+            (module) = "resolv", (module) = "network_tethering"];
 }
 
 /**

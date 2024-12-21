@@ -2012,6 +2012,7 @@ message AdServicesMeasurementReportsUploaded {
   optional int32 retry_count = 7;
   optional int32 http_response_code = 8;
   optional bool is_marked_for_deletion = 9;
+  optional bool is_fake_report = 10;
 }
 
 /**

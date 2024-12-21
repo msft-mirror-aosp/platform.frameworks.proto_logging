@@ -27,6 +27,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional SettingsSpaReported settings_spa_reported = 622 [(module) = "settings"];
+  optional SettingsExtApiReported settings_extapi_reported = 1001 [(module) = "settings"];
 }
 
 
@@ -61,4 +62,30 @@ message SettingsSpaReported {
 
   // Data about elapsed time since setup wizard finished.
   optional int64 elapsed_time_millis = 8;
+}
+
+/**
+ * Logs when Settings External API has been requested.
+ *
+ * Logged from:
+ *   framework/base/packages/SettingsLib/Graph
+ *
+ * Estimated Logging Rate:
+ *   Peak: 5 times in 1 min | Avg: 40 times per device per day
+ */
+message SettingsExtApiReported {
+  // Package calling the API.
+  optional string package_name = 1;
+
+  // Setting ID assembled by screen name and setting key.
+  optional string setting_id = 2;
+
+  // Settings external API request type.
+  optional android.app.settings.ExtApiRequestType type = 3;
+
+  // Settings external API result type.
+  optional android.app.settings.ExtApiResultType result = 4;
+
+  // Latency between the request and result made by the external API.
+  optional int64 latency_millis = 5;
 }

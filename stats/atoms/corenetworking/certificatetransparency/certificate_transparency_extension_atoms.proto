@@ -4,40 +4,14 @@ package android.os.statsd.corenetworking.certificatetransparency;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/corenetworking/certificatetransparency/enums.proto";
 
 option java_package = "com.android.os.corenetworking.certificatetransparency";
 
 extend Atom {
-    optional CertificateTransparencyLogListUpdateFailed certificate_transparency_log_list_update_failed = 972 [(module) = "certificate_transparency"];
-}
-
-enum LogListUpdateStatus {
-    STATUS_UNKNOWN = 0;
-    // Log list was successfully updated.
-    SUCCESS = 1;
-    // Log list failed to update for unknown reasons.
-    FAILURE_UNKNOWN = 2;
-    // Device has been offline, preventing the log list file from being updated.
-    FAILURE_DEVICE_OFFLINE = 3;
-    // Device experienced an issue at the HTTP level and/or received an unhandled
-    // HTTP code.
-    FAILURE_HTTP_ERROR = 4;
-    // Device experienced too many redirects when accessing the log list domain.
-    FAILURE_TOO_MANY_REDIRECTS = 5;
-    // A transient error occurred that prevents the download from resuming.
-    FAILURE_DOWNLOAD_CANNOT_RESUME = 6;
-    // Log list domain is blocked by the device's network configuration.
-    FAILURE_DOMAIN_BLOCKED = 7;
-    // Device does not have enough disk space to store the log list file.
-    // Extremely unlikely to occur, and might not be able to reliably log this.
-    FAILURE_NO_DISK_SPACE = 8;
-    // Public key is missing for signature verification.
-    FAILURE_SIGNATURE_NOT_FOUND = 9;
-    // Log list signature verification failed.
-    FAILURE_SIGNATURE_VERIFICATION = 10;
-    // Device is waiting for a Wi-Fi connection to proceed with the download, as it
-    // exceeds the size limit for downloads over the mobile network.
-    PENDING_WAITING_FOR_WIFI = 11;
+  optional CertificateTransparencyLogListUpdateFailed
+      certificate_transparency_log_list_update_failed = 972
+      [(module) = "certificate_transparency"];
 }
 
 /*
@@ -55,4 +29,7 @@ message CertificateTransparencyLogListUpdateFailed {
 
   // The number of failures since the last successful log list update.
   optional int32 failure_count = 2;
+
+  // The HTTP error status code received from the server, if applicable.
+  optional int32 http_error_status_code = 3;
 }

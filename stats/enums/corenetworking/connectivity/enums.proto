@@ -87,4 +87,8 @@ enum TerribleErrorType {
   // netd doesn't know about this UID and allowBypassVpnOnNetwork API
   // returns ENOENT.
   TYPE_DISALLOW_BYPASS_VPN_FOR_DELEGATE_UID_ENOENT = 2;
+  // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi.
+  TYPE_LEGACY_TETHER_WITH_TYPE_WIFI = 3;
+  // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi P2P.
+  TYPE_LEGACY_TETHER_WITH_TYPE_WIFI_P2P = 4;
 }
