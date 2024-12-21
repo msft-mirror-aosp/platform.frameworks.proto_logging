@@ -5264,6 +5264,14 @@ enum PageId {
     // OPEN: Settings > Notifications > Notifications on lock screen
     // CATEGORY: SETTINGS
     SETTINGS_NOTIFICATIONS_ON_LOCK_SCREEN = 2132;
+
+    // OPEN: Settings -> Connected Devices -> Connection Preferences -> (select device)
+    // CATEGORY: SETTINGS
+    VIRTUAL_DEVICE_DETAILS = 2133;
+
+    // OPEN: Settings -> Connected Devices -> Connection Preferences -> (select device) -> Forget
+    // CATEGORY: SETTINGS
+    DIALOG_VIRTUAL_DEVICE_FORGET = 2134;
 }
 
 // Battery Saver schedule types.
