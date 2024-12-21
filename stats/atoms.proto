@@ -16098,6 +16098,9 @@ message OutgoingSms {
 
     // Whether the message was sent over non-terrestrial networks.
     optional bool is_ntn = 20;
+
+    // Whether the message is an MT SMS polling.
+    optional bool is_mt_sms_polling = 21;
 }
 
 /**

@@ -33,4 +33,6 @@ enum AccountEventType {
   USER_DATA_CHANGED = 6;
   // Token is stored in AccountManagerService cache.
   TOKEN_CACHED = 7;
+  // Logged from AccountManagerService.checkKeyIntent
+  CHECK_KEY_INTENT_FAILED = 8;
 }
