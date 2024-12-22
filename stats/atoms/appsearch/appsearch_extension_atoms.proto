@@ -37,6 +37,9 @@ extend Atom {
   optional AppSearchUsageSearchIntentRawQueryStatsReported
           app_search_usage_search_intent_raw_query_stats_reported = 826
           [(module) = "appsearch", (restriction_category) = RESTRICTION_SYSTEM_INTELLIGENCE];
+
+  optional AppSearchAppsIndexerStatsReported
+          app_search_apps_indexer_stats_reported = 909 [(module) = "appsearch"];
 }
 
 /**
@@ -260,4 +263,45 @@ message AppSearchUsageSearchIntentRawQueryStatsReported {
     // The correction type of the query in this search intent compared with the previous search
     // intent.
     optional android.appsearch.QueryCorrectionType query_correction_type = 8;
+}
+
+/**
+ * Reported when AppSearch Apps Indexer syncs apps from PackageManager to AppSearch.
+ *
+ * Logged from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/appsindexer/AppsIndexerManagerService.java
+ * Estimated Logging Rate:
+ *    Peak: 20 times in 10*1000 ms | Avg: 1 per device per day
+ *
+ * Next tag: 14
+ */
+message AppSearchAppsIndexerStatsReported {
+  enum UpdateType {
+    UNKNOWN = 0;
+    FULL = 1;
+  }
+
+  // Type of the update. An additional "package intent" update type may be added
+  optional UpdateType update_type = 1;
+
+  // Status codes for inserting/updating apps. If everything succeeds, this only contains [0]. If
+  // something fails, this contains all the error codes we got.
+  repeated int32 update_status_codes = 2;
+
+  // Update counts
+  optional int32 number_of_apps_added = 3;
+  optional int32 number_of_apps_removed = 4;
+  optional int32 number_of_apps_updated = 5;
+  optional int32 number_of_apps_unchanged = 6;
+
+  // Latencies
+  optional int64 total_latency_millis = 7;
+  optional int64 package_manager_latency_millis = 8;
+  optional int64 get_all_apps_from_appsearch_latency_millis = 9;
+  optional int64 set_schema_for_all_apps_latency_millis = 10;
+  optional int64 index_all_apps_to_appsearch_latency_millis = 11;
+
+  // Timestamps
+  optional int64 update_start_wallclock_timestamp_millis = 12;
+  optional int64 last_app_updated_wallclock_timestamp_millis = 13;
 }

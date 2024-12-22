@@ -679,3 +679,21 @@ enum CallComposerStatus {
     CALL_COMPOSER_STATUS_ON = 2;
     CALL_COMPOSER_STATUS_BUSINESS_ONLY = 3;
 }
+
+/**
+ * enum for call state
+ * See frameworks/base/telephony/java/android/telephony/PreciseCallState.java
+ */
+enum CallState {
+    CALL_STATE_UNKNOWN = 0;
+    CALL_STATE_IDLE = 1;
+    CALL_STATE_ACTIVE = 2;
+    CALL_STATE_HOLDING = 3;
+    CALL_STATE_DIALING = 4;
+    CALL_STATE_ALERTING = 5;
+    CALL_STATE_INCOMING = 6;
+    CALL_STATE_WAITING = 7;
+    CALL_STATE_DISCONNECTED = 8;
+    CALL_STATE_DISCONNECTING = 9;
+    CALL_STATE_INCOMING_SETUP = 10;
+}
