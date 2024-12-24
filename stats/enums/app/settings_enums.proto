@@ -1988,6 +1988,26 @@ enum Action {
     //  SUBTYPE: default connection policy, false is forbidden, true is allowed
     // OS: V
     ACTION_BLUETOOTH_PROFILE_LE_AUDIO_OFF = 1980;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Bounce keys > Bounce keys dialog
+    // CATEGORY: SETTINGS
+    ACTION_BOUNCE_KEYS_CUSTOM_VALUE_CHANGE = 1981;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Slow keys > Slow keys dialog
+    // CATEGORY: SETTINGS
+    ACTION_SLOW_KEYS_CUSTOM_VALUE_CHANGE = 1982;
+
+    // OPEN: Settings > System > Mouse -> Swap primary mouse button
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_SWAP_PRIMARY_BUTTON_ENABLED = 1983;
+    ACTION_MOUSE_SWAP_PRIMARY_BUTTON_DISABLED = 1984;
+
+    // OPEN: Settings > System > Mouse -> Reverse scrolling
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_REVERSE_VERTICAL_SCROLLING_ENABLED = 1985;
+    ACTION_MOUSE_REVERSE_VERTICAL_SCROLLING_DISABLED = 1986;
 }
 
 /**
@@ -5272,6 +5292,10 @@ enum PageId {
     // OPEN: Settings -> Connected Devices -> Connection Preferences -> (select device) -> Forget
     // CATEGORY: SETTINGS
     DIALOG_VIRTUAL_DEVICE_FORGET = 2134;
+
+    // Settings -> Keyboard -> Physical keyboard -> Physical keyboard accessibility -> Repeat keys
+    // CATEGORY: SETTINGS
+    PHYSICAL_KEYBOARD_REPEAT_KEYS = 2135;
 }
 
 // Battery Saver schedule types.
