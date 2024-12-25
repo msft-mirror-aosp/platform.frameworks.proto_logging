@@ -82,4 +82,13 @@ enum TerribleErrorType {
   // Indicate the error state that the NetworkAgent sent messages to
   // connectivity service before it is connected.
   TYPE_MESSAGE_QUEUED_BEFORE_CONNECT = 1;
+  // Indicate the error state that the ConnectivityService attempts to
+  // cleanup the bypassing VPN permission for a delegate UID, however,
+  // netd doesn't know about this UID and allowBypassVpnOnNetwork API
+  // returns ENOENT.
+  TYPE_DISALLOW_BYPASS_VPN_FOR_DELEGATE_UID_ENOENT = 2;
+  // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi.
+  TYPE_LEGACY_TETHER_WITH_TYPE_WIFI = 3;
+  // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi P2P.
+  TYPE_LEGACY_TETHER_WITH_TYPE_WIFI_P2P = 4;
 }
