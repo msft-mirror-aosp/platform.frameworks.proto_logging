@@ -2069,6 +2069,8 @@ message WifiConnectionResultReported {
     optional android.net.wifi.TofuConfiguration tofu_configuration = 18;
     // uid of the caller who initiated this connection
     optional int32 connection_uid = 19 [(is_uid) = true];
+    // connection channel frequency
+    optional int32 frequency = 20;
 }
 
 /**
