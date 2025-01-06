@@ -9316,6 +9316,10 @@ message PackageNotificationPreferences {
     // True if the current full screen intent permission state for this package was set by the user.
     // This is only set when the FSI permission is requested by the app.
     optional bool is_fsi_permission_user_set = 7;
+    // Which types of bundles (groupings by category) are allowed for this package. Bundle types are
+    // a limited set, so this repeated field will never be larger than the total number of bundle
+    // types.
+    repeated android.stats.notification.BundleTypes allowed_bundle_types = 8;
 }
 
 /**
