@@ -1140,6 +1140,12 @@ message UpdateSignalsApiCalled {
  * Logs per encoding background job run
  */
 message EncodingJobRun {
+    enum EncodingSourceType {
+      UNSET = 0;
+      PAS_ENCODING_JOB_SERVICE = 1;
+      PAS_SERVICE_IMPL = 2;
+    }
+
     // The number of adtechs who successfully encoded in this background job run
     optional int32 signal_encoding_successes = 1;
 
@@ -1148,6 +1154,9 @@ message EncodingJobRun {
 
     // The number of adtechs skipped due to their signals being unmodified
     optional int32 signal_encoding_skips = 3;
+
+    // The encoding resource type
+    optional EncodingSourceType encoding_source_type = 4;
 }
 
 /*
@@ -2003,6 +2012,7 @@ message AdServicesMeasurementReportsUploaded {
   optional int32 retry_count = 7;
   optional int32 http_response_code = 8;
   optional bool is_marked_for_deletion = 9;
+  optional bool is_fake_report = 10;
 }
 
 /**

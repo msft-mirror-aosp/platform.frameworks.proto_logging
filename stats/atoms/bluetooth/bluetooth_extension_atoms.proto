@@ -70,6 +70,10 @@ extend Atom {
         = 927 [(module) = "bluetooth"];
     optional BroadcastAudioSyncReported broadcast_audio_sync_reported
         = 928 [(module) = "bluetooth"];
+    optional BluetoothRfcommConnectionReportedAtClose bluetooth_rfcomm_connection_reported_at_close
+        = 982 [(module) = "bluetooth"];
+    optional BluetoothLeConnection bluetooth_le_connection
+        = 988 [(module) = "bluetooth"];
 }
 
 /**
@@ -253,6 +257,20 @@ message BluetoothProfileConnectionAttempted {
 
   // Remote Device Information
   optional BluetoothRemoteDeviceInformation remote_device_information = 6 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs LE connection success or failure.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ */
+message BluetoothLeConnection {
+  // Result of LE connection
+  optional android.bluetooth.LeConnectionResult result = 1;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 2 [(log_mode) = MODE_BYTES];
 }
 
 /**
@@ -518,6 +536,8 @@ message A2dpSessionReported {
   optional int64 codec_id = 10;
   // Indicates whether the session is offloaded or not.
   optional bool offload = 11;
+  // Identifier for the remote device.
+  optional int32 metric_id = 12;
 }
 
 /**
@@ -605,4 +625,31 @@ message BroadcastAudioSyncReported {
 
   // Remote Device Information
   optional BluetoothRemoteDeviceInformation remote_device_information = 7 [(log_mode) = MODE_BYTES];
+}
+
+/**
+  * Logs RFCOMM connection attempts from the native layer after the connection closes
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+  *
+  * Estimated Logging Rate:
+  *     Peak: 5 times in 30 seconds | Avg: 4 per device per day
+  *
+*/
+message BluetoothRfcommConnectionReportedAtClose {
+  // Reason for error or closure
+  optional android.bluetooth.rfcomm.PortResult close_reason = 1;
+  // security level of the connection
+  optional android.bluetooth.rfcomm.SocketConnectionSecurity security = 2;
+  // last event processed by port state machine
+  optional android.bluetooth.rfcomm.RfcommPortEvent last_event = 3;
+  // state prior to "CLOSED"
+  optional android.bluetooth.rfcomm.RfcommPortState previous_state = 4;
+  // duration that the socket was opened, 0 if connection failed
+  optional int32 open_duration_ms = 5;
+  // uid of the app that called connect
+  optional int32 uid = 6 [(is_uid) = true];
+  // locally generated id for event matching
+  optional int32 metric_id = 7;
 }

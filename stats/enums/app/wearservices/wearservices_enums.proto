@@ -259,13 +259,16 @@ enum NotificationGroupType {
 }
 
 // The style of the notification.
-// Next ID: 7
+// Next ID: 9
 enum NotificationStyle {
   // Unknown value.
   NOTIFICATION_STYLE_UNKNOWN = 0;
 
   // The notification has not specific any style.
   NOTIFICATION_STYLE_UNSPECIFIED = 1;
+
+  // All other notification styles not listed by this enum.
+  NOTIFICATION_STYLE_OTHER = 8;
 
   // The notification is InboxStyle.
   NOTIFICATION_STYLE_INBOX = 2;
@@ -281,6 +284,9 @@ enum NotificationStyle {
 
   // The notification is MediaStyle.
   NOTIFICATION_STYLE_MEDIA = 6;
+
+  // The notification is ProgressStyle.
+  NOTIFICATION_STYLE_PROGRESS = 7;
 }
 
 // The categories for the notification.
@@ -554,7 +560,7 @@ enum NotificationActionType {
 }
 
 // Defines the notification flow component for which the latency is to be calculated.
-// Next ID: 3
+// Next ID: 4
 enum NotificationFlowComponent {
   // Unknown value.
   NOTIFICATION_FLOW_COMPONENT_UNKNOWN = 0;
@@ -564,10 +570,13 @@ enum NotificationFlowComponent {
 
   // Notification flow representing flow when a notification is dismissed.
   NOTIFICATION_FLOW_COMPONENT_DISMISS_NOTIFICATION = 2;
+
+  // Notification flow representing flow when an action was executed.
+  NOTIFICATION_FLOW_COMPONENT_ACTION_EXECUTION = 3;
 }
 
 // Defines which component the latency is being calculated for.
-// Next ID: 4
+// Next ID: 7
 enum ComponentName {
   // Unknown value.
   COMPONENT_NAME_UNKNOWN = 0;
@@ -580,6 +589,15 @@ enum ComponentName {
 
   // The component is SysUI.
   COMPONENT_NAME_SYSUI = 3;
+
+  // The component is Framework.
+  COMPONENT_NAME_FRAMEWORK = 4;
+
+  // Components in one way RPC transfer.
+  COMPONENT_NAME_TRANSFER_ONE_WAY = 5;
+
+  // Components in a roundtrip RPC transfer.
+  COMPONENT_NAME_TRANSFER_ROUNDTRIP = 6;
 }
 
 // This enum depicts an action taken on a call
@@ -866,7 +884,7 @@ enum RemoteEventState {
 }
 
 // This enum depicts different components of the bugreport flow
-// Next ID: 4
+// Next ID: 5
 enum BugreportComponent {
   // Depicts an unknown component
   BUGREPORT_COMPONENT_UNKNOWN = 0;
@@ -879,6 +897,9 @@ enum BugreportComponent {
 
   // Depicts when the component is not set
   BUGREPORT_COMPONENT_UNSET = 3;
+
+  // Atoms created by WCS auto upload feature
+  BUGREPORT_COMPONENT_WCS_AUTO_UPLOAD = 4;
 }
 
 // This enum depicts the result of the bugreport
@@ -905,4 +926,54 @@ enum BugreportEvent {
   EVENT_BUGREPORT_TRIGGERED = 2;
   EVENT_BUGREPORT_FINISHED = 3;
   EVENT_BUGREPORT_RESULT_RECEIVED = 4;
+  // User consent is requested to upload a bug report.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_CONSENT_REQUESTED = 5;
+  // Result of the user consent request is received.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_CONSENT_RESULT_RECEIVED = 6;
+  // Bug report upload started.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_STARTED = 7;
+  // Bug report upload finished.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_UPLOAD_FINISHED = 8;
+  // A stale bug report file is discarded without being uploaded.
+  // Only logged by WCS_AUTO_UPLOAD component.
+  EVENT_BUGREPORT_DISCARDED = 9;
+}
+
+// This enum depicts a bugreport failure reason
+// Only logged by WCS_AUTO_UPLOAD component.
+// Next ID: 13
+enum BugreportFailureReason {
+  // The failure reason is not specified.
+  BUGREPORT_FAILURE_REASON_UNKNOWN = 0;
+  // The event does not contain any failure.
+  BUGREPORT_FAILURE_REASON_EMPTY = 1;
+  // The request is rejected due to rate limiting.
+  BUGREPORT_FAILURE_REASON_TOO_MANY_REQUESTS = 2;
+  // The event failed because it is not possible to create an authentication
+  // token.
+  BUGREPORT_FAILURE_REASON_AUTHENTICATION_FAILED = 3;
+  // The event failed because the app does not have the required permission to
+  // use BugreportManager APIs.
+  BUGREPORT_FAILURE_REASON_PERMISSION_ERROR = 4;
+  // BugreportManager APIs failed while generating the bug report.
+  BUGREPORT_FAILURE_REASON_REPORT_GENERATION_ERROR = 5;
+  // BugreportManager APIs failed to generate or retrieve the bug report as
+  // another report generation is in progress.
+  BUGREPORT_FAILURE_REASON_ANOTHER_REPORT_GENERATION_IN_PROGRESS = 6;
+  // The user denied the consent to upload the bug report.
+  BUGREPORT_FAILURE_REASON_USER_DENIED_CONSENT = 7;
+  // The user didn't respond to the consent request in time.
+  BUGREPORT_FAILURE_REASON_USER_CONSENT_TIMED_OUT = 8;
+  // Bug report file to retrieve was not found.
+  BUGREPORT_FAILURE_REASON_FILE_NOT_FOUND = 9;
+  // Creating a Buganizer issue failed.
+  BUGREPORT_FAILURE_REASON_BUG_CREATION_FAILED = 10;
+  // Attaching the bug report file to Buganizer failed.
+  BUGREPORT_FAILURE_REASON_ATTACHMENT_UPLOAD_FAILED = 11;
+  // The bug report upload was canceled before it finished.
+  BUGREPORT_FAILURE_REASON_CANCELED = 12;
 }

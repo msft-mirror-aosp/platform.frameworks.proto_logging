@@ -1922,12 +1922,80 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: W
     ACTION_SET_MEASUREMENT_SYSTEM = 1965;
+
+    // ACTION: Settings > Connected devices > Bluetooth > Pair new device > failed
+    //         > retry A2DP profile connection
+    //  SUBTYPE: 0 is fail, 1 is success
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_CONNECTION_A2DP_RETRY_TRIGGERED = 1966;
+
+    // ACTION: Settings > Connected devices > Bluetooth > Pair new device > failed
+    //         > retry HEADSET profile connection
+    //  SUBTYPE: 0 is fail, 1 is success
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_CONNECTION_HEADSET_RETRY_TRIGGERED = 1967;
+
+    // Action: Settings > System > Touchpad & Mouse > Three finger tap
+    // VALUE: boolean
+    // OS: V
+    ACTION_TOUCHPAD_THREE_FINGER_TAP_CUSTOMIZATION_CHANGED = 1968;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item shown
+    //  SUBTYPE: 0 is invisible, 1 is visible
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_SHOWN = 1969;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > item clicked
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BLUETOOTH_DEVICE_DETAILS_ITEM_CLICKED = 1970;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Sticky keys"
+    // CATEGORY: SETTINGS
+    ACTION_STICKY_KEYS_ENABLED = 1971;
+    ACTION_STICKY_KEYS_DISABLED = 1972;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Bounce keys"
+    // CATEGORY: SETTINGS
+    ACTION_BOUNCE_KEYS_ENABLED = 1973;
+    ACTION_BOUNCE_KEYS_DISABLED = 1974;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Slow keys"
+    // CATEGORY: SETTINGS
+    ACTION_SLOW_KEYS_ENABLED = 1975;
+    ACTION_SLOW_KEYS_DISABLED = 1976;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Toggle On/Off "Mouse keys"
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_KEYS_ENABLED = 1977;
+    ACTION_MOUSE_KEYS_DISABLED = 1978;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn on LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_ON = 1979;
+
+    // ACTION: Settings > Connected devices > Bluetooth device details > turn off LE Audio
+    // CATEGORY: SETTINGS
+    //  SUBTYPE: default connection policy, false is forbidden, true is allowed
+    // OS: V
+    ACTION_BLUETOOTH_PROFILE_LE_AUDIO_OFF = 1980;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
 enum PageId {
+    reserved 2123 to 2130;
+
     // Unknown page. Should not be used in production code.
     PAGE_UNKNOWN = 0;
 
@@ -3941,7 +4009,7 @@ enum PageId {
     // OPEN: Settings > Emergency settings
     // CATEGORY: SETTINGS
     // OS: S
-    EMERGENCY_SETTINGS = 1859;
+   EMERGENCY_SETTINGS = 1859;
 
     // OPEN: Settings -> Apps -> APP -> Extra App Info
     // CATEGORY: SETTINGS
@@ -5174,6 +5242,36 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: W
     MEASUREMENT_SYSTEM_PREFERENCE = 2119;
+
+    // ACTION: Settings > Notifications > Bundle notifications
+    // CATEGORY: SETTINGS
+    // OS: B
+    BUNDLED_NOTIFICATIONS = 2120;
+
+    // Settings -> Keyboard -> Mouse
+    // CATEGORY: SETTINGS
+    SETTINGS_KEYBOARD_MOUSE = 2121;
+
+    // Settings -> Keyboard -> Physical keyboard -> Physical Keyboard accessibility -> Mouse Keys
+    // CATEGORY: SETTINGS
+    SETTINGS_PHYSICAL_KEYBOARD_MOUSE_KEYS = 2122;
+
+    // OPEN: Settings > System -> Touchpad
+    // CATEGORY: SETTINGS
+    // OS: V
+    TOUCHPAD_THREE_FINGER_TAP = 2131;
+
+    // OPEN: Settings > Notifications > Notifications on lock screen
+    // CATEGORY: SETTINGS
+    SETTINGS_NOTIFICATIONS_ON_LOCK_SCREEN = 2132;
+
+    // OPEN: Settings -> Connected Devices -> Connection Preferences -> (select device)
+    // CATEGORY: SETTINGS
+    VIRTUAL_DEVICE_DETAILS = 2133;
+
+    // OPEN: Settings -> Connected Devices -> Connection Preferences -> (select device) -> Forget
+    // CATEGORY: SETTINGS
+    DIALOG_VIRTUAL_DEVICE_FORGET = 2134;
 }
 
 // Battery Saver schedule types.
@@ -5222,4 +5320,30 @@ enum SimpleViewUsageTimeType {
     SIMPLE_VIEW_USAGE_TYPE_DISABLED_WITHIN_ONE_WEEK = 4;
     // disabled simple view over 1 week
     SIMPLE_VIEW_USAGE_TYPE_DISABLED_OVER_ONE_WEEK = 5;
+}
+
+// Settings External APIs request types
+enum ExtApiRequestType {
+    UNKNOWN_REQUEST = 0;
+    ACTION_READ = 1;
+    ACTION_WRITE = 2;
+    ACTION_GET_METADATA = 3;
+}
+
+// Result of requesting Settings data (ResultCode from GetSettingsValue and SetSettings)
+enum ExtApiResultType {
+    UNKNOWN_RESULT = 0;
+    RESULT_OK = 1;
+    // For all failures do not match below failure reason
+    RESULT_FAILURE = 2;
+    // Failures from read/write settings request
+    RESULT_FAILURE_UNSUPPORTED = 3;
+    RESULT_FAILURE_UNAVAILABLE = 4;
+    RESULT_FAILURE_REQUIRE_APP_PERMISSION = 5;
+    RESULT_FAILURE_DISALLOW = 6;
+    RESULT_FAILURE_INVALID_REQUEST = 7;
+    RESULT_FAILURE_INTERNAL_ERROR = 8;
+    RESULT_FAILURE_DISABLED = 9;
+    RESULT_FAILURE_RESTRICTED = 10;
+    RESULT_FAILURE_REQUIRE_USER_CONSENT = 11;
 }
