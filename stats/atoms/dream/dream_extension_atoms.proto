@@ -82,6 +82,9 @@ enum WhenToDream{
 
     // Dream when device is charging or docked.
     WHEN_TO_DREAM_EITHER_CHARGING_OR_DOCKED = 3;
+
+    // Dream when device is stationary and upright.
+    WHEN_TO_DREAM_WHILE_POSTURED_ONLY = 4;
 }
 
 // Type of dream setting.
