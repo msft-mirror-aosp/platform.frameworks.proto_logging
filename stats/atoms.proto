@@ -1964,6 +1964,10 @@ message WifiHealthStatReported {
    optional bool is_wifi_predicted_as_usable = 9;
    // Wi-Fi usability state as predicted by the scorer
    optional android.net.wifi.WifiPredictedUsabilityState wifi_predicted_usability_state = 10;
+   // Wi-Fi Tx link speed
+   optional int32 txLinkSpeed = 11;
+   // Wi-Fi Rx link speed
+   optional int32 rxLinkSpeed = 12;
 }
 
 /**
