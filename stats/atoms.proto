@@ -1968,6 +1968,8 @@ message WifiHealthStatReported {
    optional int32 txLinkSpeed = 11;
    // Wi-Fi Rx link speed
    optional int32 rxLinkSpeed = 12;
+   // Supported bandwidth in current connection channel
+   optional android.net.wifi.WifiChannelWidth channel_width_mhz = 13;
 }
 
 /**
