@@ -1277,6 +1277,9 @@ message Atom {
     extensions 995; // RangingSessionClosed ranging_session_closed
     extensions 996; // RangingTechnologyStarted ranging_technology_started
     extensions 997; // RangingTechnologyStopped ranging_technology_stopped
+    extensions 1002; // PopulationDensityProviderLoadingReported population_density_provider_loading_reported
+    extensions 1003; // DensityBasedCoarseLocationsUsageReported density_based_coarse_locations_usage_reported
+    extensions 1004; // DensityBasedCoarseLocationsProviderQueryReported density_based_coarse_locations_provider_query_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
