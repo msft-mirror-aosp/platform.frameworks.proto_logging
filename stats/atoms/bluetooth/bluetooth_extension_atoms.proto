@@ -652,4 +652,8 @@ message BluetoothRfcommConnectionReportedAtClose {
   optional int32 uid = 6 [(is_uid) = true];
   // locally generated id for event matching
   optional int32 metric_id = 7;
+  // sdp status, UNKNOWN if irrelevant
+  optional android.bluetooth.BtaStatus sdp_status = 8;
+  // true if device initiated connection as client, false otherwise
+  optional bool initiated_as_client = 9;
 }
