@@ -31,6 +31,18 @@ extend Atom {
 
  optional ChreSignificantMotionStateChanged
       chre_significant_motion_state_changed = 868 [(module) = "chre"];
+
+  optional PopulationDensityProviderLoadingReported
+      population_density_provider_loading_reported = 1002
+      [(module) = "framework"];
+
+  optional DensityBasedCoarseLocationsUsageReported
+      density_based_coarse_locations_usage_reported = 1003
+      [(module) = "framework"];
+
+  optional DensityBasedCoarseLocationsProviderQueryReported
+      density_based_coarse_locations_provider_query_reported = 1004
+      [(module) = "framework"];
 }
 
 /**
@@ -54,3 +66,63 @@ message EmergencyStateChanged {
 message ChreSignificantMotionStateChanged {
   optional android.contexthub.ContextHubSignificantMotionState state = 1;
 }
+
+/**
+ * Logs when the LocationManagerService finds and instantiates a
+ * IPopulationDensityProvider, based on the XML configuration.
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/location/
+ *    LocationManagerService.java
+ * Estimated Logging Rate:
+ *    Peak: 1 times in 5 min (once per boot) | Avg: ~1 per device per day
+ */
+message PopulationDensityProviderLoadingReported {
+
+  // Is true if the provider isn't found, or if any error occurs when creating
+  // the provider.
+  optional bool provider_null = 1;
+
+  // The latency between the framework creating the
+  // ProxyPopulationDensityProvider and the Binder interface being ready.
+  optional int32 provider_start_time_millis = 2;
+}
+
+/**
+ * Logs when the LocationFudger uses the new density-based coarse locations.
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/location/fudger/
+ *    LocationFudgerCache.java
+ * Estimated Logging Rate:
+ *    Peak: 1 times in 10 min (rate-limited) | Avg: ~100 per device per day
+ */
+message DensityBasedCoarseLocationsUsageReported {
+
+  // If the new algo is skipped because the cache has no default.
+  optional bool skipped_no_default = 1;
+
+  // If the answer to the query was already in cache (default isn't used).
+  optional bool is_cache_hit = 2;
+
+  // Returns the default stored in the cache (used on cache miss).
+  optional int32 default_coarsening_level = 3;
+}
+
+/**
+ * Logs when the LocationFudger uses the new density-based coarse locations.
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/location/fudger/
+ *    LocationFudgerCache.java
+ * Estimated Logging Rate:
+ *    Peak: 1 times in 10 min (once per S2 cell at level 12. Peak is if the
+ *    device is continually changing cells, which are ~6km²).
+ *    Avg: ~100 per device per day
+ */
+ message DensityBasedCoarseLocationsProviderQueryReported {
+
+  // The latency between firing the query and receiving an answer.
+  optional int32 query_duration_millis = 1;
+
+  // Is true if querying the provider returned any error.
+  optional bool is_error = 2;
+}
+
