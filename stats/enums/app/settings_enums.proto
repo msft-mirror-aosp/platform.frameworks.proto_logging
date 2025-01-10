@@ -5340,6 +5340,11 @@ enum PageId {
     //                > Show dialog
     // CATEGORY: SETTINGS
     CHANGE_REGION_DIALOG = 2137;
+
+    // ACTION: Settings > Network & internet > Hotspot & tethering > Wi-Fi hotspot toggle
+    //   SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    ACTION_WIFI_HOTSPOT_TOGGLE = 2138;
 }
 
 // Battery Saver schedule types.
