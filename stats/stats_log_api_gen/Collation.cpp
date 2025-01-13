@@ -21,6 +21,7 @@
 #include <stdio.h>
 
 #include <map>
+#include <string_view>
 
 #include "frameworks/proto_logging/stats/atom_field_options.pb.h"
 #include "frameworks/proto_logging/stats/atoms.pb.h"
@@ -85,9 +86,9 @@ static void print_error(const FieldDescriptor& field, const char* format, ...) {
     if (field.GetSourceLocation(&loc)) {
         // TODO(b/162454173): this will work if we can figure out how to pass
         // --include_source_info to protoc
-        fprintf(stderr, "%s:%d: ", file->name().c_str(), loc.start_line);
+        fprintf(stderr, "%s:%d: ", std::string(file->name()).c_str(), loc.start_line);
     } else {
-        fprintf(stderr, "%s: ", file->name().c_str());
+        fprintf(stderr, "%s: ", std::string(file->name()).c_str());
     }
     va_list args;
     va_start(args, format);
@@ -383,7 +384,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
             print_error(field,
                         "Fields must be numbered consecutively starting at 1:"
                         " '%s' is %d but should be %d\n",
-                        field.name().c_str(), number, expectedNumber);
+                        std::string(field.name()).c_str(), number, expectedNumber);
             errorCount++;
             expectedNumber = number;
             continue;
@@ -392,7 +393,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
     }
 
     // Check if atom is in uint type allowlist.
-    std::string atomName = atom.name();
+    std::string_view atomName = atom.name();
     bool isUintAllowed = !(find(begin(UINT_ATOM_ALLOWLIST), end(UINT_ATOM_ALLOWLIST), atomName) ==
                            end(UINT_ATOM_ALLOWLIST));
 
@@ -408,34 +409,36 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
         if (javaType == JAVA_TYPE_UNKNOWN_OR_INVALID) {
             if (field.is_repeated()) {
                 print_error(field, "Repeated field type %s is not allowed for field: %s\n",
-                            field.type_name(), field.name().c_str());
+                            field.type_name(), std::string(field.name()).c_str());
             } else {
                 print_error(field, "Field type %s is not allowed for field: %s\n",
-                            field.type_name(), field.name().c_str());
+                            field.type_name(), std::string(field.name()).c_str());
             }
             errorCount++;
             continue;
         } else if (javaType == JAVA_TYPE_OBJECT) {
             // Allow attribution chain, but only at position 1.
             print_error(field, "Message type not allowed for field without mode_bytes: %s\n",
-                        field.name().c_str());
+                        std::string(field.name()).c_str());
             errorCount++;
             continue;
         } else if (javaType == JAVA_TYPE_BYTE_ARRAY && !isBinaryField) {
-            print_error(field, "Raw bytes type not allowed for field: %s\n", field.name().c_str());
+            print_error(field, "Raw bytes type not allowed for field: %s\n",
+                        std::string(field.name()).c_str());
             errorCount++;
             continue;
         }
 
         if (isBinaryField && javaType != JAVA_TYPE_BYTE_ARRAY) {
-            print_error(field, "Cannot mark field %s as bytes.\n", field.name().c_str());
+            print_error(field, "Cannot mark field %s as bytes.\n",
+                        std::string(field.name()).c_str());
             errorCount++;
             continue;
         }
 
         if (atomDecl.restricted && !is_primitive_field(javaType)) {
             print_error(field, "Restricted atom '%s' cannot have nonprimitive field: '%s'\n",
-                        atomDecl.message.c_str(), field.name().c_str());
+                        atomDecl.message.c_str(), std::string(field.name()).c_str());
             errorCount++;
             continue;
         }
@@ -451,7 +454,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
             if (javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
                 print_error(field,
                             "AttributionChain fields must have field id 1, in message: '%s'\n",
-                            atom.name().c_str());
+                            std::string(atom.name()).c_str());
                 errorCount++;
             }
         }
@@ -465,7 +468,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
         const bool isBinaryField = field.options().GetExtension(os::statsd::log_mode) ==
                                    os::statsd::LogMode::MODE_BYTES;
 
-        AtomField atField(field.name(), javaType);
+        AtomField atField(std::string(field.name()), javaType);
 
         if (javaType == JAVA_TYPE_ENUM || javaType == JAVA_TYPE_ENUM_ARRAY) {
             atField.enumTypeName = field.enum_type()->name();
@@ -524,7 +527,7 @@ bool get_non_chained_node(const Descriptor& atom, AtomDecl& atomDecl,
             has_attribution_node = true;
 
         } else {
-            AtomField atField(field.name(), javaType);
+            AtomField atField(std::string(field.name()), javaType);
             if (javaType == JAVA_TYPE_ENUM) {
                 // All enums are treated as ints when it comes to function signatures.
                 signature.push_back(JAVA_TYPE_INT);
@@ -575,14 +578,15 @@ static int collate_from_field_descriptor(const FieldDescriptor& atomField, const
         // This atom is not in the module we're interested in; skip it.
         if (!moduleFound) {
             if (dbg) {
-                printf("   Skipping %s (%d)\n", atomField.name().c_str(), atomField.number());
+                printf("   Skipping %s (%d)\n", std::string(atomField.name()).c_str(),
+                       atomField.number());
             }
             return errorCount;
         }
     }
 
     if (dbg) {
-        printf("   %s (%d)\n", atomField.name().c_str(), atomField.number());
+        printf("   %s (%d)\n", std::string(atomField.name()).c_str(), atomField.number());
     }
 
     // StatsEvent only has one oneof, which contains only messages. Don't allow
@@ -591,7 +595,7 @@ static int collate_from_field_descriptor(const FieldDescriptor& atomField, const
         print_error(atomField,
                     "Bad type for atom. StatsEvent can only have message type "
                     "fields: %s\n",
-                    atomField.name().c_str());
+                    std::string(atomField.name()).c_str());
         errorCount++;
         return errorCount;
     }
@@ -599,21 +603,21 @@ static int collate_from_field_descriptor(const FieldDescriptor& atomField, const
     const AtomType atomType = getAtomType(atomField);
 
     const Descriptor& atom = *atomField.message_type();
-    const shared_ptr<AtomDecl> atomDecl =
-            make_shared<AtomDecl>(atomField.number(), atomField.name(), atom.name(), atomType);
+    const shared_ptr<AtomDecl> atomDecl = make_shared<AtomDecl>(
+            atomField.number(), std::string(atomField.name()), std::string(atom.name()), atomType);
 
     if (atomField.options().GetExtension(os::statsd::truncate_timestamp)) {
         addAnnotationToAtomDecl(*atomDecl, ATOM_ID_FIELD_NUMBER, ANNOTATION_ID_TRUNCATE_TIMESTAMP,
                                 ANNOTATION_TYPE_BOOL, AnnotationValue(true));
         if (dbg) {
-            printf("%s can have timestamp truncated\n", atomField.name().c_str());
+            printf("%s can have timestamp truncated\n", std::string(atomField.name()).c_str());
         }
     }
 
     if (atomField.options().HasExtension(os::statsd::restriction_category)) {
         if (atomType == ATOM_TYPE_PULLED) {
             print_error(atomField, "Restricted atoms cannot be pulled: '%s'\n",
-                        atomField.name().c_str());
+                        std::string(atomField.name()).c_str());
             errorCount++;
             return errorCount;
         }
@@ -628,7 +632,7 @@ static int collate_from_field_descriptor(const FieldDescriptor& atomField, const
     errorCount += collate_atom(atom, *atomDecl, signature);
     if (!atomDecl->primaryFields.empty() && atomDecl->exclusiveField == 0) {
         print_error(atomField, "Cannot have a primary field without an exclusive field: %s\n",
-                    atomField.name().c_str());
+                    std::string(atomField.name()).c_str());
         errorCount++;
         return errorCount;
     }
@@ -640,8 +644,8 @@ static int collate_from_field_descriptor(const FieldDescriptor& atomField, const
 
     atoms.decls.insert(atomDecl);
 
-    const shared_ptr<AtomDecl> nonChainedAtomDecl =
-            make_shared<AtomDecl>(atomField.number(), atomField.name(), atom.name(), atomType);
+    const shared_ptr<AtomDecl> nonChainedAtomDecl = make_shared<AtomDecl>(
+            atomField.number(), std::string(atomField.name()), std::string(atom.name()), atomType);
     vector<java_type_t> nonChainedSignature;
     if (get_non_chained_node(atom, *nonChainedAtomDecl, nonChainedSignature)) {
         FieldNumberToAtomDeclSet& nonChainedFieldNumberToAtomDeclSet =
@@ -653,7 +657,7 @@ static int collate_from_field_descriptor(const FieldDescriptor& atomField, const
 
     if (atomField.options().HasExtension(os::statsd::field_restriction_option)) {
         print_error(atomField, "field_restriction_option must be a field-level annotation: '%s'\n",
-                    atomField.name().c_str());
+                    std::string(atomField.name()).c_str());
         errorCount++;
     }
 
