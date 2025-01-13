@@ -1332,6 +1332,9 @@ message Atom {
     extensions 1003; // DensityBasedCoarseLocationsUsageReported density_based_coarse_locations_usage_reported
     extensions 1004; // DensityBasedCoarseLocationsProviderQueryReported density_based_coarse_locations_provider_query_reported
     extensions 1005; // WsNotificationApiUsageReported ws_notification_api_usage_reported
+    extensions 1006; // AdServicesProcessLifecycleReported ad_services_process_lifecycle_reported
+    extensions 1007; // AdServicesProcessStableFlagsReported ad_services_process_stable_flags_reported
+    extensions 1008; // AdServicesFlagUpdateReported ad_services_flag_update_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
