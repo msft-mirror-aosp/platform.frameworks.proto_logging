@@ -225,6 +225,13 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran = 970
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesProcessLifecycleReported ad_services_process_lifecycle_reported = 1006
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesProcessStableFlagsReported ad_services_process_stable_flags_reported = 1007
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesFlagUpdateReported ad_services_flag_update_reported = 1008
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -2238,5 +2245,41 @@ message ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported {
 
   optional FailureType failure_type = 1;
   optional FailureAction failure_action = 2;
+}
+
+/**
+ * Logs for the stats of AdServices process lifecycle.
+ */
+message AdServicesProcessLifecycleReported {
+  // The type of an AdServices process event. It should be used to log the count of different types
+  // of AdServices process events and will be aggregated to imply the frequency of each event.
+  enum EventType {
+    UNKNOWN = 0;
+
+    // The AdServices process restarts.
+    RESTART = 1;
+
+    // The memory level of the AdServices process drops to a certain threshold.
+    LOW_MEMORY_LEVEL = 2;
+  }
+
+  // The type of an AdServices process event.
+  optional EventType event_type = 1;
+}
+
+/**
+ * Logs for the stats for AdServices Process Stable Flags framework.
+ */
+message AdServicesProcessStableFlagsReported {
+  // The latency to initialize flag values in milliseconds.
+  optional int64 initialization_latency_ms = 1;
+}
+
+/**
+ * Logs for the stats of AdServices flags updates.
+ */
+message AdServicesFlagUpdateReported {
+  // The number of cache missed flags in an event of AdServices flag update.
+  optional int32 num_of_cache_miss_flags = 1;
 }
 
