@@ -2008,6 +2008,41 @@ enum Action {
     // CATEGORY: SETTINGS
     ACTION_MOUSE_REVERSE_VERTICAL_SCROLLING_ENABLED = 1985;
     ACTION_MOUSE_REVERSE_VERTICAL_SCROLLING_DISABLED = 1986;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog > Click positive button
+    // CATEGORY: SETTINGS
+    ACTION_CHANGE_REGION_DIALOG_POSITIVE_BTN_CLICKED = 1987;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog > Click negative button
+    // CATEGORY: SETTINGS
+    ACTION_CHANGE_REGION_DIALOG_NEGATIVE_BTN_CLICKED = 1988;
+
+    // OPEN: Use ACTION_REGION_SETTINGS to open Settings > System
+    //       > Language & region > Region
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_REGION_OUTSIDE_SETTINGS = 1989;
+
+    // OPEN: Use ACTION_FIRST_DAY_OF_WEEK_SETTINGS to open Settings > System
+    //       > Language & region > First day of week
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_FIRST_DAY_OF_WEEK_OUTSIDE_SETTINGS = 1990;
+
+    // OPEN: Use ACTION_TEMPERATURE_UNIT_SETTINGS to open Settings > System
+    //       > Language & region > Temperature
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_TEMPERATURE_UNIT_OUTSIDE_SETTINGS = 1991;
+
+    // OPEN: Use ACTION_NUMBERING_SYSTEM_SETTINGS to open Settings > System
+    //       > Language & region > Numbers preferences
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_NUMBERING_SYSTEM_OUTSIDE_SETTINGS = 1992;
+
+    // OPEN: Use ACTION_MEASUREMENT_SYSTEM_SETTINGS to open Settings > System
+    //       > Language & region > Measurement system
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_MEASUREMENT_SYSTEM_OUTSIDE_SETTINGS = 1993;
 }
 
 /**
@@ -5296,6 +5331,15 @@ enum PageId {
     // Settings -> Keyboard -> Physical keyboard -> Physical keyboard accessibility -> Repeat keys
     // CATEGORY: SETTINGS
     PHYSICAL_KEYBOARD_REPEAT_KEYS = 2135;
+
+    // OPEN: Settings > System > Language & region > Region > Region settings
+    // CATEGORY: SETTINGS
+    REGION_SETTINGS = 2136;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog
+    // CATEGORY: SETTINGS
+    CHANGE_REGION_DIALOG = 2137;
 }
 
 // Battery Saver schedule types.
