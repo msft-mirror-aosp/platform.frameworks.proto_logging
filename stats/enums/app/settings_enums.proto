@@ -5345,6 +5345,10 @@ enum PageId {
     //   SUBTYPE: 0 is off, 1 is on
     // CATEGORY: SETTINGS
     ACTION_WIFI_HOTSPOT_TOGGLE = 2138;
+
+    // Settings -> Supervision
+    // CATEGORY: SETTINGS
+    SUPERVISION_DASHBOARD = 2139;
 }
 
 // Battery Saver schedule types.
