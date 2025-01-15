@@ -1233,6 +1233,15 @@ message Atom {
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
     extensions 904; // A2dpSessionReported a2dp_session_reported
+    extensions 907; // HealthConnectExportInvoked health_connect_export_invoked
+    extensions 918; // HealthConnectImportInvoked health_connect_import_invoked
+    extensions 919; // HealthConnectExportImportStatsReported health_connect_export_import_stats_reported
+    extensions 963; // HealthConnectPermissionStats health_connect_permission_stats
+    extensions 980; // HealthConnectPhrApiInvoked health_connect_phr_api_invoked
+    extensions 981; // HealthConnectPhrUsageStats health_connect_phr_usage_stats
+    extensions 984; // HealthConnectPhrStorageStats health_connect_phr_storage_stats
+    extensions 985; // HealthConnectRestrictedEcosystemStats health_connect_restricted_ecosystem_stats
+    extensions 986; // HealthConnectEcosystemStats health_connect_ecosystem_stats
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 900.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
