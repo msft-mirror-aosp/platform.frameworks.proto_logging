@@ -98,6 +98,7 @@ message DesktopModeSessionTaskUpdate {
     UNSET_MINIMIZE = 0;
     MINIMIZE_TASK_LIMIT = 1;
     MINIMIZE_BUTTON = 2;
+    MINIMIZE_KEY_GESTURE = 3;
   }
 
   // The reason a task was unminimized
