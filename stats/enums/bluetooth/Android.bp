@@ -34,9 +34,7 @@ cc_library_static {
         "rfcomm/enums.proto",
         "smp/enums.proto",
     ],
-    apex_available: [
-        "com.android.btservices",
-    ],
+    apex_available: ["com.android.bt"],
     min_sdk_version: "30",
 }
 
