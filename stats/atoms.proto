@@ -17923,19 +17923,27 @@ message KeystoreKeyEventReported {
 }
 
 /**
- * Logs: key creation events with Algorithm, Origin, Error and Attestation info.
+ * Logs a key creation, with information about the parameters and outcome.
+ *
+ * Note that each key creation results in multiple atoms being emitted due
+ * to the cardinality of the fields related to key creations that we are
+ * interested in collecting. See the messages with names starting with
+ * "Keystore2KeyCreation" for the others.
+ *
  * Logged from: system/security/keystore2/metrics.rs
  */
 message Keystore2KeyCreationWithGeneralInfo {
-
-    // Algorithm associated with the key
+    // Algorithm associated with the key.
     optional android.system.security.keystore2.Algorithm algorithm = 1;
 
-    // Size of the key, based on the algorithm used.
+    // Size of the key in bits. Set to -1 if algorithm=EC.
     optional int32 key_size = 2;
 
+    // Mirror of
+    // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/EcCurve.aidl
+    // except that an unspecified value with enum tag number 0 is added and the
+    // enum tag numbers of all other values are incremented by 1.
     enum EcCurve {
-        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
         EC_CURVE_UNSPECIFIED = 0;
         P_224 = 1;
         P_256 = 2;
@@ -17943,199 +17951,217 @@ message Keystore2KeyCreationWithGeneralInfo {
         P_521 = 4;
         CURVE_25519 = 5;
     };
-    // Which ec curve was selected if elliptic curve cryptography is in use
+    // Elliptic curve (EC) used, if algorithm=EC. Otherwise, this is set to
+    // EC_CURVE_UNSPECIFIED.
     optional EcCurve ec_curve = 3;
 
+    // Mirror of
+    // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/KeyOrigin.aidl
+    // except that an unspecified value with enum tag number 0 is added and the
+    // enum tag numbers of all other values are incremented by 1.
     enum KeyOrigin {
-        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
         ORIGIN_UNSPECIFIED = 0;
-        // Generated in keymaster.  Should not exist outside the TEE.
         GENERATED = 1;
-        // Derived inside keymaster.  Likely exists off-device.
         DERIVED = 2;
-        // Imported into keymaster.  Existed as cleartext in Android.
         IMPORTED = 3;
-        // Previously used for another purpose that is now obsolete.
         RESERVED = 4;
-        // Securely imported into Keymaster.
         SECURELY_IMPORTED = 5;
     };
-    // Logs whether the key was generated, imported, securely imported, or derived.
     optional KeyOrigin key_origin = 4;
 
-    /**
-     * Response code (system/hardware/interfaces/keystore2/aidl/../ResponseCode.aidl)
-     * or
-     * error code (hardware/interfaces/security/keymint/aidl/../ErrorCode.aidl)
-     */
+    // Error code if key creation failed:
+    // - Integers >1 indicate an error from Keystore (the error code is the
+    //   enum tag number from
+    //   system/hardware/interfaces/keystore2/aidl/android/system/keystore2/ResponseCode.aidl)
+    // - Integers <=0 indicate an error from KeyMint (the error code is the
+    //   enum tag number from
+    //   hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/ErrorCode.aidl)
+    // If key creation succeeded, this is set to 1.
     optional int32 error_code = 5;
 
-    // Indicates whether key attestation is requested in creation
+    // Indicates whether an attestation challenge was provided.
     optional bool attestation_requested = 6;
 
-    // Count of a particular combination of field values of this atom
+    // Number of occurrences of a particular combination of all the other
+    // fields in this proto message.
     optional int32 count = 7;
 }
 
 /**
- * Logs: key creation events with authentication info.
+ * Logs a key creation, with information about the user authentication
+ * constraints on the key's usage and the security level of the KeyMint
+ * instance that created the key.
+ *
+ * Note that each key creation results in multiple atoms being emitted due
+ * to the cardinality of the fields related to key creations that we are
+ * interested in collecting. See the messages with names starting with
+ * "Keystore2KeyCreation" for the others.
+ *
  * Logged from: system/security/keystore2/metrics.rs
  */
 message Keystore2KeyCreationWithAuthInfo {
-
+    // Mirror of
+    // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/HardwareAuthenticatorType.aidl
+    // except that an unspecified value with enum tag number 0 is added and the
+    // enum tag numbers of all other values are (mostly) sequential instead of
+    // being powers of two.
     enum HardwareAuthenticatorType {
-        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
         AUTH_TYPE_UNSPECIFIED = 0;
         NONE = 1;
         PASSWORD = 2;
         FINGERPRINT = 3;
         ANY = 5;
     };
-    /**
-     * What auth types does this key require? If none,
-     * then no auth required.
-     */
+    // How the user must authenticate themself (if at all) in order to use the
+    // key.
     optional HardwareAuthenticatorType user_auth_type = 1;
 
-    /**
-     * If user authentication is required, is the requirement time based? If it
-     * is time based then this field indicates the base 10 logarithm of time out in seconds.
-     * Logarithm is taken in order to reduce the cardinaltiy.
-     */
+    // Base 10 logarithm of the user authentication timeout in seconds, or -1
+    // if no timeout was specified. The logarithm is used to reduce the
+    // cardinality.
+    // The timeout is specified as an integral number of seconds during key
+    // creation, so a value of 0 in this field indicates a timeout in the range
+    // [0, 10), a value of 1 indicates a timeout in the range [10, 100), etc. A
+    // timeout of 0 means that authentication is required each time the key is
+    // used.
     optional int32 log_auth_timeout_seconds = 2;
 
-    // Security level of the Keymint instance which creates the key.
+    // Security level of the KeyMint instance that created the key.
     optional android.system.security.keystore2.SecurityLevelEnum security_level = 3;
 
-    // Count of a particular combination of field values of this atom
+    // Number of occurrences of a particular combination of all the other
+    // fields in this proto message.
     optional int32 count = 4;
 }
 
 /**
- * Logs: key creation events with purpose and modes info.
+ * Logs a key creation, with information about the key's algorithm, purpose(s),
+ * mode(s), and digest(s).
+ *
+ * Note that each key creation results in multiple atoms being emitted due
+ * to the cardinality of the fields related to key creations that we are
+ * interested in collecting. See the messages with names starting with
+ * "Keystore2KeyCreation" for the others.
+ *
  * Logged from: system/security/keystore2/metrics.rs
  */
 message Keystore2KeyCreationWithPurposeAndModesInfo {
-    // Algorithm associated with the key
+    // Algorithm associated with the key.
     optional android.system.security.keystore2.Algorithm algorithm = 1;
 
-	/**
-     * Track which purpose is being used.
-     * Bitmap composition is given by KeyPurposeBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the key purpose(s) specified during key creation.
+    // Bitmap composition is given by the KeyPurposeBitPosition enum defined in
+    // system/security/keystore2/src/metrics_store.rs.
     optional int32 purpose_bitmap = 2;
 
-    /**
-     * Track which padding mode is being used.
-     * Bitmap composition is given by PaddingModeBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the padding mode(s) specified during key creation.
+    // Bitmap composition is given by the PaddingModeBitPosition enum defined
+    // in system/security/keystore2/src/metrics_store.rs.
     optional int32 padding_mode_bitmap = 3;
 
-    /**
-     * Track which digest is being used.
-     * Bitmap composition is given by DigestBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the digest(s) specified during key creation.
+    // Bitmap composition is given by the DigestBitPosition enum defined in
+    // system/security/keystore2/src/metrics_store.rs.
     optional int32 digest_bitmap = 4;
 
-    /**
-     * Track which block mode is being used.
-     * Bitmap composition is given by BlockModeBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the block mode(s) specified during key creation.
+    // Bitmap composition is given by the BlockModeBitPosition enum defined in
+    // system/security/keystore2/src/metrics_store.rs.
     optional int32 block_mode_bitmap = 5;
 
-    // Count of a particular combination of field values of this atom
+    // Number of occurrences of a particular combination of all the other
+    // fields in this proto message.
     optional int32 count = 6;
 }
 
 /**
- * Logs the atom id of the atoms associated with key creation/operation events, that have reached
- * the maximum storage limit allocated for different atom objects of that atom,
- * in keystore in-memory store.
+ * Logs when an atom exceeds the maximum size for atoms stored in Keystore2's
+ * in-memory store.
  *
- * Size of the storage bucket for each atom is limited considering their expected cardinaltity.
- * This limit may exceed if the dimensions of the atoms take a large number of unexpected
- * combinations. This atom is used to track such cases.
+ * The Keystore2 atoms are designed such that their expected cardinalities are
+ * within statsd's limits. This atom is used to track cases where atoms stored
+ * in Keystore2's in-memory store have a larger than expected cardinality and
+ * exceed the maximum size per atom (defined by SINGLE_ATOM_STORE_MAX_SIZE in
+ * system/security/keystore2/src/metrics_store.rs). This can happen if many
+ * unexpected combinations of field values are emitted by devices in the field.
+ *
+ * Logged from: system/security/keystore2/metrics.rs
  */
 message Keystore2AtomWithOverflow {
-
-    // Atom id as defined in atoms.proto
+    // Atom ID as defined in
+    // system/security/keystore2/aidl/android/security/metrics/AtomID.aidl.
     optional int32 atom_id = 1;
 
-    // Count of the objects of this atom type that have overflowed.
+    // Number of occurrences of a particular combination of all the other
+    // fields in this proto message.
     optional int32 count = 2;
 }
 
 /**
- * Logs: key operations events with purpose and modes info.
+ * Logs a key operation, with information about the purpose, mode(s), and
+ * digest(s).
+ *
+ * Note that each key operation results in multiple atoms being emitted due
+ * to the cardinality of the fields related to key operations that we are
+ * interested in collecting. See the messages with names starting with
+ * "Keystore2KeyOperation" for the others.
+ *
  * Logged from: system/security/keystore2/metrics.rs
  */
 message Keystore2KeyOperationWithPurposeAndModesInfo {
-
+    // Mirror of
+    // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/KeyPurpose.aidl
+    // except that an unspecified value with enum tag number 0 is added and the
+    // enum tag numbers of all other values are incremented by 1.
     enum KeyPurpose {
-        // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
         KEY_PURPOSE_UNSPECIFIED = 0;
-
-        // Usable with RSA, 3DES and AES keys.
         ENCRYPT = 1;
-
-        // Usable with RSA, 3DES and AES keys.
         DECRYPT = 2;
-
-        // Usable with RSA, EC and HMAC keys.
         SIGN = 3;
-
-        // Usable with RSA, EC and HMAC keys.
         VERIFY = 4;
-
         // 5 is reserved
-        // Usable with RSA keys.
         WRAP_KEY = 6;
-
-        // Key Agreement, usable with EC keys.
         AGREE_KEY = 7;
-
-        // Usable as an attestation signing key.
         ATTEST_KEY = 8;
     }
-    // Purpose of the key operation
+    // Purpose of the key operation.
     optional KeyPurpose purpose = 1;
 
-    /**
-     * Track which padding mode is being used.
-     * Bitmap composition is given by PaddingModeBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the padding mode(s) specified during the key operation's
+    // lifecycle.
+    // Bitmap composition is given by the PaddingModeBitPosition enum defined in
+    // system/security/keystore2/src/metrics_store.rs.
     optional int32 padding_mode_bitmap = 2;
 
-    /**
-     * Track which digest is being used.
-     * Bitmap composition is given by DigestBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the digest(s) specified during the key operation's lifecycle.
+    // Bitmap composition is given by the DigestBitPosition enum defined in
+    // system/security/keystore2/src/metrics_store.rs.
     optional int32 digest_bitmap = 3;
 
-    /**
-     * Track which block mode is being used.
-     * Bitmap composition is given by BlockModeBitPosition enum
-     * defined in system/security/keystore2/metrics.rs.
-     */
+    // Bitmap of the block mode(s) specified during the key operation's
+    // lifecycle.
+    // Bitmap composition is given by the BlockModeBitPosition enum defined in
+    // system/security/keystore2/src/metrics_store.rs.
     optional int32 block_mode_bitmap = 4;
 
-    // Count of a particular combination of field values of this atom
+    // Number of occurrences of a particular combination of all the other
+    // fields in this proto message.
     optional int32 count = 5;
 }
 
 /**
- * Logs key operations events with outcome, error_code, security level and whether the key is
- * upgraded during the operation.
+ * Logs a key operation, with information about the outcome, error code,
+ * security level of the KeyMint instance performing the operation, and whether
+ * the key is upgraded during the operation.
+ *
+ * Note that each key operation results in multiple atoms being emitted due
+ * to the cardinality of the fields related to key operations that we are
+ * interested in collecting. See the messages with names starting with
+ * "Keystore2KeyOperation" for the others.
+ *
  * Logged from: system/security/keystore2/metrics.rs
  */
 message Keystore2KeyOperationWithGeneralInfo {
-
     enum Outcome {
         OUTCOME_UNSPECIFIED = 0;
         DROPPED = 1;
@@ -18144,25 +18170,34 @@ message Keystore2KeyOperationWithGeneralInfo {
         PRUNED = 4;
         ERROR = 5;
     }
-    // Outcome of the operation
+    // Outcome of the key operation.
     optional Outcome outcome = 1;
 
-    // Response code or error code in case of error outcome
+    // Error code if key creation failed:
+    // - Integers >1 indicate an error from Keystore (the error code is the
+    //   enum tag number from
+    //   system/hardware/interfaces/keystore2/aidl/android/system/keystore2/ResponseCode.aidl)
+    // - Integers <=0 indicate an error from KeyMint (the error code is the
+    //   enum tag number from
+    //   hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/ErrorCode.aidl)
+    // If the key operation succeeded, this is set to 1.
     optional int32 error_code = 2;
 
-    // Indicates whether the key was upgraded during the operation
+    // Indicates whether the key was upgraded during the operation.
     optional bool key_upgraded = 3;
 
-    // Security level of the Keymint instance which performs the operation.
+    // Security level of the KeyMint instance which performs the operation.
     optional android.system.security.keystore2.SecurityLevelEnum security_level = 4;
 
-    // Count of a particular combination of field values of this atom
+    // Number of occurrences of a particular combination of all the other
+    // fields in this proto message.
     optional int32 count = 5;
 }
 
 /**
- * Logs: Keystore 2 storage statistics.
- * Logged from: system/security/keystore2
+ * Logs Keystore2 storage statistics.
+ *
+ * Logged from: system/security/keystore2/src/metrics.rs
  */
 message Keystore2StorageStats {
     enum Storage {
@@ -18179,15 +18214,17 @@ message Keystore2StorageStats {
        GRANT = 10;
        AUTH_TOKEN = 11;
        BLOB_METADATA = 12;
-       BLOB_METADATA_BLOB_ENTRY_ID_INDEX =13;
+       BLOB_METADATA_BLOB_ENTRY_ID_INDEX = 13;
        METADATA = 14;
        DATABASE = 15;
        LEGACY_STORAGE = 16;
     }
-    // Type of the storage (database table or legacy storage) of which the size is reported.
+    // Type of storage.
     optional Storage storage_type = 1;
-    // Storage size in bytes
+
+    // Storage size, in bytes.
     optional int64 size = 2;
+
     // Unused space, in bytes. The total storage size may be larger, indicating
     // inefficiencies in the packing of data in the database.
     optional int64 unused_size = 3;
