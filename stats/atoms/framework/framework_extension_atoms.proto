@@ -64,6 +64,7 @@ extend Atom {
     optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
     optional CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed = 999 [(module) = "framework"];
     optional NotificationBundleInteracted notification_bundle_interacted = 1000 [(module) = "framework"];
+    optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
 }
 
 /**
@@ -898,6 +899,17 @@ message AppOpNoteOpOrCheckOpBinderApiCalled {
 
     // Whether the binder call has attribution tag in the arguments
     optional bool has_attribution_tag = 4;
+}
+
+/**
+ * [Pushed Atom] Log discrete ops performance results for sqlite implementation.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/DiscreteOpsSqlRegistry.java
+ */
+message SqliteDiscreteOpEventReported {
+  optional int64 read_time_millis = 1 ;
+  optional int64 write_time_millis = 2 ;
+  optional int64 storage_bytes = 3 ;
 }
 
 /**
