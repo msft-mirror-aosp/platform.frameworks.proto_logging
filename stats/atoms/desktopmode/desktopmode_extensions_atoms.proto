@@ -110,6 +110,8 @@ message DesktopModeSessionTaskUpdate {
     UNMINIMIZE_TASKBAR_TAP = 2;
     UNMINIMIZE_ALT_TAB = 3;
     UNMINIMIZE_TASK_LAUNCH = 4;
+    UNMINIMIZE_APP_HANDLE_MENU_BUTTON = 5;
+    UNMINIMIZE_TASKBAR_MANAGE_WINDOW = 6;
   }
 
   // The event associated with this app update
