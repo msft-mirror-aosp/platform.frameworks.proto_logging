@@ -110,6 +110,16 @@ message DesktopModeSessionTaskUpdate {
     UNMINIMIZE_TASKBAR_TAP = 2;
     UNMINIMIZE_ALT_TAB = 3;
     UNMINIMIZE_TASK_LAUNCH = 4;
+    UNMINIMIZE_APP_HANDLE_MENU_BUTTON = 5;
+    UNMINIMIZE_TASKBAR_MANAGE_WINDOW = 6;
+  }
+
+  // The reason a task was focused
+  enum FocusReason {
+    // Unset means there is no focus reason (the task did not get focused)
+    UNSET_FOCUS = 0;
+    // Unknown means we don't know what caused the focus change
+    FOCUS_UNKNOWN = 1;
   }
 
   // The event associated with this app update
@@ -137,6 +147,8 @@ message DesktopModeSessionTaskUpdate {
     (state_field_option).exclusive_state = true,
     (state_field_option).nested = false
   ];
+  // The reason this task was focused
+  optional FocusReason focus_reason = 12;
 }
 
 /**
