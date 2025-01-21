@@ -387,6 +387,9 @@ enum ErrorCode {
   // Error occurred when trying to initialize cobalt logger for measurement metrics.
   MEASUREMENT_COBALT_LOGGER_INITIALIZATION_FAILURE = 2022;
 
+  // Error occurred when trying to validate the UID of the calling app.
+  MEASUREMENT_UID_CHECK_FAILURE = 2023;
+
   // Fledge (PA), PAS errors: 3001 - 4000
   // Exception while PAS unable to find the service.
   PAS_UNABLE_FIND_SERVICES = 3001;
