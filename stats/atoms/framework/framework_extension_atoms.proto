@@ -65,6 +65,7 @@ extend Atom {
     optional CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed = 999 [(module) = "framework"];
     optional NotificationBundleInteracted notification_bundle_interacted = 1000 [(module) = "framework"];
     optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
+    optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
 }
 
 /**
@@ -899,6 +900,28 @@ message AppOpNoteOpOrCheckOpBinderApiCalled {
 
     // Whether the binder call has attribution tag in the arguments
     optional bool has_attribution_tag = 4;
+}
+
+/**
+ * Pushed atom. Logs the duration between device state change and device state
+ * based auto rotate setting change if the duration is less than certain
+ * threshold.
+ *
+ * Logged from:
+ *  frameworks/base/services/core/java/com/android/server/wm/DeviceStateAutoRotateSettingIssueLogger.java
+ *
+ * Estimated Logging Rate:
+ *   Avg: < 1 per device per day
+*/
+message DeviceStateAutoRotateSettingIssueReported {
+  // Duration between device state change and device state based auto rotate
+  // setting change.
+  optional int32 duration_ms = 1;
+  // Boolean is true if the device state change is the first one to happen
+  // followed by device state based auto rotate setting change.
+  // False if the device state based auto rotate setting change is the first one
+  // to happen followed by device state change.
+  optional bool is_device_state_change_first = 2;
 }
 
 /**
