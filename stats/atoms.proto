@@ -50,7 +50,7 @@ import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
-import "frameworks/proto_logging/stats/enums/app/wearsettings_enums.proto";
+import "frameworks/proto_logging/stats/enums/app/wearsettings/wearsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/autofill/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/a2dp/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
