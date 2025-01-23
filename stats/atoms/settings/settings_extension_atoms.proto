@@ -88,4 +88,7 @@ message SettingsExtApiReported {
 
   // Latency between the request and result made by the external API.
   optional int64 latency_millis = 5;
+
+  // Action enum associated with the preference.
+  optional android.app.settings.Action action = 6;
 }

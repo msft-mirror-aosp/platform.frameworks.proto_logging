@@ -265,6 +265,15 @@ enum AccountTypeEnum {
      ACCOUNT_SELFMANAGED = 2;
      ACCOUNT_SIM = 3;
      ACCOUNT_VOIP_API = 4;
+     /**
+      * A VoIP call that was made without the telecom framework.
+      */
+     ACCOUNT_NON_TELECOM_VOIP = 5;
+     /**
+      * A VoIP call that was made without the telecom framework where the app has declared support
+      * for telecom but chose not to use it.
+      */
+     ACCOUNT_NON_TELECOM_VOIP_WITH_TELECOM_SUPPORT = 6;
 }
 
 /**
