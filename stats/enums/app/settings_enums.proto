@@ -5349,6 +5349,10 @@ enum PageId {
     // Settings -> Supervision
     // CATEGORY: SETTINGS
     SUPERVISION_DASHBOARD = 2139;
+
+    // ACTION: Settings > Notifications > Summarized notifications
+    // CATEGORY: SETTINGS
+    SUMMARIZED_NOTIFICATIONS = 2140;
 }
 
 // Battery Saver schedule types.
