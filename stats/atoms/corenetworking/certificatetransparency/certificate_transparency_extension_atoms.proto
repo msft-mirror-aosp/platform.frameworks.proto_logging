@@ -2,20 +2,20 @@ syntax = "proto2";
 
 package android.os.statsd.corenetworking.certificatetransparency;
 
-import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/enums/corenetworking/certificatetransparency/enums.proto";
 
 option java_package = "com.android.os.corenetworking.certificatetransparency";
 
 extend Atom {
-  optional CertificateTransparencyLogListUpdateFailed
-      certificate_transparency_log_list_update_failed = 972
+  optional CertificateTransparencyLogListUpdateStateChanged
+      certificate_transparency_log_list_update_state_changed = 972
       [(module) = "certificate_transparency"];
 }
 
 /*
- * Pushed atom on why the log list failed to update.
+ * Pushed atom on when a log list update is attempted.
  *
  * Logged from:
  * packages/modules/Connectivity/networksecurity/service/src/com/android/server/net/ct/CertificateTransparencyDownloader.java
@@ -23,13 +23,19 @@ extend Atom {
  * Estimated Logging Rate:
  * 1-2 times per device per day
  */
-message CertificateTransparencyLogListUpdateFailed {
-  // The reason why the log list failed to update.
-  optional LogListUpdateStatus failure_reason = 1;
+message CertificateTransparencyLogListUpdateStateChanged {
+  // The status of the log list update (e.g. success, failure, etc.).
+  optional LogListUpdateStatus update_status = 1;
 
   // The number of failures since the last successful log list update.
   optional int32 failure_count = 2;
 
   // The HTTP error status code received from the server, if applicable.
   optional int32 http_error_status_code = 3;
+
+  // The signature of the log list.
+  optional string signature = 4;
+
+  // Timestamp included in the parsed log list.
+  optional int64 log_list_timestamp_ms = 5;
 }
