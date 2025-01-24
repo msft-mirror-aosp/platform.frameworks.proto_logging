@@ -17901,15 +17901,17 @@ message Keystore2KeyCreationWithGeneralInfo {
 message Keystore2KeyCreationWithAuthInfo {
     // Mirror of
     // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/HardwareAuthenticatorType.aidl
-    // except that an unspecified value with enum tag number 0 is added and the
-    // enum tag numbers of all other values are (mostly) sequential instead of
-    // being powers of two.
+    // with some exceptions. See the metrics-specific variant of that AIDL enum in
+    // system/security/keystore2/aidl/android/security/metrics/HardwareAuthenticatorType.aidl for
+    // details.
     enum HardwareAuthenticatorType {
         AUTH_TYPE_UNSPECIFIED = 0;
         NONE = 1;
         PASSWORD = 2;
         FINGERPRINT = 3;
+        PASSWORD_OR_FINGERPRINT = 4;
         ANY = 5;
+        NO_AUTH_TYPE = 6;
     };
     // How the user must authenticate themself (if at all) in order to use the
     // key.
