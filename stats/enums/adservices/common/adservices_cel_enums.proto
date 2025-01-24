@@ -1233,6 +1233,18 @@ enum ErrorCode {
   // Error occurred when failed to schedule an CA update when fail to notify failure to the caller.
   SCHEDULE_CUSTOM_AUDIENCE_UPDATE_IMPL_NOTIFY_FAILURE_TO_CALLER_FAILED = 3276;
 
+  // Error during decryption because context was not found in the database.
+  OBLIVIOUS_HTTP_ENCRYPTOR_CONTEXT_NOT_FOUND = 3277;
+
+  // Error during parsing auction result: data compression of given version is not found.
+  PERSIST_AD_SELECTION_RESULT_PARSING_RESPONSE_DATA_COMPRESSION_NOT_FOUND = 3278;
+
+  // Error during parsing auction result: payload extractor  of given version is not found.
+  PERSIST_AD_SELECTION_RESULT_PARSING_RESPONSE_PAYLOAD_EXTRACTOR_NOT_FOUND = 3279;
+
+  // Error during parsing auction result: data size is greater than payload size.
+  PERSIST_AD_SELECTION_RESULT_PARSING_RESPONSE_DATA_SIZE_GREATER_THAN_PAYLOAD_SIZE = 3280;
+
   // UX errors: 4001-5000
   CONSENT_REVOKED_ERROR = 4001;
 
