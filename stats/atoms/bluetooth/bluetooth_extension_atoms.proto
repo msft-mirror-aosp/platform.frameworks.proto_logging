@@ -654,6 +654,10 @@ message BluetoothRfcommConnectionReportedAtClose {
   optional int32 metric_id = 7;
   // sdp status, UNKNOWN if irrelevant
   optional android.bluetooth.BtaStatus sdp_status = 8;
-  // true if device initiated connection as client, false otherwise
-  optional bool initiated_as_client = 9;
+  // true if device initiated connection as server, false otherwise
+  optional bool is_server = 9;
+  // true if device initiated SDP service discovery
+  optional bool sdp_initiated = 10;
+  // time in milliseconds between start and end of SDP, 0 if no SDP
+  optional int32 sdp_duration_ms = 11;
 }
