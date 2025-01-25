@@ -2043,6 +2043,16 @@ enum Action {
     //       > Language & region > Measurement system
     // CATEGORY: SETTINGS
     ACTION_OPEN_MEASUREMENT_SYSTEM_OUTSIDE_SETTINGS = 1993;
+
+    // OPEN: Settings > System > Mouse -> Controlled scrolling
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_SCROLLING_ACCELERATION_ENABLED = 1994;
+    ACTION_MOUSE_SCROLLING_ACCELERATION_DISABLED = 1995;
+
+    // OPEN: Settings > System > Mouse -> Scrolling speed
+    // CATEGORY: SETTINGS
+    // VALUE: mouse scrolling speed
+    ACTION_MOUSE_SCROLLING_SPEED_CHANGED = 1996;
 }
 
 /**
