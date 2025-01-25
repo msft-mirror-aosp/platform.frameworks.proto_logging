@@ -64,6 +64,7 @@ message OnDevicePersonalizationApiCalled {
         FEDERATED_COMPUTE_CANCEL = 21;
         NOTIFY_MEASUREMENT_EVENT = 22;
         ADSERVICES_GET_COMMON_STATES = 23;
+        IS_FEATURE_ENABLED = 24;
     }
     optional OnDevicePersonalizationApiClassType api_class = 1;
     optional OnDevicePersonalizationApiName api_name = 2;
