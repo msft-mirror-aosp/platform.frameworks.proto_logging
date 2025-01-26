@@ -91,4 +91,14 @@ enum TerribleErrorType {
   TYPE_LEGACY_TETHER_WITH_TYPE_WIFI = 3;
   // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi P2P.
   TYPE_LEGACY_TETHER_WITH_TYPE_WIFI_P2P = 4;
+  // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi and
+  // tethering succeeded.
+  TYPE_LEGACY_TETHER_WITH_TYPE_WIFI_SUCCESS = 5;
+  // Indicate the error state that the legacy TetheringManager#tether API was called for Wifi P2P
+  // and tethering succeeded.
+  TYPE_LEGACY_TETHER_WITH_TYPE_WIFI_P2P_SUCCESS = 6;
+  // Indicate the error state that the entitlement check failed to
+  // createContextAsUser because the tethering package is not installed
+  // on that user.
+  TYPE_ENTITLEMENT_CREATE_CONTEXT_AS_USER_THROWS = 7;
 }

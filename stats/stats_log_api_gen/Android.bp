@@ -316,4 +316,7 @@ rust_library {
         "com.android.virt",
     ],
     min_sdk_version: "29",
+    flags: [
+        "-A clippy::needless-lifetimes",
+    ],
 }
