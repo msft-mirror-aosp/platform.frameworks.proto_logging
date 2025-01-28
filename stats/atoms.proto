@@ -1338,6 +1338,7 @@ message Atom {
     extensions 1009; // SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported
     extensions 1010; // WifiSoftApCallbackOnClientsDisconnected wifi_soft_ap_callback_on_clients_disconnected
     extensions 1011; // DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported
+    extensions 1012; // WsRemoteInteractionsApiUsageReported ws_remote_interactions_api_usage_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
