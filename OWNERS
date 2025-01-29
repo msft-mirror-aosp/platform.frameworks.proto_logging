@@ -15,3 +15,5 @@ per-file settings_enums.proto=edgarwang@google.com
 per-file adservices_enums.proto=binhnguyen@google.com,pdevpura@google.com
 per-file adservices_cel_enums.proto=binhnguyen@google.com,pdevpura@google.com
 
+# Accessibility
+per-file stats/enums/stats/accessibility/accessibility_enums.proto = danielnorman@google.com, chunkulin@google.com

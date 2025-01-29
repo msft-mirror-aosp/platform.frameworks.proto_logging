@@ -4,7 +4,7 @@ package android.os.statsd.corenetworking.certificatetransparency;
 
 option java_package = "com.android.os.corenetworking.certificatetransparency";
 
-// Next ID: 13
+// Next ID: 15
 enum LogListUpdateStatus {
     STATUS_UNKNOWN = 0;
     // Log list was successfully updated.
@@ -31,7 +31,11 @@ enum LogListUpdateStatus {
     FAILURE_SIGNATURE_VERIFICATION = 10;
     // Log list version already exists on device. Install unable to be completed.
     FAILURE_VERSION_ALREADY_EXISTS = 12;
-    // Device is waiting for a Wi-Fi connection to proceed with the download, as it
-    // exceeds the size limit for downloads over the mobile network.
+    // Public key for signature verification is missing.
+    FAILURE_PUBLIC_KEY_NOT_FOUND = 13;
+    // Log list signature is invalid (e.g. wrong format or algorithm).
+    FAILURE_SIGNATURE_INVALID = 14;
+    // Device is waiting for a Wi-Fi connection to proceed with the download, as
+    // it exceeds the size limit for downloads over the mobile network.
     PENDING_WAITING_FOR_WIFI = 11;
 }
