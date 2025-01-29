@@ -72,6 +72,9 @@ extend Atom {
   optional WsNotificationApiUsageReported ws_notification_api_usage_reported = 1005
       [(module) = "wearservices"];
 
+  optional WsRemoteInteractionsApiUsageReported ws_remote_interactions_api_usage_reported = 1012
+      [(module) = "wearservices"];
+
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
       [(module) = "wearservices"];
@@ -437,7 +440,8 @@ message WsNotificationManagedDismissalSync {
   optional int32 payload_size_bytes = 3;
 }
 
-/** Logged when notification API is called.
+/**
+ * Logged when notification API is called.
  *
  * Logged from:
  * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/api/NotificationApiImpl.java
@@ -448,4 +452,18 @@ message WsNotificationApiUsageReported {
 
   // Status of the Notification API usage reported.
   optional android.app.wearservices.NotificationApiStatus api_status = 2;
+}
+
+/**
+ * Logged when remote interactions API is called.
+ *
+ * Logged from:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/remoteinteractions
+ */
+message WsRemoteInteractionsApiUsageReported {
+  // Package uid of the application that created the remote interactions request.
+  optional int32 remote_interactions_package_uid = 1 [(is_uid) = true];
+
+  // Indicates the state of the remote interactions.
+  optional android.app.wearservices.RemoteInteractionsState remote_interactions_state = 2;
 }

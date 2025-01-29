@@ -935,6 +935,28 @@ enum RemoteEventState {
   REMOTE_EVENT_RESPONSE_REMOTE_NOT_SUPPORTED = 12;
 }
 
+// This enum depicts the state of the remote interactions.
+enum RemoteInteractionsState {
+  // Depicts an unknown remote interactions state.
+  REMOTE_INTERACTIONS_RESPONSE_UNKNOWN = 0;
+
+  // Depicts total number of times remote interactions API is invoked.
+  REMOTE_INTERACTIONS_API_INVOKED = 1;
+
+  // Depicts a successful remote interactions response.
+  REMOTE_INTERACTIONS_RESPONSE_SUCCESS = 2;
+
+  // Remote interactions coming from a background service are disallowed.
+  REMOTE_INTERACTIONS_RESPONSE_BACKGROUND_REQUEST_DISALLOWED = 3;
+
+  // Remote interactions with response not being received within the timeout period.
+  REMOTE_INTERACTIONS_RESPONSE_TIMEOUT = 4;
+
+  // Remote interactions with generic failure condition response which doesn't fail into any other
+  // condition.
+  REMOTE_INTERACTIONS_RESPONSE_FAILURE = 5;
+}
+
 // This enum depicts different components of the bugreport flow
 // Next ID: 5
 enum BugreportComponent {
