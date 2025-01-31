@@ -101,4 +101,7 @@ enum TerribleErrorType {
   // createContextAsUser because the tethering package is not installed
   // on that user.
   TYPE_ENTITLEMENT_CREATE_CONTEXT_AS_USER_THROWS = 7;
+  // Indicate the error state that tethering was started with a placeholder request (i.e. we
+  // couldn't find a pending request for the link layer event).
+  TYPE_TETHER_WITH_PLACEHOLDER_REQUEST = 8;
 }
