@@ -22338,8 +22338,6 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  *
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
- *
- * Next ID: 47
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22499,10 +22497,6 @@ message AutofillPresentationEventReported {
 
   // True if the response is from webview requesting credential autofill service.
   optional bool webview_requested_credential = 32;
-
-  // Count of views that are filtered because they are not in current session
-  // before autofill framework calls AutofillManager.autofill().
-  optional int64 views_fillable_excluded_by_session_count = 46;
 
   // Count of views that can be filled as per the provider service.
   // views_fillable_total_count = views_filled_failure_count +
