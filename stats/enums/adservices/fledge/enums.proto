@@ -151,3 +151,31 @@ enum PayloadOptimizationResult {
   // there was not enough data on the device so the max was not reached
   PAYLOAD_WITHIN_REQUESTED_MAX = 2;
 }
+
+/** Enum denoting the type of reporting. */
+enum ReportingType {
+  UNSET_REPORTING_TYPE = 0;
+  REPORT_IMPRESSION = 1;
+  REPORT_EVENT = 2;
+}
+
+/** Enum denoting the status of the Report Impression / Report Event call. */
+enum ReportingCallStatus {
+  UNSET_REPORTING_CALL_STATUS = 0;
+  SUCCESSFUL = 1;
+  HTTP_TOO_MANY_REQUESTS = 2;
+  HTTP_REDIRECTION = 3;
+  HTTP_CLIENT_ERROR = 4;
+  HTTP_SERVER_ERROR = 5;
+  HTTP_IO_EXCEPTION = 6;
+  FAILURE_HTTP_NETWORK_NOT_AVAILABLE = 7;
+  FAILURE_UNKNOWN = 8;
+}
+
+/** Enum representing the destination for the Report Impression / Report Event call. */
+enum ReportingCallDestination {
+  UNSET_REPORTING_CALL_DESTINATION = 0;
+  SELLER = 1;
+  BUYER = 2;
+  COMPONENT_SELLER = 3;
+}
