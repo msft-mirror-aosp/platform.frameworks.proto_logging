@@ -94,6 +94,8 @@ enum PpapiName {
   // Represents reportImpression API of B&A
   REPORT_IMPRESSION = 14;
   // Represents reportInteraction API of B&A
+  // The name reportInteraction maps to AdSelectionServiceImpl#reportInteraction, while the caller
+  // is AdSelectionManager#reportEvent.
   REPORT_INTERACTION = 15;
   // Represents joinCustomAudience API of FLEDGE.
   JOIN_CUSTOM_AUDIENCE = 16;

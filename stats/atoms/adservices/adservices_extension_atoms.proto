@@ -232,6 +232,11 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional AdServicesFlagUpdateReported ad_services_flag_update_reported = 1008
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional ReportingWithDestinationPerformed reporting_with_destination_performed = 1013
+  [(module) = "adservices", (truncate_timestamp) = true];
+  optional NumberOfTypesOfReportingUrlsReceived number_of_types_of_reporting_url_received = 1014
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -2284,3 +2289,39 @@ message AdServicesFlagUpdateReported {
   optional int32 num_of_cache_miss_flags = 1;
 }
 
+/**
+ Logs the number of report impression requests for each destination along with its status.
+*/
+message ReportingWithDestinationPerformed {
+  /* Type of reporting api: either report impression or report event */
+  optional android.adservices.service.ReportingType reportingType = 1;
+
+  /* Destination of this Report Impression call. */
+  optional android.adservices.service.ReportingCallDestination destination = 2;
+
+  /* Status of this Report Impression call. */
+  optional android.adservices.service.ReportingCallStatus status = 3;
+}
+
+/**
+Logs the number of different of reporting url returned by B&A
+*/
+message NumberOfTypesOfReportingUrlsReceived {
+  /* Number of top level seller reporting urls. */
+  optional int32 numberOfTopLevelSellerReportingUrl = 1;
+
+  /* Number of buyer reporting urls. */
+  optional int32 numberOfBuyerReportingUrl = 2;
+
+  /* Number of component seller reporting urls. */
+  optional int32 numberOfComponentSellerReportingUrl = 3;
+
+  /* Number of buyer event reporting urls. */
+  optional int32 numberOfBuyerEventReportingUrl = 4;
+
+  /* Number of top level seller event reporting urls. */
+  optional int32 numberOfTopLevelSellerEventReportingUrl = 5;
+
+  /* Number of component event reporting urls. */
+  optional int32 numberOfComponentEventReportingUrl = 6;
+}
