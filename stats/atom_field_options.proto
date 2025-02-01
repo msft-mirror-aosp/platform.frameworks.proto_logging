@@ -134,7 +134,7 @@ message HistogramBinOption {
 
     message GeneratedBins {
         enum Strategy {
-            UNKNOWN = 0;
+            STRATEGY_UNKNOWN = 0;
             LINEAR = 1;
             EXPONENTIAL = 2;
         }
