@@ -1,0 +1,55 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.memory;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/memory/enums.proto";
+
+extend Atom {
+    optional ZramMaintenanceExecuted zram_maintenance_executed = 1015 [(module) = "framework"];
+}
+
+/**
+ * Logged when zram maintenance is executed in mmd.
+ *
+ * Logged from:
+ *   * system/memory/mmd
+ *
+ * Estimated Logging Rate:
+ *   ZramMaintenance is triggered at most once per 1 hour
+ *
+ * Next Tag: 13
+ */
+message ZramMaintenanceExecuted {
+    optional android.memory.ZramWritebackResult writeback_result = 1;
+    optional int64 writeback_huge_idle_pages = 2;
+    optional int64 writeback_idle_pages = 3;
+    optional int64 writeback_huge_pages = 4;
+    optional int64 writeback_latency_millis = 5;
+    optional int64 writeback_limit_kb = 6;
+    optional int64 writeback_daily_limit_kb = 7;
+    optional int64 writeback_actual_limit_kb = 8;
+    optional int64 writeback_total_kb = 9;
+
+    optional android.memory.ZramRecompressionResult recompression_result = 10;
+    optional int64 recompress_latency_millis = 11;
+
+    optional int64 interval_from_previous_seconds = 12;
+}

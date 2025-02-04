@@ -1,0 +1,56 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.memory;
+
+option java_outer_classname = "MemoryEnums";
+option java_multiple_files = true;
+
+/**
+ * Result of zram writeback attempt.
+ *
+ * Next tag: 11
+ */
+enum ZramWritebackResult {
+    WRITEBACK_UNSPECIFIED = 0;
+    WRITEBACK_NOT_SUPPORTED = 1;
+    WRITEBACK_SUCCESS = 2;
+    WRITEBACK_BACKOFF_TIME = 3;
+    WRITEBACK_CALCULATE_IDLE_FAIL = 4;
+    WRITEBACK_MARK_IDLE_FAIL = 5;
+    TRIGGER_WRITEBACK_FAIL = 6;
+    LIMIT = 7;
+    INVALID_WRITEBACK_LIMIT = 8;
+    ACCESS_WRITEBACK_LIMIT_FAIL = 9;
+    LOAD_WRITEBACK_STATS_FAIL = 10;
+}
+
+/**
+ * Result of zram recompression attempt.
+ *
+ * Next tag: 7
+ */
+enum ZramRecompressionResult {
+    RECOMPRESSION_UNSPECIFIED = 0;
+    RECOMPRESSION_NOT_SUPPORTED = 1;
+    RECOMPRESSION_SUCCESS = 2;
+    RECOMPRESSION_BACKOFF_TIME = 3;
+    RECOMPRESSION_CALCULATE_IDLE_FAIL = 4;
+    RECOMPRESSION_MARK_IDLE_FAIL = 5;
+    TRIGGER_RECOMPRESS_FAIL = 6;
+}
