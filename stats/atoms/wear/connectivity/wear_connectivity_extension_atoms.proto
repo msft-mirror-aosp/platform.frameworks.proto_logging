@@ -67,6 +67,10 @@ message MediatorUpdated {
 
   // Count of times the linger canceled before the action was actually performed.
   optional int32 linger_canceled_count = 7;
+
+  // Bluetooth Transport used for Sysproxy on this device. This does NOT imply whether Sysproxy is
+  // connected or not.
+  optional com.google.android.wearable.connectivity.SysproxyTransportType sysproxy_transport_type = 8;
 }
 
 /**
@@ -110,6 +114,9 @@ message SysproxyConnectionUpdated {
 
   // timestamp when reason was determined
   optional int64 reason_timestamp_millis = 6;
+
+  // Bluetooth Transport used for the current Sysproxy connection
+  optional com.google.android.wearable.connectivity.SysproxyTransportType transport_type = 7;
 }
 
 /**
