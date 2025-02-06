@@ -1180,6 +1180,9 @@ message CameraStatusForCompatibilityChanged {
  *   Peak: 25 times per device per day | Avg: Between 0 and 1 times per device per day
  */
 message ProcessTextActionLaunchedReported {
+    // The uid of the app that is calling the PROCESS_TEXT action.
     optional int32 calling_uid = 1 [(is_uid) = true];
+
+    // The uid of the app that is launched.
     optional int32 launched_uid = 2 [(is_uid) = true];
 }
