@@ -1342,6 +1342,7 @@ message Atom {
     extensions 1013; // ReportingWithDestinationPerformed reporting_with_destination_performed
     extensions 1014; // NumberOfTypesOfReportingUrlsReceived number_of_types_of_reporting_url_received
     extensions 1015; // ZramMaintenanceExecuted zram_maintenance_executed
+    extensions 1016; // ProcessTextActionLaunchedReported process_text_action_launched_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
