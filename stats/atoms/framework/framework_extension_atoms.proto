@@ -64,6 +64,9 @@ extend Atom {
     optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
     optional CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed = 999 [(module) = "framework"];
     optional NotificationBundleInteracted notification_bundle_interacted = 1000 [(module) = "framework"];
+    optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
+    optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
+    optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
 }
 
 /**
@@ -901,6 +904,39 @@ message AppOpNoteOpOrCheckOpBinderApiCalled {
 }
 
 /**
+ * Pushed atom. Logs the duration between device state change and device state
+ * based auto rotate setting change if the duration is less than certain
+ * threshold.
+ *
+ * Logged from:
+ *  frameworks/base/services/core/java/com/android/server/wm/DeviceStateAutoRotateSettingIssueLogger.java
+ *
+ * Estimated Logging Rate:
+ *   Avg: < 1 per device per day
+*/
+message DeviceStateAutoRotateSettingIssueReported {
+  // Duration between device state change and device state based auto rotate
+  // setting change.
+  optional int32 duration_ms = 1;
+  // Boolean is true if the device state change is the first one to happen
+  // followed by device state based auto rotate setting change.
+  // False if the device state based auto rotate setting change is the first one
+  // to happen followed by device state change.
+  optional bool is_device_state_change_first = 2;
+}
+
+/**
+ * [Pushed Atom] Log discrete ops performance results for sqlite implementation.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/DiscreteOpsSqlRegistry.java
+ */
+message SqliteDiscreteOpEventReported {
+  optional int64 read_time_millis = 1 ;
+  optional int64 write_time_millis = 2 ;
+  optional int64 storage_bytes = 3 ;
+}
+
+/**
  * Logs when specific content and file URIs are encountered in several locations. See EventType for
  * more details.
  */
@@ -1134,4 +1170,16 @@ message CameraStatusForCompatibilityChanged {
     // compat mode was set up, camera restarted, and the camera opened signal
     // was received again.
     optional int32 latency_ms = 3;
+}
+
+/**
+ * Reports that an activity has been launched from the PROCESS_TEXT activity
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ * Estimated Logging Rate:
+ *   Peak: 25 times per device per day | Avg: Between 0 and 1 times per device per day
+ */
+message ProcessTextActionLaunchedReported {
+    optional int32 calling_uid = 1 [(is_uid) = true];
+    optional int32 launched_uid = 2 [(is_uid) = true];
 }

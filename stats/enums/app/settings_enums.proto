@@ -1988,6 +1988,147 @@ enum Action {
     //  SUBTYPE: default connection policy, false is forbidden, true is allowed
     // OS: V
     ACTION_BLUETOOTH_PROFILE_LE_AUDIO_OFF = 1980;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Bounce keys > Bounce keys dialog
+    // CATEGORY: SETTINGS
+    ACTION_BOUNCE_KEYS_CUSTOM_VALUE_CHANGE = 1981;
+
+    // ACTION: Settings > Keyboard > Physical keyboard
+    //         > Physical Keyboard accessibility > Slow keys > Slow keys dialog
+    // CATEGORY: SETTINGS
+    ACTION_SLOW_KEYS_CUSTOM_VALUE_CHANGE = 1982;
+
+    // OPEN: Settings > System > Mouse -> Swap primary mouse button
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_SWAP_PRIMARY_BUTTON_ENABLED = 1983;
+    ACTION_MOUSE_SWAP_PRIMARY_BUTTON_DISABLED = 1984;
+
+    // OPEN: Settings > System > Mouse -> Reverse scrolling
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_REVERSE_VERTICAL_SCROLLING_ENABLED = 1985;
+    ACTION_MOUSE_REVERSE_VERTICAL_SCROLLING_DISABLED = 1986;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog > Click positive button
+    // CATEGORY: SETTINGS
+    ACTION_CHANGE_REGION_DIALOG_POSITIVE_BTN_CLICKED = 1987;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog > Click negative button
+    // CATEGORY: SETTINGS
+    ACTION_CHANGE_REGION_DIALOG_NEGATIVE_BTN_CLICKED = 1988;
+
+    // OPEN: Use ACTION_REGION_SETTINGS to open Settings > System
+    //       > Language & region > Region
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_REGION_OUTSIDE_SETTINGS = 1989;
+
+    // OPEN: Use ACTION_FIRST_DAY_OF_WEEK_SETTINGS to open Settings > System
+    //       > Language & region > First day of week
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_FIRST_DAY_OF_WEEK_OUTSIDE_SETTINGS = 1990;
+
+    // OPEN: Use ACTION_TEMPERATURE_UNIT_SETTINGS to open Settings > System
+    //       > Language & region > Temperature
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_TEMPERATURE_UNIT_OUTSIDE_SETTINGS = 1991;
+
+    // OPEN: Use ACTION_NUMBERING_SYSTEM_SETTINGS to open Settings > System
+    //       > Language & region > Numbers preferences
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_NUMBERING_SYSTEM_OUTSIDE_SETTINGS = 1992;
+
+    // OPEN: Use ACTION_MEASUREMENT_SYSTEM_SETTINGS to open Settings > System
+    //       > Language & region > Measurement system
+    // CATEGORY: SETTINGS
+    ACTION_OPEN_MEASUREMENT_SYSTEM_OUTSIDE_SETTINGS = 1993;
+
+    // OPEN: Settings > System > Mouse -> Controlled scrolling
+    // CATEGORY: SETTINGS
+    ACTION_MOUSE_SCROLLING_ACCELERATION_ENABLED = 1994;
+    ACTION_MOUSE_SCROLLING_ACCELERATION_DISABLED = 1995;
+
+    // OPEN: Settings > System > Mouse -> Scrolling speed
+    // CATEGORY: SETTINGS
+    // VALUE: mouse scrolling speed
+    ACTION_MOUSE_SCROLLING_SPEED_CHANGED = 1996;
+
+    // ACTION: Settings > Network & internet > SIMs > Mobile data
+    // CATEGORY: SETTINGS
+    ACTION_MOBILE_DATA = 1997;
+
+    // ACTION: Settings > Network & internet > SIMs > {network} > Wi-Fi calling > Use Wi-Fi calling
+    // CATEGORY: SETTINGS
+    ACTION_WIFI_CALLING = 1998;
+
+    // ACTION: Settings > Network & Internet > Adaptive connectivity > Use Adaptive connectivity
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_CONNECTIVITY = 1999;
+
+    // ACTION: Settings > Network & Internet > Internet > Wi-Fi
+    // CATEGORY: SETTINGS
+    ACTION_WIFI = 2000;
+
+    // ACTION: Settings > Network & Internet > Hotspot & tethering > Wi-Fi hotspot
+    // CATEGORY: SETTINGS
+    ACTION_WIFI_HOTSPOT = 2001;
+
+    // ACTION: Settings > Battery > Battery Saver > Use Battery Saver
+    // CATEGORY: SETTINGS
+    ACTION_BATTERY_SAVER = 2002;
+
+    // ACTION: Settings > Battery > Battery Saver > Use Adaptive Battery
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_BATTERY = 2003;
+
+    // ACTION: Settings > Battery > Battery Saver > Extreme Battery Saver
+    // CATEGORY: SETTINGS
+    ACTION_EXTREME_BATTERY_SAVER = 2004;
+
+    // ACTION: Settings > Battery
+    // CATEGORY: SETTINGS
+    ACTION_BATTERY_LEVEL = 2005;
+
+    // ACTION: Settings > Display & touch > Brightness level
+    // CATEGORY: SETTINGS
+    ACTION_BRIGHTNESS_LEVEL = 2006;
+
+    // ACTION: Settings > Display & touch > Adaptive brightness
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_BRIGHTNESS = 2007;
+
+    // ACTION: Settings > Display & touch > Smooth display
+    // CATEGORY: SETTINGS
+    ACTION_SMOOTH_DISPLAY = 2008;
+
+    // ACTION: Settings > Display & touch > Dark theme
+    // CATEGORY: SETTINGS
+    ACTION_DARK_THEME = 2009;
+
+    // ACTION: Settings > Display & touch > Lock screen > Always show time and info
+    // CATEGORY: SETTINGS
+    ACTION_AMBIENT_DISPLAY_ALWAYS_ON = 2010;
+
+    // ACTION: Settings > Sound & vibration > Vibration & haptics > Use Vibration & haptics
+    // CATEGORY: SETTINGS
+    ACTION_VIBRATION_HAPTICS = 2011;
+
+    // ACTION: Settings > Sound & vibration > Media Volume
+    // CATEGORY: SETTINGS
+    ACTION_MEDIA_VOLUME = 2012;
+
+    // ACTION: Settings > Sound & vibration > Call volume
+    // CATEGORY: SETTINGS
+    ACTION_CALL_VOLUME = 2013;
+
+    // ACTION: Settings > Sound & vibration > Ring volume
+    // CATEGORY: SETTINGS
+    ACTION_RING_VOLUME = 2014;
+
+    // ACTION: Settings > Accessibility > Color and motion > Remove Animation
+    // CATEGORY: SETTINGS
+    ACTION_REMOVE_ANIMATION = 2015;
 }
 
 /**
@@ -5272,6 +5413,33 @@ enum PageId {
     // OPEN: Settings -> Connected Devices -> Connection Preferences -> (select device) -> Forget
     // CATEGORY: SETTINGS
     DIALOG_VIRTUAL_DEVICE_FORGET = 2134;
+
+    // Settings -> Keyboard -> Physical keyboard -> Physical keyboard accessibility -> Repeat keys
+    // CATEGORY: SETTINGS
+    PHYSICAL_KEYBOARD_REPEAT_KEYS = 2135;
+
+    // OPEN: Settings > System > Language & region > Region > Region settings
+    // CATEGORY: SETTINGS
+    REGION_SETTINGS = 2136;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog
+    // CATEGORY: SETTINGS
+    CHANGE_REGION_DIALOG = 2137;
+
+    // ACTION: Settings > Network & internet > Hotspot & tethering > Wi-Fi hotspot toggle
+    //   SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    // DEPRECATED: This was added as page id by mistake, moved to Action.ACTION_WIFI_HOTSPOT
+    ACTION_WIFI_HOTSPOT_TOGGLE = 2138 [deprecated = true];
+
+    // Settings -> Supervision
+    // CATEGORY: SETTINGS
+    SUPERVISION_DASHBOARD = 2139;
+
+    // ACTION: Settings > Notifications > Summarized notifications
+    // CATEGORY: SETTINGS
+    SUMMARIZED_NOTIFICATIONS = 2140;
 }
 
 // Battery Saver schedule types.

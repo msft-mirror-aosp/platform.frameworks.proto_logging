@@ -575,6 +575,58 @@ enum NotificationFlowComponent {
   NOTIFICATION_FLOW_COMPONENT_ACTION_EXECUTION = 3;
 }
 
+/** Defines the name for Notification API usage reported.
+ *
+ * API names are based on:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/api/NotificationApiImpl.java
+ *
+ * Next ID: 18
+ */
+enum NotificationApiName {
+  // Unknown value for backward compatibility
+  NOTIFICATION_API_NAME_UNKNOWN = 0;
+
+  NOTIFICATION_API_NAME_REGISTER_NOTIFICATION_EVENT_LISTENER = 1;
+  NOTIFICATION_API_NAME_UNREGISTER_NOTIFICATION_EVENT_LISTENER = 2;
+
+  NOTIFICATION_API_NAME_GET_ACTIVE_NOTIFICATIONS = 3;
+  NOTIFICATION_API_NAME_GET_ACTIVE_NOTIFICATIONS_BY_IDS = 4;
+
+  NOTIFICATION_API_NAME_GET_CURRENT_INTERRUPTION_FILTER = 5;
+  NOTIFICATION_API_NAME_REQUEST_INTERRUPTION_FILTER_UPDATE = 6;
+
+  NOTIFICATION_API_NAME_GET_CURRENT_LISTENER_HINTS = 7;
+  NOTIFICATION_API_NAME_REQUEST_LISTENER_HINTS_UPDATE = 8;
+
+  NOTIFICATION_API_NAME_GET_CURRENT_RANKING = 9;
+
+  NOTIFICATION_API_NAME_GET_NOTIFICATION_COUNT_DATA = 10;
+
+  NOTIFICATION_API_NAME_DISMISS_ALL = 11;
+  NOTIFICATION_API_NAME_DISMISS_MULTIPLE_FROM_UI = 12;
+
+  NOTIFICATION_API_NAME_IS_APP_MUTED = 13;
+  NOTIFICATION_API_NAME_GET_MUTED_APPS = 14;
+  NOTIFICATION_API_NAME_MUTE_APP = 15;
+  NOTIFICATION_API_NAME_UNMUTE_APP = 16;
+  NOTIFICATION_API_NAME_CAN_MUTE_APP = 17;
+}
+
+
+// Defines the notification api status for api usage reported.
+// Next ID: 3
+enum NotificationApiStatus {
+  // Unknown value for backward compatibility
+  NOTIFICATION_API_STATUS_UNKNOWN = 0;
+
+  // Notification status when API call is invoked
+  NOTIFICATION_API_STATUS_START = 1;
+
+  // Notification status when API call completes successfully
+  NOTIFICATION_API_STATUS_SUCCESS = 2;
+}
+
+
 // Defines which component the latency is being calculated for.
 // Next ID: 7
 enum ComponentName {
@@ -881,6 +933,28 @@ enum RemoteEventState {
 
   // Remote event with no connected Companion supports RemoteEvents response.
   REMOTE_EVENT_RESPONSE_REMOTE_NOT_SUPPORTED = 12;
+}
+
+// This enum depicts the state of the remote interactions.
+enum RemoteInteractionsState {
+  // Depicts an unknown remote interactions state.
+  REMOTE_INTERACTIONS_RESPONSE_UNKNOWN = 0;
+
+  // Depicts total number of times remote interactions API is invoked.
+  REMOTE_INTERACTIONS_API_INVOKED = 1;
+
+  // Depicts a successful remote interactions response.
+  REMOTE_INTERACTIONS_RESPONSE_SUCCESS = 2;
+
+  // Remote interactions coming from a background service are disallowed.
+  REMOTE_INTERACTIONS_RESPONSE_BACKGROUND_REQUEST_DISALLOWED = 3;
+
+  // Remote interactions with response not being received within the timeout period.
+  REMOTE_INTERACTIONS_RESPONSE_TIMEOUT = 4;
+
+  // Remote interactions with generic failure condition response which doesn't fail into any other
+  // condition.
+  REMOTE_INTERACTIONS_RESPONSE_FAILURE = 5;
 }
 
 // This enum depicts different components of the bugreport flow

@@ -311,9 +311,7 @@ rust_library {
         "libstatslog_rust_header",
         "libstatspull_bindgen",
     ],
-    apex_available: [
-        "com.android.resolv",
-        "com.android.virt",
+    flags: [
+        "-A clippy::needless-lifetimes",
     ],
-    min_sdk_version: "29",
 }

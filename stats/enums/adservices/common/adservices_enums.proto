@@ -94,6 +94,8 @@ enum PpapiName {
   // Represents reportImpression API of B&A
   REPORT_IMPRESSION = 14;
   // Represents reportInteraction API of B&A
+  // The name reportInteraction maps to AdSelectionServiceImpl#reportInteraction, while the caller
+  // is AdSelectionManager#reportEvent.
   REPORT_INTERACTION = 15;
   // Represents joinCustomAudience API of FLEDGE.
   JOIN_CUSTOM_AUDIENCE = 16;
@@ -264,6 +266,10 @@ enum Command {
 
   // Attribution-reporting commands: 401-500
   COMMAND_ATTRIBUTION_REPORTING_LIST_SOURCE_REGISTRATIONS = 401;
+  COMMAND_ATTRIBUTION_REPORTING_LIST_TRIGGER_REGISTRATIONS = 402;
+  COMMAND_ATTRIBUTION_REPORTING_LIST_EVENT_REPORTS = 403;
+  COMMAND_ATTRIBUTION_REPORTING_LIST_AGGREGATE_REPORTS = 404;
+  COMMAND_ATTRIBUTION_REPORTING_LIST_DEBUG_REPORTS = 405;
 }
 
 // Result of the shell command
@@ -275,6 +281,7 @@ enum CommandResult {
   COMMAND_RESULT_TIMEOUT_ERROR = 4;
   COMMAND_RESULT_INVALID_COMMAND = 5;
   COMMAND_RESULT_NOT_ENABLED = 6;
+  COMMAND_RESULT_DEV_MODE_UNCONFIRMED = 7;
 }
 
 // Cobalt logging event
