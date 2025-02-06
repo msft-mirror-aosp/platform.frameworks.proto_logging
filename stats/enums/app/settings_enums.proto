@@ -2053,6 +2053,82 @@ enum Action {
     // CATEGORY: SETTINGS
     // VALUE: mouse scrolling speed
     ACTION_MOUSE_SCROLLING_SPEED_CHANGED = 1996;
+
+    // ACTION: Settings > Network & internet > SIMs > Mobile data
+    // CATEGORY: SETTINGS
+    ACTION_MOBILE_DATA = 1997;
+
+    // ACTION: Settings > Network & internet > SIMs > {network} > Wi-Fi calling > Use Wi-Fi calling
+    // CATEGORY: SETTINGS
+    ACTION_WIFI_CALLING = 1998;
+
+    // ACTION: Settings > Network & Internet > Adaptive connectivity > Use Adaptive connectivity
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_CONNECTIVITY = 1999;
+
+    // ACTION: Settings > Network & Internet > Internet > Wi-Fi
+    // CATEGORY: SETTINGS
+    ACTION_WIFI = 2000;
+
+    // ACTION: Settings > Network & Internet > Hotspot & tethering > Wi-Fi hotspot
+    // CATEGORY: SETTINGS
+    ACTION_WIFI_HOTSPOT = 2001;
+
+    // ACTION: Settings > Battery > Battery Saver > Use Battery Saver
+    // CATEGORY: SETTINGS
+    ACTION_BATTERY_SAVER = 2002;
+
+    // ACTION: Settings > Battery > Battery Saver > Use Adaptive Battery
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_BATTERY = 2003;
+
+    // ACTION: Settings > Battery > Battery Saver > Extreme Battery Saver
+    // CATEGORY: SETTINGS
+    ACTION_EXTREME_BATTERY_SAVER = 2004;
+
+    // ACTION: Settings > Battery
+    // CATEGORY: SETTINGS
+    ACTION_BATTERY_LEVEL = 2005;
+
+    // ACTION: Settings > Display & touch > Brightness level
+    // CATEGORY: SETTINGS
+    ACTION_BRIGHTNESS_LEVEL = 2006;
+
+    // ACTION: Settings > Display & touch > Adaptive brightness
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_BRIGHTNESS = 2007;
+
+    // ACTION: Settings > Display & touch > Smooth display
+    // CATEGORY: SETTINGS
+    ACTION_SMOOTH_DISPLAY = 2008;
+
+    // ACTION: Settings > Display & touch > Dark theme
+    // CATEGORY: SETTINGS
+    ACTION_DARK_THEME = 2009;
+
+    // ACTION: Settings > Display & touch > Lock screen > Always show time and info
+    // CATEGORY: SETTINGS
+    ACTION_AMBIENT_DISPLAY_ALWAYS_ON = 2010;
+
+    // ACTION: Settings > Sound & vibration > Vibration & haptics > Use Vibration & haptics
+    // CATEGORY: SETTINGS
+    ACTION_VIBRATION_HAPTICS = 2011;
+
+    // ACTION: Settings > Sound & vibration > Media Volume
+    // CATEGORY: SETTINGS
+    ACTION_MEDIA_VOLUME = 2012;
+
+    // ACTION: Settings > Sound & vibration > Call volume
+    // CATEGORY: SETTINGS
+    ACTION_CALL_VOLUME = 2013;
+
+    // ACTION: Settings > Sound & vibration > Ring volume
+    // CATEGORY: SETTINGS
+    ACTION_RING_VOLUME = 2014;
+
+    // ACTION: Settings > Accessibility > Color and motion > Remove Animation
+    // CATEGORY: SETTINGS
+    ACTION_REMOVE_ANIMATION = 2015;
 }
 
 /**
@@ -5354,7 +5430,8 @@ enum PageId {
     // ACTION: Settings > Network & internet > Hotspot & tethering > Wi-Fi hotspot toggle
     //   SUBTYPE: 0 is off, 1 is on
     // CATEGORY: SETTINGS
-    ACTION_WIFI_HOTSPOT_TOGGLE = 2138;
+    // DEPRECATED: This was added as page id by mistake, moved to Action.ACTION_WIFI_HOTSPOT
+    ACTION_WIFI_HOTSPOT_TOGGLE = 2138 [deprecated = true];
 
     // Settings -> Supervision
     // CATEGORY: SETTINGS
