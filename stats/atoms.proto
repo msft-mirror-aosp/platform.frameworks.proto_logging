@@ -1553,6 +1553,8 @@ message Atom {
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
+    extensions 10232; // ZramMmStatMmd zram_mm_stat_mmd
+    extensions 10233; // ZramBdStatMmd zram_bd_stat_mmd
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
