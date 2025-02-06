@@ -259,6 +259,12 @@ enum SysproxyIptablesState {
     IPTABLES_RULES_TEARDOWN_FAILURE = 4;
 }
 
+enum SysproxyTransportType {
+    SYSPROXY_TRANSPORT_TYPE_UNKNOWN = 0;
+    BLE = 1;
+    BTC = 2;
+}
+
 /**
  * Keep sorted order in each block. Last enum num is 2
  */
