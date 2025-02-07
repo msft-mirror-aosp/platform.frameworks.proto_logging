@@ -1026,10 +1026,8 @@ message JankFrameCountByWidgetReported {
     NAVIGATION = 4;
     // UI elements that facilitate displaying, hiding or interacting with keyboard.
     KEYBOARD = 5;
-    // UI elements that facilitate predictive back gesture navigation.
-    PREDICTIVE_BACK = 6;
     // UI elements that don't fall in on of the other categories.
-    OTHER = 7;
+    OTHER = 6;
   }
   optional WidgetCategory widget_type = 5;
 
@@ -1055,6 +1053,8 @@ message JankFrameCountByWidgetReported {
     PLAYBACK = 8;
     // Element that is currently being tapped on.
     TAPPING = 9;
+    // Element that is currently performing a back navigation gesture.
+    PREDICTIVE_BACK = 10;
   }
   optional WidgetState widget_state = 6;
 
