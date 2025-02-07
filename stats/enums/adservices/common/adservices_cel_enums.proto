@@ -132,7 +132,7 @@ enum ErrorCode {
   // Package Deny process failure service disabled.
   PACKAGE_DENY_PROCESS_ERROR_DISABLED = 33;
 
-  // SPE Errors: 901 - 1000
+  // SPE Errors: 901 - 930
   // Get an unavailable job execution start timestamp when calculating the execution latency.
   SPE_UNAVAILABLE_JOB_EXECUTION_START_TIMESTAMP = 901;
 
@@ -165,6 +165,14 @@ enum ErrorCode {
 
   // Error during future cancellation process.
   SPE_FUTURE_CANCELLATION_ERROR = 911;
+
+  // Process Stable Flags Error: 931 - 940
+  // The flag initialization takes too long and exceeds the threshold.
+  PROCESS_STABLE_FLAGS_FLAG_INIT_TIMEOUT = 931;
+  // The flag initialization encounters error.
+  PROCESS_STABLE_FLAGS_FLAG_INIT_ERROR = 932;
+  // The flag initialization future encounters issue when calling get().
+  PROCESS_STABLE_FLAGS_INIT_FUTURE_GET_ERROR = 933;
 
   // Topics errors: 1001-2000
   // Remote exception when calling get topics.

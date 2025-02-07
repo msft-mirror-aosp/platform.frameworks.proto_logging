@@ -66,6 +66,7 @@ extend Atom {
     optional NotificationBundleInteracted notification_bundle_interacted = 1000 [(module) = "framework"];
     optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
     optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
+    optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
 }
 
 /**
@@ -1169,4 +1170,16 @@ message CameraStatusForCompatibilityChanged {
     // compat mode was set up, camera restarted, and the camera opened signal
     // was received again.
     optional int32 latency_ms = 3;
+}
+
+/**
+ * Reports that an activity has been launched from the PROCESS_TEXT activity
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ * Estimated Logging Rate:
+ *   Peak: 25 times per device per day | Avg: Between 0 and 1 times per device per day
+ */
+message ProcessTextActionLaunchedReported {
+    optional int32 calling_uid = 1 [(is_uid) = true];
+    optional int32 launched_uid = 2 [(is_uid) = true];
 }
