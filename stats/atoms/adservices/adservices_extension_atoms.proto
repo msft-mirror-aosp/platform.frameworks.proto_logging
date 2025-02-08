@@ -1117,6 +1117,9 @@ message GetAdSelectionDataBuyerInputGenerated {
 
   // Min size of encoded signals payloads
   optional int32 encoded_signals_size_min = 12;
+
+  // Number of custom audiences in this buyer input sending component ads
+  optional int32 num_custom_audiences_with_component_ads = 13;
 }
 
 /*
@@ -1230,6 +1233,9 @@ message PersistAdSelectionResultCalled {
 
     // The type of auction winner
     optional WinnerType winner = 1;
+
+    // Number of component ads in winner
+    optional int32 num_component_ads = 2;
 }
 
 /** Logs for Topics encryption during epoch computation */

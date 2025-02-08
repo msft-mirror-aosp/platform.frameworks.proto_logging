@@ -1298,7 +1298,7 @@ message Atom {
     extensions 969; // ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported scheduled_custom_audience_update_performed_attempted_failure_reported
     extensions 970; // ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran
     extensions 971; // ContextualEducationTriggered contextual_education_triggered
-    extensions 972; // CertificateTransparencyLogListUpdateFailed certificate_transparency_log_list_update_failed
+    extensions 972; // CertificateTransparencyLogListUpdateStateChanged certificate_transparency_log_list_update_state_changed
     extensions 973; // Reserved for b/375457523
     extensions 974; // CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported
     extensions 975; // CarSettingsDataSubscriptionEventReported car_settings_data_subscription_event_reported
@@ -1343,6 +1343,7 @@ message Atom {
     extensions 1014; // NumberOfTypesOfReportingUrlsReceived number_of_types_of_reporting_url_received
     extensions 1015; // ZramMaintenanceExecuted zram_maintenance_executed
     extensions 1016; // ProcessTextActionLaunchedReported process_text_action_launched_reported
+    extensions 1017; // MediaRouterEventReported media_router_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.

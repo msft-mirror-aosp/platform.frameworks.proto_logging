@@ -4,7 +4,7 @@ package android.os.statsd.corenetworking.certificatetransparency;
 
 option java_package = "com.android.os.corenetworking.certificatetransparency";
 
-// Next ID: 15
+// Next ID: 16
 enum LogListUpdateStatus {
     STATUS_UNKNOWN = 0;
     // Log list was successfully updated.
@@ -25,7 +25,7 @@ enum LogListUpdateStatus {
     // Device does not have enough disk space to store the log list file.
     // Extremely unlikely to occur, and might not be able to reliably log this.
     FAILURE_NO_DISK_SPACE = 8;
-    // Public key is missing for signature verification.
+    // Signature is missing for signature verification.
     FAILURE_SIGNATURE_NOT_FOUND = 9;
     // Log list signature verification failed.
     FAILURE_SIGNATURE_VERIFICATION = 10;
@@ -35,6 +35,8 @@ enum LogListUpdateStatus {
     FAILURE_PUBLIC_KEY_NOT_FOUND = 13;
     // Log list signature is invalid (e.g. wrong format or algorithm).
     FAILURE_SIGNATURE_INVALID = 14;
+    // Log list is invalid (e.g. not in JSON format).
+    FAILURE_LOG_LIST_INVALID = 15;
     // Device is waiting for a Wi-Fi connection to proceed with the download, as
     // it exceeds the size limit for downloads over the mobile network.
     PENDING_WAITING_FOR_WIFI = 11;
