@@ -1280,6 +1280,7 @@ message Atom {
     extensions 1002; // PopulationDensityProviderLoadingReported population_density_provider_loading_reported
     extensions 1003; // DensityBasedCoarseLocationsUsageReported density_based_coarse_locations_usage_reported
     extensions 1004; // DensityBasedCoarseLocationsProviderQueryReported density_based_coarse_locations_provider_query_reported
+    extensions 1015; // ZramMaintenanceExecuted zram_maintenance_executed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
@@ -1552,6 +1553,8 @@ message Atom {
     extensions 10227; // WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot
     // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
+    extensions 10232; // ZramMmStatMmd zram_mm_stat_mmd
+    extensions 10233; // ZramBdStatMmd zram_bd_stat_mmd
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.

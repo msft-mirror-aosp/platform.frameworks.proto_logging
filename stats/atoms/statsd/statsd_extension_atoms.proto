@@ -59,6 +59,25 @@ message TestExtensionAtomReported {
     repeated string repeated_string_field = 12;
     repeated bool repeated_boolean_field = 13;
     repeated State repeated_enum_field = 14;
+    repeated int32 linear_histogram = 15 [(histogram_bin_option).generated_bins = {
+      min: 0
+      max: 100
+      count: 10
+      strategy: LINEAR
+    }];
+    repeated int32 exponential_histogram = 16 [(histogram_bin_option).generated_bins = {
+      min: 5
+      max: 160
+      count: 5
+      strategy: EXPONENTIAL
+    }];
+    repeated int32 explicit_histogram = 17 [(histogram_bin_option).explicit_bins = {
+      bin: -10
+      bin: -7
+      bin: 0
+      bin: 19
+      bin: 100
+    }];
 }
 
 /* Test restricted atom, is not logged anywhere */
