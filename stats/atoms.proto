@@ -2099,6 +2099,10 @@ message WifiConnectionResultReported {
     optional int32 connection_uid = 19 [(is_uid) = true];
     // connection channel frequency
     optional int32 frequency = 20;
+    // L2 connecting time duration in millis
+    optional int64 l2_connecting_duration_ms = 21;
+    // L3 connecting time duration in millis
+    optional int64 l3_connecting_duration_ms = 22;
 }
 
 /**
