@@ -285,6 +285,7 @@ rust_library {
         "libthiserror",
     ],
     apex_available: [
+        "//apex_available:platform",
         "com.android.resolv",
         "com.android.virt",
     ],
@@ -300,6 +301,9 @@ genrule {
     ],
 }
 
+// libstatslog_rust is available from "//apex_available:platform" only.
+// If you want to support libstatslog from Rust in other apex, you should create
+// a new libstatslog_<module>_rust library (e.g. libstatslog_dns_resolver_rust).
 rust_library {
     name: "libstatslog_rust",
     crate_name: "statslog_rust",
