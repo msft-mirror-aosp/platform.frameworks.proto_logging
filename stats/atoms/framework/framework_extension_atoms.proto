@@ -67,6 +67,7 @@ extend Atom {
     optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
     optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
     optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
+    optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
 }
 
 /**
@@ -1186,3 +1187,21 @@ message ProcessTextActionLaunchedReported {
     // The uid of the app that is launched.
     optional int32 launched_uid = 2 [(is_uid) = true];
 }
+
+/**
+ * Logs the bitmap memory usage in system_server of a bound widget.
+ *
+ * Logged from:
+ *   frameworks/base/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+ */
+message WidgetMemoryStats {
+    // The uid of the app that provides this widget.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The app widget ID. Used to disambiguate multiple widgets from the same provider.
+    optional int32 app_widget_id = 2;
+
+    // The bitmap memory usage in bytes.
+    optional int64 bitmap_memory_bytes = 3;
+}
+
