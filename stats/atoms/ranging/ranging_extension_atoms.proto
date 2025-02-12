@@ -83,7 +83,7 @@ message RangingSessionClosed {
   optional int64 last_state_duration_ms = 3;
 
   // Reason why the session closed.
-  optional android.ranging.ClosedReason reason = 4;
+  optional android.ranging.Reason reason = 4;
 }
 
 /*
@@ -114,7 +114,7 @@ message RangingTechnologyStopped {
   optional android.ranging.SessionState state = 3;
 
   // Reason why this technology stopped.
-  optional android.ranging.StoppedReason reason = 4;
+  optional android.ranging.Reason reason = 4;
 
   // Number of peers that stopped using this technology.
   optional int32 num_peers = 5;
