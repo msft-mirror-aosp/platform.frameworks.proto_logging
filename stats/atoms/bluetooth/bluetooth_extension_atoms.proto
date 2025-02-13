@@ -74,6 +74,8 @@ extend Atom {
         = 982 [(module) = "bluetooth"];
     optional BluetoothLeConnection bluetooth_le_connection
         = 988 [(module) = "bluetooth"];
+    optional HearingDeviceActiveEventReported hearing_device_active_event_reported
+        = 1021 [(module) = "bluetooth"];
 }
 
 /**
@@ -660,4 +662,34 @@ message BluetoothRfcommConnectionReportedAtClose {
   optional bool sdp_initiated = 10;
   // time in milliseconds between start and end of SDP, 0 if no SDP
   optional int32 sdp_duration_ms = 11;
+}
+
+/**
+  * Logs hearing devices active event when profiles connected.
+  *
+  * Logged from:
+  *     packages/modules/Bluetooth
+  *
+  * Estimated Logging Rate:
+  *     Peak: 3 times in 1 day | Avg: 1 per device per day
+*/
+message HearingDeviceActiveEventReported {
+  enum DeviceType {
+    UNKNOWN_TYPE = 0;
+    CLASSIC = 1;
+    ASHA = 2;
+    LE_AUDIO = 3;
+  }
+  enum TimePeriod {
+    UNKNOWN_TIME_PERIOD = 0;
+    DAY = 1;
+    WEEK = 2;
+    MONTH = 3;
+  }
+  // The type of the hearing device
+  optional DeviceType device_type = 1;
+  // The time period of the active event
+  optional TimePeriod time_period = 2;
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 3 [(log_mode) = MODE_BYTES];
 }

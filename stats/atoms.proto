@@ -1347,6 +1347,7 @@ message Atom {
     extensions 1018; // SetComponentEnabledSettingReported set_component_enabled_setting_reported
     extensions 1019; // BalProcessControllerAddBoundClientUidReported bal_process_controller_add_bound_client_uid_reported
     extensions 1020; // RoleSettingsFragmentActionReported role_settings_fragment_action_reported
+    extensions 1021; // HearingDeviceActiveEventReported hearing_device_active_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 900.
