@@ -5448,6 +5448,15 @@ enum PageId {
     // OPEN: Settings > Network & internet > SIMs > {network} > Satellite messaging -> see all apps
     // CATEGORY: SETTINGS
     SATELLITE_APPS_LIST = 2142;
+
+    // OPEN: Settings > Audio stream confirm dialog > Turn off talkback dialog
+    // CATEGORY: SETTINGS
+    DIALOG_AUDIO_STREAM_CONFIRM_TURN_OFF_TALKBACK = 2143;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //       > Turn off talkback dialog
+    // CATEGORY: SETTINGS
+    DIALOG_AUDIO_STREAM_MAIN_TURN_OFF_TALKBACK = 2144;
 }
 
 // Battery Saver schedule types.
