@@ -40,6 +40,8 @@ extend Atom {
         827 [(module) = "permissioncontroller"];
     optional EnhancedConfirmationRestrictionCleared enhanced_confirmation_restriction_cleared =
         828 [(module) = "permissioncontroller"];
+    optional RoleSettingsFragmentActionReported role_settings_fragment_action_reported =
+        1020 [(module) = "framework"];
 }
 
 /**
@@ -194,4 +196,21 @@ message EnhancedConfirmationDialogResultReported {
 message EnhancedConfirmationRestrictionCleared {
   // UID of the restricted app
   optional int32 uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Reports that User has changed a default app for a role in settings.
+ * Logged from:
+ *   packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/role/ui/DefaultAppChildFragment.java
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message RoleSettingsFragmentActionReported {
+  // UID of application assigned the role
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Package name of application assigned the role
+  optional string package_name = 2;
+
+  optional string role_name = 3;
 }
