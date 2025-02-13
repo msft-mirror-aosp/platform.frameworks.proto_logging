@@ -215,6 +215,7 @@ enum SysproxyConnectionChangeReason {
     PROXY_ON_PSM_UPDATE = 5;
     PROXY_ON_V2_PARAMS_CHANGED = 6;
     PROXY_ON_UUID_LIST_CHANGED = 7;
+    PROXY_ON_SOCKET_SWITCH = 30;
 
     //stopProxyShard
     PROXY_OFF_ACL_DISCONNECT = 8;
