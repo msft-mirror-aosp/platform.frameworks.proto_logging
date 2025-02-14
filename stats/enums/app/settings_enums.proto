@@ -5440,6 +5440,10 @@ enum PageId {
     // ACTION: Settings > Notifications > Summarized notifications
     // CATEGORY: SETTINGS
     SUMMARIZED_NOTIFICATIONS = 2140;
+
+    // OPEN: Settings > Network & internet > Ethernet
+    // CATEGORY: SETTINGS
+    ETHERNET_SETTINGS = 2141;
 }
 
 // Battery Saver schedule types.

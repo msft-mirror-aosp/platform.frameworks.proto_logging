@@ -187,6 +187,11 @@ message HealthConnectExportInvoked {
 
   // Size of the compressed data being exported.
   optional int32 compressed_data_size_kb = 4;
+
+  // The number of export attempts that have failed with the same error code
+  // as the current export attempt. It is 0 if the current export is a regular
+  // scheduled export rather than a retry.
+  optional int32 repeat_error_on_retry_count = 5;
 }
 
 /**
