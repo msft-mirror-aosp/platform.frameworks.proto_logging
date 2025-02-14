@@ -5444,6 +5444,10 @@ enum PageId {
     // OPEN: Settings > Network & internet > Ethernet
     // CATEGORY: SETTINGS
     ETHERNET_SETTINGS = 2141;
+
+    // OPEN: Settings > Network & internet > SIMs > {network} > Satellite messaging -> see all apps
+    // CATEGORY: SETTINGS
+    SATELLITE_APPS_LIST = 2142;
 }
 
 // Battery Saver schedule types.
