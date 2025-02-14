@@ -114,6 +114,13 @@ enum ImportStatus {
 
 // START: Backup and Restore enums
 
+// Each of these represents a value in DataBackupType.java.
+enum DataBackupType {
+  DATA_BACKUP_TYPE_UNSPECIFIED = 0;
+  DATA_BACKUP_TYPE_FULL = 1;
+  DATA_BACKUP_TYPE_INCREMENTAL = 2;
+}
+
 // Each of these represents a value in DataBackupStatus.java.
 enum DataBackupStatus {
   DATA_BACKUP_STATUS_ERROR_UNSPECIFIED = 0;
