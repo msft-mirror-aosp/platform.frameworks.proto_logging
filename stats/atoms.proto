@@ -6370,6 +6370,10 @@ message NotificationReported {
 
     // Age of the notification in minutes.
     optional int32 age_in_minutes = 29;
+
+    // Whether the notification was promoted and whether it was promotable.
+    optional bool is_promoted_ongoing = 30;
+    optional bool has_promotable_characteristics = 31;
 }
 
 /**
