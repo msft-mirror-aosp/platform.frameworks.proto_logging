@@ -41,7 +41,7 @@ extend Atom {
     optional EnhancedConfirmationRestrictionCleared enhanced_confirmation_restriction_cleared =
         828 [(module) = "permissioncontroller"];
     optional RoleSettingsFragmentActionReported role_settings_fragment_action_reported =
-        1020 [(module) = "framework"];
+        1020 [(module) = "permissioncontroller"];
 }
 
 /**
