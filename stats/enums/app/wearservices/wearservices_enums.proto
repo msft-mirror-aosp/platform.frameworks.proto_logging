@@ -901,7 +901,7 @@ enum RemoteEventState {
   // Depicts a successful remote event response.
   REMOTE_EVENT_RESPONSE_SUCCESS = 2;
 
-  // Remote event with generic failure condition response which doesn't fail into any other
+  // Remote event with generic failure condition response which doesn't fall into any other
   // condition.
   REMOTE_EVENT_RESPONSE_FAILURE = 3;
 
@@ -952,7 +952,7 @@ enum RemoteInteractionsState {
   // Remote interactions with response not being received within the timeout period.
   REMOTE_INTERACTIONS_RESPONSE_TIMEOUT = 4;
 
-  // Remote interactions with generic failure condition response which doesn't fail into any other
+  // Remote interactions with generic failure condition response which doesn't fall into any other
   // condition.
   REMOTE_INTERACTIONS_RESPONSE_FAILURE = 5;
 }
