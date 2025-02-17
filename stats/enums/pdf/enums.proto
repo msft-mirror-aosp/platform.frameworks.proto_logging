@@ -33,6 +33,31 @@ enum ApiType {
   API_TYPE_UNKNOWN = 0;
   // PDF Text selected
   API_TYPE_SELECT_CONTENT = 1;
+  // PDF Text page object
+  API_TYPE_TEXT_PAGE_OBJECT = 2;
+  // PDF Image page object
+  API_TYPE_IMAGE_PAGE_OBJECT = 3;
+  // PDF Path page object
+  API_TYPE_PATH_PAGE_OBJECT = 4;
+  // PDF free text annotation
+  API_TYPE_FREE_TEXT_ANNOTATION = 5;
+  // PDF highlight annotation
+  API_TYPE_HIGHLIGHT_ANNOTATION = 6;
+  // PDF stamp annotation
+  API_TYPE_STAMP_ANNOTATION = 7;
+}
+
+// Type of operation (add, remove, update, list)
+enum OperationType {
+  OPERATION_TYPE_UNKNOWN = 0;
+  // Add operation
+  OPERATION_TYPE_ADD = 1;
+  // Remove operation
+  OPERATION_TYPE_REMOVE = 2;
+  // Update operation
+  OPERATION_TYPE_UPDATE = 3;
+  // List operation
+  OPERATION_TYPE_LIST = 4;
 }
 
 enum PdfLinearizedType {
