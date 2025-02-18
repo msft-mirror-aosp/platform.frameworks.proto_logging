@@ -27,6 +27,7 @@ option java_multiple_files = true;
 
 extend Atom {
     optional ZramMaintenanceExecuted zram_maintenance_executed = 1015 [(module) = "framework"];
+    optional ZramSetupExecuted zram_setup_executed = 1029 [(module) = "framework"];
 
     optional ZramMmStatMmd zram_mm_stat_mmd = 10232 [(module) = "framework"];
     optional ZramBdStatMmd zram_bd_stat_mmd = 10233 [(module) = "framework"];
@@ -116,4 +117,24 @@ message ZramBdStatMmd {
     optional int64 bd_reads_kb = 2;
     /// The number of writes to backing device.
     optional int64 bd_writes_kb = 3;
+}
+
+/**
+ * Logged when zram setup is executed in mmd.
+ *
+ * Logged from:
+ *   * system/memory/mmd
+ *
+ * Estimated Logging Rate:
+ *   ZramSetup is triggered at most once per boot.
+ *
+ * Next Tag: 7
+ */
+message ZramSetupExecuted {
+    optional android.memory.ZramSetupResult zram_setup_result = 1;
+    optional android.memory.ZramCompAlgorithmSetupResult comp_algorithm_setup_result = 2;
+    optional android.memory.ZramWritebackSetupResult writeback_setup_result = 3;
+    optional android.memory.ZramRecompressionSetupResult recompression_setup_result = 4;
+    optional int64 zram_size_mb = 5;
+    optional int64 writeback_size_mb = 6;
 }
