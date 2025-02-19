@@ -416,3 +416,40 @@ enum ErrorEnum {
     ERROR_STUCK_CONNECTING_EMERGENCY = 23;
     ERROR_STUCK_CONNECTING = 24;
 }
+
+/**
+ * Indicating the simultaneous call type
+ */
+enum SimultaneousTypeEnum {
+    TYPE_UNKNOWN = 0;
+    TYPE_SINGLE = 1;
+    TYPE_DUAL_SAME_ACCOUNT = 2;
+    TYPE_DUAL_DIFF_ACCOUNT = 3;
+}
+
+/**
+ * Indicating telecom key event name
+ */
+enum EventEnum {
+    EVENT_UNKNOWN = 0;
+    EVENT_INIT = 1;
+    EVENT_DEFAULT_DIALER_CHANGED = 2;
+    EVENT_ADD_CALL = 3;
+}
+
+/**
+ * Indicating the cause of telecom key event
+ */
+enum EventCauseEnum {
+    CAUSE_UNKNOWN = 0;
+    CAUSE_GENERIC_SUCCESS = 1;
+    CAUSE_GENERIC_FAILURE = 2;
+    // [1,000 - 1,100) Call transaction result
+    CALL_TRANSACTION_SUCCESS = 1000;
+    CALL_TRANSACTION_ERROR_UNKNOWN = 1001;
+    CALL_TRANSACTION_CANNOT_HOLD_CURRENT_ACTIVE_CALL = 1002;
+    CALL_TRANSACTION_CALL_IS_NOT_BEING_TRACKED = 1003;
+    CALL_TRANSACTION_CALL_CANNOT_BE_SET_TO_ACTIVE = 1004;
+    CALL_TRANSACTION_CALL_NOT_PERMITTED_AT_PRESENT_TIME = 1005;
+    CALL_TRANSACTION_CODE_OPERATION_TIMED_OUT = 1006;
+}
