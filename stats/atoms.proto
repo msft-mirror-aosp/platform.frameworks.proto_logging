@@ -1284,7 +1284,7 @@ message Atom {
     extensions 1021; // HearingDeviceActiveEventReported hearing_device_active_event_reported
     extensions 9999; // Atom9999 atom_9999
 
-    // StatsdStats tracks platform atoms with ids up to 900.
+    // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
