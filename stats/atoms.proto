@@ -1282,7 +1282,7 @@ message Atom {
     extensions 1004; // DensityBasedCoarseLocationsProviderQueryReported density_based_coarse_locations_provider_query_reported
     extensions 9999; // Atom9999 atom_9999
 
-    // StatsdStats tracks platform atoms with ids up to 900.
+    // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
