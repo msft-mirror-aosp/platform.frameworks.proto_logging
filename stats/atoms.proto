@@ -1360,6 +1360,8 @@ message Atom {
     extensions 1031; // MobileDataDownloadLatencyReported mobile_data_download_latency_reported
     extensions 1032; // OtpNotificationDisplayed otp_notification_displayed
     extensions 1033; // XrRecorderSessionStatusReported xr_recorder_session_status_reported
+    extensions 1034; // EcmRestrictionQueryInCall ecm_restriction_query_in_call
+    extensions 1035; // CallWithEcmInteraction call_with_ecm_restriction
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
