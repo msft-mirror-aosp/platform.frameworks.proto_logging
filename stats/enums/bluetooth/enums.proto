@@ -610,6 +610,7 @@ enum EventType {
   SCO_SESSION = 51;
   SCO_CODEC = 52;
   TRANSITION = 53;
+  LE_CONNECTION_REJECTED = 54;
 }
 
 enum State {
@@ -768,6 +769,7 @@ enum State {
   START_REMOTE_INITIATED = 152;
   HFP_CONNECT_REJECT_FAIL = 153;
   HFP_ACL_CONNECT_FAIL = 154;
+  ATTEMPT_IN_PROGRESS = 155;
 }
 
 enum RemoteDeviceTypeMetadata {
