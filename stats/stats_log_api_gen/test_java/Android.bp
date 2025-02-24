@@ -20,14 +20,12 @@ package {
 }
 
 android_test {
-    name: "StatsCodeGenJavaTest",
+    name: "VendorAtomCodeGenJavaTest",
     test_suites: [
         "general-tests",
     ],
     srcs: [
         "src/**/*.java",
-        ":cts-atom-java-gen",
-        ":test-atom-java-gen",
         ":test-vendor-atom-java-gen",
     ],
     static_libs: [
@@ -37,22 +35,6 @@ android_test {
     ],
     libs: [
         "android.test.runner.stubs.system",
-    ],
-}
-
-java_test_host {
-    name: "StatsCodeGenSrcsJavaHostTest",
-    test_suites: [
-        "general-tests",
-    ],
-    srcs: [
-        "host/src/**/*.java",
-        ":stats-log-api-gen-java-srcs",
-    ],
-    static_libs: [
-        "TestParameterInjector",
-        "junit",
-        "truth",
     ],
 }
 
@@ -72,26 +54,4 @@ genrule {
         ":libprotobuf-internal-descriptor-proto",
         ":libstats_atom_options_protos",
     ],
-}
-
-testPackage = "com.android.test.statslogapigen"
-genrule {
-    name: "test-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    out: ["com/android/test/statslogapigen/TestAtomsLog.java"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module statsdtest" +
-        " --javaPackage com.android.test.statslogapigen" +
-        " --javaClass TestAtomsLog",
-}
-
-ctsPackage = "com.android.cts.statslogapigen"
-genrule {
-    name: "cts-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    out: ["com/android/cts/statslogapigen/CtsAtomsLog.java"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module cts" +
-        " --javaPackage com.android.cts.statslogapigen" +
-        " --javaClass CtsAtomsLog",
 }

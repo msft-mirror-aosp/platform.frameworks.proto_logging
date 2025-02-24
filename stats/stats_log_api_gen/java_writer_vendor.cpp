@@ -384,13 +384,6 @@ int write_stats_log_java_vendor(FILE* out, const Atoms& atoms, const string& jav
 
     fprintf(out, "import java.util.ArrayList;\n");
 
-#ifdef JAVA_INCLUDE_SRCS_DIR
-    const bool hasHistograms = has_histograms(atoms.decls);
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, JAVA_INCLUDE_SRCS_DIR, excludeList);
-#endif
-
     fprintf(out, "\n");
     fprintf(out, "/**\n");
     fprintf(out, " * Utility class for logging statistics events.\n");
@@ -400,19 +393,9 @@ int write_stats_log_java_vendor(FILE* out, const Atoms& atoms, const string& jav
     write_java_atom_codes(out, atoms);
     write_java_enum_values_vendor(out, atoms);
 
-#ifdef JAVA_INCLUDE_SRCS_DIR
-    if (hasHistograms) {
-        write_java_histogram_helpers(out, atoms.decls);
-    }
-#endif
-
     // Print write methods.
     fprintf(out, "    // Write methods\n");
     const int errors = write_java_pushed_methods_vendor(out, atoms.signatureInfoMap);
-
-#ifdef JAVA_INCLUDE_SRCS_DIR
-    write_java_srcs_classes(out, JAVA_INCLUDE_SRCS_DIR, excludeList);
-#endif
 
     fprintf(out, "}\n");
 
