@@ -1282,6 +1282,7 @@ message Atom {
     extensions 1004; // DensityBasedCoarseLocationsProviderQueryReported density_based_coarse_locations_provider_query_reported
     extensions 1015; // ZramMaintenanceExecuted zram_maintenance_executed
     extensions 1021; // HearingDeviceActiveEventReported hearing_device_active_event_reported
+    extensions 1029; // ZramSetupExecuted zram_setup_executed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
