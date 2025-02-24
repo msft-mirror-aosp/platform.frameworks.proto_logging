@@ -296,13 +296,6 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
     fprintf(out, "#include <%s>\n", importHeader.c_str());
     fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
 
-#ifdef CC_INCLUDE_SRCS_DIR
-    const bool hasHistograms = has_histograms(atoms.decls);
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
-#endif
-
     fprintf(out, "\n");
     write_namespace(out, cppNamespace);
     fprintf(out, "\n");
@@ -312,23 +305,8 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
     fprintf(out, "using std::vector;\n");
     fprintf(out, "using std::string;\n");
 
-    int ret = 0;
-#ifdef CC_INCLUDE_SRCS_DIR
-    ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
-    if (ret != 0) {
-        return ret;
-    }
-
-    // Write histogram helper definitions if any histogram annotations are present.
-    if (hasHistograms) {
-        ret = write_native_histogram_helper_definitions(out, atoms.decls);
-        if (ret != 0) {
-            return ret;
-        }
-    }
-#endif
-
-    ret = write_native_create_vendor_atom_methods(out, atoms.signatureInfoMap, attributionDecl);
+    const int ret =
+            write_native_create_vendor_atom_methods(out, atoms.signatureInfoMap, attributionDecl);
     if (ret != 0) {
         return ret;
     }
@@ -341,22 +319,10 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
 
 int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                   const string& cppNamespace) {
-    const bool hasHistograms = has_histograms(atoms.decls);
-    write_native_header_preamble(out, cppNamespace, /*includePull=*/false, hasHistograms,
-                                 /*bootstrap=*/false, /*isVendorAtomLogging=*/true);
+    write_native_header_preamble(out, cppNamespace, /*includePull=*/false, /*bootstrap=*/false,
+                                 /*isVendorAtomLogging=*/true);
     write_native_atom_constants(out, atoms, attributionDecl, "createVendorAtom(",
                                 /*isVendorAtomLogging=*/true);
-
-#ifdef CC_INCLUDE_HDRS_DIR
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
-
-    // Write histogram helper declarations if any histogram annotations are present.
-    if (hasHistograms) {
-        write_native_histogram_helper_declarations(out, atoms.decls);
-    }
-#endif
 
     for (AtomDeclSet::const_iterator atomIt = atoms.decls.begin(); atomIt != atoms.decls.end();
          atomIt++) {
