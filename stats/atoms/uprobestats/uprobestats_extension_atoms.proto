@@ -25,9 +25,9 @@ option java_package = "com.android.os.uprobestats";
 option java_multiple_files = true;
 
 extend Atom {
-  optional TestUprobeStatsAtomReported test_uprobestats_atom_reported = 915;
-  optional SetComponentEnabledSettingReported set_component_enabled_setting_reported = 1018;
-  optional BalProcessControllerAddBoundClientUidReported bal_process_controller_add_bound_client_uid_reported = 1019;
+  optional TestUprobeStatsAtomReported test_uprobestats_atom_reported = 915 [(module) = "uprobestats"];
+  optional SetComponentEnabledSettingReported set_component_enabled_setting_reported = 1018 [(module) = "uprobestats"];
+  optional BalProcessControllerAddBoundClientUidReported bal_process_controller_add_bound_client_uid_reported = 1019 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
