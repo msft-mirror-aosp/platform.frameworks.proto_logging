@@ -1,0 +1,7 @@
+{
+  "presubmit": [
+    {
+      "name": "stats_code_gen_srcs_cc_host_test"
+    }
+  ]
+}
