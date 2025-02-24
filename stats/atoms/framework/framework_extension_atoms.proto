@@ -487,6 +487,8 @@ message MediaProjectionTargetChanged {
     TARGET_TYPE_DISPLAY = 1;
     // Capturing one task of an app.
     TARGET_TYPE_APP_TASK = 2;
+    // Capturing via an overlay.
+    TARGET_TYPE_OVERLAY = 3;
   }
 
   // Windowing mode of the captured task, if the user chose to capture
