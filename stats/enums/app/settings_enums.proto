@@ -2129,6 +2129,10 @@ enum Action {
     // ACTION: Settings > Accessibility > Color and motion > Remove Animation
     // CATEGORY: SETTINGS
     ACTION_REMOVE_ANIMATION = 2015;
+
+    // ACTION: Bluetooth Sharing is triggered and Nearby Share entrypoint is shown
+    // CATEGORY: SETTINGS
+    ACTION_NEARBY_SHARE_ENTRYPOINT_SHOWN = 2016;
 }
 
 /**
