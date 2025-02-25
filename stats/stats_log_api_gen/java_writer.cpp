@@ -367,6 +367,15 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
         fprintf(out, "import androidx.annotation.RequiresApi;\n");
     }
 
+    int errors = 0;
+
+#ifdef JAVA_INCLUDE_SRCS_DIR
+    const bool hasHistograms = has_histograms(atoms.decls);
+    const vector<string> excludeList =
+            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    errors += write_srcs_header(out, JAVA_INCLUDE_SRCS_DIR, excludeList);
+#endif
+
     fprintf(out, "\n");
     fprintf(out, "\n");
     fprintf(out, "/**\n");
@@ -379,7 +388,11 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
     write_java_enum_values(out, atoms);
     write_java_annotation_constants(out, minApiLevel);
 
-    int errors = 0;
+#ifdef JAVA_INCLUDE_SRCS_DIR
+    if (hasHistograms) {
+        errors += write_java_histogram_helpers(out, atoms.decls);
+    }
+#endif
 
     // Print write methods.
     fprintf(out, "    // Write methods\n");
@@ -390,6 +403,10 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
     if (supportWorkSource) {
         errors += write_java_work_source_methods(out, atoms.signatureInfoMap);
     }
+
+#ifdef JAVA_INCLUDE_SRCS_DIR
+    errors += write_java_srcs_classes(out, JAVA_INCLUDE_SRCS_DIR, excludeList);
+#endif
 
     if (minApiLevel == API_Q) {
         errors += write_java_q_logger_class(out, atoms.signatureInfoMap, attributionDecl);
