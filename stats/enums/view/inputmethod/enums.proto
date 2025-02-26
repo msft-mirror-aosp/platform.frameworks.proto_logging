@@ -278,6 +278,8 @@ enum ImeRequestPhaseEnum {
     PHASE_WM_DISPLAY_IME_CONTROLLER_SET_IME_REQUESTED_VISIBLE = 68;
     // The control target reported its requestedVisibleTypes back to WindowManagerService.
     PHASE_WM_UPDATE_DISPLAY_WINDOW_REQUESTED_VISIBLE_TYPES = 69;
+    // The requestedVisibleTypes have not been changed, so this request is not continued.
+    PHASE_WM_REQUESTED_VISIBLE_TYPES_NOT_CHANGED = 70;
 
 }
 
