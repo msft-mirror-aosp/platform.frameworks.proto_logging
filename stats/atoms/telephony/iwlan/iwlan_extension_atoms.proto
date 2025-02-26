@@ -48,4 +48,7 @@ message IwlanUnderlyingNetworkValidationResultReported {
 
   // Time for receiving the validation result
   optional int32 validation_duration_millis = 4;
+
+  // Whether a new instance of validation check is triggered
+  optional bool validation_triggered = 5;
 }
