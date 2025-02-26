@@ -47,6 +47,7 @@ const int JAVA_MODULE_REQUIRES_ATTRIBUTION = 0x02;
 const char ANNOTATION_CONSTANT_NAME_PREFIX[] = "ANNOTATION_ID_";
 const char ANNOTATION_CONSTANT_NAME_VENDOR_PREFIX[] = "AnnotationId.";
 const char ANNOTATION_CONSTANT_NAME_VENDOR_NATIVE_PREFIX[] = "AnnotationId::";
+const string HISTOGRAM_STEM("StatsHistogram");
 
 struct AnnotationStruct {
     string name;
@@ -65,6 +66,8 @@ string get_java_build_version_code(int apiLevel);
 string get_restriction_category_str(int annotationValue);
 
 string make_constant_name(const string& str);
+
+string snake_to_pascal(const string& snake);
 
 const char* cpp_type_name(java_type_t type, bool isVendorAtomLogging = false);
 
@@ -97,7 +100,8 @@ void write_native_method_header(FILE* out, const string& methodName,
                                 const AtomDecl& attributionDecl, bool isVendorAtomLogging = false);
 
 void write_native_header_preamble(FILE* out, const string& cppNamespace, bool includePull,
-                                  bool bootstrap, bool isVendorAtomLogging = false);
+                                  bool hasHistograms, bool bootstrap,
+                                  bool isVendorAtomLogging = false);
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
 
@@ -127,6 +131,20 @@ public:
 int get_max_requires_api_level(int minApiLevel, const AtomDeclSet* atomDeclSet,
                                const vector<java_type_t>& signature);
 
+bool has_histograms(const AtomDeclSet& decls);
+
+void write_native_histogram_helper_declarations(FILE* out, const AtomDeclSet& atomDeclSet);
+
+int write_native_histogram_helper_definitions(FILE* out, const AtomDeclSet& atomDeclSet);
+
+int write_srcs_header(FILE* out, const char* path, const std::vector<std::string>& excludeList);
+
+int write_java_srcs_classes(FILE* out, const char* path,
+                            const std::vector<std::string>& excludeList);
+
+int write_cc_srcs_classes(FILE* out, const char* path, const std::vector<std::string>& excludeList);
+
+int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet);
 }  // namespace stats_log_api_gen
 }  // namespace android
 
