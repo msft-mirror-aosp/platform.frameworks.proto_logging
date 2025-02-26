@@ -63,6 +63,7 @@ message DesktopModeUIChanged {
     RETURN_HOME_OR_OVERVIEW = 4; // user swiped up to go to overview, or home screen
     TASK_FINISHED = 5; // the task finished or dismissed
     SCREEN_OFF = 6;
+    TASK_MINIMIZED = 7; // the task gets minimized
   }
 
   optional Event event = 1;
@@ -170,6 +171,12 @@ message DesktopModeTaskSizeUpdated {
     // Snap a resizable task to the right half of the screen by clicking on the
     // snap right menu on the app header
     SNAP_RIGHT_MENU_RESIZE_TRIGGER = 9;
+    // Resize task to fit stable bounds by clicking on the maximize menu that
+    // appears when the app header button is long pressed or hovered over
+    MAXIMIZE_MENU_RESIZE_TRIGGER = 10;
+    // Resize task to fit the stable bounds by dragging the task to the top of the
+    // screen
+    DRAG_TO_TOP_RESIZE_TRIGGER = 11;
   }
 
   // The stage at which a task is being resized

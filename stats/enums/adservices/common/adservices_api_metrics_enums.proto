@@ -52,6 +52,11 @@ option java_multiple_files = true;
 //
 // PAS
 //   * updateSignals()
+//
+// ODP
+//   * scheduleTraining()
+//   * recordImpression()
+//   * recordClick()
 
 enum AdServicesApiClassType {
   UNKNOWN = 0;
@@ -62,6 +67,7 @@ enum AdServicesApiClassType {
   APPSETID = 5;
   ADEXT_DATA_SERVICE = 6;
   COMMON = 7;
+  ON_DEVICE_PERSONALIZATION = 8;
 }
 
 enum AdServicesApiName {
@@ -99,4 +105,7 @@ enum AdServicesApiName {
   PERSIST_AD_SELECTION_RESULT = 31;
   UPDATE_SIGNALS = 32;
   SCHEDULE_CUSTOM_AUDIENCE_UPDATE = 33;
+  SCHEDULE_TRAINING = 34;
+  RECORD_IMPRESSION = 35;
+  RECORD_CLICK = 36;
 }
