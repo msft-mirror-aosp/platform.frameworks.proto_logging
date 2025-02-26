@@ -297,6 +297,9 @@ enum ElementId {
     REORDER_APP_SOURCE_BUTTON = 162;
     REMOVE_APP_SOURCE_BUTTON = 163;
     OPEN_APP_SOURCE_MENU_BUTTON = 289;
+    MOVE_APP_SOURCE_DOWN_MENU_BUTTON = 290;
+    MOVE_APP_SOURCE_UP_MENU_BUTTON = 291;
+    REMOVE_APP_SOURCE_MENU_BUTTON = 292;
 
     // Add an app page
     POTENTIAL_PRIORITY_APP_BUTTON = 161;
@@ -418,7 +421,7 @@ enum ElementId {
     CANCEL_WRITE_HEALTH_RECORDS_BUTTON = 287;
     // End of PHR
 
-    // Next available: 290;
+    // Next available: 293;
 }
 
 enum PageId {
