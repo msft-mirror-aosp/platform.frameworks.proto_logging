@@ -241,6 +241,53 @@ static int collate_field_restricted_annotations(AtomDecl& atomDecl, const FieldD
     return errorCount;
 }
 
+static int collate_histogram_bin_option(AtomDecl& atomDecl, const FieldDescriptor& field,
+                                        const java_type_t& javaType) {
+    if (!field.options().HasExtension(os::statsd::histogram_bin_option)) {
+        return 0;
+    }
+
+    int errorCount = 0;
+    if (javaType != JAVA_TYPE_INT_ARRAY) {
+        print_error(field,
+                    "histogram annotations can only be applied to repeated int32 fields: '%s'\n",
+                    atomDecl.message.c_str());
+        errorCount++;
+    }
+
+    const os::statsd::HistogramBinOption& histogramBinOption =
+            field.options().GetExtension(os::statsd::histogram_bin_option);
+    if (histogramBinOption.has_generated_bins()) {
+        const os::statsd::HistogramBinOption::GeneratedBins& generatedBins =
+                histogramBinOption.generated_bins();
+        if (!generatedBins.has_min() || !generatedBins.has_max() || !generatedBins.has_count() ||
+            !generatedBins.has_strategy() ||
+            generatedBins.strategy() ==
+                    os::statsd::HistogramBinOption::GeneratedBins::STRATEGY_UNKNOWN) {
+            print_error(field,
+                        "For generated bins, all of min, max, count, and strategy need to be "
+                        "specified: '%s',\n",
+                        atomDecl.message.c_str());
+            errorCount++;
+        }
+    } else if (histogramBinOption.has_explicit_bins()) {
+        const os::statsd::HistogramBinOption::ExplicitBins& explicitBins =
+                histogramBinOption.explicit_bins();
+        if (explicitBins.bin().empty()) {
+            print_error(field, "For explicit bins, at least 1 bin needs to be specified: '%s',\n",
+                        atomDecl.message.c_str());
+            errorCount++;
+        }
+    } else {
+        print_error(field, "binning_strategy needs to be specified: '%s',\n",
+                    atomDecl.message.c_str());
+        errorCount++;
+    }
+
+    atomDecl.fieldNameToHistBinOption[std::string(field.name())] = histogramBinOption;
+    return errorCount;
+}
+
 static int collate_field_annotations(AtomDecl& atomDecl, const FieldDescriptor& field,
                                      const int fieldNumber, const java_type_t& javaType) {
     int errorCount = 0;
@@ -356,6 +403,8 @@ static int collate_field_annotations(AtomDecl& atomDecl, const FieldDescriptor& 
         addAnnotationToAtomDecl(atomDecl, fieldNumber, ANNOTATION_ID_IS_UID, ANNOTATION_TYPE_BOOL,
                                 AnnotationValue(true));
     }
+
+    errorCount += collate_histogram_bin_option(atomDecl, field, javaType);
 
     return errorCount;
 }
