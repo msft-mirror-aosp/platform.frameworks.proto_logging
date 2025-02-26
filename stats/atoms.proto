@@ -15480,6 +15480,11 @@ message ContactsProviderStatusReported {
         ADD_SIM_ACCOUNTS = 1;
         REMOVE_SIM_ACCOUNTS = 2;
         GET_SIM_ACCOUNTS = 3;
+        SET_DEFAULT_ACCOUNT_FOR_NEW_CONTACTS = 4;
+        GET_DEFAULT_ACCOUNT_FOR_NEW_CONTACTS = 5;
+        MOVE_LOCAL_CONTACTS_TO_DEFAULT_ACCOUNT = 6;
+        MOVE_SIM_CONTACTS_TO_DEFAULT_ACCOUNT = 7;
+        GET_ELIGIBLE_CLOUD_ACCOUNTS = 8;
     }
 
     enum ResultType {
@@ -15488,6 +15493,9 @@ message ContactsProviderStatusReported {
         FAIL = 2;
         ILLEGAL_ARGUMENT = 3;
         UNSUPPORTED_OPERATION = 4;
+
+        // Operation is targeting an incorrect account.
+        INCORRECT_ACCOUNT = 5;
     }
 
     enum CallerType {
