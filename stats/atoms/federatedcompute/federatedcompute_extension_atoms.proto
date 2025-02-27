@@ -32,6 +32,8 @@ extend Atom {
             771 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
   optional ExampleIteratorNextLatencyReported example_iterator_next_latency_reported =
             838 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional FederatedComputeTraceEventReported federated_compute_trace_event_reported =
+            992 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
 
 /**
@@ -135,4 +137,17 @@ message ExampleIteratorNextLatencyReported {
   optional int64 task_id = 2;
 
   optional int64 get_next_latency_nanos = 3;
+}
+
+/**
+ * Logs trace events from internal processing in the FCP services and jobs.
+ * Next ID = 4
+ */
+message FederatedComputeTraceEventReported {
+  // event type to trace for internal processing in FCP services
+  optional android.federatedcompute.TraceEventKind trace_kind = 1;
+  // status of the operation
+  optional int32 status = 2;
+  // end to end latency of the operation
+  optional int64 latency_millis = 3;
 }

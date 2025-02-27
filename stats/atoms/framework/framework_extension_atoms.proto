@@ -22,6 +22,9 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
+import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
+import "frameworks/proto_logging/stats/enums/framework/compat/enums.proto";
+import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -53,6 +56,13 @@ extend Atom {
     optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
     optional AppOpAccessTracked app_op_access_tracked = 931 [(module) = "framework"];
     optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
+    optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
+    optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
+    optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
+    optional JankFrameCountByWidgetReported jank_frame_count_by_widget_reported = 950 [(module)="framework"];
+    optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
+    optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
+    optional CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed = 999 [(module) = "framework"];
 }
 
 /**
@@ -805,6 +815,21 @@ message PowerSaveTempAllowlistChanged {
 }
 
 /**
+ * Records invocations of ActivityManagerService$LocalService.updateDeviceIdleTempAllowlist
+ *
+ * Logged via Hummingbird
+ */
+message DeviceIdleTempAllowlistUpdated {
+    optional int32 changing_uid = 1 [(is_uid) = true];
+    optional bool adding = 2;
+    optional int64 duration_ms = 3;
+    optional int32 type = 4;
+    optional int32 reason_code = 5;
+    optional string reason = 6;
+    optional int32 calling_uid = 7 [(is_uid) = true];
+}
+
+/**
  * [Pushed Atom] Logs when an AppOp is accessed through noteOp, startOp, finishOp and that access
  * history can be stored in the AppOp discrete access data store.
  *
@@ -848,6 +873,33 @@ message AppOpAccessTracked {
 }
 
 /**
+ * [Pushed Atom] Logs when AppOp checkOperation and noteOperation binder APIs are called in
+ * AppOpsService
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/AppOpsService.java
+ */
+message AppOpNoteOpOrCheckOpBinderApiCalled {
+    enum BinderApi {
+        UNKNOWN = 0;
+        CHECK_OPERATION = 1;
+        NOTE_OPERATION = 2;
+        NOTE_PROXY_OPERATION = 3;
+    }
+
+    // Uid of the package requesting the op
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // AppOp code
+    optional android.app.AppOpEnum op_id = 2 [default = APP_OP_NONE];
+
+    // One of the BinderApi
+    optional BinderApi binder_api = 3;
+
+    // Whether the binder call has attribution tag in the arguments
+    optional bool has_attribution_tag = 4;
+}
+
+/**
  * Logs when specific content and file URIs are encountered in several locations. See EventType for
  * more details.
  */
@@ -876,4 +928,169 @@ message ContentOrFileUriEventReported {
   optional string uri_authority = 8;
   optional string uri_type = 9;
   optional string uri_mime_type = 10;
+}
+
+/**
+ * Logs aggregate time and count of framework wakelocks.
+ */
+message FrameworkWakelockInfo {
+  // The primary (index 0) uid for this WakeLock in the attribution chain.
+  optional int32 attribution_uid = 1 [(is_uid) = true];
+  optional string attribution_tag = 2;
+
+  // The type (level) of the wakelock; e.g. a partial wakelock or a full wakelock.
+  // From frameworks/proto_logging/stats/enums/os/enums.proto.
+  optional android.os.WakeLockLevelEnum type = 3;
+
+  // Accumulated uptime attributed to this WakeLock since boot, where overlap
+  // between WakeLocks with the same UID and tag is ignored. Specifically, if two
+  // WakeLocks with the same UID and tag were acquired at exactly the same time and
+  // held for 100 ms, the total contribution of the two WakeLocks to uptime_millis
+  // is 100 ms.
+  optional int64 uptime_millis = 4;
+
+  // Count of WakeLocks that have been acquired and then released.
+  optional int64 completed_count = 5;
+}
+/**
+ * [Pushed atom] Logged after a set number of JankData batches have been processed or when an Activity is
+ * paused.
+ *
+ * Pushed from:
+ *   frameworks/base/core/java/android/app/jank/JankDataProcessor.java
+ *
+ * Estimated Logging Rate:
+ *  Peak: 25 times every 20 sec while frames are being rendered.
+ *  Avg: 500 times per device per day.
+ */
+message JankFrameCountByWidgetReported {
+  // UID of the app
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // The name of the activity that is currently collecting frame metrics.
+  optional string activity_name = 2;
+
+  // The id that has been set for the widget.
+  optional string widget_id = 3;
+
+  // The refresh rate of the display when logged.
+  optional int32 refresh_rate = 4;
+
+  // High level categories to group functionally similar UI elements.
+  enum WidgetCategory {
+    // Category not set.
+    WIDGET_CATEGORY_UNSPECIFIED = 0;
+    // UI elements that facilitate scrolling.
+    SCROLL = 1;
+    // UI elements that facilitate playing animations.
+    ANIMATION = 2;
+    // UI elements that facilitate media playback or streaming.
+    MEDIA = 3;
+    // UI elements that facilitate in app navigation.
+    NAVIGATION = 4;
+    // UI elements that facilitate displaying, hiding or interacting with keyboard.
+    KEYBOARD = 5;
+    // UI elements that facilitate predictive back gesture navigation.
+    PREDICTIVE_BACK = 6;
+    // UI elements that don't fall in on of the other categories.
+    OTHER = 7;
+  }
+  optional WidgetCategory widget_type = 5;
+
+  // The states that the UI elements can report
+  enum WidgetState {
+    // State not set.
+    WIDGET_STATE_UNSPECIFIED = 0;
+    // Element that is idle or not in any active state.
+    NONE = 1;
+    // Element that is currently scrolling.
+    SCROLLING = 2;
+    // Element that is currently being flung.
+    FLINGING = 3;
+    // Element that is currently being swiped.
+    SWIPING = 4;
+    // Element that is currently being dragged.
+    DRAGGING = 5;
+    // Element that is currently zooming.
+    ZOOMING = 6;
+    // Element that is currently animating.
+    ANIMATING = 7;
+    // Element that is currently engaging in media playback.
+    PLAYBACK = 8;
+    // Element that is currently being tapped on.
+    TAPPING = 9;
+  }
+  optional WidgetState widget_state = 6;
+
+  // The number of frames reported during this state.
+  optional int64 total_frames = 7;
+
+  // Total number of frames determined to be janky during the reported state.
+  optional int64 janky_frames = 8;
+
+  // Histogram of frame duration overruns.
+  repeated int32 frame_overrun_histogram = 9;
+}
+
+/**
+ * [Pushed atom] Logged when an IntentCreatorToken is added to an Intent.
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *      #addCreatorToken
+ *
+ * Estimated Logging Rate:
+ *  Peak: 100 times per device per day.
+ *  Avg: 20 times per device per day.
+ */
+message IntentCreatorTokenAdded {
+  // creator uid
+  optional int32 creator_uid = 1 [(is_uid) = true];
+  // true if the creator and top level intent target share the same package
+  optional bool is_optimized = 2;
+}
+
+/**
+ * Reports a notification got an Adjustment with the KEY_TYPE value set
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/notification/
+ * Estimated Logging Rate:
+ *   Peak: 300 times per device per day. | Avg: 40 times per device per day.
+ *
+ */
+message NotificationChannelClassification {
+    // Was the notification reclassified to a new channel after it was already posted.
+    optional bool receive_adjustment_after_post = 1;
+
+    // Was the notification high enough priority to be "alerting" before it got reclassified.
+    optional bool was_alerting = 2;
+
+    // The new channel type the notification has been reclassified as (e.g., Adjustment.TYPE_NEWS).
+    optional int32 type = 3;
+
+    // The length of the lifetime of the notification up to when it got reclassified.
+    optional int32 latency_ms = 4;
+}
+
+/**
+ * Reports that a camera compatibility status has changed.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/wm/CameraStateMonitor.java
+ * Estimated Logging Rate:
+ *   Peak: 10 times per device per day. | Avg: 1 time per device per day.
+ *
+ */
+message CameraStatusForCompatibilityChanged {
+    // The freeform camera compatibility mode the activity is in at the time the
+    // camera opened or closed signal is received.
+    optional android.framework.compat.FreeformCameraCompatMode freeform_camera_compat_mode_state = 1;
+
+    // Whether this state is logged on camera opened or closed.
+    optional android.framework.compat.CameraState camera_state = 2;
+
+    // The latency of the camera compat mode setup - from the time the camera
+    // opened signal was received for the first time, to the time the camera
+    // compat mode was set up, camera restarted, and the camera opened signal
+    // was received again.
+    optional int32 latency_ms = 3;
 }

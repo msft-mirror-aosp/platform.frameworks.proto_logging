@@ -80,6 +80,9 @@ message ExpressMetric {
     oneof options {
         HistogramOptions histogram_options = 7;
     }
+
+    // Collection is disabled. Logging may still happen.
+    optional bool disabled = 8;
 }
 
 message ExpressMetricConfigFile {
