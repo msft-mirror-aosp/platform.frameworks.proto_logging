@@ -22,10 +22,31 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
-cc_binary_host {
-    name: "stats-log-api-gen",
+cc_defaults {
+    name: "stats-log-api-gen-defaults",
     srcs: [
         "Collation.cpp",
+        "settings_provider.cpp",
+        "utils.cpp",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-deprecated-declarations",
+    ],
+    shared_libs: [
+        "libstats_proto_host",
+        "libprotobuf-cpp-full",
+    ],
+    proto: {
+        type: "full",
+    },
+}
+
+cc_binary_host {
+    name: "stats-log-api-gen",
+    defaults: ["stats-log-api-gen-defaults"],
+    srcs: [
         "java_writer.cpp",
         "java_writer_q.cpp",
         "java_writer_vendor.cpp",
@@ -33,21 +54,16 @@ cc_binary_host {
         "native_writer.cpp",
         "native_writer_vendor.cpp",
         "rust_writer.cpp",
-        "utils.cpp",
     ],
     cflags: [
-        "-Wall",
-        "-Werror",
-        "-Wno-deprecated-declarations",
         "-DWITH_VENDOR",
-        "-DJAVA_INCLUDE_SRCS_DIR=\"tools/out/etc/stats-log-api-gen/java/\"",
-        "-DCC_INCLUDE_HDRS_DIR=\"tools/out/etc/stats-log-api-gen/cc_hdrs/\"",
-        "-DCC_INCLUDE_SRCS_DIR=\"tools/out/etc/stats-log-api-gen/cc_srcs/\"",
+        "-DJAVA_INCLUDE_SRCS_DIR=\"java/\"",
+        "-DCC_INCLUDE_HDRS_DIR=\"cc_hdrs/\"",
+        "-DCC_INCLUDE_SRCS_DIR=\"cc_srcs/\"",
+
     ],
 
     shared_libs: [
-        "libstats_proto_host",
-        "libprotobuf-cpp-full",
         "libbase",
     ],
 
@@ -56,10 +72,6 @@ cc_binary_host {
         "stats-log-api-gen-copy-cc-hdrs",
         "stats-log-api-gen-copy-cc-srcs",
     ],
-
-    proto: {
-        type: "full",
-    },
 
     tidy: true,
 
@@ -96,13 +108,13 @@ prebuilt_etc_host {
 
 prebuilt_etc_host {
     name: "stats-log-api-gen-copy-cc-hdrs",
-    srcs: ["include_cc/*.h"],
+    srcs: ["include_cc_hdrs/*.h"],
     sub_dir: "stats-log-api-gen/cc_hdrs",
 }
 
 prebuilt_etc_host {
     name: "stats-log-api-gen-copy-cc-srcs",
-    srcs: ["include_cc/*.cpp"],
+    srcs: ["include_cc_srcs/*.cpp"],
     sub_dir: "stats-log-api-gen/cc_srcs",
 }
 
@@ -114,8 +126,8 @@ filegroup {
 
 cc_test_library {
     name: "stats-log-api-gen-cc-lib",
-    srcs: ["include_cc/*.cpp"],
-    export_include_dirs: ["include_cc"],
+    srcs: ["include_cc_srcs/StatsHistogram.cpp"],
+    export_include_dirs: ["include_cc_hdrs"],
     host_supported: true,
     device_supported: false,
 }
@@ -125,26 +137,22 @@ cc_test_library {
 // ==========================================================
 cc_test_host {
     name: "stats-log-api-gen-test",
+    defaults: ["stats-log-api-gen-defaults"],
     test_suites: [
         "general-tests",
     ],
     cflags: [
-        "-Wall",
         "-Wextra",
-        "-Werror",
         "-g",
         "-DUNIT_TEST",
-        "-Wno-deprecated-declarations",
     ],
     srcs: [
-        "Collation.cpp",
         "test_api_gen.cpp",
         "test_api_gen_vendor.cpp",
         "test_collation.cpp",
         "test.proto",
         "test_feature_atoms.proto",
         "test_vendor_atoms.proto",
-        "utils.cpp",
     ],
 
     static_libs: [
@@ -154,13 +162,10 @@ cc_test_host {
 
     shared_libs: [
         "android.frameworks.stats-V2-ndk",
-        "libstats_proto_host",
-        "libprotobuf-cpp-full",
         "libstatslog",
     ],
 
     proto: {
-        type: "full",
         include_dirs: [
             "external/protobuf/src",
         ],
