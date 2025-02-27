@@ -18,6 +18,10 @@
 
 #include <stdio.h>
 
+#include <algorithm>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
 #include <map>
 #include <string>
 #include <utility>
@@ -29,6 +33,9 @@
 namespace android {
 namespace stats_log_api_gen {
 
+namespace fs = std::filesystem;
+
+using std::ifstream;
 using std::map;
 using std::string;
 using std::vector;
@@ -50,6 +57,171 @@ static vector<string> Split(const string& s, const string& delimiters) {
     }
 
     return result;
+}
+
+static void write_native_histogram_helper_signature(FILE* out, const string& atomName,
+                                                    const string& fieldName) {
+    fprintf(out,
+            "std::unique_ptr<%s> "
+            "create_%s__%s_histogram()",
+            HISTOGRAM_STEM.c_str(), atomName.c_str(), fieldName.c_str());
+}
+
+static int write_native_histogram_helper_definition(
+        FILE* out, const string& atomName, const string& fieldName,
+        const os::statsd::HistogramBinOption& histBinOption) {
+    int errorCount = 0;
+
+    // Print method signature.
+    write_native_histogram_helper_signature(out, atomName, fieldName);
+    fprintf(out, " {\n");
+
+    fprintf(out, "%*sreturn %s::create", 8, "", HISTOGRAM_STEM.c_str());
+    if (histBinOption.has_generated_bins()) {
+        const os::statsd::HistogramBinOption::GeneratedBins& genBins =
+                histBinOption.generated_bins();
+        switch (genBins.strategy()) {
+            case os::statsd::HistogramBinOption::GeneratedBins::LINEAR:
+                fprintf(out, "Linear");
+                break;
+            case os::statsd::HistogramBinOption::GeneratedBins::EXPONENTIAL:
+                fprintf(out, "Exponential");
+                break;
+            default:
+                errorCount++;
+        }
+        fprintf(out, "Bins(%f, %f, %d);\n", genBins.min(), genBins.max(), genBins.count());
+    } else if (histBinOption.has_explicit_bins()) {
+        const os::statsd::HistogramBinOption::ExplicitBins& explicitBins =
+                histBinOption.explicit_bins();
+        fprintf(out, "ExplicitBins({");
+        const char* separator = "";
+        for (const float bin : explicitBins.bin()) {
+            fprintf(out, "%s%f", separator, bin);
+            separator = ", ";
+        }
+        fprintf(out, "});\n");
+    }
+    fprintf(out, "}\n\n");
+
+    return errorCount;
+}
+
+static int write_java_histogram_helper(FILE* out, const string& atomName, const string& fieldName,
+                                       const os::statsd::HistogramBinOption& histBinOption) {
+    int errorCount = 0;
+
+    // Print method signature.
+    fprintf(out, "%*spublic static %s create%s_%sHistogram() {\n", 4, "", HISTOGRAM_STEM.c_str(),
+            snake_to_pascal(atomName).c_str(), snake_to_pascal(fieldName).c_str());
+
+    fprintf(out, "%*sreturn %s.create", 8, "", HISTOGRAM_STEM.c_str());
+    if (histBinOption.has_generated_bins()) {
+        const os::statsd::HistogramBinOption::GeneratedBins& genBins =
+                histBinOption.generated_bins();
+        switch (genBins.strategy()) {
+            case os::statsd::HistogramBinOption::GeneratedBins::LINEAR:
+                fprintf(out, "Linear");
+                break;
+            case os::statsd::HistogramBinOption::GeneratedBins::EXPONENTIAL:
+                fprintf(out, "Exponential");
+                break;
+            default:
+                errorCount++;
+        }
+        fprintf(out, "Bins(%ff, %ff, %d);\n", genBins.min(), genBins.max(), genBins.count());
+    } else if (histBinOption.has_explicit_bins()) {
+        const os::statsd::HistogramBinOption::ExplicitBins& explicitBins =
+                histBinOption.explicit_bins();
+        fprintf(out, "ExplicitBins(");
+        const char* separator = "";
+        for (const float bin : explicitBins.bin()) {
+            fprintf(out, "%s%ff", separator, bin);
+            separator = ", ";
+        }
+        fprintf(out, ");\n");
+    }
+    fprintf(out, "%*s}\n\n", 4, "");
+
+    return errorCount;
+}
+
+static int write_src_header(FILE* out, const fs::path& filePath) {
+    ifstream fileStream(filePath);
+    if (!fileStream.is_open()) {
+        fprintf(stderr, "Could not open file: %s", filePath.c_str());
+        return 1;
+    }
+
+    string line;
+    bool atImports = false;
+    while (std::getline(fileStream, line)) {
+        if (line == "// HEADER_BEGIN") {
+            atImports = true;
+        } else if (line == "// HEADER_END") {
+            break;
+        } else if (atImports) {
+            fprintf(out, "%s\n", line.c_str());
+        }
+    }
+    fileStream.close();
+
+    return 0;
+}
+
+static int write_src_body(FILE* out, const fs::path& filePath, int indent,
+                          const std::function<bool(string& firstLine)>& firstLineTransformer) {
+    ifstream fileStream(filePath);
+    if (!fileStream.is_open()) {
+        fprintf(stderr, "Could not open file: %s\n", filePath.c_str());
+        return 1;
+    }
+
+    string line;
+    bool atClassDef = false;
+
+    while (std::getline(fileStream, line)) {
+        if (line == "// BODY_BEGIN") {
+            std::getline(fileStream, line);
+            if (firstLineTransformer && !firstLineTransformer(line)) {
+                fprintf(stderr, "First line transform failed: %s\n", filePath.c_str());
+                return 1;
+            }
+            fprintf(out, "%*s%s\n", indent, "", line.c_str());
+            atClassDef = true;
+        } else if (line == "// BODY_END") {
+            break;
+        } else if (atClassDef) {
+            fprintf(out, "%*s%s\n", indent, "", line.c_str());
+        }
+    }
+    fileStream.close();
+
+    return 0;
+}
+
+static int write_srcs_bodies(FILE* out, const char* path, int indent,
+                             const vector<string>& excludeList,
+                             const std::function<bool(string& firstLine)>& firstLineTransformer) {
+    int errors = 0;
+    for (const fs::path& filePath : fs::directory_iterator(path)) {
+        // Inline source bodies from filePath if it's not in excludeList.
+        if (std::find(excludeList.begin(), excludeList.end(), filePath.stem()) ==
+            excludeList.end()) {
+            errors += write_src_body(out, filePath, indent, firstLineTransformer);
+        }
+    }
+
+    return errors;
+}
+
+static bool make_java_class_static(string& line) {
+    const size_t pos = line.find(' ');
+    if (pos == string::npos) {
+        return false;
+    }
+    line.insert(pos, " static");
+    return true;
 }
 
 void build_non_chained_decl_map(const Atoms& atoms,
@@ -160,6 +332,25 @@ string make_constant_name(const string& str) {
         result += c;
     }
     return result;
+}
+
+/**
+ * Convert snake_case to PascalCase
+ */
+string snake_to_pascal(const string& snake) {
+    string pascal;
+    bool capitalize = true;
+    for (const char c : snake) {
+        if (c == '_') {
+            capitalize = true;
+        } else if (capitalize) {
+            pascal += std::toupper(c);
+            capitalize = false;
+        } else {
+            pascal += c;
+        }
+    }
+    return pascal;
 }
 
 const char* cpp_type_name(java_type_t type, bool isVendorAtomLogging) {
@@ -419,7 +610,7 @@ void write_native_method_header(FILE* out, const string& methodName,
 }
 
 void write_native_header_preamble(FILE* out, const string& cppNamespace, bool includePull,
-                                     bool bootstrap, bool isVendorAtomLogging) {
+                                  bool includeHistogram, bool bootstrap, bool isVendorAtomLogging) {
     // Print prelude
     fprintf(out, "// This file is autogenerated\n");
     fprintf(out, "\n");
@@ -429,9 +620,18 @@ void write_native_header_preamble(FILE* out, const string& cppNamespace, bool in
     fprintf(out, "#include <vector>\n");
     fprintf(out, "#include <map>\n");
     fprintf(out, "#include <set>\n");
+    fprintf(out, "#include <memory>\n");
     if (includePull) {
         fprintf(out, "#include <stats_pull_atom_callback.h>\n");
     }
+
+#ifdef CC_INCLUDE_HDRS_DIR
+    const vector<string> excludeList =
+            includeHistogram ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    write_srcs_header(out, CC_INCLUDE_HDRS_DIR, excludeList);
+#else
+    (void)includeHistogram;  // suppress unused parameter error
+#endif
 
     if (isVendorAtomLogging) {
         fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
@@ -697,6 +897,64 @@ AtomDeclSet get_annotations(int argIndex,
         return AtomDeclSet();
     }
     return fieldNumberToAtomDeclSetIt->second;
+}
+
+bool has_histograms(const AtomDeclSet& decls) {
+    return std::find_if_not(decls.begin(), decls.end(), [](shared_ptr<AtomDecl> decl) {
+               return decl->fieldNameToHistBinOption.empty();
+           }) != decls.end();
+}
+
+void write_native_histogram_helper_declarations(FILE* out, const AtomDeclSet& atomDeclSet) {
+    for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
+        for (const auto& [fieldName, histBinOption] : atomDecl->fieldNameToHistBinOption) {
+            write_native_histogram_helper_signature(out, atomDecl->name, fieldName);
+            fprintf(out, ";\n");
+        }
+    }
+    fprintf(out, "\n");
+}
+
+int write_native_histogram_helper_definitions(FILE* out, const AtomDeclSet& atomDeclSet) {
+    int errors = 0;
+    for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
+        for (const auto& [fieldName, histBinOption] : atomDecl->fieldNameToHistBinOption) {
+            errors += write_native_histogram_helper_definition(out, atomDecl->name, fieldName,
+                                                               histBinOption);
+        }
+    }
+    return errors;
+}
+
+int write_srcs_header(FILE* out, const char* path, const vector<string>& excludeList) {
+    int errors = 0;
+    for (const fs::path& filePath : fs::directory_iterator(path)) {
+        // Add headers from filePath if it's not in excludeList.
+        if (std::find(excludeList.begin(), excludeList.end(), filePath.stem()) ==
+            excludeList.end()) {
+            errors += write_src_header(out, filePath);
+        }
+    }
+
+    return errors;
+}
+
+int write_java_srcs_classes(FILE* out, const char* path, const vector<string>& excludeList) {
+    return write_srcs_bodies(out, path, 4 /* indent */, excludeList, make_java_class_static);
+}
+
+int write_cc_srcs_classes(FILE* out, const char* path, const vector<string>& excludeList) {
+    return write_srcs_bodies(out, path, 0 /* indent */, excludeList, nullptr /* nameTransformer */);
+}
+
+int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet) {
+    int errors = 0;
+    for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
+        for (const auto& [fieldName, histBinOption] : atomDecl->fieldNameToHistBinOption) {
+            errors += write_java_histogram_helper(out, atomDecl->name, fieldName, histBinOption);
+        }
+    }
+    return errors;
 }
 
 }  // namespace stats_log_api_gen

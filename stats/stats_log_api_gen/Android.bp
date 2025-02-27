@@ -40,12 +40,21 @@ cc_binary_host {
         "-Werror",
         "-Wno-deprecated-declarations",
         "-DWITH_VENDOR",
+        "-DJAVA_INCLUDE_SRCS_DIR=\"tools/out/etc/stats-log-api-gen/java/\"",
+        "-DCC_INCLUDE_HDRS_DIR=\"tools/out/etc/stats-log-api-gen/cc_hdrs/\"",
+        "-DCC_INCLUDE_SRCS_DIR=\"tools/out/etc/stats-log-api-gen/cc_srcs/\"",
     ],
 
     shared_libs: [
         "libstats_proto_host",
         "libprotobuf-cpp-full",
         "libbase",
+    ],
+
+    required: [
+        "stats-log-api-gen-copy-java-srcs",
+        "stats-log-api-gen-copy-cc-hdrs",
+        "stats-log-api-gen-copy-cc-srcs",
     ],
 
     proto: {
@@ -77,6 +86,38 @@ cc_binary_host {
         "misc-*",
         "performance-*",
     ],
+}
+
+prebuilt_etc_host {
+    name: "stats-log-api-gen-copy-java-srcs",
+    srcs: [":stats-log-api-gen-java-srcs"],
+    sub_dir: "stats-log-api-gen/java",
+}
+
+prebuilt_etc_host {
+    name: "stats-log-api-gen-copy-cc-hdrs",
+    srcs: ["include_cc/*.h"],
+    sub_dir: "stats-log-api-gen/cc_hdrs",
+}
+
+prebuilt_etc_host {
+    name: "stats-log-api-gen-copy-cc-srcs",
+    srcs: ["include_cc/*.cpp"],
+    sub_dir: "stats-log-api-gen/cc_srcs",
+}
+
+filegroup {
+    name: "stats-log-api-gen-java-srcs",
+    srcs: ["include_java/*.java"],
+    path: "include_java",
+}
+
+cc_test_library {
+    name: "stats-log-api-gen-cc-lib",
+    srcs: ["include_cc/*.cpp"],
+    export_include_dirs: ["include_cc"],
+    host_supported: true,
+    device_supported: false,
 }
 
 // ==========================================================
