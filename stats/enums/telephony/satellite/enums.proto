@@ -160,3 +160,14 @@ enum TriggeringEvent {
   //Satellite Access Controller has been triggered due to the location setting being enabled
   TRIGGERING_EVENT_LOCATION_SETTINGS_ENABLED = 3;
 }
+
+enum SatelliteEntitlementServicePolicy {
+  // Satellite service policy entitlement status is Unknown
+  SATELLITE_ENTITLEMENT_SERVICE_POLICY_UNKNOWN = 0;
+  // Satellite service policy entitlement status is restricted
+  SATELLITE_ENTITLEMENT_SERVICE_POLICY_RESTRICTED = 1;
+  // Satellite service policy entitlement is constrained
+  SATELLITE_ENTITLEMENT_SERVICE_POLICY_CONSTRAINED = 2;
+  // Satellite service policy entitlement is unconstrained
+  SATELLITE_ENTITLEMENT_SERVICE_POLICY_SUPPORT_ALL = 3;
+}
