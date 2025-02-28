@@ -21,6 +21,7 @@ package android.os.statsd.adpf;
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
+import "frameworks/proto_logging/stats/enums/adpf/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 option java_package = "com.android.os.adpf";
@@ -32,36 +33,15 @@ extend Atom {
     optional ThermalHeadroomCalled thermal_headroom_called = 773 [(module) = "framework"];
     optional ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called = 774 [(module) = "framework"];
     optional AdpfHintSessionTidCleanup adpf_hint_session_tid_cleanup = 839 [(module) = "framework"];
+    optional ThermalHeadroomListenerDataReported thermal_headroom_listener_data_reported = 1051 [(module) = "framework"];
+    optional CpuHeadroomReported cpu_headroom_reported = 1052 [(module) = "framework"];
+    optional GpuHeadroomReported gpu_headroom_reported = 1053 [(module) = "framework"];
 
     // Pulled atoms
     optional ThermalHeadroomThresholds thermal_headroom_thresholds = 10201 [(module) = "framework"];
     optional AdpfSessionSnapshot adpf_session_snapshot = 10218 [(module) = "framework"];
-}
-
-enum ThermalApiStatus {
-    UNSPECIFIED_THERMAL_API_FAILURE = 0;
-    SUCCESS = 1;
-    HAL_NOT_READY = 2;
-    FEATURE_NOT_SUPPORTED = 3;
-    INVALID_ARGUMENT = 4;
-    // If the thermal HAL reports no temperature for SKIN type
-    NO_TEMPERATURE = 5;
-    // If the thermal HAL reports no matching threshold for the SKIN temperature
-    NO_TEMPERATURE_THRESHOLD = 6;
-}
-
-enum AdpfSessionUidState {
-    DEFAULT_UID_STATE = 0;
-    FOREGROUND = 1;
-    BACKGROUND = 2;
-}
-
-enum AdpfSessionState {
-    DEFAULT_SESSION_STATE = 0;
-    // This state is used to mark the session is paused.
-    PAUSE = 1;
-    // This state is used to mark the session is resumed.
-    RESUME = 2;
+    optional AdpfSupportInfo adpf_support_info = 10237 [(module) = "framework"];
+    optional ThermalHeadroomListenerInfo thermal_headroom_listener_info = 10238 [(module) = "framework"];
 }
 
 /**
@@ -73,7 +53,7 @@ message ThermalStatusCalled {
     optional int32 uid = 1 [(is_uid) = true];
 
     // API call status.
-    optional ThermalApiStatus api_status = 2;
+    optional android.os.statsd.adpf.ThermalApiStatus api_status = 2;
 
     // Thermal throttling status.
     optional android.os.ThrottlingSeverityEnum status = 3;
@@ -88,13 +68,19 @@ message ThermalHeadroomCalled {
     optional int32 uid = 1 [(is_uid) = true];
 
     // API call status.
-    optional ThermalApiStatus api_status = 2;
+    optional android.os.statsd.adpf.ThermalApiStatus api_status = 2;
 
     // Thermal headroom.
     optional float headroom = 3;
 
-    // Forcast seconds.
+    // Forecast seconds.
     optional int32 forecast_seconds = 4;
+
+    // True if the headroom is from cache.
+    optional bool is_from_cache = 5;
+
+    // True if the headroom is based on skin forecast.
+    optional bool is_hal_skin_forecast_supported = 6;
 }
 
 /**
@@ -106,7 +92,7 @@ message ThermalHeadroomThresholdsCalled {
     optional int32 uid = 1 [(is_uid) = true];
 
     // API call status.
-    optional ThermalApiStatus api_status = 2;
+    optional android.os.statsd.adpf.ThermalApiStatus api_status = 2;
 }
 
 /**
@@ -119,47 +105,272 @@ message ThermalHeadroomThresholds {
 }
 
 /**
+ * Logs the device information w.r.t. ThermalHAL and statistical data.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/ThermalManagerService.java.
+ */
+message ThermalHeadroomListenerInfo {
+    // The version of thermal HAL.
+    optional int32 thermal_hal_version = 1;
+
+    // The maximum number of listeners that can be registered.
+    optional int32 max_listener_count = 2;
+
+    // True if the device skin forecast API is supported.
+    optional bool is_hal_skin_forecast_supported = 3;
+}
+
+/**
+ * Logs the callback data broadcasting to all registered thermal headroom listeners upon triggered.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/ThermalManagerService.java.
+ */
+message ThermalHeadroomListenerDataReported {
+    enum CallbackType {
+        UNKNOWN_CALLBACK_TYPE = 0;
+        TEMP_CHANGED = 1;
+        THRESHOLD_CHANGED = 2;
+        LISTENER_REGISTRATION = 3;
+    }
+
+    // Which event triggers the callback.
+    optional CallbackType callback_type = 1;
+
+    // UID that invokes the callback.
+    // If it's a device environment change, such as the threshold or the temperature change
+    // of the device, the uid is 0 (i.e. AID_ROOT). If it's a new listener registration,
+    // the uid is the app uid that registers the listener.
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // The data broadcasting to all registered thermal headroom listeners.
+    // The forecast is valid for forecast_seconds, depending on HAL implementation of different
+    // devices.
+    // This depends on the temperature data HAL captures from thermal sensors. This is a binder
+    // blocking call that the actual time depends on vendor implementation.
+    optional float headroom = 3;
+    optional float forecast_headroom = 4;
+    optional int32 forecast_seconds = 5;
+    // An array of headroom thresholds representing each thermal status implemented by HAL.
+    // Each value corresponds to status of
+    // NONE, LIGHT, MODERATE, SEVERE and CRITICAL.
+    // The headroom threshold values range from [0, 1], while NaN indicates no HAL implementation.
+    repeated float headroom_thresholds = 6;
+}
+
+/**
  * Logs the ADPF TID cleanup result.
  * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
  */
 message AdpfHintSessionTidCleanup {
+    // Uid of the session, this is app uid.
     optional int32 uid = 1 [(is_uid) = true];
-    // Total duration of cleaning up all sessions of the uid in microseconds
+
+    // Total duration of cleaning up all sessions of the uid in microseconds.
     optional int32 total_duration_us = 2;
-    // Max duration of cleaning up a session in microseconds
+
+    // Max duration of cleaning up a session in microseconds.
     optional int32 max_duration_us = 3;
-    // Total tid count for all sessions of the uid
+
+    // Total tid count for all sessions of the uid.
     optional int32 total_tid_count = 4;
-    // Total invalid tid count for all sessions of the uid
+
+    // Total invalid tid count for all sessions of the uid.
     optional int32 total_invalid_tid_count = 5;
-    // Max invalid tid count per session
+
+    // Max invalid tid count per session.
     optional int32 max_invalid_tid_count = 6;
-    // Count of all session under the same uid
+
+    // Count of all session under the same uid.
     optional int32 session_count = 7;
-    // If the UID is foreground when running cleanup
+
+    // If the UID is foreground when running cleanup.
     optional bool is_uid_foreground = 8;
 }
 
-/*
+/**
+ * Logs the CPU headroom info upon getCpuHeadroom() is called.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
+ */
+message CpuHeadroomReported {
+    enum CpuHeadroomApiStatus {
+        UNKNOWN_STATUS = 0;
+        SUCCESS = 1;
+        INVALID_TID = 2;
+        INSUFFICIENT_USER_MODE_TIME = 3;
+        INCONSISTENT_THREAD_CORE_AFFINITY = 4;
+        HAL_ERROR = 5;
+    }
+
+    // The number of TIDs to be included in the reporting headroom.
+    optional int32 tid_size = 1;
+
+    // The calculation window (in milliseconds) of the headroom.
+    optional int32 calculation_window_millis = 2;
+
+    // The type of the headroom calculation.
+    optional android.os.statsd.adpf.HeadroomCalculationType type = 3;
+
+    // The API call status, including the error cases.
+    optional CpuHeadroomApiStatus status = 4;
+
+    // True if the headroom is from cache.
+    optional bool is_from_cache = 5;
+
+    // The headroom value in ratio,
+    // ranging from [0, 1], where 0 indicates no more cpu resources can be granted.
+    optional float value_ratio = 6;
+}
+
+/**
+ * Logs the GPU headroom info upon getGpuHeadroom() is called
+ * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
+ */
+message GpuHeadroomReported {
+    enum GpuHeadroomApiStatus {
+        UNKNOWN_STATUS = 0;
+        SUCCESS = 1;
+        // Reserving 2, 3, 4 for other status to be developed in the future
+        // and to align with CpuHeadRoomApistatus.
+        HAL_ERROR = 5;
+    }
+    // The calculation window (in milliseconds) of the headroom.
+    optional int32 calculation_window_millis = 1;
+
+    // The type of the headroom calculation.
+    optional android.os.statsd.adpf.HeadroomCalculationType type = 2;
+
+    // True if the headroom is from cache.
+    optional bool is_from_cache = 3;
+
+    // The API call status, including the error cases.
+    optional GpuHeadroomApiStatus status = 4;
+
+    // The headroom value in ratio,
+    // ranging from [0, 1], where 0 indicates no more cpu resources can be granted.
+    optional float value_ratio = 5;
+}
+
+/**
  * Logs the ADPF session snapshot upon pulled.
  * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
  */
 message AdpfSessionSnapshot {
-    // Uid of the session, this uid is per-app
+    // Uid of the session, this uid is per-app.
     optional int32 uid = 1 [(is_uid) = true];
 
     // Session tag of the snapshot. One uid can generate session with different tags.
     optional AdpfSessionTag session_tag = 2;
 
-    // Maximum number of sessions that concurrently existed
+    // Maximum number of sessions that concurrently existed.
     optional int32 max_concurrent_session = 3;
 
-    // Maximum number of threads created in one session
+    // Maximum number of threads created in one session.
     optional int32 max_tid_count = 4;
 
-    // Power efficiency mode status
+    // Number of power efficient session.
     optional int32 num_power_efficient_session = 5;
 
-    // list of different target durations requested
+    // List of different target durations requested.
     repeated int64 target_duration_ns = 6;
+
+    // Number of graphics pipeline session..
+    optional int32 num_graphics_pipeline_session = 7;
+}
+
+/**
+ * Logs the whole ADPF SupportInfo object.
+ * This object contains essential device information of ADPF-related settings.
+ * Logged from frameworks/base/services/core/java/com/android/server/power/hint/HintManagerService.java
+ */
+message AdpfSupportInfo {
+    // Power HAL interface version.
+    optional int32 power_hal_version = 1;
+
+    // Vendor API level as defined in ro.vendor.api_level.
+    optional int32 vendor_api_level = 2;
+
+    // Hint session support information.
+    // True if hint sessions are supported.
+    optional bool is_hint_session_supported = 3;
+
+    // Bitmask of supported boost types.
+    // The set of "Boost" enum values that are supported by this device,
+    // each bit should correspond to a value of the enum in
+    // hardware/interfaces/power/aidl/android/hardware/power/Boost.aidl
+    optional int64 boosts = 4;
+
+    // Bitmask of supported mode types.
+    // The set of "Mode" enum values that are supported by this device,
+    // each bit should correspond to a value of the enum in
+    // hardware/interfaces/power/aidl/android/hardware/power/Mode.aidl
+    optional int64 modes = 5;
+
+    // Bitmask of supported hints within sessions.
+    // The set of "SessionHint" enum values that are supported by this device,
+    // each bit should correspond to a value of the enum in
+    // hardware/interfaces/power/aidl/android/hardware/power/SessionHint.aidl
+    optional int64 session_hints = 6;
+
+    // Bitmask of supported modes within sessions.
+    // The set of "SessionMode" enum values that are supported by this device,
+    // each bit should correspond to a value of the enum in
+    // hardware/interfaces/power/aidl/android/hardware/power/SessionMode.aidl
+    optional int64 session_modes = 7;
+
+    // Bitmask of supported session tags.
+    // The set of "SessionTag" enum values that are supported by this device,
+    // each bit should correspond to a value of the enum in
+    // hardware/interfaces/power/aidl/android/hardware/power/SessionTag.aidl
+    optional int64 session_tags = 8;
+
+    // Composition data support information.
+    // Whether the sendCompositionData and sendCompositionUpdate in
+    // hardware/interfaces/power/aidl/android/hardware/power/IPower.aidl
+    // are supported on this device.
+    optional bool composition_data_is_supported = 9;
+
+    // Whether to disable sending relevant GPU fence file descriptors along with
+    // timing information when the frame callback happens.
+    optional bool composition_data_disable_gpu_fences = 10;
+
+    // The maximum number of  frame updates to batch before sending.
+    // Setting to a value less than or equal to 1 disables batching entirely.
+    optional int32 composition_data_max_batch_size = 11;
+
+    // Whether to ignore important notifications such as FPS changes and frame
+    // deadline misses, and always send maximum size batches.
+    // By default, the framework will send batches early if these important events happen.
+    optional bool composition_data_always_batch = 12;
+
+    // Headroom support information.
+    // True if CPU headroom is supported.
+    optional bool cpu_headroom_is_supported = 13;
+
+    // True if GPU headroom is supported.
+    optional bool gpu_headroom_is_supported = 14;
+
+    // Minimum polling interval (in milliseconds) for calling getCpuHeadroom in milliseconds
+    // The getCpuHeadroom API may return cached result if called more frequent
+    // than the interval.
+    optional int32 cpu_headroom_min_interval_millis = 15;
+
+    // Minimum polling interval (in milliseconds) for calling getGpuHeadroom in milliseconds
+    // The getGpuHeadroom API may return cached result if called more frequent
+    // than the interval.
+    optional int32 gpu_headroom_min_interval_millis = 16;
+
+    // Minimum time window (in milliseconds) for CPU headroom calculations.
+    // The calculation window is set by the caller of getCpuHeadroom API.
+    optional int32 cpu_headroom_min_calculation_window_millis = 17;
+
+    // Maximum time window (in milliseconds) for CPU headroom calculations.
+    optional int32 cpu_headroom_max_calculation_window_millis = 18;
+
+    // Minimum time window (in milliseconds) for GPU headroom calculations.
+    // The calculation window is set by the caller of getGpuHeadroom API.
+    optional int32 gpu_headroom_min_calculation_window_millis = 19;
+
+    // Maximum time window (in milliseconds) for GPU headroom calculations.
+    optional int32 gpu_headroom_max_calculation_window_millis = 20;
+
+    // Maximum number of TIDs to be included in CPU headroom calculations.
+    optional int32 cpu_headroom_max_tid_count = 21;
 }

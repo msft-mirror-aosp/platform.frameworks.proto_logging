@@ -1,0 +1,97 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.adpf;
+
+option java_package = "com.android.os.adpf";
+option java_multiple_files = true;
+
+/**
+ * Enum for CPU/GPU headroom calculation type.
+ */
+enum HeadroomCalculationType {
+    UNKNOWN_CALCULATION_TYPE = 0;
+    MIN = 1;
+    AVERAGE = 2;
+}
+
+/**
+ * Enum for thermal API call status.
+ */
+enum ThermalApiStatus {
+    UNSPECIFIED_THERMAL_API_FAILURE = 0;
+    SUCCESS = 1;
+    HAL_NOT_READY = 2;
+    FEATURE_NOT_SUPPORTED = 3;
+    INVALID_ARGUMENT = 4;
+    // If the thermal HAL reports no temperature for SKIN type
+    NO_TEMPERATURE = 5;
+    // If the thermal HAL reports no matching threshold for the SKIN temperature
+    NO_TEMPERATURE_THRESHOLD = 6;
+}
+
+/**
+ * Enum for ADPF session UID state.
+ */
+enum AdpfSessionUidState {
+    UNKNOWN_UID_STATE = 0;
+    FOREGROUND = 1;
+    BACKGROUND = 2;
+}
+
+/**
+ * Enum for ADPF session state.
+ */
+enum AdpfSessionState {
+    UNKNOWN_SESSION_STATE = 0;
+    // This state is used to mark the session is paused.
+    PAUSE = 1;
+    // This state is used to mark the session is resumed.
+    RESUME = 2;
+}
+
+/**
+ * Enum for ADPF session tag.
+ */
+enum AdpfSessionTag {
+    // This tag is used to mark uncategorized hint sessions.
+    // It's labeled as OTHER in SessionTag.aidl.
+    UNKNOWN_SESSION_TAG = 0;
+    // This tag is used to mark the SurfaceFlinger hint session.
+    SURFACEFLINGER = 1;
+    // This tag is used to mark hint sessions created by HWUI.
+    HWUI = 2;
+    // This tag is used to mark hint sessions created by applications that are
+    // categorized as games.
+    GAME = 3;
+    // This tag is used to mark the hint session is created by the application.
+    // If an applications is categorized as game, then GAME should be used
+    // instead.
+    APP = 4;
+}
+
+/**
+ * Enum for FMQ support status.
+ */
+enum FmqStatus {
+    UNKNOWN_FMQ_STATUS = 0;
+    SUPPORTED = 1;
+    UNSUPPORTED = 2;
+    HAL_VERSION_NOT_MET = 3;
+    OTHER_STATUS = 4;
+}
