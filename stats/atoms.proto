@@ -1356,6 +1356,7 @@ message Atom {
     extensions 1027; // HealthConnectRestoreEligibilityChecked health_connect_restore_eligibility_checked
     extensions 1028; // BroadcastProcessed broadcast_processed
     extensions 1029; // ZramSetupExecuted zram_setup_executed
+    extensions 1030; // SensitiveAppLockStateChanged sensitive_app_lock_state_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
