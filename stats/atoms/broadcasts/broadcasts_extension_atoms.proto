@@ -27,6 +27,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional BroadcastSent broadcast_sent = 922 [(module) = "framework"];
+  optional BroadcastProcessed broadcast_processed = 1028 [(module) = "framework"];
 }
 
 /**
@@ -76,4 +77,32 @@ message BroadcastSent {
     optional android.app.ProcessStateEnum sender_uid_state = 12;
     // Type of broadcast
     repeated android.app.BroadcastType broadcast_types = 13;
+}
+
+/**
+ * Logged when a process completely finishes processing of a broadcast.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/am/BroadcastQueueImpl.java
+ *
+ * Logging frequency (based on the existing metrics):
+ * Avg frequency per device: 30K per day.
+ */
+message BroadcastProcessed {
+    // The action of the broadcast intent.
+    optional string intent_action = 1;
+    // The uid of the broadcast sender.
+    optional int32 sender_uid = 2 [(is_uid) = true];
+    // The uid of the broadcast receiver.
+    optional int32 receiver_uid = 3 [(is_uid) = true];
+    // Total number of receivers for this intent_action inside a process.
+    optional int32 num_receivers = 4;
+    // The name of the process receiving this broadcast.
+    optional string receiver_process_name = 5;
+    // Time taken by all the receivers to process this broadcast.
+    optional int64 total_time_millis = 6;
+    // Maximum time taken by a receiver to process this broadcast.
+    optional int64 max_time_millis = 7;
+    // Type of broadcast.
+    repeated android.app.BroadcastType broadcast_types = 8;
 }

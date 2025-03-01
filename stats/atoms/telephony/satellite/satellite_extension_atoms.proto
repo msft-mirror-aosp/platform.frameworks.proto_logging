@@ -134,6 +134,8 @@ message SatelliteController {
   optional int32 count_of_p2p_sms_available_notification_removed = 35;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 36;
+  // Version of satellite access config data.
+  optional int32 version_of_satellite_access_config = 37;
 }
 
 /**
@@ -313,6 +315,12 @@ message CarrierRoamingSatelliteSession {
   optional int32 count_of_incoming_mms = 15;
   // Total number of outgoing mms sent during the session
   optional int32 count_of_outgoing_mms = 16;
+  // satellite supported services
+  repeated int32 supported_satellite_services = 17;
+  // Data Supported mode at satellite session
+  optional int32 service_data_policy = 18;
+  // Total data consumed per satellite session
+  optional int64 satellite_data_consumed_bytes = 19;
 }
 
 /**
@@ -362,6 +370,12 @@ message SatelliteEntitlement {
   optional bool is_retry = 4;
   // Total number of times this event has occurred
   optional int32 count = 5;
+  // allowed service entitlement status
+  optional bool is_allowed_service_entitlement = 6;
+  // service type entitlement
+  repeated int32 entitlement_service_type = 7;
+  // data policy entitlement
+  optional android.telephony.SatelliteEntitlementServicePolicy entitlement_data_policy = 8;
 }
 
 /**
