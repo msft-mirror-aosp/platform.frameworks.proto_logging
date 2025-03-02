@@ -438,11 +438,34 @@ int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributi
         fprintf(out, "#include <utils/String16.h>\n");
     }
 
+#ifdef CC_INCLUDE_SRCS_DIR
+    const bool hasHistograms = has_histograms(atoms.decls);
+    const vector<string> excludeList =
+            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
+#endif
+
     fprintf(out, "\n");
     write_namespace(out, cppNamespace);
 
-    int ret = write_native_stats_write_methods(out, atoms.signatureInfoMap, attributionDecl,
-                                               minApiLevel, bootstrap);
+    int ret = 0;
+#ifdef CC_INCLUDE_SRCS_DIR
+    ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
+    if (ret != 0) {
+        return ret;
+    }
+
+    // Write histogram helper definitions if any histogram annotations are present.
+    if (hasHistograms) {
+        ret = write_native_histogram_helper_definitions(out, atoms.decls);
+        if (ret != 0) {
+            return ret;
+        }
+    }
+#endif
+
+    ret = write_native_stats_write_methods(out, atoms.signatureInfoMap, attributionDecl,
+                                           minApiLevel, bootstrap);
     if (ret != 0) {
         return ret;
     }
@@ -466,7 +489,8 @@ int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributi
 int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                            const string& cppNamespace, const int minApiLevel, bool bootstrap) {
     const bool includePull = !atoms.pulledAtomsSignatureInfoMap.empty() && !bootstrap;
-    write_native_header_preamble(out, cppNamespace, includePull, bootstrap);
+    const bool hasHistograms = has_histograms(atoms.decls);
+    write_native_header_preamble(out, cppNamespace, includePull, hasHistograms, bootstrap);
     write_native_atom_constants(out, atoms, attributionDecl);
     write_native_atom_enums(out, atoms);
 
@@ -482,6 +506,17 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
     fprintf(out, "  size_t arg_length;\n");
     fprintf(out, "};\n");
     fprintf(out, "\n");
+
+#ifdef CC_INCLUDE_HDRS_DIR
+    const vector<string> excludeList =
+            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
+
+    // Write histogram helper declarations if any histogram annotations are present.
+    if (hasHistograms) {
+        write_native_histogram_helper_declarations(out, atoms.decls);
+    }
+#endif
 
     // Print write methods
     fprintf(out, "//\n");

@@ -54,3 +54,63 @@ enum ZramRecompressionResult {
     RECOMPRESSION_MARK_IDLE_FAIL = 5;
     RECOMPRESSION_TRIGGER_FAIL = 6;
 }
+
+/**
+ * Result of zram setup attempt.
+ *
+ * Next tag: 8
+ */
+enum ZramSetupResult {
+    ZRAM_SETUP_UNSPECIFIED = 0;
+    ZRAM_SETUP_SUCCESS = 1;
+    ZRAM_SETUP_CHECK_STATUS = 2;
+    ZRAM_SETUP_ACTIVATED = 3;
+    ZRAM_SETUP_PARSE_SPEC = 4;
+    ZRAM_SETUP_UPDATE_DISK_SIZE_FAIL = 5;
+    ZRAM_SETUP_SWAP_ON_FAIL = 6;
+    ZRAM_SETUP_MK_SWAP_FAIL = 7;
+}
+
+/**
+ * Result of zram compression algorithm update attempt.
+ *
+ * Next tag: 3
+ */
+enum ZramCompAlgorithmSetupResult {
+    COMP_ALGORITHM_SETUP_UNSPECIFIED = 0;
+    COMP_ALGORITHM_SETUP_SUCCESS = 1;
+    COMP_ALGORITHM_SETUP_FAIL = 2;
+}
+
+/**
+ * Result of zram writeback device setup attempt.
+ *
+ * Next tag: 11
+ */
+enum ZramWritebackSetupResult {
+    WRITEBACK_SETUP_UNSPECIFIED = 0;
+    WRITEBACK_SETUP_SUCCESS = 1;
+    WRITEBACK_SETUP_CHECK_STATUS = 2;
+    WRITEBACK_SETUP_NOT_SUPPORTED = 3;
+    WRITEBACK_SETUP_ACTIVATED = 4;
+    WRITEBACK_SETUP_PARSE_SPEC = 5;
+    WRITEBACK_SETUP_DEVICE_SIZE_ZERO = 6;
+    WRITEBACK_SETUP_SET_ACTUAL_DEVICE_SIZE_FAIL = 7;
+    WRITEBACK_SETUP_CREATE_BACKING_FILE_FAIL = 8;
+    WRITEBACK_SETUP_CREATE_BACKING_DEVICE_FAIL = 9;
+    WRITEBACK_SETUP_SET_WRITEBACK_DEVICE_FAIL = 10;
+}
+
+/**
+ * Result of zram recompression setup attempt.
+ *
+ * Next tag: 6
+ */
+enum ZramRecompressionSetupResult {
+    RECOMPRESSION_SETUP_UNSPECIFIED = 0;
+    RECOMPRESSION_SETUP_SUCCESS = 1;
+    RECOMPRESSION_SETUP_CHECK_STATUS = 2;
+    RECOMPRESSION_SETUP_NOT_SUPPORTED = 3;
+    RECOMPRESSION_SETUP_ACTIVATED = 4;
+    RECOMPRESSION_SETUP_SET_RECOMP_ALGORITHM_FAIL = 5;
+}
