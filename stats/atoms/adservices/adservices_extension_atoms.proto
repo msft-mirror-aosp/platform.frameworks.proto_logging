@@ -237,6 +237,9 @@ extend Atom {
   [(module) = "adservices", (truncate_timestamp) = true];
   optional NumberOfTypesOfReportingUrlsReceived number_of_types_of_reporting_url_received = 1014
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional MobileDataDownloadLatencyReported mobile_data_download_latency_reported = 1031
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -1969,6 +1972,24 @@ message MobileDataDownloadFileGroupStats {
   // Inverse of the sampling rate used to sample this event.
   optional int32 sampling_interval = 6;
   // Note: we do not have owner_package since that's already transmitted.
+}
+
+/** Download latency stats logged after download completes. */
+message MobileDataDownloadLatencyReported {
+  // The number of download attempts needed to fully download the file group.
+  optional int32 download_attempt_count = 1;
+
+  // The download latency in milliseconds, which is the time elapsed between
+  // download started and download complete.
+  optional int64 download_latency_ms = 2;
+
+  // The total MDD download latency in milliseconds, which is the time elapsed
+  // between new config received and download complete.
+  // True E2E download latency = Flag propagation latency + MDD total download
+  // latency. Here we are talking about the later.
+  optional int64 total_latency_ms = 3;
+  optional MobileDataDownloadFileGroupStats file_group_stats = 4
+  [(log_mode) = MODE_BYTES];
 }
 
 /**
