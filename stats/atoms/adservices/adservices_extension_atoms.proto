@@ -488,7 +488,8 @@ message AdServicesEnrollmentTransactionStats {
   optional int32 datasource_record_count_pre = 6;
   optional int32 datasource_record_count_post = 7;
   optional int32 enrollment_file_latest_build_id = 8;
-  }
+  optional int32 latency_ms = 9;
+}
 
 /**
  * Logs for AdServices Consent Migration after OTA.
