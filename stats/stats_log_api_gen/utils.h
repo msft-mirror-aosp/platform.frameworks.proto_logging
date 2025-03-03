@@ -116,7 +116,8 @@ int write_java_method_signature(FILE* out, const vector<java_type_t>& signature,
 void write_java_usage(FILE* out, const string& method_name, const string& atom_code_name,
                       const AtomDecl& atom);
 
-int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureInfoMap);
+int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
+                                   const bool staticMethods);
 
 int write_java_work_source_methods(FILE* out, const SignatureInfoMap& signatureInfoMap);
 
@@ -144,7 +145,8 @@ int write_java_srcs_classes(FILE* out, const char* path,
 
 int write_cc_srcs_classes(FILE* out, const char* path, const std::vector<std::string>& excludeList);
 
-int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet);
+int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
+                                 const bool staticMethods);
 }  // namespace stats_log_api_gen
 }  // namespace android
 
