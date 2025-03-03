@@ -2129,6 +2129,10 @@ enum Action {
     // ACTION: Settings > Accessibility > Color and motion > Remove Animation
     // CATEGORY: SETTINGS
     ACTION_REMOVE_ANIMATION = 2015;
+
+    // ACTION: Bluetooth Sharing is triggered and Nearby Share entrypoint is shown
+    // CATEGORY: SETTINGS
+    ACTION_NEARBY_SHARE_ENTRYPOINT_SHOWN = 2016;
 }
 
 /**
@@ -5444,6 +5448,47 @@ enum PageId {
     // OPEN: Settings > Network & internet > Ethernet
     // CATEGORY: SETTINGS
     ETHERNET_SETTINGS = 2141;
+
+    // OPEN: Settings > Network & internet > SIMs > {network} > Satellite messaging -> see all apps
+    // CATEGORY: SETTINGS
+    SATELLITE_APPS_LIST = 2142;
+
+    // OPEN: Settings > Audio stream confirm dialog > Turn off talkback dialog
+    // CATEGORY: SETTINGS
+    DIALOG_AUDIO_STREAM_CONFIRM_TURN_OFF_TALKBACK = 2143;
+
+    // OPEN: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //       > Turn off talkback dialog
+    // CATEGORY: SETTINGS
+    DIALOG_AUDIO_STREAM_MAIN_TURN_OFF_TALKBACK = 2144;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
+    // CATEGORY: SETTINGS
+    ACTION_CHECK_FINGERPRINT = 2145;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
+    // CATEGORY: SETTINGS
+    ACTION_FINGERPRINT_ENABLED_ON_KEYGUARD = 2146;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
+    // CATEGORY: SETTINGS
+    ACTION_FINGERPRINT_ENABLED_FOR_APP = 2147;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Face
+    // CATEGORY: SETTINGS
+    ACTION_FACE_ENABLED_ON_KEYGUARD = 2148;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Face
+    // CATEGORY: SETTINGS
+    ACTION_FACE_ENABLED_FOR_APP = 2149;
+
+    // OPEN: Face Enroll SUW > Education
+    // CATEGORY: SETTINGS
+    ACTION_FACE_REQUIRE_ATTENTION_SUW = 2150;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Face
+    // CATEGORY: SETTINGS
+    ACTION_FACE_REQUIRE_ATTENTION_SETTINGS = 2151;
 }
 
 // Battery Saver schedule types.

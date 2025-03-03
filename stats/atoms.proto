@@ -1349,13 +1349,21 @@ message Atom {
     extensions 1020; // RoleSettingsFragmentActionReported role_settings_fragment_action_reported
     extensions 1021; // HearingDeviceActiveEventReported hearing_device_active_event_reported
     extensions 1022; // Reserved for b/377302168
+    extensions 1023; // HealthConnectDataBackupInvoked health_connect_data_backup_invoked
+    extensions 1024; // HealthConnectSettingsBackupInvoked health_connect_settings_backup_invoked
+    extensions 1025; // HealthConnectDataRestoreInvoked health_connect_data_restore_invoked
+    extensions 1026; // HealthConnectSettingsRestoreInvoked health_connect_settings_restore_invoked
+    extensions 1027; // HealthConnectRestoreEligibilityChecked health_connect_restore_eligibility_checked
+    extensions 1028; // BroadcastProcessed broadcast_processed
+    extensions 1029; // ZramSetupExecuted zram_setup_executed
+    extensions 1030; // SensitiveAppLockStateChanged sensitive_app_lock_state_changed
     extensions 9999; // Atom9999 atom_9999
 
-    // StatsdStats tracks platform atoms with ids up to 900.
+    // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10232
+    // Next: 10235
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1625,6 +1633,8 @@ message Atom {
     extensions 10231; // NotificationBundlePreferences notification_bundle_preferences
     extensions 10232; // ZramMmStatMmd zram_mm_stat_mmd
     extensions 10233; // ZramBdStatMmd zram_bd_stat_mmd
+    extensions 10234; // WidgetMemoryStats
+    extensions 10235; // TelecomEventStats telecom_event_stats
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -2102,6 +2112,10 @@ message WifiConnectionResultReported {
     optional int32 connection_uid = 19 [(is_uid) = true];
     // connection channel frequency
     optional int32 frequency = 20;
+    // L2 connecting time duration in millis
+    optional int64 l2_connecting_duration_ms = 21;
+    // L3 connecting time duration in millis
+    optional int64 l3_connecting_duration_ms = 22;
 }
 
 /**
@@ -6365,6 +6379,10 @@ message NotificationReported {
 
     // Age of the notification in minutes.
     optional int32 age_in_minutes = 29;
+
+    // Whether the notification was promoted and whether it was promotable.
+    optional bool is_promoted_ongoing = 30;
+    optional bool has_promotable_characteristics = 31;
 }
 
 /**
@@ -15463,6 +15481,11 @@ message ContactsProviderStatusReported {
         ADD_SIM_ACCOUNTS = 1;
         REMOVE_SIM_ACCOUNTS = 2;
         GET_SIM_ACCOUNTS = 3;
+        SET_DEFAULT_ACCOUNT_FOR_NEW_CONTACTS = 4;
+        GET_DEFAULT_ACCOUNT_FOR_NEW_CONTACTS = 5;
+        MOVE_LOCAL_CONTACTS_TO_DEFAULT_ACCOUNT = 6;
+        MOVE_SIM_CONTACTS_TO_DEFAULT_ACCOUNT = 7;
+        GET_ELIGIBLE_CLOUD_ACCOUNTS = 8;
     }
 
     enum ResultType {
@@ -15471,6 +15494,9 @@ message ContactsProviderStatusReported {
         FAIL = 2;
         ILLEGAL_ARGUMENT = 3;
         UNSUPPORTED_OPERATION = 4;
+
+        // Operation is targeting an incorrect account.
+        INCORRECT_ACCOUNT = 5;
     }
 
     enum CallerType {

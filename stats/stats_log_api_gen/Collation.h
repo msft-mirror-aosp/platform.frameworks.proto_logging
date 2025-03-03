@@ -172,6 +172,8 @@ using AnnotationSet = set<shared_ptr<Annotation>, SharedComparator>;
 
 using FieldNumberToAnnotations = map<int, AnnotationSet>;
 
+using FieldNameToHistogramBinOption = map<std::string, os::statsd::HistogramBinOption>;
+
 /**
  * The name and type for an atom field.
  */
@@ -213,6 +215,7 @@ struct AtomDecl {
     AtomType atomType;
 
     FieldNumberToAnnotations fieldNumberToAnnotations;
+    FieldNameToHistogramBinOption fieldNameToHistBinOption;
 
     vector<int> primaryFields;
     int exclusiveField = 0;

@@ -67,6 +67,9 @@ message RangingSessionStarted {
 
   // The duration it took to start the session after configuring in milliseconds.
   optional int64 start_latency_ms = 3;
+
+  // Whether the process that requested ranging is privileged.
+  optional bool is_privileged = 4;
 }
 
 /*

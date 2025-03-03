@@ -154,6 +154,8 @@ message DisplaySwitchLatencyTracked {
     optional int32 onscreenturningon_to_ondrawn_ms = 20;
     // The time elapsed between the onDrawn callback and the onScreenTurnedOn call in SystemUI.
     optional int32 ondrawn_to_onscreenturnedon_ms = 21;
+    // Result of latency tracking - was it successful or what went wrong
+    optional TrackingResult tracking_result = 22;
 
     enum StateEnum {
       // The device is in none of the above mentioned states.
@@ -178,6 +180,17 @@ message DisplaySwitchLatencyTracked {
       FREEFORM_APPS = 8;
       // Screen is off currently.
       SCREEN_OFF = 9;
+    }
+
+    enum TrackingResult {
+      // Unknown result
+      UNKNOWN_RESULT = 0;
+      // Tracking was successful
+      SUCCESS = 1;
+      // Tracking entered corrupted state, latency tracking result is not correct
+      CORRUPTED = 2;
+      // Tracking timed out, latency tracking result is not correct
+      TIMED_OUT = 3;
     }
 
 }

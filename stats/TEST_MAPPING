@@ -4,12 +4,15 @@
       "name": "stats-log-api-gen-test"
     },
     {
-      "name": "VendorAtomCodeGenJavaTest",
+      "name": "StatsCodeGenJavaTest",
       "options": [
         {
           "exclude-annotation": "org.junit.Ignore"
         }
       ]
+    },
+    {
+      "name": "stats_code_gen_cc_test"
     }
   ]
 }
