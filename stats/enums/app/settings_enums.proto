@@ -23,6 +23,10 @@ option java_multiple_files = true;
  * The action performed in this event
  */
 enum Action {
+
+    // Reserved for biometrics
+    reserved 2145 to 2151;
+
     ACTION_UNKNOWN = 0;
     PAGE_VISIBLE = 1;
     PAGE_HIDE = 2;
@@ -2133,6 +2137,34 @@ enum Action {
     // ACTION: Bluetooth Sharing is triggered and Nearby Share entrypoint is shown
     // CATEGORY: SETTINGS
     ACTION_NEARBY_SHARE_ENTRYPOINT_SHOWN = 2016;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
+    // CATEGORY: SETTINGS
+    ACTION_CHECK_FINGERPRINT_SETTINGS = 2017;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
+    // CATEGORY: SETTINGS
+    ACTION_FINGERPRINTS_ENABLED_ON_KEYGUARD_SETTINGS = 2018;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
+    // CATEGORY: SETTINGS
+    ACTION_FINGERPRINT_ENABLED_FOR_APP_SETTINGS = 2019;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Face
+    // CATEGORY: SETTINGS
+    ACTION_FACE_ENABLED_ON_KEYGUARD_SETTINGS = 2020;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Face
+    // CATEGORY: SETTINGS
+    ACTION_FACE_ENABLED_FOR_APP_SETTINGS = 2021;
+
+    // OPEN: Face Enroll SUW > Education
+    // CATEGORY: SETTINGS
+    ACTION_FACE_REQUIRE_ATTENTION_FROM_SUW = 2022;
+
+    // ACTION: Settings > Security & privacy > Device unlock > Face
+    // CATEGORY: SETTINGS
+    ACTION_FACE_REQUIRE_ATTENTION_FROM_SETTINGS = 2023;
 }
 
 /**
@@ -5464,31 +5496,45 @@ enum PageId {
 
     // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
     // CATEGORY: SETTINGS
-    ACTION_CHECK_FINGERPRINT = 2145;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_CHECK_FINGERPRINT_SETTINGS
+    ACTION_CHECK_FINGERPRINT = 2145 [deprecated = true];
 
     // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
     // CATEGORY: SETTINGS
-    ACTION_FINGERPRINT_ENABLED_ON_KEYGUARD = 2146;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_FINGERPRINT_ENABLED_ON_KEYGUARD_SETTINGS
+    ACTION_FINGERPRINT_ENABLED_ON_KEYGUARD = 2146 [deprecated = true];
 
     // ACTION: Settings > Security & privacy > Device unlock > Fingerprint
     // CATEGORY: SETTINGS
-    ACTION_FINGERPRINT_ENABLED_FOR_APP = 2147;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_FINGERPRINT_ENABLED_FOR_APP_SETTINGS
+    ACTION_FINGERPRINT_ENABLED_FOR_APP = 2147 [deprecated = true];
 
     // ACTION: Settings > Security & privacy > Device unlock > Face
     // CATEGORY: SETTINGS
-    ACTION_FACE_ENABLED_ON_KEYGUARD = 2148;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_FACE_ENABLED_ON_KEYGUARD_SETTINGS
+    ACTION_FACE_ENABLED_ON_KEYGUARD = 2148 [deprecated = true];
 
     // ACTION: Settings > Security & privacy > Device unlock > Face
     // CATEGORY: SETTINGS
-    ACTION_FACE_ENABLED_FOR_APP = 2149;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_FACE_ENABLED_FOR_APP_SETTINGS
+    ACTION_FACE_ENABLED_FOR_APP = 2149 [deprecated = true];
 
     // OPEN: Face Enroll SUW > Education
     // CATEGORY: SETTINGS
-    ACTION_FACE_REQUIRE_ATTENTION_SUW = 2150;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_FACE_REQUIRE_ATTENTION_FROM_SUW
+    ACTION_FACE_REQUIRE_ATTENTION_SUW = 2150 [deprecated = true];
 
     // ACTION: Settings > Security & privacy > Device unlock > Face
     // CATEGORY: SETTINGS
-    ACTION_FACE_REQUIRE_ATTENTION_SETTINGS = 2151;
+    // DEPRECATED: This was added as page id by mistake, moved to
+    // Action.ACTION_FACE_REQUIRE_ATTENTION_FROM_SETTINGS
+    ACTION_FACE_REQUIRE_ATTENTION_SETTINGS = 2151 [deprecated = true];
 
     // OPEN: Settings > Accessibility > Magnification > Cursor following
     // CATEGORY: SETTINGS
