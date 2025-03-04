@@ -55,6 +55,7 @@ static void print_usage() {
     fprintf(stderr, "  --javaPackage PACKAGE             the package for the java file.\n");
     fprintf(stderr, "                                    required for java with module\n");
     fprintf(stderr, "  --javaClass CLASS    the class name of the java class.\n");
+    fprintf(stderr, "  --nonStatic          generate java classes with non-static methods\n");
     fprintf(stderr, "  --minApiLevel API_LEVEL           lowest API level to support.\n");
     fprintf(stderr, "                                    Default is \"current\".\n");
     fprintf(stderr,
@@ -90,6 +91,7 @@ static int run(int argc, char const* const* argv) {
     bool supportWorkSource = false;
     int minApiLevel = API_LEVEL_CURRENT;
     bool bootstrap = false;
+    bool javaStaticMethods = true;
 
     int index = 1;
     while (index < argc) {
@@ -173,6 +175,8 @@ static int run(int argc, char const* const* argv) {
                 return 1;
             }
             javaClass = argv[index];
+        } else if (0 == strcmp("--nonStatic", argv[index])) {
+            javaStaticMethods = false;
         } else if (0 == strcmp("--supportQ", argv[index])) {
             minApiLevel = API_Q;
         } else if (0 == strcmp("--worksource", argv[index])) {
@@ -360,7 +364,7 @@ static int run(int argc, char const* const* argv) {
         if (vendorProto.empty()) {
             errorCount = android::stats_log_api_gen::write_stats_log_java(
                     out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel,
-                    supportWorkSource);
+                    supportWorkSource, javaStaticMethods);
         } else {
 #ifdef WITH_VENDOR
             if (supportWorkSource) {
@@ -369,7 +373,7 @@ static int run(int argc, char const* const* argv) {
             }
 
             errorCount = android::stats_log_api_gen::write_stats_log_java_vendor(out, atoms,
-                    javaClass, javaPackage);
+                    javaClass, javaPackage, javaStaticMethods);
 #endif
         }
 
