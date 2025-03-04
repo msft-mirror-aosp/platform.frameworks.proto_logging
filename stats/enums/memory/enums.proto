@@ -85,7 +85,7 @@ enum ZramCompAlgorithmSetupResult {
 /**
  * Result of zram writeback device setup attempt.
  *
- * Next tag: 11
+ * Next tag: 12
  */
 enum ZramWritebackSetupResult {
     WRITEBACK_SETUP_UNSPECIFIED = 0;
@@ -99,6 +99,7 @@ enum ZramWritebackSetupResult {
     WRITEBACK_SETUP_CREATE_BACKING_FILE_FAIL = 8;
     WRITEBACK_SETUP_CREATE_BACKING_DEVICE_FAIL = 9;
     WRITEBACK_SETUP_SET_WRITEBACK_DEVICE_FAIL = 10;
+    WRITEBACK_SETUP_WRITEBACK_LIMIT_ENABLE_FAIL = 11;
 }
 
 /**
