@@ -33,6 +33,7 @@ extend Atom {
   optional CommunalHubWidgetEventReported communal_hub_widget_event_reported = 908 [(module) = "sysui"];
   optional PeripheralTutorialLaunched peripheral_tutorial_launched = 942 [(module) = "sysui"];
   optional ContextualEducationTriggered contextual_education_triggered = 971 [(module) = "sysui"];
+  optional OtpNotificationDisplayed otp_notification_displayed = 1032 [(module) = "sysui"];
   optional CommunalHubSnapshot communal_hub_snapshot = 10226 [(module) = "sysui"];
 }
 
@@ -354,4 +355,38 @@ message CommunalHubSnapshot {
 
   // The total number of widgets in the communal hub.
   optional int32 widget_count = 2;
+}
+
+/**
+ * Pushed atom. Logs information about a notification with a detected OTP, and whether system ui
+ * redacted it.
+ *
+ * Peak: 10 times in 1 minute | Avg: 5 per device per day
+ *
+ * Logged from frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/
+ * NotificationLockscreenUserManagerImpl
+ */
+message OtpNotificationDisplayed {
+    // Whether the notification got the OTP redaction
+    optional bool redacted = 1;
+
+    // The difference between the notification's "when" time and the earliest message timestamp in
+    // the sensitive notification. 0 if there are no messages attached to the notification.
+    optional int32 notification_earliest_time_diff = 2;
+
+    // Whether or not the device is locked
+    optional bool locked = 3;
+
+    // The difference between the last locked time of the device and the notification's
+    // earliest message time (or "when" time if there are no messages)
+    optional int32 last_lock_time_diff = 4;
+
+    // Whether the device is currently in a trusted place (currently just "connected to a wifi
+    // network"
+    optional bool in_trusted_place = 5;
+
+    // The difference between the last time the device registered as being in a trusted location
+    // (currently just "connected to a wifi network") of the device and the notification's
+    // earliest message time (or "when" time if there are no messages)
+    optional int32 last_trusted_location_time_diff = 6;
 }
