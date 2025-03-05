@@ -19,9 +19,11 @@
 #include <stdio.h>
 
 #include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
@@ -29,6 +31,7 @@
 
 #include "Collation.h"
 #include "frameworks/proto_logging/stats/atom_field_options.pb.h"
+#include "settings_provider.h"
 
 namespace android {
 namespace stats_log_api_gen {
@@ -204,7 +207,8 @@ static int write_srcs_bodies(FILE* out, const char* path, int indent,
                              const vector<string>& excludeList,
                              const std::function<bool(string& firstLine)>& firstLineTransformer) {
     int errors = 0;
-    for (const fs::path& filePath : fs::directory_iterator(path)) {
+    const string fullPath = get_data_dir_path(path);
+    for (const fs::path& filePath : fs::directory_iterator(fullPath)) {
         // Inline source bodies from filePath if it's not in excludeList.
         if (std::find(excludeList.begin(), excludeList.end(), filePath.stem()) ==
             excludeList.end()) {
@@ -928,7 +932,8 @@ int write_native_histogram_helper_definitions(FILE* out, const AtomDeclSet& atom
 
 int write_srcs_header(FILE* out, const char* path, const vector<string>& excludeList) {
     int errors = 0;
-    for (const fs::path& filePath : fs::directory_iterator(path)) {
+    const string fullPath = get_data_dir_path(path);
+    for (const fs::path& filePath : fs::directory_iterator(fullPath)) {
         // Add headers from filePath if it's not in excludeList.
         if (std::find(excludeList.begin(), excludeList.end(), filePath.stem()) ==
             excludeList.end()) {
