@@ -55,6 +55,10 @@ extend Atom {
   [(module) = "mediaprovider"];
   optional EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported = 899
   [(module) = "mediaprovider"];
+  optional PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported = 1043
+  [(module) = "mediaprovider"];
+  optional PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged = 1044
+  [(module) = "mediaprovider"];
 }
 
 /*
@@ -91,6 +95,7 @@ message PhotopickerApiInfoReported {
   optional bool is_search_enabled = 11 [deprecated = true];
   optional bool is_cloud_search_enabled = 12;
   optional bool is_local_search_enabled = 13;
+  optional bool is_transcoding_requested = 14;
 }
 
 /*
@@ -224,4 +229,24 @@ message EmbeddedPhotopickerInfoReported {
   optional bool is_surface_package_creation_successful = 2;
   optional int32 surface_package_delivery_start_time_millis = 3;
   optional int32 surface_package_delivery_end_time_millis = 4;
+}
+
+/*
+ Logs Application Media Capabilities for Transcoding support
+ */
+message PhotopickerAppMediaCapabilitiesReported {
+  optional int32 session_id = 1;
+  repeated android.photopicker.AppMediaCapabilityHdrType supported_hdr_types = 2;
+  repeated android.photopicker.AppMediaCapabilityHdrType unsupported_hdr_types = 3;
+}
+
+/*
+ Logs Transcoding video details
+*/
+message PhotopickerVideoTranscodingDetailsLogged {
+  optional int32 session_id = 1;
+  optional int32 duration = 2;
+  optional int32 colorStandard = 3;
+  optional int32 colorTransfer = 4;
+  optional android.photopicker.VideoMimeType mimeType = 5;
 }
