@@ -30,7 +30,7 @@ namespace android {
 namespace stats_log_api_gen {
 
 int write_stats_log_java_vendor(FILE* out, const Atoms& atoms, const string& javaClass,
-                                const string& javaPackage);
+                                const string& javaPackage, const bool staticMethods);
 
 }  // namespace stats_log_api_gen
 }  // namespace android
