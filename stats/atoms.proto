@@ -22602,7 +22602,7 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
  *
- * Next ID: 52
+ * Next ID: 55
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22842,6 +22842,20 @@ message AutofillPresentationEventReported {
 
   // Count of times notifyViewEntered wasn't done due to pending authentication
   optional int32 notify_view_entered_ignored_auth_count = 51;
+
+  // Following three fields are only logged if improve_fill_dialog is enabled.
+  //
+  // Fill dialog not shown reason.
+  optional android.os.statsd.autofill.FillDialogNotShownReason
+    fill_dialog_not_shown_reason = 52;
+
+  // Timestamp (relative to session start) of when the fill dialog is ready to
+  // show.
+  optional int64 fill_dialog_ready_to_show_ms = 53;
+
+  // Timestamp (relative to session start) of when the IME animation is
+  // finished.
+  optional int64 ime_animation_finish_ms = 54;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
