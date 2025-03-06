@@ -20,7 +20,6 @@ package android.os.statsd.telephony;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
-import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/security/enums.proto";
 
 option java_package = "com.android.os.telephony";
