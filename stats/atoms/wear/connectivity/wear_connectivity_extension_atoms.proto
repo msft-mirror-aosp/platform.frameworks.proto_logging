@@ -27,8 +27,9 @@ option java_multiple_files = true;
 
 extend Atom {
   optional MediatorUpdated mediator_updated = 721 [(module) = "wearconnectivity"];
+  // Deprecated, use proxy_bytes_transfer_by_fg_bg (10200) instead.
   optional SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer = 10196
-      [(module) = "wearconnectivity"];
+      [(module) = "wearconnectivity", deprecated = true];
   optional SysproxyConnectionUpdated sysproxy_connection_updated = 786
       [(module) = "wearconnectivity"];
   optional WearCompanionConnectionState wear_companion_connection_state = 921
