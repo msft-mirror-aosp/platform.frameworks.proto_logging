@@ -1497,6 +1497,7 @@ message AdServicesMeasurementRegistrations {
   optional bool is_event_level_epsilon_configured = 15;
   optional bool is_trigger_aggregatable_value_filters_configured = 16;
   optional bool is_trigger_filtering_id_configured = 17;
+  optional bool is_trigger_context_id_configured = 18;
 }
 
 
