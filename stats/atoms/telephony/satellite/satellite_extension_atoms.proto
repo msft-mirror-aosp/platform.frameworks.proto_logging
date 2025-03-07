@@ -349,6 +349,8 @@ message CarrierRoamingSatelliteControllerStats {
   optional bool is_device_entitled = 9;
   // Whether device is in DSDS mode
   optional bool is_multi_sim = 10;
+  // Count of how many satellite sessions have been opened
+  optional int32 count_of_satellite_sessions = 11;
 }
 
 /**
