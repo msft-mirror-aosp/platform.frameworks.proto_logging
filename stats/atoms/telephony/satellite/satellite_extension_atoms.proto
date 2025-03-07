@@ -321,6 +321,8 @@ message CarrierRoamingSatelliteSession {
   optional int32 service_data_policy = 18;
   // Total data consumed per satellite session
   optional int64 satellite_data_consumed_bytes = 19;
+  // Whether device is in DSDS mode
+  optional bool is_multi_sim = 20;
 }
 
 /**
@@ -345,6 +347,8 @@ message CarrierRoamingSatelliteControllerStats {
   optional int32 carrier_id = 8;
   // Whether this device is entitled or not.
   optional bool is_device_entitled = 9;
+  // Whether device is in DSDS mode
+  optional bool is_multi_sim = 10;
 }
 
 /**
