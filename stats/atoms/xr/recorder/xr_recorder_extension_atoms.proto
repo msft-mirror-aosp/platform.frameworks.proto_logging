@@ -18,12 +18,15 @@ syntax = "proto2";
 
 package android.os.statsd.wifi.xr.recorder;
 
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
 option java_package = "com.android.os.xr.recorder";
 option java_multiple_files = true;
 
 extend Atom {
   // Push metrics
-  optional XrRecorderSessionStatusReported xr_recorder_session_status_reported = 1031
+  optional XrRecorderSessionStatusReported xr_recorder_session_status_reported = 1033
       [(module) = "xr"];
 }
 
@@ -40,7 +43,6 @@ extend Atom {
  *
  */
 message XrRecorderSessionStatusReported {
-  option (owner_group_email) = "xr-os-eng@google.com";
 
   optional XrRecorderSessionState session_state = 1;
 
