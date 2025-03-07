@@ -67,6 +67,7 @@ extend Atom {
     optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
     optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
     optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
+    optional IntentRedirectBlocked intent_redirect_blocked = 1037 [(module) = "framework"];
     optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
 }
 
@@ -1086,6 +1087,38 @@ message IntentCreatorTokenAdded {
   optional int32 creator_uid = 1 [(is_uid) = true];
   // true if the creator and top level intent target share the same package
   optional bool is_optimized = 2;
+}
+
+/**
+ * [Pushed atom] Logged when an intent redirect attack is blocked.
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityStarter.java
+ *      #Request.resolveActivity
+ *      #executeRequest
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityStartController.java
+ *      #startActivities
+ *
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 0 times per device per day.
+ */
+message IntentRedirectBlocked {
+  // creator uid
+  optional int32 creator_uid = 1 [(is_uid) = true];
+  // calling uid
+  optional int32 calling_uid = 2 [(is_uid) = true];
+  // reason code
+  optional Reason reason = 3;
+  enum Reason {
+    INTENT_REDIRECT_BLOCKED_UNSPECIFIED = 0;
+    INTENT_REDIRECT_EXCEPTION_MISSING_OR_INVALID_TOKEN = 1;
+    INTENT_REDIRECT_EXCEPTION_GRANT_URI_PERMISSION = 2;
+    INTENT_REDIRECT_EXCEPTION_START_ANY_ACTIVITY_PERMISSION = 3;
+    INTENT_REDIRECT_ABORT_START_ANY_ACTIVITY_PERMISSION = 4;
+    INTENT_REDIRECT_ABORT_INTENT_FIREWALL_START_ACTIVITY = 5;
+    INTENT_REDIRECT_ABORT_PERMISSION_POLICY_START_ACTIVITY = 6;
+  }
 }
 
 /**
