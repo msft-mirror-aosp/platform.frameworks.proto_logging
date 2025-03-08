@@ -21,7 +21,6 @@ package android.os.statsd.adpf;
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
-import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 option java_package = "com.android.os.adpf";
