@@ -42,6 +42,10 @@ extend Atom {
         828 [(module) = "permissioncontroller"];
     optional RoleSettingsFragmentActionReported role_settings_fragment_action_reported =
         1020 [(module) = "permissioncontroller"];
+    optional EcmRestrictionQueryInCallReported ecm_restriction_query_in_call_reported =
+        1034 [(module) = "permissioncontroller"];
+    optional CallWithEcmInteractionReported call_with_ecm_interaction_reported =
+        1035 [(module) = "permissioncontroller"];
 }
 
 /**
@@ -213,4 +217,44 @@ message RoleSettingsFragmentActionReported {
   optional string package_name = 2;
 
   optional string role_name = 3;
+}
+
+/*
+ * Reports that the Enhanced Confirmation Service has received a query to the restriction state of
+ * a setting that is restricted while in an untrusted call.
+ * Logs from: com.android.ecm.EnhancedConfirmationService
+ */
+message EcmRestrictionQueryInCallReported {
+  // UID of the possibly restricted app
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // The setting being checked
+  optional string setting_identifier = 2;
+
+  // Whether or not the setting was allowed (vs. restricted)
+  optional bool allowed = 3;
+
+  // Whether a call was in progress at the time of this restriction check
+  optional bool call_in_progress = 4;
+
+  // Whether the call was incoming. False, if there was no call
+  optional bool call_incoming = 5;
+
+  // Whether the call was trusted. True, if there was no call
+  optional bool call_trusted = 6;
+
+  // Whether a block had happened in the past hour for the given call. False if there is no call.
+  optional bool call_back_after_block = 7;
+}
+
+/*
+ * Reports that a call happened, during which the EnhancedConfirmation Service was queried for the
+ * restriction state of a setting that is restricted while in an untrusted call.
+ * Logs from: com.android.ecm.EnhancedConfirmationService
+ */
+message CallWithEcmInteractionReported {
+    // Whether any setting was blocked during the call
+    optional bool any_setting_blocked = 1;
+    // The call duration, in seconds
+    optional int32 duration_secs = 2;
 }

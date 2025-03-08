@@ -5489,6 +5489,10 @@ enum PageId {
     // ACTION: Settings > Security & privacy > Device unlock > Face
     // CATEGORY: SETTINGS
     ACTION_FACE_REQUIRE_ATTENTION_SETTINGS = 2151;
+
+    // OPEN: Settings > Accessibility > Magnification > Cursor following
+    // CATEGORY: SETTINGS
+    DIALOG_MAGNIFICATION_CURSOR_FOLLOWING = 2152;
 }
 
 // Battery Saver schedule types.

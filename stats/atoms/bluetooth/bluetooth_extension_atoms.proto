@@ -391,6 +391,8 @@ message LeAppScanStateChanged {
   optional bool is_screen_on = 11;
   // Whether the app is dead when the scan started or stopped.
   optional bool is_app_dead = 12;
+  // App importance compared to foreground service when the scan started or stopped.
+  optional android.bluetooth.le.AppImportance app_importance = 13;
 }
 
 /**
@@ -415,6 +417,9 @@ message LeRadioScanStopped {
   optional bool is_screen_on = 6;
   // Delta time of radio scan start and stop in milliseconds.
   optional int64 scan_duration_ms = 7;
+  // Importance of app with most aggressive scanning parameters compared to foreground service when
+  // the radio scan started.
+  optional android.bluetooth.le.AppImportance app_importance = 8;
 }
 
 /**
@@ -483,6 +488,8 @@ message LeAdvStateChanged {
   // Adv duration when adv stops (adv stop timestamp - adv start timestamp),
   // in milliseconds. Use 0 for adv start.
   optional int64 adv_duration_ms = 10;
+  // App importance compared to foreground service when the advertisement started or stopped.
+  optional android.bluetooth.le.AppImportance app_importance = 11;
 }
 
 /**

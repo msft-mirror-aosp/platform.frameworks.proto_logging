@@ -111,12 +111,15 @@ static int write_native_histogram_helper_definition(
 }
 
 static int write_java_histogram_helper(FILE* out, const string& atomName, const string& fieldName,
-                                       const os::statsd::HistogramBinOption& histBinOption) {
+                                       const os::statsd::HistogramBinOption& histBinOption,
+                                       const bool staticMethods) {
     int errorCount = 0;
 
     // Print method signature.
-    fprintf(out, "%*spublic static %s create%s_%sHistogram() {\n", 4, "", HISTOGRAM_STEM.c_str(),
-            snake_to_pascal(atomName).c_str(), snake_to_pascal(fieldName).c_str());
+    const char* methodPrefix = staticMethods ? "static " : "";
+    fprintf(out, "%*spublic %s%s create%s_%sHistogram() {\n", 4, "", methodPrefix,
+            HISTOGRAM_STEM.c_str(), snake_to_pascal(atomName).c_str(),
+            snake_to_pascal(fieldName).c_str());
 
     fprintf(out, "%*sreturn %s.create", 8, "", HISTOGRAM_STEM.c_str());
     if (histBinOption.has_generated_bins()) {
@@ -750,11 +753,13 @@ void write_java_usage(FILE* out, const string& method_name, const string& atom_c
     fprintf(out, ");<br>\n");
 }
 
-int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureInfoMap) {
+int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
+                                   const bool staticMethods) {
+    const char* methodPrefix = staticMethods ? "static " : "";
     for (auto signatureInfoMapIt = signatureInfoMap.begin();
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         // Print method signature.
-        fprintf(out, "    public static void write_non_chained(int code");
+        fprintf(out, "    public %svoid write_non_chained(int code", methodPrefix);
         vector<java_type_t> signature = signatureInfoMapIt->first;
         int argIndex = 1;
         for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
@@ -952,11 +957,13 @@ int write_cc_srcs_classes(FILE* out, const char* path, const vector<string>& exc
     return write_srcs_bodies(out, path, 0 /* indent */, excludeList, nullptr /* nameTransformer */);
 }
 
-int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet) {
+int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
+                                 const bool staticMethods) {
     int errors = 0;
     for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
         for (const auto& [fieldName, histBinOption] : atomDecl->fieldNameToHistBinOption) {
-            errors += write_java_histogram_helper(out, atomDecl->name, fieldName, histBinOption);
+            errors += write_java_histogram_helper(out, atomDecl->name, fieldName, histBinOption,
+                                                  staticMethods);
         }
     }
     return errors;
