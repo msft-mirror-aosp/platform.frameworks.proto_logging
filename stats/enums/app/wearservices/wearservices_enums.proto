@@ -259,13 +259,16 @@ enum NotificationGroupType {
 }
 
 // The style of the notification.
-// Next ID: 7
+// Next ID: 9
 enum NotificationStyle {
   // Unknown value.
   NOTIFICATION_STYLE_UNKNOWN = 0;
 
   // The notification has not specific any style.
   NOTIFICATION_STYLE_UNSPECIFIED = 1;
+
+  // All other notification styles not listed by this enum.
+  NOTIFICATION_STYLE_OTHER = 8;
 
   // The notification is InboxStyle.
   NOTIFICATION_STYLE_INBOX = 2;
@@ -281,6 +284,9 @@ enum NotificationStyle {
 
   // The notification is MediaStyle.
   NOTIFICATION_STYLE_MEDIA = 6;
+
+  // The notification is ProgressStyle.
+  NOTIFICATION_STYLE_PROGRESS = 7;
 }
 
 // The categories for the notification.
@@ -554,7 +560,7 @@ enum NotificationActionType {
 }
 
 // Defines the notification flow component for which the latency is to be calculated.
-// Next ID: 3
+// Next ID: 4
 enum NotificationFlowComponent {
   // Unknown value.
   NOTIFICATION_FLOW_COMPONENT_UNKNOWN = 0;
@@ -564,10 +570,13 @@ enum NotificationFlowComponent {
 
   // Notification flow representing flow when a notification is dismissed.
   NOTIFICATION_FLOW_COMPONENT_DISMISS_NOTIFICATION = 2;
+
+  // Notification flow representing flow when an action was executed.
+  NOTIFICATION_FLOW_COMPONENT_ACTION_EXECUTION = 3;
 }
 
 // Defines which component the latency is being calculated for.
-// Next ID: 4
+// Next ID: 7
 enum ComponentName {
   // Unknown value.
   COMPONENT_NAME_UNKNOWN = 0;
@@ -580,6 +589,15 @@ enum ComponentName {
 
   // The component is SysUI.
   COMPONENT_NAME_SYSUI = 3;
+
+  // The component is Framework.
+  COMPONENT_NAME_FRAMEWORK = 4;
+
+  // Components in one way RPC transfer.
+  COMPONENT_NAME_TRANSFER_ONE_WAY = 5;
+
+  // Components in a roundtrip RPC transfer.
+  COMPONENT_NAME_TRANSFER_ROUNDTRIP = 6;
 }
 
 // This enum depicts an action taken on a call
@@ -819,8 +837,54 @@ enum RemoteEventType {
   EVENT_TYPE_LOCALE_SETTINGS_DEEPLINK = 7;
 }
 
+// This enum depicts the state of the remote event.
+// Next ID: 13
+enum RemoteEventState {
+  // Depicts an unknown remote event state.
+  REMOTE_EVENT_STATE_UNKNOWN = 0;
+
+  // Depicts total number of times remote event API is invoked.
+  REMOTE_EVENT_API_INVOKED = 1;
+
+  // Depicts a successful remote event response.
+  REMOTE_EVENT_RESPONSE_SUCCESS = 2;
+
+  // Remote event with generic failure condition response which doesn't fail into any other
+  // condition.
+  REMOTE_EVENT_RESPONSE_FAILURE = 3;
+
+  // Remote event with failure response caused by caused by exceeding max message size.
+  REMOTE_EVENT_RESPONSE_MAX_SIZE_EXCEEDED = 4;
+
+  // Remote event with response caused by WearServices not being able to communicate with
+  // the Companion.
+  REMOTE_EVENT_RESPONSE_REMOTE_NOT_REACHABLE = 5;
+
+  // Remote event with response not being received within the timeout period.
+  REMOTE_EVENT_RESPONSE_TIMEOUT = 6;
+
+  // Remote event with response caused by a caller not having necessary permissions or signature
+  // to trigger this remote event.
+  REMOTE_EVENT_RESPONSE_SECURITY_EXCEPTION = 7;
+
+  // The RemoteEvent triggered by the caller is not recognized/supported by the Companion.
+  REMOTE_EVENT_RESPONSE_INVALID_REMOTE_EVENT_TYPE = 8;
+
+  // Failure when trying to execute the RemoteEvent on the phone.
+  REMOTE_EVENT_RESPONSE_REMOTE_EXECUTION_EXCEPTION = 9;
+
+  // Calling app exceeded the maximum number of allowed triggers for this remote event type.
+  REMOTE_EVENT_RESPONSE_MAX_REMOTE_EVENT_TRIGGERS_EXCEEDED = 10;
+
+  // Companion failed to deserialize the RemoteEvent object.
+  REMOTE_EVENT_RESPONSE_DESERIALIZATION_EXCEPTION = 11;
+
+  // Remote event with no connected Companion supports RemoteEvents response.
+  REMOTE_EVENT_RESPONSE_REMOTE_NOT_SUPPORTED = 12;
+}
+
 // This enum depicts different components of the bugreport flow
-// Next ID: 3
+// Next ID: 5
 enum BugreportComponent {
   // Depicts an unknown component
   BUGREPORT_COMPONENT_UNKNOWN = 0;
@@ -830,10 +894,16 @@ enum BugreportComponent {
 
   // Depicts the watch UI
   BUGREPORT_COMPONENT_WATCH_UI = 2;
+
+  // Depicts when the component is not set
+  BUGREPORT_COMPONENT_UNSET = 3;
+
+  // Atoms created by WCS auto upload feature
+  BUGREPORT_COMPONENT_WCS_AUTO_UPLOAD = 4;
 }
 
 // This enum depicts the result of the bugreport
-// Next ID: 3
+// Next ID: 4
 enum BugreportResult {
   // Depicts an unknown bugreport result
   BUGREPORT_RESULT_UNKNOWN = 0;
@@ -843,4 +913,17 @@ enum BugreportResult {
 
   // Depicts a failure bugreport result
   BUGREPORT_RESULT_FAILURE = 2;
+
+  // Depicts an empty bugreport result
+  BUGREPORT_RESULT_UNSET = 3;
+}
+
+// This enum depicts a bugreport event
+// Next ID: 5
+enum BugreportEvent {
+  EVENT_BUGREPORT_UNKNOWN = 0;
+  EVENT_BUGREPORT_REQUESTED = 1;
+  EVENT_BUGREPORT_TRIGGERED = 2;
+  EVENT_BUGREPORT_FINISHED = 3;
+  EVENT_BUGREPORT_RESULT_RECEIVED = 4;
 }

@@ -24,8 +24,12 @@ extend Atom {
   optional OnDevicePersonalizationApiCalled ondevicepersonalization_api_called =
             711 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
+extend Atom {
+    optional OnDevicePersonalizationTraceEvent ondevicepersonalization_trace_event =
+      952 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
+}
 /**
- * Logs when an OnDevicePersonalization api is called.
+ * Logs when a public ODP api is called.
  */
 message OnDevicePersonalizationApiCalled {
     enum OnDevicePersonalizationApiClassType {
@@ -77,4 +81,35 @@ message OnDevicePersonalizationApiCalled {
     optional int32 app_uid = 8 [(is_uid) = true];
     // Log the sdk package name that passed by app in API request.
     optional string sdk_package_name = 9;
+}
+
+/**
+ * Logs trace events from internal processing in the ODP service.
+ */
+message OnDevicePersonalizationTraceEvent {
+    enum TaskType {
+        TASK_TYPE_UNKNOWN = 0;
+        EXECUTE = 1;
+        RENDER = 2;
+        DOWNLOAD = 3;
+        WEBVIEW = 4;
+        TRAINING = 5;
+        MAINTENANCE = 6;
+        WEB_TRIGGER = 7;
+    }
+    enum EventType {
+        UNKNOWN = 0;
+        WRITE_REQUEST_LOG = 1;
+        WRITE_EVENT_LOG = 2;
+    }
+    // task type to trace for internal processing in ODP service
+    optional TaskType task_type = 1;
+    // event type to trace for internal processing in ODP service
+    optional EventType event_type = 2;
+    // status of the operation
+    optional int32 status = 3;
+    // end to end latency of the operation
+    optional int32 latency_millis = 4;
+    // isolated service package name
+    optional string service_package_name = 5;
 }
