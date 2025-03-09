@@ -458,10 +458,12 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
         if (javaType == JAVA_TYPE_UNKNOWN_OR_INVALID) {
             if (field.is_repeated()) {
                 print_error(field, "Repeated field type %s is not allowed for field: %s\n",
-                            field.type_name(), std::string(field.name()).c_str());
+                            std::string(field.type_name()).c_str(),
+                            std::string(field.name()).c_str());
             } else {
                 print_error(field, "Field type %s is not allowed for field: %s\n",
-                            field.type_name(), std::string(field.name()).c_str());
+                            std::string(field.type_name()).c_str(),
+                            std::string(field.name()).c_str());
             }
             errorCount++;
             continue;
