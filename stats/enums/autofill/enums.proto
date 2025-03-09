@@ -139,3 +139,24 @@ enum FieldClassificationRequestStatus {
   STATUS_FAIL = 2;
   STATUS_CANCELLED = 3;
 }
+
+// Enum for fill dialog not shown reason.
+enum FillDialogNotShownReason {
+  REASON_UNKNOWN = 0;
+  // Fill dialog has already been shown once since the last fill request.
+  REASON_FILL_DIALOG_DISABLED = 1;
+  REASON_SCREEN_HAS_CREDMAN_FIELD = 2;
+  REASON_LAST_TRIGGERED_ID_CHANGED = 3;
+  // Fill dialog is not shown because it kept waiting for IME animation to
+  // end.
+  REASON_WAIT_FOR_IME_ANIMATION = 4;
+  // Fill dialog's ready-to-show timestamp (relative to IME animation end time)
+  // exceeds the threshold defined by fill_dialog_timeout_ms.
+  REASON_TIMEOUT_SINCE_IME_ANIMATED = 5;
+  REASON_DELAY_AFTER_ANIMATION_END = 6;
+  // When fill dialog is ready to show, the IME animation is not ended or hasn't
+  // waited fill_dialog_min_wait_after_animation_end_ms yet. After the
+  // additional delay, its new ready-to-show timestamp (relative to IME
+  // animation end time) exceeds fill_dialog_timeout_ms.
+  REASON_TIMEOUT_AFTER_DELAY = 7;
+}

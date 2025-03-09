@@ -1357,6 +1357,13 @@ message Atom {
     extensions 1028; // BroadcastProcessed broadcast_processed
     extensions 1029; // ZramSetupExecuted zram_setup_executed
     extensions 1030; // SensitiveAppLockStateChanged sensitive_app_lock_state_changed
+    extensions 1031; // MobileDataDownloadLatencyReported mobile_data_download_latency_reported
+    extensions 1032; // OtpNotificationDisplayed otp_notification_displayed
+    extensions 1033; // XrRecorderSessionStatusReported xr_recorder_session_status_reported
+    extensions 1034; // EcmRestrictionQueryInCall ecm_restriction_query_in_call
+    extensions 1035; // CallWithEcmInteraction call_with_ecm_restriction
+    extensions 1036; // NfcExitFrameTableChanged nfc_exit_frame_table_changed
+    extensions 1037; // IntentRedirectBlocked intent_redirect_blocked
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
@@ -1595,6 +1602,7 @@ message Atom {
     extensions 10193; // WifiModuleInfo wifi_module_info
     extensions 10194; // WifiSettingInfo wifi_setting_info
     extensions 10195; // WifiComplexSettingInfo wifi_complex_setting_info
+    // Deprecated, use proxy_bytes_transfer_by_fg_bg (10200) instead.
     extensions 10196; // SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer
     extensions 10197; // WsStandaloneModeSnapshot ws_standalone_mode_snapshot
     extensions 10198; // WifiConfiguredNetworkInfo wifi_configured_network_info;
@@ -22595,7 +22603,7 @@ message MmsSmsDatabaseHelperOnUpgradeFailed {
  * Logged from:
  * frameworks/base/services/autofill/java/com/android/server/autofill/
  *
- * Next ID: 52
+ * Next ID: 55
  */
 message AutofillPresentationEventReported {
   enum PresentationEventResult {
@@ -22835,6 +22843,20 @@ message AutofillPresentationEventReported {
 
   // Count of times notifyViewEntered wasn't done due to pending authentication
   optional int32 notify_view_entered_ignored_auth_count = 51;
+
+  // Following three fields are only logged if improve_fill_dialog is enabled.
+  //
+  // Fill dialog not shown reason.
+  optional android.os.statsd.autofill.FillDialogNotShownReason
+    fill_dialog_not_shown_reason = 52;
+
+  // Timestamp (relative to session start) of when the fill dialog is ready to
+  // show.
+  optional int64 fill_dialog_ready_to_show_ms = 53;
+
+  // Timestamp (relative to session start) of when the IME animation is
+  // finished.
+  optional int64 ime_animation_finish_ms = 54;
 }
 
 // Tells how Autofill dataset was/will-be displayed.
