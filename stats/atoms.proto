@@ -1364,6 +1364,7 @@ message Atom {
     extensions 1035; // CallWithEcmInteraction call_with_ecm_restriction
     extensions 1036; // NfcExitFrameTableChanged nfc_exit_frame_table_changed
     extensions 1037; // IntentRedirectBlocked intent_redirect_blocked
+    extensions 1038; // NfcAutoTransactReported nfc_auto_transact_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
@@ -4511,6 +4512,17 @@ message BluetoothSocketConnectionStateChanged {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 10;
+    // Duration of socket connection in milliseconds
+    // Default 0, only logged when the state changes to SOCKET_CONNECTION_STATE_DISCONNECTED
+    optional int64 connection_duration_ms = 11;
+    // Error code of socket failures
+    // Use SOCKET_ERROR_NONE if no error
+    optional android.bluetooth.SocketErrorEnum error_code = 12;
+    // Whether this is a offload socket
+    // Offload socket utilizes offload stack running on a low-power processor for Bluetooth
+    // communication, while non-offload socket uses the main Bluetooth stack running on the
+    // application processor.
+    optional bool is_hardware_offload = 13;
 }
 
 /**
@@ -10820,8 +10832,8 @@ message GnssPsdsDownloadReported {
 /**
  * Logs when a NFC device's error occurred.
  * Logged from:
- *     system/nfc/src/nfc/nfc/nfc_ncif.cc
- *     packages/apps/Nfc/src/com/android/nfc/cardemulation/AidRoutingManager.java
+ *     packages/modules/Nfc/libnfc-nci/src/nfc/nfc/nfc_ncif.cc
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/AidRoutingManager.java
  */
 message NfcErrorOccurred {
     enum Type {
@@ -10844,7 +10856,7 @@ message NfcErrorOccurred {
 /**
  * Logs when a NFC device's state changed event
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/NfcService.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/NfcService.java
  */
 message NfcStateChanged {
     enum State {
@@ -10863,7 +10875,7 @@ message NfcStateChanged {
 /**
  * Logs when a NFC Beam Transaction occurred.
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/P2pLinkManager.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/P2pLinkManager.java
  */
 message NfcBeamOccurred {
     enum Operation {
@@ -10877,8 +10889,8 @@ message NfcBeamOccurred {
 /**
  * Logs when a NFC Card Emulation Transaction occurred.
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/cardemulation/HostEmulationManager.java
- *     packages/apps/Nfc/src/com/android/nfc/cardemulation/HostNfcFEmulationManager.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/HostEmulationManager.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/HostNfcFEmulationManager.java
  */
 message NfcCardemulationOccurred {
     enum Category {
@@ -10908,7 +10920,7 @@ message NfcCardemulationOccurred {
 /**
  * Logs when a NFC Tag event occurred.
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/NfcDispatcher.java
  */
 message NfcTagOccurred {
     enum Type {
@@ -10945,7 +10957,7 @@ message NfcTagOccurred {
 /**
  * Logs NFC tag type when tag occurred
  * Logged from:
- *     packages/apps/Nfc/nci/jni/NfcTag.cpp
+ *     packages/modules/Nfc/NfcNci/nci/jni/NfcTag.cpp
  */
 message NfcTagTypeOccurred {
     optional android.nfc.NfcTagType type = 1;
@@ -10954,7 +10966,7 @@ message NfcTagTypeOccurred {
 /**
  * Logs when Hce transaction triggered
  * Logged from:
- *     system/nfc/src/nfc/nfc/nfc_ncif.cc
+ *     packages/modules/Nfc/libnfc-nci/src/nfc/nfc/nfc_ncif.cc
  */
 message NfcHceTransactionOccurred {
     // The latency period(in microseconds) it took for the first HCE data
@@ -10965,7 +10977,7 @@ message NfcHceTransactionOccurred {
 /**
  * Logs when AID conflict occurred
  * Logged from:
- * packages/apps/Nfc/src/com/android/nfc/cardemulation/HostEmulationManager.java
+ * packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/HostEmulationManager.java
 */
 message NfcAIDConflictOccurred {
     optional string conflicting_aid = 1;
@@ -10974,7 +10986,7 @@ message NfcAIDConflictOccurred {
 /**
  * Logs when reader app conflict occurred
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/NfcDispatcher.java
 */
 message NfcReaderConflictOccurred {
 }
