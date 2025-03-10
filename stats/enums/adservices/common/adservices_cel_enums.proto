@@ -166,6 +166,9 @@ enum ErrorCode {
   // Error during future cancellation process.
   SPE_FUTURE_CANCELLATION_ERROR = 911;
 
+  // Error when JobScheduler tries to schedule a job but the app has scheduled more than 150 jobs.
+  SPE_JOB_SCHEDULING_FAILURE_ON_TOO_MANY_SCHEDULED_JOBS = 912;
+
   // Process Stable Flags Error: 931 - 940
   // The flag initialization takes too long and exceeds the threshold.
   PROCESS_STABLE_FLAGS_FLAG_INIT_TIMEOUT = 931;
