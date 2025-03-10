@@ -4511,6 +4511,17 @@ message BluetoothSocketConnectionStateChanged {
     // session for the same remote device.
     // Default: 0 if the device's metric id is unknown.
     optional int32 metric_id = 10;
+    // Duration of socket connection in milliseconds
+    // Default 0, only logged when the state changes to SOCKET_CONNECTION_STATE_DISCONNECTED
+    optional int64 connection_duration_ms = 11;
+    // Error code of socket failures
+    // Use SOCKET_ERROR_NONE if no error
+    optional android.bluetooth.SocketErrorEnum error_code = 12;
+    // Whether this is a offload socket
+    // Offload socket utilizes offload stack running on a low-power processor for Bluetooth
+    // communication, while non-offload socket uses the main Bluetooth stack running on the
+    // application processor.
+    optional bool is_hardware_offload = 13;
 }
 
 /**

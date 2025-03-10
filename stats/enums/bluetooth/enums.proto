@@ -145,6 +145,36 @@ enum SocketRoleEnum {
   SOCKET_ROLE_CONNECTION = 2;
 }
 
+enum SocketErrorEnum {
+  SOCKET_ERROR_UNKNOWN = 0;
+  SOCKET_ERROR_NONE = 1;
+  SOCKET_ERROR_SERVER_START_FAILURE = 2;
+  SOCKET_ERROR_CLIENT_INIT_FAILURE = 3;
+  SOCKET_ERROR_LISTEN_FAILURE = 4;
+  SOCKET_ERROR_CONNECTION_FAILURE = 5;
+  SOCKET_ERROR_OPEN_FAILURE = 6;
+  SOCKET_ERROR_OFFLOAD_SERVER_NOT_ACCEPTING = 7;
+  SOCKET_ERROR_OFFLOAD_HAL_OPEN_FAILURE = 8;
+  SOCKET_ERROR_SEND_TO_APP_FAILURE = 9;
+  SOCKET_ERROR_RECEIVE_DATA_FAILURE = 10;
+  SOCKET_ERROR_READ_SIGNALED_FAILURE = 11;
+  SOCKET_ERROR_WRITE_SIGNALED_FAILURE = 12;
+  // Server Channel Number (SCN) in RFCOMM is a dynamically assigned port-like identifier that
+  // allows clients to connect to a specific service on a Bluetooth device via the Service
+  // Discovery Protocol (SDP).
+  // This error occurs when the system fails to transmit the SCN to the application.
+  SOCKET_ERROR_SEND_SCN_FAILURE = 13;
+  // This error occurs when the system fails to allocate an SCN.
+  SOCKET_ERROR_SCN_ALLOCATION_FAILURE = 14;
+  // Service Discovery Protocol (SDP) is used to discover available services on remote devices and
+  // retrieve essential information, such as the Server Channel Number (SCN) for RFCOMM-based
+  // connections.
+  // This error occurs when the system fails to add an SDP record to the SDP database.
+  SOCKET_ERROR_ADD_SDP_FAILURE = 15;
+  // This error occurs when the SDP service discovery process fails to complete.
+  SOCKET_ERROR_SDP_DISCOVERY_FAILURE = 16;
+}
+
 enum L2capCocConnectionResult {
   RESULT_L2CAP_CONN_UNKNOWN = 0;
   RESULT_L2CAP_CONN_SUCCESS = 1;
