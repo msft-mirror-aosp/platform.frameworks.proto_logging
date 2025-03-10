@@ -1364,6 +1364,7 @@ message Atom {
     extensions 1035; // CallWithEcmInteraction call_with_ecm_restriction
     extensions 1036; // NfcExitFrameTableChanged nfc_exit_frame_table_changed
     extensions 1037; // IntentRedirectBlocked intent_redirect_blocked
+    extensions 1038; // NfcAutoTransactReported nfc_auto_transact_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
