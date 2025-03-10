@@ -10831,8 +10831,8 @@ message GnssPsdsDownloadReported {
 /**
  * Logs when a NFC device's error occurred.
  * Logged from:
- *     system/nfc/src/nfc/nfc/nfc_ncif.cc
- *     packages/apps/Nfc/src/com/android/nfc/cardemulation/AidRoutingManager.java
+ *     packages/modules/Nfc/libnfc-nci/src/nfc/nfc/nfc_ncif.cc
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/AidRoutingManager.java
  */
 message NfcErrorOccurred {
     enum Type {
@@ -10855,7 +10855,7 @@ message NfcErrorOccurred {
 /**
  * Logs when a NFC device's state changed event
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/NfcService.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/NfcService.java
  */
 message NfcStateChanged {
     enum State {
@@ -10874,7 +10874,7 @@ message NfcStateChanged {
 /**
  * Logs when a NFC Beam Transaction occurred.
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/P2pLinkManager.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/P2pLinkManager.java
  */
 message NfcBeamOccurred {
     enum Operation {
@@ -10888,8 +10888,8 @@ message NfcBeamOccurred {
 /**
  * Logs when a NFC Card Emulation Transaction occurred.
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/cardemulation/HostEmulationManager.java
- *     packages/apps/Nfc/src/com/android/nfc/cardemulation/HostNfcFEmulationManager.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/HostEmulationManager.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/HostNfcFEmulationManager.java
  */
 message NfcCardemulationOccurred {
     enum Category {
@@ -10919,7 +10919,7 @@ message NfcCardemulationOccurred {
 /**
  * Logs when a NFC Tag event occurred.
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/NfcDispatcher.java
  */
 message NfcTagOccurred {
     enum Type {
@@ -10956,7 +10956,7 @@ message NfcTagOccurred {
 /**
  * Logs NFC tag type when tag occurred
  * Logged from:
- *     packages/apps/Nfc/nci/jni/NfcTag.cpp
+ *     packages/modules/Nfc/NfcNci/nci/jni/NfcTag.cpp
  */
 message NfcTagTypeOccurred {
     optional android.nfc.NfcTagType type = 1;
@@ -10965,7 +10965,7 @@ message NfcTagTypeOccurred {
 /**
  * Logs when Hce transaction triggered
  * Logged from:
- *     system/nfc/src/nfc/nfc/nfc_ncif.cc
+ *     packages/modules/Nfc/libnfc-nci/src/nfc/nfc/nfc_ncif.cc
  */
 message NfcHceTransactionOccurred {
     // The latency period(in microseconds) it took for the first HCE data
@@ -10976,7 +10976,7 @@ message NfcHceTransactionOccurred {
 /**
  * Logs when AID conflict occurred
  * Logged from:
- * packages/apps/Nfc/src/com/android/nfc/cardemulation/HostEmulationManager.java
+ * packages/modules/Nfc/NfcNci/src/com/android/nfc/cardemulation/HostEmulationManager.java
 */
 message NfcAIDConflictOccurred {
     optional string conflicting_aid = 1;
@@ -10985,7 +10985,7 @@ message NfcAIDConflictOccurred {
 /**
  * Logs when reader app conflict occurred
  * Logged from:
- *     packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java
+ *     packages/modules/Nfc/NfcNci/src/com/android/nfc/NfcDispatcher.java
 */
 message NfcReaderConflictOccurred {
 }
