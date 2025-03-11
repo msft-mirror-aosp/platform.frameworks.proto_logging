@@ -88,7 +88,9 @@ message PhotopickerApiInfoReported {
   optional bool is_ordered_selection_set = 8;
   optional bool is_accent_color_set = 9;
   optional bool is_default_tab_set = 10;
-  optional bool is_search_enabled = 11;
+  optional bool is_search_enabled = 11 [deprecated = true];
+  optional bool is_cloud_search_enabled = 12;
+  optional bool is_local_search_enabled = 13;
 }
 
 /*
@@ -197,9 +199,9 @@ message PhotopickerSearchInfoReported {
   optional int32 session_id = 1;
   optional android.photopicker.SearchMethod search_method = 2;
   // items picked in a particular search method
-  optional int32 picked_items = 3;
-  optional int32 start_time_millis = 4;
-  optional int32 end_time_millis = 5;
+  optional int32 picked_items = 3 [deprecated = true];
+  optional int32 start_time_millis = 4 [deprecated = true];
+  optional int32 end_time_millis = 5 [deprecated = true];
 }
 
 /*

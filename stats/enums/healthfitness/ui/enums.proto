@@ -396,7 +396,27 @@ enum ElementId {
     SEE_COMPATIBLE_APPS_BANNER_DISMISS_BUTTON = 274;
     SEE_COMPATIBLE_APPS_BANNER_APP_STORE_BUTTON = 275;
 
-    // Next available: 276;
+    // Start of PHR
+    // Onboarding page
+    ONBOARDING_MESSAGE_WITH_PHR = 276;
+    // Home page
+    BROWSE_HEALTH_RECORDS_BUTTON = 277;
+    // Combined app access page
+    FITNESS_PERMISSIONS_BUTTON = 279;
+    MEDICAL_PERMISSIONS_BUTTON = 280;
+    REMOVE_ALL_PERMISSIONS_BUTTON = 281;
+    // Lock screen banner
+    LOCK_SCREEN_BANNER = 282;
+    LOCK_SCREEN_BANNER_BUTTON = 283;
+    LOCK_SCREEN_BANNER_DISMISS_BUTTON = 284;
+    // Raw Fhir sceen
+    RAW_FHIR_RESOURCE = 285;
+    // Request write medical permission screen
+    ALLOW_WRITE_HEALTH_RECORDS_BUTTON = 286;
+    CANCEL_WRITE_HEALTH_RECORDS_BUTTON = 287;
+    // End of PHR
+
+    // Next available: 288;
 }
 
 enum PageId {
@@ -454,7 +474,19 @@ enum PageId {
     APP_DATA_PAGE = 44;
     APP_ENTRIES_PAGE = 45;
 
-    // Next available: 46;
+    // PHR
+    ALL_MEDICAL_DATA_PAGE = 46;
+    TAB_MEDICAL_ENTRIES_PAGE = 47;
+    TAB_MEDICAL_ACCESS_PAGE = 48;
+    RAW_FHIR_PAGE = 49;
+    REQUEST_MEDICAL_PERMISSIONS_PAGE = 50;
+    COMBINED_APP_ACCESS_PAGE = 51;
+    MEDICAL_APP_ACCESS_PAGE = 52;
+    SETTINGS_MANAGE_COMBINED_APP_PERMISSIONS_PAGE = 53;
+    SETTINGS_MANAGE_MEDICAL_APP_PERMISSIONS_PAGE = 54;
+    REQUEST_WRITE_MEDICAL_PERMISSION_PAGE = 55;
+
+    // Next available: 56;
 }
 
 enum Action {

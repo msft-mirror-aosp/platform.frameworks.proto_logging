@@ -67,10 +67,8 @@ message FirstOverlayStateChanged {
     }
 
     optional OverlayState overlay_state = 1;
-    // The time when first overlay is shown, in milliseconds since the system was booted.
-    optional int64 time_to_overlay_shown_ms = 2;
-    // The time when first overlay is dismissed, in milliseconds since the system was booted.
-    optional int64 time_to_overlay_dismissed_ms = 3;
+    // The time when first overlay state change has occurred, in milliseconds since the system was booted.
+    optional int64 state_change_time_ms = 2;
     // Indicates whether the lock screen is enabled
-    optional bool is_locked_screen_active = 4;
+    optional bool is_locked_screen_active = 3;
 }
