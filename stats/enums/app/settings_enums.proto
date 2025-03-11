@@ -2165,6 +2165,14 @@ enum Action {
     // ACTION: Settings > Security & privacy > Device unlock > Face
     // CATEGORY: SETTINGS
     ACTION_FACE_REQUIRE_ATTENTION_FROM_SETTINGS = 2023;
+
+    // ACTION: Settings > Sound & vibration > Media > Pin media player
+    // CATEGORY: SETTINGS
+    ACTION_PIN_MEDIA_PLAYER = 2024;
+
+    // ACTION: Settings > Sound & vibration > Media > Show media on lock screen
+    // CATEGORY: SETTINGS
+    ACTION_SHOW_MEDIA_ON_LOCK_SCREEN = 2025;
 }
 
 /**
