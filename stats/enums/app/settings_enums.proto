@@ -5539,6 +5539,15 @@ enum PageId {
     // OPEN: Settings > Accessibility > Magnification > Cursor following
     // CATEGORY: SETTINGS
     DIALOG_MAGNIFICATION_CURSOR_FOLLOWING = 2152;
+
+    // OPEN: Settings > Display > Widgets on lock screen
+    // CATEGORY: SETTINGS
+    WIDGETS_ON_LOCK_SCREEN = 2153;
+
+    // OPEN: Settings > Display > Widgets on lockscreen > When to automatically
+    // show
+    // CATEGORY: SETTINGS
+    WHEN_TO_SHOW_WIDGETS_ON_LOCKSCREEN = 2154;
 }
 
 // Battery Saver schedule types.
