@@ -4,7 +4,7 @@ package android.os.statsd.corenetworking.certificatetransparency;
 
 option java_package = "com.android.os.corenetworking.certificatetransparency";
 
-// Next ID: 17
+// Next ID: 18
 enum LogListUpdateStatus {
     STATUS_UNKNOWN = 0;
     // Log list was successfully updated.
@@ -39,6 +39,8 @@ enum LogListUpdateStatus {
     FAILURE_LOG_LIST_INVALID = 15;
     // Public key is not in the PEM allowlist.
     FAILURE_PUBLIC_KEY_NOT_ALLOWED = 16;
+    // Public key is invalid (e.g. wrong format).
+    FAILURE_PUBLIC_KEY_INVALID = 17;
     // Device is waiting for a Wi-Fi connection to proceed with the download, as
     // it exceeds the size limit for downloads over the mobile network.
     PENDING_WAITING_FOR_WIFI = 11;
