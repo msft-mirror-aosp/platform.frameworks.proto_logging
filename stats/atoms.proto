@@ -1368,6 +1368,7 @@ message Atom {
     extensions 1039; // AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated
     extensions 1040; // AdvancedProtectionStateChanged advanced_protection_state_changed
     extensions 1041; // AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed
+    extensions 1042; // ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
