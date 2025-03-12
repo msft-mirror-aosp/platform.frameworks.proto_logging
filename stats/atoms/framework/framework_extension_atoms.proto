@@ -25,6 +25,7 @@ import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
 import "frameworks/proto_logging/stats/enums/framework/compat/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
+import "frameworks/proto_logging/stats/enums/security/advancedprotection/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -71,6 +72,8 @@ extend Atom {
     optional AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated =
             1039 [(module) = "framework"];
     optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
+    optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
+    optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
 }
 
 /**
@@ -1252,5 +1255,45 @@ message WidgetMemoryStats {
 
     // The bitmap memory usage in bytes.
     optional int64 bitmap_memory_bytes = 3;
+}
+
+
+/**
+ * Reports that the Advanced Protection setting has changed.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/AdvancedProtectionService.java
+ * Estimated Logging Rate:
+ *   Peak: 2 times per device per day. | Avg: 1 time per device (total)
+ */
+message AdvancedProtectionStateChanged {
+    // The new state of Advanced Protection
+    optional bool enabled = 1;
+    // The number of hours since the last time this atom was logged
+    optional int32 hours_since_last_change = 2;
+    // The last dialog shown.
+    // AdvancedProtectionSupportDialogDisplayed.FeatureId
+    optional android.security.advancedprotection.FeatureId last_dialog_feature_id = 3;
+    // Why the last dialog was shown
+    optional android.security.advancedprotection.DialogueType last_dialogue_type = 4;
+    // Whether the learn more button was clicked in the last dialog shown
+    optional bool last_dialog_learn_more_clicked = 5;
+    optional int32 last_dialog_hours_since_enabled = 6;
+}
+
+/**
+ * Reports that the Advanced Protection support dialog has been displayed.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/AdvancedProtectionService.java
+ * Estimated Logging Rate:
+ *   Peak: 10 times per device per day. | Avg: <1 time per device per day.
+ */
+message AdvancedProtectionSupportDialogDisplayed {
+    // The feature id of the dialog shown
+    optional android.security.advancedprotection.FeatureId feature_id = 1;
+    // Why the dialog was shown
+    optional android.security.advancedprotection.DialogueType dialogue_type = 2;
+    // Whether the learn more button was clicked in the dialog
+    optional bool learn_more_clicked = 3;
+    optional int32 hours_since_enabled = 4;
 }
 

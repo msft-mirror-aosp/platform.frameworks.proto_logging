@@ -280,6 +280,16 @@ enum ImeRequestPhaseEnum {
     PHASE_WM_UPDATE_DISPLAY_WINDOW_REQUESTED_VISIBLE_TYPES = 69;
     // The requestedVisibleTypes have not been changed, so this request is not continued.
     PHASE_WM_REQUESTED_VISIBLE_TYPES_NOT_CHANGED = 70;
+    // Updating the currently animating types on the client side.
+    PHASE_CLIENT_UPDATE_ANIMATING_TYPES = 71;
+    // Updating the animating types in the WindowState on the WindowManager side.
+    PHASE_WM_UPDATE_ANIMATING_TYPES = 72;
+    // Animating types of the WindowState have changed, now sending them to state controller.
+    PHASE_WM_WINDOW_ANIMATING_TYPES_CHANGED = 73;
+    // ImeInsetsSourceProvider got notified that the hide animation is finished.
+    PHASE_WM_NOTIFY_HIDE_ANIMATION_FINISHED = 74;
+    // The control target reported its animatingTypes back to WindowManagerService.
+    PHASE_WM_UPDATE_DISPLAY_WINDOW_ANIMATING_TYPES = 75;
 
 }
 

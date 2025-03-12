@@ -2165,6 +2165,14 @@ enum Action {
     // ACTION: Settings > Security & privacy > Device unlock > Face
     // CATEGORY: SETTINGS
     ACTION_FACE_REQUIRE_ATTENTION_FROM_SETTINGS = 2023;
+
+    // ACTION: Settings > Sound & vibration > Media > Pin media player
+    // CATEGORY: SETTINGS
+    ACTION_PIN_MEDIA_PLAYER = 2024;
+
+    // ACTION: Settings > Sound & vibration > Media > Show media on lock screen
+    // CATEGORY: SETTINGS
+    ACTION_SHOW_MEDIA_ON_LOCK_SCREEN = 2025;
 }
 
 /**
@@ -5539,6 +5547,15 @@ enum PageId {
     // OPEN: Settings > Accessibility > Magnification > Cursor following
     // CATEGORY: SETTINGS
     DIALOG_MAGNIFICATION_CURSOR_FOLLOWING = 2152;
+
+    // OPEN: Settings > Display > Widgets on lock screen
+    // CATEGORY: SETTINGS
+    WIDGETS_ON_LOCK_SCREEN = 2153;
+
+    // OPEN: Settings > Display > Widgets on lockscreen > When to automatically
+    // show
+    // CATEGORY: SETTINGS
+    WHEN_TO_SHOW_WIDGETS_ON_LOCKSCREEN = 2154;
 }
 
 // Battery Saver schedule types.
