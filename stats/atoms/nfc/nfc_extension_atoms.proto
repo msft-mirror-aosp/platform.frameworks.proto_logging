@@ -28,6 +28,7 @@ extend Atom {
     optional NfcFieldChanged nfc_field_changed = 856 [(module) = "nfc"];
     optional NfcPollingLoopNotificationReported  nfc_polling_loop_notification_reported = 857 [(module) = "nfc"];
     optional NfcProprietaryCapabilitiesReported  nfc_proprietary_capabilities_reported = 858 [(module) = "nfc"];
+    optional NfcExitFrameTableChanged nfc_exit_frame_table_changed = 1036 [(module) = "nfc"];
 }
 
 message NfcObserveModeStateChanged {
@@ -84,4 +85,9 @@ message NfcProprietaryCapabilitiesReported {
   optional bool is_power_saving_mode_supported = 3;
   optional bool is_autotransact_polling_loop_filter_supported = 4;
   optional int32 number_of_exit_frames_supported = 5;
+}
+
+message NfcExitFrameTableChanged {
+  optional int32 table_size = 1;      // the number of entries in the table
+  optional int32 timeout_millis = 2;  // timeout chosen to restore observe mode (ms)
 }
