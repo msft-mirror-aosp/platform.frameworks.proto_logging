@@ -101,7 +101,7 @@ message LauncherImpressionEventV2 {
 /**
  * Logs for Display Switch Latency Tracking.
  *
- * Next Tag: 22
+ * Next Tag: 24
 */
 message DisplaySwitchLatencyTracked {
 
@@ -157,6 +157,8 @@ message DisplaySwitchLatencyTracked {
     optional int32 ondrawn_to_onscreenturnedon_ms = 21;
     // Result of latency tracking - was it successful or what went wrong
     optional TrackingResult tracking_result = 22;
+    // Status of screen wakelock in the system
+    optional ScreenWakelockStatus screen_wakelock_status = 23;
 
     enum StateEnum {
       // The device is in none of the above mentioned states.
@@ -181,6 +183,15 @@ message DisplaySwitchLatencyTracked {
       FREEFORM_APPS = 8;
       // Screen is off currently.
       SCREEN_OFF = 9;
+    }
+
+    enum ScreenWakelockStatus {
+      // Unknown status
+      SCREEN_WAKELOCK_STATUS_UNKNOWN = 0;
+      // There are no screen wakelocks causing the screen to be on
+      SCREEN_WAKELOCK_STATUS_NO_WAKELOCKS = 1;
+      // There are wakelocks causing the screen to be on
+      SCREEN_WAKELOCK_STATUS_HAS_SCREEN_WAKELOCKS = 2;
     }
 
     enum TrackingResult {
