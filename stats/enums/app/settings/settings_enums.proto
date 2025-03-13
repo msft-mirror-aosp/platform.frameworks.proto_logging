@@ -2173,6 +2173,14 @@ enum Action {
     // ACTION: Settings > Sound & vibration > Media > Show media on lock screen
     // CATEGORY: SETTINGS
     ACTION_SHOW_MEDIA_ON_LOCK_SCREEN = 2025;
+
+    // ACTION: Settings > Network & Internet > Adaptive connectivity > Auto-switch Wi-Fi to Cellular
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_WIFI_SCORER = 2026;
+
+    // ACTION: Settings > Network & Internet > Adaptive connectivity > Auto-switch mobile network for battery life
+    // CATEGORY: SETTINGS
+    ACTION_ADAPTIVE_MOBILE_NETWORK = 2027;
 }
 
 /**
