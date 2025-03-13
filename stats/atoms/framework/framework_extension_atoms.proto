@@ -74,6 +74,7 @@ extend Atom {
     optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
     optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
     optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
+    optional ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server = 1042 [(module) = "framework"];
 }
 
 /**
@@ -1138,6 +1139,22 @@ message IntentRedirectBlocked {
     INTENT_REDIRECT_ABORT_INTENT_FIREWALL_START_ACTIVITY = 5;
     INTENT_REDIRECT_ABORT_PERMISSION_POLICY_START_ACTIVITY = 6;
   }
+}
+
+/**
+ * [Pushed atom] Logged when extra intent keys have to be collected on the system server.
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *      #addCreatorToken
+ *
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 0 times per device per day.
+ */
+message ExtraIntentKeysCollectedOnServer {
+  // creator uid
+  optional int32 creator_uid = 1 [(is_uid) = true];
 }
 
 /**
