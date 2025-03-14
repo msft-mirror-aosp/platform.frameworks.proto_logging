@@ -49,3 +49,10 @@ enum NfcTagType {
     TAG_MIFARE_CLASSIC = 7;
     TAG_KOVIO_BARCODE = 8;
 }
+
+// Proprietary NFC Frame Types
+enum NfcProprietaryFrameType {
+    NFC_FRAME_UNKNOWN = 0;
+    NFC_FRAME_ECP_V1 = 1;
+    NFC_FRAME_ECP_V2 = 2;
+}
