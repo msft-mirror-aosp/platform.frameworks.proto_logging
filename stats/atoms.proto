@@ -208,7 +208,7 @@ message Atom {
         WifiMulticastLockStateChanged wifi_multicast_lock_state_changed = 53 [(module) = "wifi"];
         AppStartMemoryStateCaptured app_start_memory_state_captured = 55 [(module) = "framework"];
         ShutdownSequenceReported shutdown_sequence_reported = 56 [(module) = "framework"];
-        BootSequenceReported boot_sequence_reported = 57;
+        BootSequenceReported boot_sequence_reported = 57 [(module) = "bootstats"];
         OverlayStateChanged overlay_state_changed =
                 59 [(module) = "framework", (module) = "statsdtest"];
         ForegroundServiceStateChanged foreground_service_state_changed
@@ -466,11 +466,13 @@ message Atom {
         MediaProviderIdleMaintenanceFinished media_provider_idle_maintenance_finished =
             237 [(module) = "mediaprovider"];
         RebootEscrowRecoveryReported reboot_escrow_recovery_reported = 238 [(module) = "framework"];
-        BootTimeEventDuration boot_time_event_duration_reported = 239 [(module) = "framework"];
+        BootTimeEventDuration boot_time_event_duration_reported =
+                239 [(module) = "framework", (module) = "bootstats"];
         BootTimeEventElapsedTime boot_time_event_elapsed_time_reported =
-                240 [(module) = "framework"];
-        BootTimeEventUtcTime boot_time_event_utc_time_reported = 241;
-        BootTimeEventErrorCode boot_time_event_error_code_reported = 242 [(module) = "framework"];
+                240 [(module) = "framework", (module) = "bootstats"];
+        BootTimeEventUtcTime boot_time_event_utc_time_reported = 241 [(module) = "bootstats"];
+        BootTimeEventErrorCode boot_time_event_error_code_reported =
+                242 [(module) = "framework", (module) = "bootstats"];
         UserspaceRebootReported userspace_reboot_reported = 243 [(module) = "framework"];
         NotificationReported notification_reported = 244 [(module) = "framework"];
         sysui.NotificationPanelReported notification_panel_reported = 245 [(module) = "sysui"];
