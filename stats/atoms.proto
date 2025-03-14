@@ -1369,6 +1369,8 @@ message Atom {
     extensions 1040; // AdvancedProtectionStateChanged advanced_protection_state_changed
     extensions 1041; // AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed
     extensions 1042; // ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server
+    extensions 1043; // PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported
+    extensions 1044; // PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
