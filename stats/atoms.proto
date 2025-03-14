@@ -1331,6 +1331,7 @@ message Atom {
     extensions 1015; // ZramMaintenanceExecuted zram_maintenance_executed
     extensions 1021; // HearingDeviceActiveEventReported hearing_device_active_event_reported
     extensions 1029; // ZramSetupExecuted zram_setup_executed
+    extensions 1036; // NfcExitFrameTableChanged nfc_exit_frame_table_changed
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
