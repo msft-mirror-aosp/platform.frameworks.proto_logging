@@ -75,6 +75,7 @@ extend Atom {
     optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
     optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
     optional ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server = 1042 [(module) = "framework"];
+    optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
 }
 
 /**
@@ -1314,3 +1315,13 @@ message AdvancedProtectionSupportDialogDisplayed {
     optional int32 hours_since_enabled = 4;
 }
 
+/** Pull atom for the current state of Advanced Protection.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/AdvancedProtectionService.java
+ * Estimated Logging Rate:
+ *   Peak: 1 times per device per day. | Avg: <1 time per device per day.
+*/
+message AdvancedProtectionStateInfo {
+    optional bool enabled = 1;
+    optional int32 hours_since_last_change = 2;
+}
