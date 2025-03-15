@@ -177,6 +177,9 @@ enum UiEvent {
   UI_LOADED_SEARCH_SUGGESTIONS = 42;
   UI_LOADED_SEARCH_RESULTS = 43;
   UI_LOADED_EMPTY_STATE = 44;
+  PICKER_TRANSCODING_STARTED = 45;
+  PICKER_TRANSCODING_FINISHED = 46;
+  PICKER_TRANSCODING_FAILED = 47;
 }
 
 /*
@@ -258,4 +261,24 @@ enum SearchMethod {
   SUGGESTED_SEARCHES = 2;
   UNSET_SEARCH_METHOD = 3;
   CATEGORY_SEARCH = 4;
+}
+
+/*
+ Different video HDR formats
+ */
+enum AppMediaCapabilityHdrType {
+  TYPE_UNSPECIFIED= 0;
+  TYPE_DOLBY_VISION = 1;
+  TYPE_HDR10 = 2;
+  TYPE_HDR10_PLUS = 3;
+  TYPE_HLG = 4;
+}
+
+/*
+ Different video mime types
+*/
+enum VideoMimeType {
+  MIME_UNSPECIFIED = 0;
+  MIME_DOLBY = 1;
+  MIME_HEVC = 2;
 }

@@ -20,6 +20,7 @@ package android.os.statsd.nfc;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/nfc/enums.proto";
 
 option java_package = "com.android.nfc";
 
@@ -29,6 +30,7 @@ extend Atom {
     optional NfcPollingLoopNotificationReported  nfc_polling_loop_notification_reported = 857 [(module) = "nfc"];
     optional NfcProprietaryCapabilitiesReported  nfc_proprietary_capabilities_reported = 858 [(module) = "nfc"];
     optional NfcExitFrameTableChanged nfc_exit_frame_table_changed = 1036 [(module) = "nfc"];
+    optional NfcAutoTransactReported nfc_auto_transact_reported = 1038 [(module) = "nfc"];
 }
 
 message NfcObserveModeStateChanged {
@@ -43,6 +45,7 @@ message NfcObserveModeStateChanged {
     WALLET_ROLE_HOLDER = 1;
     FOREGROUND_APP = 2;
     AUTO_TRANSACT = 3;
+    AUTO_TRANSACT_NFCC = 4;
   }
 
   optional State state = 1;
@@ -90,4 +93,17 @@ message NfcProprietaryCapabilitiesReported {
 message NfcExitFrameTableChanged {
   optional int32 table_size = 1;      // the number of entries in the table
   optional int32 timeout_millis = 2;  // timeout chosen to restore observe mode (ms)
+}
+
+message NfcAutoTransactReported {
+  enum AutoTransactProcessor {
+    PROCESSOR_UNKNOWN = 0;
+    HOST = 1;
+    NFCC = 2;
+  }
+
+  optional AutoTransactProcessor auto_transact_processor = 1;
+  // This measures the number of bytes in the frame that triggered the auto-transact.
+  optional int32 frame_size = 2;
+  optional android.nfc.NfcProprietaryFrameType frame_type = 3;
 }

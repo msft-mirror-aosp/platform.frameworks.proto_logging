@@ -393,6 +393,11 @@ message LeAppScanStateChanged {
   optional bool is_app_dead = 12;
   // App importance compared to foreground service when the scan started or stopped.
   optional android.bluetooth.le.AppImportance app_importance = 13;
+  // The Attribution tag to identify the last caller in the attribution chain, which could be
+  // missing in attribution_node due to incomplete attribution in the Worksource.
+  // Missing tag leads to incomplete attribution data.
+  optional string attribution_tag = 14;
+
 }
 
 /**
@@ -420,6 +425,10 @@ message LeRadioScanStopped {
   // Importance of app with most aggressive scanning parameters compared to foreground service when
   // the radio scan started.
   optional android.bluetooth.le.AppImportance app_importance = 8;
+  // The Attribution tag to identify the last caller in the attribution chain, which could be
+  // missing in attribution_node due to incomplete attribution in the Worksource.
+  // Missing tag leads to incomplete attribution data.
+  optional string attribution_tag = 9;
 }
 
 /**
@@ -437,6 +446,10 @@ message LeScanResultReceived {
   // True for STATE_ON, false for any other state as defined in
   // android.view.Display.
   optional bool is_screen_on = 4;
+  // The Attribution tag to identify the last caller in the attribution chain, which could be
+  // missing in attribution_node due to incomplete attribution in the Worksource.
+  // Missing tag leads to incomplete attribution data.
+  optional string attribution_tag = 5;
 }
 
 
@@ -458,6 +471,10 @@ message LeScanAbused{
   // getTotalNumOfTrackableAdvertisements() in AdapterService.java for
   // REASON_TRACKING_HW_FILTER_NOT_AVAILABLE.
   optional int64 le_scan_abuse_reason_details = 4;
+  // The Attribution tag to identify the last caller in the attribution chain, which could be
+  // missing in attribution_node due to incomplete attribution in the Worksource.
+  // Missing tag leads to incomplete attribution data.
+  optional string attribution_tag = 5;
 }
 
 /**
@@ -490,6 +507,10 @@ message LeAdvStateChanged {
   optional int64 adv_duration_ms = 10;
   // App importance compared to foreground service when the advertisement started or stopped.
   optional android.bluetooth.le.AppImportance app_importance = 11;
+  // The Attribution tag to identify the last caller in the attribution chain, which could be
+  // missing in attribution_node due to incomplete attribution in the Worksource.
+  // Missing tag leads to incomplete attribution data.
+  optional string attribution_tag = 12;
 }
 
 /**
@@ -504,6 +525,10 @@ message LeAdvErrorReported {
   optional android.bluetooth.le.LeAdvOpCode le_adv_op_code = 2;
   // The status code of internal state.
   optional android.bluetooth.le.LeAdvStatusCode status_code = 3;
+  // The Attribution tag to identify the last caller in the attribution chain, which could be
+  // missing in attribution_node due to incomplete attribution in the Worksource.
+  // Missing tag leads to incomplete attribution data.
+  optional string attribution_tag = 4;
 }
 
 /**
