@@ -227,10 +227,10 @@ message Atom {
                 68 [(module) = "bluetooth"];
         GpsSignalQualityChanged gps_signal_quality_changed = 69 [(module) = "framework"];
         UsbConnectorStateChanged usb_connector_state_changed = 70 [(module) = "framework"];
-        SpeakerImpedanceReported speaker_impedance_reported = 71;
-        HardwareFailed hardware_failed = 72;
-        PhysicalDropDetected physical_drop_detected = 73;
-        ChargeCyclesReported charge_cycles_reported = 74;
+        SpeakerImpedanceReported speaker_impedance_reported = 71 [(module) = "statshidl"];
+        HardwareFailed hardware_failed = 72 [(module) = "statshidl"];
+        PhysicalDropDetected physical_drop_detected = 73 [(module) = "statshidl"];
+        ChargeCyclesReported charge_cycles_reported = 74 [(module) = "statshidl"];
         MobileConnectionStateChanged mobile_connection_state_changed = 75 [(module) = "telephony"];
         MobileRadioTechnologyChanged mobile_radio_technology_changed = 76 [(module) = "telephony"];
         UsbDeviceAttached usb_device_attached = 77 [(module) = "framework"];
@@ -250,9 +250,9 @@ message Atom {
             (module) = "sysui",
             (module) = "mediaprovider"
         ];
-        BatteryHealthSnapshot battery_health_snapshot = 91;
-        SlowIo slow_io = 92;
-        BatteryCausedShutdown battery_caused_shutdown = 93;
+        BatteryHealthSnapshot battery_health_snapshot = 91 [(module) = "statshidl"];
+        SlowIo slow_io = 92 [(module) = "statshidl"];
+        BatteryCausedShutdown battery_caused_shutdown = 93 [(module) = "statshidl"];
         PhoneServiceStateChanged phone_service_state_changed = 94 [(module) = "framework"];
         PhoneStateChanged phone_state_changed = 95 [(module) = "framework"];
         UserRestrictionChanged user_restriction_changed = 96;
@@ -302,7 +302,7 @@ message Atom {
         LowStorageStateChanged low_storage_state_changed = 130 [(module) = "framework"];
         GnssNfwNotificationReported gnss_nfw_notification_reported = 131 [(module) = "framework"];
         GnssConfigurationReported gnss_configuration_reported = 132 [(module) = "framework"];
-        UsbPortOverheatEvent usb_port_overheat_event_reported = 133;
+        UsbPortOverheatEvent usb_port_overheat_event_reported = 133 [(module) = "statshidl"];
         NfcErrorOccurred nfc_error_occurred = 134 [(module) = "nfc"];
         NfcStateChanged nfc_state_changed = 135 [(module) = "nfc"];
         NfcBeamOccurred nfc_beam_occurred = 136 [(module) = "nfc"];
@@ -316,7 +316,7 @@ message Atom {
         AttentionManagerServiceResultReported attention_manager_service_result_reported =
                 143 [(module) = "framework"];
         AdbConnectionChanged adb_connection_changed = 144 [(module) = "framework"];
-        SpeechDspStatReported speech_dsp_stat_reported = 145;
+        SpeechDspStatReported speech_dsp_stat_reported = 145 [(module) = "statshidl"];
         UsbContaminantReported usb_contaminant_reported = 146 [(module) = "framework"];
         WatchdogRollbackOccurred watchdog_rollback_occurred =
                 147 [(module) = "framework", (module) = "crashrecovery", (module) = "statsd"];
@@ -1369,6 +1369,8 @@ message Atom {
     extensions 1040; // AdvancedProtectionStateChanged advanced_protection_state_changed
     extensions 1041; // AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed
     extensions 1042; // ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server
+    extensions 1043; // PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported
+    extensions 1044; // PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
@@ -1648,6 +1650,7 @@ message Atom {
     extensions 10233; // ZramBdStatMmd zram_bd_stat_mmd
     extensions 10234; // WidgetMemoryStats
     extensions 10235; // TelecomEventStats telecom_event_stats
+    extensions 10236; // AdvancedProtectionStateInfo advanced_protection_state_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.

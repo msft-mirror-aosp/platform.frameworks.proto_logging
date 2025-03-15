@@ -290,6 +290,8 @@ enum ImeRequestPhaseEnum {
     PHASE_WM_NOTIFY_HIDE_ANIMATION_FINISHED = 74;
     // The control target reported its animatingTypes back to WindowManagerService.
     PHASE_WM_UPDATE_DISPLAY_WINDOW_ANIMATING_TYPES = 75;
+    // InsetsController received a control for the IME.
+    PHASE_CLIENT_ON_CONTROLS_CHANGED = 76;
 
 }
 
