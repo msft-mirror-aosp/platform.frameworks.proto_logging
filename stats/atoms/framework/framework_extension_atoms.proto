@@ -25,6 +25,7 @@ import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
 import "frameworks/proto_logging/stats/enums/framework/compat/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
+import "frameworks/proto_logging/stats/enums/security/advancedprotection/enums.proto";
 
 option java_package = "com.android.os.framework";
 
@@ -68,7 +69,13 @@ extend Atom {
     optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
     optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
     optional IntentRedirectBlocked intent_redirect_blocked = 1037 [(module) = "framework"];
+    optional AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated =
+            1039 [(module) = "framework"];
     optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
+    optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
+    optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
+    optional ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server = 1042 [(module) = "framework"];
+    optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
 }
 
 /**
@@ -836,6 +843,20 @@ message DeviceIdleTempAllowlistUpdated {
 }
 
 /**
+ * Records Bitmap allocations.
+ *
+ * Logged via Hummingbird for probes at android.graphics.Bitmap constructor.
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 times in a minute | Avg: O(hundreds) per device per day
+ */
+message AndroidGraphicsBitmapAllocated {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 width = 2;
+    optional int32 height = 3;
+}
+
+/**
  * [Pushed Atom] Logs when an AppOp is accessed through noteOp, startOp, finishOp and that access
  * history can be stored in the AppOp discrete access data store.
  *
@@ -1122,6 +1143,22 @@ message IntentRedirectBlocked {
 }
 
 /**
+ * [Pushed atom] Logged when extra intent keys have to be collected on the system server.
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *      #addCreatorToken
+ *
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 0 times per device per day.
+ */
+message ExtraIntentKeysCollectedOnServer {
+  // creator uid
+  optional int32 creator_uid = 1 [(is_uid) = true];
+}
+
+/**
  * Reports a notification got an Adjustment with the KEY_TYPE value set. These adjustments generally
  * mean a notification has been classified as belonging to a particular type (e.g., news).
  * (go/sysui-notification-bundle-metrics)
@@ -1238,3 +1275,53 @@ message WidgetMemoryStats {
     optional int64 bitmap_memory_bytes = 3;
 }
 
+
+/**
+ * Reports that the Advanced Protection setting has changed.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/AdvancedProtectionService.java
+ * Estimated Logging Rate:
+ *   Peak: 2 times per device per day. | Avg: 1 time per device (total)
+ */
+message AdvancedProtectionStateChanged {
+    // The new state of Advanced Protection
+    optional bool enabled = 1;
+    // The number of hours since the last time this atom was logged
+    optional int32 hours_since_last_change = 2;
+    // The last dialog shown.
+    // AdvancedProtectionSupportDialogDisplayed.FeatureId
+    optional android.security.advancedprotection.FeatureId last_dialog_feature_id = 3;
+    // Why the last dialog was shown
+    optional android.security.advancedprotection.DialogueType last_dialogue_type = 4;
+    // Whether the learn more button was clicked in the last dialog shown
+    optional bool last_dialog_learn_more_clicked = 5;
+    optional int32 last_dialog_hours_since_enabled = 6;
+}
+
+/**
+ * Reports that the Advanced Protection support dialog has been displayed.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/AdvancedProtectionService.java
+ * Estimated Logging Rate:
+ *   Peak: 10 times per device per day. | Avg: <1 time per device per day.
+ */
+message AdvancedProtectionSupportDialogDisplayed {
+    // The feature id of the dialog shown
+    optional android.security.advancedprotection.FeatureId feature_id = 1;
+    // Why the dialog was shown
+    optional android.security.advancedprotection.DialogueType dialogue_type = 2;
+    // Whether the learn more button was clicked in the dialog
+    optional bool learn_more_clicked = 3;
+    optional int32 hours_since_enabled = 4;
+}
+
+/** Pull atom for the current state of Advanced Protection.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/AdvancedProtectionService.java
+ * Estimated Logging Rate:
+ *   Peak: 1 times per device per day. | Avg: <1 time per device per day.
+*/
+message AdvancedProtectionStateInfo {
+    optional bool enabled = 1;
+    optional int32 hours_since_last_change = 2;
+}
