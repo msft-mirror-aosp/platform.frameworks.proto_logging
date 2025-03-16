@@ -147,3 +147,12 @@ enum LeAdvStatusCode {
   ADV_STATUS_FAILED_INTERNAL_ERROR = 5;
   ADV_STATUS_FAILED_FEATURE_UNSUPPORTED = 6;
 }
+
+// App importance compared to foreground service (FGS).
+// Refer to ScanManager.java for the usage of the app importance
+enum AppImportance {
+  IMPORTANCE_UNKNOWN = 0;
+  IMPORTANCE_LOWER_THAN_FGS = 1;
+  IMPORTANCE_EQUAL_TO_FGS = 2;
+  IMPORTANCE_HIGHER_THAN_FGS = 3;
+}

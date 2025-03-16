@@ -227,13 +227,20 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
             const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
                     fieldNumberToAtomDeclSet.find(ATOM_ID_FIELD_NUMBER);
             if (fieldNumberToAtomDeclSet.end() != fieldNumberToAtomDeclSetIt) {
-                fprintf(stderr, "Bootstrap atoms do not support annotations\n");
+                fprintf(stderr, "Top-level bootstrap atoms do not support annotations\n");
                 return 1;
             }
             int argIndex = 1;
-            const char* atomVal = "::android::os::StatsBootstrapAtomValue::";
+            const char* atomVal = "::android::os::StatsBootstrapAtomValue";
+            const char* primitiveVal = "::android::os::StatsBootstrapAtomValue::Primitive::";
+            const char* annotationVal = "::android::os::StatsBootstrapAtomValue::Annotation";
+            const char* annotationIdVal =
+                    "::android::os::StatsBootstrapAtomValue::Annotation::Id::";
+            const char* annotationPrimitiveVal =
+                    "::android::os::StatsBootstrapAtomValue::Annotation::Primitive::";
             for (vector<java_type_t>::const_iterator arg = signature.begin();
                  arg != signature.end(); arg++) {
+                fprintf(out, "    %s value%d;\n", atomVal, argIndex);
                 switch (*arg) {
                     case JAVA_TYPE_BYTE_ARRAY:
                         fprintf(out,
@@ -241,58 +248,93 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                                 "uint8_t*>(arg%d.arg);\n",
                                 argIndex, argIndex);
                         fprintf(out,
-                                "    "
-                                "atom.values.push_back(%smake<%sbytesValue>(std::vector(arg%dbyte, "
-                                "arg%dbyte + arg%d.arg_length)));\n",
-                                atomVal, atomVal, argIndex, argIndex, argIndex);
+                                "    value%d.value = %smake<%sbytesValue>(std::vector(arg%dbyte, "
+                                "arg%dbyte + arg%d.arg_length));\n",
+                                argIndex, primitiveVal, primitiveVal, argIndex, argIndex, argIndex);
                         break;
                     case JAVA_TYPE_BOOLEAN:
-                        fprintf(out, "    atom.values.push_back(%smake<%sboolValue>(arg%d));\n",
-                                atomVal, atomVal, argIndex);
+                        fprintf(out, "    value%d.value = %smake<%sboolValue>(arg%d);\n", argIndex,
+                                primitiveVal, primitiveVal, argIndex);
                         break;
                     case JAVA_TYPE_INT:  // Fall through.
                     case JAVA_TYPE_ENUM:
-                        fprintf(out, "    atom.values.push_back(%smake<%sintValue>(arg%d));\n",
-                                atomVal, atomVal, argIndex);
+                        fprintf(out, "    value%d.value = %smake<%sintValue>(arg%d);\n", argIndex,
+                                primitiveVal, primitiveVal, argIndex);
                         break;
                     case JAVA_TYPE_FLOAT:
-                        fprintf(out, "    atom.values.push_back(%smake<%sfloatValue>(arg%d));\n",
-                                atomVal, atomVal, argIndex);
+                        fprintf(out, "    value%d.value = %smake<%sfloatValue>(arg%d);\n", argIndex,
+                                primitiveVal, primitiveVal, argIndex);
                         break;
                     case JAVA_TYPE_LONG:
-                        fprintf(out, "    atom.values.push_back(%smake<%slongValue>(arg%d));\n",
-                                atomVal, atomVal, argIndex);
+                        fprintf(out, "    value%d.value = %smake<%slongValue>(arg%d);\n", argIndex,
+                                primitiveVal, primitiveVal, argIndex);
                         break;
                     case JAVA_TYPE_STRING:
                         fprintf(out,
-                                "    atom.values.push_back(%smake<%sstringValue>("
-                                "::android::String16(arg%d)));\n",
-                                atomVal, atomVal, argIndex);
+                                "    value%d.value = %smake<%sstringValue>("
+                                "::android::String16(arg%d));\n",
+                                argIndex, primitiveVal, primitiveVal, argIndex);
                         break;
                     case JAVA_TYPE_STRING_ARRAY:
                         fprintf(out,
-                                "    atom.values.push_back(%smake<%sstringArrayValue>("
-                                "arg%d.begin(), arg%d.end()));\n",
-                                atomVal, atomVal, argIndex, argIndex);
+                                "    value%d.value = %smake<%sstringArrayValue>("
+                                "arg%d.begin(), arg%d.end());\n",
+                                argIndex, primitiveVal, primitiveVal, argIndex, argIndex);
                         break;
                     default:
                         // Unsupported types: OBJECT, DOUBLE, ATTRIBUTION_CHAIN,
                         // and all repeated fields
-                        fprintf(stderr, "Encountered unsupported type.\n");
+                        fprintf(stderr, "Encountered unsupported type. %d, %d\n", *arg, argIndex);
                         return 1;
                 }
                 const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
                         fieldNumberToAtomDeclSet.find(argIndex);
+                // Scrub for any annotations that aren't UIDs
                 if (fieldNumberToAtomDeclSet.end() != fieldNumberToAtomDeclSetIt) {
-                    fprintf(stderr, "Bootstrap atoms do not support annotations\n");
-                    return 1;
+                    const AtomDeclSet& atomDeclSet = fieldNumberToAtomDeclSetIt->second;
+                    for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
+                        const string atomConstant = make_constant_name(atomDecl->name);
+                        fprintf(out, "    if (%s == code) {\n", atomConstant.c_str());
+                        int32_t annotationIndex = 0;
+                        for (const shared_ptr<Annotation>& annotation :
+                             atomDecl->fieldNumberToAnnotations.at(argIndex)) {
+                            if (annotation->annotationId != ANNOTATION_ID_IS_UID) {
+                                fprintf(stderr,
+                                        "Bootstrap atom fields do not support non-UID "
+                                        "annotations\n");
+                                return 1;
+                            }
+
+                            if (annotationIndex >= 1) {
+                                fprintf(stderr,
+                                        "Bootstrap atom fields do not support multiple "
+                                        "annotations\n");
+                                return 1;
+                            }
+
+                            fprintf(out, "        %s annotation%d;\n", annotationVal,
+                                    annotationIndex);
+                            fprintf(out, "        annotation%d.id = %sIS_UID;\n", annotationIndex,
+                                    annotationIdVal);
+                            fprintf(out,
+                                    "        annotation%d.value = "
+                                    "%smake<%sboolValue>(true);\n",
+                                    annotationIndex, annotationPrimitiveVal,
+                                    annotationPrimitiveVal);
+                            fprintf(out, "        value%d.annotations.push_back(annotation%d);\n",
+                                    argIndex, annotationIndex);
+                            annotationIndex++;
+                        }
+                        fprintf(out, "    }\n");
+                    }
                 }
+                fprintf(out, "    atom.values.push_back(value%d);\n", argIndex);
                 argIndex++;
             }
             fprintf(out,
                     "    bool success = "
                     "::android::os::stats::StatsBootstrapAtomClient::reportBootstrapAtom(atom);\n");
-            fprintf(out, "    return success? 0 : -1;\n");
+            fprintf(out, "    return success ? 0 : -1;\n");
 
         } else if (minApiLevel == API_Q) {
             int argIndex = 1;

@@ -240,7 +240,7 @@ static int run(int argc, char const* const* argv) {
         }
     }
 
-    // Collate the parameters
+    // Collate the parameters.
     int errorCount = 0;
 
     Atoms atoms;
