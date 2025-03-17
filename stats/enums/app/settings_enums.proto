@@ -5556,6 +5556,10 @@ enum PageId {
     // show
     // CATEGORY: SETTINGS
     WHEN_TO_SHOW_WIDGETS_ON_LOCKSCREEN = 2154;
+
+    // OPEN: Settings > Audio stream confirm dialog > Audio sharing going on dialog
+    // CATEGORY: SETTINGS
+    DIALOG_AUDIO_STREAM_CONFIRM_TURN_OFF_AUDIO_SHARING = 2155;
 }
 
 // Battery Saver schedule types.
