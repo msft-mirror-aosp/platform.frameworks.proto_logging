@@ -13580,6 +13580,8 @@ message RebootEscrowRebootReported {
 
 /**
  * Logs stats for AppSearch function calls
+ *
+ * Next tag: 13
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13623,10 +13625,15 @@ message AppSearchCallStatsReported {
 
     // Number of actual API calls reported in this atom.
     optional int32 num_reported_calls = 11;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 12;
 }
 
 /**
  * Logs detailed stats for putting a single document in AppSearch
+ *
+ * Next tag: 17
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -13680,10 +13687,15 @@ message AppSearchPutDocumentStatsReported {
 
     // Whether the max number of tokens exceeded.
     optional bool native_exceeded_max_num_tokens = 15;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 16;
 }
 
 /**
  * Logs detailed stats for AppSearch Initialize
+ *
+ * Next tag: 22
  */
 message AppSearchInitializeStatsReported {
     // The sampling interval for this specific type of stats
@@ -13756,12 +13768,15 @@ message AppSearchInitializeStatsReported {
     // Needs to be sync with AppSearchResult#ResultCode in
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 reset_status_code = 20;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 21;
 }
 
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 34
+ * Next tag: 35
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13879,10 +13894,15 @@ message AppSearchQueryStatsReported {
 
     //  The Hash of the tag to indicate the query source of this search
     optional int32 query_source_log_tag = 33;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 34;
 }
 
 /**
  * Logs detailed stats for remove in AppSearch
+ *
+ * Next tag: 10
  */
 message AppSearchRemoveStatsReported {
     // The sampling interval for this specific type of stats
@@ -13918,6 +13938,9 @@ message AppSearchRemoveStatsReported {
 
     // Number of documents deleted by this call.
     optional int32 native_num_documents_deleted = 9;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 10;
 }
 
 /**
@@ -13926,7 +13949,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 14
+ * Next tag: 15
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -13973,6 +13996,9 @@ message AppSearchOptimizeStatsReported {
 
     // The amount of time in millis since the last optimization ran.
     optional int64 native_time_since_last_optimize_millis = 13;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 14;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -14089,7 +14115,7 @@ message AppSearchIndexStorageInfo {
  * Pulled from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 6
+ * Next tag: 7
  */
 message AppSearchStorageInfo {
     // The associated user (for multi-user feature). Defined in android/os/UserHandle.java
@@ -14112,6 +14138,9 @@ message AppSearchStorageInfo {
     // Storage information of the index.
     optional AppSearchIndexStorageInfo index_storage_info = 5
         [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 6;
 }
 
 

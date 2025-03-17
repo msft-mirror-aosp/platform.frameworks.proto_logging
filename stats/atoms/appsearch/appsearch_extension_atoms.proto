@@ -48,7 +48,7 @@ extend Atom {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 26
+ * Next tag: 27
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -133,6 +133,9 @@ message AppSearchSetSchemaStatsReported {
     // This is in sync with
     // packages/modules/AppSearch/service/java/com/android/server/appsearch/external/localstorage/stats/SetSchemaStats.java
     optional int32 schema_migration_call_type = 25;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 26;
 }
 
 /**
@@ -141,7 +144,7 @@ message AppSearchSetSchemaStatsReported {
  * stats pushed from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 15
+ * Next tag: 16
  */
 message AppSearchSchemaMigrationStatsReported {
     // The sampling interval for this specific type of stats
@@ -191,6 +194,9 @@ message AppSearchSchemaMigrationStatsReported {
 
     // Number of migration failure during schema migration
     optional int32 schema_migration_failure_count = 14;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 15;
 }
 
 /**
@@ -199,7 +205,7 @@ message AppSearchSchemaMigrationStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 10
+ * Next tag: 11
  */
 message AppSearchUsageSearchIntentStatsReported {
     // Package UID of the application.
@@ -226,6 +232,9 @@ message AppSearchUsageSearchIntentStatsReported {
     repeated int64 clicks_time_stay_on_result_millis = 7;
     repeated int32 clicks_result_rank_in_block = 8;
     repeated int32 clicks_result_rank_global = 9;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 10;
 }
 
 /**
@@ -235,7 +244,7 @@ message AppSearchUsageSearchIntentStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 9
+ * Next tag: 10
  */
 message AppSearchUsageSearchIntentRawQueryStatsReported {
     // Package name of the application.
@@ -263,6 +272,9 @@ message AppSearchUsageSearchIntentRawQueryStatsReported {
     // The correction type of the query in this search intent compared with the previous search
     // intent.
     optional android.appsearch.QueryCorrectionType query_correction_type = 8;
+
+    // The bitmask for all enabled features on this device.
+    optional int64 enabled_features = 9;
 }
 
 /**
@@ -273,7 +285,7 @@ message AppSearchUsageSearchIntentRawQueryStatsReported {
  * Estimated Logging Rate:
  *    Peak: 20 times in 10*1000 ms | Avg: 1 per device per day
  *
- * Next tag: 14
+ * Next tag: 19
  */
 message AppSearchAppsIndexerStatsReported {
   enum UpdateType {
