@@ -29,6 +29,8 @@ extend Atom {
   optional SetComponentEnabledSettingReported set_component_enabled_setting_reported = 1018;
   optional BalProcessControllerAddBoundClientUidReported bal_process_controller_add_bound_client_uid_reported = 1019 [deprecated = true];
   optional BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported = 1045;
+  optional AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated =
+          1039 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -85,4 +87,18 @@ message BindServiceLockedWithBalFlagsReported {
     optional string intent_package_name = 1;
     optional int32 flags = 2;
     optional string calling_package_name = 3;
+}
+
+/**
+ * Records Bitmap allocations.
+ *
+ * Logged via Hummingbird for probes at android.graphics.Bitmap constructor.
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 times in a minute | Avg: O(hundreds) per device per day
+ */
+message AndroidGraphicsBitmapAllocated {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 width = 2;
+    optional int32 height = 3;
 }
