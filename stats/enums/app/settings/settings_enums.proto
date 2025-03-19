@@ -2181,6 +2181,74 @@ enum Action {
     // ACTION: Settings > Network & Internet > Adaptive connectivity > Auto-switch mobile network for battery life
     // CATEGORY: SETTINGS
     ACTION_ADAPTIVE_MOBILE_NETWORK = 2027;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog for the preferred language
+    //                > Click positive button
+    // CATEGORY: SETTINGS
+    ACTION_CHANGE_PREFERRED_LANGUAGE_REGION_POSITIVE_BTN_CLICKED = 2028;
+
+    // OPEN: Settings > System > Language & region > Region > Change the region
+    //                > Show dialog for the preferred language
+    //                > Click negative button
+    // CATEGORY: SETTINGS
+    ACTION_CHANGE_PREFERRED_LANGUAGE_REGION_NEGATIVE_BTN_CLICKED = 2029;
+
+    // OPEN: Settings > System > Language & region > System Languages
+    //                > Add a language > Search language
+    //                > Choose a language
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_LANGUAGE_AFTER_SEARCH_LANGUAGE = 2030;
+
+    // OPEN: Settings > System > Language & region > System Languages
+    //                > Add a language > Choose a language
+    //                > Search region > Choose a region
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_REGION_AFTER_SEARCH_REGION = 2031;
+
+    // OPEN: Settings > System > Language & region > System Languages
+    //                > Add a language > Search language
+    //                > No preferred language(click back key)
+    // CATEGORY: SETTINGS
+    ACTION_NO_PREFERRED_LANGUAGE_AFTER_SEARCH_LANGUAGE = 2032;
+
+    // OPEN: Settings > System > Language & region > System Languages
+    //                > Add a language > Choose a language
+    //                > Search region > No preferred region(click back key)
+    // CATEGORY: SETTINGS
+    ACTION_NO_PREFERRED_REGION_AFTER_SEARCH_REGION = 2033;
+
+    // OPEN: SUW Welcome Screen > Language picker page > region picker page
+    //                          > search region page > search region
+    //                          > Choose a region
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_REGION_AFTER_SEARCH_REGION_IN_SUW = 2034;
+
+    // OPEN: SUW Welcome Screen > Language picker page > region picker page
+    //                          > search region page > search region
+    //                          > No preferred region(click back key)
+    // CATEGORY: SETTINGS
+    ACTION_NO_PREFERRED_REGION_AFTER_SEARCH_REGION_IN_SUW = 2035;
+
+    // OPEN: SUW Welcome Screen > Language picker page
+    //                          > Choose a language from the suggested list
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_PREFERRED_LANGUAGE_FROM_SUGGESTED_LIST_IN_SUW = 2036;
+
+    // OPEN: SUW Welcome Screen > Language picker page > region picker page
+    //                          > Choose a region from the suggested list
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_PREFERRED_REGION_FROM_SUGGESTED_LIST_IN_SUW = 2037;
+
+    // OPEN: SUW Welcome Screen > Language picker page
+    //                          > Choose a language from the all languages list
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_PREFERRED_LANGUAGE_FROM_ALL_LIST_IN_SUW = 2038;
+
+    // OPEN: SUW Welcome Screen > Language picker page > region picker page
+    //                          > Choose a region from the all region list
+    // CATEGORY: SETTINGS
+    ACTION_CHOOSE_PREFERRED_REGION_FROM_ALL_LIST_IN_SUW = 2039;
 }
 
 /**
@@ -5568,6 +5636,19 @@ enum PageId {
     // OPEN: Settings > Audio stream confirm dialog > Audio sharing going on dialog
     // CATEGORY: SETTINGS
     DIALOG_AUDIO_STREAM_CONFIRM_TURN_OFF_AUDIO_SHARING = 2155;
+
+    // OPEN: SUW Welcome Screen > Language picker page
+    // CATEGORY: SETTINGS
+    LANGUAGE_PICKER_IN_SUW = 2156;
+
+    // OPEN: SUW Welcome Screen > Language picker page > Region picker
+    // CATEGORY: SETTINGS
+    REGION_PICKER_IN_SUW = 2157;
+
+    // OPEN: SUW Welcome Screen > Language picker page > Region picker
+    //                          > Search region
+    // CATEGORY: SETTINGS
+    REGION_SEARCH_IN_SUW = 2158;
 }
 
 // Battery Saver schedule types.
