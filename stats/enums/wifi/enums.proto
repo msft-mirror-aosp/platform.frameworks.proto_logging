@@ -48,6 +48,12 @@ enum WifiModeEnum {
      * Wi-Fi will operate with a priority to achieve low latency.
      */
     WIFI_MODE_FULL_LOW_LATENCY = 4;
+
+    /**
+     * Wi-Fi will not filter packets addressed to multicast addresses. This allows the device
+     * to receive multicast packets, but can lead to noticeable battery drain.
+     */
+    WIFI_MODE_MULTICAST_FILTERING_DISABLED = 5;
 }
 
 /**
