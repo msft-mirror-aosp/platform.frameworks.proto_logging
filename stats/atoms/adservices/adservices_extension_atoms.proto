@@ -2132,6 +2132,30 @@ message UpdateSignalsProcessReported {
 
   // The minimum size of raw protected signals per buyer in bytes.
   optional float min_raw_protected_signals_size_bytes = 10;
+
+  // A list of unique evictors used for an eviction.
+  repeated android.adservices.service.SignalEvictor signal_evictors_used = 11;
+
+  // A list of unique eviction priority values present across updated signals.
+  // Integer values mapped to EvictionPriority. This is a repeated field to
+  // avoid logging the same priority multiple times.
+  repeated int32 updated_signal_eviction_priorities = 12;
+
+  // A list of unique eviction priority values present across evicted signals.
+  // Integer values mapped to EvictionPriority. This is a repeated field to
+  // avoid logging the same priority multiple times.
+  repeated int32 evicted_signal_eviction_priorities = 13;
+
+  // The bucketed size of all evicted signals.
+  optional android.adservices.service.Size per_buyer_evicted_signal_size = 14;
+
+  // The number of unique keys with eviction priority explicitly set.
+  optional int32 updated_signals_with_eviction_priority_count = 15;
+
+  // A JSON can be fetched by requesting a provided URL from the AdTech, and later be used to guide
+  // the signal updates. Per different signal eviction design, the JSON will be parsed differently
+  // relaying on schema version comes with the response.
+  optional int32 signal_update_schema_version = 16;
 }
 
 /** Logs for Topics epoch job setting during scheduling EpochJobService. */

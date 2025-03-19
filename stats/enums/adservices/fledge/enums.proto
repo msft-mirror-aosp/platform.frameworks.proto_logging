@@ -179,3 +179,10 @@ enum ReportingCallDestination {
   BUYER = 2;
   COMPONENT_SELLER = 3;
 }
+
+/** Enum representing the evictor used in an eviction for updateSignals calls. */
+enum SignalEvictor {
+  UNSPECIFIED_EVICTOR = 0;
+  FIFO_SIGNAL_EVICTOR = 1;
+  PRIORITIZED_FIFO_SIGNAL_EVICTOR = 2;
+}
