@@ -240,6 +240,9 @@ extend Atom {
 
   optional MobileDataDownloadLatencyReported mobile_data_download_latency_reported = 1031
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info = 1046
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -2353,4 +2356,52 @@ message NumberOfTypesOfReportingUrlsReceived {
 
   /* Number of component event reporting urls. */
   optional int32 numberOfComponentEventReportingUrl = 6;
+}
+
+/** Logs the number of items processed per type per measurement background job. */
+message MeasurementBackgroundItemsInfo {
+  // Type of the items.
+  optional int32 item_type = 1;
+
+  // Number of items processed per type.
+  optional int32 number_of_items = 2;
+
+  // Timestamp of the oldest item processed per type per job.
+  optional int64 oldest_item_timestamp = 3;
+}
+
+/** Wrapper to log the nested number of items processed per type per measurement background job. */
+message RepeatedMeasurementBackgroundItemsInfo {
+   repeated MeasurementBackgroundItemsInfo items_info = 1;
+}
+
+/**
+ * Logging for Adservice's measurement background jobs information. Provides data for analyzing
+ * measurement background jobs' health and workload.
+ */
+message AdservicesMeasurementBackgroundJobInfo {
+  // A unique identifier for a background job
+  optional int32 job_id = 1;
+
+  // Information about items in the database before processing.
+  optional RepeatedMeasurementBackgroundItemsInfo database_items_before_processing = 2
+  [(log_mode) = MODE_BYTES];
+
+  // Information about items being processed in the background job.
+  // The number of items being processed doesn't always equal to items in the database before
+  // processing because there may be redirects and retries.
+  optional RepeatedMeasurementBackgroundItemsInfo items_processed = 3 [(log_mode) = MODE_BYTES];
+
+  // Time interval from the start to the end of an execution of a background job.
+  // It is on a milli-second basis.
+  optional int32 job_duration = 4;
+
+  // Type of the result code that implies different execution results of Adservices background jobs.
+  optional android.adservices.ExecutionResultCode execution_result_code = 5;
+
+  // The publicly returned reason onStopJob() was called.
+  // This is only applicable when the state is FINISHED, but may be undefined if
+  // JobService.onStopJob() was never called for the job.
+  // The default value is STOP_REASON_UNDEFINED.
+  optional android.app.job.StopReasonEnum public_stop_reason = 6;
 }
