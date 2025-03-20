@@ -15823,7 +15823,6 @@ message VoiceCallSession {
 
     // The call state on call setup
     optional android.telephony.CallState call_state_on_setup = 45;
-
 }
 
 /**
@@ -15917,7 +15916,10 @@ message CellularServiceState {
 
     // Whether the device is using non-terrestrial networks.
     optional bool is_ntn = 16;
-}
+
+    // Whether the call is over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 17;
+ }
 
 /**
  * Pulls the number of times cellular data service state switches.
@@ -16132,6 +16134,9 @@ message IncomingSms {
 
     // Whether the message is an emergency or not.
     optional bool is_emergency = 18;
+
+    // Whether the message was received over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 19;
 }
 
 /**
@@ -16221,6 +16226,9 @@ message OutgoingSms {
 
     // Whether the message is an MT SMS polling.
     optional bool is_mt_sms_polling = 21;
+
+    // Whether the message was sent over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 22;
 }
 
 /**
@@ -16407,6 +16415,9 @@ message DataCallSession {
 
     // Determines if current data call was over provisioning profile or not
     optional bool is_provisioning_profile = 26;
+
+    // Whether the call is over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 27;
 }
 
 /**
@@ -23474,6 +23485,9 @@ message IncomingMms {
 
     // Whether the MMS was received over non-terrestrial networks.
     optional bool is_ntn = 13;
+
+    // Whether the MMS was received over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 14;
 }
 
 /**
@@ -23530,6 +23544,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent over non-terrestrial networks.
     optional bool is_ntn = 14;
+
+    // Whether the MMS was sent over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 15;
 }
 
 message PrivacySignalNotificationInteraction {
