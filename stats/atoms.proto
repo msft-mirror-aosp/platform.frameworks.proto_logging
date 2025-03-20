@@ -1372,13 +1372,14 @@ message Atom {
     extensions 1043; // PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported
     extensions 1044; // PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged
     extensions 1045; // BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported
+    extensions 1046; // AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10235
+    // Next: 10237
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
