@@ -5649,6 +5649,10 @@ enum PageId {
     //                          > Search region
     // CATEGORY: SETTINGS
     REGION_SEARCH_IN_SUW = 2158;
+
+    // OPEN: Settings > Connected devices
+    // CATEGORY: SETTINGS
+    SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159;
 }
 
 // Battery Saver schedule types.
