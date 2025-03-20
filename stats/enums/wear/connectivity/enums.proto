@@ -202,7 +202,7 @@ enum SysproxyConnectionAction {
 }
 
 /**
- * Keep sorted order in each block. Last enum num is 13
+ * Keep sorted order in each block. Last enum num is 32
  */
 enum SysproxyConnectionChangeReason {
     SYSPROXY_CONNECTION_CHANGE_REASON_UNKNOWN = 0;
@@ -242,6 +242,7 @@ enum SysproxyConnectionChangeReason {
     SERVICE_STOP_BT_READ_EMPTY = 27;
     SERVICE_STOP_BT_HANDSHAKE_ERR = 28;
     SERVICE_STOP_STOP_BY_CONTROL_SERVER = 29;
+    SERVICE_STOP_BT_DATA_CORRUPTED = 31;
 
 }
 
