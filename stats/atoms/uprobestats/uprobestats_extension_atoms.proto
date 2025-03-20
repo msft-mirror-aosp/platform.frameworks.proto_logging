@@ -27,7 +27,8 @@ option java_multiple_files = true;
 extend Atom {
   optional TestUprobeStatsAtomReported test_uprobestats_atom_reported = 915;
   optional SetComponentEnabledSettingReported set_component_enabled_setting_reported = 1018;
-  optional BalProcessControllerAddBoundClientUidReported bal_process_controller_add_bound_client_uid_reported = 1019;
+  optional BalProcessControllerAddBoundClientUidReported bal_process_controller_add_bound_client_uid_reported = 1019 [deprecated = true];
+  optional BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported = 1045;
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -58,6 +59,9 @@ message SetComponentEnabledSettingReported {
 }
 
 /**
+  * DEPRECATED - this message was never usesd and is replaced by
+  * BindServiceLockedWithBalFlagsReported.
+  *
   * Logged by uprobestats on sampled devices, when
   * unprivileged apps bind to privileged apps that
   * are allowed to do BAL (e.g. apps managing companion devices).
@@ -68,4 +72,17 @@ message BalProcessControllerAddBoundClientUidReported {
     optional int32 client_uid = 1 [(is_uid) = true];
     optional string client_package_name = 2;
     optional int32 bind_flags = 3;
+}
+
+/**
+  * Logged by uprobestats on sampled devices, when
+  * unprivileged apps bind to privileged apps that
+  * are allowed to do BAL (e.g. apps managing companion devices).
+  *
+  * Expected logging rate is on the order of tens in a day.
+  */
+message BindServiceLockedWithBalFlagsReported {
+    optional string intent_package_name = 1;
+    optional int32 flags = 2;
+    optional string calling_package_name = 3;
 }
