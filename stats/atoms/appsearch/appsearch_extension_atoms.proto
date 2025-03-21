@@ -45,6 +45,13 @@ extend Atom {
           app_search_vm_payload_stats_reported = 1047 [(module) = "appsearch"];
 }
 
+// Keep in sync with
+// packages/modules/AppSearch/framework/java/external/android/app/appsearch/stats/BaseStats.java
+enum AppSearchEnabledFeatures {
+    APP_SEARCH_ENABLED_UNKNOWN = 0;
+    APP_SEARCH_ENABLED_LAUNCH_VM = 0x0001; // 1 << 0
+}
+
 /**
  * Logs detailed stats for setting schema in AppSearch.
  *
@@ -137,7 +144,8 @@ message AppSearchSetSchemaStatsReported {
     // packages/modules/AppSearch/service/java/com/android/server/appsearch/external/localstorage/stats/SetSchemaStats.java
     optional int32 schema_migration_call_type = 25;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 26;
 }
 
@@ -198,7 +206,8 @@ message AppSearchSchemaMigrationStatsReported {
     // Number of migration failure during schema migration
     optional int32 schema_migration_failure_count = 14;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 15;
 }
 
@@ -236,7 +245,8 @@ message AppSearchUsageSearchIntentStatsReported {
     repeated int32 clicks_result_rank_in_block = 8;
     repeated int32 clicks_result_rank_global = 9;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 10;
 }
 
@@ -276,7 +286,8 @@ message AppSearchUsageSearchIntentRawQueryStatsReported {
     // intent.
     optional android.appsearch.QueryCorrectionType query_correction_type = 8;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 9;
 }
 
