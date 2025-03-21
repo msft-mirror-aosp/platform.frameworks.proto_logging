@@ -15920,6 +15920,9 @@ message CellularServiceState {
 
     // Whether the call is over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 17;
+
+    // Whether the subscription is an opportunistic (can change CBRS network when available).
+    optional bool is_opportunistic = 18;
  }
 
 /**
@@ -15951,6 +15954,9 @@ message CellularDataServiceSwitch {
 
     // Number of switches from rat_from to rat_to.
     optional int32 switch_count = 6;
+
+    // // Whether the subscription is an opportunistic (can change CBRS network when available).
+    optional bool is_opportunistic = 7;
 }
 
 /**
