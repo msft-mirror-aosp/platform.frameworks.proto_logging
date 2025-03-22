@@ -335,6 +335,8 @@ message CarrierRoamingSatelliteSession {
   optional int64 satellite_data_consumed_bytes = 19;
   // Whether device is in DSDS mode
   optional bool is_multi_sim = 20;
+  // Whether the service is Carrier Roaming NB-Iot NTN network or not.
+  optional bool is_nb_iot_ntn = 21;
 }
 
 /**
@@ -363,6 +365,8 @@ message CarrierRoamingSatelliteControllerStats {
   optional bool is_multi_sim = 10;
   // Count of how many satellite sessions have been opened
   optional int32 count_of_satellite_sessions = 11;
+  // Whether the service is Carrier Roaming NB-Iot NTN network or not.
+  optional bool is_nb_iot_ntn = 12;
 }
 
 /**
