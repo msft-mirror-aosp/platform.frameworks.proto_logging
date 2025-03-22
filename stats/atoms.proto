@@ -1374,6 +1374,7 @@ message Atom {
     extensions 1045; // BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported
     extensions 1046; // AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info
     extensions 1047; // AppSearchVmPayloadStatsReported app_search_vm_payload_stats_reported
+    extensions 1048; // ClipboardGetEventReported clipboard_get_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
