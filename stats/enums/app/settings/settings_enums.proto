@@ -2249,6 +2249,10 @@ enum Action {
     //                          > Choose a region from the all region list
     // CATEGORY: SETTINGS
     ACTION_CHOOSE_PREFERRED_REGION_FROM_ALL_LIST_IN_SUW = 2039;
+
+    // OPEN: SUW Welcome Screen > Set up using another device
+    // CATEGORY: SETTINGS
+    ACTION_RESTORE_SIMPLE_VIEW_RESULT_IN_SUW = 2040;
 }
 
 /**
@@ -5649,6 +5653,10 @@ enum PageId {
     //                          > Search region
     // CATEGORY: SETTINGS
     REGION_SEARCH_IN_SUW = 2158;
+
+    // OPEN: Settings > Connected devices
+    // CATEGORY: SETTINGS
+    SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159;
 }
 
 // Battery Saver schedule types.

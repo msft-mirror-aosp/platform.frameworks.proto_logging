@@ -1372,13 +1372,15 @@ message Atom {
     extensions 1043; // PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported
     extensions 1044; // PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged
     extensions 1045; // BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported
+    extensions 1046; // AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info
+    extensions 1047; // AppSearchVmPayloadStatsReported app_search_vm_payload_stats_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10235
+    // Next: 10237
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -13627,7 +13629,8 @@ message AppSearchCallStatsReported {
     // Number of actual API calls reported in this atom.
     optional int32 num_reported_calls = 11;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 12;
 }
 
@@ -13689,7 +13692,8 @@ message AppSearchPutDocumentStatsReported {
     // Whether the max number of tokens exceeded.
     optional bool native_exceeded_max_num_tokens = 15;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 16;
 }
 
@@ -13770,7 +13774,8 @@ message AppSearchInitializeStatsReported {
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 reset_status_code = 20;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 21;
 }
 
@@ -13896,7 +13901,8 @@ message AppSearchQueryStatsReported {
     //  The Hash of the tag to indicate the query source of this search
     optional int32 query_source_log_tag = 33;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 34;
 }
 
@@ -13940,7 +13946,8 @@ message AppSearchRemoveStatsReported {
     // Number of documents deleted by this call.
     optional int32 native_num_documents_deleted = 9;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 10;
 }
 
@@ -13998,7 +14005,8 @@ message AppSearchOptimizeStatsReported {
     // The amount of time in millis since the last optimization ran.
     optional int64 native_time_since_last_optimize_millis = 13;
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 14;
 }
 
@@ -14140,7 +14148,8 @@ message AppSearchStorageInfo {
     optional AppSearchIndexStorageInfo index_storage_info = 5
         [(android.os.statsd.log_mode) = MODE_BYTES];
 
-    // The bitmask for all enabled features on this device.
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 6;
 }
 
@@ -22950,7 +22959,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_COMPUTER = 4;
         DEVICE_PROFILE_GLASSES = 5;
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
-        DEVICE_PROFILE_SENSOR_DEVICE_STREAMING = 7;
+        DEVICE_PROFILE_VIRTUAL_DEVICE = 7;
         DEVICE_PROFILE_WEARABLE_SENSING = 8;
     }
 
