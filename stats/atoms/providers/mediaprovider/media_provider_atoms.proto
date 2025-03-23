@@ -16,10 +16,18 @@
 
 syntax = "proto2";
 
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
 package android.os.statsd.providers.mediaprovider;
 
 option java_package = "com.android.os.providers.mediaprovider";
 option java_multiple_files = true;
+
+extend Atom {
+    optional MediaProviderVolumeRecoveryReported media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
+    optional FileAccessAttributesQueryReported file_access_attributes_query_reported = 1061 [(module) = "mediaprovider"];
+}
 
 /**
  * Logs when MediaProvider recovers volume data after a DB rollback.
@@ -57,4 +65,19 @@ message MediaProviderVolumeRecoveryReported {
     }
     // Status code of volume recovery event
     optional Status status = 7;
+}
+
+/*
+ * Logs when MediaProvider queries for file access attributes for filepath to check if file open is
+ * permitted.
+ * Logged from:
+ *   packages/providers/MediaProvider/src/com/android/providers/media/MediaProvider.java
+ */
+message FileAccessAttributesQueryReported {
+    // Latency between query fired to SQL and response object received
+    optional int32 sql_query_duration_millis = 1;
+    // Latency between query fired to LevelDb and response object received
+    optional int32 leveldb_query_duration_millis = 2;
+    // Flag to check data consistency between SQL and LevelDb
+    optional bool is_data_consistent = 3;
 }
