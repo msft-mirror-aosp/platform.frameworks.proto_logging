@@ -47,7 +47,7 @@ import "frameworks/proto_logging/stats/enums/app_shared/app_enums.proto";
 import "frameworks/proto_logging/stats/enums/app_shared/app_op_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/job/job_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/remoteprovisioner_enums.proto";
-import "frameworks/proto_logging/stats/enums/app/settings_enums.proto";
+import "frameworks/proto_logging/stats/enums/app/settings/settings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/tvsettings_enums.proto";
 import "frameworks/proto_logging/stats/enums/app/wearsettings/wearsettings_enums.proto";
@@ -1371,13 +1371,17 @@ message Atom {
     extensions 1042; // ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server
     extensions 1043; // PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported
     extensions 1044; // PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged
+    extensions 1045; // BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported
+    extensions 1046; // AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info
+    extensions 1047; // AppSearchVmPayloadStatsReported app_search_vm_payload_stats_reported
+    extensions 1048; // ClipboardGetEventReported clipboard_get_event_reported
     extensions 9999; // Atom9999 atom_9999
 
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10235
+    // Next: 10237
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -13580,6 +13584,8 @@ message RebootEscrowRebootReported {
 
 /**
  * Logs stats for AppSearch function calls
+ *
+ * Next tag: 13
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13623,10 +13629,16 @@ message AppSearchCallStatsReported {
 
     // Number of actual API calls reported in this atom.
     optional int32 num_reported_calls = 11;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 12;
 }
 
 /**
  * Logs detailed stats for putting a single document in AppSearch
+ *
+ * Next tag: 17
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -13680,10 +13692,16 @@ message AppSearchPutDocumentStatsReported {
 
     // Whether the max number of tokens exceeded.
     optional bool native_exceeded_max_num_tokens = 15;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 16;
 }
 
 /**
  * Logs detailed stats for AppSearch Initialize
+ *
+ * Next tag: 22
  */
 message AppSearchInitializeStatsReported {
     // The sampling interval for this specific type of stats
@@ -13756,12 +13774,16 @@ message AppSearchInitializeStatsReported {
     // Needs to be sync with AppSearchResult#ResultCode in
     // frameworks/base/apex/appsearch/framework/java/android/app/appsearch/AppSearchResult.java
     optional int32 reset_status_code = 20;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 21;
 }
 
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 34
+ * Next tag: 35
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13879,10 +13901,16 @@ message AppSearchQueryStatsReported {
 
     //  The Hash of the tag to indicate the query source of this search
     optional int32 query_source_log_tag = 33;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 34;
 }
 
 /**
  * Logs detailed stats for remove in AppSearch
+ *
+ * Next tag: 10
  */
 message AppSearchRemoveStatsReported {
     // The sampling interval for this specific type of stats
@@ -13918,6 +13946,10 @@ message AppSearchRemoveStatsReported {
 
     // Number of documents deleted by this call.
     optional int32 native_num_documents_deleted = 9;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 10;
 }
 
 /**
@@ -13926,7 +13958,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 14
+ * Next tag: 15
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -13973,6 +14005,10 @@ message AppSearchOptimizeStatsReported {
 
     // The amount of time in millis since the last optimization ran.
     optional int64 native_time_since_last_optimize_millis = 13;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 14;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -14089,7 +14125,7 @@ message AppSearchIndexStorageInfo {
  * Pulled from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 6
+ * Next tag: 7
  */
 message AppSearchStorageInfo {
     // The associated user (for multi-user feature). Defined in android/os/UserHandle.java
@@ -14112,6 +14148,10 @@ message AppSearchStorageInfo {
     // Storage information of the index.
     optional AppSearchIndexStorageInfo index_storage_info = 5
         [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 6;
 }
 
 
@@ -15793,7 +15833,6 @@ message VoiceCallSession {
 
     // The call state on call setup
     optional android.telephony.CallState call_state_on_setup = 45;
-
 }
 
 /**
@@ -15887,7 +15926,10 @@ message CellularServiceState {
 
     // Whether the device is using non-terrestrial networks.
     optional bool is_ntn = 16;
-}
+
+    // Whether the call is over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 17;
+ }
 
 /**
  * Pulls the number of times cellular data service state switches.
@@ -16102,6 +16144,9 @@ message IncomingSms {
 
     // Whether the message is an emergency or not.
     optional bool is_emergency = 18;
+
+    // Whether the message was received over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 19;
 }
 
 /**
@@ -16191,6 +16236,9 @@ message OutgoingSms {
 
     // Whether the message is an MT SMS polling.
     optional bool is_mt_sms_polling = 21;
+
+    // Whether the message was sent over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 22;
 }
 
 /**
@@ -16377,6 +16425,9 @@ message DataCallSession {
 
     // Determines if current data call was over provisioning profile or not
     optional bool is_provisioning_profile = 26;
+
+    // Whether the call is over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 27;
 }
 
 /**
@@ -22909,7 +22960,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_COMPUTER = 4;
         DEVICE_PROFILE_GLASSES = 5;
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
-        DEVICE_PROFILE_SENSOR_DEVICE_STREAMING = 7;
+        DEVICE_PROFILE_VIRTUAL_DEVICE = 7;
         DEVICE_PROFILE_WEARABLE_SENSING = 8;
     }
 
@@ -23444,6 +23495,9 @@ message IncomingMms {
 
     // Whether the MMS was received over non-terrestrial networks.
     optional bool is_ntn = 13;
+
+    // Whether the MMS was received over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 14;
 }
 
 /**
@@ -23500,6 +23554,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent over non-terrestrial networks.
     optional bool is_ntn = 14;
+
+    // Whether the MMS was sent over Carrier Roaming NB-Iot NTN network.
+    optional bool is_nb_iot_ntn = 15;
 }
 
 message PrivacySignalNotificationInteraction {

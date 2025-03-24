@@ -185,6 +185,7 @@ enum ElementId {
     ALLOW_ALL_SWITCH = 90;
     PERMISSION_SWITCH = 91;
     APP_RATIONALE_LINK = 92;
+    REQUEST_PERMISSIONS_HEADER = 297;
 
     // Request additional permissions
     ALLOW_COMBINED_ADDITIONAL_PERMISSIONS_BUTTON = 198;
@@ -425,7 +426,7 @@ enum ElementId {
     CANCEL_WRITE_HEALTH_RECORDS_BUTTON = 287;
     // End of PHR
 
-    // Next available: 297;
+    // Next available: 298;
 }
 
 enum PageId {

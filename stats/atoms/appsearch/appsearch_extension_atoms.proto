@@ -40,6 +40,16 @@ extend Atom {
 
   optional AppSearchAppsIndexerStatsReported
           app_search_apps_indexer_stats_reported = 909 [(module) = "appsearch"];
+
+  optional AppSearchVmPayloadStatsReported
+          app_search_vm_payload_stats_reported = 1047 [(module) = "appsearch"];
+}
+
+// Keep in sync with
+// packages/modules/AppSearch/framework/java/external/android/app/appsearch/stats/BaseStats.java
+enum AppSearchEnabledFeatures {
+    APP_SEARCH_ENABLED_UNKNOWN = 0;
+    APP_SEARCH_ENABLED_LAUNCH_VM = 0x0001; // 1 << 0
 }
 
 /**
@@ -48,7 +58,7 @@ extend Atom {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 26
+ * Next tag: 27
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -133,6 +143,10 @@ message AppSearchSetSchemaStatsReported {
     // This is in sync with
     // packages/modules/AppSearch/service/java/com/android/server/appsearch/external/localstorage/stats/SetSchemaStats.java
     optional int32 schema_migration_call_type = 25;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 26;
 }
 
 /**
@@ -141,7 +155,7 @@ message AppSearchSetSchemaStatsReported {
  * stats pushed from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 15
+ * Next tag: 16
  */
 message AppSearchSchemaMigrationStatsReported {
     // The sampling interval for this specific type of stats
@@ -191,6 +205,10 @@ message AppSearchSchemaMigrationStatsReported {
 
     // Number of migration failure during schema migration
     optional int32 schema_migration_failure_count = 14;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 15;
 }
 
 /**
@@ -199,7 +217,7 @@ message AppSearchSchemaMigrationStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 10
+ * Next tag: 11
  */
 message AppSearchUsageSearchIntentStatsReported {
     // Package UID of the application.
@@ -226,6 +244,10 @@ message AppSearchUsageSearchIntentStatsReported {
     repeated int64 clicks_time_stay_on_result_millis = 7;
     repeated int32 clicks_result_rank_in_block = 8;
     repeated int32 clicks_result_rank_global = 9;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 10;
 }
 
 /**
@@ -235,7 +257,7 @@ message AppSearchUsageSearchIntentStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 9
+ * Next tag: 10
  */
 message AppSearchUsageSearchIntentRawQueryStatsReported {
     // Package name of the application.
@@ -263,6 +285,10 @@ message AppSearchUsageSearchIntentRawQueryStatsReported {
     // The correction type of the query in this search intent compared with the previous search
     // intent.
     optional android.appsearch.QueryCorrectionType query_correction_type = 8;
+
+    // The bitmask for all enabled features on this device. Must be one or a combination of the
+    // types AppSearchEnabledFeatures.
+    optional int64 enabled_features = 9;
 }
 
 /**
@@ -273,7 +299,7 @@ message AppSearchUsageSearchIntentRawQueryStatsReported {
  * Estimated Logging Rate:
  *    Peak: 20 times in 10*1000 ms | Avg: 1 per device per day
  *
- * Next tag: 14
+ * Next tag: 19
  */
 message AppSearchAppsIndexerStatsReported {
   enum UpdateType {
@@ -313,4 +339,47 @@ message AppSearchAppsIndexerStatsReported {
 
   // App Function removal latency
   optional int64 remove_functions_from_appsearch_appsearch_latency_millis = 18;
+}
+
+/**
+ * Reported when AppSearch VM payload statistics are collected and reported.
+ *
+ * This message encapsulates various metrics related to the execution and outcome of
+ * a pVM payload.
+ *
+ * Next tag: 7
+ */
+message AppSearchVmPayloadStatsReported {
+
+  // The sampling interval for this specific type of stats
+  // For example, sampling_interval=10 means that one out of every 10 stats was logged.
+  optional int32 sampling_interval = 1;
+
+  // # of previous skipped sample for this specific type of stats
+  // We can't push atoms too closely, so some samples might be skipped
+  // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+  // For example, the true count of an event could be estimated as:
+  //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
+  optional int32 num_skipped_sample = 2;
+
+  /**  The type of VMCallback that triggered this report.  */
+  optional int32 callback_type = 3;
+
+  /**
+   * The exit code of the AppSearch {@code IsolateStorageService.VMCallback#onPayloadFinished()}
+   * call.
+   */
+  optional int32 exit_code = 4;
+
+  /**
+   * The error code associated with the AppSearch {@code IsolateStorageService.VMCallback.onError()}
+   * call.
+   */
+  optional int32 error_code = 5;
+
+  /**
+   * The reason for stopping the AppSearch {@code IsolateStorageService.VMCallback.onStopped()}
+   * call.
+   */
+  optional int32 stop_reason = 6;
 }
