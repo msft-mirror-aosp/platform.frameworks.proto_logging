@@ -78,6 +78,7 @@ extend Atom {
     optional AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported = 1054 [(module) = "framework"];
     optional BinderSpamReported binder_spam_reported = 1064 [(module) = "framework"];
     optional DevicePresenceChanged device_presence_changed = 1080 [(module) = "framework"];
+    optional AppRestartOccurred app_restart_occurred = 1089 [(module) = "framework"];
 }
 
 /**
@@ -1444,4 +1445,38 @@ message DevicePresenceChanged {
     // Name of the Companion Device Manager Association profile.
     optional DeviceProfile device_profile = 2;
     optional DevicePresenceStatus device_presence_status = 3;
+}
+
+/**
+ * Logged (once per process) when the first activity is started in the process AND the last exit
+ * info is available.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/wm/ActivityMetricsLogger.java
+ *
+ * Estimated Logging Rate:
+ *   Avg: 50 per device per day
+ *   P95: 150 per device per day
+ */
+message AppRestartOccurred {
+    // The app's uid.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    enum StartType {
+        UNKNOWN = 0;
+
+        // The process was created specifically for the activity.
+        COLD = 1;
+
+        // The process was created for other reason (e.g. to handle a broadcast),
+        // but this activity is the first one to be started in the process.
+        WARM = 2;
+    }
+    optional StartType type = 2;
+
+    optional int64 millis_since_last_exit = 3;
+
+    // Select fields from the ApplicationExitInfo.
+    optional android.app.AppExitReasonCode last_exit_reason = 4;
+    optional android.app.AppExitSubReasonCode last_exit_sub_reason = 5;
+    optional android.app.Importance last_exit_importance = 6;
 }
