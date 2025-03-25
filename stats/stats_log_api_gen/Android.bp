@@ -333,6 +333,7 @@ rust_library {
     apex_available: [
         "//apex_available:platform",
         "com.android.resolv",
+        "com.android.uprobestats",
         "com.android.virt",
     ],
     min_sdk_version: "29",
