@@ -1376,8 +1376,8 @@ message Atom {
     extensions 1047; // AppSearchVmPayloadStatsReported app_search_vm_payload_stats_reported
     extensions 1048; // ClipboardGetEventReported clipboard_get_event_reported
     extensions 1049; // PermissionManagerPageInteraction permission_manager_page_interaction
+    extensions 1050; // AppSearchAppOpenEventIndexerStatsReported app_search_app_open_event_indexer_stats_reported
     extensions 9999; // Atom9999 atom_9999
-
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
