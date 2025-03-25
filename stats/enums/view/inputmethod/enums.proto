@@ -84,6 +84,7 @@ enum SoftInputShowHideReasonEnum {
     REASON_HIDE_INPUT_TARGET_CHANGED = 57;
     REASON_HIDE_WINDOW_LOST_FOCUS = 58;
     REASON_IME_REQUESTED_CHANGED_LISTENER = 59;
+    REASON_HIDE_FOR_BUBBLES_WHEN_LOCKED = 60;
 }
 
 // The type of the IME request, used by android/view/inputmethod/ImeTracker.java.
