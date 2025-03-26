@@ -1377,12 +1377,15 @@ message Atom {
     extensions 1048; // ClipboardGetEventReported clipboard_get_event_reported
     extensions 1049; // PermissionManagerPageInteraction permission_manager_page_interaction
     extensions 1050; // AppSearchAppOpenEventIndexerStatsReported app_search_app_open_event_indexer_stats_reported
+    extensions 1051; // ThermalHeadroomListenerDataReported thermal_headroom_listener_data_reported
+    extensions 1052; // CpuHeadroomReported cpu_headroom_reported
+    extensions 1053; // GpuHeadroomReported gpu_headroom_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10237
+    // Next: 10239
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1656,6 +1659,8 @@ message Atom {
     extensions 10234; // WidgetMemoryStats
     extensions 10235; // TelecomEventStats telecom_event_stats
     extensions 10236; // AdvancedProtectionStateInfo advanced_protection_state_info
+    extensions 10237; // AdpfSupportInfo adpf_support_info
+    extensions 10238; // ThermalHeadroomListenerInfo thermal_headroom_listener_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
