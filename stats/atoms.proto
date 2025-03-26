@@ -1380,6 +1380,7 @@ message Atom {
     extensions 1051; // ThermalHeadroomListenerDataReported thermal_headroom_listener_data_reported
     extensions 1052; // CpuHeadroomReported cpu_headroom_reported
     extensions 1053; // GpuHeadroomReported gpu_headroom_reported
+    extensions 1054; // AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

@@ -77,6 +77,7 @@ extend Atom {
     optional ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server = 1042 [(module) = "framework"];
     optional ClipboardGetEventReported clipboard_get_event_reported = 1048 [(module) = "framework"];
     optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
+    optional AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported = 1054 [(module) = "framework"];
 }
 
 /**
@@ -1325,6 +1326,19 @@ message AdvancedProtectionSupportDialogDisplayed {
 message AdvancedProtectionStateInfo {
     optional bool enabled = 1;
     optional int32 hours_since_last_change = 2;
+}
+
+/** Reports failures of enableUsbData signal API calls for the USB data protection feature.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/features/UsbDataAdvancedProtectionHook.java
+ * Estimated Logging Rate:
+ *   Peak: <1 times per device per day. | Avg: <1 time per device per day.
+ */
+message AdvancedProtectionUsbStateChangeErrorReported {
+    // The desired signal state of the API call. If false, then the API call failed to disable
+    // USB data. If true, then the API call failed to enable USB data.
+    optional bool desired_signal_state = 1;
+    optional int32 retries_occurred = 2;
 }
 
 /**
