@@ -87,6 +87,10 @@ message PdfApiUsageReported {
   // API Response status
   // Required.
   optional android.pdf.ApiResponseStatus api_response_status = 4;
+
+  // Type of operation (add, remove, update, list)
+  // Optional.
+  optional android.pdf.OperationType operation_type = 5;
 }
 
 /**
