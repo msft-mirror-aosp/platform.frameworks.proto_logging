@@ -1410,6 +1410,7 @@ message Atom {
     extensions 1079; // AutoclickSettingsStateReported autoclick_settings_state_reported
     extensions 1080; // DevicePresenceChanged device_presence_changed
     extensions 1081; // WearBleMigrationStateChanged wear_ble_migration_state_changed
+    extensions 1082; // AppMediaCodecUsageReported app_media_codec_usage_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
