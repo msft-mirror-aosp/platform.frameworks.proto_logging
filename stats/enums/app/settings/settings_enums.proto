@@ -2277,6 +2277,15 @@ enum Action {
     // ACTION: Settings > Sound & vibration > Tap & click sounds
     // CATEGORY: SETTINGS
     ACTION_TOUCH_SOUND = 2046;
+
+    // ACTION: Settings > System > Gestures > Double press power button
+    // CATEGORY: SETTINGS
+    ACTION_DOUBLE_TAP_POWER_ENABLED = 2047;
+
+    // ACTION: Settings > System > Gestures > Double press power button
+    //                                      > Choose actions
+    // CATEGORY: SETTINGS
+    ACTION_DOUBLE_TAP_POWER_BUTTON_BEHAVIOR = 2048;
 }
 
 /**
