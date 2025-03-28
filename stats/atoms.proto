@@ -5633,6 +5633,10 @@ message AppStartOccurred {
         NOTIFICATION = 2;
         LOCKSCREEN = 3;
         RECENTS_ANIMATION = 4;
+        DESKTOP_ANIMATION = 5;
+        QSS = 6;
+        TILE = 7;
+        COMPLICATION = 8;
     }
     // The type of the startup source.
     optional SourceType source_type = 16;
