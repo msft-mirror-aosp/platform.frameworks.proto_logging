@@ -1384,6 +1384,8 @@ message Atom {
     extensions 1055; // NotificationAssistantEventStats notification_assistant_event_stats
     extensions 1056; // NotificationAssistantDurationStats notification_assistant_duration_stats
     extensions 1057; // WifiNetworkValidationReport wifi_network_validation_report
+    extensions 1058; // UnifiedTableEnabledReported unified_table_enabled_reported
+    extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
