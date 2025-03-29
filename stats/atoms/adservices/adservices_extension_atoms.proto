@@ -243,6 +243,12 @@ extend Atom {
 
   optional AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info = 1046
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional UnifiedTableEnabledReported unified_table_enable_reported = 1058
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional ProdDebugEnabledReported prod_debug_enabled_reported = 1059
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -2428,4 +2434,21 @@ message AdservicesMeasurementBackgroundJobInfo {
   // JobService.onStopJob() was never called for the job.
   // The default value is STOP_REASON_UNDEFINED.
   optional android.app.job.StopReasonEnum public_stop_reason = 6;
+}
+
+/**
+ * Used for checking if prod debug is enabled in auction server APIs.
+ * Pushed from: packages/modules/AdServices/adservices
+ */
+message ProdDebugEnabledReported {
+  optional bool is_enabled = 1;
+}
+
+/**
+ * Used for checking if unified table is used in on device auction APIs.
+ * Pushed from: packages/modules/AdServices/adservices
+ */
+message UnifiedTableEnabledReported {
+  optional bool is_unified_table_enabled = 1;
+  optional bool is_unified_dao_used = 2;
 }
