@@ -41,6 +41,9 @@ extend Atom {
   optional AppSearchAppsIndexerStatsReported
           app_search_apps_indexer_stats_reported = 909 [(module) = "appsearch"];
 
+  optional AppSearchAppOpenEventIndexerStatsReported
+          app_search_app_open_event_indexer_stats_reported = 1050 [(module) = "appsearch"];
+
   optional AppSearchVmPayloadStatsReported
           app_search_vm_payload_stats_reported = 1047 [(module) = "appsearch"];
 }
@@ -339,6 +342,35 @@ message AppSearchAppsIndexerStatsReported {
 
   // App Function removal latency
   optional int64 remove_functions_from_appsearch_appsearch_latency_millis = 18;
+}
+
+/**
+ * Reported when AppSearch App Open Event Indexer syncs apps from UsageStatsManager to AppSearch.
+ *
+ * Logged from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/appsindexer/AppOpenEventIndexerUserInstance.java
+ * Estimated Logging Rate: once per device per day
+ *
+ * Next tag: 9
+ */
+message AppSearchAppOpenEventIndexerStatsReported {
+
+  // Status codes for inserting/updating apps. If everything succeeds, this only contains [0]. If
+  // something fails, this contains all the error codes we got.
+  repeated int32 update_status_codes = 1;
+
+  // Update counts
+  optional int32 number_of_app_open_events_added = 2;
+
+  // Latencies
+  optional int64 total_latency_millis = 3;
+  optional int64 usage_stats_manager_read_latency_millis = 4;
+  optional int64 appsearch_set_schema_latency_millis = 5;
+  optional int64 appsearch_put_latency_millis = 6;
+
+  // Timestamps
+  optional int64 update_start_wallclock_timestamp_millis = 7;
+  optional int64 last_app_update_wallclock_timestamp_millis = 8;
 }
 
 /**

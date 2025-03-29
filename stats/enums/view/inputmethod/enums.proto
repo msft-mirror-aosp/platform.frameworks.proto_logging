@@ -84,6 +84,7 @@ enum SoftInputShowHideReasonEnum {
     REASON_HIDE_INPUT_TARGET_CHANGED = 57;
     REASON_HIDE_WINDOW_LOST_FOCUS = 58;
     REASON_IME_REQUESTED_CHANGED_LISTENER = 59;
+    REASON_HIDE_FOR_BUBBLES_WHEN_LOCKED = 60;
 }
 
 // The type of the IME request, used by android/view/inputmethod/ImeTracker.java.
@@ -297,5 +298,7 @@ enum ImeRequestPhaseEnum {
     PHASE_SERVER_IME_INVOKER = 77;
     // Reached the IME client invoker on the server.
     PHASE_SERVER_CLIENT_INVOKER = 78;
+    // The server will dispatch the show request to the IME, but this is already visible.
+    PHASE_SERVER_ALREADY_VISIBLE = 79;
 }
 

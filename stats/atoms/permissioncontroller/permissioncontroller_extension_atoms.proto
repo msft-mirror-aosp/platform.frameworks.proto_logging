@@ -46,6 +46,8 @@ extend Atom {
         1034 [(module) = "permissioncontroller"];
     optional CallWithEcmInteractionReported call_with_ecm_interaction_reported =
         1035 [(module) = "permissioncontroller"];
+    optional PermissionManagerPageInteraction permission_manager_page_interaction =
+        1049 [(module) = "permissioncontroller"];
 }
 
 /**
@@ -257,4 +259,30 @@ message CallWithEcmInteractionReported {
     optional bool any_setting_blocked = 1;
     // The call duration, in seconds
     optional int32 duration_secs = 2;
+}
+
+/**
+* Capture user interactions with the permission manager page.
+* Logged from ManageStandardPermissionsFragment.java, and
+* ManageCustomPermissionsFragment.java
+*/
+message PermissionManagerPageInteraction {
+    // id which identifies single session of user interacting with
+    // permission manager page
+    optional int64 session_id = 1;
+
+    enum Action {
+        UNKNOWN = 0;
+        PERMISSION_MANAGER_OPENED = 1;
+        UNUSED_APPS_LEARN_MORE_CLICKED = 2;
+        STANDARD_PERMISSION_GROUP_CLICKED = 3;
+        ADDITIONAL_PERMISSIONS_CLICKED = 4;
+        ADDITIONAL_PERMISSION_GROUP_CLICKED = 5;
+    }
+
+    // The action the user took to interact with the fragment
+    optional Action action = 2;
+    // The permission group the user interacted with, only applies to
+    // STANDARD_PERMISSION_GROUP_CLICKED and ADDITIONAL_PERMISSION_GROUP_CLICKED
+    optional string permission_group_name = 3;
 }

@@ -1375,13 +1375,23 @@ message Atom {
     extensions 1046; // AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info
     extensions 1047; // AppSearchVmPayloadStatsReported app_search_vm_payload_stats_reported
     extensions 1048; // ClipboardGetEventReported clipboard_get_event_reported
+    extensions 1049; // PermissionManagerPageInteraction permission_manager_page_interaction
+    extensions 1050; // AppSearchAppOpenEventIndexerStatsReported app_search_app_open_event_indexer_stats_reported
+    extensions 1051; // ThermalHeadroomListenerDataReported thermal_headroom_listener_data_reported
+    extensions 1052; // CpuHeadroomReported cpu_headroom_reported
+    extensions 1053; // GpuHeadroomReported gpu_headroom_reported
+    extensions 1054; // AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported
+    extensions 1055; // NotificationAssistantEventStats notification_assistant_event_stats
+    extensions 1056; // NotificationAssistantDurationStats notification_assistant_duration_stats
+    extensions 1057; // WifiNetworkValidationReport wifi_network_validation_report
+    extensions 1058; // UnifiedTableEnabledReported unified_table_enabled_reported
+    extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
     extensions 9999; // Atom9999 atom_9999
-
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10237
+    // Next: 10239
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1655,6 +1665,8 @@ message Atom {
     extensions 10234; // WidgetMemoryStats
     extensions 10235; // TelecomEventStats telecom_event_stats
     extensions 10236; // AdvancedProtectionStateInfo advanced_protection_state_info
+    extensions 10237; // AdpfSupportInfo adpf_support_info
+    extensions 10238; // ThermalHeadroomListenerInfo thermal_headroom_listener_info
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -5623,6 +5635,10 @@ message AppStartOccurred {
         NOTIFICATION = 2;
         LOCKSCREEN = 3;
         RECENTS_ANIMATION = 4;
+        DESKTOP_ANIMATION = 5;
+        QSS = 6;
+        TILE = 7;
+        COMPLICATION = 8;
     }
     // The type of the startup source.
     optional SourceType source_type = 16;
@@ -15929,6 +15945,9 @@ message CellularServiceState {
 
     // Whether the call is over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 17;
+
+    // Whether the subscription is an opportunistic (can change CBRS network when available).
+    optional bool is_opportunistic = 18;
  }
 
 /**
@@ -15960,6 +15979,9 @@ message CellularDataServiceSwitch {
 
     // Number of switches from rat_from to rat_to.
     optional int32 switch_count = 6;
+
+    // // Whether the subscription is an opportunistic (can change CBRS network when available).
+    optional bool is_opportunistic = 7;
 }
 
 /**

@@ -54,6 +54,7 @@ extend Atom {
     optional ScorerPredictionResultReported scorer_prediction_result_reported = 884 [(module) = "wifi"];
     optional WifiSoftApCallbackOnClientsDisconnected wifi_soft_ap_callback_on_clients_disconnected
         = 1010 [(module) = "wifi"];
+    optional WifiNetworkValidationReport wifi_network_validation_report = 1057 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -851,4 +852,29 @@ message WifiSoftApCallbackOnClientsDisconnected {
     optional DisconnectReason disconnect_reason = 1;
     // The uid of the SoftAp creator
     optional int32 uid = 2 [(is_uid) = true];
+}
+
+/**
+* Logs when Wifi receive onValidationStatus callback when network validation completes
+*
+* Estimated Logging Rate:
+*  Peak: 100 times per device per day.
+*  Avg: 20 times per device per day.
+*/
+message WifiNetworkValidationReport {
+    enum ValidationResult{
+        UNKNOWN = 0;
+
+        // Network validation pass
+        VALIDATION_PASSED = 1;
+
+        // Network validation failed
+        VALIDATION_FAILED = 2;
+    }
+
+    // Network validation result.
+    optional ValidationResult validation_result  = 1;
+
+    // Time duration for network validation in milliseconds
+    optional int64 validation_duration_ms = 2;
 }

@@ -69,12 +69,15 @@ extend Atom {
     optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
     optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
     optional IntentRedirectBlocked intent_redirect_blocked = 1037 [(module) = "framework"];
+    optional AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated =
+            1039 [(module) = "framework"];
     optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
     optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
     optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
     optional ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server = 1042 [(module) = "framework"];
     optional ClipboardGetEventReported clipboard_get_event_reported = 1048 [(module) = "framework"];
     optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
+    optional AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported = 1054 [(module) = "framework"];
 }
 
 /**
@@ -842,6 +845,20 @@ message DeviceIdleTempAllowlistUpdated {
 }
 
 /**
+ * Records Bitmap allocations.
+ *
+ * Logged via Hummingbird for probes at android.graphics.Bitmap constructor.
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 times in a minute | Avg: O(hundreds) per device per day
+ */
+message AndroidGraphicsBitmapAllocated {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 width = 2;
+    optional int32 height = 3;
+}
+
+/**
  * [Pushed Atom] Logs when an AppOp is accessed through noteOp, startOp, finishOp and that access
  * history can be stored in the AppOp discrete access data store.
  *
@@ -1309,6 +1326,19 @@ message AdvancedProtectionSupportDialogDisplayed {
 message AdvancedProtectionStateInfo {
     optional bool enabled = 1;
     optional int32 hours_since_last_change = 2;
+}
+
+/** Reports failures of enableUsbData signal API calls for the USB data protection feature.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/features/UsbDataAdvancedProtectionHook.java
+ * Estimated Logging Rate:
+ *   Peak: <1 times per device per day. | Avg: <1 time per device per day.
+ */
+message AdvancedProtectionUsbStateChangeErrorReported {
+    // The desired signal state of the API call. If false, then the API call failed to disable
+    // USB data. If true, then the API call failed to enable USB data.
+    optional bool desired_signal_state = 1;
+    optional int32 retries_occurred = 2;
 }
 
 /**
