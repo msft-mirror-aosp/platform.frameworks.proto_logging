@@ -43,6 +43,8 @@ enum AiWallpapersBackend {
   BACKEND_ARATEA = 1;
   /* local images (for testing) backend */
   BACKEND_LOCAL = 2;
+  /* mythweaver backend */
+  BACKEND_MYTHWEAVER_SERVER = 3;
 }
 
 /**
@@ -78,6 +80,19 @@ enum AiWallpapersPrompt {
   PROMPT_SCAN = 23;
 }
 
+/**
+ * Enum corresponding to the AI model used for image generation.
+ */
+enum AiWallpapersModel {
+  /* unknown model. */
+  MODEL_UNSPECIFIED = 0;
+  /* Imagen model */
+  MODEL_IMAGEN = 1;
+  /* miro model */
+  MODEL_MIRO = 2;
+  /* Juno 3b model*/
+  MODEL_JUNO3B = 3;
+}
 
 /**
  * A record of the fact that a specific button was pressed.
@@ -86,9 +101,14 @@ enum AiWallpapersPrompt {
  *     platform/vendor/unbundled_google/packages/WallpaperEffect/master/AiWallpapers/src/com/google/android/apps/aiwallpapers/utils/
  */
 message AiWallpapersButtonPressed {
+  /* the UI button clicked */
   optional AiWallpapersButton button = 1;
   /* the backend (image generation system) */
   optional AiWallpapersBackend backend = 2;
+  /* the prompt template selected */
+  optional AiWallpapersPrompt prompt = 3;
+  /* the model prompt used */
+  optional AiWallpapersModel model = 4;
 }
 
 /**
