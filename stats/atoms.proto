@@ -21843,6 +21843,8 @@ message UwbFirstRangingReceived {
     optional int32 latency_ms = 2;
     // The ranging latency in 200ms.
     optional int32 latency_200ms = 3;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 4 [(is_uid) = true];
 }
 
 /*
