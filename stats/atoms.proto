@@ -37,7 +37,6 @@ import "frameworks/proto_logging/stats/atoms/locale/locale_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/media/media_drm_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/wearsysui/wearsysui_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/sysui/sysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
@@ -877,8 +876,6 @@ message Atom {
         view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
         locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
-        providers.mediaprovider.MediaProviderVolumeRecoveryReported
-            media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         hardware.biometrics.BiometricPropertiesCollected
             biometric_properties_collected = 587 [(module) = "framework"];
         kernel.KernelWakeupAttributed kernel_wakeup_attributed = 588 [(module) = "framework"];
@@ -934,6 +931,7 @@ message Atom {
     extensions 579; // AppSearchSchemaMigrationStatsReported app_search_schema_migration_stats_reported
     extensions 584; // ApplicationGrammaticalInflectionChanged application_grammatical_inflection_changed
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
+    extensions 586; // MediaProviderVolumeRecoveryReported media_provider_volume_recovery_reported
     extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
@@ -1386,6 +1384,8 @@ message Atom {
     extensions 1057; // WifiNetworkValidationReport wifi_network_validation_report
     extensions 1058; // UnifiedTableEnabledReported unified_table_enabled_reported
     extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
+    extensions 1060; // SettingsBiometricsOnboarding settings_biometrics_onboarding
+    extensions 1061; // FileAccessAttributesQueryReported file_access_attributes_query_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

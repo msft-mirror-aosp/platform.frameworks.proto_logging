@@ -28,6 +28,7 @@ option java_multiple_files = true;
 extend Atom {
   optional SettingsSpaReported settings_spa_reported = 622 [(module) = "settings"];
   optional SettingsExtApiReported settings_extapi_reported = 1001 [(module) = "settings"];
+  optional SettingsBiometricsOnboarding settings_biometrics_onboarding = 1060 [(module) = "settings"];
 }
 
 
@@ -91,4 +92,55 @@ message SettingsExtApiReported {
 
   // Action enum associated with the preference.
   optional android.app.settings.Action action = 6;
+}
+
+/**
+ * Logs when a biometric onboarding flow happens.
+ *
+ * Logged from:
+ *   packages/apps/Settings/
+ *
+ * Keep in sync with packages/apps/Settings/protos/biometrics_onboarding.proto
+ */
+message SettingsBiometricsOnboarding {
+  // Face or fingerprint
+  optional android.app.settings.Modality modality = 1;
+
+  // From SUW/Settings/SafetyCenter...
+  optional android.app.settings.FromSource from_source = 2;
+
+  // The associated user. Eg: 0 for owners, 10+ for others.
+  optional int32 user = 3;
+
+  // The enrolled count during this onboarding flow.
+  optional int32 enrolled_count = 4;
+
+  // Duration of the onboarding flow in millis.
+  optional int64 duration_millis = 5;
+
+  // The capybara status.
+  optional int32 capybara_status = 6;
+
+  // The result code of the onboarding flow
+  optional android.app.settings.OnboardingResult result_code = 7;
+
+  // The error code
+  optional int32 error_code = 8;
+
+  // All screen infos that a user navigates through the onboarding flow.
+  optional RepeatedOnboardingScreenInfo onboarding_screen_info_list = 9 [(log_mode) = MODE_BYTES];
+}
+
+message OnboardingScreenInfo {
+  // The onboarding screen
+  optional android.app.settings.OnboardingScreen onboarding_screen = 1;
+  // The actions that user performs on this screen
+  repeated android.app.settings.OnboardingAction onboarding_actions = 2;
+  // The time in ms that user stays on this screen
+  optional int64 dwell_time_millis = 3;
+}
+
+message RepeatedOnboardingScreenInfo {
+  // The onboarding screen info list
+  repeated OnboardingScreenInfo info_list = 1;
 }
