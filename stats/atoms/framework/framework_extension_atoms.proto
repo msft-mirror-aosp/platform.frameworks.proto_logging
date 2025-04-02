@@ -69,8 +69,6 @@ extend Atom {
     optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
     optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
     optional IntentRedirectBlocked intent_redirect_blocked = 1037 [(module) = "framework"];
-    optional AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated =
-            1039 [(module) = "framework"];
     optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
     optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
     optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
@@ -842,20 +840,6 @@ message DeviceIdleTempAllowlistUpdated {
     optional int32 reason_code = 5;
     optional string reason = 6;
     optional int32 calling_uid = 7 [(is_uid) = true];
-}
-
-/**
- * Records Bitmap allocations.
- *
- * Logged via Hummingbird for probes at android.graphics.Bitmap constructor.
- *
- * Estimated Logging Rate:
- *   Peak: 100 times in a minute | Avg: O(hundreds) per device per day
- */
-message AndroidGraphicsBitmapAllocated {
-    optional int32 uid = 1 [(is_uid) = true];
-    optional int32 width = 2;
-    optional int32 height = 3;
 }
 
 /**

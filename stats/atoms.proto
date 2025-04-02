@@ -195,7 +195,7 @@ message Atom {
                 42 [(module) = "framework", (module) = "statsdtest"];
         IsolatedUidChanged isolated_uid_changed =
                 43 [(module) = "framework", (module) = "statsd", (module) = "statsdtest"];
-        PacketWakeupOccurred packet_wakeup_occurred = 44 [(module) = "framework"];
+        PacketWakeupOccurred packet_wakeup_occurred = 44 [(module) = "framework", deprecated = true];
         WallClockTimeShifted wall_clock_time_shifted = 45 [(module) = "framework"];
         AnomalyDetected anomaly_detected = 46 [(module) = "statsd"];
         AppBreadcrumbReported app_breadcrumb_reported = 47
