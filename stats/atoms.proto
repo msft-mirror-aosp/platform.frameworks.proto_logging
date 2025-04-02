@@ -622,7 +622,8 @@ message Atom {
         AppSearchPutDocumentStatsReported app_search_put_document_stats_reported = 348 [(module) = "appsearch"];
         sysui.DeviceControlChanged device_control_changed = 349 [(module) = "sysui"];
         DeviceStateChanged device_state_changed = 350 [(module) = "framework"];
-        input.InputDeviceRegistered inputdevice_registered = 351 [(module) = "framework"];
+        input.InputDeviceRegistered inputdevice_registered =
+            351 [(module) = "framework", (module) = "input"];
         sysui.SmartSpaceCardReported smartspace_card_reported = 352 [(module) = "sysui"];
         AuthPromptAuthenticateInvoked auth_prompt_authenticate_invoked = 353 [(module) = "framework"];
         AuthManagerCanAuthenticateInvoked auth_manager_can_authenticate_invoked = 354 [(module) = "framework"];
@@ -645,7 +646,8 @@ message Atom {
         AppProcessDied app_process_died = 373 [(module) = "framework"];
         NetworkIpReachabilityMonitorReported network_ip_reachability_monitor_reported =
             374 [(module) = "network_stack"];
-        input.SlowInputEventReported slow_input_event_reported = 375 [(module) = "input"];
+        input.SlowInputEventReported slow_input_event_reported =
+            375 [(module) = "input"];
         ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
         AppSearchRemoveStatsReported app_search_remove_stats_reported = 377 [(module) = "appsearch"];
         MediaCodecReported media_codec_reported =
@@ -1448,16 +1450,18 @@ message Atom {
         TrainInfo train_info = 10051 [(module) = "statsd"];
         TimeZoneDataInfo time_zone_data_info = 10052 [(module) = "framework"];
         ExternalStorageInfo external_storage_info = 10053 [(module) = "framework"];
-        GpuStatsGlobalInfo gpu_stats_global_info = 10054;
-        GpuStatsAppInfo gpu_stats_app_info = 10055;
+        GpuStatsGlobalInfo gpu_stats_global_info = 10054 [(module) = "gpustats"];
+        GpuStatsAppInfo gpu_stats_app_info = 10055 [(module) = "gpustats"];
         SystemIonHeapSize system_ion_heap_size = 10056 [deprecated = true, (module) = "framework"];
         AppsOnExternalStorageInfo apps_on_external_storage_info = 10057 [(module) = "framework"];
         FaceSettings face_settings = 10058 [(module) = "framework"];
         CoolingDevice cooling_device = 10059 [(module) = "framework"];
         AppOps app_ops = 10060 [(module) = "framework"];
         ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework"];
-        SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info = 10062;
-        SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info = 10063;
+        SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info =
+                10062 [(module) = "surfaceflinger"];
+        SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info =
+                10063 [(module) = "surfaceflinger"];
         ProcessMemorySnapshot process_memory_snapshot = 10064 [(module) = "framework"];
         VmsClientStats vms_client_stats = 10065 [(module) = "car"];
         NotificationRemoteViews notification_remote_views = 10066 [(module) = "framework"];
@@ -1512,7 +1516,8 @@ message Atom {
         sysui.LauncherLayoutSnapshot launcher_layout_snapshot = 10108
             [(module) = "sysui"];
         GlobalHibernatedApps global_hibernated_apps = 10109 [(module) = "framework"];
-        input.InputEventLatencySketch input_event_latency_sketch = 10110 [(module) = "input"];
+        input.InputEventLatencySketch input_event_latency_sketch =
+            10110 [(module) = "input"];
         BatteryUsageStatsBeforeReset battery_usage_stats_before_reset =
             10111 [(module) = "framework"];
         BatteryUsageStatsSinceReset battery_usage_stats_since_reset =
@@ -1569,7 +1574,7 @@ message Atom {
         PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
         GbaEvent gba_event = 10145 [(module) = "telephony"];
         PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
-        GpuWorkPerUid gpu_work_per_uid = 10147;
+        GpuWorkPerUid gpu_work_per_uid = 10147 [(module) = "gpustats"];
         PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
             10148 [(module) = "framework"];
         SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
