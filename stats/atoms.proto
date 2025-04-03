@@ -21752,6 +21752,8 @@ message UwbSessionClosed {
     optional int32 rx_to_upper_layer_count = 20;
     // Ranging Measurement Type
     optional android.uwb.RangingType ranging_type = 21;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 22 [(is_uid) = true];
 }
 
 /*
@@ -21774,6 +21776,8 @@ message UwbStartRanging {
     optional bool is_out_of_band = 6;
     // The status code of ranging start.
     optional android.uwb.RangingStatus status = 7;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 8 [(is_uid) = true];
 }
 
 /*
@@ -21821,6 +21825,8 @@ message UwbRangingMeasurementReceived {
     optional int32 filtered_elevation_degree = 19;
     // The filtered figure of merit of elevation angle measurement.
     optional int32 filtered_elevation_fom = 20;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 21 [(is_uid) = true];
 }
 
 /*
