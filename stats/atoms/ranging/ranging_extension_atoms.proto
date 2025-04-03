@@ -53,6 +53,9 @@ message RangingSessionConfigured {
 
   // Number of peers to range with as specified in the configuration.
   optional int32 num_peers = 5;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 6 [(is_uid) = true];
 }
 
 /*
@@ -87,6 +90,9 @@ message RangingSessionClosed {
 
   // Reason why the session closed.
   optional android.ranging.Reason reason = 4;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 5 [(is_uid) = true];
 }
 
 /*
@@ -101,6 +107,9 @@ message RangingTechnologyStarted {
 
   // Number of peers that started using this technology.
   optional int32 num_peers = 3;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 4 [(is_uid) = true];
 }
 
 /*
@@ -121,4 +130,7 @@ message RangingTechnologyStopped {
 
   // Number of peers that stopped using this technology.
   optional int32 num_peers = 5;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 6 [(is_uid) = true];
 }
