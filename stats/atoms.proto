@@ -1390,6 +1390,8 @@ message Atom {
     extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
     extensions 1060; // SettingsBiometricsOnboarding settings_biometrics_onboarding
     extensions 1061; // FileAccessAttributesQueryReported file_access_attributes_query_reported
+    extensions 1062; // AdServicesMeasurementReportingOriginsPerEnrollmentCounted adservices_measurement_reporting_origins_per_enrollment_counted
+    extensions 1063; // AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

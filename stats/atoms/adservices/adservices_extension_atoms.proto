@@ -249,6 +249,12 @@ extend Atom {
 
   optional ProdDebugEnabledReported prod_debug_enabled_reported = 1059
   [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesMeasurementReportingOriginsPerEnrollmentCounted adservices_measurement_reporting_origins_per_enrollment_counted = 1062
+  [(module) = "adservices", (truncate_timestamp) = true];
+
+  optional AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted = 1063
+  [(module) = "adservices", (truncate_timestamp) = true];
 }
 
 /**
@@ -2451,4 +2457,28 @@ message ProdDebugEnabledReported {
 message UnifiedTableEnabledReported {
   optional bool is_unified_table_enabled = 1;
   optional bool is_unified_dao_used = 2;
+}
+
+/**
+* Logs the number of unique reporting origins per enrollment id in the past
+* day when a source is registered.
+* Logged from:
+* packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/stats/StatsdAdServicesLogger.java
+* Estimated Logging Rate:
+*     Avg: 10x per device per day
+*/
+message AdServicesMeasurementReportingOriginsPerEnrollmentCounted {
+ optional int64 unique_reporting_origins_count = 1;
+}
+
+/**
+* Logs the number of unique reporting origins per enrollment id per
+* destination in the past day when a source is registered.
+* Logged from:
+* packages/modules/AdServices/adservices/service-core/java/com/android/adservices/service/stats/StatsdAdServicesLogger.java
+* Estimated Logging Rate:
+*     Avg: 20x per device per day
+*/
+message AdServicesMeasurementReportingOriginsPerEnrllXDestCounted {
+ optional int64 unique_reporting_origins_count = 1;
 }
