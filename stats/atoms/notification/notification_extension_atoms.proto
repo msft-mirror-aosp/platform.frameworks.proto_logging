@@ -27,8 +27,8 @@ option java_multiple_files = true;
 
 extend Atom {
   optional NotificationBundlePreferences notification_bundle_preferences = 10231 [(module) = "framework"];
-  optional NotificationAssistantEventStats notification_assistant_event_stats = 1055 [(module) = "extservices"];
-  optional NotificationAssistantDurationStats notification_assistant_duration_stats = 1056 [(module) = "extservices"];
+  optional NotificationAssistantEventReported notification_assistant_event_reported = 1055 [(module) = "extservices"];
+  optional NotificationAssistantDurationReceived notification_assistant_duration_received = 1056 [(module) = "extservices"];
 }
 
 /**
@@ -56,7 +56,7 @@ message NotificationBundlePreferences {
  * Logged from:
  *   packages/modules/ExtServices/java/src/android/ext/services/notification/Assistant.java
  */
-message NotificationAssistantEventStats {
+message NotificationAssistantEventReported {
   enum NotificationAssistantEventType {
     UNKNOWN = 0;
     NOTIFICATION_ENQUEUED = 1;
@@ -74,6 +74,6 @@ message NotificationAssistantEventStats {
  * Logged from:
  *   packages/modules/ExtServices/java/src/android/ext/services/notification/Assistant.java
  */
-message NotificationAssistantDurationStats {
+message NotificationAssistantDurationReceived {
   optional int64 otp_detection_duration_ms = 1;
 }
