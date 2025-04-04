@@ -38,13 +38,8 @@ enum AppTransitionReasonEnum {
 }
 
 // ActivityManager.java PROCESS_STATEs
-// Next tag: 1021
 enum ProcessStateEnum {
-    // Unlike the ActivityManager PROCESS_STATE values, the ordering and numerical values
-    // here are completely fixed and arbitrary. Order is irrelevant.
-    // No attempt need be made to keep them in sync.
-    // The values here must not be modified. Any new process states can be appended to the end.
-
+    PROCESS_STATE_UNSPECIFIED = 0;
     // Process state that is unknown to this proto file (i.e. is not mapped
     // by ActivityManager.processStateAmToProto()). Can only happen if there's a bug in the mapping.
     PROCESS_STATE_UNKNOWN_TO_PROTO = 998;
@@ -203,7 +198,7 @@ enum AppExitReasonCode {
      * user clicked the "Force stop" button of the application in the Settings,
      * or swiped away the application from Recents.
      * <p>
-     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE}, one of the uses of this 
+     * Prior to {@link android.os.Build.VERSION_CODES#UPSIDE_DOWN_CAKE}, one of the uses of this
      * reason was indicate that an app was killed due to it being updated or any of its component states
      * have changed without {@link android.content.pm.PackageManager#DONT_KILL_APP}
      */
