@@ -15989,7 +15989,7 @@ message CellularDataServiceSwitch {
     // Number of switches from rat_from to rat_to.
     optional int32 switch_count = 6;
 
-    // // Whether the subscription is an opportunistic (can change CBRS network when available).
+    // Whether the subscription is an opportunistic (can change CBRS network when available).
     optional bool is_opportunistic = 7;
 }
 
@@ -16270,6 +16270,9 @@ message OutgoingSms {
 
     // Whether the message was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 22;
+
+    // The length of PDU
+    optional int32 pdu_length = 23;
 }
 
 /**
@@ -23596,6 +23599,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 15;
+
+    // The length of PDU
+    optional int32 pdu_length = 16;
 }
 
 message PrivacySignalNotificationInteraction {
