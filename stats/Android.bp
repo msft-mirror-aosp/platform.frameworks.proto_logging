@@ -287,3 +287,13 @@ filegroup {
         "message/*.proto",
     ],
 }
+
+rust_protobuf {
+    name: "libframework_service_enums_protos_rs",
+    protos: [
+        "enums/service/enums.proto",
+    ],
+    crate_name: "framework_service_enums_protos_rs",
+    source_stem: "framework_service_enums_protos_rs_source",
+    host_supported: true,
+}

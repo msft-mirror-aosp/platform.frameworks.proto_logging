@@ -5765,3 +5765,60 @@ enum ExtApiResultType {
     RESULT_FAILURE_RESTRICTED = 10;
     RESULT_FAILURE_REQUIRE_USER_CONSENT = 11;
 }
+
+// The biometrics modality
+enum Modality {
+    MODALITY_UNKNOWN = 0;
+    MODALITY_FINGERPRINT = 1;
+    MODALITY_FACE = 2;
+}
+
+// The source that trigger the biometrics onboarding flow
+enum FromSource {
+    FROM_UNKNOWN = 0;
+    FROM_SUW = 1;
+    FROM_SETTINGS = 2;
+    FROM_SAFETY_ISSUE = 3;
+    FROM_FRR_NOTIFICATION = 4;
+}
+
+// The result code of the onboarding flow
+enum OnboardingResult {
+    RESULT_UNKNOWN = 0;
+    RESULT_COMPLETED = 1;
+    RESULT_SKIP = 2;
+    RESULT_TIMEOUT = 3;
+    RESULT_CANCEL = 4;
+}
+
+// Screens during the biometric onboarding flow
+enum OnboardingScreen {
+    SCREEN_UNKNOWN = 0;
+    SCREEN_INTRO = 1;
+    SCREEN_EDUCATION = 2;
+    SCREEN_ENROLLING = 3;
+    SCREEN_CONFIRMATION = 4;
+    SCREEN_CAPYBARA_EDUCATION = 5;
+    SCREEN_CAPYBARA_SCANNER = 6;
+}
+
+// Actions during the biometrics onboarding flow
+enum OnboardingAction {
+    ACTION_ONBOARDING_UNKNOWN = 0;
+    ACTION_NEXT = 1;
+    ACTION_SKIP = 2;
+    ACTION_CANCEL = 3;
+    ACTION_ADD_ANOTHER_FINGERPRINT = 4;
+    ACTION_SETUP_CAPYBARA = 5;
+    ACTION_CAPYBARA_SCAN = 6;
+    ACTION_CAPYBARA_NO_SCAN = 7;
+    ACTION_SETUP_FOR_FACE_A11Y = 8;
+    ACTION_FACE_A11Y_ON = 9;
+    ACTION_FACE_A11Y_OFF = 10;
+    ACTION_FACE_GAZE_ON = 11;
+    ACTION_FACE_GAZE_OFF = 12;
+    ACTION_FACE_SKIP_LOCK_SCREEN_ON = 13;
+    ACTION_FACE_SKIP_LOCK_SCREEN_OFF = 14;
+    ACTION_FACE_ENROLL_TRY_AGAIN = 15;
+    ACTION_FACE_TRY_FAST_ENROLL = 16;
+}

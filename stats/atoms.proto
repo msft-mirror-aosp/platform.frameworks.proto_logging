@@ -37,7 +37,6 @@ import "frameworks/proto_logging/stats/atoms/locale/locale_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/location/location_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/media/media_drm_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/wearsysui/wearsysui_atoms.proto";
-import "frameworks/proto_logging/stats/atoms/providers/mediaprovider/media_provider_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/sysui/sysui_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/usb/usb_atoms.proto";
 import "frameworks/proto_logging/stats/atoms/view/inputmethod/inputmethod_atoms.proto";
@@ -196,7 +195,7 @@ message Atom {
                 42 [(module) = "framework", (module) = "statsdtest"];
         IsolatedUidChanged isolated_uid_changed =
                 43 [(module) = "framework", (module) = "statsd", (module) = "statsdtest"];
-        PacketWakeupOccurred packet_wakeup_occurred = 44 [(module) = "framework"];
+        PacketWakeupOccurred packet_wakeup_occurred = 44 [(module) = "framework", deprecated = true];
         WallClockTimeShifted wall_clock_time_shifted = 45 [(module) = "framework"];
         AnomalyDetected anomaly_detected = 46 [(module) = "statsd"];
         AppBreadcrumbReported app_breadcrumb_reported = 47
@@ -209,7 +208,7 @@ message Atom {
         WifiMulticastLockStateChanged wifi_multicast_lock_state_changed = 53 [(module) = "wifi"];
         AppStartMemoryStateCaptured app_start_memory_state_captured = 55 [(module) = "framework"];
         ShutdownSequenceReported shutdown_sequence_reported = 56 [(module) = "framework"];
-        BootSequenceReported boot_sequence_reported = 57;
+        BootSequenceReported boot_sequence_reported = 57 [(module) = "bootstats"];
         OverlayStateChanged overlay_state_changed =
                 59 [(module) = "framework", (module) = "statsdtest"];
         ForegroundServiceStateChanged foreground_service_state_changed
@@ -467,11 +466,13 @@ message Atom {
         MediaProviderIdleMaintenanceFinished media_provider_idle_maintenance_finished =
             237 [(module) = "mediaprovider"];
         RebootEscrowRecoveryReported reboot_escrow_recovery_reported = 238 [(module) = "framework"];
-        BootTimeEventDuration boot_time_event_duration_reported = 239 [(module) = "framework"];
+        BootTimeEventDuration boot_time_event_duration_reported =
+                239 [(module) = "framework", (module) = "bootstats"];
         BootTimeEventElapsedTime boot_time_event_elapsed_time_reported =
-                240 [(module) = "framework"];
-        BootTimeEventUtcTime boot_time_event_utc_time_reported = 241;
-        BootTimeEventErrorCode boot_time_event_error_code_reported = 242 [(module) = "framework"];
+                240 [(module) = "framework", (module) = "bootstats"];
+        BootTimeEventUtcTime boot_time_event_utc_time_reported = 241 [(module) = "bootstats"];
+        BootTimeEventErrorCode boot_time_event_error_code_reported =
+                242 [(module) = "framework", (module) = "bootstats"];
         UserspaceRebootReported userspace_reboot_reported = 243 [(module) = "framework"];
         NotificationReported notification_reported = 244 [(module) = "framework"];
         sysui.NotificationPanelReported notification_panel_reported = 245 [(module) = "sysui"];
@@ -621,7 +622,8 @@ message Atom {
         AppSearchPutDocumentStatsReported app_search_put_document_stats_reported = 348 [(module) = "appsearch"];
         sysui.DeviceControlChanged device_control_changed = 349 [(module) = "sysui"];
         DeviceStateChanged device_state_changed = 350 [(module) = "framework"];
-        input.InputDeviceRegistered inputdevice_registered = 351 [(module) = "framework"];
+        input.InputDeviceRegistered inputdevice_registered =
+            351 [(module) = "framework", (module) = "input"];
         sysui.SmartSpaceCardReported smartspace_card_reported = 352 [(module) = "sysui"];
         AuthPromptAuthenticateInvoked auth_prompt_authenticate_invoked = 353 [(module) = "framework"];
         AuthManagerCanAuthenticateInvoked auth_manager_can_authenticate_invoked = 354 [(module) = "framework"];
@@ -644,7 +646,8 @@ message Atom {
         AppProcessDied app_process_died = 373 [(module) = "framework"];
         NetworkIpReachabilityMonitorReported network_ip_reachability_monitor_reported =
             374 [(module) = "network_stack"];
-        input.SlowInputEventReported slow_input_event_reported = 375 [(module) = "input"];
+        input.SlowInputEventReported slow_input_event_reported =
+            375 [(module) = "input"];
         ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
         AppSearchRemoveStatsReported app_search_remove_stats_reported = 377 [(module) = "appsearch"];
         MediaCodecReported media_codec_reported =
@@ -877,8 +880,6 @@ message Atom {
         view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
         usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
         locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
-        providers.mediaprovider.MediaProviderVolumeRecoveryReported
-            media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
         hardware.biometrics.BiometricPropertiesCollected
             biometric_properties_collected = 587 [(module) = "framework"];
         kernel.KernelWakeupAttributed kernel_wakeup_attributed = 588 [(module) = "framework"];
@@ -934,6 +935,7 @@ message Atom {
     extensions 579; // AppSearchSchemaMigrationStatsReported app_search_schema_migration_stats_reported
     extensions 584; // ApplicationGrammaticalInflectionChanged application_grammatical_inflection_changed
     extensions 585; // CredentialManagerApiCalled credential_manager_api_called
+    extensions 586; // MediaProviderVolumeRecoveryReported media_provider_volume_recovery_reported
     extensions 593; // ExpressHistogramSampleReported express_histogram_sample_reported
     extensions 598; // AdServicesBackCompatGetTopicsReported ad_services_back_compat_get_topics_reported
     extensions 599; // AdServicesBackCompatEpochComputationClassifierReported ad_services_back_compat_epoch_computation_classifier_reported
@@ -1386,6 +1388,10 @@ message Atom {
     extensions 1057; // WifiNetworkValidationReport wifi_network_validation_report
     extensions 1058; // UnifiedTableEnabledReported unified_table_enabled_reported
     extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
+    extensions 1060; // SettingsBiometricsOnboarding settings_biometrics_onboarding
+    extensions 1061; // FileAccessAttributesQueryReported file_access_attributes_query_reported
+    extensions 1062; // AdServicesMeasurementReportingOriginsPerEnrollmentCounted adservices_measurement_reporting_origins_per_enrollment_counted
+    extensions 1063; // AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1446,16 +1452,18 @@ message Atom {
         TrainInfo train_info = 10051 [(module) = "statsd"];
         TimeZoneDataInfo time_zone_data_info = 10052 [(module) = "framework"];
         ExternalStorageInfo external_storage_info = 10053 [(module) = "framework"];
-        GpuStatsGlobalInfo gpu_stats_global_info = 10054;
-        GpuStatsAppInfo gpu_stats_app_info = 10055;
+        GpuStatsGlobalInfo gpu_stats_global_info = 10054 [(module) = "gpustats"];
+        GpuStatsAppInfo gpu_stats_app_info = 10055 [(module) = "gpustats"];
         SystemIonHeapSize system_ion_heap_size = 10056 [deprecated = true, (module) = "framework"];
         AppsOnExternalStorageInfo apps_on_external_storage_info = 10057 [(module) = "framework"];
         FaceSettings face_settings = 10058 [(module) = "framework"];
         CoolingDevice cooling_device = 10059 [(module) = "framework"];
         AppOps app_ops = 10060 [(module) = "framework"];
         ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework"];
-        SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info = 10062;
-        SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info = 10063;
+        SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info =
+                10062 [(module) = "surfaceflinger"];
+        SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info =
+                10063 [(module) = "surfaceflinger"];
         ProcessMemorySnapshot process_memory_snapshot = 10064 [(module) = "framework"];
         VmsClientStats vms_client_stats = 10065 [(module) = "car"];
         NotificationRemoteViews notification_remote_views = 10066 [(module) = "framework"];
@@ -1510,7 +1518,8 @@ message Atom {
         sysui.LauncherLayoutSnapshot launcher_layout_snapshot = 10108
             [(module) = "sysui"];
         GlobalHibernatedApps global_hibernated_apps = 10109 [(module) = "framework"];
-        input.InputEventLatencySketch input_event_latency_sketch = 10110 [(module) = "input"];
+        input.InputEventLatencySketch input_event_latency_sketch =
+            10110 [(module) = "input"];
         BatteryUsageStatsBeforeReset battery_usage_stats_before_reset =
             10111 [(module) = "framework"];
         BatteryUsageStatsSinceReset battery_usage_stats_since_reset =
@@ -1567,7 +1576,7 @@ message Atom {
         PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
         GbaEvent gba_event = 10145 [(module) = "telephony"];
         PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
-        GpuWorkPerUid gpu_work_per_uid = 10147;
+        GpuWorkPerUid gpu_work_per_uid = 10147 [(module) = "gpustats"];
         PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
             10148 [(module) = "framework"];
         SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
@@ -15980,7 +15989,7 @@ message CellularDataServiceSwitch {
     // Number of switches from rat_from to rat_to.
     optional int32 switch_count = 6;
 
-    // // Whether the subscription is an opportunistic (can change CBRS network when available).
+    // Whether the subscription is an opportunistic (can change CBRS network when available).
     optional bool is_opportunistic = 7;
 }
 
@@ -16261,6 +16270,9 @@ message OutgoingSms {
 
     // Whether the message was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 22;
+
+    // The length of PDU
+    optional int32 pdu_length = 23;
 }
 
 /**
@@ -21768,6 +21780,8 @@ message UwbSessionClosed {
     optional int32 rx_to_upper_layer_count = 20;
     // Ranging Measurement Type
     optional android.uwb.RangingType ranging_type = 21;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 22 [(is_uid) = true];
 }
 
 /*
@@ -21790,6 +21804,8 @@ message UwbStartRanging {
     optional bool is_out_of_band = 6;
     // The status code of ranging start.
     optional android.uwb.RangingStatus status = 7;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 8 [(is_uid) = true];
 }
 
 /*
@@ -21837,6 +21853,8 @@ message UwbRangingMeasurementReceived {
     optional int32 filtered_elevation_degree = 19;
     // The filtered figure of merit of elevation angle measurement.
     optional int32 filtered_elevation_fom = 20;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 21 [(is_uid) = true];
 }
 
 /*
@@ -21850,6 +21868,8 @@ message UwbFirstRangingReceived {
     optional int32 latency_ms = 2;
     // The ranging latency in 200ms.
     optional int32 latency_200ms = 3;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 4 [(is_uid) = true];
 }
 
 /*
@@ -23579,6 +23599,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 15;
+
+    // The length of PDU
+    optional int32 pdu_length = 16;
 }
 
 message PrivacySignalNotificationInteraction {

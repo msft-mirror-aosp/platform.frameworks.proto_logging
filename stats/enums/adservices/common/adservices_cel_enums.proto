@@ -401,6 +401,9 @@ enum ErrorCode {
   // Error occurred when trying to validate the UID of the calling app.
   MEASUREMENT_UID_CHECK_FAILURE = 2023;
 
+  // Error occurred when trying to execute a background job.
+  MEASUREMENT_BACKGROUND_JOB_FAILURE = 2024;
+
   // Fledge (PA), PAS errors: 3001 - 4000
   // Exception while PAS unable to find the service.
   PAS_UNABLE_FIND_SERVICES = 3001;
@@ -1307,6 +1310,9 @@ enum ErrorCode {
 
   // UX Enum is unsupported
   UNSUPPORTED_UX = 4016;
+
+  // Exception when calling setAdsPersonalizationStatus API
+  SET_ADS_PERSONALIZATION_STATUS_ERROR = 4017;
 
   // FederatedCompute errors: 5001-6000
   // Datastore exception while deleting a federated task.
