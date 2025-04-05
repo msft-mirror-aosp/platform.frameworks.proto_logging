@@ -387,7 +387,8 @@ int write_stats_log_java(FILE* out, const Atoms& atoms, const AtomDecl& attribut
     fprintf(out, " * @hide\n");
     fprintf(out, " */\n");
 
-    fprintf(out, "public class %s {\n", javaClass.c_str());
+    const char* finalPrefix = staticMethods ? "final " : "";
+    fprintf(out, "public %sclass %s {\n", finalPrefix, javaClass.c_str());
 
     write_java_atom_codes(out, atoms);
     write_java_enum_values(out, atoms);

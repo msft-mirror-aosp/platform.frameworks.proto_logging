@@ -1390,6 +1390,8 @@ message Atom {
     extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
     extensions 1060; // SettingsBiometricsOnboarding settings_biometrics_onboarding
     extensions 1061; // FileAccessAttributesQueryReported file_access_attributes_query_reported
+    extensions 1062; // AdServicesMeasurementReportingOriginsPerEnrollmentCounted adservices_measurement_reporting_origins_per_enrollment_counted
+    extensions 1063; // AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15987,7 +15989,7 @@ message CellularDataServiceSwitch {
     // Number of switches from rat_from to rat_to.
     optional int32 switch_count = 6;
 
-    // // Whether the subscription is an opportunistic (can change CBRS network when available).
+    // Whether the subscription is an opportunistic (can change CBRS network when available).
     optional bool is_opportunistic = 7;
 }
 
@@ -16268,6 +16270,9 @@ message OutgoingSms {
 
     // Whether the message was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 22;
+
+    // The length of PDU
+    optional int32 pdu_length = 23;
 }
 
 /**
@@ -21775,6 +21780,8 @@ message UwbSessionClosed {
     optional int32 rx_to_upper_layer_count = 20;
     // Ranging Measurement Type
     optional android.uwb.RangingType ranging_type = 21;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 22 [(is_uid) = true];
 }
 
 /*
@@ -21797,6 +21804,8 @@ message UwbStartRanging {
     optional bool is_out_of_band = 6;
     // The status code of ranging start.
     optional android.uwb.RangingStatus status = 7;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 8 [(is_uid) = true];
 }
 
 /*
@@ -21844,6 +21853,8 @@ message UwbRangingMeasurementReceived {
     optional int32 filtered_elevation_degree = 19;
     // The filtered figure of merit of elevation angle measurement.
     optional int32 filtered_elevation_fom = 20;
+    // The UID of the process that started the ranging session.
+    optional int32 uid = 21 [(is_uid) = true];
 }
 
 /*
@@ -23588,6 +23599,9 @@ message OutgoingMms {
 
     // Whether the MMS was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 15;
+
+    // The length of PDU
+    optional int32 pdu_length = 16;
 }
 
 message PrivacySignalNotificationInteraction {
