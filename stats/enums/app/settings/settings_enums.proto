@@ -5706,6 +5706,10 @@ enum PageId {
     // OPEN: Settings -> Accessibility -> Project Relate
     // CATEGORY: SETTINGS
     PROJECT_RELATE = 2163;
+
+    // The dialog will show when turning on Settings > Accessibility > Hearing devices > HAC
+    // CATEGORY: SETTINGS
+    DIALOG_HAC_DISCLAIMER = 2164;
 }
 
 // Battery Saver schedule types.

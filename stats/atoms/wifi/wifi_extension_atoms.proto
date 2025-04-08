@@ -423,6 +423,8 @@ message WifiStateChanged {
     optional bool wifi_wake_enabled = 2;
     // If the state change was due to Wi-Fi Wake
     optional bool enabled_by_wifi_wake = 3;
+    // UID of the caller
+    optional int32 uid = 4 [(is_uid) = true];
 }
 
 // Logged when a PNO scan is started.
