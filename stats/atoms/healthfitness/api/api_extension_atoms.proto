@@ -231,15 +231,20 @@ message HealthConnectImportInvoked {
  * Avg: 1 per device per day
  */
 message HealthConnectDataBackupInvoked {
-
   // Status of the data backup (started/success/failure)
   optional android.healthfitness.api.DataBackupStatus status = 1;
 
-  // Time taken between the start of the data backup and its conclusion.
-  optional int32 time_to_succeed_or_fail_millis = 2;
+  /**
+   * Time taken between the start of the data backup and its conclusion.
+   * Deprecated as field cannot be populated with data at time of logging.
+   */
+  optional int32 time_to_succeed_or_fail_millis = 2 [deprecated = true];
 
-  // Size of the data being backed up.
-  optional int32 data_size_kb = 3;
+  /**
+   * Size of the data being backed up.
+   * Deprecated as field cannot be populated with data at time of logging.
+   */
+  optional int32 data_size_kb = 3 [deprecated = true];
 
   // Data backup type (full/incremental).
   optional android.healthfitness.api.DataBackupType backup_type = 4;
