@@ -27,6 +27,7 @@ option java_multiple_files = true;
 extend Atom {
     optional MediaProviderVolumeRecoveryReported media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
     optional FileAccessAttributesQueryReported file_access_attributes_query_reported = 1061 [(module) = "mediaprovider"];
+    optional OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported = 1065 [(module) = "mediaprovider"];
 }
 
 /**
@@ -80,4 +81,19 @@ message FileAccessAttributesQueryReported {
     optional int32 leveldb_query_duration_millis = 2;
     // Flag to check data consistency between SQL and LevelDb
     optional bool is_data_consistent = 3;
+}
+
+/*
+ * Logs count of items that have ownership revoked from apps
+ * Logged from:
+ *   packages/providers/MediaProvider/src/com/android/providers/media/MediaProvider.java
+ * Estimated Logging Rate:
+ *  Peak: 1 time in 1 sec | Avg: <10 in 1 day
+ */
+message OwnedPhotosRevokedFromAppReported {
+    // number of items for which ownership is revoked
+    optional int32 revoked_ownership_item_count = 1;
+
+    // package uid of the package whose ownership is revoked
+    optional int32 package_uid = 2 [(is_uid) = true];
 }
