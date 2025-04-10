@@ -24,7 +24,7 @@ option java_multiple_files = true;
 /**
  * Result of zram writeback attempt.
  *
- * Next tag: 11
+ * Next tag: 12
  */
 enum ZramWritebackResult {
     WRITEBACK_UNSPECIFIED = 0;
@@ -38,12 +38,13 @@ enum ZramWritebackResult {
     WRITEBACK_INVALID_LIMIT = 8;
     WRITEBACK_ACCESS_WRITEBACK_LIMIT_FAIL = 9;
     WRITEBACK_LOAD_STATS_FAIL = 10;
+    WRITEBACK_TRY_MARK_IDLE_AGAIN = 11;
 }
 
 /**
  * Result of zram recompression attempt.
  *
- * Next tag: 7
+ * Next tag: 8
  */
 enum ZramRecompressionResult {
     RECOMPRESSION_UNSPECIFIED = 0;
@@ -53,6 +54,7 @@ enum ZramRecompressionResult {
     RECOMPRESSION_CALCULATE_IDLE_FAIL = 4;
     RECOMPRESSION_MARK_IDLE_FAIL = 5;
     RECOMPRESSION_TRIGGER_FAIL = 6;
+    RECOMPRESSION_TRY_MARK_IDLE_AGAIN = 7;
 }
 
 /**
