@@ -244,6 +244,7 @@ enum Command {
   COMMAND_DEV_SESSION = 9;  // Command to enable or disable adservices developer mode.
   COMMAND_SET_USER_CHOICES = 10;
   COMMAND_SET_MODULE_STATES = 11;
+  COMMAND_SET_ADS_PERSONALIZATION_STATUS = 12;
 
   // Custom audience commands: 101-200
   COMMAND_CUSTOM_AUDIENCE_VIEW = 101;
