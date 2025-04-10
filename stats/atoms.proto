@@ -5083,6 +5083,8 @@ message StyleUIChanged {
     optional string shortcut = 30;
     optional string shortcut_slot_id = 31;
     optional int32 lock_effect_id_hash = 32;
+    optional int32 clock_seed_color = 33;
+    optional android.stats.style.CustomizationPickerSrceen customization_picker_screen = 34;
 }
 
 /**
