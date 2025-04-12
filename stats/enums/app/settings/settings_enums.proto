@@ -5690,6 +5690,26 @@ enum PageId {
     // OPEN: Settings > Connected devices
     // CATEGORY: SETTINGS
     SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159;
+
+    // OPEN: Settings -> Accessibility -> Accessibility Scanner
+    // CATEGORY: SETTINGS
+    ACCESSIBILITY_SCANNER = 2160;
+
+    // OPEN: Settings -> Accessibility -> Action Blocks
+    // CATEGORY: SETTINGS
+    ACTION_BLOCKS = 2161;
+
+    // OPEN: Settings -> Accessibility -> Magnifier
+    // CATEGORY: SETTINGS
+    MAGNIFIER = 2162;
+
+    // OPEN: Settings -> Accessibility -> Project Relate
+    // CATEGORY: SETTINGS
+    PROJECT_RELATE = 2163;
+
+    // The dialog will show when turning on Settings > Accessibility > Hearing devices > HAC
+    // CATEGORY: SETTINGS
+    DIALOG_HAC_DISCLAIMER = 2164;
 }
 
 // Battery Saver schedule types.

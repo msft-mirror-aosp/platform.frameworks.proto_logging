@@ -76,6 +76,7 @@ extend Atom {
     optional ClipboardGetEventReported clipboard_get_event_reported = 1048 [(module) = "framework"];
     optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
     optional AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported = 1054 [(module) = "framework"];
+    optional BinderSpamReported binder_spam_reported = 1064 [(module) = "framework"];
 }
 
 /**
@@ -487,6 +488,8 @@ message MediaProjectionTargetChanged {
     TARGET_TYPE_DISPLAY = 1;
     // Capturing one task of an app.
     TARGET_TYPE_APP_TASK = 2;
+    // Capturing via an overlay.
+    TARGET_TYPE_OVERLAY = 3;
   }
 
   // Windowing mode of the captured task, if the user chose to capture
@@ -1374,4 +1377,23 @@ message ClipboardGetEventReported {
      * measured in seconds, including the device asleep time.
      */
     optional int32 time_since_set_in_secs = 5;
+}
+
+/**
+ * Reports that binder spam was detected.
+ * Logged from:
+ *   frameworks/native/libs/binder/IPCThreadState.cpp
+ * Estimated Logging Rate:
+ *   Peak: Every second. | Avg: 2 times per device per day.
+ */
+message BinderSpamReported {
+    // The worksource UID if known, otherwise the calling process UID
+    optional int32 client_uid = 1 [(is_uid) = true];
+    optional int32 server_uid = 2 [(is_uid) = true];
+    optional string aidl_interface = 3;
+    optional string aidl_method = 4; // (or "#<transaction code>" if unknown)
+
+    // New seconds of spam since last report. Intended for SUM aggregation.
+    optional int32 seconds_with_at_least_125_calls = 5;
+    optional int32 seconds_with_at_least_250_calls = 6;
 }

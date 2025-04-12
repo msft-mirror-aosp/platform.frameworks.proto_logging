@@ -1383,8 +1383,8 @@ message Atom {
     extensions 1052; // CpuHeadroomReported cpu_headroom_reported
     extensions 1053; // GpuHeadroomReported gpu_headroom_reported
     extensions 1054; // AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported
-    extensions 1055; // NotificationAssistantEventStats notification_assistant_event_stats
-    extensions 1056; // NotificationAssistantDurationStats notification_assistant_duration_stats
+    extensions 1055; // NotificationAssistantEventReported notification_assistant_event_reported
+    extensions 1056; // NotificationAssistantDurationReceived notification_assistant_duration_received
     extensions 1057; // WifiNetworkValidationReport wifi_network_validation_report
     extensions 1058; // UnifiedTableEnabledReported unified_table_enabled_reported
     extensions 1059; // ProdDebugEnabledReported prod_debug_enabled_reported
@@ -1392,6 +1392,8 @@ message Atom {
     extensions 1061; // FileAccessAttributesQueryReported file_access_attributes_query_reported
     extensions 1062; // AdServicesMeasurementReportingOriginsPerEnrollmentCounted adservices_measurement_reporting_origins_per_enrollment_counted
     extensions 1063; // AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted
+    extensions 1064; // BinderSpamReported binder_spam_reported
+    extensions 1065; // OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
