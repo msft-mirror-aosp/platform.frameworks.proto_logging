@@ -1,0 +1,122 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.printing;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/attribution_node.proto";
+
+import "frameworks/proto_logging/stats/enums/printing/enums.proto";
+
+extend Atom {
+    optional FrameworkPrintJob framework_print_job = 1071 [(module) =
+    "framework"]; optional FrameworkPrinterDiscovery
+    framework_printer_discovery = 1072 [(module) = "framework"];
+    optional FrameworkMainPrintUiLaunched
+    framework_main_print_ui_launched = 1073 [(module) = "framework"];
+    optional FrameworkAdvancedOptionsUiLaunched
+    framework_advanced_ui_launched = 1074 [(module) = "framework"];
+
+    optional BipsPrintJob bips_print_job = 1075 [(module) =
+    "builtinprintservice"]; optional BipsDiscoveredPrinterCapabilities
+    bips_discovered_printer_capabilities = 1076 [(module) =
+    "builtinprintservice"]; optional BipsPrinterDiscovery
+    bips_printer_discovery = 1077 [(module) = "builtinprintservice"];
+    optional BipsRequestPrinterCapabilitiesStatus
+    bips_request_printer_capabilities = 1078 [(module) =
+    "builtinprintservice"];
+}
+
+// Printing Framework Events
+
+// Logged from frameworks/base/packages/PrintSpooler/src/com/android/printspooler/model/PrintSpoolerService.java
+message FrameworkPrintJob {
+  optional FrameworkPrintJobResult final_state = 1;
+  optional FrameworkColorMode color = 2;
+  optional int32 print_service_uid = 3 [(is_uid) = true];
+  optional FrameworkMediaSize size = 4;
+  optional int32 horizontal_dpi = 5;
+  optional int32 vertical_dpi = 6;
+  optional FrameworkOrientation orientation = 7;
+  optional FrameworkDuplexMode duplex_mode = 8;
+  optional FrameworkDocumentType document_type = 9;
+  optional bool saved_pdf = 10;
+}
+
+// Logged from frameworks/base/core/java/android/printservice/PrinterDiscoverySession.java
+message FrameworkPrinterDiscovery {
+  optional int32 print_service_uid = 1 [(is_uid) = true];
+  repeated FrameworkColorMode supported_colors = 2;
+  repeated FrameworkMediaSize supported_sizes = 3;
+  repeated FrameworkDuplexMode supported_duplex_modes = 4;
+}
+
+// Logged from frameworks/base/packages/PrintSpooler/src/com/android/printspooler/ui/PrintActivity.java
+message FrameworkMainPrintUiLaunched {
+  repeated int32 print_service_uids = 1 [(is_uid) = true];
+  optional int32 printer_count = 2;
+}
+
+// Logged from frameworks/base/packages/PrintSpooler/src/com/android/printspooler/ui/PrintActivity.java
+message FrameworkAdvancedOptionsUiLaunched {
+  optional int32 print_service_uid = 1 [(is_uid) = true];
+}
+
+// BIPS Events
+
+// Logged from packages/services/BuiltInPrintService/src/com/android/bips/LocalPrintJob.java
+message BipsPrintJob {
+  // Singular IPP string value
+  optional string make_and_model = 1;
+  optional BipsJobOrigin job_origin = 2;
+  optional BipsPrintJobResult result = 3;
+  optional bool borderless = 4;
+  optional FrameworkMediaSize size = 5;
+  optional FrameworkDuplexMode duplex_mode = 6;
+  optional BipsMediaType media_type = 7;
+  optional FrameworkColorMode color = 8;
+  optional bool secure = 9;
+  optional int32 horizontal_dpi = 10;
+  optional int32 vertical_dpi = 11;
+}
+
+// Logged from packages/services/BuiltInPrintService/src/com/android/bips/LocalDiscoverySession.java
+message BipsDiscoveredPrinterCapabilities {
+  // Singular IPP string value
+  optional string make_and_model = 1;
+  repeated FrameworkColorMode supported_colors = 2;
+  repeated FrameworkMediaSize supported_sizes = 3;
+  repeated FrameworkDuplexMode supported_duplex_modes = 4;
+  optional bool secure = 5;
+  repeated BipsMediaType media_type = 6;
+}
+
+// Logged from packages/services/BuiltInPrintService/src/com/android/bips/LocalDiscoverySession.java
+// Logged from packages/services/BuiltInPrintService/src/com/android/bips/discovery/MdnsDiscovery.java
+// Logged from packages/services/BuiltInPrintService/src/com/android/bips/p2p/P2pPrinterConnection.java
+message BipsPrinterDiscovery {
+    optional BipsPrinterDiscoveryScheme discovery_scheme = 1;
+    optional bool secure = 2;
+}
+
+// Logged from packages/services/BuiltInPrintService/src/com/android/bips/ipp/GetCapabilitiesTask.java
+message BipsRequestPrinterCapabilitiesStatus {
+    optional BipsRequestCapabilitiesStatus status = 1;
+    optional bool secure = 2;
+}
