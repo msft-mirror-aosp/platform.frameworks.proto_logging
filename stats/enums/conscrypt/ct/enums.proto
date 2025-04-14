@@ -15,6 +15,7 @@ enum LogListStatus {
 enum LogListCompatibilityVersion {
     COMPAT_VERSION_UNKNOWN = 0;
     COMPAT_VERSION_V1 = 1;
+    COMPAT_VERSION_V2 = 2;
 }
 enum VerificationResult {
     RESULT_UNKNOWN = 0;
