@@ -2286,6 +2286,37 @@ enum Action {
     //                                      > Choose actions
     // CATEGORY: SETTINGS
     ACTION_DOUBLE_TAP_POWER_BUTTON_BEHAVIOR = 2048;
+
+    // Action: Settings > Connected devices > Pair new device > pair when audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SETTINGS_BLUETOOTH_PAIR_IN_AUDIO_SHARING = 2049;
+
+    // Action: Settings > Connected devices > Pair new device > pair blocked when audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SETTINGS_BLUETOOTH_PAIR_BLOCKED_IN_AUDIO_SHARING = 2050;
+
+    // Action: Add source to device to share audio
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_ADD_SOURCE = 2051;
+
+    // Action: Remove source from device to leave audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_SHARING_REMOVE_SOURCE = 2052;
+
+    // Action: Audio sharing supported device connected > Show notification to add source
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SHOW_ADD_SOURCE_NOTIFICATION = 2053;
+
+    // Action: Click cancel button on add source notification
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_CANCEL_ADD_SOURCE_NOTIFICATION = 2054;
+
 }
 
 /**
@@ -5169,12 +5200,12 @@ enum PageId {
     // OS: V
     DIALOG_START_AUDIO_SHARING = 2049;
 
-    // Open: Settings > Connected devices > Stop audio sharing dialog
+    // Open: Settings > Dialog to stop audio sharing
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_STOP_AUDIO_SHARING = 2050;
 
-    // Open: Settings > Connected devices > Change device dialog in audio sharing
+    // Open: Settings > Dialog to change device in audio sharing
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_SHARING_SWITCH_DEVICE = 2051;
@@ -5353,9 +5384,7 @@ enum PageId {
     // OS: V
     DIALOG_AUDIO_SHARING_CONFIRMATION = 2085;
 
-    // OPEN: Settings > Connected devices or
-    //       Settings > Connected devices > Connection preferences > Audio sharing > Toggle on
-    //       > Add device to audio sharing dialog
+    // OPEN: Settings > Dialog to add device to audio sharing
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_AUDIO_SHARING_ADD_DEVICE = 2086;
@@ -5710,6 +5739,34 @@ enum PageId {
     // The dialog will show when turning on Settings > Accessibility > Hearing devices > HAC
     // CATEGORY: SETTINGS
     DIALOG_HAC_DISCLAIMER = 2164;
+
+    // Open: Settings > Connected devices > Pair new device
+    //                > Pair an incompatible device for audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_INCOMPATIBLE_DEVICE = 2165;
+
+    // Open: Settings > Connected devices > Connection preferences > Audio sharing > Start failed
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_START_WITH_ERROR = 2166;
+
+    // Open: Settings > Connected devices > Connection preferences > Audio sharing >
+    //                > Dialog to indicate starting sharing is in progress
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_IN_PROGRESS = 2167;
+
+    // Open: Settings > Connected devices > Connection preferences > Audio sharing > Toggle on
+    //                > Main dialog to add device to audio sharing when toggle on
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_AUDIO_SHARING_MAIN = 2168;
+
+    // Open: Settings > Handle device connected during audio sharing
+    // CATEGORY: SETTINGS
+    // OS: V
+    AUDIO_SHARING_JOIN_HANDLER = 2169;
 }
 
 // Battery Saver schedule types.
