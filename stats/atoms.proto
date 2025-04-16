@@ -3307,13 +3307,29 @@ message ShutdownSequenceReported {
  *   system/core/bootstat/bootstat.cpp
  */
 message BootSequenceReported {
-    // Reason for bootloader boot. Eg. reboot. See bootstat.cpp for larger list
-    // Default: "<EMPTY>" if not available.
-    optional string bootloader_reason = 1;
+  // Reason for bootloader boot. Eg. reboot. See bootstat.cpp for larger list
+  // Default: "<EMPTY>" if not available.
+  optional string bootloader_reason = 1;
 
-    // Reason for system boot. Eg. bootloader, reboot,userrequested
-    // Default: "<EMPTY>" if not available.
-    optional string system_reason = 2;
+  // Deprecated. Use system_main_reason, system_sub_reason, and
+  // system_detail instead.
+  //
+  // Reason for system boot. Eg. bootloader,reboot,userrequested
+  // Format: <main_reason>,<sub_reason>,<detail>
+  // Default: "<EMPTY>" if not available.
+  optional string system_reason = 2 [deprecated = true];
+
+  // First part of the system reason. E.g. bootloader.
+  // Default: Empty string if not available.
+  optional string system_main_reason = 7;
+
+    // Second part of the system reason. E.g. reboot.
+    // Default: Empty string if not available.
+    optional string system_sub_reason = 8;
+
+    // Third part of the system reason. E.g. userrequested.
+    // Default: Empty string if not available.
+    optional string system_detail = 9;
 
     // End of boot time in ms from unix epoch using system wall clock.
     optional int64 end_time_millis = 3;
