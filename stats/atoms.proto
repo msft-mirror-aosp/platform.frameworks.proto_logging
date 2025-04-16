@@ -16460,6 +16460,13 @@ message OutgoingSms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 23;
+
+    // The package name of the application sending the sms.
+    // Populated only for sms sent over non-terrestrial networks, empty otherwise.
+    optional string calling_package_name = 24;
+
+    // The application uid.
+    optional int32 app_uid = 25[(is_uid) = true];
 }
 
 /**
@@ -23812,6 +23819,13 @@ message OutgoingMms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 16;
+
+    // The package name of the application sending the MMS.
+    // Populated only for MMS sent over non-terrestrial networks, empty otherwise.
+    optional string calling_package_name = 17;
+
+    // The application uid.
+    optional int32 app_uid = 18 [(is_uid) = true];
 }
 
 message PrivacySignalNotificationInteraction {
