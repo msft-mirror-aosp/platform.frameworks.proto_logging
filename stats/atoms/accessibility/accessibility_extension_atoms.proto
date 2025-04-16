@@ -12,6 +12,9 @@ option java_multiple_files = true;
 extend Atom {
     optional AccessibilityCheckResultReported accessibility_check_result_reported = 910
     [(module) = "accessibility", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+    optional AutoclickEventReported autoclick_event_reported = 1067
+    [(module) = "accessibility"];
 }
 
 /** Logs the result of an AccessibilityCheck. */
@@ -37,4 +40,17 @@ message AccessibilityCheckResultReported {
     optional android.accessibility.AccessibilityCheckResultType result_type = 9;
     // Result ID of the AccessibilityCheckResult.
     optional int32 result_id = 10;
+}
+
+/**
+ * Logs when an autoclick event occurs with information about the click type.
+ * Logged from:
+ *    frameworks/base/services/accessibility/java/com/android/server/accessibility/
+ *    AutoclickController.java
+ * Estimated Logging Rate (for users with autoclick feature enabled):
+ *    Peak: 15 times in 1 min | Avg: ~1000 times per day per user.
+ */
+message AutoclickEventReported {
+    // Type of Autoclick action performed.
+    optional android.accessibility.AutoclickType click_type = 1;
 }
