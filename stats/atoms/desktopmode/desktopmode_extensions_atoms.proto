@@ -211,6 +211,7 @@ message DesktopModeTaskSizeUpdated {
     TOUCHPAD_INPUT_METHOD = 4;
     // Only tiling and maximizing window actions have keyboard shortcuts
     KEYBOARD_INPUT_METHOD = 5;
+    ACCESSIBILITY_INPUT_METHOD = 6;
   }
 
   // How this task was resized
