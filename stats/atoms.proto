@@ -1396,6 +1396,8 @@ message Atom {
     extensions 1065; // OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported
     extensions 1066; //  MediaMetadataExtractionReported media_metadata_extraction_reported
     extensions 1067; // AutoclickEventReported autoclick_event_reported
+    extensions 1068; // AutoclickEnabledReported autoclick_enabled_reported
+    extensions 1069; // AutoclickSessionDurationReported autoclick_session_duration_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
