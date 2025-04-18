@@ -60,6 +60,8 @@ enum Action {
     SHORTCUT_APPLIED = 38;
     DARK_THEME_APPLIED = 39;
     RESET_APPLIED = 40;
+    SHAPE_APPLIED = 41;
+    ENTER_SCREEN = 42;
 }
 
 enum LocationPreference {
@@ -105,6 +107,7 @@ enum SetWallpaperEntryPoint {
     SET_WALLPAPER_ENTRY_POINT_ROTATION_WALLPAPER = 4;
     SET_WALLPAPER_ENTRY_POINT_RESET = 5;
     SET_WALLPAPER_ENTRY_POINT_RESTORE = 6;
+    SET_WALLPAPER_ENTRY_POINT_WALLPAPER_PREVIEW_SUGGESTED_PHOTOS = 7;
 }
 
 enum WallpaperDestination {
@@ -125,4 +128,13 @@ enum ClockSize {
     CLOCK_SIZE_UNSPECIFIED = 0;
     CLOCK_SIZE_DYNAMIC = 1;
     CLOCK_SIZE_SMALL = 2;
+}
+
+enum CustomizationPickerSrceen {
+    SCREEN_UNSPECIFIED = 0;
+    SCREEN_COLORS = 1;
+    SCREEN_ICONS = 2;
+    SCREEN_LAYOUT = 3;
+    SCREEN_CLOCK = 4;
+    SCREEN_SHORTCUTS = 5;
 }

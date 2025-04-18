@@ -28,6 +28,7 @@ extend Atom {
     optional MediaProviderVolumeRecoveryReported media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
     optional FileAccessAttributesQueryReported file_access_attributes_query_reported = 1061 [(module) = "mediaprovider"];
     optional OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported = 1065 [(module) = "mediaprovider"];
+    optional MediaMetadataExtractionReported media_metadata_extraction_reported = 1066 [(module) = "mediaprovider"];
 }
 
 /**
@@ -96,4 +97,78 @@ message OwnedPhotosRevokedFromAppReported {
 
     // package uid of the package whose ownership is revoked
     optional int32 package_uid = 2 [(is_uid) = true];
+}
+
+/*
+ * Logs metadata extraction during media scan for different media types.
+ * Logged from:
+ *   packages/providers/MediaProvider/src/com/android/providers/media/scan/ModernMediaScanner.java
+ * Estimated Logging Rate:
+ *  Peak: 1 time in 5 sec | Avg: <10 per device per day
+ */
+message MediaMetadataExtractionReported {
+    // Total number of media files scanned during this session.
+    optional int32 total_files_scanned = 1;
+
+    // Number of files restored from backup
+    optional int32 files_scanned_from_backup = 2;
+
+    // Average time (in nanoseconds) taken to extract metadata across all media types.
+    optional int64 avg_extraction_time_ns = 3;
+
+    // ---- Image metadata extraction stats ---
+
+    // Number of image files whose metadata was extracted using backup data.
+    optional int32 image_extracted_with_backup_count = 4;
+
+    // Average time (in nanoseconds) to extract metadata for images using backup.
+    optional int64 image_extracted_with_backup_avg_time_ns = 5;
+
+    // Number of image files whose metadata was extracted without using backup.
+    optional int32 image_extracted_without_backup_count = 6;
+
+    // Average time (in nanoseconds) to extract metadata for images without backup.
+    optional int64 image_extracted_without_backup_avg_time_ns = 7;
+
+    // --- Video metadata extraction stats ---
+
+    // Number of video files whose metadata was extracted using backup data.
+    optional int32 video_extracted_with_backup_count = 8;
+
+    // Average time (in nanoseconds) to extract metadata for videos using backup.
+    optional int64 video_extracted_with_backup_avg_time_ns = 9;
+
+    // Number of video files whose metadata was extracted without using backup.
+    optional int32 video_extracted_without_backup_count = 10;
+
+    // Average time (in nanoseconds) to extract metadata for videos without backup.
+    optional int64 video_extracted_without_backup_avg_time_ns = 11;
+
+    // --- Audio metadata extraction stats ---
+
+    // Number of audio files whose metadata was extracted using backup data.
+    optional int32 audio_extracted_with_backup_count = 12;
+
+    // Average time (in nanoseconds) to extract metadata for audio using backup.
+    optional int64 audio_extracted_with_backup_avg_time_ns = 13;
+
+    // Number of audio files whose metadata was extracted without using backup.
+    optional int32 audio_extracted_without_backup_count = 14;
+
+    // Average time (in nanoseconds) to extract metadata for audio without backup.
+    optional int64 audio_extracted_without_backup_avg_time_ns = 15;
+
+    // --- Document metadata extraction stats ---
+
+    // Number of document files whose metadata was extracted using backup data.
+    optional int32 document_extracted_with_backup_count = 16;
+
+    // Average time (in nanoseconds) to extract metadata for documents using backup.
+    optional int64 document_extracted_with_backup_avg_time_ns = 17;
+
+    // Number of document files whose metadata was extracted without using backup.
+    optional int32 document_extracted_without_backup_count = 18;
+
+    // Average time (in nanoseconds) to extract metadata for documents without backup.
+    optional int64 document_extracted_without_backup_avg_time_ns = 19;
 }
