@@ -879,4 +879,10 @@ message WifiNetworkValidationReport {
 
     // Time duration for network validation in milliseconds
     optional int64 validation_duration_ms = 2;
+
+    // Number of validation attempts
+    optional int32 validation_retry_cnt = 3;
+
+    // Device connect to a captive portal network
+    optional bool captive_portal_detected = 4;
 }
