@@ -104,4 +104,18 @@ enum TerribleErrorType {
   // Indicate the error state that tethering was started with a placeholder request (i.e. we
   // couldn't find a pending request for the link layer event).
   TYPE_TETHER_WITH_PLACEHOLDER_REQUEST = 8;
+  // Indicate the error state that the ConnectivityService attempts to clean up
+  // the bypassing private DNS permission for a delegate UID, however, the DNS
+  // resolver doesn't know about this UID and setAllowBypassPrivateDnsOnNetwork API
+  // returns ENOENT.
+  TYPE_DISALLOW_BYPASS_PRIVATE_DNS_FOR_DELEGATE_UID_ENOENT = 9;
+  // Indicate the error state that the ConnectivityService attempts to
+  // set to allow bypassing the VPN permission for a delegate UID, however,
+  // allowBypassVpnOnNetwork API returns a non EEXIST error.
+  TYPE_ALLOW_BYPASS_VPN_FOR_DELEGATE_UID_ERROR = 10;
+  // Indicate the error state that the ConnectivityService attempts to
+  // set to allow bypassing the private DNS permission for a delegate UID,
+  // however, setAllowBypassPrivateDnsOnNetwork API returns a non EEXIST
+  // error.
+  TYPE_ALLOW_BYPASS_PRIVATE_DNS_FOR_DELEGATE_UID_ERROR = 11;
 }

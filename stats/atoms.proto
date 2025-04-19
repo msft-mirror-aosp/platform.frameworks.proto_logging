@@ -1394,12 +1394,14 @@ message Atom {
     extensions 1063; // AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted
     extensions 1064; // BinderSpamReported binder_spam_reported
     extensions 1065; // OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported
+    extensions 1066; //  MediaMetadataExtractionReported media_metadata_extraction_reported
+    extensions 1067; // AutoclickEventReported autoclick_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
 
     // Pulled events will start at field 10000.
-    // Next: 10239
+    // Next: 10240
     oneof pulled {
         WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
         WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
@@ -1678,6 +1680,7 @@ message Atom {
     extensions 10236; // AdvancedProtectionStateInfo advanced_protection_state_info
     extensions 10237; // AdpfSupportInfo adpf_support_info
     extensions 10238; // ThermalHeadroomListenerInfo thermal_headroom_listener_info
+    extensions 10239; // AndroidHardwareHealthStorage android_hardware_health_storage
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -3306,13 +3309,29 @@ message ShutdownSequenceReported {
  *   system/core/bootstat/bootstat.cpp
  */
 message BootSequenceReported {
-    // Reason for bootloader boot. Eg. reboot. See bootstat.cpp for larger list
-    // Default: "<EMPTY>" if not available.
-    optional string bootloader_reason = 1;
+  // Reason for bootloader boot. Eg. reboot. See bootstat.cpp for larger list
+  // Default: "<EMPTY>" if not available.
+  optional string bootloader_reason = 1;
 
-    // Reason for system boot. Eg. bootloader, reboot,userrequested
-    // Default: "<EMPTY>" if not available.
-    optional string system_reason = 2;
+  // Deprecated. Use system_main_reason, system_sub_reason, and
+  // system_detail instead.
+  //
+  // Reason for system boot. Eg. bootloader,reboot,userrequested
+  // Format: <main_reason>,<sub_reason>,<detail>
+  // Default: "<EMPTY>" if not available.
+  optional string system_reason = 2 [deprecated = true];
+
+  // First part of the system reason. E.g. bootloader.
+  // Default: Empty string if not available.
+  optional string system_main_reason = 7;
+
+    // Second part of the system reason. E.g. reboot.
+    // Default: Empty string if not available.
+    optional string system_sub_reason = 8;
+
+    // Third part of the system reason. E.g. userrequested.
+    // Default: Empty string if not available.
+    optional string system_detail = 9;
 
     // End of boot time in ms from unix epoch using system wall clock.
     optional int64 end_time_millis = 3;
@@ -5083,6 +5102,8 @@ message StyleUIChanged {
     optional string shortcut = 30;
     optional string shortcut_slot_id = 31;
     optional int32 lock_effect_id_hash = 32;
+    optional int32 clock_seed_color = 33;
+    optional android.stats.style.CustomizationPickerSrceen customization_picker_screen = 34;
 }
 
 /**
