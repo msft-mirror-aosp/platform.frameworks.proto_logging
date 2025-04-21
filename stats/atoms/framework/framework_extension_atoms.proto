@@ -1397,3 +1397,38 @@ message BinderSpamReported {
     optional int32 seconds_with_at_least_125_calls = 5;
     optional int32 seconds_with_at_least_250_calls = 6;
 }
+
+/**
+ * Logged the change in CDM device presence status
+ * Logged from: frameworks/base/services/companion/java/com/android/server/companion/devicepresence
+ */
+message DevicePresenceChanged {
+    enum DeviceProfile {
+        DEVICE_PROFILE_UNKNOWN = 0;
+        DEVICE_PROFILE_NULL = 1;
+        DEVICE_PROFILE_WATCH = 2;
+        DEVICE_PROFILE_APP_STREAMING = 3;
+        DEVICE_PROFILE_AUTO_PROJECTION = 4;
+        DEVICE_PROFILE_COMPUTER = 5;
+        DEVICE_PROFILE_GLASSES = 6;
+        DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 7;
+        DEVICE_PROFILE_VIRTUAL_DEVICE = 8;
+        DEVICE_PROFILE_WEARABLE_SENSING = 9;
+    }
+
+    enum DevicePresenceStatus {
+        NOTIFY_UNKNOWN = 0;
+        NOTIFY_BLE_APPEARED = 1;
+        NOTIFY_BLE_DISAPPEARED = 2;
+        NOTIFY_BT_CONNECTED = 3;
+        NOTIFY_BT_DISCONNECTED = 4;
+        NOTIFY_SELF_MANAGED_APPEARED = 5;
+        NOTIFY_SELF_MANAGED_DISAPPEARED = 6;
+    }
+
+    // The companion app's UID.
+    optional int32 uid = 1 [(is_uid) = true];
+    // Name of the Companion Device Manager Association profile.
+    optional DeviceProfile device_profile = 2;
+    optional DevicePresenceStatus device_presence_status = 3;
+}
