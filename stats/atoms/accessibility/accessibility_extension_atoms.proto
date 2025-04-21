@@ -15,6 +15,12 @@ extend Atom {
 
     optional AutoclickEventReported autoclick_event_reported = 1067
     [(module) = "accessibility"];
+
+    optional AutoclickEnabledReported autoclick_enabled_reported = 1068
+    [(module) = "accessibility"];
+
+    optional AutoclickSessionDurationReported autoclick_session_duration_reported = 1069
+    [(module) = "accessibility"];
 }
 
 /** Logs the result of an AccessibilityCheck. */
@@ -53,4 +59,30 @@ message AccessibilityCheckResultReported {
 message AutoclickEventReported {
     // Type of Autoclick action performed.
     optional android.accessibility.AutoclickType click_type = 1;
+}
+
+/**
+ * Logs when autoclick feature is enabled.
+ * Logged from:
+ *    frameworks/base/services/accessibility/java/com/android/server/accessibility/
+ *    AutoclickController.java
+ * Estimated Logging Rate:
+ *    Peak: 5 times in 1 min | Avg: 5 times per day per user.
+ */
+message AutoclickEnabledReported {
+    // Whether the feature was enabled or disabled.
+    optional bool enabled = 1;
+}
+
+/**
+ * Logs how long the autoclick feature is used.
+ * Logged from:
+ *    frameworks/base/services/accessibility/java/com/android/server/accessibility/
+ *    AutoclickController.java
+ * Estimated Logging Rate:
+ *    Peak: 2 times in 1 min | Avg: 2 times per day per user.
+ */
+message AutoclickSessionDurationReported {
+    // How long the feature was enabled in seconds.
+    optional int32 session_duration_seconds = 1;
 }
