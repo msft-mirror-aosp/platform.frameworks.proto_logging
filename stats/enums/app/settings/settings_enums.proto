@@ -2317,6 +2317,25 @@ enum Action {
     // OS: V
     ACTION_CANCEL_ADD_SOURCE_NOTIFICATION = 2054;
 
+    // ACTION: Settings > Battery > Battery banner
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BATTERY_ANOMALY_TIP_SHOW = 2055;
+
+    // ACTION: Settings > Battery > Battery banner
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BATTERY_ANOMALY_TIP_DISMISS = 2056;
+
+    // ACTION: Settings > Battery > Battery banner
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BATTERY_ANOMALY_TIP_VIEW_SETTINGS = 2057;
+
+    // ACTION: Settings > Battery > Battery banner
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_BATTERY_ANOMALY_TIP_UPDATE_OPTIMIZATION_MODE = 2058;
 }
 
 /**
