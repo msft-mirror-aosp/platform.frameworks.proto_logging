@@ -76,6 +76,8 @@ extend Atom {
         = 988 [(module) = "bluetooth"];
     optional HearingDeviceActiveEventReported hearing_device_active_event_reported
         = 1021 [(module) = "bluetooth"];
+    optional ChannelSoundingTypesSupported channel_sounding_types_supported
+        = 1070 [(module) = "bluetooth"];
 }
 
 /**
@@ -724,4 +726,18 @@ message HearingDeviceActiveEventReported {
   optional TimePeriod time_period = 2;
   // Remote Device Information
   optional BluetoothRemoteDeviceInformation remote_device_information = 3 [(log_mode) = MODE_BYTES];
+}
+
+/**
+ * Logs the Channel Sounding types Supported by the device.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ *
+ * Estimated Logging Rate:
+ *     Peak: 1 time in 1 day | Avg: 1 per device per day
+ */
+message ChannelSoundingTypesSupported {
+  // The channel sounding types
+  repeated android.bluetooth.ChannelSoundingType cs_types = 1;
 }
