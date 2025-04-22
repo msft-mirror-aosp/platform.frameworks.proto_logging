@@ -113,6 +113,8 @@ message SurfaceControlEvent {
     optional int32 previous_dataspace = 3;
     // Whether lut(s) is applied
     optional bool previous_use_luts = 4;
+    // The previous requested headroom of the SurfaceControl's content
+    optional float previous_desired_hdr_headroom = 5;
 }
 
 /**
