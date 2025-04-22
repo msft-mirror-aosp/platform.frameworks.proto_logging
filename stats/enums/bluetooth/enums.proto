@@ -860,3 +860,8 @@ enum BtaStatus {
   BTA_STATUS_FAILURE = 2;
   BTA_STATUS_BUSY = 3;
 }
+
+enum ChannelSoundingType {
+  CS_UNSPECIFIED = 0;
+  CS_BT_CORE60 = 1;
+}
