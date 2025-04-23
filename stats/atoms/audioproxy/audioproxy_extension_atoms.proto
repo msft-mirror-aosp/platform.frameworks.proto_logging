@@ -1,0 +1,53 @@
+syntax = "proto2";
+
+package android.os.statsd.audioproxy;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.audioproxy";
+option java_multiple_files = true;
+
+extend Atom {
+  optional AudioProxyConnectionStateChanged
+      audio_proxy_connection_state_changed = 1083 [(module) = "audioproxy"];
+}
+
+/**
+ * Logs connection state changes between AudioProxy and speakers.
+ * Triggered every time a speaker group is connected or disconnected, and when
+ * the Bellflower audio output is enabled or disabled.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/control
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~30 times in 1 min | Avg: 1-2 per device per day
+ */
+message AudioProxyConnectionStateChanged {
+  // The connection state between ATVs and speakers.
+  enum AudioProxyConnectionState {
+    CONNECTION_STATE_UNKNOWN = 0;
+    CONNECTION_STATE_DISCONNECTED = 1;
+    CONNECTION_STATE_CONNECTED = 2;
+    CONNECTION_STATE_STREAMING = 3;
+  }
+
+  // The type of speakers connecting or disconnecting to ATVs.
+  enum AudioProxySpeakerType {
+    SPEAKER_TYPE_UNKNOWN = 0;
+    SPEAKER_TYPE_PRINCE = 1;
+    SPEAKER_TYPE_EILISH = 2;
+  }
+
+  optional AudioProxyConnectionState state = 1;
+  optional AudioProxySpeakerType speaker_type = 2;
+
+  // # of speakers in the group. Expecting 1 or 2.
+  optional int32 number_of_speaker = 3;
+
+  // Whether this speaker group connection is triggered by a first-time
+  // Bellflower set-up. If setting to true, expecting |state| to be
+  // CONNECTION_STATE_CONNECTED.
+  optional bool is_first_time_set_up = 4;
+}
