@@ -1399,6 +1399,14 @@ message Atom {
     extensions 1068; // AutoclickEnabledReported autoclick_enabled_reported
     extensions 1069; // AutoclickSessionDurationReported autoclick_session_duration_reported
     extensions 1070; // ChannelSoundingTypesSupported channel_sounding_types_supported
+    extensions 1071; // FrameworkPrintJob framework_print_job
+    extensions 1072; // FrameworkPrinterDiscovery framework_printer_discovery
+    extensions 1073; // FrameworkMainPrintUiLaunched framework_main_print_ui_launched
+    extensions 1074; // FrameworkAdvancedOptionsUiLaunched framework_advanced_ui_launched
+    extensions 1075; // BipsPrintJob bips_print_job
+    extensions 1076; // BipsDiscoveredPrinterCapabilities bips_discovered_printer_capabilities
+    extensions 1077; // BipsPrinterDiscovery bips_printer_discovery
+    extensions 1078; // BipsRequestPrinterCapabilitiesStatus bips_request_printer_capabilities
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
