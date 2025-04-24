@@ -13698,7 +13698,7 @@ message AppSearchCallStatsReported {
 /**
  * Logs detailed stats for putting a single document in AppSearch
  *
- * Next tag: 17
+ * Next tag: 19
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -13756,12 +13756,19 @@ message AppSearchPutDocumentStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 16;
+
+    // Time used to index all metadata terms in the document, which can only be added by
+    // PropertyExistenceIndexingHandler currently.
+    optional int32 metadataTermIndexLatencyMillis = 17;
+
+    // Time used to index all embeddings in the document.
+    optional int32 embeddingIndexLatencyMillis = 18;
 }
 
 /**
  * Logs detailed stats for AppSearch Initialize
  *
- * Next tag: 22
+ * Next tag: 28
  */
 message AppSearchInitializeStatsReported {
     // The sampling interval for this specific type of stats
@@ -13838,12 +13845,30 @@ message AppSearchInitializeStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 21;
+
+    //Number of consecutive initialization failures that immediately preceded this initialization.
+    optional int32  nativeNumPreviousInitFailures = 22;
+
+    // Restoration cause of integer index.
+    optional int32  nativeIntegerIndexRestorationCause = 23;
+
+    // Restoration cause of qualified id join index.
+    optional int32  nativeQualifiedIdJoinIndexRestorationCause = 24;
+
+    // Restoration cause of embedding index.
+    optional int32  nativeEmbeddingIndexRestorationCause = 25;
+
+    // ICU data initialization status code
+    optional int32  nativeInitializeIcuDataStatusCode = 26;
+
+    // Number of documents that failed to be reindexed during index restoration.
+    optional int32  nativeNumFailedReindexedDocuments = 27;
 }
 
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 35
+ * Next tag: 61
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -13884,16 +13909,16 @@ message AppSearchQueryStatsReported {
     // Overall time used for the native function call.
     optional int32 native_latency_millis = 10;
 
-    // Number of terms in the query string.
+    // Number of terms in the query string of parent_search_stats
     optional int32 native_num_terms = 11;
 
-    // Length of the query string.
+    // Length of the query string of parent_search_stats
     optional int32 native_query_length = 12;
 
-    // Number of namespaces filtered.
+    // Number of namespaces filtered of parent_search_stats
     optional int32 native_num_namespaces_filtered = 13;
 
-    // Number of schema types filtered.
+    // Number of schema types filtered of parent_search_stats
     optional int32 native_num_schema_types_filtered = 14;
 
     // The requested number of results in one page.
@@ -13907,18 +13932,18 @@ message AppSearchQueryStatsReported {
     // may be skipped.
     optional bool native_is_first_page = 17;
 
-    // Time used to parse the query, including 2 parts: tokenizing and
+    // Time used to parse the query of parent_search_stats, including 2 parts: tokenizing and
     // transforming tokens into an iterator tree.
     optional int32 native_parse_query_latency_millis = 18;
 
-    // Strategy of scoring and ranking.
+    // Strategy of scoring and ranking of parent_search_stats
     // Needs to be sync with RankingStrategy.Code in google3/third_party/icing/proto/scoring.proto
     optional int32 native_ranking_strategy = 19;
 
-    // Number of documents scored.
+    // Number of documents scored of parent_search_stats
     optional int32 native_num_documents_scored = 20;
 
-    // Time used to score the raw results.
+    // Time used to score the raw results of parent_search_stats.
     optional int32 native_scoring_latency_millis = 21;
 
     // Time used to rank the scored results.
@@ -13965,12 +13990,92 @@ message AppSearchQueryStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 34;
+
+    // Whether it contains numeric query or not.
+    optional bool parent_is_numeric_query = 35;
+
+    // Number of hits fetched by lite index before applying any filters.
+    optional int32 parent_num_fetched_hits_lite_index = 36;
+
+    // Number of hits fetched by main index before applying any filters.
+    optional int32 parent_num_fetched_hits_main_index = 37;
+
+    // Number of hits fetched by integer index before applying any filters.
+    optional int32 parent_num_fetched_hits_integer_index = 38;
+
+    // Time used in Lexer to extract lexer tokens from the query.
+    optional int32 parent_query_processor_lexer_extract_token_latency_ms = 39;
+
+    // Time used in Parser to consume lexer tokens extracted from the query.
+    optional int32 parent_query_processor_parser_consume_query_latency_ms = 40;
+
+    // Time used in QueryVisitor to visit and build (nested) DocHitInfoIterator.
+    optional int32 parent_query_processor_query_visitor_latency_ms = 41;
+
+    // The UTF-8 length of the query string
+    optional int32 child_query_length = 42;
+
+    // Number of terms in the query string.
+    optional int32 child_num_terms = 43;
+
+    // Number of namespaces filtered.
+    optional int32 child_num_namespaces_filtered = 44;
+
+    // Number of schema types filtered.
+    optional int32 child_num_schema_types_filtered = 45;
+
+    // Strategy of scoring and ranking.
+    optional int32 child_ranking_strategy = 46;
+
+    // Number of documents scored.
+    optional int32 child_num_documents_scored = 47;
+
+    // Time used to parse the query, including 2 parts: tokenizing and transforming tokens into an
+    // iterator tree.
+    optional int32 child_parse_query_latency_ms = 48;
+
+    // Time used to score the raw results.
+    optional int32 child_scoring_latency_ms = 49;
+
+    // Whether it contains numeric query or not.
+    optional bool child_is_numeric_query = 50;
+
+    // Number of hits fetched by lite index before applying any filters.
+    optional int32 child_num_fetched_hits_lite_index = 51;
+
+    // Number of hits fetched by main index before applying any filters.
+    optional int32 child_num_fetched_hits_main_index = 52;
+
+    // Number of hits fetched by integer index before applying any filters.
+    optional int32 child_num_fetched_hits_integer_index = 53;
+
+    // Time used in Lexer to extract lexer tokens from the query.
+    optional int32 child_query_processor_lexer_extract_token_latency_ms = 54;
+
+    // Time used in Parser to consume lexer tokens extracted from the query.
+    optional int32 child_query_processor_parser_consume_query_latency_ms = 55;
+
+    // Time used in QueryVisitor to visit and build (nested) DocHitInfoIterator.
+    optional int32 child_query_processor_query_visitor_latency_ms = 56;
+
+    // Byte size of the lite index hit buffer
+    optional int64 lite_index_hit_buffer_byte_size = 57;
+
+    // Byte size of the unsorted tail of the lite index hit buffer.
+    optional int64 lite_index_hit_buffer_unsorted_byte_size = 58;
+
+    // The type of the input page token.
+    optional int32 page_token_type = 59;
+
+    // Number of result states being force-evicted from ResultStateManager due to
+    // budget limit. This doesn't include expired or invalidated states.
+    optional int32 num_result_states_evicted = 60;
 }
 
 /**
  * Logs detailed stats for remove in AppSearch
  *
- * Next tag: 10
+ * Next tag: 17
  */
 message AppSearchRemoveStatsReported {
     // The sampling interval for this specific type of stats
@@ -14010,6 +14115,25 @@ message AppSearchRemoveStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 10;
+
+    // The UTF-8 length of the query string
+    optional int32 query_length = 11;
+
+    // Number of terms in the query string.
+    optional int32 num_terms = 12;
+
+    // Number of namespaces filtered.
+    optional int32 num_namespaces_filtered = 13;
+
+    // Number of schema types filtered.
+    optional int32 num_schema_types_filtered = 14;
+
+    // Time used to parse the query, including 2 parts: tokenizing and
+    // transforming tokens into an iterator tree.
+    optional int32 parse_query_latency_ms = 15;
+
+    // Time used to delete each document.
+    optional int32 document_removal_latency_ms = 16;
 }
 
 /**
@@ -14018,7 +14142,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 15
+ * Next tag: 18
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14069,6 +14193,15 @@ message AppSearchOptimizeStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 14;
+
+    // The mode of index restoration if there is any.
+    optional int32 indexRestorationMode = 15;
+
+    // Number of namespaces before the optimization.
+    optional int32 numOriginalNamespaces = 16;
+
+    //Number of namespaces deleted.
+    optional int32 numDeletedNamespaces = 17;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
