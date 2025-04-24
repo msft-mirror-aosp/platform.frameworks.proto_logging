@@ -14,13 +14,16 @@ extend Atom {
     [(module) = "accessibility", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 
     optional AutoclickEventReported autoclick_event_reported = 1067
-    [(module) = "accessibility"];
+    [(module) = "framework"];
 
     optional AutoclickEnabledReported autoclick_enabled_reported = 1068
-    [(module) = "accessibility"];
+    [(module) = "framework"];
 
     optional AutoclickSessionDurationReported autoclick_session_duration_reported = 1069
-    [(module) = "accessibility"];
+    [(module) = "framework"];
+
+    optional AutoclickSettingsStateReported autoclick_settings_state_reported = 1079
+    [(module) = "framework"];
 }
 
 /** Logs the result of an AccessibilityCheck. */
@@ -85,4 +88,26 @@ message AutoclickEnabledReported {
 message AutoclickSessionDurationReported {
     // How long the feature was enabled in seconds.
     optional int32 session_duration_seconds = 1;
+}
+
+/**
+ * Logs the state of autoclick settings.
+ * Logged from:
+ *    frameworks/base/services/accessibility/java/com/android/server/accessibility/
+ *    AutoclickController.java
+ * Estimated Logging Rate:
+ *    Peak: 10 times in 1 min | Avg: 10 times per day per user.
+ */
+message AutoclickSettingsStateReported {
+    // Delay in milliseconds before autoclick triggers.
+    optional int64 delay_before_click_ms = 1;
+
+    // The cursor area size of autoclick indicator.
+    optional int32 cursor_area_size = 2;
+
+    // Whether minor cursor movements are ignored.
+    optional bool ignore_minor_cursor_movement = 3;
+
+    // Whether autoclick reverts to left click after action.
+    optional bool revert_to_left_click = 4;
 }

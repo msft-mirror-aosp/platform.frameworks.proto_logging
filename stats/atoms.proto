@@ -1407,6 +1407,8 @@ message Atom {
     extensions 1076; // BipsDiscoveredPrinterCapabilities bips_discovered_printer_capabilities
     extensions 1077; // BipsPrinterDiscovery bips_printer_discovery
     extensions 1078; // BipsRequestPrinterCapabilitiesStatus bips_request_printer_capabilities
+    extensions 1079; // AutoclickSettingsStateReported autoclick_settings_state_reported
+    extensions 1080; // DevicePresenceChanged device_presence_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
