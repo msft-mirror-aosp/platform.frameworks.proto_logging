@@ -26,28 +26,41 @@ option java_package = "com.android.os.notification";
 option java_multiple_files = true;
 
 extend Atom {
-  optional NotificationBundlePreferences notification_bundle_preferences = 10231 [(module) = "framework"];
+  optional NotificationAdjustmentPreferences notification_adjustment_preferences = 10231 [(module) = "framework"];
   optional NotificationAssistantEventReported notification_assistant_event_reported = 1055 [(module) = "extservices"];
   optional NotificationAssistantDurationReceived notification_assistant_duration_received = 1056 [(module) = "extservices"];
 }
 
 /**
- * Atom that records a list of a user's notification bundle preferences. Bundles are system-provided
- * groupings of notifications based on notifications being classified as belonging to a particular
- * type (e.g., news). Users can choose to allow or disallow their notifications from being bundled
- * via settings.
+ * Atom that records a user's preferences for assistant-based adjustments to notifications.
+ * The key of the adjustment specifies which kind of adjustment this atom pertains to. These
+ * adjustments may include notification classification or summarization. Users can choose to allow
+ * or disallow specific types of notification adjustments via Settings.
+ *
+ * For notification bundling (classification) specifically, we additionally log a list of a user's
+ * notification bundle preferences. Bundles are system-provided groupings of notifications based on
+ * notifications being classified as belonging to a particular type (e.g., news).
  *
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/notification/NotificationManagerService.java
+ *
+ * Next id: 5
  */
-message NotificationBundlePreferences {
+message NotificationAdjustmentPreferences {
   // The event_id (as for UiEventReported).
   optional int32 event_id = 1;
-  // Whether bundling is allowed at all. Opting-out of bundling sets to false.
+
+  // Whether this type of adjustment is allowed at all. Opting-out of the adjustment sets to false.
+  // The name is a vestige from when this atom was specific to bundles, but applies to the
+  // specific adjustment key in the key field.
   optional bool bundles_allowed = 2;
-  // Which types of bundles are allowed. Bundle types are a limited set, so this
+
+  // For bundles only: which types of bundles are allowed. Bundle types are a limited set, so this
   // repeated field will never be larger than the total number of bundle types.
   repeated android.stats.notification.BundleTypes allowed_bundle_types = 3;
+
+  // The adjustment key that this set of preferences pertains to.
+  optional android.stats.notification.AdjustmentKey key = 4;
 }
 
 /**
