@@ -22,10 +22,10 @@ option java_outer_classname = "PrintingProtoEnums";
 option java_multiple_files = true;
 
 enum FrameworkPrintJobResult {
-  FrameworkPrintJobResult_UNSPECIFIED = 1;
-  FrameworkPrintJobResult_COMPLETED = 2;
-  FrameworkPrintJobResult_CANCELLED = 3;
-  FrameworkPrintJobResult_FAILED = 4;
+  FrameworkPrintJobResult_UNSPECIFIED = 0;
+  FrameworkPrintJobResult_COMPLETED = 1;
+  FrameworkPrintJobResult_CANCELLED = 2;
+  FrameworkPrintJobResult_FAILED = 3;
 }
 
 enum FrameworkColorMode {
