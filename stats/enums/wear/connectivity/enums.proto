@@ -289,3 +289,9 @@ enum CompanionConnectionChange {
     CONNECTED = 1;
     DISCONNECTED = 2;
 }
+
+enum BleMigrationStep {
+    STEP_UNKNOWN = 0;
+    STEP_SYSPROXY_PSM_RECEIVED = 1;
+    STEP_SYSPROXY_TRANSPORT_MIGRATED = 2;
+}

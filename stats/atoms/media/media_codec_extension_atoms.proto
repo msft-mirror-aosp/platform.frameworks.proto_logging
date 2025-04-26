@@ -35,6 +35,9 @@ extend Atom {
 
   optional MediaCodecRendered media_codec_rendered = 684
         [(module) = "framework", (module) = "media_metrics"];
+
+  optional AppMediaCodecUsageReported app_media_codec_usage_reported = 1082
+        [(module) = "framework", (module) = "media_metrics"];
 }
 
 /**
@@ -287,4 +290,67 @@ message MediaCodecRendered {
     repeated int32 judder_score_histogram = 31;
     // The histogram bucket limits for judder scores.
     repeated int32 judder_score_histogram_buckets = 32;
+}
+
+/**
+ * MediaResourceManagerService (media.resource_manager) logs this event
+ * when an Application ends (either killed or gracefully ended).
+ * Since this atom is logged when the application terminates and if the application used
+ * any MediaCodecs, the frequency of logging this atom is within the limitations.
+ *
+ * An application can end/terminate gracefully/intentionally or killed.
+ * And the application can be killed due to various reasons, including:
+ *  - low memory conditions
+ *  - app crashes
+ *  - explicit termination by the system
+ *
+ * Logged from:
+ *   frameworks/av/services/mediaresourcemanager/ResourceManagerServiceNew.cpp
+ *
+ * @since 25Q4
+ */
+message AppMediaCodecUsageReported {
+    // This maps with ApplicationExitInfo
+    enum ApplicationTerminationReason {
+        REASON_UNSPECIFIED = 0; // Died due to unknown reason.
+        SELF_EXIT = 1;          // Graceful exit.
+        SIGNALLED = 2;          // Died because of OS signal.
+        LOW_MEMORY = 3;         // Killed by the system low memory killer.
+        CRASH = 4;              // Died because of an unhandled exception in Java code.
+        NATIVE_CRASH = 5;       // Died because of a native code crash.
+        ANR = 6;                // Killed due to being unresponsive (ANR).
+        OTHER = 7;              // Killed by the system for various other reasons.
+    }
+
+    // UID of the Application for which the media codec usage report is posted.
+    optional int32 app_uid = 1 [(is_uid) = true];
+
+    // Application Termination reason.
+    optional ApplicationTerminationReason reason = 2;
+
+    // Applications peak codec usage.
+    optional int32 app_peak_hw_video_decoder_count = 3;
+    optional int32 app_peak_hw_video_encoder_count = 4;
+    optional int32 app_peak_sw_video_decoder_count = 5;
+    optional int32 app_peak_sw_video_encoder_count = 6;
+    optional int32 app_peak_hw_audio_decoder_count = 7;
+    optional int32 app_peak_hw_audio_encoder_count = 8;
+    optional int32 app_peak_sw_audio_decoder_count = 9;
+    optional int32 app_peak_sw_audio_encoder_count = 10;
+    optional int32 app_peak_hw_image_decoder_count = 11;
+    optional int32 app_peak_hw_image_encoder_count = 12;
+    optional int32 app_peak_sw_image_decoder_count = 13;
+    optional int32 app_peak_sw_image_encoder_count = 14;
+
+    // Applications peak pixel count.
+    optional int64 app_peak_pixel_count = 15;
+
+    // Applications peak codec memory usage.
+    optional int64 app_peak_codec_memory_size_in_kb = 16;
+
+    // Total codecs created so far (across all applications)
+    optional int32 total_codecs_created = 17;
+
+    // Total codecs killed so far (because of all the killed applications)
+    optional int32 total_codecs_killed = 18;
 }

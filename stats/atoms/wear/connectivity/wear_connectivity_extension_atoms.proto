@@ -36,6 +36,8 @@ extend Atom {
       [(module) = "wearconnectivity"];
   optional SysproxyServiceStateUpdated sysproxy_service_state_updated = 949
       [(module) = "wearconnectivity"];
+  optional WearBleMigrationStateChanged wear_ble_migration_state_changed = 1081
+      [(module) = 'wearconnectivity'];
 }
 
 /**
@@ -165,4 +167,12 @@ message WearCompanionConnectionState {
   optional com.google.android.wearable.connectivity.CompanionConnectionType connection_type = 1;
 
   optional com.google.android.wearable.connectivity.CompanionConnectionChange connection_change = 2;
+}
+
+/**
+ * Captures updates of the Platform side Wear BLE migrations state.
+ * The sequence of the steps are: STEP_SYSPROXY_PSM_RECEIVED -> STEP_SYSPROXY_TRANSPORT_MIGRATED.
+ */
+message WearBleMigrationStateChanged {
+  optional com.google.android.wearable.connectivity.BleMigrationStep ble_migration_step = 1;
 }
