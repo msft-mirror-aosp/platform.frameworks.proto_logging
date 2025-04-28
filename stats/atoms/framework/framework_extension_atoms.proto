@@ -818,6 +818,15 @@ message PostGCMemorySnapshot {
 
     // Memory sizes in bytes of nonmalloced native allocations registered
     repeated int64  native_allocation_nonmalloced_bytes = 13;
+
+    // java.lang.Runtime.freeMemory() bytes.
+    optional int64 java_free_memory_bytes = 14;
+
+    // java.lang.Runtime.totalMemory() bytes.
+    optional int64 java_total_memory_bytes = 15;
+
+    // java.lang.Runtime.maxMemory() bytes.
+    optional int64 java_max_memory_bytes = 16;
 }
 
 /**
