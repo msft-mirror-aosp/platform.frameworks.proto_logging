@@ -62,6 +62,9 @@ enum Action {
     RESET_APPLIED = 40;
     SHAPE_APPLIED = 41;
     ENTER_SCREEN = 42;
+    CURATED_PHOTOS_FETCH_START = 43;
+    CURATED_PHOTOS_FETCH_END = 44;
+    CURATED_PHOTOS_RENDER_COMPLETE = 45;
 }
 
 enum LocationPreference {
