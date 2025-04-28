@@ -5903,6 +5903,10 @@ enum PageId {
     // Settings > Parental controls > Web content filters
     // CATEGORY: SETTINGS
     SUPERVISION_WEB_CONTENT_FILTERS = 2174;
+
+    // OPEN: Settings > Display > HDR brightness
+    // CATEGORY: SETTINGS
+    HDR_BRIGHTNESS_SETTINGS = 2175;
 }
 
 // Battery Saver schedule types.
