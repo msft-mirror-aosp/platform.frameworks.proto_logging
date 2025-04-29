@@ -9463,7 +9463,12 @@ message PackageNotificationPreferences {
     // Which types of bundles (groupings by category) are allowed for this package. Bundle types are
     // a limited set, so this repeated field will never be larger than the total number of bundle
     // types.
-    repeated android.stats.notification.BundleTypes allowed_bundle_types = 8;
+    // DEPRECATED: bundles did not launch with app-specific bundle type permissions, so whether
+    // the adjustment is denied overall is stored instead in denied_adjustments.
+    repeated android.stats.notification.BundleTypes allowed_bundle_types = 8 [deprecated = true];
+    // A list of the types of adjustments (such as notification classification or summarization)
+    // that the user has disabled for this specific package.
+    repeated android.stats.notification.AdjustmentKey denied_adjustments = 9;
 }
 
 /**
