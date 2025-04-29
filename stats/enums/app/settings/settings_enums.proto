@@ -2336,6 +2336,31 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_BATTERY_ANOMALY_TIP_UPDATE_OPTIMIZATION_MODE = 2058;
+
+    // ACTION: Settings > Request ignore battery optimization dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZE_FAIL_SHOW = 2059;
+
+    // ACTION: Settings > Request ignore battery optimization dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZE_SHOW = 2060;
+
+    // ACTION: Settings > Request ignore battery optimization dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZE_ALLOW = 2061;
+
+    // ACTION: Settings > Request ignore battery optimization dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZE_DENY = 2062;
+
+    // ACTION: Settings > Request ignore battery optimization dialog
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZE_DISMISS = 2063;
 }
 
 /**
@@ -5786,6 +5811,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     AUDIO_SHARING_JOIN_HANDLER = 2169;
+
+    // ACTION: show dialog to request Ignore battery optimize (action intent android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+    // CATEGORY: SETTINGS
+    // OS: V
+    DIALOG_REQUEST_IGNORE_BATTERY_OPTIMIZE = 2170;
 }
 
 // Battery Saver schedule types.
