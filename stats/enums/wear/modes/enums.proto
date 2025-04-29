@@ -36,6 +36,7 @@ enum ModeId {
   TOUCH_LOCK_MODE = 6;
   SCHOOL_MODE = 7;
   OFF_BODY = 8;
+  DOWNTIME_MODE = 9;
 }
 
 // Indicates Network state as being on or off
