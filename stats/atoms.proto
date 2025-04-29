@@ -1698,6 +1698,7 @@ message Atom {
     extensions 10238; // ThermalHeadroomListenerInfo thermal_headroom_listener_info
     extensions 10239; // AndroidHardwareHealthStorage android_hardware_health_storage
     extensions 10240; // ZramIoStatMmd zram_io_stat_mmd
+    extensions 10241; // Reserved for b/397963390
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
