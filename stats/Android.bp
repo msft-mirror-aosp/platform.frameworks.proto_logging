@@ -140,6 +140,7 @@ atom_protos = [
     "atoms/appfunctions/*.proto",
     "atoms/appsearch/*.proto",
     "atoms/art/*.proto",
+    "atoms/audioproxy/*.proto",
     "atoms/autofill/*.proto",
     "atoms/automotive/carlauncher/*.proto",
     "atoms/automotive/carpower/*.proto",
