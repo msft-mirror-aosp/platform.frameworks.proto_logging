@@ -713,8 +713,14 @@ message HearingDeviceActiveEventReported {
   enum DeviceType {
     UNKNOWN_TYPE = 0;
     CLASSIC = 1;
-    ASHA = 2;
-    LE_AUDIO = 3;
+    // Deprecated, use ASHA_ONLY or ASHA_DUAL instead.
+    ASHA = 2 [deprecated = true];
+    // Deprecated, use LE_AUDIO_ONLY or LE_AUDIO_DUAL instead.
+    LE_AUDIO = 3 [deprecated = true];
+    ASHA_ONLY = 4;
+    LE_AUDIO_ONLY = 5;
+    ASHA_DUAL = 6;
+    LE_AUDIO_DUAL = 7;
   }
   enum TimePeriod {
     UNKNOWN_TIME_PERIOD = 0;
