@@ -33,3 +33,16 @@ enum BundleTypes {
     TYPE_NEWS = 3;
     TYPE_CONTENT_RECOMMENDATION = 4;
 }
+
+/**
+ * Enum representing the key used for a notification adjustment.
+ *
+ * Meant to be analogous to the strings defined in
+ * frameworks/base/core/java/android/service/notification/Adjustment.java#Keys,
+ * but the enum contains only the adjustment keys that are used in logging.
+ */
+enum AdjustmentKey {
+    KEY_UNKNOWN = 0;
+    KEY_TYPE = 1;
+    KEY_SUMMARIZATION = 2;
+}
