@@ -1412,6 +1412,7 @@ message Atom {
     extensions 1081; // WearBleMigrationStateChanged wear_ble_migration_state_changed
     extensions 1082; // AppMediaCodecUsageReported app_media_codec_usage_reported
     extensions 1083; // AudioProxyConnectionStateChange audio_proxy_connection_state_changed
+    extensions 1084; // ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
