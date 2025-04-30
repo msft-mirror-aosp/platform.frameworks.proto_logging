@@ -31,6 +31,7 @@ extend Atom {
 
     optional ZramMmStatMmd zram_mm_stat_mmd = 10232 [(module) = "framework"];
     optional ZramBdStatMmd zram_bd_stat_mmd = 10233 [(module) = "framework"];
+    optional ZramIoStatMmd zram_io_stat_mmd = 10240 [(module) = "framework"];
 }
 
 /**
@@ -117,6 +118,28 @@ message ZramBdStatMmd {
     optional int64 bd_reads_kb = 2;
     /// The number of writes to backing device.
     optional int64 bd_writes_kb = 3;
+}
+
+/**
+ * Zram IO stats from /sys/block/zram0/io_stat
+ *
+ * Logged from:
+ *   * system/memory/mmd
+ *
+ * Next Tag: 5
+ */
+ message ZramIoStatMmd {
+    // The number of failed reads in zram.
+    optional int64 failed_reads = 1;
+    // The number of failed writes in zram.
+    optional int64 failed_writes = 2;
+    // The number of non-page-size-aligned I/O requests in zram.
+    optional int64 invalid_io = 3;
+    // Depending on device usage scenario it may account
+    // a) the number of pages freed because of swap slot free
+    // notifications or b) the number of pages freed because of
+    // REQ_OP_DISCARD requests sent by bio.
+    optional int64 notify_free = 4;
 }
 
 /**
