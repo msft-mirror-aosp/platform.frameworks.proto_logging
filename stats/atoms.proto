@@ -1406,7 +1406,7 @@ message Atom {
     extensions 1075; // BipsPrintJob bips_print_job
     extensions 1076; // BipsDiscoveredPrinterCapabilities bips_discovered_printer_capabilities
     extensions 1077; // BipsPrinterDiscovery bips_printer_discovery
-    extensions 1078; // BipsRequestPrinterCapabilitiesStatus bips_request_printer_capabilities
+    extensions 1078; // BipsRequestPrinterCapabilitiesStatus bips_request_printer_capabilities_status
     extensions 1079; // AutoclickSettingsStateReported autoclick_settings_state_reported
     extensions 1080; // DevicePresenceChanged device_presence_changed
     extensions 1081; // WearBleMigrationStateChanged wear_ble_migration_state_changed

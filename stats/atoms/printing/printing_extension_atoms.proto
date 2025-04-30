@@ -39,7 +39,7 @@ extend Atom {
     "builtinprintservice"]; optional BipsPrinterDiscovery
     bips_printer_discovery = 1077 [(module) = "builtinprintservice"];
     optional BipsRequestPrinterCapabilitiesStatus
-    bips_request_printer_capabilities = 1078 [(module) =
+    bips_request_printer_capabilities_status = 1078 [(module) =
     "builtinprintservice"];
 }
 
