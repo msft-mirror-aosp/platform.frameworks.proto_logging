@@ -1412,6 +1412,7 @@ message Atom {
     extensions 1081; // WearBleMigrationStateChanged wear_ble_migration_state_changed
     extensions 1082; // AppMediaCodecUsageReported app_media_codec_usage_reported
     extensions 1083; // AudioProxyConnectionStateChange audio_proxy_connection_state_changed
+    extensions 1084; // ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1688,7 +1689,7 @@ message Atom {
     // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
     extensions 10230; // FrameworkWakelockInfo framework_wakelock_info
-    extensions 10231; // NotificationBundlePreferences notification_bundle_preferences
+    extensions 10231; // NotificationAdjustmentPreferences notification_adjustment_preferences
     extensions 10232; // ZramMmStatMmd zram_mm_stat_mmd
     extensions 10233; // ZramBdStatMmd zram_bd_stat_mmd
     extensions 10234; // WidgetMemoryStats
@@ -1697,6 +1698,8 @@ message Atom {
     extensions 10237; // AdpfSupportInfo adpf_support_info
     extensions 10238; // ThermalHeadroomListenerInfo thermal_headroom_listener_info
     extensions 10239; // AndroidHardwareHealthStorage android_hardware_health_storage
+    extensions 10240; // ZramIoStatMmd zram_io_stat_mmd
+    extensions 10241; // Reserved for b/397963390
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
