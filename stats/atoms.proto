@@ -1689,7 +1689,7 @@ message Atom {
     // 10228 is reserved due to removing the old atom
     extensions 10229; // PressureStallInformation pressure_stall_information
     extensions 10230; // FrameworkWakelockInfo framework_wakelock_info
-    extensions 10231; // NotificationBundlePreferences notification_bundle_preferences
+    extensions 10231; // NotificationAdjustmentPreferences notification_adjustment_preferences
     extensions 10232; // ZramMmStatMmd zram_mm_stat_mmd
     extensions 10233; // ZramBdStatMmd zram_bd_stat_mmd
     extensions 10234; // WidgetMemoryStats

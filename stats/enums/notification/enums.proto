@@ -23,7 +23,7 @@ option java_multiple_files = true;
 option java_outer_classname = "NotificationProtoEnums";
 
 /**
- * Enum used in NotificationBundlePreferences.
+ * Enum used in NotificationAdjustmentPreferences.
  * Keep in sync with frameworks/base/core/java/android/service/notification/Adjustment.java#Types
  */
 enum BundleTypes {
