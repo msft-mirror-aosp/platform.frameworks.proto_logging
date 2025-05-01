@@ -2361,6 +2361,47 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZE_DISMISS = 2063;
+
+    // ACTION: Settings > Parental controls > Manage your PIN option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_MANAGE_PIN = 2064;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Update recovery option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_UPDATE_RECOVERY = 2065;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Verify recovery option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_VERIFY_RECOVERY = 2066;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Add recovery option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_ADD_RECOVERY = 2067;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Forgot PIN option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_FORGOT_PIN = 2068;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Change PIN option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_CHANGE_PIN = 2069;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Delete PIN option
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_DELETE_PIN = 2070;
 }
 
 /**
@@ -5663,7 +5704,7 @@ enum PageId {
     // DEPRECATED: This was added as page id by mistake, moved to Action.ACTION_WIFI_HOTSPOT
     ACTION_WIFI_HOTSPOT_TOGGLE = 2138 [deprecated = true];
 
-    // Settings -> Supervision
+    // Settings -> Parental controls
     // CATEGORY: SETTINGS
     SUPERVISION_DASHBOARD = 2139;
 
@@ -5816,6 +5857,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: V
     DIALOG_REQUEST_IGNORE_BATTERY_OPTIMIZE = 2170;
+
+    // Settings > Parental controls > Manage your PIN
+    // CATEGORY: SETTINGS
+    SUPERVISION_MANAGE_PIN_SCREEN = 2171;
 }
 
 // Battery Saver schedule types.
