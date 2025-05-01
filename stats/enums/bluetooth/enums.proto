@@ -892,6 +892,7 @@ enum ChannelSoundingStopReason {
   REASON_RAS_FATAL_ERROR = 22;
 }
 
+// see 10.11.1 of BLUETOOTH CORE SPECIFICATION Version 6.0 | Vol 3, Part C
 enum ChannelSoundingSecurityLevel {
   LEVEL_UNSPECIFIED = 0;
   LEVEL_ONE = 1;
