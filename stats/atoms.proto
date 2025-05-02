@@ -1415,6 +1415,7 @@ message Atom {
     extensions 1084; // ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
     extensions 1085; // RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported
     extensions 1086; // Reserved for b/397963390
+    extensions 1087; // DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
