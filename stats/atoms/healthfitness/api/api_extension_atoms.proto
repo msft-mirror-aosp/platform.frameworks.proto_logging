@@ -248,6 +248,9 @@ message HealthConnectDataBackupInvoked {
 
   // Data backup type (full/incremental).
   optional android.healthfitness.api.DataBackupType backup_type = 4;
+
+  // Total number of being records backed up.
+  optional int32 total_record_count = 5;
 }
 
 /**
@@ -286,8 +289,17 @@ message HealthConnectDataRestoreInvoked {
   // Time taken between the start of the data restore and its conclusion.
   optional int32 time_to_succeed_or_fail_millis = 2;
 
-  // Size of the data being restored.
-  optional int32 data_size_kb = 3;
+  /**
+   * Size of the data being restored.
+   * Deprecated as field cannot be populated with data at time of logging.
+   */
+  optional int32 data_size_kb = 3 [deprecated = true];
+
+  // Total number of being records restored.
+  optional int32 total_record_count = 4;
+
+  // Number of successfully restored records.
+  optional int32 successful_record_count = 5;
 }
 
 /**

@@ -77,6 +77,7 @@ extend Atom {
     optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
     optional AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported = 1054 [(module) = "framework"];
     optional BinderSpamReported binder_spam_reported = 1064 [(module) = "framework"];
+    optional DevicePresenceChanged device_presence_changed = 1080 [(module) = "framework"];
 }
 
 /**
@@ -818,6 +819,15 @@ message PostGCMemorySnapshot {
 
     // Memory sizes in bytes of nonmalloced native allocations registered
     repeated int64  native_allocation_nonmalloced_bytes = 13;
+
+    // java.lang.Runtime.freeMemory() bytes.
+    optional int64 java_free_memory_bytes = 14;
+
+    // java.lang.Runtime.totalMemory() bytes.
+    optional int64 java_total_memory_bytes = 15;
+
+    // java.lang.Runtime.maxMemory() bytes.
+    optional int64 java_max_memory_bytes = 16;
 }
 
 /**
@@ -1407,15 +1417,16 @@ message BinderSpamReported {
 message DevicePresenceChanged {
     enum DeviceProfile {
         DEVICE_PROFILE_UNKNOWN = 0;
-        DEVICE_PROFILE_NULL = 1;
-        DEVICE_PROFILE_WATCH = 2;
-        DEVICE_PROFILE_APP_STREAMING = 3;
-        DEVICE_PROFILE_AUTO_PROJECTION = 4;
-        DEVICE_PROFILE_COMPUTER = 5;
-        DEVICE_PROFILE_GLASSES = 6;
-        DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 7;
-        DEVICE_PROFILE_VIRTUAL_DEVICE = 8;
-        DEVICE_PROFILE_WEARABLE_SENSING = 9;
+        DEVICE_PROFILE_UUID = 1;
+        DEVICE_PROFILE_NULL = 2;
+        DEVICE_PROFILE_WATCH = 3;
+        DEVICE_PROFILE_APP_STREAMING = 4;
+        DEVICE_PROFILE_AUTO_PROJECTION = 5;
+        DEVICE_PROFILE_COMPUTER = 6;
+        DEVICE_PROFILE_GLASSES = 7;
+        DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 8;
+        DEVICE_PROFILE_VIRTUAL_DEVICE = 9;
+        DEVICE_PROFILE_WEARABLE_SENSING = 10;
     }
 
     enum DevicePresenceStatus {
