@@ -51,9 +51,7 @@ message NotificationAdjustmentPreferences {
   optional int32 event_id = 1;
 
   // Whether this type of adjustment is allowed at all. Opting-out of the adjustment sets to false.
-  // The name is a vestige from when this atom was specific to bundles, but applies to the
-  // specific adjustment key in the key field.
-  optional bool bundles_allowed = 2;
+  optional bool adjustment_allowed = 2;
 
   // For bundles only: which types of bundles are allowed. Bundle types are a limited set, so this
   // repeated field will never be larger than the total number of bundle types.

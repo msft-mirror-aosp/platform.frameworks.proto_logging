@@ -580,7 +580,7 @@ enum NotificationFlowComponent {
  * API names are based on:
  * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/api/NotificationApiImpl.java
  *
- * Next ID: 18
+ * Next ID: 19
  */
 enum NotificationApiName {
   // Unknown value for backward compatibility
@@ -602,6 +602,7 @@ enum NotificationApiName {
 
   NOTIFICATION_API_NAME_GET_NOTIFICATION_COUNT_DATA = 10;
 
+  NOTIFICATION_API_NAME_CANCEL_ALL = 18;
   NOTIFICATION_API_NAME_DISMISS_ALL = 11;
   NOTIFICATION_API_NAME_DISMISS_MULTIPLE_FROM_UI = 12;
 
