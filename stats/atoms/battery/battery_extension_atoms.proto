@@ -1,0 +1,44 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.battery;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+// This file contains all battery related atoms.
+
+extend Atom {
+    optional RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported = 1085 [(module) = "battery"];
+}
+/**
+ * Logged from:
+ * google3/java/com/google/android/wearable/pixel/pdms/features/stateofcharge/SocController.kt
+ * Estimated Logging Rate:
+ * Peak: 1 time per 10 ms | Avg: 1 time per 2 minutes, 720 per device per day
+ * Repeated fields will be capped at 120 elements
+*/
+
+message RawBatteryGaugeStatsReported {
+  // last sampled system clock time in batch
+  repeated int64 system_clock_time_nanos = 1;
+  // Voltage (V)
+  repeated float voltage_volts = 2;
+  // Current (mA)
+  repeated float current_milliamps = 3;
+  }
