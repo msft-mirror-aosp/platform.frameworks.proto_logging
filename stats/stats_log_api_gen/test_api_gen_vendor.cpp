@@ -273,8 +273,8 @@ TEST(ApiGenVendorAtomTest, buildAtomWithTruncateTimestampTest) {
     EXPECT_EQ(atom2.atomAnnotations.value()[0]->annotationId, AnnotationId::TRUNCATE_TIMESTAMP);
     EXPECT_TRUE(atom2.atomAnnotations.value()[0]->value.get<AnnotationValue::boolValue>());
 
-    VendorAtom atom3 = func(TRUNCATE_TIMESTAMP_ATOM2, kTestStringValue, kTestIntValue);
-    EXPECT_EQ(atom3.atomId, TRUNCATE_TIMESTAMP_ATOM2);
+    VendorAtom atom3 = func(TRUNCATE_TIMESTAMP_ATOM3, kTestStringValue, kTestIntValue);
+    EXPECT_EQ(atom3.atomId, TRUNCATE_TIMESTAMP_ATOM3);
     EXPECT_EQ(atom3.reverseDomainName, kTestStringValue);
     EXPECT_EQ(atom3.values.size(), static_cast<size_t>(1));
     EXPECT_EQ(atom3.values[0].get<VendorAtomValue::intValue>(), kTestIntValue);

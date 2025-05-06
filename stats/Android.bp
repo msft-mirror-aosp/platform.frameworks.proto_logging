@@ -150,6 +150,7 @@ atom_protos = [
     "atoms/automotive/caruilib/*.proto",
     "atoms/automotive/sensitiveapplock/*.proto",
     "atoms/backported_fixes/*.proto",
+    "atoms/battery/*.proto",
     "atoms/bluetooth/*.proto",
     "atoms/broadcasts/*.proto",
     "atoms/camera/*.proto",
