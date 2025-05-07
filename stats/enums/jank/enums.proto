@@ -149,6 +149,8 @@ enum InteractionType {
     WEAR_CAROUSEL_SCROLL_JANK = 133;
     WEAR_CAROUSEL_FLING_JANK = 134;
     WEAR_CAROUSEL_SWIPE_JANK = 135;
+    WEAR_QSS_TRAY_OPEN = 136;
+    WEAR_NOTIFICATION_TRAY_OPEN = 137;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.
