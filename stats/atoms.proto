@@ -17552,6 +17552,7 @@ message AudioPowerUsageDataReported {
      * and bluetooth devices.
      */
     enum AudioDevice {
+        UNKNOWN_DEVICE          = 0x0;
         OUTPUT_EARPIECE         = 0x1; // handset
         OUTPUT_SPEAKER          = 0x2; // dual speaker
         OUTPUT_WIRED_HEADSET    = 0x4; // 3.5mm headset
@@ -17603,6 +17604,25 @@ message AudioPowerUsageDataReported {
 
     // Maximum volume (0 ... 1.0)
     optional float maximum_volume = 8;
+
+    // Audio device used based on system/media/audio/include/system/audio-base-utils.h
+    optional int32 device = 9;
+
+    // Audio Stream Type used as defined in audio_stream_type_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 stream_type = 10;
+
+    // Audio Source used as defined in audio_source_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 source = 11;
+
+    // Audio Usage used as defined in audio_usage_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 usage = 12;
+
+    // Content Type used as defined in audio_content_type_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 content_type = 13;
 }
 
 /**
