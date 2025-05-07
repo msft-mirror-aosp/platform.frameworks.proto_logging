@@ -1701,6 +1701,8 @@ message Atom {
     extensions 10239; // AndroidHardwareHealthStorage android_hardware_health_storage
     extensions 10240; // ZramIoStatMmd zram_io_stat_mmd
     extensions 10241; // Reserved for b/397963390
+    extensions 10242; // CallSequencingStats call_sequencing_stats
+    extensions 10243; // CallSequencingOperationStats call_sequencing_operation_stats
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -9464,7 +9466,12 @@ message PackageNotificationPreferences {
     // Which types of bundles (groupings by category) are allowed for this package. Bundle types are
     // a limited set, so this repeated field will never be larger than the total number of bundle
     // types.
-    repeated android.stats.notification.BundleTypes allowed_bundle_types = 8;
+    // DEPRECATED: bundles did not launch with app-specific bundle type permissions, so whether
+    // the adjustment is denied overall is stored instead in denied_adjustments.
+    repeated android.stats.notification.BundleTypes allowed_bundle_types = 8 [deprecated = true];
+    // A list of the types of adjustments (such as notification classification or summarization)
+    // that the user has disabled for this specific package.
+    repeated android.stats.notification.AdjustmentKey denied_adjustments = 9;
 }
 
 /**
@@ -15873,6 +15880,7 @@ message AppFreezeChanged {
         UFR_COMPONENT_DISABLED = 29;
         UFR_OOM_ADJ_FOLLOW_UP = 30;
         UFR_OOM_ADJ_RECONFIGURATION = 31;
+        UFR_OOM_ADJ_REASON_SERVICE_BINDER_CALL = 32;
     }
 
     optional UnfreezeReason unfreeze_reason_v2 = 6;
@@ -17544,6 +17552,7 @@ message AudioPowerUsageDataReported {
      * and bluetooth devices.
      */
     enum AudioDevice {
+        UNKNOWN_DEVICE          = 0x0;
         OUTPUT_EARPIECE         = 0x1; // handset
         OUTPUT_SPEAKER          = 0x2; // dual speaker
         OUTPUT_WIRED_HEADSET    = 0x4; // 3.5mm headset
@@ -17595,6 +17604,25 @@ message AudioPowerUsageDataReported {
 
     // Maximum volume (0 ... 1.0)
     optional float maximum_volume = 8;
+
+    // Audio device used based on system/media/audio/include/system/audio-base-utils.h
+    optional int32 device = 9;
+
+    // Audio Stream Type used as defined in audio_stream_type_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 stream_type = 10;
+
+    // Audio Source used as defined in audio_source_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 source = 11;
+
+    // Audio Usage used as defined in audio_usage_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 usage = 12;
+
+    // Content Type used as defined in audio_content_type_t
+    // from system/media/audio/include/system/audio-hal-enums.h.
+    optional int32 content_type = 13;
 }
 
 /**
