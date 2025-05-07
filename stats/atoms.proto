@@ -1420,6 +1420,7 @@ message Atom {
     extensions 1089; // AppRestartOccurred app_restart_occurred
     extensions 1090; // BinderCallsReported binder_calls_reported
     extensions 1091; // DeviceLockFcmMessageReceived device_lock_fcm_message_received
+    extensions 1092; // StatusBarChipReported status_bar_chip_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
