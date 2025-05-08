@@ -2402,6 +2402,10 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_SUPERVISION_DELETE_PIN = 2070;
+
+    // ACTION: Settings > Sound & vibration > Docking sounds
+    // CATEGORY: SETTINGS
+    ACTION_DOCKING_SOUND = 2071;
 }
 
 /**
