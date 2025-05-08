@@ -141,3 +141,8 @@ enum CustomizationPickerSrceen {
     SCREEN_CLOCK = 4;
     SCREEN_SHORTCUTS = 5;
 }
+
+enum AppIconStyle {
+    APP_ICON_STYLE_UNSPECIFIED = 0;
+    APP_ICON_STYLE_THEMED = 1;
+}
