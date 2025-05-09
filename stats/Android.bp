@@ -303,3 +303,14 @@ rust_protobuf {
     source_stem: "framework_service_enums_protos_rs_source",
     host_supported: true,
 }
+
+python_library_host {
+    name: "frameworks_proto_logging_protos_python",
+    srcs: shared_enum_protos + enum_protos + atom_protos,
+
+    proto: {
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
+}
