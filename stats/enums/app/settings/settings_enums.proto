@@ -5861,6 +5861,11 @@ enum PageId {
     // Settings > Parental controls > Manage your PIN
     // CATEGORY: SETTINGS
     SUPERVISION_MANAGE_PIN_SCREEN = 2171;
+
+    // Open: Settings > System > About phone > EID
+    // CATEGORY: SETTINGS
+    // OS: B
+    DIALOG_EID_INFO = 2172;
 }
 
 // Battery Saver schedule types.
