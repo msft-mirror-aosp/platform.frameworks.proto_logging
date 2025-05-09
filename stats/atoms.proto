@@ -16362,6 +16362,9 @@ message IncomingSms {
 
     // Whether the message was received over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 19;
+
+    // The length of PDU in bytes
+    optional int32 pdu_length = 20;
 }
 
 /**
@@ -16455,7 +16458,7 @@ message OutgoingSms {
     // Whether the message was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 22;
 
-    // The length of PDU
+    // The length of PDU in bytes
     optional int32 pdu_length = 23;
 }
 
@@ -23744,6 +23747,9 @@ message IncomingMms {
 
     // Whether the MMS was received over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 14;
+
+    // The length of PDU in bytes
+    optional int32 pdu_length = 15;
 }
 
 /**
@@ -23804,7 +23810,7 @@ message OutgoingMms {
     // Whether the MMS was sent over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 15;
 
-    // The length of PDU
+    // The length of PDU in bytes
     optional int32 pdu_length = 16;
 }
 
