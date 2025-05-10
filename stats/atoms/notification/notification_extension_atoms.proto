@@ -44,7 +44,7 @@ extend Atom {
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/notification/NotificationManagerService.java
  *
- * Next id: 5
+ * Next id: 6
  */
 message NotificationAdjustmentPreferences {
   // The event_id (as for UiEventReported).
@@ -59,6 +59,10 @@ message NotificationAdjustmentPreferences {
 
   // The adjustment key that this set of preferences pertains to.
   optional android.stats.notification.AdjustmentKey key = 4;
+
+  // The android user ID (0, 1, 10, ...) for which these preferences apply. May be a full user
+  // or a profile user.
+  optional int32 user_id = 5;
 }
 
 /**
