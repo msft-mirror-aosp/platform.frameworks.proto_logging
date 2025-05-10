@@ -454,3 +454,37 @@ enum EventCauseEnum {
     CALL_TRANSACTION_CALL_NOT_PERMITTED_AT_PRESENT_TIME = 1005;
     CALL_TRANSACTION_CODE_OPERATION_TIMED_OUT = 1006;
 }
+
+/**
+ * Indicating the operation being performed on the call. This includes
+ * answer, hold, unhold, disconnect, and reject.
+ */
+enum CallOperationTypeEnum {
+    CALL_OPERATION_UNKNOWN = 0;
+    CALL_OPERATION_ANSWER = 1;
+    CALL_OPERATION_HOLD = 2;
+    CALL_OPERATION_UNHOLD = 3;
+    CALL_OPERATION_DISCONNECT = 4;
+    CALL_OPERATION_REJECT = 5;
+}
+
+/**
+ * Indicating the result of the call operation being performed. This can either succeed, fail due
+ * to an external issue, or timeout.
+ */
+enum CallOperationResultEnum {
+    CALL_OPERATION_RESULT_UNKNOWN = 0;
+    CALL_OPERATION_RESULT_SUCCESS = 1;
+    CALL_OPERATION_RESULT_ERROR = 2;
+    CALL_OPERATION_RESULT_TIMEOUT = 3;
+}
+
+/**
+ * Indicating the type of the call - managed, self-managed, transactional, or unknown.
+ */
+enum CallTypeEnum {
+    UNKNOWN_CALL_TYPE = 0;
+    MANAGED_CALL_TYPE = 1;
+    SELF_MANAGED_CALL_TYPE = 2;
+    TRANSACTIONAL_CALL_TYPE = 3;
+}
