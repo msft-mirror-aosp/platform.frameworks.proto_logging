@@ -5870,6 +5870,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: B
     DIALOG_EID_INFO = 2172;
+
+    // OPEN: Settings > Battery > Adaptive battery
+    // CATEGORY: SETTINGS
+    // OS: B
+    FUELGAUGE_ADAPTIVE_BATTERY = 2173;
 }
 
 // Battery Saver schedule types.
