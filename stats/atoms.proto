@@ -2487,6 +2487,8 @@ message WifiSetupFailureCrashReported {
         P2P_FAILURE_HAL = 11;
         // Supplicant error on WifiP2pNative.setupInterface
         P2P_FAILURE_SUPPLICANT = 12;
+        // Subsystem Restart; a crash in the firmware/driver
+        SSR_CRASH = 13;
     }
     // Type of failure
     optional Type type= 1;
