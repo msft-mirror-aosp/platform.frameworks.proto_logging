@@ -36,11 +36,13 @@ static void print_usage() {
     fprintf(stderr, "  --help               this message\n");
     fprintf(stderr, "  --java FILENAME      the java file to output\n");
     fprintf(stderr, "  --rust FILENAME      the rust file to output\n");
-    fprintf(stderr, "  --rustHeader FILENAME the rust file to output for write helpers\n");
+    fprintf(stderr,
+            "  --rustHeader FILENAME the rust file to output for write helpers. "
+            "Not needed/supported for --vendor-proto\n");
     fprintf(stderr,
             "  --rustHeaderCrate NAME        header crate to be used while "
             "generating the code. Note: this should be the same as the crate_name "
-            "created by rust_library for the header \n");
+            "created by rust_library for the header. Not needed for --vendor-proto\n");
     fprintf(stderr, "  --module NAME        optional, module name to generate outputs for\n");
     fprintf(stderr,
             "  --namespace COMMA,SEP,NAMESPACE   required for cpp/header with "
@@ -372,8 +374,8 @@ static int run(int argc, char const* const* argv) {
                 return 1;
             }
 
-            errorCount = android::stats_log_api_gen::write_stats_log_java_vendor(out, atoms,
-                    javaClass, javaPackage, javaStaticMethods);
+            errorCount = android::stats_log_api_gen::write_stats_log_java_vendor(
+                    out, atoms, javaClass, javaPackage, javaStaticMethods);
 #endif
         }
 
@@ -382,8 +384,8 @@ static int run(int argc, char const* const* argv) {
 
     // Write the main .rs file
     if (!rustFilename.empty()) {
-        if (rustHeaderCrate.empty()) {
-            fprintf(stderr, "rustHeaderCrate flag is either not passed or is empty");
+        if (rustHeaderCrate.empty() && vendorProto.empty()) {
+            fprintf(stderr, "rustHeaderCrate flag is either not passed or is empty\n");
             return 1;
         }
 
@@ -393,14 +395,24 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
 
-        errorCount += android::stats_log_api_gen::write_stats_log_rust(
-                out, atoms, attributionDecl, minApiLevel, rustHeaderCrate.c_str());
+        if (vendorProto.empty()) {
+            errorCount += android::stats_log_api_gen::write_stats_log_rust(
+                    out, atoms, attributionDecl, minApiLevel, rustHeaderCrate.c_str());
+        } else {
+            errorCount += android::stats_log_api_gen::write_stats_log_rust_vendor(out, atoms,
+                                                                                  attributionDecl);
+        }
 
         fclose(out);
     }
 
     // Write the header .rs file
     if (!rustHeaderFilename.empty()) {
+        if (!vendorProto.empty()) {
+            fprintf(stderr, "rustHeaderFilename is not needed for vendor proto\n");
+            return 1;
+        }
+
         if (rustHeaderCrate.empty()) {
             fprintf(stderr, "rustHeaderCrate flag is either not passed or is empty");
             return 1;
