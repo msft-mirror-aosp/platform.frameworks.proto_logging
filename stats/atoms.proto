@@ -16209,6 +16209,9 @@ message SimSlotState {
 
     // Number of active slots using Multiple Enabled Profiles in the device.
     optional int32 active_mep_slot_count = 5;
+
+    // Number of eSIM slots in the device.
+    optional int32 esim_slot_count = 6;
 }
 
 /**
