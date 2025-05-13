@@ -1418,6 +1418,7 @@ message Atom {
     extensions 1087; // DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed
     extensions 1088; // Reserved for b/295238578
     extensions 1089; // AppRestartOccurred app_restart_occurred
+    extensions 1090; // BinderCallsReported binder_calls_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

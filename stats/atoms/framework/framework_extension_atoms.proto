@@ -79,6 +79,7 @@ extend Atom {
     optional BinderSpamReported binder_spam_reported = 1064 [(module) = "framework"];
     optional DevicePresenceChanged device_presence_changed = 1080 [(module) = "framework"];
     optional AppRestartOccurred app_restart_occurred = 1089 [(module) = "framework"];
+    optional BinderCallsReported binder_calls_reported = 1090 [(module) = "framework"];
 }
 
 /**
@@ -1479,4 +1480,32 @@ message AppRestartOccurred {
     optional android.app.AppExitReasonCode last_exit_reason = 4;
     optional android.app.AppExitSubReasonCode last_exit_sub_reason = 5;
     optional android.app.Importance last_exit_importance = 6;
+}
+
+/**
+ * Reports that binder calls were received.
+ * Logged from:
+ *   frameworks/native/libs/binder/IPCThreadState.cpp
+ * Estimated Logging Rate:
+ *   Peak: 100 times per second. | Avg: every second.
+ */
+message BinderCallsReported {
+    // The worksource UID if known, otherwise the calling process UID
+    optional int32 client_uid = 1 [(is_uid) = true];
+    optional int32 server_uid = 2 [(is_uid) = true];
+    optional string aidl_interface = 3;
+    optional string aidl_method = 4; // (or "#<transaction code>" if unknown)
+
+    // The number of calls received since last report.
+    optional int64 call_count = 5;
+
+    // The total duration for executing the calls since last report.
+    optional int64 call_duration_sum_micros = 6;
+
+    // Duration stats for low-rate spam. These are not necessarily excessive,
+    // so they are part of the general stats rather than spam.
+    // Unlike the fields in BinderSpamReported, these field are only reported
+    // for the AIDL targets for which we collect call stats.
+    optional int32 seconds_with_at_least_10_calls = 7;
+    optional int32 seconds_with_at_least_50_calls = 8;
 }
