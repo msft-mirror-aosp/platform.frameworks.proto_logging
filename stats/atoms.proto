@@ -1419,6 +1419,8 @@ message Atom {
     extensions 1088; // Reserved for b/295238578
     extensions 1089; // AppRestartOccurred app_restart_occurred
     extensions 1090; // BinderCallsReported binder_calls_reported
+    extensions 1091; // DeviceLockFcmMessageReceived device_lock_fcm_message_received
+    extensions 1092; // StatusBarChipReported status_bar_chip_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1708,6 +1710,7 @@ message Atom {
     extensions 10241; // Reserved for b/397963390
     extensions 10242; // CallSequencingStats call_sequencing_stats
     extensions 10243; // CallSequencingOperationStats call_sequencing_operation_stats
+    extensions 10244; // DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.

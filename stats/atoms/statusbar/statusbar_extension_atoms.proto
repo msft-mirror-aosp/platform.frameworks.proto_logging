@@ -1,0 +1,49 @@
+/*
+* Copyright (C) 2025 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+syntax = "proto2";
+
+package android.os.statsd.statusbar;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/statusbar/enums.proto";
+
+extend Atom {
+  optional StatusBarChipReported status_bar_chip_reported = 1092 [(module) = "sysui"];
+}
+
+/**
+ * Pushes when a status bar chip is changed in some way (added, removed, tapped).
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/chips/uievents/StatusBarChipsUiEventLogger.kt
+ *
+ * Estimated Logging Rate:
+ *   Avg: 5 per device per day
+ */
+message StatusBarChipReported {
+  // The event_id (as for UiEventReported)
+  optional int32 event_id = 1;
+  // The type of chip
+  optional android.stats.statusbar.StatusBarChipType chip_type = 2;
+  // The instance ID to track the chip across other events
+  optional int32 instance_id = 3;
+  // How many chips are currently active in the status bar
+  optional int32 total_chips = 4;
+  // The rank that this chip currently has (omitted if this is a removal event)
+  optional int32 chip_rank = 5;
+}
