@@ -2406,6 +2406,30 @@ enum Action {
     // ACTION: Settings > Sound & vibration > Docking sounds
     // CATEGORY: SETTINGS
     ACTION_DOCKING_SOUND = 2071;
+
+    // ACTION: Settings > Parental controls > Web content filters
+    //                                      > Allow all sites
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_ALLOW_ALL_SITES = 2072;
+
+    // ACTION: Settings > Parental controls > Web content filters
+    //                                      > Block explicit sites
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_BLOCK_EXPLICIT_SITES = 2073;
+
+    // ACTION: Settings > Parental controls > Web content filters
+    //                                      > Search results filter off
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_SEARCH_FILTER_OFF = 2074;
+
+    // ACTION: Settings > Parental controls > Web content filters
+    //                                      > Search results filter on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_SEARCH_FILTER_ON = 2075;
 }
 
 /**
@@ -5870,6 +5894,15 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: B
     DIALOG_EID_INFO = 2172;
+
+    // OPEN: Settings > Battery > Adaptive battery
+    // CATEGORY: SETTINGS
+    // OS: B
+    FUELGAUGE_ADAPTIVE_BATTERY = 2173;
+
+    // Settings > Parental controls > Web content filters
+    // CATEGORY: SETTINGS
+    SUPERVISION_WEB_CONTENT_FILTERS = 2174;
 }
 
 // Battery Saver schedule types.

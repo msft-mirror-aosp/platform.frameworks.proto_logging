@@ -1417,6 +1417,8 @@ message Atom {
     extensions 1086; // Reserved for b/397963390
     extensions 1087; // DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed
     extensions 1088; // Reserved for b/295238578
+    extensions 1089; // AppRestartOccurred app_restart_occurred
+    extensions 1090; // BinderCallsReported binder_calls_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2487,6 +2489,8 @@ message WifiSetupFailureCrashReported {
         P2P_FAILURE_HAL = 11;
         // Supplicant error on WifiP2pNative.setupInterface
         P2P_FAILURE_SUPPLICANT = 12;
+        // Subsystem Restart; a crash in the firmware/driver
+        SSR_CRASH = 13;
     }
     // Type of failure
     optional Type type= 1;
@@ -13779,10 +13783,10 @@ message AppSearchPutDocumentStatsReported {
 
     // Time used to index all metadata terms in the document, which can only be added by
     // PropertyExistenceIndexingHandler currently.
-    optional int32 metadataTermIndexLatencyMillis = 17;
+    optional int32 metadata_term_index_latency_millis = 17;
 
     // Time used to index all embeddings in the document.
-    optional int32 embeddingIndexLatencyMillis = 18;
+    optional int32 embedding_index_latency_millis = 18;
 }
 
 /**
@@ -13867,22 +13871,22 @@ message AppSearchInitializeStatsReported {
     optional int64 enabled_features = 21;
 
     //Number of consecutive initialization failures that immediately preceded this initialization.
-    optional int32  nativeNumPreviousInitFailures = 22;
+    optional int32  native_num_previous_init_failures = 22;
 
     // Restoration cause of integer index.
-    optional int32  nativeIntegerIndexRestorationCause = 23;
+    optional int32  native_integer_index_restoration_cause = 23;
 
     // Restoration cause of qualified id join index.
-    optional int32  nativeQualifiedIdJoinIndexRestorationCause = 24;
+    optional int32  native_qualified_id_join_index_restoration_cause = 24;
 
     // Restoration cause of embedding index.
-    optional int32  nativeEmbeddingIndexRestorationCause = 25;
+    optional int32  native_embedding_index_restoration_cause = 25;
 
     // ICU data initialization status code
-    optional int32  nativeInitializeIcuDataStatusCode = 26;
+    optional int32  native_initialize_icu_data_status_code = 26;
 
     // Number of documents that failed to be reindexed during index restoration.
-    optional int32  nativeNumFailedReindexedDocuments = 27;
+    optional int32  native_num_failed_reindexed_documents = 27;
 }
 
 /**
@@ -14215,13 +14219,13 @@ message AppSearchOptimizeStatsReported {
     optional int64 enabled_features = 14;
 
     // The mode of index restoration if there is any.
-    optional int32 indexRestorationMode = 15;
+    optional int32 index_restoration_mode = 15;
 
     // Number of namespaces before the optimization.
-    optional int32 numOriginalNamespaces = 16;
+    optional int32 num_original_namespaces = 16;
 
     //Number of namespaces deleted.
-    optional int32 numDeletedNamespaces = 17;
+    optional int32 num_deleted_namespaces = 17;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto

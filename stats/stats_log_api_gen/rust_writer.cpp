@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <cctype>
 #include <map>
+#include <ranges>
 
 #include "Collation.h"
 #include "utils.h"
@@ -405,6 +406,193 @@ static int write_rust_stats_write_method(FILE* out, const shared_ptr<AtomDecl>& 
     return 0;
 }
 
+static bool needs_lifetime(const shared_ptr<AtomDecl>& atomDecl) {
+    for (const AtomField& atomField : atomDecl->fields) {
+        const java_type_t& type = atomField.javaType;
+        if (type == JAVA_TYPE_ATTRIBUTION_CHAIN || type == JAVA_TYPE_STRING ||
+            type == JAVA_TYPE_BYTE_ARRAY) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Ported from write_native_annotations_vendor_for_field() in native_writer_vendor.cpp.
+static void write_rust_vendor_annotations(
+        FILE* out, const map<AnnotationId, AnnotationStruct>& annotationIdConstants,
+        const AnnotationSet& annotationSet, const string& fieldName, const char* indent,
+        const char* begin, const char* end, const char* empty) {
+    bool isEmpty = true;
+
+    int resetState = -1;
+    int defaultState = -1;
+
+    for (const shared_ptr<Annotation>& annotation : annotationSet) {
+        const AnnotationStruct& annotationConstant =
+                annotationIdConstants.at(annotation->annotationId);
+
+        if (ANNOTATION_ID_TRIGGER_STATE_RESET == annotation->annotationId) {
+            resetState = annotation->value.intValue;
+        } else if (ANNOTATION_ID_DEFAULT_STATE == annotation->annotationId) {
+            defaultState = annotation->value.intValue;
+        } else {
+            if (isEmpty) {
+                isEmpty = false;
+                fprintf(out, "%s\n", begin);
+            }
+            switch (annotation->type) {
+                case ANNOTATION_TYPE_INT:
+                    fprintf(out,
+                            "%s    Some(Annotation { annotationId: AnnotationId::%s, "
+                            "value: AnnotationValue::IntValue(%d) }),\n",
+                            indent, annotationConstant.name.c_str(), annotation->value.intValue);
+                    break;
+                case ANNOTATION_TYPE_BOOL:
+                    fprintf(out,
+                            "%s    Some(Annotation { annotationId: AnnotationId::%s, "
+                            "value: AnnotationValue::BoolValue(%s) }),\n",
+                            indent, annotationConstant.name.c_str(),
+                            annotation->value.boolValue ? "true" : "false");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (defaultState != -1 && resetState != -1) {
+        if (isEmpty) {
+            isEmpty = false;
+            fprintf(out, "%s\n", begin);
+        }
+        const AnnotationStruct& annotationConstant =
+                annotationIdConstants.at(ANNOTATION_ID_TRIGGER_STATE_RESET);
+        fprintf(out,
+                "%s    if self.%s as i32 == %d { Some(Annotation { annotationId: AnnotationId::%s, "
+                "value: AnnotationValue::IntValue(%d) }) } else { None },\n",
+                indent, get_variable_name(fieldName).c_str(), resetState,
+                annotationConstant.name.c_str(), defaultState);
+    }
+
+    if (isEmpty) {
+        fprintf(out, "%s,\n", empty);
+    } else {
+        fprintf(out, "%s%s,\n", indent, end);
+    }
+}
+
+static int write_rust_vendor_atom_method(FILE* out, const shared_ptr<AtomDecl>& atomDecl) {
+    const bool lifetime = needs_lifetime(atomDecl);
+
+    fprintf(out, "    impl %s%s {\n", make_camel_case_name(atomDecl->name).c_str(),
+            lifetime ? "<'_>" : "");
+
+    fprintf(out, "        pub const CODE: i32 = %d;\n", atomDecl->code);
+    fprintf(out, "\n");
+
+    fprintf(out, "        pub fn to_vendor_atom(&self) -> VendorAtom {\n");
+    fprintf(out, "            VendorAtom {\n");
+    fprintf(out, "                atomId: Self::CODE,\n");
+    fprintf(out, "                reverseDomainName: self.%s.to_string(),\n",
+            get_variable_name(atomDecl->fields.at(0).name).c_str());
+    fprintf(out, "                values: vec![\n");
+    for (const AtomField& field : atomDecl->fields | std::ranges::views::drop(1)) {
+        fprintf(out, "                    VendorAtomValue::");
+        switch (field.javaType) {
+            case JAVA_TYPE_BOOLEAN:
+                fprintf(out, "BoolValue(self.%s),\n", get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_INT:
+                fprintf(out, "IntValue(self.%s),\n", get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_ENUM:
+                fprintf(out, "IntValue(self.%s as i32),\n", get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_FLOAT:
+                fprintf(out, "FloatValue(self.%s),\n", get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_LONG:
+                fprintf(out, "LongValue(self.%s),\n", get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_STRING:
+                fprintf(out, "StringValue(self.%s.to_string()),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_BYTE_ARRAY:
+                fprintf(out, "ByteArrayValue(Some(self.%s.to_vec())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            default:
+                // Unsupported types: OBJECT, DOUBLE
+                fprintf(stderr, "Encountered unsupported type: %d.", field.javaType);
+                return 1;
+        }
+    }
+    fprintf(out, "                ],\n");
+
+    const auto ANNOTATION_ID_CONSTANTS = get_annotation_id_constants("");
+    {
+        bool hasValuesAnnotations = false;
+        for (const auto& [argIndex, annotations] : atomDecl->fieldNumberToAnnotations) {
+            if (argIndex == ATOM_ID_FIELD_NUMBER) {
+                continue;
+            }
+            const int valueIndex = argIndex - 2;
+
+            if (!hasValuesAnnotations) {
+                hasValuesAnnotations = true;
+                fprintf(out, "                valuesAnnotations: Some(vec![\n");
+            }
+            fprintf(out, "                    Some(AnnotationSet {\n");
+            fprintf(out, "                        valueIndex: %d,\n", valueIndex);
+            fprintf(out, "                        annotations: ");
+            write_rust_vendor_annotations(out, ANNOTATION_ID_CONSTANTS,
+                                          /*annotationSet=*/annotations,
+                                          /*fieldName=*/atomDecl->fields.at(argIndex - 1).name,
+                                          /*indent=*/"                        ",
+                                          /*begin=*/"[",
+                                          /*end*/ "].into_iter().flatten().collect()",
+                                          /*empty=*/"Vec::new()");
+            fprintf(out, "                    }),\n");
+        }
+        if (hasValuesAnnotations) {
+            fprintf(out, "                ]),\n");
+        } else {
+            fprintf(out, "                valuesAnnotations: None,\n");
+        }
+    }
+    {
+        fprintf(out, "                atomAnnotations: ");
+        if (auto atomAnnotations = atomDecl->fieldNumberToAnnotations.find(ATOM_ID_FIELD_NUMBER);
+            atomAnnotations != atomDecl->fieldNumberToAnnotations.end()) {
+            write_rust_vendor_annotations(
+                    out, ANNOTATION_ID_CONSTANTS,
+                    /*annotationSet=*/atomAnnotations->second,
+                    /*fieldName=*/"<ATOM_ANNOTATIONS>",
+                    /*indent*/ "                ",
+                    /*begin=*/"Some([",
+                    /*end=*/"].into_iter().filter(Option::is_some).collect())",
+                    /*empty=*/"None");
+        } else {
+            fprintf(out, "None,\n");
+        }
+    }
+
+    fprintf(out, "            }\n");
+    fprintf(out, "        }\n");
+    fprintf(out, "    }\n");
+    fprintf(out, "\n");
+
+    fprintf(out, "    impl From<%s%s> for VendorAtom {\n",
+            make_camel_case_name(atomDecl->name).c_str(), lifetime ? "<'_>" : "");
+    fprintf(out, "        fn from(value: %s) -> VendorAtom {\n",
+            make_camel_case_name(atomDecl->name).c_str());
+    fprintf(out, "            value.to_vendor_atom()\n");
+    fprintf(out, "        }\n");
+    fprintf(out, "    }\n");
+    return 0;
+}
+
 static void write_rust_stats_write_non_chained_method(FILE* out,
                                                       const shared_ptr<AtomDecl>& atomDecl,
                                                       const AtomDecl& attributionDecl,
@@ -437,20 +625,8 @@ static void write_rust_stats_write_non_chained_method(FILE* out,
     fprintf(out, "    }\n\n");
 }
 
-static bool needs_lifetime(const shared_ptr<AtomDecl>& atomDecl) {
-    for (const AtomField& atomField : atomDecl->fields) {
-        const java_type_t& type = atomField.javaType;
-        if (type == JAVA_TYPE_ATTRIBUTION_CHAIN || type == JAVA_TYPE_STRING ||
-            type == JAVA_TYPE_BYTE_ARRAY) {
-            return true;
-        }
-    }
-    return false;
-}
-
 static void write_rust_struct(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
-                              const AtomDecl& attributionDecl, const char* headerCrate) {
-    // Write the struct.
+                              const AtomDecl& attributionDecl) {
     const bool lifetime = needs_lifetime(atomDecl);
     if (lifetime) {
         fprintf(out, "    pub struct %s<'a> {\n", make_camel_case_name(atomDecl->name).c_str());
@@ -474,8 +650,11 @@ static void write_rust_struct(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
         }
     }
     fprintf(out, "    }\n");
+}
 
-    // Write the impl
+static void write_rust_impl(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
+                            const AtomDecl& attributionDecl, const char* headerCrate) {
+    const bool lifetime = needs_lifetime(atomDecl);
     const bool isPush = atomDecl->atomType == ATOM_TYPE_PUSHED;
     if (isPush) {
         if (lifetime) {
@@ -524,7 +703,8 @@ static void write_rust_struct(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
 static int write_rust_stats_write_atoms(FILE* out, const AtomDeclSet& atomDeclSet,
                                         const AtomDecl& attributionDecl,
                                         const AtomDeclSet& nonChainedAtomDeclSet,
-                                        const int minApiLevel, const char* headerCrate) {
+                                        const int minApiLevel, const char* headerCrate,
+                                        bool isVendor) {
     for (const auto& atomDecl : atomDeclSet) {
         // TODO(b/216543320): support repeated fields in Rust
         if (std::find_if(atomDecl->fields.begin(), atomDecl->fields.end(),
@@ -534,21 +714,44 @@ static int write_rust_stats_write_atoms(FILE* out, const AtomDeclSet& atomDeclSe
             continue;
         }
         fprintf(out, "pub mod %s {\n", atomDecl->name.c_str());
-        fprintf(out, "    use statspull_bindgen::*;\n");
-        fprintf(out, "    #[allow(unused)]\n");
-        fprintf(out, "    use std::convert::TryInto;\n");
+        if (isVendor) {
+            const char* AIDL_STATS = "android_frameworks_stats::aidl::android::frameworks::stats";
+            fprintf(out,
+
+                    R"(    use %1$s::Annotation::Annotation;
+    use %1$s::AnnotationId::AnnotationId;
+    use %1$s::AnnotationSet::AnnotationSet;
+    use %1$s::AnnotationValue::AnnotationValue;
+    use %1$s::VendorAtom::VendorAtom;
+    use %1$s::VendorAtomValue::VendorAtomValue;
+)",
+                    AIDL_STATS);
+        } else {
+            fprintf(out, "    use statspull_bindgen::*;\n");
+            fprintf(out, "    #[allow(unused)]\n");
+            fprintf(out, "    use std::convert::TryInto;\n");
+        }
         fprintf(out, "\n");
         write_rust_atom_constant_values(out, atomDecl);
-        write_rust_struct(out, atomDecl, attributionDecl, headerCrate);
-        const int ret = write_rust_stats_write_method(out, atomDecl, attributionDecl, minApiLevel,
-                                                      headerCrate);
-        if (ret != 0) {
-            return ret;
-        }
-        auto nonChained = nonChainedAtomDeclSet.find(atomDecl);
-        if (nonChained != nonChainedAtomDeclSet.end()) {
-            write_rust_stats_write_non_chained_method(out, *nonChained, attributionDecl,
-                                                      headerCrate);
+        write_rust_struct(out, atomDecl, attributionDecl);
+        if (isVendor) {
+            const int ret = write_rust_vendor_atom_method(out, atomDecl);
+            if (ret != 0) {
+                return ret;
+            }
+        } else {
+            write_rust_impl(out, atomDecl, attributionDecl, headerCrate);
+            const int ret = write_rust_stats_write_method(out, atomDecl, attributionDecl,
+                                                          minApiLevel, headerCrate);
+            if (ret != 0) {
+                return ret;
+            }
+            auto nonChained = nonChainedAtomDeclSet.find(atomDecl);
+            if (nonChained != nonChainedAtomDeclSet.end()) {
+                (void)write_rust_stats_write_non_chained_method;
+                write_rust_stats_write_non_chained_method(out, *nonChained, attributionDecl,
+                                                          headerCrate);
+            }
         }
         fprintf(out, "}\n");
     }
@@ -599,8 +802,24 @@ int write_stats_log_rust(FILE* out, const Atoms& atoms, const AtomDecl& attribut
 
     write_rust_annotation_constants(out);
 
-    const int errorCount = write_rust_stats_write_atoms(
-            out, atoms.decls, attributionDecl, atoms.non_chained_decls, minApiLevel, headerCrate);
+    const int errorCount =
+            write_rust_stats_write_atoms(out, atoms.decls, attributionDecl, atoms.non_chained_decls,
+                                         minApiLevel, headerCrate, /*isVendor=*/false);
+
+    return errorCount;
+}
+
+int write_stats_log_rust_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl) {
+    // Print prelude
+    fprintf(out, "// This file is autogenerated.\n");
+    fprintf(out, "\n");
+    fprintf(out, "#![allow(missing_docs)]\n");
+    fprintf(out, "#![allow(unused_imports)]\n");
+    fprintf(out, "#![allow(non_snake_case)]\n");
+
+    const int errorCount = write_rust_stats_write_atoms(out, atoms.decls, attributionDecl,
+                                                        atoms.non_chained_decls, /*minApiLevel=*/0,
+                                                        /*headerCrate=*/nullptr, /*isVendor=*/true);
 
     return errorCount;
 }

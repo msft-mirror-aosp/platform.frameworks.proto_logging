@@ -245,6 +245,44 @@ cc_library_static {
     ],
 }
 
+rust_test_host {
+    name: "test_api_gen_vendor_rust",
+    crate_name: "test_api_gen_vendor_rust",
+    crate_root: "test_api_gen_vendor.rs",
+    edition: "2021",
+    rustlibs: [
+        "android.frameworks.stats-V2-rust",
+        "libtest_vendor_atoms_rust",
+        "libmatches",
+    ],
+}
+
+genrule {
+    name: "test_vendor_atoms.rs",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --rust $(out)" +
+        " --vendor-proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+    out: [
+        "test_vendor_atoms.rs",
+    ],
+    srcs: [
+        "test_vendor_atoms.proto",
+        ":libprotobuf-internal-descriptor-proto",
+        ":libstats_atom_options_protos",
+    ],
+}
+
+rust_library {
+    name: "libtest_vendor_atoms_rust",
+    crate_name: "test_vendor_atoms",
+    srcs: [":test_vendor_atoms.rs"],
+    edition: "2021",
+    rustlibs: [
+        "android.frameworks.stats-V2-rust",
+    ],
+    host_supported: true,
+}
+
 // ==========================================================
 // Native library
 // ==========================================================
