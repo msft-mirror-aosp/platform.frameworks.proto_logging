@@ -39,6 +39,10 @@ extend Atom {
           [(module) = "devicelock"];
   optional DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed = 1087
           [(module) = "devicelock"];
+  optional DeviceLockFcmMessageReceived device_lock_fcm_message_received = 1091
+          [(module) = "devicelock"];
+  optional DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot = 10244
+          [(module) = "devicelock"];
 }
 
 message DeviceLockCheckInRequestReported {
@@ -121,6 +125,29 @@ message LockUnlockDeviceFailureReported {
 }
 
 message DeviceLockKioskAppInstallationFailed {
-  // The version of the apex package on the device.
+  // The version of the devicelock apex package on the device.
   optional int64 apex_version = 1;
 }
+
+/*
+ * The DeviceLockController received an FCM message from the server.
+ * Logged from: vendor/google/modules/DeviceLockGoogle/DeviceLockControllerGoogle/src/com/android/devicelockcontroller/services/DeviceLockFirebaseMessagingService.java
+ * Estimated Logging Rate:
+ * Peak: 1 time in 4 weeks | Avg: 1 per device in 4 weeks
+ */
+message DeviceLockFcmMessageReceived {
+  // The version of the devicelock apex package on the device.
+  optional int64 apex_version = 1;
+}
+
+/*
+ * Pulled atom that is logged when the device is found to be in a Locked state but lock task mode is not active.
+ * Logged from: packages/modules/DeviceLock/service/java/com/android/server/devicelock/DeviceLockService.java
+ * Estimated Logging Rate:
+ * Only expected to log in a bypass scenario in which case it will be 1 time per day
+ */
+message DeviceLockPotentialBypassSnapshot {
+  // The version of the devicelock apex package on the device.
+  optional int64 apex_version = 1;
+}
+
