@@ -69,7 +69,7 @@ message ZramMaintenanceExecuted {
  * Logged from:
  *   * system/memory/mmd
  *
- * Next Tag: 10
+ * Next Tag: 11
  */
 message ZramMmStatMmd {
     // Uncompressed size of data stored in this disk. This excludes
@@ -101,6 +101,9 @@ message ZramMmStatMmd {
     // The number of huge pages since zram set up.
     // Start supporting from v5.15.
     optional int64 huge_pages_since_kb = 9;
+    // The number of huge pages removed since zram set up.
+    // This is calculated from huge_pages_since_kb and huge_pages_kb.
+    optional int64 huge_pages_removed_since_kb = 10;
 }
 
 /**
