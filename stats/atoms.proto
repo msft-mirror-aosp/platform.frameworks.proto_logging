@@ -1183,7 +1183,7 @@ message Atom {
     extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
     extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
     extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
-    extensions 850; // VpnConnectionStateChanged vpn_connection_state_changed
+    // reserved 850
     extensions 851; // VpnConnectionReported vpn_connection_reported
     extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
     extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
@@ -1421,6 +1421,8 @@ message Atom {
     extensions 1090; // BinderCallsReported binder_calls_reported
     extensions 1091; // DeviceLockFcmMessageReceived device_lock_fcm_message_received
     extensions 1092; // StatusBarChipReported status_bar_chip_reported
+    extensions 1093; // DeviceLockProvisionStateEvent device_lock_provision_state_event
+    extensions 1094; // DeviceLockDeviceStateEvent device_lock_device_state_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1716,7 +1718,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
@@ -2192,6 +2194,8 @@ message WifiConnectionResultReported {
     optional int64 l2_connecting_duration_ms = 21;
     // L3 connecting time duration in millis
     optional int64 l3_connecting_duration_ms = 22;
+    // The disconnect reason of previous session
+    optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
 }
 
 /**
@@ -6496,6 +6500,9 @@ message NotificationReported {
     // Whether the notification was promoted and whether it was promotable.
     optional bool is_promoted_ongoing = 30;
     optional bool has_promotable_characteristics = 31;
+
+    // Whether the notification was summarized.
+    optional bool has_summary = 32;
 }
 
 /**
@@ -16472,6 +16479,13 @@ message OutgoingSms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 23;
+
+    // The package name of the application sending the sms.
+    // Populated only for sms sent over non-terrestrial networks, empty otherwise.
+    optional string calling_package_name = 24;
+
+    // The application uid.
+    optional int32 app_uid = 25[(is_uid) = true];
 }
 
 /**
@@ -23824,6 +23838,13 @@ message OutgoingMms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 16;
+
+    // The package name of the application sending the MMS.
+    // Populated only for MMS sent over non-terrestrial networks, empty otherwise.
+    optional string calling_package_name = 17;
+
+    // The application uid.
+    optional int32 app_uid = 18 [(is_uid) = true];
 }
 
 message PrivacySignalNotificationInteraction {

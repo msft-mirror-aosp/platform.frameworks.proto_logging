@@ -41,6 +41,10 @@ extend Atom {
           [(module) = "devicelock"];
   optional DeviceLockFcmMessageReceived device_lock_fcm_message_received = 1091
           [(module) = "devicelock"];
+  optional DeviceLockProvisionStateEvent device_lock_provision_state_event = 1093
+          [(module) = "devicelock"];
+  optional DeviceLockDeviceStateEvent device_lock_device_state_event = 1094
+          [(module) = "devicelock"];
   optional DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot = 10244
           [(module) = "devicelock"];
 }
@@ -151,3 +155,49 @@ message DeviceLockPotentialBypassSnapshot {
   optional int64 apex_version = 1;
 }
 
+ /* Events pertaining to provision state.
+ * Logged from:
+ *      (mostly) packages/modules/DeviceLock/DeviceLockController/src/com/android/devicelockcontroller/provision/
+ * Expected logging rate:
+ *      Peak: 1 time in 3 minutes | Avg: 1 per device per day
+ */
+message DeviceLockProvisionStateEvent {
+  enum Event {
+    EVENT_UNKNOWN = 0;
+    // The client was unable to perform a check-in request.
+    EVENT_UNSUCCESSFUL_CHECKIN_REQUEST = 1;
+    // The kiosk app has successfully changed the device state after provisioning.
+    EVENT_SUCCESSFUL_PROVISIONING = 2;
+    // The device has been reset due to a provisioning failure.
+    EVENT_DEVICE_RESET = 3;
+    // The kiosk app cleared all restrictions and the device was finalized.
+    EVENT_FINALIZATION = 4;
+    // The kiosk app attempted to clear all restrictions but it did not end in a successful finalization.
+    EVENT_FINALIZATION_FAILURE = 5;
+  }
+
+  optional Event event = 1;
+  // The version of the apex package on the device.
+  optional int64 apex_version = 2;
+}
+
+/*
+ * Events pertaining to device state.
+ * Logged from:
+ *      packages/modules/DeviceLock/DeviceLockController/src/com/android/devicelockcontroller/DeviceLockControllerService.java
+ * Expected logging rate:
+ *      Peak: 1 time per day | Avg: 1 per device per week
+ */
+message DeviceLockDeviceStateEvent {
+  enum Event {
+    EVENT_UNKNOWN = 0;
+    // The kiosk app successfully locked the device.
+    EVENT_LOCK = 1;
+    // The kiosk app successfully unlocked the device.
+    EVENT_UNLOCK = 2;
+  }
+
+  optional Event event = 1;
+  // The version of the apex package on the device.
+  optional int64 apex_version = 2;
+}
