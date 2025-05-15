@@ -2192,6 +2192,8 @@ message WifiConnectionResultReported {
     optional int64 l2_connecting_duration_ms = 21;
     // L3 connecting time duration in millis
     optional int64 l3_connecting_duration_ms = 22;
+    // The disconnect reason of previous session
+    optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
 }
 
 /**
