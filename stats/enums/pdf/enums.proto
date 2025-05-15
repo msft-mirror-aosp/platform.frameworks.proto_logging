@@ -58,6 +58,8 @@ enum OperationType {
   OPERATION_TYPE_UPDATE = 3;
   // List operation
   OPERATION_TYPE_LIST = 4;
+  // Get top page object at pos
+  OPERATION_TYPE_GET_TOP_PAGE_OBJECT_AT_POS = 5;
 }
 
 enum PdfLinearizedType {
