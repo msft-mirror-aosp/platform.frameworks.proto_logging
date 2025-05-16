@@ -80,6 +80,7 @@ extend Atom {
     optional DevicePresenceChanged device_presence_changed = 1080 [(module) = "framework"];
     optional AppRestartOccurred app_restart_occurred = 1089 [(module) = "framework"];
     optional BinderCallsReported binder_calls_reported = 1090 [(module) = "framework"];
+    optional SqliteAppOpEventReported sqlite_app_op_event_reported = 1098 [(module) = "framework"];
 }
 
 /**
@@ -960,6 +961,35 @@ message SqliteDiscreteOpEventReported {
   optional int64 read_time_millis = 1 ;
   optional int64 write_time_millis = 2 ;
   optional int64 storage_bytes = 3 ;
+}
+
+/**
+ * [Pushed Atom] Log AppOps performance results for (unified schema) sqlite implementation.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/appop/AppOpHistoryDbHelper.java
+ */
+message SqliteAppOpEventReported {
+  optional int64 read_time_millis = 1 ;
+  optional int64 write_time_millis = 2 ;
+  optional int64 storage_bytes = 3 ;
+  // Appop are stored in 2 databases, and the data is aggregated based on time interval.
+  enum DatabaseType {
+    DB_UNKNOWN = 0;
+    DB_SHORT_INTERVAL = 1;
+    DB_LONG_INTERVAL = 2;
+  }
+  optional DatabaseType database_type = 4;
+  // What triggered the database write.
+  enum WriteType {
+    WRITE_UNKNOWN = 0;
+    WRITE_CACHE_FULL = 1;
+    WRITE_PERIODIC = 2;
+    WRITE_SHUTDOWN = 3;
+    // During read we flush the cache into database to simplify read queries.
+    WRITE_READ = 4;
+    WRITE_MIGRATION = 5;
+  }
+  optional WriteType write_type = 5;
 }
 
 /**
