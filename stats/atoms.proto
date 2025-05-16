@@ -1429,6 +1429,7 @@ message Atom {
     extensions 1098; // SqliteAppOpEventReported sqlite_app_op_event_reported
     extensions 1099; // LskfAuthenticationAttempted lskf_authentication_attempted
     extensions 1100; // PermissionOneTimeSessionEventReported permission_one_time_session_event_reported
+    extensions 1101; // PackageInstallerSessionReported package_installer_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
