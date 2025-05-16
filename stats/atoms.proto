@@ -23248,6 +23248,9 @@ message CdmAssociationAction {
 
     // Name of the CDM Association Request profiles.
     optional DeviceProfile device_profile = 2;
+
+    // The uid of package that created the association.
+    optional int32 package_uid = 3 [(is_uid) = true];
 }
 
 /**
