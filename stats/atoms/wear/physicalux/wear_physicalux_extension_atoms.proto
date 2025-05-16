@@ -16,13 +16,13 @@
 
 syntax = "proto2";
 
-package android.os.statsd.wear.physical_ux;
+package android.os.statsd.wear.physicalux;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/wear/physical_ux/enums.proto";
+import "frameworks/proto_logging/stats/enums/wear/physicalux/enums.proto";
 
-option java_package = "com.android.os.wear.physical_ux";
+option java_package = "com.android.os.wear.physicalux";
 option java_multiple_files = true;
 
 extend Atom {
@@ -35,33 +35,42 @@ extend Atom {
 
 /**
  * Logged when a client's subscription to gestures changes.
+ *
+ * Logged from:
+ * package: frameworks/opt/wear/src/com/android/clockwork/gesture
  */
 message WearGestureSubscriptionChanged {
     // The UID that subscribed to gesture events.
     optional int32 uid = 1 [(is_uid) = true];
     // The actions that are subscribed for.
     // This will be empty when the client unsubscribes.
-    repeated com.google.android.clockwork.physical_ux.GestureAction actions = 2;
+    repeated com.google.android.clockwork.physicalux.GestureAction actions = 2;
 }
 
 /**
  * Logged when a gesture event is reported.
+ *
+ * Logged from:
+ * package: frameworks/opt/wear/src/com/android/clockwork/gesture
  */
 message WearGestureReported {
     // The gesture action of the event.
-    optional com.google.android.clockwork.physical_ux.GestureAction action = 1;
+    optional com.google.android.clockwork.physicalux.GestureAction action = 1;
     // The raw gesture of the event.
-    optional com.google.android.clockwork.physical_ux.Gesture gesture = 2;
+    optional com.google.android.clockwork.physicalux.Gesture gesture = 2;
     // The UIDs to whom this event was reported.
     repeated int32 uids = 3 [(is_uid) = true];
 }
 
 /**
  * Logged when the state of gesture detection changes.
+ *
+ * Logged from:
+ * package: frameworks/opt/wear/src/com/android/clockwork/gesture
  */
 message WearGestureDetectionStateChanged {
     // The new gesture detection state
-    optional com.google.android.clockwork.physical_ux.GestureDetectionState state = 1;
+    optional com.google.android.clockwork.physicalux.GestureDetectionState state = 1;
     // The gesture actions with active subscriptions
-    repeated com.google.android.clockwork.physical_ux.GestureAction subscribed_actions = 2;
+    repeated com.google.android.clockwork.physicalux.GestureAction subscribed_actions = 2;
 }
