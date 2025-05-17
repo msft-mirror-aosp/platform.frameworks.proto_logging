@@ -16,7 +16,7 @@
 
 syntax = "proto2";
 
-package com.google.android.clockwork.physical_ux;
+package com.google.android.clockwork.physicalux;
 
 // Gesture Actions
 enum GestureAction {
