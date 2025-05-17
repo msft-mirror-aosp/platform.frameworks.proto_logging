@@ -53,7 +53,7 @@ struct AnnotationStruct {
     string name;
     int minApiLevel;
     AnnotationStruct(string name, int minApiLevel)
-        : name(std::move(name)), minApiLevel(minApiLevel){};
+        : name(std::move(name)), minApiLevel(minApiLevel) {};
 };
 
 void build_non_chained_decl_map(const Atoms& atoms,

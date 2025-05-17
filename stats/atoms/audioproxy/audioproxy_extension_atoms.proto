@@ -33,21 +33,13 @@ message AudioProxyConnectionStateChanged {
     CONNECTION_STATE_STREAMING = 3;
   }
 
-  // The type of speakers connecting or disconnecting to ATVs.
-  enum AudioProxySpeakerType {
-    SPEAKER_TYPE_UNKNOWN = 0;
-    SPEAKER_TYPE_PRINCE = 1;
-    SPEAKER_TYPE_EILISH = 2;
-  }
-
   optional AudioProxyConnectionState state = 1;
-  optional AudioProxySpeakerType speaker_type = 2;
 
   // # of speakers in the group. Expecting 1 or 2.
-  optional int32 number_of_speaker = 3;
+  optional int32 number_of_speaker = 2;
 
   // Whether this speaker group connection is triggered by a first-time
   // Bellflower set-up. If setting to true, expecting |state| to be
   // CONNECTION_STATE_CONNECTED.
-  optional bool is_first_time_set_up = 4;
+  optional bool is_first_time_set_up = 3;
 }

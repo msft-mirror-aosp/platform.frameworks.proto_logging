@@ -1183,7 +1183,7 @@ message Atom {
     extensions 847; // PersistAdSelectionResultCalled persist_ad_selection_result_called
     extensions 848; // ServerAuctionKeyFetchCalled server_auction_key_fetch_called
     extensions 849; // ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled
-    extensions 850; // VpnConnectionStateChanged vpn_connection_state_changed
+    // reserved 850
     extensions 851; // VpnConnectionReported vpn_connection_reported
     extensions 852; // CarWakeupFromSuspendReported car_wakeup_from_suspend_reported
     extensions 853; // ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported
@@ -1415,6 +1415,18 @@ message Atom {
     extensions 1084; // ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
     extensions 1085; // RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported
     extensions 1086; // Reserved for b/397963390
+    extensions 1087; // DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed
+    extensions 1088; // Reserved for b/295238578
+    extensions 1089; // AppRestartOccurred app_restart_occurred
+    extensions 1090; // BinderCallsReported binder_calls_reported
+    extensions 1091; // DeviceLockFcmMessageReceived device_lock_fcm_message_received
+    extensions 1092; // StatusBarChipReported status_bar_chip_reported
+    extensions 1093; // DeviceLockProvisionStateEvent device_lock_provision_state_event
+    extensions 1094; // DeviceLockDeviceStateEvent device_lock_device_state_event
+    extensions 1095; // WearGestureSubscriptionChanged wear_gesture_subscription_changed
+    extensions 1096; // WearGestureReported wear_gesture_reported
+    extensions 1097; // WearGestureDetectionStateChanged wear_gesture_detection_state_changed
+    extensions 1098; // SqliteAppOpEventReported sqlite_app_op_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1704,12 +1716,13 @@ message Atom {
     extensions 10241; // Reserved for b/397963390
     extensions 10242; // CallSequencingStats call_sequencing_stats
     extensions 10243; // CallSequencingOperationStats call_sequencing_operation_stats
+    extensions 10244; // DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
@@ -2185,6 +2198,8 @@ message WifiConnectionResultReported {
     optional int64 l2_connecting_duration_ms = 21;
     // L3 connecting time duration in millis
     optional int64 l3_connecting_duration_ms = 22;
+    // The disconnect reason of previous session
+    optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
 }
 
 /**
@@ -2485,6 +2500,8 @@ message WifiSetupFailureCrashReported {
         P2P_FAILURE_HAL = 11;
         // Supplicant error on WifiP2pNative.setupInterface
         P2P_FAILURE_SUPPLICANT = 12;
+        // Subsystem Restart; a crash in the firmware/driver
+        SSR_CRASH = 13;
     }
     // Type of failure
     optional Type type= 1;
@@ -6487,6 +6504,9 @@ message NotificationReported {
     // Whether the notification was promoted and whether it was promotable.
     optional bool is_promoted_ongoing = 30;
     optional bool has_promotable_characteristics = 31;
+
+    // Whether the notification was summarized.
+    optional bool has_summary = 32;
 }
 
 /**
@@ -13777,10 +13797,10 @@ message AppSearchPutDocumentStatsReported {
 
     // Time used to index all metadata terms in the document, which can only be added by
     // PropertyExistenceIndexingHandler currently.
-    optional int32 metadataTermIndexLatencyMillis = 17;
+    optional int32 metadata_term_index_latency_millis = 17;
 
     // Time used to index all embeddings in the document.
-    optional int32 embeddingIndexLatencyMillis = 18;
+    optional int32 embedding_index_latency_millis = 18;
 }
 
 /**
@@ -13865,22 +13885,22 @@ message AppSearchInitializeStatsReported {
     optional int64 enabled_features = 21;
 
     //Number of consecutive initialization failures that immediately preceded this initialization.
-    optional int32  nativeNumPreviousInitFailures = 22;
+    optional int32  native_num_previous_init_failures = 22;
 
     // Restoration cause of integer index.
-    optional int32  nativeIntegerIndexRestorationCause = 23;
+    optional int32  native_integer_index_restoration_cause = 23;
 
     // Restoration cause of qualified id join index.
-    optional int32  nativeQualifiedIdJoinIndexRestorationCause = 24;
+    optional int32  native_qualified_id_join_index_restoration_cause = 24;
 
     // Restoration cause of embedding index.
-    optional int32  nativeEmbeddingIndexRestorationCause = 25;
+    optional int32  native_embedding_index_restoration_cause = 25;
 
     // ICU data initialization status code
-    optional int32  nativeInitializeIcuDataStatusCode = 26;
+    optional int32  native_initialize_icu_data_status_code = 26;
 
     // Number of documents that failed to be reindexed during index restoration.
-    optional int32  nativeNumFailedReindexedDocuments = 27;
+    optional int32  native_num_failed_reindexed_documents = 27;
 }
 
 /**
@@ -14213,13 +14233,13 @@ message AppSearchOptimizeStatsReported {
     optional int64 enabled_features = 14;
 
     // The mode of index restoration if there is any.
-    optional int32 indexRestorationMode = 15;
+    optional int32 index_restoration_mode = 15;
 
     // Number of namespaces before the optimization.
-    optional int32 numOriginalNamespaces = 16;
+    optional int32 num_original_namespaces = 16;
 
     //Number of namespaces deleted.
-    optional int32 numDeletedNamespaces = 17;
+    optional int32 num_deleted_namespaces = 17;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -16463,6 +16483,13 @@ message OutgoingSms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 23;
+
+    // The package name of the application sending the sms.
+    // Populated only for sms sent over non-terrestrial networks, empty otherwise.
+    optional string calling_package_name = 24;
+
+    // The application uid.
+    optional int32 app_uid = 25[(is_uid) = true];
 }
 
 /**
@@ -23221,6 +23248,9 @@ message CdmAssociationAction {
 
     // Name of the CDM Association Request profiles.
     optional DeviceProfile device_profile = 2;
+
+    // The uid of package that created the association.
+    optional int32 package_uid = 3 [(is_uid) = true];
 }
 
 /**
@@ -23815,6 +23845,13 @@ message OutgoingMms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 16;
+
+    // The package name of the application sending the MMS.
+    // Populated only for MMS sent over non-terrestrial networks, empty otherwise.
+    optional string calling_package_name = 17;
+
+    // The application uid.
+    optional int32 app_uid = 18 [(is_uid) = true];
 }
 
 message PrivacySignalNotificationInteraction {
