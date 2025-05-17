@@ -1,0 +1,67 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.wear.physical_ux;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/wear/physical_ux/enums.proto";
+
+option java_package = "com.android.os.wear.physical_ux";
+option java_multiple_files = true;
+
+extend Atom {
+  optional WearGestureSubscriptionChanged wear_gesture_subscription_changed = 1095 [(module) = "framework"];
+  optional WearGestureReported wear_gesture_reported = 1096 [(module) = "framework"];
+  optional WearGestureDetectionStateChanged wear_gesture_detection_state_changed = 1097 [(module) = "framework"];
+}
+
+// This file contains atom related to Gestures in Wear.
+
+/**
+ * Logged when a client's subscription to gestures changes.
+ */
+message WearGestureSubscriptionChanged {
+    // The UID that subscribed to gesture events.
+    optional int32 uid = 1 [(is_uid) = true];
+    // The actions that are subscribed for.
+    // This will be empty when the client unsubscribes.
+    repeated com.google.android.clockwork.physical_ux.GestureAction actions = 2;
+}
+
+/**
+ * Logged when a gesture event is reported.
+ */
+message WearGestureReported {
+    // The gesture action of the event.
+    optional com.google.android.clockwork.physical_ux.GestureAction action = 1;
+    // The raw gesture of the event.
+    optional com.google.android.clockwork.physical_ux.Gesture gesture = 2;
+    // The UIDs to whom this event was reported.
+    repeated int32 uids = 3 [(is_uid) = true];
+}
+
+/**
+ * Logged when the state of gesture detection changes.
+ */
+message WearGestureDetectionStateChanged {
+    // The new gesture detection state
+    optional com.google.android.clockwork.physical_ux.GestureDetectionState state = 1;
+    // The gesture actions with active subscriptions
+    repeated com.google.android.clockwork.physical_ux.GestureAction subscribed_actions = 2;
+}
