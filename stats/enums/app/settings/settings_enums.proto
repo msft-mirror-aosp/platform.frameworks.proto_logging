@@ -5907,6 +5907,10 @@ enum PageId {
     // OPEN: Settings > Display > HDR brightness
     // CATEGORY: SETTINGS
     HDR_BRIGHTNESS_SETTINGS = 2175;
+
+    // OPEN: Settings > Display > Always-on displays
+    // CATEGORY: SETTINGS
+    AMBIENT_DISPLAY_ALWAYS_ON = 2176;
 }
 
 // Battery Saver schedule types.
