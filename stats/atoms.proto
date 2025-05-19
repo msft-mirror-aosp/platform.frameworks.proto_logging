@@ -1427,6 +1427,7 @@ message Atom {
     extensions 1096; // WearGestureReported wear_gesture_reported
     extensions 1097; // WearGestureDetectionStateChanged wear_gesture_detection_state_changed
     extensions 1098; // SqliteAppOpEventReported sqlite_app_op_event_reported
+    extensions 1099; // LskfAuthenticationAttempted lskf_authentication_attempted
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

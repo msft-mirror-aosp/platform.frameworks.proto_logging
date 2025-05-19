@@ -184,6 +184,7 @@ atom_protos = [
     "atoms/kernel/*.proto",
     "atoms/locale/*.proto",
     "atoms/location/*.proto",
+    "atoms/locksettings/*.proto",
     "atoms/media/*.proto",
     "atoms/memory/*.proto",
     "atoms/memorysafety/*.proto",
