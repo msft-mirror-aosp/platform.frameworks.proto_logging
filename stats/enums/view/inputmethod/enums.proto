@@ -74,8 +74,8 @@ enum SoftInputShowHideReasonEnum {
     REASON_DISPLAY_CONFIGURATION_CHANGED = 47;
     REASON_DISPLAY_INSETS_CHANGED = 48;
     REASON_DISPLAY_CONTROLS_CHANGED = 49;
-    REASON_UNBIND_CURRENT_METHOD = 50;
-    REASON_HIDE_SOFT_INPUT_ON_ANIMATION_STATE_CHANGED = 51;
+    REASON_UNBIND_CURRENT_METHOD = 50 [deprecated = true];
+    REASON_HIDE_SOFT_INPUT_ON_ANIMATION_STATE_CHANGED = 51 [deprecated = true];
     REASON_HIDE_SOFT_INPUT_REQUEST_HIDE_WITH_CONTROL = 52;
     REASON_SHOW_SOFT_INPUT_IME_TOGGLE_SOFT_INPUT = 53;
     REASON_SHOW_SOFT_INPUT_IMM_DEPRECATION = 54;
@@ -173,13 +173,13 @@ enum ImeRequestPhaseEnum {
     // Requested applying the IME visibility in the insets source consumer.
     PHASE_IME_APPLY_VISIBILITY_INSETS_CONSUMER = 16 [deprecated = true];
     // Applied the IME visibility.
-    PHASE_SERVER_APPLY_IME_VISIBILITY = 17;
+    PHASE_SERVER_APPLY_IME_VISIBILITY = 17 [deprecated = true];
     // Started the show IME runner.
-    PHASE_WM_SHOW_IME_RUNNER = 18;
+    PHASE_WM_SHOW_IME_RUNNER = 18 [deprecated = true];
     // Ready to show IME.
     PHASE_WM_SHOW_IME_READY = 19;
     // The Window Manager has a connection to the IME insets control target.
-    PHASE_WM_HAS_IME_INSETS_CONTROL_TARGET = 20;
+    PHASE_WM_HAS_IME_INSETS_CONTROL_TARGET = 20 [deprecated = true];
     // Reached the window insets control target's show insets method.
     PHASE_WM_WINDOW_INSETS_CONTROL_TARGET_SHOW_INSETS = 21;
     // Reached the window insets control target's hide insets method.
@@ -209,13 +209,13 @@ enum ImeRequestPhaseEnum {
     // Checked that the IME is controllable.
     PHASE_CLIENT_DISABLED_USER_ANIMATION = 34 [deprecated = true];
     // Collecting insets source controls.
-    PHASE_CLIENT_COLLECT_SOURCE_CONTROLS = 35;
+    PHASE_CLIENT_COLLECT_SOURCE_CONTROLS = 35 [deprecated = true];
     // Reached the insets source consumer's show request method.
-    PHASE_CLIENT_INSETS_CONSUMER_REQUEST_SHOW = 36;
+    PHASE_CLIENT_INSETS_CONSUMER_REQUEST_SHOW = 36 [deprecated = true];
     // Reached input method manager's request IME show method.
-    PHASE_CLIENT_REQUEST_IME_SHOW = 37;
+    PHASE_CLIENT_REQUEST_IME_SHOW = 37 [deprecated = true];
     // Reached the insets source consumer's notify hidden method.
-    PHASE_CLIENT_INSETS_CONSUMER_NOTIFY_HIDDEN = 38;
+    PHASE_CLIENT_INSETS_CONSUMER_NOTIFY_HIDDEN = 38 [deprecated = true];
     // Queued the IME window insets show animation.
     PHASE_CLIENT_ANIMATION_RUNNING = 39;
     // Cancelled the IME window insets show animation.
@@ -223,7 +223,7 @@ enum ImeRequestPhaseEnum {
     // Finished the IME window insets show animation.
     PHASE_CLIENT_ANIMATION_FINISHED_SHOW = 41;
     // Finished the IME window insets hide animation.
-    PHASE_CLIENT_ANIMATION_FINISHED_HIDE = 42;
+    PHASE_CLIENT_ANIMATION_FINISHED_HIDE = 42 [deprecated = true];
     // Aborted the request to show the IME post layout.
     PHASE_WM_ABORT_SHOW_IME_POST_LAYOUT = 43;
     // Reached the IME's showWindow method.
