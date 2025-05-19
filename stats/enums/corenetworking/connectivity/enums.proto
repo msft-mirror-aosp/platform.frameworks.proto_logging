@@ -118,4 +118,8 @@ enum TerribleErrorType {
   // however, setAllowBypassPrivateDnsOnNetwork API returns a non EEXIST
   // error.
   TYPE_ALLOW_BYPASS_PRIVATE_DNS_FOR_DELEGATE_UID_ERROR = 11;
+  // Indicate WiFi tethering was enabled with an interface name that maps to a different type.
+  TYPE_TETHER_WIFI_TYPE_MISMATCH = 12;
+  // Indicate WiFi P2P tethering was enabled with an interface name that maps to a different type.
+  TYPE_TETHER_WIFIP2P_TYPE_MISMATCH = 13;
 }
