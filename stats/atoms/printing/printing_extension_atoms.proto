@@ -57,6 +57,7 @@ message FrameworkPrintJob {
   optional FrameworkDuplexMode duplex_mode = 8;
   optional FrameworkDocumentType document_type = 9;
   optional bool saved_pdf = 10;
+  optional int32 page_count = 11;
 }
 
 // Logged from frameworks/base/core/java/android/printservice/PrinterDiscoverySession.java
@@ -94,6 +95,7 @@ message BipsPrintJob {
   optional bool secure = 9;
   optional int32 horizontal_dpi = 10;
   optional int32 vertical_dpi = 11;
+  optional int32 page_count = 12;
 }
 
 // Logged from packages/services/BuiltInPrintService/src/com/android/bips/LocalDiscoverySession.java
