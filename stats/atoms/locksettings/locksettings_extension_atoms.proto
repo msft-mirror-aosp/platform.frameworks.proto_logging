@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.locksettings;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.locksettings";
+option java_multiple_files = true;
+
+extend Atom {
+    optional LskfAuthenticationAttempted lskf_authentication_attempted
+        = 1099 [(module) = "framework"];
+}
+
+/**
+ * Logs the result of an attempt to authenticate using LSKF (lock screen
+ * knowledge factor)
+ *
+ * Pushed from:
+ *   frameworks/base/services/core/java/com/android/server/locksettings/SoftwareRateLimiter.java
+ */
+message LskfAuthenticationAttempted {
+    // True if the attempt was successful. False if it was unsuccessful.
+    optional bool success = 1;
+
+    // The number of unique guesses that have been made since the last success
+    // (for the same user), including the guess that triggered this report if it
+    // wasn't a duplicate wrong guess.
+    optional int32 num_unique_guesses = 2;
+
+    // The number of the duplicate wrong guesses that have been made since the
+    // last success or reboot (for the same user).
+    optional int32 num_duplicate_guesses = 3;
+
+    // The type of lock screen knowledge factor that the user has
+    enum CredentialType {
+        UNKNOWN_TYPE = 0;
+        PATTERN = 1;
+        PASSWORD = 2;
+        PIN = 3;
+        UNIFIED_PROFILE_PASSWORD = 4;
+    }
+    optional CredentialType credential_type = 4;
+
+    // Whether the software rate-limiter is in enforcing mode
+    optional bool software_rate_limiter_enforcing = 5;
+}

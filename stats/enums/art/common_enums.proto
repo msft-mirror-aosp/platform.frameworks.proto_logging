@@ -122,7 +122,8 @@ enum ArtThreadType {
   ART_THREAD_BACKGROUND = 2;
 }
 
-// Indicates support for userfaultfd and minor fault mode.
+// DEPRECATED - Used to indicate support for userfaultfd and minor fault mode.
+// Deprecated in May 2025 as the corresponding filter is no longer needed.
 enum ArtUffdSupport {
   ART_UFFD_SUPPORT_UNKNOWN = 0;
   ART_UFFD_SUPPORT_UFFD_NOT_SUPPORTED = 1;
