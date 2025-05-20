@@ -2430,6 +2430,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_SUPERVISION_SEARCH_FILTER_ON = 2075;
+
+    // ACTION: Settings > Connected devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_OPEN_SETTINGS_CONNECTED_DEVICES = 2076;
 }
 
 /**
@@ -5831,7 +5836,7 @@ enum PageId {
 
     // OPEN: Settings > Connected devices
     // CATEGORY: SETTINGS
-    SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159;
+    SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159 [deprecated = true];
 
     // OPEN: Settings -> Accessibility -> Accessibility Scanner
     // CATEGORY: SETTINGS
