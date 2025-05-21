@@ -1540,11 +1540,10 @@ message ImplicitUriGrantEventReported {
     }
 
     // Uid of the package requesting the op
-    required int32 uid = 1 [(is_uid) = true];
-
-    required GrantType grant_type = 2;
-    required AccessType access_type = 3;
-    required ActionType action_type = 4;
+    optional int32 uid = 1 [(is_uid) = true];
+    optional GrantType grant_type = 2;
+    optional AccessType access_type = 3;
+    optional ActionType action_type = 4;
 }
 
 /**
