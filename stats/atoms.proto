@@ -1751,6 +1751,7 @@ message Atom {
     extensions 10243; // CallSequencingOperationStats call_sequencing_operation_stats
     extensions 10244; // DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot
     extensions 10245; // BatteryLife battery_life
+    extensions 10246; // FullBatteryDesignCapacity full_battery_design_capacity
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
