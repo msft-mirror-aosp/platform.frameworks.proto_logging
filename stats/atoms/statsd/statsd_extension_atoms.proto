@@ -119,6 +119,7 @@ message StatsSocketLossReported {
 
         // internal error codes are positive
         SOCKET_LOSS_ERROR_QUEUE_OVERFLOW = 1;
+        SOCKET_LOSS_ERROR_LOGGING_RATE_LIMIT_EXCEEDED = 2;
     }
 
     optional int32 uid = 1 [(is_uid) = true];
