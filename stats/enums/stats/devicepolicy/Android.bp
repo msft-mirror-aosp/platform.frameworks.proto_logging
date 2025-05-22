@@ -16,8 +16,28 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+java_library_static {
+    name: "devicepolicyprotosnano",
+    proto: {
+        type: "nano",
+    },
+    srcs: [
+        "*.proto",
+    ],
+    java_version: "1.8",
+    target: {
+        android: {
+            jarjar_rules: "jarjar-rules.txt",
+        },
+        host: {
+            static_libs: ["libprotobuf-java-nano"],
+        }
+    },
+    sdk_version: "core_platform",
+}
+
 filegroup {
-    name: "device_policy_enums_proto",
+    name: "device_policy_proto",
     srcs: [
         "*.proto",
     ],

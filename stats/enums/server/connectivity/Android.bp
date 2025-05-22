@@ -16,8 +16,22 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+java_library_static {
+    name: "datastallprotosnano",
+    proto: {
+        type: "nano",
+    },
+    srcs: [
+        "data_stall_event.proto",
+    ],
+    sdk_version: "system_current",
+    // this is part of updatable modules(NetworkStack) which targets 29(Q)
+    min_sdk_version: "29",
+}
+
+
 filegroup {
-    name: "data_stall_event_enums_proto",
+    name: "data_stall_event_proto",
     srcs: [
         "data_stall_event.proto",
     ],

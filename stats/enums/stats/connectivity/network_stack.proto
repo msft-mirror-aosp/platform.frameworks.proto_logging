@@ -18,6 +18,7 @@ syntax = "proto2";
 
 package android.stats.connectivity;
 option java_multiple_files = true;
+option java_outer_classname = "NetworkStackProto";
 
 enum Ipv6ProvisioningMode {
     IPV6_PROV_MODE_UNKNOWN = 0;
@@ -313,5 +314,9 @@ enum CounterName {
    CN_DROPPED_IPV6_MLD_V1_GENERAL_QUERY_REPLIED = 64;
    CN_DROPPED_IPV6_MLD_V2_GENERAL_QUERY_REPLIED = 65;
    CN_DROPPED_MDNS_REPLIED = 66;
+}
+
+message NetworkStackEventData {
+
 }
 
