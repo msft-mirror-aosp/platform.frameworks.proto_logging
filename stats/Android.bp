@@ -32,11 +32,11 @@ shared_enum_protos = [
 enum_protos = [
     // go/keep-sorted start
     ":connectivity_service_proto",
-    ":data_stall_event_enums_proto",
-    ":device_policy_enums_proto",
+    ":data_stall_event_proto",
+    ":device_policy_proto",
     ":dns_resolver_proto",
     ":launcher_proto",
-    ":network_stack_enum_proto",
+    ":network_stack_proto",
     ":srcs_bluetooth_leaudio_protos",
     ":srcs_bluetooth_protos",
     ":style_proto",
@@ -293,7 +293,7 @@ filegroup {
 filegroup {
     name: "libstats_atom_message_protos",
     srcs: [
-        "message/**/*.proto",
+        "message/*.proto",
     ],
 }
 

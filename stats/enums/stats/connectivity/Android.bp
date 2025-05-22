@@ -17,6 +17,17 @@ package {
 }
 
 java_library_static {
+    name: "networkstackprotos",
+    proto: {
+        type: "lite",
+    },
+    srcs: [
+        "network_stack.proto",
+    ],
+    sdk_version: "system_29",
+}
+
+java_library_static {
     name: "tetheringprotos",
     proto: {
         type: "lite",
@@ -54,7 +65,7 @@ filegroup {
 }
 
 filegroup {
-    name: "network_stack_enum_proto",
+    name: "network_stack_proto",
     srcs: [
         "network_stack.proto",
     ],

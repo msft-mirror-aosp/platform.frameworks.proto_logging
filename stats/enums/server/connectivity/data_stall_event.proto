@@ -60,3 +60,32 @@ enum RadioTech {
   RADIO_TECHNOLOGY_NR = 20;
 }
 
+// Cellular specific information.
+message CellularData {
+    // Indicate the radio technology at the time of data stall suspected.
+    optional RadioTech rat_type = 1;
+    // True if device is in roaming network at the time of data stall suspected.
+    optional bool is_roaming = 2;
+    // Registered network MccMnc when data stall happen
+    optional string network_mccmnc = 3;
+    // Indicate the SIM card carrier.
+    optional string sim_mccmnc = 4;
+    // Signal strength level at the time of data stall suspected.
+    optional int32 signal_strength = 5;
+}
+
+// Wifi specific information.
+message WifiData {
+    // Signal strength at the time of data stall suspected.
+    // RSSI range is between -55 to -110.
+    optional int32 signal_strength = 1;
+    // AP band.
+    optional ApBand wifi_band = 2;
+}
+
+message DnsEvent {
+    // The dns return code.
+    repeated int32 dns_return_code = 1;
+    // Indicate the timestamp of the dns event.
+    repeated int64 dns_time = 2;
+}
