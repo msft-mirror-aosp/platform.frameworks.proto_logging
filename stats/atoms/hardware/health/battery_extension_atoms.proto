@@ -27,6 +27,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional BatteryHealth battery_health = 10220 [(module) = "framework"];
+  optional BatteryLife battery_life = 10245 [(module) = "framework"];
 }
 
 /*
@@ -57,4 +58,16 @@ message BatteryHealth {
       6;
   optional android.hardware.health.BatteryChargingPolicy
       battery_charging_policy = 7;
+}
+
+/*
+ * Pulls total battery life estimate based on current drain rate, as reported
+ * by the android.hardware.health HAL.
+ */
+message BatteryLife {
+  /*
+   * The estimated total battery life at the current drain rate, using the
+   * actual total battery capacity.
+   */
+  optional int32 battery_life_minutes = 1;
 }
