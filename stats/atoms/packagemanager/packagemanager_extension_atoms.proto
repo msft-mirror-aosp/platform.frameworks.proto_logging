@@ -27,6 +27,8 @@ option java_multiple_files = true;
 extend Atom {
   optional ComponentStateChangedReported component_state_changed_reported = 863
       [(module) = "framework"];
+  optional PackageInstallerSessionReported package_installer_session_reported = 1101
+      [(module) = "framework"];
 }
 
 /**
@@ -69,4 +71,152 @@ message ComponentStateChangedReported {
 
   // The UID for which the application calls this method.
   optional int32 calling_uid = 6 [(is_uid) = true];
+}
+
+/**
+ * Records data on package installation sessions, tracking from the installer's initiation via PackageInstaller APIs to completion.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/pm/PackageInstallerSession.java
+ */
+message PackageInstallerSessionReported {
+    // --- Basic info section ---
+
+    // ID of the session, can be used to correlate with Play logging metrics.
+    optional int32 session_id = 1;
+    // User ID for which the createSession API was called.
+    optional int32 user_id = 2;
+    // UID of the package that creates the installation session.
+    optional int32 installer_uid = 3 [(is_uid) = true];
+    // ID of the child sessions, if this is a parent session, null otherwise.
+    repeated int32 child_session_ids = 4;
+    // ID of the parent session, if this is a child session, -1 otherwise.
+    optional int32 parent_session_id = 5;
+
+    // --- SessionParams section ---
+
+    // The mode of installation, corresponding to the MODE_* in SessionParams.
+    enum Mode {
+        MODE_UNSPECIFIED = 0;
+        MODE_INVALID = 1;
+        MODE_FULL_INSTALL = 2;
+        MODE_INHERIT_EXISTING = 3;
+    }
+    optional Mode mode = 6;
+    // The user action requirement, corresponding to USER_ACTION_* in SessionParams.
+    enum UserActionRequirement {
+        USER_ACTION_UNSPECIFIED = 0;
+        USER_ACTION_REQUIRED = 1;
+        USER_ACTION_NOT_REQUIRED = 2;
+    }
+    optional UserActionRequirement user_action_requirement = 7;
+    // Installation flags as specified in SessionParams.
+    optional int32 install_flags = 8;
+    // Installation location, corresponding to the INSTALL_LOCATION_* in SessionParams.
+    enum InstallLocation {
+        INSTALL_LOCATION_UNSPECIFIED = 0;
+        INSTALL_LOCATION_INTERNAL_ONLY = 1;
+        INSTALL_LOCATION_PREFER_EXTERNAL = 2;
+    }
+    optional InstallLocation install_location = 9;
+    // Installation reason, corresponding to the INSTALL_REASON_* in SessionParams.
+    enum InstallReason {
+        INSTALL_REASON_UNSPECIFIED = 0;
+        INSTALL_REASON_POLICY = 1;
+        INSTALL_REASON_DEVICE_RESTORE = 2;
+        INSTALL_REASON_DEVICE_SETUP = 3;
+        INSTALL_REASON_USER = 4;
+        INSTALL_REASON_ROLLBACK = 5;
+    }
+    optional InstallReason install_reason = 10;
+    // Installation scenario, corresponding to the INSTALL_SCENARIO_* in SessionParams.
+    enum InstallScenario {
+        INSTALL_SCENARIO_UNSPECIFIED = 0;
+        INSTALL_SCENARIO_FAST = 1;
+        INSTALL_SCENARIO_BULK = 2;
+        INSTALL_SCENARIO_BULK_SECONDARY = 3;
+    }
+    optional InstallScenario install_senario = 11;
+    // isStaged as specified in SessionParams.
+    optional bool is_staged = 12;
+    // Required installed version code as specified in SessionParams.
+    optional int64 required_installed_version_code = 13;
+    // Data loader type as specified in SessionParams.
+    enum DataLoaderType {
+        DATA_LOADER_TYPE_UNSPECIFIED = 0;
+        DATA_LOADER_TYPE_STREAMING = 1;
+        DATA_LOADER_TYPE_INCREMENTAL = 2;
+    }
+    optional DataLoaderType data_loader_type = 14;
+    // Rollback data policy as specified in SessionParams.
+    enum RollbackDataPolicy {
+        ROLLBACK_DATA_POLICY_UNSPECIFIED = 0;
+        ROLLBACK_DATA_POLICY_RESTORE = 1;
+        ROLLBACK_DATA_POLICY_WIPE = 3;
+        ROLLBACK_DATA_POLICY_RETAIN = 4;
+    }
+    optional RollbackDataPolicy rollback_data_policy = 15;
+    // Rollback lifetime millis as specified in SessionParams.
+    optional int64 rollback_lifetime_millis = 16;
+    // Rollback impact level as specified in SessionParams.
+    enum RollbackImpactLevel {
+        ROLLBACK_USER_IMPACT_UNSPECIFIED = 0;
+        ROLLBACK_USER_IMPACT_LOW = 1;
+        ROLLBACK_USER_IMPACT_HIGH = 2;
+        ROLLBACK_USER_IMPACT_ONLY_MANUAL = 3;
+    }
+    optional RollbackImpactLevel rollback_impact_level = 17;
+    // Force queryable as specified in SessionParams.
+    optional bool force_queryable_override = 18;
+    // Default application enabled setting as specified in SessionParams.
+    optional bool application_enabled_setting_persistent = 19;
+    // Whether the session is a multi-package session.
+    optional bool is_multi_package = 20;
+    // Whether this session required pre-approval.
+    optional bool is_pre_approval = 21;
+    // Whether the session was for unarchive.
+    optional bool is_unarchive = 22;
+    // Whether auto install dependencies is enabled.
+    optional bool is_auto_install_dependencies_enabled = 23;
+    // Total size of the APKs installed for this package, including the base APK and the splits. 0 if this session is for removing splits.
+    optional int64 apks_size_bytes = 24;
+
+    // --- Result section ---
+
+    // Installation result as defined in PackageInstaller.java
+    enum StatusCode {
+        STATUS_UNSPECIFIED = 0;
+        STATUS_PENDING_STREAMING = 1;
+        STATUS_PENDING_USER_ACTION = 2;
+        STATUS_SUCCESS = 3;
+        STATUS_FAILURE = 4;
+        STATUS_FAILURE_BLOCKED = 5;
+        STATUS_FAILURE_ABORTED = 6;
+        STATUS_FAILURE_INVALID = 7;
+        STATUS_FAILURE_CONFLICT = 8;
+        STATUS_FAILURE_STORAGE = 9;
+        STATUS_FAILURE_INCOMPATIBLE = 10;
+        STATUS_FAILURE_TIMEOUT = 11;
+    }
+    optional StatusCode status_code = 25;
+    // Whether user action was actually required.
+    optional bool user_action_required = 26;
+    // Whether the session was deleted because it expired.
+    optional bool is_expired = 27;
+    
+    // --- Performance section ---
+
+
+    // The duration from session creation to session commit which marks the start of verification and installation. This duration usually reflects the time when the installer writes data, but sometimes the commit might be delayed for various reasons by the installer.
+    optional int64 session_idle_duration_millis = 28;
+    // The duration between when the session was committed and when the session is complete. This duration includes the verification and the installation durations.
+    optional int64 session_commit_duration_millis = 29;
+    // The duration it took to extract native libraries.
+    optional int64 native_libs_extraction_duration_millis = 30;
+    // The duration it took for the session to be verified by package verifier and sufficient verifiers.
+    optional int64 package_verification_duration_millis = 31;
+    // The duration it took to process and install the package in PackageManager internally.
+    optional int64 internal_installation_duration_millis = 32;
+    // The duration between when the session was created to when the session has completed.
+    optional int64 session_lifetime_duration_millis = 33;
 }
