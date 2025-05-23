@@ -2440,6 +2440,12 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_OPEN_SETTINGS_DEVICE_DETAILS = 2077;
+
+    // Action: Settings > Connected devices > Connection preferences > Audio sharing > Audio stream
+    //         > Join a present source succeeded
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_AUDIO_STREAM_JOIN_PRESENT_SUCCEED = 2078;
 }
 
 /**
