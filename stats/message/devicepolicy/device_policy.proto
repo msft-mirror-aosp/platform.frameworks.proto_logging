@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Android Open Source Project
+ * Copyright (C) 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,10 @@
  */
 
 syntax = "proto2";
-package android.stats.launcher;
+
+package android.stats.devicepolicy;
 option java_multiple_files = true;
 
-enum LauncherAction {
-    DEFAULT_ACTION = 0;
-    LAUNCH_APP = 1;
-    LAUNCH_TASK = 2;
-    DISMISS_TASK = 3;
-    LONGPRESS = 4;
-    DRAGDROP = 5;
-    SWIPE_UP = 6;
-    SWIPE_DOWN = 7;
-    SWIPE_LEFT = 8;
-    SWIPE_RIGHT = 9;
+message StringList {
+  repeated string string_value = 1;
 }
-
-enum LauncherState {
-    LAUNCHER_STATE_UNSPECIFIED = 0;
-    BACKGROUND = 1;
-    HOME = 2;
-    OVERVIEW = 3;
-    ALLAPPS = 4;
-    UNCHANGED = 5;
-}
-
