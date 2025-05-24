@@ -1416,7 +1416,7 @@ message Atom {
     extensions 1085; // RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported
     extensions 1086; // Reserved for b/397963390
     extensions 1087; // DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed
-    extensions 1088; // Reserved for b/295238578
+    extensions 1088; // ImplicitUriGrantEventReported implicit_uri_grant_event_reported
     extensions 1089; // AppRestartOccurred app_restart_occurred
     extensions 1090; // BinderCallsReported binder_calls_reported
     extensions 1091; // DeviceLockFcmMessageReceived device_lock_fcm_message_received
@@ -1427,6 +1427,9 @@ message Atom {
     extensions 1096; // WearGestureReported wear_gesture_reported
     extensions 1097; // WearGestureDetectionStateChanged wear_gesture_detection_state_changed
     extensions 1098; // SqliteAppOpEventReported sqlite_app_op_event_reported
+    extensions 1099; // LskfAuthenticationAttempted lskf_authentication_attempted
+    extensions 1100; // PermissionOneTimeSessionEventReported permission_one_time_session_event_reported
+    extensions 1101; // PackageInstallerSessionReported package_installer_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -24464,8 +24467,22 @@ message ConnectivityStateSample {
 
     // Full list of network details (slice by transport / meteredness / internet+validated)
     optional NetworkList networks = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Information for satellite access.
+    optional SatelliteAccessInfo satellite_access_info = 5
+    [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
+/**
+ * Pulls information for satellite access.
+ *
+ * Pulled from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message SatelliteAccessInfo {
+    // Number of satellite network opt-in uids on the device.
+    optional int32 optin_uid_count = 1;
+}
 
 /**
  * Pulls information for network selection rematch info.
@@ -24501,6 +24518,20 @@ message DefaultNetworkRematchInfo {
 
     // The time duration the device kept the old network as the default in seconds
     optional int32 time_duration_on_old_network_sec = 5;
+
+    // Uid ranges which applied to this event.
+    optional UidRanges uid_ranges = 6 [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+message UidRanges {
+    repeated UidRange uid_range = 1;
+}
+
+// Represents a range of UIDs.
+// The range is inclusive, denoted as [begin, end].
+message UidRange {
+    optional int32 begin = 1 [(is_uid) = true];
+    optional int32 end = 2 [(is_uid) = true];
 }
 
 /**

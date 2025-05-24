@@ -23,9 +23,9 @@ option java_multiple_files = true;
 
 enum IpType {
   IT_UNKNOWN = 0;
-  IT_IPv4 = 1;
-  IT_IPv6 = 2;
-  IT_IPv4v6 = 3;
+  IT_IPV4 = 1;
+  IT_IPV6 = 2;
+  IT_IPV4V6 = 3;
 }
 
 enum VpnType {

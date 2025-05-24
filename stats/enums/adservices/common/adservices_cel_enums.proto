@@ -419,6 +419,9 @@ enum ErrorCode {
   // Error occurred when trying to execute a background job.
   MEASUREMENT_BACKGROUND_JOB_FAILURE = 2024;
 
+  // Timeout occurred when trying to get instance of an ODP system event manager
+  MEASUREMENT_REGISTRATION_ODP_GET_MANAGER_TIMEOUT = 2025;
+
   // Fledge (PA), PAS errors: 3001 - 4000
   // Exception while PAS unable to find the service.
   PAS_UNABLE_FIND_SERVICES = 3001;

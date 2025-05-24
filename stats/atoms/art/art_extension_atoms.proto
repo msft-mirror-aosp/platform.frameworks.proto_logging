@@ -60,7 +60,7 @@ message ArtDatumReported {
     optional ArtGcCollectorType gc = 12;
 
     // The support for userfaultfd and minor fault mode.
-    optional ArtUffdSupport uffd_support = 13;
+    optional ArtUffdSupport uffd_support = 13 [deprecated = true];
 }
 
 // ArtDatumDeltaReported is the same as ArtDatumReported, except for the kind field
@@ -103,7 +103,7 @@ message ArtDatumDeltaReported {
     optional ArtGcCollectorType gc = 12;
 
     // The support for userfaultfd and minor fault mode.
-    optional ArtUffdSupport uffd_support = 13;
+    optional ArtUffdSupport uffd_support = 13 [deprecated = true];
 }
 
 message ArtDex2OatReported {

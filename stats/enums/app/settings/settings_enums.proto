@@ -2430,6 +2430,16 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_SUPERVISION_SEARCH_FILTER_ON = 2075;
+
+    // ACTION: Settings > Connected devices
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_OPEN_SETTINGS_CONNECTED_DEVICES = 2076;
+
+    // ACTION: Settings > Connected devices > Device details
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_OPEN_SETTINGS_DEVICE_DETAILS = 2077;
 }
 
 /**
@@ -5831,7 +5841,7 @@ enum PageId {
 
     // OPEN: Settings > Connected devices
     // CATEGORY: SETTINGS
-    SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159;
+    SETTINGS_CONNECTED_DEVICES_ENTRYPOINT = 2159 [deprecated = true];
 
     // OPEN: Settings -> Accessibility -> Accessibility Scanner
     // CATEGORY: SETTINGS
@@ -5907,6 +5917,10 @@ enum PageId {
     // OPEN: Settings > Display > HDR brightness
     // CATEGORY: SETTINGS
     HDR_BRIGHTNESS_SETTINGS = 2175;
+
+    // OPEN: Settings > Display > Always-on displays
+    // CATEGORY: SETTINGS
+    AMBIENT_DISPLAY_ALWAYS_ON = 2176;
 }
 
 // Battery Saver schedule types.

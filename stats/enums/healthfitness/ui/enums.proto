@@ -443,6 +443,7 @@ enum ElementId {
 
     // Connect second app onboarding page
     CONNECT_SECOND_APP_ONBOARDING_SET_UP_LATER_BUTTON = 307;
+    ONBOARDING_CONNECTED_APP_BUTTON = 317;
 
     // Almost done page
     ONBOARDING_APP_BUTTON = 308;
@@ -460,7 +461,7 @@ enum ElementId {
 
     // End of Connect Apps Onboarding
 
-    // Next available: 317;
+    // Next available: 318;
 }
 
 enum PageId {
