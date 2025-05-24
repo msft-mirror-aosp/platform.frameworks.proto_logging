@@ -24467,8 +24467,22 @@ message ConnectivityStateSample {
 
     // Full list of network details (slice by transport / meteredness / internet+validated)
     optional NetworkList networks = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
+
+    // Information for satellite access.
+    optional SatelliteAccessInfo satellite_access_info = 5
+    [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
+/**
+ * Pulls information for satellite access.
+ *
+ * Pulled from:
+ *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
+ */
+message SatelliteAccessInfo {
+    // Number of satellite network opt-in uids on the device.
+    optional int32 optin_uid_count = 1;
+}
 
 /**
  * Pulls information for network selection rematch info.
@@ -24504,6 +24518,20 @@ message DefaultNetworkRematchInfo {
 
     // The time duration the device kept the old network as the default in seconds
     optional int32 time_duration_on_old_network_sec = 5;
+
+    // Uid ranges which applied to this event.
+    optional UidRanges uid_ranges = 6 [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+message UidRanges {
+    repeated UidRange uid_range = 1;
+}
+
+// Represents a range of UIDs.
+// The range is inclusive, denoted as [begin, end].
+message UidRange {
+    optional int32 begin = 1 [(is_uid) = true];
+    optional int32 end = 2 [(is_uid) = true];
 }
 
 /**
