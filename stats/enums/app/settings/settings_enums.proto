@@ -2435,6 +2435,11 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_OPEN_SETTINGS_CONNECTED_DEVICES = 2076;
+
+    // ACTION: Settings > Connected devices > Device details
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_OPEN_SETTINGS_DEVICE_DETAILS = 2077;
 }
 
 /**
