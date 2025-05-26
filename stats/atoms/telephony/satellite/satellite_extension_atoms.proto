@@ -148,6 +148,10 @@ message SatelliteController {
   optional int32 count_of_incoming_datagram_type_sms_success = 42;
   // Total count of failed attempts for receiving P2P SMS.
   optional int32 count_of_incoming_datagram_type_sms_fail = 43;
+  // Version of carrier roaming satellite config data.
+  optional int32 carrier_roaming_satellite_config_version = 44;
+  // Max allowed data mode for satellite data.
+  optional int32 max_allowed_data_mode = 45;
 }
 
 /**
