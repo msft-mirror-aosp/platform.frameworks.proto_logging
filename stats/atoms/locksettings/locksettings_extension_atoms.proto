@@ -61,4 +61,12 @@ message LskfAuthenticationAttempted {
 
     // Whether the software rate-limiter is in enforcing mode
     optional bool software_rate_limiter_enforcing = 5;
+
+    // The type of hardware rate-limiter the lock screen knowledge factor uses
+    enum HardwareRateLimiter {
+      UNSPECIFIED_RATELIMITER = 0;
+      GATEKEEPER = 1;
+      WEAVER = 2;
+    }
+    optional HardwareRateLimiter hardware_rate_limiter = 6;
 }
