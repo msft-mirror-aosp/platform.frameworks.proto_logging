@@ -1442,6 +1442,10 @@ message Atom {
     extensions 1109; // AudioProxyCloudSettingsRpcRequested audio_proxy_cloud_settings_rpc_requested
     extensions 1110; // AudioProxySpatialAudioConfigUpdated audio_proxy_spatial_audio_config_updated
     extensions 1111; // AudioProxySetUpReported audio_proxy_set_up_reported
+    extensions 1112; // MediaProviderOpReported media_provider_op_reported
+    extensions 1113; // FuseOpReported fuse_op_reported
+    extensions 1114; // DeviceStorageStateReported device_storage_state_reported
+    extensions 1115; // DeviceStorageStatePerUidReported device_storage_state_per_uid_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

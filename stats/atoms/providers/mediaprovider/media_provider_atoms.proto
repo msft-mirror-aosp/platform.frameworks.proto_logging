@@ -18,6 +18,7 @@ syntax = "proto2";
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/stats/mediaprovider/mediaprovider_enums.proto";
 
 package android.os.statsd.providers.mediaprovider;
 
@@ -29,6 +30,10 @@ extend Atom {
     optional FileAccessAttributesQueryReported file_access_attributes_query_reported = 1061 [(module) = "mediaprovider"];
     optional OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported = 1065 [(module) = "mediaprovider"];
     optional MediaMetadataExtractionReported media_metadata_extraction_reported = 1066 [(module) = "mediaprovider"];
+    optional MediaProviderOpReported media_provider_op_reported = 1112 [(module) = "mediaprovider"];
+    optional FuseOpReported fuse_op_reported = 1113 [(module) = "mediaprovider"];
+    optional DeviceStorageStateReported device_storage_state_reported = 1114 [(module) = "mediaprovider"];
+    optional DeviceStorageStatePerUidReported device_storage_state_per_uid_reported = 1115 [(module) = "mediaprovider"];
 }
 
 /**
@@ -55,7 +60,6 @@ message MediaProviderVolumeRecoveryReported {
     optional int64 total_leveldb_rows = 5;
     // Count of insertion failures
     optional int64 insertionFailures = 6;
-
     enum Status {
         STATUS_UNKNOWN = 0;
         SUCCESS = 1;
@@ -171,4 +175,109 @@ message MediaMetadataExtractionReported {
 
     // Average time (in nanoseconds) to extract metadata for documents without backup.
     optional int64 document_extracted_without_backup_avg_time_ns = 19;
+}
+
+/**
+ * Logs when MediaProvider APIs are invoked.
+ * Logged from:
+ *     packages/providers/MediaProvider/src/com/android/providers/media/MediaProvider.java
+ *     packages/providers/MediaProvider/src/com/android/providers/media/AsyncPickerFileOpener.java
+ */
+message MediaProviderOpReported {
+    // MediaProvider operation type
+    optional stats.mediaprovider.MediaProviderOp op_type = 1;
+    // Uri type for which operation metrics are logged
+    optional stats.mediaprovider.Uri uri_type = 2;
+    // Volume type for which operation metrics are logged
+    optional stats.mediaprovider.VolumeType volume = 3;
+    // Calling package uid
+    optional int32 package_uid = 4 [(is_uid) = true];
+    // Time taken to execute operation (in nanoseconds)
+    optional int64 execution_time_nanos = 5;
+}
+
+/**
+ * Logs when MediaProvider APIs are invoked.
+ * Logged from:
+ *     packages/providers/MediaProvider/src/com/android/providers/media/MediaProvider.java
+ */
+message FuseOpReported {
+    // Native Fuse Operation Type
+    optional stats.mediaprovider.FuseOp op_type = 1;
+    // Volume type for which operation metrics are logged
+    optional stats.mediaprovider.VolumeType volume = 2;
+    // Calling package uid
+    optional int32 package_uid = 3 [(is_uid) = true];
+    // Time taken to execute operation (in nanoseconds)
+    optional int64 execution_time_nanos = 4;
+}
+
+/**
+ * Logs device storage state once every week
+ * Logged from:
+ *     packages/providers/MediaProvider/src/com/android/providers/media/MediaProvider.java
+ */
+message DeviceStorageStateReported {
+    // Total storage size of media files on the device
+    optional int64 device_storage_size_mb = 1;
+    // Number of files stores in shared storage of the device
+    optional int32 num_files_in_shared_storage = 2;
+    // Number of image files stored in the device
+    optional int32 num_images = 3;
+    // Number of video files stored in the device
+    optional int32 num_videos = 4;
+    // Number of audio files stored in the device
+    optional int32 num_audio = 5;
+    // Number of document files stored in the device
+    optional int32 num_documents = 6;
+    // Number of other media files stored in the device
+    optional int32 num_other_media = 7;
+    // Number of files stored in the default documents directory
+    optional int32 num_in_default_documents = 8;
+    // Number of files stored in the default downloads directory
+    optional int32 num_in_default_downloads = 9;
+    // Number of files stored in the Android/media directory
+    optional int32 num_in_android_media = 10;
+    // Total storage size of files stored in shared storage
+    optional int32 files_shared_storage_size_mb = 11;
+    // Total storage size of image files stored in the device
+    optional int32 images_storage_size_mb = 12;
+    // Total storage size of video files stored in the device
+    optional int32 videos_storage_size_mb = 13;
+    // Total storage size of audio files stored in the device
+    optional int32 audio_storage_size_mb = 14;
+    // Total storage size of documents files stored in the device
+    optional int32 documents_storage_size_mb = 15;
+    // Total storage size of other media files stored in the device
+    optional int32 other_media_storage_size_mb = 16;
+    // Total storage size of default downloads directory
+    optional int32 default_downloads_storage_size_mb = 17;
+    // Total storage size of default documents directory
+    optional int32 default_documents_storage_size_mb = 18;
+    // Total storage size of Android/media directory
+    optional int32 android_media_storage_size_mb = 19;
+}
+
+/**
+ * Logs storage state of each package uid once every week
+ * Logged from:
+ *     packages/providers/MediaProvider/src/com/android/providers/media/MediaProvider.java
+ */
+message DeviceStorageStatePerUidReported {
+    // Package uid for which stats are logged
+    optional int32 package_uid = 1 [(is_uid) = true];
+    // Number of files owned by the package
+    optional int32 num_owned_files = 2;
+    // Total storage size of the package owned files
+    optional int32 owned_files_storage_size_mb = 3;
+    // Number of image files owned by the package
+    optional int32 num_images = 4;
+    // Number of video files owned by the package
+    optional int32 num_videos = 5;
+    // Number of audio files owned by the package
+    optional int32 num_audio = 6;
+    // Number of document files owned by the package
+    optional int32 num_documents = 7;
+    // Number of other media type files owned by the package
+    optional int32 num_other_media = 8;
 }
