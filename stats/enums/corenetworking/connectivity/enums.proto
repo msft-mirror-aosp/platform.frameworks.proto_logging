@@ -123,3 +123,8 @@ enum TerribleErrorType {
   // Indicate WiFi P2P tethering was enabled with an interface name that maps to a different type.
   TYPE_TETHER_WIFIP2P_TYPE_MISMATCH = 13;
 }
+
+// Type of critical event.
+enum CriticalEventType {
+  CRITICAL_EVENT_TYPE_UNKNOWN = 0;
+}
