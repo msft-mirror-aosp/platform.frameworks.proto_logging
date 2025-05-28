@@ -126,5 +126,12 @@ enum TerribleErrorType {
 
 // Type of critical bytes event.
 enum CriticalBytesEventType {
-  CRITICAL_EVENT_TYPE_UNKNOWN = 0;
+  CRITICAL_BYTES_EVENT_TYPE_UNKNOWN = 0;
+
+  /**
+   * Reports tx/rx bytes generated on satellite networks.
+   * Logged when the last satellite network disconnects.
+   */
+  CRITICAL_BYTES_EVENT_TYPE_SATELLITE_COARSE_TX_USAGE = 1;
+  CRITICAL_BYTES_EVENT_TYPE_SATELLITE_COARSE_RX_USAGE = 2;
 }
