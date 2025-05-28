@@ -1,0 +1,95 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.wear.notification;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/wear/notification/enums.proto";
+
+option java_package = "com.android.os.wear.notification";
+option java_multiple_files = true;
+
+extend Atom {
+  optional WearNotificationEventReported wear_notification_event_reported = 1132
+      [(module) = "wearsysui", (module) = "wearservices"];
+  optional WearNotificationMetadataReported wear_notification_metadata_reported = 1133
+      [(module) = "wearsysui", (module) = "wearservices"];
+}
+
+/**
+ * Logged when a notification moves around in WearServices and Wear SysUI.
+ *
+ * Logged from package:
+ * java/com/google/android/wearable/sysui/common/logging/notification
+ * Logged from package:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/
+ *
+ * Estimated Logging Rate:
+ *  Peak: 450 (30 * 15) times every 1 minute. This assumes user can get 30 notifications in a
+ *  minute.
+ *  Avg: 1500 (200 * 7 + 6 * 7) times per device per day. This assumes a user
+ *  receives on average 200 notifications per day on a watch, out of which only 6 of them are
+ *  alerted to the user.
+ */
+message WearNotificationEventReported {
+  // Globally unique identifier for a notification. Used to correlate different
+  // type of events. This is a 32 bit hash generated from NotificationKey.
+  // Note- this atom
+  optional string unique_id = 1;
+
+  // Revision ID to distinguish between updates of the same notification.
+  // unique_id remains constant across updates.
+  optional int64 revision_id = 2;
+
+  optional com.google.android.wear.notification.NotificationEvent event = 3;
+}
+
+/**
+ * Metadata associated with the notification event
+ *
+ * Logged from package:
+ * java/com/google/android/wearable/sysui/common/logging/notification
+ * Logged from package:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/
+ *
+ * Estimated Logging Rate:
+ *  Peak: 30 times every 1 minute. This assumes user can get 30 notifications in a
+ *  minute.
+ *  Avg: 200 times per device per day. This assumes a user receives on average 200 notifications per
+ *  day on a watch.
+ */
+message WearNotificationMetadataReported {
+  // Same as seen in WearNotificationEventReported
+  optional string unique_id = 1;
+
+  // Same as seen in WearNotificationEventReported
+  optional int64 revision_id = 2;
+
+  // Package name of the application that created the notification event.
+  optional string package_name = 3;
+
+  // Device on which the notification event was created (watch vs phone)
+  optional com.google.android.wear.notification.NotificationSource source_device = 4;
+
+  // The alerting effect of the notification. (None, Haptics, Sound, Both)
+  optional com.google.android.wear.notification.NotificationAlertEffect alerting_effect = 5;
+
+  // The style of the notification.
+  optional com.google.android.wear.notification.NotificationStyle style = 6;
+}
