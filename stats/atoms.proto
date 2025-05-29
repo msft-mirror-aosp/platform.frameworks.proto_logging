@@ -13730,7 +13730,7 @@ message RebootEscrowRebootReported {
 /**
  * Logs stats for AppSearch function calls
  *
- * Next tag: 13
+ * Next tag: 14
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13778,6 +13778,9 @@ message AppSearchCallStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 12;
+
+    // The wall-clock timestamp in milliseconds since the previous request.
+    optional int64 time_since_previous_request_millis = 13;
 }
 
 /**
