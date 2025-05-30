@@ -359,6 +359,27 @@ message CarrierRoamingSatelliteSession {
   optional int32 min_downlink_bandwidth_kbps = 30;
   // Maximum downlink bandwidth for the satellite session
   optional int32 max_downlink_bandwidth_kbps = 31;
+  // Active Satellite constrained network Applications package name at Satellite session.
+  // Note: Application active at satellite constrained network only
+  // if PROPERTY_SATELLITE_DATA_OPTIMIZED meta data is set in application
+  // manifest file.
+  // (Ref: frameworks/base/telephony/java/android/telephony/satellite/SatelliteManager.java)
+  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
+  // to be captured
+  repeated string satellite_supported_apps = 32;
+  // Active Satellite constrained network Applications uid at Satellite session.
+  // Note: Application active at satellite constrained network only
+  // if PROPERTY_SATELLITE_DATA_OPTIMIZED meta data is set in application
+  // manifest file.
+  // (Ref: frameworks/base/telephony/java/android/telephony/satellite/SatelliteManager.java)
+  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
+  // to be captured
+  repeated int32 satellite_supported_uids = 33 [(is_uid) = true];
+  // Satellite Data Consumed in Bytes by satellite network Applications
+  // (Ex: Pixel Weather, Accuweather etc) for the satellite session
+  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
+  // to be captured
+  repeated int64 per_app_satellite_data_consumed_bytes = 34;
 }
 
 /**
