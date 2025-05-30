@@ -124,7 +124,7 @@ enum TerribleErrorType {
   TYPE_TETHER_WIFIP2P_TYPE_MISMATCH = 13;
 }
 
-// Type of critical event.
-enum CriticalEventType {
+// Type of critical bytes event.
+enum CriticalBytesEventType {
   CRITICAL_EVENT_TYPE_UNKNOWN = 0;
 }
