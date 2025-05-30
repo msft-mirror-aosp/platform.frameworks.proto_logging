@@ -83,6 +83,7 @@ extend Atom {
     optional BinderCallsReported binder_calls_reported = 1090 [(module) = "framework"];
     optional SqliteAppOpEventReported sqlite_app_op_event_reported = 1098 [(module) = "framework"];
     optional PermissionOneTimeSessionEventReported permission_one_time_session_event_reported = 1100 [(module) = "framework"];
+    optional AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported = 1103 [(module) = "framework"];
 }
 
 /**
@@ -1585,4 +1586,23 @@ message PermissionOneTimeSessionEventReported {
     repeated string permission_names = 2;
     // The duration of the session in milliseconds.
     optional int64 duration_millis= 3;
+}
+
+
+/**
+ * Aggregated app ops data per package and attribution tag.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/appop/AppOpHistoryHelper.java
+ */
+message AggregatedAppOpAccessEventReported {
+    optional string package_name = 1;
+    // The attribution tag from the app, defined in the app's manifest.
+    optional string attribution_tag = 2;
+    optional android.app.AppOpEnum op = 3 [default = APP_OP_NONE];
+    optional int64 foreground_accessed_count = 4;
+    optional int64 background_accessed_count = 5;
+    optional int64 foreground_rejected_count = 6;
+    optional int64 background_rejected_count = 7;
+    optional int64 foreground_duration_millis = 8;
+    optional int64 background_duration_millis = 9;
 }
