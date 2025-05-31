@@ -1,4 +1,4 @@
-// Copyright (C) 2019 The Android Open Source Project
+// Copyright (C) 2025 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,52 +17,27 @@ package {
 }
 
 java_library_static {
-    name: "tetheringprotos",
+    name: "networkstackprotos",
     proto: {
         type: "lite",
     },
     srcs: [
-        "tethering.proto",
+        ":network_stack_enum_proto",
+        "network_stack.proto",
     ],
-    apex_available: [
-        "com.android.tethering",
-    ],
-    sdk_version: "system_current",
-    min_sdk_version: "30",
+    sdk_version: "system_29",
 }
 
 java_library_static {
-    name: "ConnectivityServiceprotos",
+    name: "datastallprotosnano",
     proto: {
-        type: "lite",
+        type: "nano",
     },
     srcs: [
-        "connectivity_service.proto",
-    ],
-    apex_available: [
-        "com.android.tethering",
+        ":data_stall_event_enums_proto",
+        "data_stall_event.proto",
     ],
     sdk_version: "system_current",
-    min_sdk_version: "30",
-}
-
-filegroup {
-    name: "tethering_proto",
-    srcs: [
-        "tethering.proto",
-    ],
-}
-
-filegroup {
-    name: "network_stack_enum_proto",
-    srcs: [
-        "network_stack.proto",
-    ],
-}
-
-filegroup {
-    name: "connectivity_service_proto",
-    srcs: [
-        "connectivity_service.proto",
-    ],
+    // this is part of updatable modules(NetworkStack) which targets 29(Q)
+    min_sdk_version: "29",
 }

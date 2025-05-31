@@ -900,3 +900,43 @@ enum ChannelSoundingSecurityLevel {
   LEVEL_THREE = 3;
   LEVEL_FOUR = 4;
 }
+
+enum BluetoothPbapClientContactDownloadStatus {
+  DOWNLOAD_STATUS_UNSPECIFIED = 0;
+  DOWNLOAD_STATUS_CANCELLED = 1;
+  DOWNLOAD_STATUS_COMPLETED = 2;
+  DOWNLOAD_STATUS_ERROR = 3;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_BAD_REQUEST = 4;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_UNAUTHORIZED = 5;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_FORBIDDEN = 6;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_NOT_FOUND = 7;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_NOT_ACCEPTABLE = 8;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_TIMEOUT = 9;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_PRECON_FAILED = 10;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_INTERNAL_ERROR = 11;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_NOT_IMPLEMENTED = 12;
+  DOWNLOAD_STATUS_ERROR_OBEX_HTTP_UNAVAILABLE = 13;
+}
+
+enum BluetoothPbapClientPhonebookDownloadStatus {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_SUCCESS = 1;                   // Supported and downloaded
+  STATUS_SUCCESS_CACHE_INVALIDATED = 2; // Cached copy was invalidated
+  STATUS_NOT_SUPPORTED = 3;             // Remote device does not support
+  STATUS_SUPPORTED_NOT_REQUESTED = 4;   // Remote device supports but not requested
+  STATUS_CACHED = 5;                    // Contacts were cached
+  STATUS_ERROR = 6;
+}
+
+enum BluetoothPbapClientPhonebookType {
+  PHONEBOOK_UNSPECIFIED = 0;
+  PHONEBOOK_LOCAL = 1;     // Device phonebook
+  PHONEBOOK_FAVORITES = 2; // Contacts marked as favorite
+  PHONEBOOK_MCH = 3;       // Missed calls
+  PHONEBOOK_ICH = 4;       // Incoming calls
+  PHONEBOOK_OCH = 5;       // Outgoing calls
+  PHONEBOOK_SIM = 6;       // SIM stored phonebook
+  PHONEBOOK_SIM_MCH = 7;   // SIM stored missed calls
+  PHONEBOOK_SIM_ICH = 8;   // SIM stored incoming calls
+  PHONEBOOK_SIM_OCH = 9;   // SIM stored outgoing calls
+}
