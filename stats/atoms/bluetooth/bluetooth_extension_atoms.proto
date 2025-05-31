@@ -80,6 +80,9 @@ extend Atom {
         = 1070 [(module) = "bluetooth"];
     optional ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
         = 1084 [(module) = "bluetooth"];
+    optional BluetoothPbapClientContactDownloadReported bluetooth_pbap_client_contact_download_reported
+        = 1104 [(module) = "bluetooth"];
+
 }
 
 /**
@@ -792,4 +795,51 @@ message ChannelSoundingRequesterSessionReported {
 
   // The count of min_subevent_len, use to estimate the duration of min_subevent_len
   optional int32 min_subevent_len_count = 11;
+}
+
+/**
+ * Logs BluetoothPbapClient contact downloads.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ *
+ * Estimated Logging Rate:
+ *     Peak: 100 times in 1 day | Avg: 10 per device per day
+ *     Once per Bluetooth connection.
+ */
+message BluetoothPbapClientContactDownloadReported {
+  // Connecting device information (phone model)
+  optional int32 metrics_id = 1;
+  // BluetoothPbapClient download status
+  optional android.bluetooth.BluetoothPbapClientContactDownloadStatus
+      download_status = 2;
+  // Phonebooks downloaded
+  optional PhonebookDownloads phonebook_downloads = 3
+      [ (log_mode) = MODE_BYTES ];
+}
+
+message PhonebookDownloads {
+  // Phonebooks downloaded
+  repeated PhonebookDownload phonebook_download = 1;
+}
+
+/**
+ * BluetoothPbapClient Phonebook download information.
+ */
+message PhonebookDownload {
+  // Phonebook type
+  optional android.bluetooth.BluetoothPbapClientPhonebookType phonebook_type = 1;
+  // Phonebook download status
+  optional android.bluetooth.BluetoothPbapClientPhonebookDownloadStatus status =
+      2;
+  // Actual number of contacts downloaded
+  optional uint64 actual_contacts = 3;
+  // Expected number of contacts downloaded
+  optional uint64 expected_contacts = 4;
+  // Total time spent downloading contacts
+  optional uint64 total_duration_millis = 5;
+  // Fraction of time spent storing contacts
+  optional uint64 storage_duration_millis = 6;
+  // Number of contacts images
+  optional uint64 contacts_with_images = 7;
 }
