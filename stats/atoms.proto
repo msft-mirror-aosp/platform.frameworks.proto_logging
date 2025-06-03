@@ -1777,6 +1777,8 @@ message Atom {
     extensions 10246; // FullBatteryDesignCapacity full_battery_design_capacity
     extensions 10247; // SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests
     extensions 10248; // Keystore2KeysPerUid keystore2_keys_per_uid
+    extensions 10249; // EthernetBytesTransfer ethernet_bytes_transfer
+    extensions 10250; // SatelliteBytesTransfer satellite_bytes_transfer
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.

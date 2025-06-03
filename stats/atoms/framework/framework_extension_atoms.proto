@@ -86,6 +86,8 @@ extend Atom {
     optional AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported = 1103 [(module) = "framework"];
     optional DisplayCompatRestartMenuEventReported display_compat_restart_menu_event_reported = 1134 [(module) = "framework"];
     optional AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed = 1141 [(module) = "framework"];
+    optional EthernetBytesTransfer ethernet_bytes_transfer = 10249 [(module) = "framework"];
+    optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
 }
 
 /**
@@ -1632,4 +1634,66 @@ message DisplayCompatRestartMenuEventReported {
 
   // The event that was reported.
   optional android.framework.compat.RestartMenuEvent event = 2;
+}
+
+/**
+ * Reports bytes transferred via ethernet by UID. Each pull produces atoms that record stats of
+ * all processes that used ethernet data since device boot.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/stats/pull/StatsPullAtomService.java
+ */
+message EthernetBytesTransfer {
+    // The UID of the app using network bytes. Isolated UIDs are dropped in StatsPullAtomService,
+    // and we do not record data usage for them. Isolated UIDs are frequently recycled, and we can't
+    // accurately attribute the data usage to a source.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Network tag for the data transmitted - see TrafficStats#getAndSetThreadStatsTag for more
+    // details regarding network tags.
+    optional int32 tag = 2;
+
+    // Was the data usage logged here transmitted via a metered network?
+    optional bool is_metered = 3;
+
+    // Was the data used from a process running in foreground of background?
+    optional bool is_foreground = 4;
+
+    optional int64 rx_bytes = 5;
+
+    optional int64 rx_packets = 6;
+
+    optional int64 tx_bytes = 7;
+
+    optional int64 tx_packets = 8;
+}
+
+/**
+ * Reports bytes transferred via satellite by UID. Each pull produces atoms that record stats of
+ * all processes that used satellite data since device boot.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/stats/pull/StatsPullAtomService.java
+ */
+message SatelliteBytesTransfer {
+    // The UID of the app using network bytes. Isolated UIDs are dropped in StatsPullAtomService,
+    // and we do not record data usage for them. Isolated UIDs are frequently recycled, and we can't
+    // accurately attribute the data usage to a source.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Network tag for the data transmitted - see TrafficStats#getAndSetThreadStatsTag for more
+    // details regarding network tags.
+    optional int32 tag = 2;
+
+    // Was the data usage logged here transmitted via a metered network?
+    optional bool is_metered = 3;
+
+    // Was the data used from a process running in foreground of background?
+    optional bool is_foreground = 4;
+
+    optional int64 rx_bytes = 5;
+
+    optional int64 rx_packets = 6;
+
+    optional int64 tx_bytes = 7;
+
+    optional int64 tx_packets = 8;
 }
