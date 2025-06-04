@@ -2462,6 +2462,15 @@ enum Action {
     // OS: V
     ACTION_SUPERVISION_PIN_RESET_SUCCEED = 2080;
 
+    // ACTION: Settings > Parental controls > Supervision main toggle off
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_MAIN_TOGGLE_OFF = 2081;
+
+    // ACTION: Settings > Parental controls > Supervision main toggle on
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_MAIN_TOGGLE_ON = 2082;
 }
 
 /**

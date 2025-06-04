@@ -32,6 +32,8 @@ extend Atom {
 
     optional HealthConnectAppOpenedReported health_connect_app_opened_reported = 625 [(module) = "healthfitness"];
 
+    optional HealthConnectNotification health_connect_notification = 1105 [(module) = "healthfitness"];
+
 }
 
 message HealthConnectUiImpression {
@@ -47,4 +49,9 @@ message HealthConnectUiInteraction {
 
 message HealthConnectAppOpenedReported {
     optional android.healthfitness.ui.Source source = 1;
+}
+
+message HealthConnectNotification {
+    optional android.healthfitness.ui.NotificationId notification_id = 1;
+    optional android.healthfitness.ui.NotificationAction notification_action = 2;
 }
