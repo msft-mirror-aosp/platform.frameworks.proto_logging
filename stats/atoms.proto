@@ -813,7 +813,7 @@ message Atom {
         VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice", deprecated = true];
         VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice", deprecated = true];
         PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
-        DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
+        DefaultNetworkRematch default_network_rematch = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
         NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
         BluetoothDisconnectionReasonReported bluetooth_disconnection_reason_reported = 529 [(module) = "bluetooth"];
@@ -24547,30 +24547,39 @@ message NetworkSelectionRematchReasonsInfo {
 }
 
 /**
- * Logs rematch information for the default network
+ * Logs rematch event for the default network
  *
  * Logs from:
  *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
  */
-message DefaultNetworkRematchInfo {
+message DefaultNetworkRematch {
     // The session id comes from each reboot, this is used to correlate the statistics of the
     // networkselect on the same boot
     optional int64 session_id = 1;
 
+    // The reason of network rematch
+    optional android.stats.connectivity.RematchReason rematch_reason = 2;
+
+    optional DefaultNetworkRematchInfoList default_network_rematch_info_list = 3
+    [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+message DefaultNetworkRematchInfoList {
+    repeated DefaultNetworkRematchInfo default_network_rematch_info = 1;
+}
+
+message DefaultNetworkRematchInfo {
     // The information of old device default network
-    optional NetworkDescription old_network = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional NetworkDescription old_network = 1 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // The information of new device default network
-    optional NetworkDescription new_network = 3 [(android.os.statsd.log_mode) = MODE_BYTES];
-
-    // The reason of network rematch
-    optional android.stats.connectivity.RematchReason rematch_reason = 4;
+    optional NetworkDescription new_network = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // The time duration the device kept the old network as the default in seconds
-    optional int32 time_duration_on_old_network_sec = 5;
+    optional int32 time_duration_on_old_network_sec = 3;
 
     // Uid ranges which applied to this event.
-    optional UidRanges uid_ranges = 6 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional UidRanges uid_ranges = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
 message UidRanges {
