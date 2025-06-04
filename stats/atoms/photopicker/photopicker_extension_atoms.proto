@@ -59,6 +59,8 @@ extend Atom {
   [(module) = "mediaprovider"];
   optional PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged = 1044
   [(module) = "mediaprovider"];
+  optional PhotopickerSearchBarDisplayed photopicker_search_bar_displayed = 1130
+  [(module) = "mediaprovider"];
 }
 
 /*
@@ -96,6 +98,7 @@ message PhotopickerApiInfoReported {
   optional bool is_cloud_search_enabled = 12;
   optional bool is_local_search_enabled = 13;
   optional bool is_transcoding_requested = 14;
+  optional android.photopicker.HighlightQueryType query_highlight_type = 15;
 }
 
 /*
@@ -249,4 +252,18 @@ message PhotopickerVideoTranscodingDetailsLogged {
   optional int32 colorStandard = 3;
   optional int32 colorTransfer = 4;
   optional android.photopicker.VideoMimeType mimeType = 5;
+}
+
+/*
+ * Logs Photopicker Search Bar State. This is expected to be logged when an app tries to launch Photopicker session.
+ * Logged from:
+ *  packages/providers/MediaProvider/photopicker/src/com/android/photopicker/core/events/Dispatchers.kt
+ * Estimated Logging Rate:
+ *  Peak: 1 time in 10 sec | Avg: <10 in 1 day
+ */
+message PhotopickerSearchBarDisplayed {
+  // Unique for every photopicker session launched from an app and retained for
+  // that session.
+  optional int32 session_id = 1;
+  optional android.photopicker.SearchBarState  search_bar_state = 2;
 }
