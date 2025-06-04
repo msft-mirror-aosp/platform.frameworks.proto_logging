@@ -1435,6 +1435,7 @@ message Atom {
     extensions 1102; // CoreNetworkingCriticalBytesEventOccurred core_networking_critical_bytes_event_occurred
     extensions 1103; // AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported
     extensions 1104; // BluetoothPbapClientContactDownloadReported bluetooth_pbap_client_contact_download_reported
+    extensions 1105; // HealthConnectNotification health_connect_notification
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
