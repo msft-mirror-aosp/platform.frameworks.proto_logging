@@ -17327,6 +17327,7 @@ message UserLifecycleJourneyReported {
         REVOKE_ADMIN = 8; // An admin revocation journey
         USER_LIFECYCLE = 9; // User journey from creation to deletion
         DEMOTE_MAIN_USER = 10; // Main user was demoted
+        PROMOTE_MAIN_USER = 11; // An admin user was promoted to main user.
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
