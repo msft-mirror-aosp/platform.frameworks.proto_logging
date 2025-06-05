@@ -11,6 +11,27 @@ option java_multiple_files = true;
 extend Atom {
   optional AudioProxyConnectionStateChanged
       audio_proxy_connection_state_changed = 1083 [(module) = "audioproxy"];
+  optional AudioProxyMultichannelGroupJoined
+      audio_proxy_multichannel_group_joined = 1106 [(module) = "audioproxy"];
+  optional AudioProxyMultichannelGroupDisbanded
+      audio_proxy_multichannel_group_disbanded = 1107 [(module) = "audioproxy"];
+  optional AudioProxyMultichannelConnectionErrorReported
+      audio_proxy_multichannel_connection_error_reported = 1108
+      [(module) = "audioproxy"];
+  optional AudioProxyCloudSettingsRpcRequested
+      audio_proxy_cloud_settings_rpc_requested = 1109 [(module) = "audioproxy"];
+  optional AudioProxySpatialAudioConfigUpdated
+      audio_proxy_spatial_audio_config_updated = 1110 [(module) = "audioproxy"];
+  optional AudioProxySetUpReported audio_proxy_set_up_reported = 1111
+      [(module) = "audioproxy"];
+}
+
+// The source that trigger the target events.
+enum AudioProxyEventSource {
+  UI_SOURCE_UNKNOWN = 0;
+  UI_SOURCE_SYSTEM_MENU = 1;
+  UI_SOURCE_FULLSCREEN = 2;
+  UI_SOURCE_GHA = 3;
 }
 
 /**
@@ -42,4 +63,155 @@ message AudioProxyConnectionStateChanged {
   // Bellflower set-up. If setting to true, expecting |state| to be
   // CONNECTION_STATE_CONNECTED.
   optional bool is_first_time_set_up = 3;
+
+  // The event source of the group config updates.
+  optional AudioProxyEventSource source = 4;
+}
+
+/**
+ * Record when ATV joins a multichannel group.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/eureka
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~30 times in 1 min | Avg: 1-2 per device per day
+ */
+message AudioProxyMultichannelGroupJoined {
+}
+
+/**
+ * Logs stats when the multichannel group the ATV belongs to is disbanded.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/eureka
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~30 times in 1 min | Avg: 1-2 per device per day
+ */
+message AudioProxyMultichannelGroupDisbanded {
+  // From which source did the disband requests come from.
+  enum AudioProxyDisbandFrom {
+    DISBAND_FROM_UNKNOWN = 0;
+    DISBAND_FROM_USER = 1;
+    DISBAND_FROM_OTHER_DEVICE = 2;
+    DISBAND_FROM_AUDIO_DISBAND = 3;
+    DISBAND_FROM_AUTO = 4;
+    DISBAND_FROM_FDR = 5;
+  }
+
+  // The source of disband requests.
+  optional AudioProxyDisbandFrom disband_from = 1;
+}
+
+/**
+ * Logs stats when a connection error occurs in multichannel group.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/eureka
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~10 times in 1 min | Avg: 0 per device per day
+ */
+message AudioProxyMultichannelConnectionErrorReported {
+  // Whether the connection error is caused by heartbeat timeout.
+  optional bool is_heartbeat_timeout = 1;
+
+  // The flag of the connection error. Expecting zero if |is_hearbeat_timeout|
+  // is true.
+  optional int64 error_flag = 2;
+}
+
+/**
+ * Log stats when a cloud settings RPC is made by AudioProxy_Control.apk.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/control
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~30 times in 1 min | Avg: 3-5 per device per day
+ */
+message AudioProxyCloudSettingsRpcRequested {
+  // The type of RPC being requested.
+  enum AudioProxyCloudSettingsRpcType {
+    RPC_TYPE_UNKNOWN = 0;
+    RPC_TYPE_GET = 1;
+    RPC_TYPE_UPDATE = 2;
+  }
+
+  // The failure reasons of the RPC call.
+  enum AudioProxyCloudSettingsRpcFailureReason {
+    RPC_FAILURE_REASON_UNKNOWN = 0;
+
+    // The format of the RPC response is incorrect (e.g. having more than one
+    // response entries, missing trait entries, etc.).
+    RPC_FAILURE_REASON_INVALID_RESPONSE = 1;
+
+    // The cloud device ID in the response mismatch with the current device.
+    RPC_FAILURE_REASON_CLOUD_DEVICE_ID_MISMATCH = 2;
+
+    // The trait label in the response mismatch with the request.
+    RPC_FAILURE_REASON_TRAIT_LABEL_MISMATCH = 3;
+
+    // The response itself looks good, but the status code is not OK.
+    RPC_FAILURE_REASON_BAD_TRAIT_RESPONSE = 4;
+
+    // An error occurs when building the RPC request.
+    RPC_FAILURE_REASON_BUILD_REQUEST_ERROR = 5;
+  }
+
+  // The type of RPC being requested.
+  optional AudioProxyCloudSettingsRpcType type = 1;
+
+  // Whether the RPC call succeed without errors.
+  optional bool succeed = 2;
+
+  // The failure reason if the RPC call failed. Expecting zero if |succeed| is
+  // true.
+  optional AudioProxyCloudSettingsRpcFailureReason failure_reason = 3;
+}
+
+/**
+ * Logs stats when ATV receives spatial audio config updates.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/control
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~30 times in 1 min | Avg: 1-2 per device per day
+ */
+message AudioProxySpatialAudioConfigUpdated {
+  // Whether spatial audio is enabled.
+  optional bool enabled = 1;
+
+  // The distance (cm) of the two speakers. Only meaningful if |enabled| is
+  // true.
+  optional int32 speaker_distance_cm = 2;
+
+  // The distance (cm) between the listener and the middle point of the two
+  // speakers. Only meaningful if |enabled| is true.
+  optional int32 listener_distance_cm = 3;
+}
+
+/**
+ * Logs stats when user set up AudioProxy.
+ *
+ * Logged from:
+ *   vendor/google/services/AudioProxy/control
+ *
+ * Estimated Logging Rate:
+ *   Peak: ~30 times in 1 min | Avg: 1-2 per device per day
+ */
+message AudioProxySetUpReported {
+  // The UI used to set up AudioProxy.
+  optional AudioProxyEventSource source = 1;
+
+  // The total time spent on setting up AudioProxy.
+  optional int64 duration_total = 2;
+
+  // The time spent on device discovery.
+  optional int64 duration_device_discovery = 3;
+
+  // The time spent on device connection.
+  optional int64 duration_device_connection = 4;
 }

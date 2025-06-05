@@ -1413,7 +1413,7 @@ message Atom {
     extensions 1080; // DevicePresenceChanged device_presence_changed
     extensions 1081; // WearBleMigrationStateChanged wear_ble_migration_state_changed
     extensions 1082; // AppMediaCodecUsageReported app_media_codec_usage_reported
-    extensions 1083; // AudioProxyConnectionStateChange audio_proxy_connection_state_changed
+    extensions 1083; // AudioProxyConnectionStateChanged audio_proxy_connection_state_changed
     extensions 1084; // ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
     extensions 1085; // RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported
     extensions 1086; // Reserved for b/397963390
@@ -1436,6 +1436,16 @@ message Atom {
     extensions 1103; // AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported
     extensions 1104; // BluetoothPbapClientContactDownloadReported bluetooth_pbap_client_contact_download_reported
     extensions 1105; // HealthConnectNotification health_connect_notification
+    extensions 1106; // AudioProxyMultichannelGroupJoined audio_proxy_multichannel_group_joined
+    extensions 1107; // AudioProxyMultichannelGroupDisbanded audio_proxy_multichannel_group_disbanded
+    extensions 1108; // AudioProxyMultichannelConnectionErrorReported audio_proxy_multichannel_connection_error_reported
+    extensions 1109; // AudioProxyCloudSettingsRpcRequested audio_proxy_cloud_settings_rpc_requested
+    extensions 1110; // AudioProxySpatialAudioConfigUpdated audio_proxy_spatial_audio_config_updated
+    extensions 1111; // AudioProxySetUpReported audio_proxy_set_up_reported
+    extensions 1112; // MediaProviderOpReported media_provider_op_reported
+    extensions 1113; // FuseOpReported fuse_op_reported
+    extensions 1114; // DeviceStorageStateReported device_storage_state_reported
+    extensions 1115; // DeviceStorageStatePerUidReported device_storage_state_per_uid_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
