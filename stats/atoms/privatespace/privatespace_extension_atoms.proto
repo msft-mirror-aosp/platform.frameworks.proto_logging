@@ -32,7 +32,7 @@ extend Atom {
       [(module) = "privatespace"];
 }
 
-// Atom for PrivateSpace app shortcut clicks. 
+// Atom for PrivateSpace app shortcut clicks.
 // Logged from packages/apps/PrivateSpace/src/com/android/privatespace/PrivateSpaceActivity.kt
 message PrivateSpaceAddButtonEvent {
   // User clicked on the PrivateSpace app shortcut displayed after click on add
