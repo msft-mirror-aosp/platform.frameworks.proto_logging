@@ -355,6 +355,12 @@ enum ApiNameEnum {
     API_SILENCE_RINGER = 57;
     API_START_CONFERENCE = 58;
     API_UNREGISTER_PHONE_ACCOUNT = 59;
+    // API usage enum for method:
+    // TelecomManager#getCallConnectedIndicatorPreference
+    API_GET_CALL_CONNECTED_INDICATOR_PREF = 60;
+    // API usage enum for method:
+    // TelecomManager#setCallConnectedIndicatorPreference
+    API_SET_CALL_CONNECTED_INDICATOR_PREF = 61;
 }
 
 /**

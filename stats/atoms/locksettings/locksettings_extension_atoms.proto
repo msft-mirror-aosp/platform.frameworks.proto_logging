@@ -40,13 +40,17 @@ message LskfAuthenticationAttempted {
     // True if the attempt was successful. False if it was unsuccessful.
     optional bool success = 1;
 
-    // The number of unique guesses that have been made since the last success
-    // (for the same user), including the guess that triggered this report if it
-    // wasn't a duplicate wrong guess.
-    optional int32 num_unique_guesses = 2;
+    // The number of failed attempts since the last successful attempt (for the
+    // same user), not counting attempts that never reached the real credential
+    // check for a reason such as detection of a duplicate wrong guess,
+    // credential too short, delay still remaining, etc.
+    optional int32 num_failures = 2;
 
-    // The number of the duplicate wrong guesses that have been made since the
-    // last success or reboot (for the same user).
+    // The number of the duplicate wrong guesses that have been detected since
+    // the last success or reboot (for the same user). Note that the ability to
+    // detect duplicate wrong guesses may vary from device to device depending
+    // on whether the error codes returned by the hardware rate-limiter clearly
+    // differentiate between wrong guesses and other errors.
     optional int32 num_duplicate_guesses = 3;
 
     // The type of lock screen knowledge factor that the user has

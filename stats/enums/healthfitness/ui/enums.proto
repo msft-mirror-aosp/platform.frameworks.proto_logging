@@ -555,3 +555,18 @@ enum Source {
     SOURCE_QUICK_SETTINGS = 3;
     SOURCE_MAIN_ACTION = 4;
 }
+
+// Unique notification name for each type of notification sent from Health Connect
+enum NotificationId {
+    NOTIFICATION_ID_UNKNOWN = 0;
+    NOTIFICATION_ID_ZERO_APPS_CONNECTED = 1;
+    NOTIFICATION_ID_ONE_APP_CONNECTED = 2;
+}
+
+enum NotificationAction {
+    NOTIFICATION_ACTION_UNKNOWN = 0;
+    NOTIFICATION_ACTION_SENT = 1;
+    NOTIFICATION_ACTION_DISMISSED = 2;
+    NOTIFICATION_ACTION_CLICKED = 3;
+    NOTIFICATION_ACTION_CHANNEL_BLOCKED = 4;
+}

@@ -813,7 +813,7 @@ message Atom {
         VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice", deprecated = true];
         VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice", deprecated = true];
         PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
-        DefaultNetworkRematchInfo default_network_rematch_info = 525 [(module) = "connectivity"];
+        DefaultNetworkRematch default_network_rematch = 525 [(module) = "connectivity"];
         NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
         NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
         BluetoothDisconnectionReasonReported bluetooth_disconnection_reason_reported = 529 [(module) = "bluetooth"];
@@ -1413,7 +1413,7 @@ message Atom {
     extensions 1080; // DevicePresenceChanged device_presence_changed
     extensions 1081; // WearBleMigrationStateChanged wear_ble_migration_state_changed
     extensions 1082; // AppMediaCodecUsageReported app_media_codec_usage_reported
-    extensions 1083; // AudioProxyConnectionStateChange audio_proxy_connection_state_changed
+    extensions 1083; // AudioProxyConnectionStateChanged audio_proxy_connection_state_changed
     extensions 1084; // ChannelSoundingRequesterSessionReported channel_sounding_requester_session_reported
     extensions 1085; // RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported
     extensions 1086; // Reserved for b/397963390
@@ -1435,6 +1435,19 @@ message Atom {
     extensions 1102; // CoreNetworkingCriticalBytesEventOccurred core_networking_critical_bytes_event_occurred
     extensions 1103; // AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported
     extensions 1104; // BluetoothPbapClientContactDownloadReported bluetooth_pbap_client_contact_download_reported
+    extensions 1105; // HealthConnectNotification health_connect_notification
+    extensions 1106; // AudioProxyMultichannelGroupJoined audio_proxy_multichannel_group_joined
+    extensions 1107; // AudioProxyMultichannelGroupDisbanded audio_proxy_multichannel_group_disbanded
+    extensions 1108; // AudioProxyMultichannelConnectionErrorReported audio_proxy_multichannel_connection_error_reported
+    extensions 1109; // AudioProxyCloudSettingsRpcRequested audio_proxy_cloud_settings_rpc_requested
+    extensions 1110; // AudioProxySpatialAudioConfigUpdated audio_proxy_spatial_audio_config_updated
+    extensions 1111; // AudioProxySetUpReported audio_proxy_set_up_reported
+    extensions 1112; // MediaProviderOpReported media_provider_op_reported
+    extensions 1113; // FuseOpReported fuse_op_reported
+    extensions 1114; // DeviceStorageStateReported device_storage_state_reported
+    extensions 1115; // DeviceStorageStatePerUidReported device_storage_state_per_uid_reported
+    extensions 1116; // PrivateSpaceAddButtonEvent private_space_add_button_event
+    extensions 1117; // PrivateSpaceMoveContentEvent private_space_move_content_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -17325,6 +17338,8 @@ message UserLifecycleJourneyReported {
         GRANT_ADMIN = 7; // An admin grant journey
         REVOKE_ADMIN = 8; // An admin revocation journey
         USER_LIFECYCLE = 9; // User journey from creation to deletion
+        DEMOTE_MAIN_USER = 10; // Main user was demoted
+        PROMOTE_MAIN_USER = 11; // An admin user was promoted to main user.
     }
     optional Journey journey = 2;
     // Which user the journey is originating from - could be -1 for certain phases (eg USER_CREATE)
@@ -24546,30 +24561,39 @@ message NetworkSelectionRematchReasonsInfo {
 }
 
 /**
- * Logs rematch information for the default network
+ * Logs rematch event for the default network
  *
  * Logs from:
  *   packages/modules/Connectivity/service/src/com/android/server/ConnectivityService.java
  */
-message DefaultNetworkRematchInfo {
+message DefaultNetworkRematch {
     // The session id comes from each reboot, this is used to correlate the statistics of the
     // networkselect on the same boot
     optional int64 session_id = 1;
 
+    // The reason of network rematch
+    optional android.stats.connectivity.RematchReason rematch_reason = 2;
+
+    optional DefaultNetworkRematchInfoList default_network_rematch_info_list = 3
+    [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+message DefaultNetworkRematchInfoList {
+    repeated DefaultNetworkRematchInfo default_network_rematch_info = 1;
+}
+
+message DefaultNetworkRematchInfo {
     // The information of old device default network
-    optional NetworkDescription old_network = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional NetworkDescription old_network = 1 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // The information of new device default network
-    optional NetworkDescription new_network = 3 [(android.os.statsd.log_mode) = MODE_BYTES];
-
-    // The reason of network rematch
-    optional android.stats.connectivity.RematchReason rematch_reason = 4;
+    optional NetworkDescription new_network = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
 
     // The time duration the device kept the old network as the default in seconds
-    optional int32 time_duration_on_old_network_sec = 5;
+    optional int32 time_duration_on_old_network_sec = 3;
 
     // Uid ranges which applied to this event.
-    optional UidRanges uid_ranges = 6 [(android.os.statsd.log_mode) = MODE_BYTES];
+    optional UidRanges uid_ranges = 4 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
 
 message UidRanges {

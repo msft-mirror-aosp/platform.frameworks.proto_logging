@@ -1,0 +1,96 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.privatespace;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/privatespace/private_space_enums.proto";
+
+option java_package = "com.android.privatespace";
+option java_multiple_files = true;
+
+extend Atom {
+  optional PrivateSpaceAddButtonEvent private_space_add_button_event = 1116
+      [(module) = "privatespace"];
+  optional PrivateSpaceMoveContentEvent private_space_move_content_event = 1117
+      [(module) = "privatespace"];
+}
+
+// Atom for PrivateSpace app shortcut clicks.
+// Logged from packages/apps/PrivateSpace/src/com/android/privatespace/PrivateSpaceActivity.kt
+message PrivateSpaceAddButtonEvent {
+  // User clicked on the PrivateSpace app shortcut displayed after click on add
+  // button in the Private Space container. Use to capture total population that
+  // interacted with the button.
+  optional AddButtonShortcutClick add_button_click = 1;
+}
+
+// Atom for move content session events
+// Logged from various classes under packages/apps/PrivateSpace/src/com/android/privatespace/...
+message PrivateSpaceMoveContentEvent {
+  //  Type of operation selected by the user (move/copy) or cancel/dismiss the
+  //  move content dialog
+  optional OperationType operation_type = 1;
+
+  // Count of total files selected by the user for transfer
+  optional int32 files_selected_count = 2;
+
+  // The overalll result of the transfer
+  optional TransferResult transfer_result = 3;
+
+  // Count of files successfully transferred.
+  optional int32 files_success_count = 4;
+
+  // Count of files that failed to transfer.
+  optional int32 files_failure_count = 5;
+
+  // Total size of files successfully transferred.
+  optional FileSizeBucket total_success_files_size_bucket = 6;
+
+  // Total size of files failed to transfer.
+  optional FileSizeBucket total_failure_files_size_bucket = 7;
+
+  // List of details of failed file transfers. Includes error codes and MIME
+  // types of each file.
+  optional RepeatedFailedFileDetails repeated_failed_file_details = 8
+      [(log_mode) = MODE_BYTES];
+
+  // List of MIME types for successful file transfers.
+  repeated MimeTypeCategory success_file_mime_types = 9;
+
+  // Event of the user interaction with the move content notification (e.g.
+  // click show files)
+  optional NotificationEventType notification_event = 10;
+
+  optional int32 duration_ms = 11;
+
+  // Container for the repeated FailedFileDetails message.
+  message RepeatedFailedFileDetails {
+    repeated FailedFileDetails failed_file_details = 1;
+  }
+
+  // Details of failed file transfers. Includes error codes and MIMEtypes of
+  // each file.
+  message FailedFileDetails {
+    // List of errors for failed file transfers
+    optional TransferErrorCode error_code = 1;
+    // List of MIME types for failed file transfers.
+    optional MimeTypeCategory file_mime_type = 2;
+  }
+}
