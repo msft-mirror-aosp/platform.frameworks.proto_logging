@@ -1,0 +1,57 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto2";
+
+package android.os.statsd.automotive.carqclib;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.automotive.carqclib";
+option java_multiple_files = true;
+
+extend Atom {
+  optional CarQcLibEventReported car_qc_lib_event_reported = 976 [(module) = "carqclib"];
+}
+
+/**
+ * Logs when an event happens in car quick controls.
+ *
+ * Logged from package: packages/apps/Car/systemlibs/car-qc-lib
+ */
+
+message CarQcLibEventReported {
+  // Quick Control element types
+  enum ElementType {
+    UNSPECIFIED_ELEMENT_TYPE = 0;
+    QC_TYPE_LIST = 1;
+    QC_TYPE_ROW = 2;
+    QC_TYPE_TILE = 3;
+    QC_TYPE_SLIDER = 4;
+    QC_TYPE_ACTION_SWITCH = 5;
+    QC_TYPE_ACTION_TOGGLE = 6;
+  }
+
+  // The uid of the quick control provider package
+  optional int32 package_uid = 1 [(is_uid) = true];
+  // The SHA-256 hashed tag of the quick control element.
+  optional string qc_hashed_tag = 2;
+  optional ElementType element_type = 3;
+  // The value of the qc element (e.g, a slider can have value from 1-100)
+  optional int32 qc_value = 4;
+  // The state of the qc element (e.g, a switch can have on/off state)
+  optional bool qc_state = 5;
+}
