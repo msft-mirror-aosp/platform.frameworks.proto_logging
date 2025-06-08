@@ -31,7 +31,7 @@ extend Atom {
     optional OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported = 1065 [(module) = "mediaprovider"];
     optional MediaMetadataExtractionReported media_metadata_extraction_reported = 1066 [(module) = "mediaprovider"];
     optional MediaProviderOpReported media_provider_op_reported = 1112 [(module) = "mediaprovider"];
-    optional FuseOpReported fuse_op_reported = 1113 [(module) = "mediaprovider"];
+    optional FuseOpReported fuse_op_reported = 1113 [(module) = "mediaprovider_jni"];
     optional DeviceStorageStateReported device_storage_state_reported = 1114 [(module) = "mediaprovider"];
     optional DeviceStorageStatePerUidReported device_storage_state_per_uid_reported = 1115 [(module) = "mediaprovider"];
 }
