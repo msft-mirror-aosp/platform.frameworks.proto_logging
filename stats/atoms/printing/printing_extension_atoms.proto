@@ -26,12 +26,12 @@ import "frameworks/proto_logging/stats/enums/printing/enums.proto";
 
 extend Atom {
     optional FrameworkPrintJob framework_print_job = 1071 [(module) =
-    "framework"]; optional FrameworkPrinterDiscovery
-    framework_printer_discovery = 1072 [(module) = "framework"];
+    "printspooler"]; optional FrameworkPrinterDiscovery
+    framework_printer_discovery = 1072 [(module) = "printspooler"];
     optional FrameworkMainPrintUiLaunched
-    framework_main_print_ui_launched = 1073 [(module) = "framework"];
+    framework_main_print_ui_launched = 1073 [(module) = "printspooler"];
     optional FrameworkAdvancedOptionsUiLaunched
-    framework_advanced_ui_launched = 1074 [(module) = "framework"];
+    framework_advanced_ui_launched = 1074 [(module) = "printspooler"];
 
     optional BipsPrintJob bips_print_job = 1075 [(module) =
     "builtinprintservice"]; optional BipsDiscoveredPrinterCapabilities
