@@ -31,6 +31,8 @@ extend Atom {
   optional BindServiceLockedWithBalFlagsReported bind_service_locked_with_bal_flags_reported = 1045 [(module) = "uprobestats"];
   optional AndroidGraphicsBitmapAllocated android_graphics_bitmap_allocated =
           1039 [(module) = "uprobestats"];
+  optional AndroidGraphicsBitmapAllocationSnapshot
+      android_graphics_bitmap_allocation_snapshot = 1118 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -139,7 +141,7 @@ message BindServiceLockedWithBalFlagsReported {
 }
 
 /**
- * Records Bitmap allocations.
+ * Records Bitmap allocation events.
  *
  * Logged via Hummingbird for probes at android.graphics.Bitmap constructor.
  *
@@ -150,4 +152,39 @@ message AndroidGraphicsBitmapAllocated {
     optional int32 uid = 1 [(is_uid) = true];
     optional int32 width = 2;
     optional int32 height = 3;
+}
+
+/**
+ * Records snapshot of Bitmap allocations resident in memory.
+ *
+ * Logged via Hummingbird for probes at android.graphics.Bitmap constructor.
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 times in a second | Avg: O(hundreds) per device per day
+ */
+message AndroidGraphicsBitmapAllocationSnapshot {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 width = 2;
+    optional int32 height = 3;
+
+    enum PixelStorageType {
+      PIXEL_STORAGE_TYPE_UNSPECIFIED = 0;
+      PIXEL_STORAGE_TYPE_HEAP = 1;
+      PIXEL_STORAGE_TYPE_ASHMEM = 2;
+      PIXEL_STORAGE_TYPE_HARDWARE = 3;
+      PIXEL_STORAGE_TYPE_WRAPPED_PIXEL_REF = 4;
+    };
+
+    optional PixelStorageType pixel_storage_type = 4;
+
+    // Unique identifier for the snapshot, generated randomly on the device
+    // every time a snapshot is taken. Bitmaps in the same snapshot will have
+    // the same snapshot_id.
+    optional int64 snapshot_id = 5;
+    enum SnapshotType {
+        SNAPSHOT_TYPE_UNSPECIFIED = 0;
+        SNAPSHOT_TYPE_RANDOM_SAMPLE = 1;
+        SNAPSHOT_TYPE_MAX_ALLOCATION_SIZE = 2;
+    }
+    optional SnapshotType snapshot_type = 6;
 }
