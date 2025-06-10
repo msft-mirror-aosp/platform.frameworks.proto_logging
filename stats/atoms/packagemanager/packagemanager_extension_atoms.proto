@@ -225,9 +225,10 @@ message PackageInstallerSessionReported {
     // System's default developer verification policy.
     enum DeveloperVerificationPolicy {
         POLICY_UNSPECIFIED = 0;
-        POLICY_BLOCK_FAIL_OPEN = 1;
-        POLICY_BLOCK_FAIL_WARN = 2;
-        POLICY_BLOCK_FAIL_CLOSED = 3;
+        POLICY_NONE = 1;
+        POLICY_FAIL_OPEN = 2;
+        POLICY_FAIL_WARN = 3;
+        POLICY_FAIL_CLOSED = 4;
     }
     optional DeveloperVerificationPolicy adi_verification_policy = 34;
     // UID of the verifier module
@@ -282,9 +283,10 @@ message PackageInstallerSessionReported {
     enum DeveloperVerificationUserResponse {
         USER_RESPONSE_UNSPECIFIED = 0;
         USER_RESPONSE_ERROR = 1;
-        USER_RESPONSE_OK = 2;
-        USER_RESPONSE_RETRY = 3;
-        USER_RESPONSE_INSTALL_ANYWAY = 4;
+        USER_RESPONSE_CANCEL = 2;
+        USER_RESPONSE_OK = 3;
+        USER_RESPONSE_RETRY = 4;
+        USER_RESPONSE_INSTALL_ANYWAY = 5;
     }
     optional DeveloperVerificationUserResponse adi_user_response = 45;
     // Retry count, if the user selected retry as the response.
@@ -304,12 +306,14 @@ message PackageInstallerSessionReported {
 
     // --- Performance section ---
 
-    // The duration it took for ADI verification to complete for the session, from when onVerificationRequired is called till when a response is received from the verifier (or timeout)
-    optional int64 adi_verification_duration_millis = 50;
-    // The duration between onPackageNameAvailable is called till when onVerificationRequired is called. -1 if unapplicable.
-    optional int64 adi_verification_prep_duration_millis = 51;
-    // The duration between onVerificationRetry is called till when a response is received from the verifier (or timeout). -1 if unapplicable.
-    optional int64 adi_verification_retry_duration_millis = 52;
     // Whether onVerificationCancelled was called. It can be true only when a session is abandoned.
-    optional bool adi_on_verification_cancelled_called = 53;
+    optional bool adi_on_verification_cancelled_called = 50;
+    // The duration it took for ADI verification to complete for the session, from when onVerificationRequired is called till when a response is received from the verifier (or timeout)
+    optional int64 adi_verification_duration_millis = 51;
+    // The duration between onPackageNameAvailable is called till when onVerificationRequired is called. -1 if unapplicable.
+    optional int64 adi_verification_prep_duration_millis = 52;
+    // The duration between the last onVerificationRetry is called till when a response is received from the verifier (or timeout). -1 if unapplicable.
+    optional int64 adi_verification_retry_duration_millis = 53;
+    // The duration between then the binding is first started and when the verifier is connected.
+    optional int64 adb_verification_connection_millis = 54;
 }

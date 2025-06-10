@@ -122,6 +122,8 @@ enum TerribleErrorType {
   TYPE_TETHER_WIFI_TYPE_MISMATCH = 12;
   // Indicate WiFi P2P tethering was enabled with an interface name that maps to a different type.
   TYPE_TETHER_WIFIP2P_TYPE_MISMATCH = 13;
+  // Indicate Wi-Fi report firmware support APF version 0.
+  TYPE_WIFI_REPORT_APF_VERSION_ZERO = 14;
 }
 
 // Type of critical bytes event.
