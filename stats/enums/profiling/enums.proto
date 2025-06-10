@@ -1,0 +1,90 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.profiling;
+
+option java_package = "android.os.profiling";
+option java_multiple_files = true;
+
+enum ProfilingType {
+    PROFILING_TYPE_UNSPECIFIED = 0;
+    JAVA_HEAP_DUMP = 1;
+    HEAP_PROFILE = 2;
+    STACK_SAMPLING = 3;
+    SYSTEM_TRACE = 4;
+}
+
+enum ResultErrorCode {
+    RESULT_ERROR_CODE_UNSPECIFIED = 0;
+    ERROR_NONE = 1;
+    FAILED_RATE_LIMIT_SYSTEM = 2;
+    FAILED_RATE_LIMIT_PROCESS = 3;
+    FAILED_PROFILING_IN_PROGRESS = 4;
+    FAILED_EXECUTING = 5;
+    FAILED_POST_PROCESSING = 6;
+    FAILED_NO_DISK_SPACE = 7;
+    ERROR_UNKNOWN = 8;
+}
+
+enum TriggerType {
+    TRIGGER_TYPE_UNSPECIFIED = 0;
+    TRIGGER_NONE = 1;
+    TRIGGER_APP_FULLY_DRAWN = 2;
+    TRIGGER_ANR = 3;
+    TRIGGER_APP_REQUEST_RUNNING_TRACE = 4;
+    TRIGGER_KILL_FORCE_STOP = 5;
+    TRIGGER_KILL_RECENTS = 6;
+    TRIGGER_KILL_TASK_MANAGER = 7;
+}
+
+enum RequestResult {
+    REQUEST_RESULT_UNSPECIFIED = 0;
+    REQUEST_RESULT_ERROR = 1;
+    REQUEST_RESULT_RATE_LIMIT_SYSTEM = 2;
+    REQUEST_RESULT_RATE_LIMIT_PROCESS = 3;
+    REQUEST_RESULT_INVALID = 4;
+    REQUEST_RESULT_PROFILING_IN_PROGRESS = 5;
+    REQUEST_RESULT_PROFILING_STARTED = 6;
+}
+
+enum ProfilingStoppedReason {
+    PROFILING_STOPPED_REASON_UNSPECIFIED = 0;
+    APP_REQUESTED = 1;
+    APP_DIED = 2;
+    TIMED_OUT = 3;
+}
+
+enum TriggerStatus {
+    TRIGGER_STATUS_UNSPECIFIED = 0;
+    TRIGGER_STATUS_ERROR = 1;
+    TRIGGER_STATUS_RATE_LIMIT_SYSTEM = 2;
+    TRIGGER_STATUS_RATE_LIMIT_PROCESS = 3;
+    TRIGGER_STATUS_RATE_LIMIT_APP = 4;
+    TRIGGER_STATUS_NOT_REGISTERED = 5;
+    TRIGGER_STATUS_NOT_RUNNING = 6;
+    TRIGGER_STATUS_FULFILLED = 7;
+}
+
+enum BackgroundTraceState {
+    BACKGROUND_TRACE_STATE_UNSPECIFIED = 0;
+    TRACE_STARTED = 1;
+    TRACE_NOT_STARTED_NO_TRIGGERS_REGISTERED = 2;
+    TRACE_NOT_STARTED_TRIGGERS_NOT_LOADED = 3;
+    TRACE_NOT_STARTED_ALREADY_RUNNING = 4;
+    TRACE_STOPPED = 5;
+}
