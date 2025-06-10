@@ -5065,6 +5065,9 @@ message ThermalThrottlingSeverityStateChanged {
     (state_field_option).exclusive_state = true,
     (state_field_option).nested = false
   ];
+
+  // Previous severity of the throttling, see enum definition.
+  optional android.os.ThrottlingSeverityEnum prev_severity = 5;
 }
 
 /**
