@@ -1,0 +1,66 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package android.os.statsd.ambientcue;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.ambientcue";
+option java_multiple_files = true;
+
+extend Atom {
+  optional AmbientCueEventReported ambient_cue_event_reported = 1119
+      [(module) = "framework"];
+}
+
+/**
+ * Logs when the Cue Bar request is fulfilled/skipped..
+ */
+message ambient_cue_event_reported {
+  enum DismissReason {
+    UNKNOWN = 0;
+    // The cue bar is fulfilled and dismissed by the query intent.
+    FULFILLED_WITH_QUERY_INTENT = 1;
+    // The cue bar is fulfilled and dismissed by the action intent.
+    FULFILLED_WITH_ACTION_INTENT = 2;
+    // The cue bar is dismissed by the close button.
+    CLOSE_BUTTON = 3;
+    // The cue bar is dismissed by the timeout.
+    TIMEOUT = 4;
+    // The cue bar is dismissed by the loss of focus.
+    LOSE_FOCUS = 5;
+  }
+  // The event_id (as for UiEventReported).
+  optional int32 event_id = 1;
+
+  // Timestamp to help count cue bar actions per day/ week/ month.
+  optional int64 event_timestamp_millis = 2;
+
+  // Cue bar display duration(from display to dismiss) in milliseconds.
+  optional int64 display_duration_millis = 3;
+
+  // The number of action suggestions generated and returned to the upstream.
+  optional DismissReason dismiss_reason = 4;
+
+  // The number of action suggestions generated and returned to the upstream.
+  optional int32 action_suggestion_count = 5;
+
+  // The number of recall suggestions generated and returned to the upstream.
+  optional int32 recall_suggestion_count = 6;
+}
