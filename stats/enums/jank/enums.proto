@@ -152,6 +152,7 @@ enum InteractionType {
     WEAR_QSS_TRAY_OPEN = 136;
     WEAR_NOTIFICATION_TRAY_OPEN = 137;
     DESKTOP_MODE_SHADE_WINDOW_DISPLAY_CHANGE = 138;
+    LAUNCHER_OVERVIEW_CLEAR_ALL = 139;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.
