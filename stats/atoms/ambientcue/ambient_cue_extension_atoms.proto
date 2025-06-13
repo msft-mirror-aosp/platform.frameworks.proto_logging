@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+syntax = "proto2";
 
 package android.os.statsd.ambientcue;
 
@@ -32,35 +32,32 @@ extend Atom {
 /**
  * Logs when the Cue Bar request is fulfilled/skipped..
  */
-message ambient_cue_event_reported {
+message AmbientCueEventReported {
   enum DismissReason {
-    UNKNOWN = 0;
-    // The cue bar is fulfilled and dismissed by the query intent.
-    FULFILLED_WITH_QUERY_INTENT = 1;
+    AMBIENT_CUE_UNKNOWN_DISMISS_REASON = 0;
+    // The cue bar is fulfilled and dismissed by the suggestion intent.
+    AMBIENT_CUE_FULFILLED_WITH_SUGGESTION_INTENT = 1;
     // The cue bar is fulfilled and dismissed by the action intent.
-    FULFILLED_WITH_ACTION_INTENT = 2;
+    AMBIENT_CUE_FULFILLED_WITH_ACTION_INTENT = 2;
     // The cue bar is dismissed by the close button.
-    CLOSE_BUTTON = 3;
+    AMBIENT_CUE_CLOSE_BUTTON = 3;
     // The cue bar is dismissed by the timeout.
-    TIMEOUT = 4;
+    AMBIENT_CUE_TIMEOUT = 4;
     // The cue bar is dismissed by the loss of focus.
-    LOSE_FOCUS = 5;
+    AMBIENT_CUE_LOSE_FOCUS = 5;
   }
   // The event_id (as for UiEventReported).
   optional int32 event_id = 1;
 
-  // Timestamp to help count cue bar actions per day/ week/ month.
-  optional int64 event_timestamp_millis = 2;
-
   // Cue bar display duration(from display to dismiss) in milliseconds.
-  optional int64 display_duration_millis = 3;
+  optional int64 display_duration_millis = 2;
 
   // The number of action suggestions generated and returned to the upstream.
-  optional DismissReason dismiss_reason = 4;
+  optional DismissReason dismiss_reason = 3;
 
   // The number of action suggestions generated and returned to the upstream.
-  optional int32 action_suggestion_count = 5;
+  optional int32 action_suggestion_count = 4;
 
   // The number of recall suggestions generated and returned to the upstream.
-  optional int32 recall_suggestion_count = 6;
+  optional int32 recall_suggestion_count = 5;
 }

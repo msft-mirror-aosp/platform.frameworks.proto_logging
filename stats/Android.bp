@@ -139,6 +139,7 @@ atom_protos = [
     "atoms/adservices/*.proto",
     "atoms/agif/*.proto",
     "atoms/aiwallpapers/*.proto",
+    "atoms/ambientcue/*.proto",
     "atoms/apex/*.proto",
     "atoms/appfunctions/*.proto",
     "atoms/appsearch/*.proto",
