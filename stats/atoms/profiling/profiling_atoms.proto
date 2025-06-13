@@ -16,10 +16,10 @@
 
 syntax = "proto2";
 
-package android.os.profiling;
+package android.os.statsd.profiling;
 
-import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/enums/profiling/enums.proto";
 
 option java_package = "android.os.profiling";
@@ -44,7 +44,7 @@ extend Atom {
  * Peak: 3/min | Avg: <50/day
  */
 message ProfilingRequest {
-    optional int uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(is_uid) = true];
     optional ProfilingType profiling_type = 2;
     optional bool includes_params = 3;
     optional RequestResult request_result = 4;
@@ -59,7 +59,7 @@ message ProfilingRequest {
  * Peak: 1/min | Avg: <20/day
  */
 message ProfilingStopped {
-    optional int uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(is_uid) = true];
     optional ProfilingType profiling_type = 2;
     optional TriggerType trigger_type = 3;
     optional ProfilingStoppedReason stopped_reason = 4;
@@ -75,7 +75,7 @@ message ProfilingStopped {
  * Peak: 3/min | Avg: <50/day
  */
 message ProfilingResultCallbackSent {
-    optional int uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(is_uid) = true];
     optional ProfilingType profiling_type = 2;
     optional TriggerType trigger_type = 3;
     optional ResultErrorCode error_code = 4;
@@ -90,7 +90,7 @@ message ProfilingResultCallbackSent {
  * Peak: 1/min | Avg: <20/day
  */
 message ProfilingTriggerRegister {
-    optional int uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(is_uid) = true];
     optional TriggerType trigger_type = 2;
     optional bool includes_params = 3;
 }
@@ -105,7 +105,7 @@ message ProfilingTriggerRegister {
  * Peak: 3/sec | Avg: <100/day
  */
 message ProfilingTriggerSent {
-    optional int uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(is_uid) = true];
     optional TriggerType trigger_type = 2;
     optional TriggerStatus trigger_status = 3;
 }
@@ -133,5 +133,5 @@ message ProfilingBackgroundTraceState {
  * Peak: 1/minute | Avg: <20/day
  */
 message ProfilingGlobalListenerRegister {
-    optional int uid = 1 [(is_uid) = true];
+    optional int32 uid = 1 [(is_uid) = true];
 }
