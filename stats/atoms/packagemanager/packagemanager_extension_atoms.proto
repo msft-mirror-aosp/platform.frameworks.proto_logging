@@ -316,4 +316,9 @@ message PackageInstallerSessionReported {
     optional int64 adi_verification_retry_duration_millis = 53;
     // The duration between then the binding is first started and when the verifier is connected.
     optional int64 adb_verification_connection_millis = 54;
+
+    // Whether the user has responded in the user confirmation dialog.
+    optional bool user_response_received = 55;
+    // Whether the user has responded in the developer verification confirmation dialog.
+    optional bool adi_user_response_received = 56;
 }
