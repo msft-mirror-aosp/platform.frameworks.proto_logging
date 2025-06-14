@@ -1449,7 +1449,14 @@ message Atom {
     extensions 1116; // PrivateSpaceAddButtonEvent private_space_add_button_event
     extensions 1117; // PrivateSpaceMoveContentEvent private_space_move_content_event
     extensions 1118; // AndroidGraphicsBitmapAllocationSnapshot android_graphics_bitmap_allocation_snapshot
-    extensions 1119; // CoreNetworkingCriticalEventOccurred core_networking_critical_event_occurred
+    extensions 1119; // AmbientCueEventReported ambient_cue_event_reported
+    extensions 1120; // ProfilingRequest profiling_request
+    extensions 1121; // ProfilingStopped profiling_stopped
+    extensions 1122; // ProfilingResultCallbackSent profiling_result_callback_sent
+    extensions 1123; // ProfilingTriggerRegister profiling_trigger_register
+    extensions 1124; // ProfilingTriggerSent profiling_trigger_sent
+    extensions 1125; // ProfilingBackgroundTraceState profiling_background_trace_state
+    extensions 1126; // ProfilingGlobalListenerRegister profiling_global_listener_register
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

@@ -1,0 +1,137 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.profiling;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/profiling/enums.proto";
+
+option java_package = "android.os.profiling";
+option java_multiple_files = true;
+
+extend Atom {
+    optional ProfilingRequest profiling_request = 1120;
+    optional ProfilingStopped profiling_stopped = 1121;
+    optional ProfilingResultCallbackSent profiling_result_callback_sent = 1122;
+    optional ProfilingTriggerRegister profiling_trigger_register = 1123;
+    optional ProfilingTriggerSent profiling_trigger_sent = 1124;
+    optional ProfilingBackgroundTraceState profiling_background_trace_state = 1125;
+    optional ProfilingGlobalListenerRegister profiling_global_listener_register = 1126;
+}
+
+/*
+ * Logs when an app calls the requestProfiling (non-trigger) API.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 3/min | Avg: <50/day
+ */
+message ProfilingRequest {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional ProfilingType profiling_type = 2;
+    optional bool includes_params = 3;
+    optional RequestResult request_result = 4;
+}
+
+/*
+ * Logs when a profiling session is stopped.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 1/min | Avg: <20/day
+ */
+message ProfilingStopped {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional ProfilingType profiling_type = 2;
+    optional TriggerType trigger_type = 3;
+    optional ProfilingStoppedReason stopped_reason = 4;
+}
+
+/*
+ * Logs when a result callback is sent to an app. This will apply to all profile
+ * collection including system triggered profiles.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 3/min | Avg: <50/day
+ */
+message ProfilingResultCallbackSent {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional ProfilingType profiling_type = 2;
+    optional TriggerType trigger_type = 3;
+    optional ResultErrorCode error_code = 4;
+}
+
+/*
+ * Logs when a call is made to the addProfilingTrigger API.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 1/min | Avg: <20/day
+ */
+message ProfilingTriggerRegister {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional TriggerType trigger_type = 2;
+    optional bool includes_params = 3;
+}
+
+/*
+ * Logs when a call is made to the processTrigger API.
+ * Note: This happens even if no trigger is registered from the app side.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 3/sec | Avg: <100/day
+ */
+message ProfilingTriggerSent {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional TriggerType trigger_type = 2;
+    optional TriggerStatus trigger_status = 3;
+}
+
+/*
+ * Logs when we run our scheduled job to start/stop background trace.
+ * Note: This happens even if no trigger is registered from any app.
+ * Note: "stop" may not be recorded in a timely fashion.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 2/day | Avg: 2/day
+ */
+message ProfilingBackgroundTraceState {
+    optional BackgroundTraceState state = 1;
+}
+
+/*
+ * Logs when a call is made to the registerForAllProfilingResults API.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 1/minute | Avg: <20/day
+ */
+message ProfilingGlobalListenerRegister {
+    optional int32 uid = 1 [(is_uid) = true];
+}
