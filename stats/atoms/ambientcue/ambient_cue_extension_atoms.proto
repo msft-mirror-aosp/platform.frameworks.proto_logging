@@ -33,31 +33,33 @@ extend Atom {
  * Logs when the Cue Bar request is fulfilled/skipped..
  */
 message AmbientCueEventReported {
-  enum DismissReason {
-    AMBIENT_CUE_UNKNOWN_DISMISS_REASON = 0;
-    // The cue bar is fulfilled and dismissed by the suggestion intent.
-    AMBIENT_CUE_FULFILLED_WITH_SUGGESTION_INTENT = 1;
-    // The cue bar is fulfilled and dismissed by the action intent.
-    AMBIENT_CUE_FULFILLED_WITH_ACTION_INTENT = 2;
-    // The cue bar is dismissed by the close button.
-    AMBIENT_CUE_CLOSE_BUTTON = 3;
-    // The cue bar is dismissed by the timeout.
-    AMBIENT_CUE_TIMEOUT = 4;
-    // The cue bar is dismissed by the loss of focus.
-    AMBIENT_CUE_LOSE_FOCUS = 5;
-  }
-  // The event_id (as for UiEventReported).
-  optional int32 event_id = 1;
-
   // Cue bar display duration(from display to dismiss) in milliseconds.
-  optional int64 display_duration_millis = 2;
+  optional int64 display_duration_millis = 1;
 
-  // The number of action suggestions generated and returned to the upstream.
-  optional DismissReason dismiss_reason = 3;
+  // Cue bar fulfilled with ma intent duration in milliseconds.
+  optional int64 fulfilled_with_ma_intent_millis = 2;
 
-  // The number of action suggestions generated and returned to the upstream.
-  optional int32 action_suggestion_count = 4;
+  // Cue bar fulfilled with mr intent duration in milliseconds.
+  optional int64 fulfilled_with_mr_intent_millis = 3;
 
-  // The number of recall suggestions generated and returned to the upstream.
-  optional int32 recall_suggestion_count = 5;
+  // Cue bar lost focus duration in milliseconds.
+  optional int64 lose_focus_millis = 4;
+
+  // The number of ma generated.
+  optional int32 ma_count = 5;
+
+  // The number of mr generated.
+  optional int32 mr_count = 6;
+
+  // Ma is fulfilled the user's intent.
+  optional bool fulfilled_with_ma_intent = 7;
+
+  // Mr is fulfilled the user's intent.
+  optional bool fulfilled_with_mr_intent = 8;
+
+  // Clicked the cue bar close button.
+  optional bool clicked_close_button = 9;
+
+  // The cue bar reached the timeout.
+  optional bool reached_timeout = 10;
 }
