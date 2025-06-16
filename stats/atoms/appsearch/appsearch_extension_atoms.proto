@@ -46,6 +46,9 @@ extend Atom {
 
   optional AppSearchVmPayloadStatsReported
           app_search_vm_payload_stats_reported = 1047 [(module) = "appsearch"];
+
+  optional AppSearchVmInitializationStatsReported
+          app_search_vm_initialization_stats_reported = 1127 [(module) = "appsearch"];
 }
 
 // Keep in sync with
@@ -414,4 +417,69 @@ message AppSearchVmPayloadStatsReported {
    * call.
    */
   optional int32 stop_reason = 6;
+}
+
+/**
+ * Statistics for multiple AppSearch VM start attempts in MODE_BYTES. It is reported under
+ * AppSearchVmInitializationStatsReported.
+ *
+ * Next tag: 2
+ */
+message AppSearchVmStartAttempts {
+  /**
+   * Statistics for a single VM start attempt.
+   *
+   * Next tag: 3
+   */
+  message Stats {
+    /** The enum class of AppSearch VM start status code. */
+    message Status {
+      // Next tag: 4
+      enum Code {
+        UNKNOWN = 0;
+
+        // Indicates that the VM starts successfully.
+        SUCCESS = 1;
+
+        // Indicates that timeout occurs when attempting to start the VM.
+        TIMEOUT = 2;
+
+        // Indicates that an error occurs when attempting to start the VM.
+        ERROR = 3;
+      }
+    }
+    optional Status.Code status_code = 1;
+
+    /** Overall time for a single VM start attempt in milliseconds. */
+    optional int64 latency_millis = 2;
+  }
+  repeated Stats stats = 1;
+}
+
+/**
+ * Statistics for AppSearch VM initialization. It may contain multiple start attempts (i.e. retries)
+ * due to errors.
+ *
+ * Logged from:
+ *   packages/modules/AppSearch/service/java/com/android/server/appsearch/isolated_storage_service/IsolatedStorageServiceManager.java
+ * Estimated Logging Rate:
+ *    Peak: 5 times in 10*1000 ms | Avg: 10 per device per day
+ *
+ * Next tag: 3
+ */
+message AppSearchVmInitializationStatsReported {
+  /** The enum class of AppSearch VM initialization type. */
+  message VmInitializationType {
+    // Next tag: 3
+    enum Code {
+      UNKNOWN = 0;
+
+      BOOTING = 1;
+
+      RECONNECTING = 2;
+    }
+  }
+  optional VmInitializationType.Code vm_init_type = 1;
+
+  optional AppSearchVmStartAttempts vm_start_attempts = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
 }
