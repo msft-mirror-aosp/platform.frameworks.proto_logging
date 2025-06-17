@@ -34,6 +34,8 @@ extend Atom {
   optional PackageManagerCacheInvalidationReported
       package_manager_cache_invalidation_reported = 1135
       [(module) = "framework"];
+  optional InitAppScanReported init_app_scan_reported = 1171
+      [(module) = "framework"];
 }
 
 /**
@@ -490,4 +492,80 @@ message PackageManagerCacheInvalidationReported {
 
   // The number of invalidations reported.
   optional int32 count = 3;
+}
+
+/**
+ * Reports stats on an initial app scan.
+ *
+ * Logged when a single package is scanned during the initial system boot, or during an OTA update.
+ * The metric is only logged for updated system apps, and focuses mostly on the performance and
+ * outcome of the signature verification phase.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/pm/InstallPackageHelper.java
+ */
+message InitAppScanReported {
+
+  // True if the package is allow-listed for strict signature checking (for full stack integrity).
+  optional bool is_fsi_enabled = 1;
+
+  // Number of APK splits found for the package.
+  optional int32 num_apk_splits = 2;
+
+  // Signature scheme versions.
+  enum SignatureSchemeVersion {
+    // Signature scheme unknown.
+    UNKNOWN = 0;
+
+    // JAR signature scheme.
+    JAR = 1;
+
+    // SIGNING_BLOCK_V2 signature scheme.
+    V2 = 2;
+
+    // SIGNING_BLOCK_V3 signature scheme.
+    V3 = 3;
+
+    // SIGNING_BLOCK_V4 signature scheme.
+    V4 = 4;
+  }
+
+  // Signature scheme version of the package.
+  optional SignatureSchemeVersion signature_scheme_version = 3;
+
+  // The total time it took to scan the package, in milliseconds.
+  optional int64 total_scan_duration_millis = 4;
+
+  // Signature verification outcome.
+  enum InitAppScanOutcome {
+    // It is required that the first enum value is 0.
+    UNSPECIFIED = 0;
+
+    // The package was scanned successfully.
+    SUCCESS = 1;
+
+    // The package had no recognizable signatures.
+    FAILURE_NO_CERTIFICATES = 2;
+
+    // The package was signed, but the signature did not match the file content.
+    FAILURE_VERIFICATION = 3;
+
+    // The new signature did not match the one from the existing system package.
+    FAILURE_UPDATE_INCOMPATIBLE = 4;
+
+    // Split APK was signed with inconsistent certificates.
+    FAILURE_INCONSISTENT_CERTIFICATES = 5;
+
+    // A certificate in the APK was malformed or unreadable.
+    FAILURE_CERTIFICATE_ENCODING = 6;
+
+    // The package failed a general validation test, e.g. invalid apk, duplicate package, etc.
+    FAILURE_SCAN_VALIDATION = 7;
+
+    // The scan failed for a reason not listed above.
+    FAILURE_OTHER = 8;
+  }
+
+  // The final outcome of the signature verification process for this package.
+  optional InitAppScanOutcome init_app_scan_outcome = 5;
 }
