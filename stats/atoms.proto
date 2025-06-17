@@ -6334,6 +6334,16 @@ message LmkKillOccurred {
         LOW_FILECACHE_AFTER_THRASHING = 8;
         LOW_MEM = 9;
         DIRECT_RECL_STUCK = 10;
+        VENDOR_KILL_REASON_1 = 1000;
+        VENDOR_KILL_REASON_2 = 1001;
+        VENDOR_KILL_REASON_3 = 1002;
+        VENDOR_KILL_REASON_4 = 1003;
+        VENDOR_KILL_REASON_5 = 1004;
+        VENDOR_KILL_REASON_6 = 1005;
+        VENDOR_KILL_REASON_7 = 1006;
+        VENDOR_KILL_REASON_8 = 1007;
+        VENDOR_KILL_REASON_9 = 1008;
+        VENDOR_KILL_REASON_10 = 1009;
     }
 
     // The uid if available. -1 means not available.
