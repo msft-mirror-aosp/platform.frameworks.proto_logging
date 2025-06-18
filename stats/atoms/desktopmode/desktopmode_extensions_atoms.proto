@@ -99,6 +99,7 @@ message DesktopModeSessionTaskUpdate {
     MINIMIZE_TASK_LIMIT = 1;
     MINIMIZE_BUTTON = 2;
     MINIMIZE_KEY_GESTURE = 3;
+    MINIMIZE_MULTI_ACTIVITY_PIP = 4;
   }
 
   // The reason a task was unminimized
