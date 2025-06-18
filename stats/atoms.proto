@@ -1354,9 +1354,9 @@ message Atom {
     extensions 1021; // HearingDeviceActiveEventReported hearing_device_active_event_reported
     extensions 1022; // Reserved for b/377302168
     extensions 1023; // HealthConnectDataBackupInvoked health_connect_data_backup_invoked
-    extensions 1024; // HealthConnectSettingsBackupInvoked health_connect_settings_backup_invoked
+    extensions 1024; // HealthConnectMetadataBackupInvoked health_connect_metadata_backup_invoked
     extensions 1025; // HealthConnectDataRestoreInvoked health_connect_data_restore_invoked
-    extensions 1026; // HealthConnectSettingsRestoreInvoked health_connect_settings_restore_invoked
+    extensions 1026; // HealthConnectMetadataRestoreInvoked health_connect_metadata_restore_invoked
     extensions 1027; // HealthConnectRestoreEligibilityChecked health_connect_restore_eligibility_checked
     extensions 1028; // BroadcastProcessed broadcast_processed
     extensions 1029; // ZramSetupExecuted zram_setup_executed

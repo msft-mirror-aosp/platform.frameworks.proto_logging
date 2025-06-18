@@ -56,11 +56,11 @@ extend Atom {
 
   optional HealthConnectDataBackupInvoked health_connect_data_backup_invoked = 1023 [(module) = "healthfitness"];
 
-  optional HealthConnectSettingsBackupInvoked health_connect_settings_backup_invoked = 1024 [(module) = "healthfitness"];
+  optional HealthConnectMetadataBackupInvoked health_connect_metadata_backup_invoked = 1024 [(module) = "healthfitness"];
 
   optional HealthConnectDataRestoreInvoked health_connect_data_restore_invoked = 1025 [(module) = "healthfitness"];
 
-  optional HealthConnectSettingsRestoreInvoked health_connect_settings_restore_invoked = 1026 [(module) = "healthfitness"];
+  optional HealthConnectMetadataRestoreInvoked health_connect_metadata_restore_invoked = 1026 [(module) = "healthfitness"];
 
   optional HealthConnectRestoreEligibilityChecked health_connect_restore_eligibility_checked = 1027 [(module) = "healthfitness"];
 }
@@ -236,9 +236,8 @@ message HealthConnectDataBackupInvoked {
 
   /**
    * Time taken between the start of the data backup and its conclusion.
-   * Deprecated as field cannot be populated with data at time of logging.
    */
-  optional int32 time_to_succeed_or_fail_millis = 2 [deprecated = true];
+  optional int32 time_to_succeed_or_fail_millis = 2;
 
   /**
    * Size of the data being backed up.
@@ -254,23 +253,23 @@ message HealthConnectDataBackupInvoked {
 }
 
 /**
- * Track when a Backup and Restore settings backup is invoked.
+ * Track when a Backup and Restore metadata backup is invoked.
  * Logged from:
  * packages/modules/HealthFitness/service/java/com/android/server/healthconnect/logging/BackupRestoreLogger.java
  *
  * Estimated Logging Rate:
  * Avg: 1 per device per day
  */
-message HealthConnectSettingsBackupInvoked {
+message HealthConnectMetadataBackupInvoked {
 
-  // Status of the settings backup (started/success/failure)
-  optional android.healthfitness.api.SettingsBackupStatus status = 1;
+  // Status of the metadata backup (started/success/failure)
+  optional android.healthfitness.api.MetadataBackupStatus status = 1;
 
-  // Time taken between the start of the settings backup and its conclusion.
+  // Time taken between the start of the metadata backup and its conclusion.
   optional int32 time_to_succeed_or_fail_millis = 2;
 
-  // Size of the settings being backed up.
-  optional int32 settings_size_kb = 3;
+  // Size of the metadata being backed up.
+  optional int32 metadata_size_kb = 3;
 }
 
 /**
@@ -303,23 +302,23 @@ message HealthConnectDataRestoreInvoked {
 }
 
 /**
- * Track when a Backup and Restore settings restore is invoked.
+ * Track when a Backup and Restore metadata restore is invoked.
  * Logged from:
  * packages/modules/HealthFitness/service/java/com/android/server/healthconnect/logging/BackupRestoreLogger.java
  *
  * Estimated Logging Rate:
  * Avg: <1 per device per day
  */
-message HealthConnectSettingsRestoreInvoked {
+message HealthConnectMetadataRestoreInvoked {
 
-  // Status of the settings restore (started/success/failure)
-  optional android.healthfitness.api.SettingsRestoreStatus status = 1;
+  // Status of the metadata restore (started/success/failure)
+  optional android.healthfitness.api.MetadataRestoreStatus status = 1;
 
-  // Time taken between the start of the settings restore and its conclusion.
+  // Time taken between the start of the metadata restore and its conclusion.
   optional int32 time_to_succeed_or_fail_millis = 2;
 
-  // Size of the settings being restored.
-  optional int32 settings_size_kb = 3;
+  // Size of the metadata being restored.
+  optional int32 metadata_size_kb = 3;
 }
 
 // Track when the eligibility of a Backup and Restore restore is checked.
