@@ -26,13 +26,13 @@ option java_package = "android.os.profiling";
 option java_multiple_files = true;
 
 extend Atom {
-    optional ProfilingRequest profiling_request = 1120;
-    optional ProfilingStopped profiling_stopped = 1121;
-    optional ProfilingResultCallbackSent profiling_result_callback_sent = 1122;
-    optional ProfilingTriggerRegister profiling_trigger_register = 1123;
-    optional ProfilingTriggerSent profiling_trigger_sent = 1124;
-    optional ProfilingBackgroundTraceState profiling_background_trace_state = 1125;
-    optional ProfilingGlobalListenerRegister profiling_global_listener_register = 1126;
+    optional ProfilingRequest profiling_request = 1120 [(module) = "profiling"];
+    optional ProfilingStopped profiling_stopped = 1121 [(module) = "profiling"];
+    optional ProfilingResultCallbackSent profiling_result_callback_sent = 1122 [(module) = "profiling"];
+    optional ProfilingTriggerRegister profiling_trigger_register = 1123 [(module) = "profiling"];
+    optional ProfilingTriggerSent profiling_trigger_sent = 1124 [(module) = "profiling"];
+    optional ProfilingBackgroundTraceState profiling_background_trace_state = 1125 [(module) = "profiling"];
+    optional ProfilingGlobalListenerRegister profiling_global_listener_register = 1126 [(module) = "profiling"];
 }
 
 /*
