@@ -15101,7 +15101,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 60.
+    // Next id: 63.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -15156,6 +15156,11 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_TRIGGER_MODE = 52;
         PERFETTO_TRACED_ENABLE_TRACING_INVALID_BR_FILENAME = 54;
         PERFETTO_TRACED_ENABLE_TRACING_FAILED_SESSION_SEMAPHORE_CHECK = 57;
+
+        // Priority boost inside traced.
+        PERFETTO_TRACED_ENABLE_PRIORITY_BOOST_NO_CAPABILITY = 60;
+        PERFETTO_TRACED_ENABLE_PRIORITY_BOOST_INVALID_CONFIG = 61;
+        PERFETTO_TRACED_ENABLE_PRIORITY_BOOST_OTHER_ERROR = 62;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
