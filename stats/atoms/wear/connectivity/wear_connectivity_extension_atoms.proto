@@ -38,6 +38,8 @@ extend Atom {
       [(module) = "wearconnectivity"];
   optional WearBleMigrationStateChanged wear_ble_migration_state_changed = 1081
       [(module) = 'wearconnectivity'];
+  optional WearNetworkStateChanged wear_network_state_changed = 1139
+      [(module) = 'wearconnectivity'];
 }
 
 /**
@@ -175,4 +177,27 @@ message WearCompanionConnectionState {
  */
 message WearBleMigrationStateChanged {
   optional com.google.android.wearable.connectivity.BleMigrationStep ble_migration_step = 1;
+}
+
+/**
+ * Logs when certain Wear Network states are updated, such as capabilities, availabilities.
+ * Logged from:
+ *   frameworks/opt/wear/src/com/android/clockwork/connectivity/logging/WearNetworkStateLogger.java
+ * Estimated Logging Rate:
+ *   Peak: 1 time in 1 sec | Avg: 5 times per device per day
+ */
+message WearNetworkStateChanged {
+  // The current status of the network.
+  optional com.google.android.wearable.connectivity.NetworkStatus network_status = 1;
+
+  // The transport type of the network.
+  optional com.google.android.wearable.connectivity.NetworkTransportType transport_type = 2;
+
+  // A bitmask of the network capabilities that the network now has.
+  // The integer will have n-th bit set if it has a capability type of value n.
+  // See packages/modules/Connectivity/framework/src/android/net/NetworkCapabilities.java
+  optional int64 network_capabilities = 3;
+
+  // Whether the network is reported in SUSPENDED state.
+  optional bool is_suspended = 4;
 }

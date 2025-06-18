@@ -295,3 +295,16 @@ enum BleMigrationStep {
     STEP_SYSPROXY_PSM_RECEIVED = 1;
     STEP_SYSPROXY_TRANSPORT_MIGRATED = 2;
 }
+
+enum NetworkTransportType {
+    TRANSPORT_TYPE_UNKNOWN = 0;
+    TRANSPORT_TYPE_CELLULAR = 1;
+    TRANSPORT_TYPE_WIFI = 2;
+    TRANSPORT_TYPE_BLUETOOTH = 3;
+}
+
+enum NetworkStatus {
+    NETWORK_STATUS_UNKNOWN = 0;
+    TYPE_AVAILABLE = 1;
+    TYPE_LOST = 2;
+}
