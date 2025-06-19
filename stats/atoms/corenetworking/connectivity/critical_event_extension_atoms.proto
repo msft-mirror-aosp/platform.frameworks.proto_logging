@@ -30,6 +30,9 @@ extend Atom {
     optional CoreNetworkingCriticalBytesEventOccurred core_networking_critical_bytes_event_occurred =
         1102 [(module) = "connectivity", (module) = "network_stack",
             (module) = "resolv", (module) = "network_tethering"];
+    optional CoreNetworkingCriticalCountsEventOccurred core_networking_critical_counts_event_occurred =
+        1131 [(module) = "connectivity", (module) = "network_stack",
+            (module) = "resolv", (module) = "network_tethering"];
 }
 
 /**
@@ -52,4 +55,26 @@ message CoreNetworkingCriticalBytesEventOccurred {
     optional android.corenetworking.connectivity.CriticalBytesEventType event_type = 2;
     // Value associated with the event
     optional int64 bytes_count = 3;
+}
+
+/**
+ * This message is similar to CoreNetworkingTerribleErrorOccurred. It is used to record
+ * critical count events that happen in our core networking codebase. Unlike
+ * CoreNetworkingTerribleErrorOccurred, which only tracks the error type,
+ * this message records the critical event's occurrence and its value.
+ *
+ * Logged from:
+ * packages/modules/Connectivity/
+ * packages/modules/NetworkStack/
+ * packages/modules/DnsResolver/
+ *
+ * Estimated Logging Rate:
+ * Peak: 10 times in 60 mins | Avg: < 5 per device per day
+ */
+message CoreNetworkingCriticalCountsEventOccurred {
+    repeated AttributionNode attribution_node = 1;
+    // Type of critical event.
+    optional android.corenetworking.connectivity.CriticalCountsEventType event_type = 2;
+    // Value associated with the event
+    optional int64 counts = 3;
 }
