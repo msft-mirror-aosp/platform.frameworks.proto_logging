@@ -29,6 +29,8 @@ extend Atom {
       [(module) = "framework"];
   optional PackageInstallerSessionReported package_installer_session_reported = 1101
       [(module) = "framework"];
+  optional PackageChangedBroadcastReported package_changed_broadcast_reported = 1129
+      [(module) = "framework"];
 }
 
 /**
@@ -321,4 +323,52 @@ message PackageInstallerSessionReported {
     optional bool user_response_received = 55;
     // Whether the user has responded in the developer verification confirmation dialog.
     optional bool adi_user_response_received = 56;
+}
+
+/**
+ * Logs the reason of the PACKAGE_CHANGED broadcast is sent.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/pm/BroadcastHelper.java
+ */
+message PackageChangedBroadcastReported {
+  // The reason of the PACKAGE_CHANGED broadcast.
+  enum PackageChangedReason {
+    // The PACKAGE_CHANGED broadcast is sent due to unspecified reason.
+    PACKAGE_CHANGED_REASON_UNSPECIFIED = 0;
+
+    // The PACKAGE_CHANGED broadcast is sent due to the component state being changed.
+    PACKAGE_CHANGED_REASON_COMPONENT_STATE_CHANGED = 1;
+
+    // The PACKAGE_CHANGED broadcast is sent due to the package state being changed.
+    PACKAGE_CHANGED_REASON_PACKAGE_STATE_CHANGED = 2;
+
+    // The PACKAGE_CHANGED broadcast is sent due to the component label icon being changed.
+    PACKAGE_CHANGED_REASON_COMPONENT_LABEL_ICON_CHANGED = 3;
+
+    // The PACKAGE_CHANGED broadcast is sent due to the component state being reset to default.
+    PACKAGE_CHANGED_REASON_COMPONENT_STATE_RESET = 4;
+
+    // The PACKAGE_CHANGED broadcast is sent due to the mime group being changed.
+    PACKAGE_CHANGED_REASON_MIME_GROUP_CHANGED = 5;
+
+    // The PACKAGE_CHANGED broadcast is sent due to an overlay being changed.
+    PACKAGE_CHANGED_REASON_OVERLAY_CHANGED = 6;
+
+    // The PACKAGE_CHANGED broadcast is sent due to the static shared library being changed.
+    PACKAGE_CHANGED_REASON_STATIC_SHARED_LIBRARY_CHANGED = 7;
+
+    // The PACKAGE_CHANGED broadcast is sent due to testing.
+    PACKAGE_CHANGED_REASON_TEST = 8;
+  }
+
+  // The UID for which the application calls this method.
+  optional int32 calling_uid = 1 [(is_uid) = true];
+
+  // The UID for which the package has been changed. The change included the component of the
+  // package or package itself.
+  optional int32 changed_uid = 2 [(is_uid) = true];
+
+  // The reason of PACKAGE_CHANGED broadcast.
+  optional PackageChangedReason reason = 3;
 }
