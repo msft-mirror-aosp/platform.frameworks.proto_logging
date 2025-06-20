@@ -1479,6 +1479,7 @@ message DevicePresenceChanged {
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 8;
         DEVICE_PROFILE_VIRTUAL_DEVICE = 9;
         DEVICE_PROFILE_WEARABLE_SENSING = 10;
+        DEVICE_PROFILE_FITNESS_TRACKER = 11;
     }
 
     enum DevicePresenceStatus {

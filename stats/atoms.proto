@@ -23638,7 +23638,7 @@ message CdmAssociationAction {
         REMOVED = 2;
     }
 
-    enum DeviceProfile{
+    enum DeviceProfile {
         DEVICE_PROFILE_NULL = 0;
         DEVICE_PROFILE_WATCH = 1;
         DEVICE_PROFILE_APP_STREAMING = 2;
@@ -23648,6 +23648,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
         DEVICE_PROFILE_VIRTUAL_DEVICE = 7;
         DEVICE_PROFILE_WEARABLE_SENSING = 8;
+        DEVICE_PROFILE_FITNESS_TRACKER = 9;
     }
 
     // Action taken on the CDM association been created by companion apps.
