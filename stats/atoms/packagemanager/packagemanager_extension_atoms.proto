@@ -203,7 +203,7 @@ message PackageInstallerSessionReported {
     optional bool user_action_required = 26;
     // Whether the session was deleted because it expired.
     optional bool is_expired = 27;
-
+    
     // --- Performance section ---
 
 
@@ -219,97 +219,4 @@ message PackageInstallerSessionReported {
     optional int64 internal_installation_duration_millis = 32;
     // The duration between when the session was created to when the session has completed.
     optional int64 session_lifetime_duration_millis = 33;
-
-    // --- Additional ADI params session
-
-    // System's default developer verification policy.
-    enum DeveloperVerificationPolicy {
-        POLICY_UNSPECIFIED = 0;
-        POLICY_BLOCK_FAIL_OPEN = 1;
-        POLICY_BLOCK_FAIL_WARN = 2;
-        POLICY_BLOCK_FAIL_CLOSED = 3;
-    }
-    optional DeveloperVerificationPolicy adi_verification_policy = 34;
-    // UID of the verifier module
-    optional int32 adi_verifier_uid = 35 [(is_uid) = true];
-
-    // --- ADI result section ---
-
-    // Reason by ADI was bypassed.
-    enum DeveloperVerificationBypassedReason {
-        BYPASSED_REASON_UNSPECIFIED = 0;
-        BYPASSED_REASON_ADB = 1;
-    }
-    optional DeveloperVerificationBypassedReason adi_bypassed_reason = 36;
-    // Whether a timeout extension has been requested by the verifier.
-    optional bool adi_timeout_extension_requested = 37;
-    // Whether the verification session has extension params.
-    optional bool adi_has_extension_params = 38;
-    // Whether a policy override has been requested by the verifier.
-    optional bool adi_verification_policy_override_requested = 39;
-    // Policy override value for the session.
-    optional DeveloperVerificationPolicy adi_session_policy_override_value = 40;
-    // The response from the verifier.
-    enum DeveloperVerificationResponse {
-        RESPONSE_UNSPECIFIED = 0;
-        RESPONSE_COMPLETE_WITH_PASS = 1;
-        RESPONSE_COMPLETE_WITH_REJECT = 2;
-        RESPONSE_INCOMPLETE_UNKNOWN = 3;
-        RESPONSE_INCOMPLETE_NETWORK_UNAVAILABLE = 4;
-        RESPONSE_TIMEOUT = 5;
-        RESPONSE_MODULE_DISCONNECTED = 6;
-        RESPONSE_OTHER = 7;
-    }
-    optional DeveloperVerificationResponse adi_verifier_response = 41;
-    // ASL status
-    enum DeveloperVerificationAslStatus {
-        ASL_STATUS_UNSPECIFIED = 0;
-        ASL_STATUS_GOOD = 1;
-        ASL_STATUS_BAD = 2;
-    }
-    optional DeveloperVerificationAslStatus asl_status = 42;
-    // Was use action required for adi.
-    optional bool adi_user_action_required = 43;
-    // The reason code why adi required user action, which corresponds to the system API DEVELOPER_VERIFICATION_USER_ACTION_NEEDED_REASON codes.
-    enum DeveloperVerificationUserActionRequiredReason {
-        USER_ACTION_REQUIRED_REASON_UNSPECIFIED = 0;
-        USER_ACTION_REQUIRED_REASON_NETWORK_UNAVAILABLE = 1;
-        USER_ACTION_REQUIRED_REASON_DEVELOPER_BLOCKED = 2;
-        USER_ACTION_REQUIRED_REASON_LITE_VERIFICATION = 3;
-    }
-    optional DeveloperVerificationUserActionRequiredReason adi_user_action_required_reason = 44;
-    // User response code, this responds to the system API DEVELOPER_VERIFICATION_USER_RESPONSE codes.
-    enum DeveloperVerificationUserResponse {
-        USER_RESPONSE_UNSPECIFIED = 0;
-        USER_RESPONSE_ERROR = 1;
-        USER_RESPONSE_OK = 2;
-        USER_RESPONSE_RETRY = 3;
-        USER_RESPONSE_INSTALL_ANYWAY = 4;
-    }
-    optional DeveloperVerificationUserResponse adi_user_response = 45;
-    // Retry count, if the user selected retry as the response.
-    optional int32 adi_retry_count = 46;
-    // Whether the adi verification was using the Lite variation.
-    optional bool is_adi_lite = 47;
-    // Failure reason when the install failed because of ADI, which corresponds to the EXTRA_DEVELOPER_VERIFICATION_FAILURE_REASON codes.
-    enum DeveloperVerificationFailureReason {
-        DEVELOPER_VERIFICATION_FAILED_REASON_UNSPECIFIED = 0;
-        DEVELOPER_VERIFICATION_FAILED_REASON_NETWORK_UNAVAILABLE = 1;
-        DEVELOPER_VERIFICATION_FAILED_REASON_DEVELOPER_BLOCKED = 2;
-    }
-    optional DeveloperVerificationFailureReason adi_verification_failed_reason = 48;
-
-    // Package name of the app to be installed, if a session failed because of ADI verification rejection. Null otherwise.
-    optional string adi_failed_package_name = 49;
-
-    // --- Performance section ---
-
-    // The duration it took for ADI verification to complete for the session, from when onVerificationRequired is called till when a response is received from the verifier (or timeout)
-    optional int64 adi_verification_duration_millis = 50;
-    // The duration between onPackageNameAvailable is called till when onVerificationRequired is called. -1 if unapplicable.
-    optional int64 adi_verification_prep_duration_millis = 51;
-    // The duration between onVerificationRetry is called till when a response is received from the verifier (or timeout). -1 if unapplicable.
-    optional int64 adi_verification_retry_duration_millis = 52;
-    // Whether onVerificationCancelled was called. It can be true only when a session is abandoned.
-    optional bool adi_on_verification_cancelled_called = 53;
 }
