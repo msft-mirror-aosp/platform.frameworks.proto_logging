@@ -180,6 +180,14 @@ enum UiEvent {
   PICKER_TRANSCODING_STARTED = 45;
   PICKER_TRANSCODING_FINISHED = 46;
   PICKER_TRANSCODING_FAILED = 47;
+  UI_LOADED_SEARCH_RESULT_TIMEOUT = 48;
+  UI_LOADED_HSR_RESULTS = 49;
+  UI_LOADED_HSR_TIMEOUT = 50;
+  PICKER_SELECT_HSR_RESULT = 51;
+  PICKER_SELECT_HSR_SEE_ALL = 52;
+  PICKER_SELECT_HSR_SUGGESTION_CHIP = 53;
+  PICKER_SEARCH_BAR_STATE = 54;
+  PICKER_SEARCH_SUGGESTION_TIMEOUT = 55;
 }
 
 /*
@@ -201,6 +209,7 @@ enum MediaLocation {
   UNSET_MEDIA_LOCATION = 3;
   CATEGORY = 4;
   SEARCH_GRID = 5;
+  HIGHLIGHT_GRID = 6;
 }
 
 /*
@@ -282,3 +291,25 @@ enum VideoMimeType {
   MIME_DOLBY = 1;
   MIME_HEVC = 2;
 }
+
+/*
+ Different Search bar states
+*/
+enum SearchBarState {
+  SEARCH_STATE_UNKNOWN = 0;
+  SEARCH_STATE_ENABLED = 1;
+  //Indicates search is disabled for current user but enabled in other user profile.
+  //Link for profiles type - go/android-multiuser-overview
+  SEARCH_STATE_ENABLED_IN_OTHER_PROFILES = 2;
+  SEARCH_STATE_DISABLED = 3;
+}
+
+/*
+ Different Highlight query types
+*/
+enum HighlightQueryType {
+  HIGHLIGHT_QUERY_UNKNOWN = 0;
+  HIGHLIGHT_QUERY_SEARCH = 1;
+  HIGHLIGHT_QUERY_ALBUM = 2;
+}
+

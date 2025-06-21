@@ -1460,6 +1460,7 @@ message Atom {
     extensions 1127; // AppSearchVmInitializationStatsReported app_search_vm_initialization_stats_reported
     extensions 1128; // WifiPeriodicScanReport wifi_periodic_scan_report
     extensions 1129; // PackageChangedBroadcastReported package_changed_broadcast_reported
+    extensions 1130; // PhotopickerSearchBarDisplayed photopicker_search_bar_displayed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
