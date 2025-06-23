@@ -1468,6 +1468,7 @@ message Atom {
     extensions 1135; // PackageManagerCacheInvalidationReported package_manager_cache_invalidation_reported
     extensions 1136; // SmsOtpRedacted sms_otp_redacted;
     extensions 1137; // SmsOtp sms_otp_redacted;
+    extensions 1138; // ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
