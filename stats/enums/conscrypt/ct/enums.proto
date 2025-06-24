@@ -17,6 +17,7 @@ enum LogListCompatibilityVersion {
     COMPAT_VERSION_V1 = 1;
     COMPAT_VERSION_V2 = 2;
 }
+
 enum VerificationResult {
     RESULT_UNKNOWN = 0;
     RESULT_SUCCESS = 1;
@@ -25,6 +26,8 @@ enum VerificationResult {
     RESULT_FAILURE_SCTS_NOT_COMPLIANT = 4;
     RESULT_FAIL_OPEN_NO_LOG_LIST_AVAILABLE = 5;
     RESULT_FAIL_OPEN_LOG_LIST_NOT_COMPLIANT = 6;
+    RESULT_FAIL_OPEN_LOG_LIST_DATE_INVALID = 7;
+    RESULT_FAIL_OPEN_LOG_LIST_DATE_EXPIRED = 8;
 }
 
 enum VerificationReason {
