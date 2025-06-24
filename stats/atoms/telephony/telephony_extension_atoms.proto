@@ -31,6 +31,8 @@ extend Atom {
     optional DataNetworkValidation data_network_validation = 10207 [(module) = "telephony"];
     optional DataRatStateChanged data_rat_state_changed = 854 [(module) = "telephony"];
     optional ConnectedChannelChanged connected_channel_changed = 882 [(module) = "telephony"];
+    optional SmsOtpRedacted sms_otp_redacted = 1136 [(module) = "telephony"];
+    optional SmsOtpEvaluation sms_otp_evaluation = 1137 [(module) = "telephony"];
     // 10208 is reserved due to removing the old atom.
 }
 
@@ -155,4 +157,61 @@ message ConnectedChannelChanged {
     (state_field_option).exclusive_state = true,
     (state_field_option).nested = false
   ];
+}
+
+/**
+ *
+ * Report a package is forbidden from receiving information about an SMS that contains an OTP
+ * (One Time Password).
+ *
+ * Logged from:
+ *
+ * frameworks/opt/telephony/src/java/com/android/internal/telephony/InboundSmsHandler.java and
+ * packages/providers/TelephonyProvider/src/com/android/providers/telephony/SmsProvider.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 1 per UID, per redaction location, on the device every 24 hours
+ *
+ */
+message SmsOtpRedacted {
+    // The UID who was restricted from receiving SMS data
+    optional int32 redacted_uid = 1 [(is_uid) = true];
+    // The type of OTP redaction algorithm used
+    optional android.telephony.SmsOtpRedactionAlgorithm redaction_algorithm = 2;
+    // The place where redaction took place
+    optional android.telephony.SmsOtpRedactionLocation redaction_location = 3;
+    // The number of times a redacted call for this uid, algorithm, and location happened in the
+    // last 24 hours
+    optional int32 event_count_24_hours = 4;
+}
+
+/**
+ *
+ * Logged from
+ * frameworks/opt/telephony/src/java/com/android/internal/telephony/InboundSmsHandler.java and
+ * packages/providers/TelephonyProvider/src/com/android/providers/telephony/SmsProvider.java
+ * When an SMS is evaluated to see if it contains an OTP. These will be stored, and uploaded once
+ * every 24 hours, in shuffled order.
+ *
+ * Estimated Logging Rate:
+ * Peak: 2 times per SMS message per device
+ */
+message SmsOtpEvaluation {
+    enum OtpEvaluationResult {
+        // The message wasn't checked for an OTP
+        EVALUATION_RESULT_NOT_CHECKED = 0;
+        // The message was checked, but didn't contain an OTP
+        EVALUATION_RESULT_NO_OTP = 1;
+        // The message contained an OTP
+        EVALUATION_RESULT_HAS_OTP = 2;
+    }
+
+    // The time a redaction check took. -1 for NOT_CHECKED
+    optional int32 redaction_time_ms = 1;
+    // The result of OTP evaluation
+    optional OtpEvaluationResult result = 2;
+    // The type of OTP redaction algorithm used
+    optional android.telephony.SmsOtpRedactionAlgorithm redaction_algorithm = 3;
+    // The place where redaction took place
+    optional android.telephony.SmsOtpRedactionLocation redaction_location = 4;
 }
