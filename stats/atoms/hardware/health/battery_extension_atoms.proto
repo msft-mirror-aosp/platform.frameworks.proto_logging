@@ -28,6 +28,7 @@ option java_multiple_files = true;
 extend Atom {
   optional BatteryHealth battery_health = 10220 [(module) = "framework"];
   optional BatteryLife battery_life = 10245 [(module) = "framework"];
+  optional FullBatteryDesignCapacity full_battery_design_capacity = 10246 [(module) = "framework"];
 }
 
 /*
@@ -70,4 +71,15 @@ message BatteryLife {
    * actual total battery capacity.
    */
   optional int32 battery_life_minutes = 1;
+}
+
+/*
+ * Pulls battery design capacity, which is the battery design capacity when full in uAh.
+ * This data is retrieved from corresponding registers within the Fuel Gauge (FG) settings.
+ *
+ * This reported value can vary for the same device model due to factors such as
+ * different battery vendors or FG configurations (e.g., using minimum vs. typical capacity).
+ */
+message FullBatteryDesignCapacity {
+    optional int32 design_capacity_micro_ampere_hour = 1;
 }

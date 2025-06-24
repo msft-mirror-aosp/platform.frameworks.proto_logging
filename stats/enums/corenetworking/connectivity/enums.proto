@@ -137,3 +137,10 @@ enum CriticalBytesEventType {
   CRITICAL_BYTES_EVENT_TYPE_SATELLITE_COARSE_TX_USAGE = 1;
   CRITICAL_BYTES_EVENT_TYPE_SATELLITE_COARSE_RX_USAGE = 2;
 }
+
+// Type of critical counts event.
+enum CriticalCountsEventType {
+  CRITICAL_COUNTS_EVENT_TYPE_UNKNOWN = 0;
+  // Counts the number of requests when a local network is satisfied by requests in a rematch.
+  CRITICAL_COUNTS_EVENT_TYPE_SATISFIED_BY_LOCAL_NETWORK = 1;
+}

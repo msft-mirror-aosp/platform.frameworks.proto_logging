@@ -1461,6 +1461,7 @@ message Atom {
     extensions 1128; // WifiPeriodicScanReport wifi_periodic_scan_report
     extensions 1129; // PackageChangedBroadcastReported package_changed_broadcast_reported
     extensions 1130; // PhotopickerSearchBarDisplayed photopicker_search_bar_displayed
+    extensions 1131; // CoreNetworkingCriticalCountsEventOccurred core_networking_critical_counts_event_occurred
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1752,6 +1753,7 @@ message Atom {
     extensions 10243; // CallSequencingOperationStats call_sequencing_operation_stats
     extensions 10244; // DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot
     extensions 10245; // BatteryLife battery_life
+    extensions 10246; // FullBatteryDesignCapacity full_battery_design_capacity
     extensions 99999; // Atom99999 atom_99999
 
     // DO NOT USE field numbers above 100,000 in AOSP.
@@ -6340,6 +6342,16 @@ message LmkKillOccurred {
         LOW_FILECACHE_AFTER_THRASHING = 8;
         LOW_MEM = 9;
         DIRECT_RECL_STUCK = 10;
+        VENDOR_KILL_REASON_1 = 1000;
+        VENDOR_KILL_REASON_2 = 1001;
+        VENDOR_KILL_REASON_3 = 1002;
+        VENDOR_KILL_REASON_4 = 1003;
+        VENDOR_KILL_REASON_5 = 1004;
+        VENDOR_KILL_REASON_6 = 1005;
+        VENDOR_KILL_REASON_7 = 1006;
+        VENDOR_KILL_REASON_8 = 1007;
+        VENDOR_KILL_REASON_9 = 1008;
+        VENDOR_KILL_REASON_10 = 1009;
     }
 
     // The uid if available. -1 means not available.
@@ -10681,6 +10693,14 @@ message NetworkIpProvisioningReported {
 
     // Check which IPv6 provisioning mode is used for current connection
     optional android.stats.connectivity.Ipv6ProvisioningMode ipv6_provisioning_mode = 8;
+
+    // The event count of ignoring the organic NUD failure within the IP provisioning
+    // life cycle.
+    optional int32 ignore_nud_failure_count = 9;
+
+    // The event count of querying the NUD failure from database within the IP provisioning
+    // life cycle.
+    optional int32 query_nud_failure_count = 10;
 }
 
 /**
