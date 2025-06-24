@@ -285,10 +285,9 @@ message PackageInstallerSessionReported {
     enum DeveloperVerificationUserResponse {
         USER_RESPONSE_UNSPECIFIED = 0;
         USER_RESPONSE_ERROR = 1;
-        USER_RESPONSE_CANCEL = 2;
-        USER_RESPONSE_OK = 3;
-        USER_RESPONSE_RETRY = 4;
-        USER_RESPONSE_INSTALL_ANYWAY = 5;
+        USER_RESPONSE_ABORT = 2;
+        USER_RESPONSE_RETRY = 3;
+        USER_RESPONSE_INSTALL_ANYWAY = 4;
     }
     optional DeveloperVerificationUserResponse adi_user_response = 45;
     // Retry count, if the user selected retry as the response.
