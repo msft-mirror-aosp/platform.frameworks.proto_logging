@@ -31,6 +31,9 @@ extend Atom {
       [(module) = "framework"];
   optional PackageChangedBroadcastReported package_changed_broadcast_reported = 1129
       [(module) = "framework"];
+  optional PackageManagerCacheInvalidationReported
+      package_manager_cache_invalidation_reported = 1135
+      [(module) = "framework"];
 }
 
 /**
@@ -371,4 +374,108 @@ message PackageChangedBroadcastReported {
 
   // The reason of PACKAGE_CHANGED broadcast.
   optional PackageChangedReason reason = 3;
+}
+
+/**
+ * Logs when to call PropertyInvalidatedCache invalidation.
+ *
+ * The event is reported every time when a cache for package manager is invalidated. For
+ * example, when a state change happens in any of the packages installed on the device,
+ * the getPackageInfoCache will be invalidated and this event will be reported.
+ *
+ * Based on the existing data, the frequency of such events is on the order of hundreds per day.
+ *
+ * Logged from:
+ *      frameworks/base/services/core/java/com/android/server/pm//PackageManagerService.java
+ */
+message PackageManagerCacheInvalidationReported {
+  // Define what kind of data is stored in the cache.
+  enum CacheType {
+    // Unspecific what kind of data is stored in the cache.
+    CACHE_TYPE_UNSPECIFIED = 0;
+
+    // The query data of ApplicationInfo and PackageInfo are stored in the cache.
+    CACHE_TYPE_APPLICATION_AND_PACKAGE_INFO = 1;
+
+    // The query data of packages for UID are stored in the cache.
+    CACHE_TYPE_GET_PACKAGES_FOR_UID = 2;
+  }
+
+  // Define the reason to call the invalidation.
+  enum InvalidationReason {
+    // Unspecific when to call the invalidation.
+    INVALIDATION_REASON_UNSPECIFIED = 0;
+
+    // When install the apex package.
+    INVALIDATION_REASON_INSTALL_APEX_PACKAGE = 1;
+
+    // When delete the package.
+    INVALIDATION_REASON_DELETE_PACKAGE = 2;
+
+    // When commit the package.
+    INVALIDATION_REASON_INSTALL_PACKAGE = 3;
+
+    // When the onChanged method is called in AppsFilterImpl.
+    INVALIDATION_REASON_APP_FILTER_CHANGE = 4;
+
+    // When write the package restrictions.
+    INVALIDATION_REASON_WRITE_PACKAGE_RESTRICTIONS = 5;
+
+    // When write the settings.
+    INVALIDATION_REASON_WRITE_SETTINGS = 6;
+
+    // When grant implicit access.
+    INVALIDATION_REASON_GRANT_IMPLICIT_ACCESS = 7;
+
+    // When initialize the package manager service.
+    INVALIDATION_REASON_PACKAGE_MANAGER_SERVICE_INIT = 8;
+
+    // When package manager service schedule write settings.
+    INVALIDATION_REASON_SCHEDULE_WRITE_SETTINGS = 9;
+
+    // When package manager service schedule write package list.
+    INVALIDATION_REASON_SCHEDULE_WRITE_PACKAGE_LIST = 10;
+
+    // When package manager service schedule write package restrictions.
+    INVALIDATION_REASON_SCHEDULE_WRITE_PACKAGE_RESTRICTIONS = 11;
+
+    // When package manager service enable overlay packages.
+    INVALIDATION_REASON_ENABLE_OVERLAY_PACKAGES = 12;
+
+    // When package manager service disable package caches.
+    INVALIDATION_REASON_DISABLE_PACKAGE_CACHES = 13;
+
+    // When initialize the permission service.
+    INVALIDATION_REASON_PERMISSION_SERVICE_INIT = 14;
+
+    // When initialize the permission manager service.
+    INVALIDATION_REASON_PERMISSION_MANAGER_SERVICE_INIT = 15;
+
+    // When the permission flag is changed.
+    INVALIDATION_REASON_PERMISSION_FLAG_CHANGED = 16;
+
+    // When set shell permission delegate.
+    INVALIDATION_REASON_SET_SHELL_PERMISSION_DELEGATE = 17;
+
+    // When remove shell permission delegate.
+    INVALIDATION_REASON_REMOVE_SHELL_PERMISSION_DELEGATE = 18;
+
+    // When add override permission state.
+    INVALIDATION_REASON_ADD_OVERRIDE_PERMISSION_STATE = 19;
+
+    // When remove override permission state.
+    INVALIDATION_REASON_REMOVE_OVERRIDE_PERMISSION_STATE = 20;
+
+    // When clear override permission state.
+    INVALIDATION_REASON_CLEAR_OVERRIDE_PERMISSION_STATE = 21;
+
+    // When clear all override permission state.
+    INVALIDATION_REASON_CLEAR_ALL_OVERRIDE_PERMISSION_STATE = 22;
+  }
+
+  // What kind of data is stored in the cache.
+  optional CacheType cache_type = 1;
+
+  // When to call PropertyInvalidatedCache invalidation.
+  optional InvalidationReason invalidation_reason = 2;
 }
