@@ -245,4 +245,11 @@ enum MetricType {
   reserved 2;
 }
 
+enum SessionDataType {
+  SESSION_DATA_TYPE_UNKNOWN = 0;
+
+  SESSION_DATA_TYPE_EXERCISE = 1;
+  SESSION_DATA_TYPE_SLEEP = 2;
+}
+
 

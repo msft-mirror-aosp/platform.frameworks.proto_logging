@@ -1470,6 +1470,7 @@ message Atom {
     extensions 1137; // SmsOtp sms_otp_redacted;
     extensions 1138; // ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported
     extensions 1139; // WearNetworkStateChanged wear_network_state_changed
+    extensions 1140; // HealthConnectLatencyStats health_connect_latency_stats
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
