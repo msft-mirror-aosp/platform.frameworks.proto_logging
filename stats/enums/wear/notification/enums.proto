@@ -1,0 +1,99 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package com.google.android.wear.notification;
+
+option java_multiple_files = true;
+
+// Defines the specific point in the notification's journey in the watch
+enum NotificationEvent {
+  EVENT_UNSPECIFIED = 0;
+
+  // Events logged by WearServices
+  // Notification received in WearServices
+  EVENT_RECEIVED_IN_WS = 1;
+  // Notification filtered in WearServices, and not sent to UI
+  EVENT_FILTERED_IN_WS = 2;
+  // Notification sent to UI
+  EVENT_SENT_TO_UI = 3;
+  // Notification dismissed from source
+  EVENT_DISMISSED_FROM_SOURCE = 4;
+  // Notification dismissal sent to UI
+  EVENT_SOURCE_DISMISSAL_SENT_TO_UI = 5;
+  // Dismiss request received in WearServices
+  EVENT_UI_DISMISSAL_RECEIVED_IN_WS = 6;
+  // Dismiss request sent to source
+  EVENT_UI_DISMISSAL_SENT_TO_SOURCE = 7;
+
+  // Events logged by SysUI
+  // Notification received in UI
+  EVENT_RECEIVED_IN_UI = 8;
+  // Notification filtered in UI
+  EVENT_FILTERED_IN_UI = 9;
+  // Notification alerted to user
+  EVENT_ALERTED_TO_USER = 10;
+  // User gazed at the notification
+  EVENT_USER_GAZED = 11;
+  // Glanceable notification full view shown
+  EVENT_GLANCEABLE_FULLVIEW_SHOWN = 12;
+  // Heads Up Notification full view shown
+  EVENT_HUN_FULLVIEW_SHOWN = 13;
+  // Dismissed via Remote Action
+  EVENT_REMOTE_ACTION_DISMISS_IN_UI = 14;
+  // Notification removed from UI
+  EVENT_REMOVED_IN_UI = 15;
+}
+
+// Notification Source
+enum NotificationSource {
+  SOURCE_UNSPECIFIED = 0;
+  SOURCE_PHONE = 1;
+  SOURCE_WATCH = 2;
+}
+
+// The alerting effect of the notification
+enum NotificationAlertEffect {
+  EFFECT_UNSPECIFIED = 0;
+  // No alerting effect.
+  EFFECT_NONE = 1;
+  // Alerting effect is HAPTICS.
+  EFFECT_HAPTICS = 2;
+  // Alerting effect is SOUND.
+  EFFECT_SOUND = 3;
+  // Alerting effect is HAPTICS together with SOUND.
+  EFFECT_HAPTICS_AND_SOUND = 4;
+}
+
+// Style of the notification
+enum NotificationStyle {
+  STYLE_UNSPECIFIED = 0;
+  // The notification has not specific any style.
+  STYLE_DEFAULT = 1;
+  // The notification is InboxStyle.
+  STYLE_INBOX = 2;
+  // The notification is BigTextStyle.
+  STYLE_BIG_TEXT = 3;
+  // The notification is BigPictureStyle.
+  STYLE_BIG_PICTURE = 4;
+  // The notification is MessagingStyle.
+  STYLE_MESSAGING = 5;
+  // The notification is MediaStyle.
+  STYLE_MEDIA = 6;
+  // The notification is ProgressStyle.
+  STYLE_PROGRESS = 7;
+}
