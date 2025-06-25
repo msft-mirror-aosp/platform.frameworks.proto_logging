@@ -67,6 +67,7 @@ enum ProfilingStoppedReason {
     APP_REQUESTED = 1;
     APP_DIED = 2;
     TIMED_OUT = 3;
+    ERROR = 4;
 }
 
 enum TriggerStatus {
@@ -78,6 +79,7 @@ enum TriggerStatus {
     TRIGGER_STATUS_NOT_REGISTERED = 5;
     TRIGGER_STATUS_NOT_RUNNING = 6;
     TRIGGER_STATUS_FULFILLED = 7;
+    TRIGGER_STATUS_MISSING_NAME = 8;
 }
 
 enum BackgroundTraceState {
