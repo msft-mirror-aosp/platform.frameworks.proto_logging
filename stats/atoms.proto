@@ -1462,6 +1462,8 @@ message Atom {
     extensions 1129; // PackageChangedBroadcastReported package_changed_broadcast_reported
     extensions 1130; // PhotopickerSearchBarDisplayed photopicker_search_bar_displayed
     extensions 1131; // CoreNetworkingCriticalCountsEventOccurred core_networking_critical_counts_event_occurred
+    extensions 1132; // WearNotificationEventReported wear_notification_event_reported
+    extensions 1133; // WearNotificationMetadataReported wear_notification_metadata_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
