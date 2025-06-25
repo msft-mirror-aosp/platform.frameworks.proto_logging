@@ -55,6 +55,9 @@ message CertificateTransparencyVerificationReported {
   optional int32 num_cert_scts = 6;
   optional int32 num_ocsp_scts = 7;
   optional int32 num_tls_scts = 8;
+
+  // The UID of the process doing the verification.
+  optional int32 uid = 9 [(is_uid) = true];
 }
 
 /**
