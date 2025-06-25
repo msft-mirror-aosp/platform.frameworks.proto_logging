@@ -350,6 +350,8 @@ message WifiAwareCapabilities {
     optional int32 ndp_number = 6;
     // Max number of the discovery session
     optional int32 discovery_session_number = 7;
+    // If periodic ranging supported
+    optional android.net.wifi.TriState is_periodic_ranging_supported = 8;
 }
 
 // Logged when the Wifi Aware resources is used by Apps
