@@ -144,3 +144,15 @@ enum CriticalCountsEventType {
   // Counts the number of requests when a local network is satisfied by requests in a rematch.
   CRITICAL_COUNTS_EVENT_TYPE_SATISFIED_BY_LOCAL_NETWORK = 1;
 }
+
+// Type of NetworkRequest. See android.net.NetworkRequest.
+enum NetworkRequestType {
+    NETWORK_REQUEST_TYPE_UNSPECIFIED = 0;
+    NETWORK_REQUEST_TYPE_LISTEN = 1;
+    NETWORK_REQUEST_TYPE_TRACK_DEFAULT = 2;
+    NETWORK_REQUEST_TYPE_REQUEST = 3;
+    NETWORK_REQUEST_TYPE_BACKGROUND_REQUEST = 4;
+    NETWORK_REQUEST_TYPE_TRACK_SYSTEM_DEFAULT =5;
+    NETWORK_REQUEST_TYPE_LISTEN_FOR_BEST = 6;
+    NETWORK_REQUEST_TYPE_RESERVATION = 7;
+}

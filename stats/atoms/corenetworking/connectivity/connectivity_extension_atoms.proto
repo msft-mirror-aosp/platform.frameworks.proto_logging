@@ -30,6 +30,7 @@ extend Atom {
     optional NetworkRequestStateChanged network_request_state_changed = 779 [(module) = "connectivity"];
     optional TetheringActiveSessionsReported tethering_active_sessions_reported = 925 [(module) = "connectivity"];
     optional ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported = 1138 [(module) = "connectivity"];
+    optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests = 10247 [(module) = "connectivity"];
 }
 
 /**
@@ -172,4 +173,22 @@ message ConnectivityPermissionChangeListenerLatencyReported {
     count: 10
     strategy: EXPONENTIAL
   }];
+}
+
+/**
+ * Logs the request count to observe the number of NetworkRequest which are
+ * potentially impacted by Non-Thread local network agent.
+ *
+ * Logs from: packages/modules/Connectivity/service/src/com/android/
+ *            server/ConnectivityService.java
+ */
+message SatisfiedByLocalNetworkRequests {
+    // Uid of the app that sent the request
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Request type.
+    optional android.corenetworking.connectivity.NetworkRequestType type = 2;
+
+    // Request count.
+    optional int32 count = 3;
 }
