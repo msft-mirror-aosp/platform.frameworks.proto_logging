@@ -84,6 +84,7 @@ extend Atom {
     optional SqliteAppOpEventReported sqlite_app_op_event_reported = 1098 [(module) = "framework"];
     optional PermissionOneTimeSessionEventReported permission_one_time_session_event_reported = 1100 [(module) = "framework"];
     optional AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported = 1103 [(module) = "framework"];
+    optional DisplayCompatRestartMenuEventReported display_compat_restart_menu_event_reported = 1134 [(module) = "framework"];
 }
 
 /**
@@ -1605,4 +1606,19 @@ message AggregatedAppOpAccessEventReported {
     optional int64 background_rejected_count = 7;
     optional int64 foreground_duration_millis = 8;
     optional int64 background_duration_millis = 9;
+}
+
+/**
+ * Logs events reported for the Display Compat restart menu of an app.
+ *
+ * Logged from:
+ *   frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/compatui/CompatUIController.java
+ *   frameworks/base/services/core/java/com/android/server/wm/AppCompatDisplayCompatModePolicy.java
+ */
+message DisplayCompatRestartMenuEventReported {
+  // UID of the package that has the button.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // The event that was reported.
+  optional android.framework.compat.RestartMenuEvent event = 2;
 }

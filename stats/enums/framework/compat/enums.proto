@@ -38,3 +38,9 @@ enum CameraState {
   CAMERA_OPENED = 1;
   CAMERA_CLOSED = 2;
 }
+
+enum RestartMenuEvent {
+  UNKNOWN = 0;
+  APPEARED = 1;
+  CLICKED = 2;
+}
