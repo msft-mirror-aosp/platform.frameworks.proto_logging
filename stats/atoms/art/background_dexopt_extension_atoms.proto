@@ -204,4 +204,18 @@ message PreRebootDexoptJobEnded {
         JOB_TYPE_MAINLINE = 2;
     }
     optional JobType job_type = 12;
+
+    // The reason for the failure. Only applicable when `status` is `STATUS_FAILED`.
+    enum FailureReason {
+        // A catch-all value for all uncategorized failures.
+        FAILURE_UNSPECIFIED = 0;
+        // update_engine error.
+        FAILURE_UPDATE_ENGINE = 1;
+        // Failed to set up chroot.
+        FAILURE_CHROOT_SETUP = 2;
+        // Failed to create a class loader for the new service-art.jar.
+        FAILURE_CLASS_LOADER = 3;
+    }
+
+    optional FailureReason failure_reason = 13;
 }

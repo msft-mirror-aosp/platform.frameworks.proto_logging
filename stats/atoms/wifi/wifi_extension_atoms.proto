@@ -350,6 +350,8 @@ message WifiAwareCapabilities {
     optional int32 ndp_number = 6;
     // Max number of the discovery session
     optional int32 discovery_session_number = 7;
+    // If periodic ranging supported
+    optional android.net.wifi.TriState is_periodic_ranging_supported = 8;
 }
 
 // Logged when the Wifi Aware resources is used by Apps
@@ -631,6 +633,12 @@ message WifiApCapabilitiesReported {
     optional bool is_ecps_priority_access_supported = 26;
     // AP channel width for the connection
     optional android.net.wifi.WifiChannelWidth channel_width_mhz = 27;
+    // Whether AP supports Pre-association security negotiation (PASN)
+    optional android.net.wifi.TriState is_pasn_supported = 28;
+    // Whether AP supports HE LTF (High Efficiency - Long Training Field)
+    optional android.net.wifi.TriState is_secure_he_ltf_supported = 29;
+    // Whether AP requires ranging frame protection
+    optional android.net.wifi.TriState is_ranging_frame_protection_required = 30;
 }
 
 /*

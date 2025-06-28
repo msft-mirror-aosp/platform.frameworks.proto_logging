@@ -395,3 +395,9 @@ enum WifiChannelWidth {
   CHANNEL_WIDTH_80MHZ_PLUS_MHZ = 5;
   CHANNEL_WIDTH_320MHZ = 6;
 }
+
+enum TriState {
+  TRI_STATE_UNKNOWN = 0;
+  TRI_STATE_TRUE = 1;
+  TRI_STATE_FALSE = 2;
+}
