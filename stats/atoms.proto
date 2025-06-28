@@ -1465,6 +1465,7 @@ message Atom {
     extensions 1132; // WearNotificationEventReported wear_notification_event_reported
     extensions 1133; // WearNotificationMetadataReported wear_notification_metadata_reported
     extensions 1134; // DisplayCompatRestartMenuEventReported display_compat_restart_menu_event_reported
+    extensions 1135; // PackageManagerCacheInvalidationReported package_manager_cache_invalidation_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
