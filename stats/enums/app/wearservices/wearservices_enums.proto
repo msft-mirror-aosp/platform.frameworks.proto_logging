@@ -700,7 +700,7 @@ enum CallSource {
 }
 
 // This enum depicts the initial user interaction with the call
-// Next ID: 4
+// Next ID: 5
 enum CallResult {
   // Depicts an unknown interaction
   CALL_RESULT_UNKNOWN = 0;
@@ -713,6 +713,9 @@ enum CallResult {
 
   // Depicts that the call was rejected using the watch
   CALL_RESULT_REJECTED_ON_WATCH = 3;
+
+  // Depicts that the call was dialed using the watch
+  CALL_RESULT_DIALED_ON_WATCH = 4;
 }
 
 // This enum depicts a user interaction during the call
@@ -733,7 +736,7 @@ enum CallInteraction {
 
 // This enum depicts the different stages of call where latency should be
 // measured.
-// Next ID: 5
+// Next ID: 6
 enum LatencyAction {
   // Depicts an unknown latency measurement
   LATENCY_ACTION_UNKNOWN = 0;
@@ -749,6 +752,9 @@ enum LatencyAction {
 
   // Depicts the latency for changing the audio output for the call
   LATENCY_ACTION_AUDIO_OUTPUT_SWITCH = 4;
+
+  // Depicts the latency to dial a call
+  LATENCY_ACTION_DIAL = 5;
 }
 
 // This enum depicts all the reasons that can cause a call to be disconnected.
