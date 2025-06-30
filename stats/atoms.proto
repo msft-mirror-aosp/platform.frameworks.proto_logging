@@ -20891,6 +20891,7 @@ message AlarmScheduled {
     optional bool is_rtc = 8;
     // The state of the callingUid, from frameworks/proto_logging/stats/enums/app_shared/app_enums.proto.
     optional android.app.ProcessStateEnum calling_process_state = 9;
+    optional bool is_listener = 10;
 }
 
 /**
