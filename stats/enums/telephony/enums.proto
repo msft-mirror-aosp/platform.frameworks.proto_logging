@@ -699,3 +699,24 @@ enum CallState {
     CALL_STATE_DISCONNECTING = 9;
     CALL_STATE_INCOMING_SETUP = 10;
 }
+
+/**
+ * enum for the type of redaction algorithm used in determining if an SMS has an OTP (One Time
+ * Password)
+ */
+enum SmsOtpRedactionAlgorithm {
+    REDACTION_ALGORITHM_UNSPECIFIED = 0;
+    REDACTION_ALGORITHM_SMS_RETRIEVER = 1;
+    REDACTION_ALGORITHM_ENGLISH_REGEX = 2;
+    REDACTION_ALGORITHM_ML_MODEL = 3;
+    REDACTION_ALGORITHM_OTHER = 4;
+}
+
+/**
+ * enum for the location where an SMS with an OTP is redacted
+ */
+enum SmsOtpRedactionLocation {
+    REDACTION_LOCATION_UNSPECIFIED = 0;
+    REDACTION_LOCATION_SMS_BROADCAST = 1;
+    REDACTION_LOCATION_SMS_QUERY = 2;
+}
