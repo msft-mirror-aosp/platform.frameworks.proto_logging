@@ -29,6 +29,8 @@ extend Atom {
     optional DailykeepaliveInfoReported daily_keepalive_info_reported = 650 [(module) = "connectivity"];
     optional NetworkRequestStateChanged network_request_state_changed = 779 [(module) = "connectivity"];
     optional TetheringActiveSessionsReported tethering_active_sessions_reported = 925 [(module) = "connectivity"];
+    optional ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported = 1138 [(module) = "connectivity"];
+    optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests = 10247 [(module) = "connectivity"];
 }
 
 /**
@@ -154,4 +156,39 @@ message NetworkRequestStateChanged {
 message TetheringActiveSessionsReported {
     // The maximum number of sessions last 5 minute.
     optional int32 last_max_session_count = 1;
+}
+
+/**
+ * Logs the latency of the PermissionChangeListener#onPermissionsChanged callback.
+ *
+ * Logged from: packages/modules/Connectivity/service/src/com/android/
+ * server/connectivity/PermissionMonitor.java
+ * Estimated Logging Rate: On permission change, infrequent.
+ */
+message ConnectivityPermissionChangeListenerLatencyReported {
+  // Latency of the onPermissionsChanged call, in microseconds.
+  repeated int32 latency_micros = 1 [(histogram_bin_option).generated_bins = {
+    min: 1
+    max: 10000 // 10ms
+    count: 10
+    strategy: EXPONENTIAL
+  }];
+}
+
+/**
+ * Logs the request count to observe the number of NetworkRequest which are
+ * potentially impacted by Non-Thread local network agent.
+ *
+ * Logs from: packages/modules/Connectivity/service/src/com/android/
+ *            server/ConnectivityService.java
+ */
+message SatisfiedByLocalNetworkRequests {
+    // Uid of the app that sent the request
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Request type.
+    optional android.corenetworking.connectivity.NetworkRequestType type = 2;
+
+    // Request count.
+    optional int32 count = 3;
 }
