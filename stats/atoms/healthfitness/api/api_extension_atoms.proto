@@ -63,6 +63,8 @@ extend Atom {
   optional HealthConnectMetadataRestoreInvoked health_connect_metadata_restore_invoked = 1026 [(module) = "healthfitness"];
 
   optional HealthConnectRestoreEligibilityChecked health_connect_restore_eligibility_checked = 1027 [(module) = "healthfitness"];
+
+  optional HealthConnectLatencyStats health_connect_latency_stats = 1140 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -437,5 +439,21 @@ message HealthConnectRestrictedEcosystemStats {
 
   // Enum telling which metric is being represented by the atom.
   optional android.healthfitness.api.MetricType metric_type = 4;
+
+}
+
+/**
+ * Latency stats for session data types per package
+ */
+message HealthConnectLatencyStats {
+
+  // Package name writing data.
+  optional string package_name = 1;
+
+  // Data type being written.
+  optional android.healthfitness.api.SessionDataType session_data_type = 2;
+
+  // Latency between activity insert and activity end time
+  optional int64 latency = 3;
 
 }
