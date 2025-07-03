@@ -30,7 +30,7 @@ enum TransferResult {
   TRANSFER_RESULT_FAILURE = 2;
   // Transfer started but not all files successfully transferred.
   // Look into individual files' errors.
-  TTRANSFER_RESULT_PARTIAL_SUCCESS = 3;
+  TRANSFER_RESULT_PARTIAL_SUCCESS = 3;
 }
 
 // Types of the operation chosen with the dialog
