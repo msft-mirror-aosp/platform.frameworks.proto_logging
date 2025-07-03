@@ -36,3 +36,11 @@ enum DialogueType {
     DIALOGUE_TYPE_BLOCKED_INTERACTION = 1;
     DIALOGUE_TYPE_DISABLED_SETTING = 2;
 }
+
+enum UsbNotificationType {
+    NOTIF_UNKNOWN = 0;
+    NOTIF_CHARGE = 1;
+    NOTIF_DATA = 2;
+    NOTIF_CHARGE_DATA = 3;
+    NOTIF_SILENCE = 4;
+}

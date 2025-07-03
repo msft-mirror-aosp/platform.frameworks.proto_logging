@@ -40,7 +40,7 @@ enum CameraState {
 }
 
 enum RestartMenuEvent {
-  UNKNOWN = 0;
-  APPEARED = 1;
-  CLICKED = 2;
+  RESTART_MENU_EVENT_UNKNOWN = 0;
+  RESTART_MENU_EVENT_APPEARED = 1;
+  RESTART_MENU_EVENT_CLICKED = 2;
 }

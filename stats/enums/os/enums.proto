@@ -240,6 +240,10 @@ enum WakeLockLevelEnum {
     // Allow system service could override the current screen timeout
     // according to the polcy.
     SCREEN_TIMEOUT_OVERRIDE_WAKE_LOCK = 256;
+
+    // Keep the device screens asleep - for the user, but ensure the CPU
+    // remains awake.
+    PARTIAL_SLEEP_WAKE_LOCK = 512;
 }
 
 // They are primarily used by android/os/BatteryManager.java.

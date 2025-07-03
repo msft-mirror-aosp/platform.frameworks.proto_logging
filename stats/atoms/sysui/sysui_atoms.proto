@@ -700,6 +700,8 @@ message MediaOutputOpInteractionReported {
         STOP_CASTING = 2;
         MUTE = 3;
         UNMUTE = 4;
+        STOP_SHARING = 5;
+        CONTRACTION = 6;
     }
 
     // Type of interaction.
