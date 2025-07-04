@@ -51,3 +51,34 @@ enum EventType {
   EVENT_TYPE_SCANNING_STARTED = 7;
   EVENT_TYPE_SCANNING_STOPPED = 8;
 }
+
+/**
+ * The entry points of media routing sessions.
+ */
+enum EntryPoint {
+  // Unspecified default value.
+  ENTRY_POINT_UNSPECIFIED = 0;
+  // Denotes the entry point of a session started from the system output switcher.
+  ENTRY_POINT_SYSTEM_OUTPUT_SWITCHER = 1;
+  // Denotes the entry point of a session started from the Unified Media Object notification card.
+  ENTRY_POINT_SYSTEM_UMO = 2;
+  // Denotes the entry point of a session started from an app managing its media routing.
+  ENTRY_POINT_LOCAL_ROUTER = 3;
+  // Denoted the entry point of a session started from an app managing the media routing of another app.
+  ENTRY_POINT_PROXY_ROUTER = 4;
+}
+
+/**
+ * The transfer reason for a media session to transfer from one route to another.
+ */
+enum TransferReason {
+ // Unspecified default value.
+ TRANSFER_REASON_UNSPECIFIED = 0;
+ // Indicated that the transfer happened by the default logic without the system's or user's request.
+ // For example, an automatically connected BT device will have this as the transfer reason.
+ TRANSFER_REASON_FALLBACK = 1;
+ // Indicates that the transfer happened from within a privileged application.
+ TRANSFER_REASON_SYSTEM_REQUEST = 2;
+ // Indicates that the transfer happened from a non-privileged app.
+ TRANSFER_REASON_APP = 3;
+}
