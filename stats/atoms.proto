@@ -1472,6 +1472,7 @@ message Atom {
     extensions 1139; // WearNetworkStateChanged wear_network_state_changed
     extensions 1140; // HealthConnectLatencyStats health_connect_latency_stats
     extensions 1141; // AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed
+    extensions 1142; // MediaRoutingSessionTransferReported media_routing_session_transfer_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -24193,6 +24194,9 @@ message DisplayBrightnessChanged {
 
     // Whether low power mode is enabled.
     optional bool low_power_mode_enabled= 25;
+
+    // A categorized ambient light value, designed for scenarios needing discrete light levels (e.g., display adjustments).
+    optional android.display.LuxBucketEnum lux_bucket = 26;
 }
 
 // Logs daily ambient brightness stats.
