@@ -42,3 +42,26 @@ message MediaRouterEventReported {
   optional android.media.router.EventType event_type = 1;
   optional android.media.router.Result result = 2;
 }
+
+/**
+ * Pushed atom. Logs an event for a media routing session when it is being transferred.
+ *
+ * Logged from:
+ *   frameworks/base/media/java/android/media/
+ * Estimated Logging Rate:
+ *   Avg: 10 per device per day
+ */
+message MediaRoutingSessionTransferReported {
+  // Point where the routing session originated from (Output switcher, Unified Media Object notification card, etc.)
+  optional android.media.router.EntryPoint entry_point = 1;
+  // Client app package uid for which the media is being routed.
+  optional int32 client_package_uid = 2 [(is_uid) = true];
+  // Whether the session routes media to system routes (BUILT_IN_SPEAKERS, BT Devices, etc.)
+  optional bool is_system_session = 3;
+  // The reason for the session being transferred.
+  optional android.media.router.TransferReason transfer_reason = 4;
+  // Whether the device where media is being routed was an intelligent device suggestion.
+  optional bool is_suggested_device = 5;
+  // Length of the media routing session in millis.
+  optional int32 session_length_millis = 6;
+}
