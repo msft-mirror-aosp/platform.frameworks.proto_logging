@@ -24194,6 +24194,9 @@ message DisplayBrightnessChanged {
 
     // Whether low power mode is enabled.
     optional bool low_power_mode_enabled= 25;
+
+    // A categorized ambient light value, designed for scenarios needing discrete light levels (e.g., display adjustments).
+    optional android.display.LuxBucketEnum lux_bucket = 26;
 }
 
 // Logs daily ambient brightness stats.

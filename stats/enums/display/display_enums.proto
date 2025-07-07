@@ -95,3 +95,27 @@ enum DisplayModeDirectorVoteStatus {
     STATUS_ACTIVE = 2;
     STATUS_REMOVED = 3;
 }
+
+// Define ranges among 14 ambient lux buckets (left inclusive, right exclusive).
+// Designed for scenarios needing discrete light levels (e.g., display adjustments).
+// [ 0, 0.1, 0.3, 1, 3, 10, 30, 100, 300, 1000,
+// 3000, 10000, 30000, 100000, inf ]
+enum LuxBucketEnum {
+    // The ambient lux is unknown.
+    LUX_RANGE_UNKNOWN = 0;
+    // The ambient lux buckets from low to high.
+    LUX_RANGE_0_01 = 1;
+    LUX_RANGE_01_03 = 2;
+    LUX_RANGE_03_1 = 3;
+    LUX_RANGE_1_3 = 4;
+    LUX_RANGE_3_10 = 5;
+    LUX_RANGE_10_30 = 6;
+    LUX_RANGE_30_100 = 7;
+    LUX_RANGE_100_300 = 8;
+    LUX_RANGE_300_1000 = 9;
+    LUX_RANGE_1000_3000 = 10;
+    LUX_RANGE_3000_10000 = 11;
+    LUX_RANGE_10000_30000 = 12;
+    LUX_RANGE_30000_100000 = 13;
+    LUX_RANGE_100000_INF = 14;
+}
