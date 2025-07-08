@@ -4,7 +4,7 @@ package android.os.statsd.conscrypt;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/enums/conscrypt/ct/enums.proto";
+import "frameworks/proto_logging/stats/enums/conscrypt/enums.proto";
 
 option java_package = "com.android.os.conscrypt";
 
@@ -12,6 +12,7 @@ extend Atom {
     optional CertificateTransparencyLogListStateChanged certificate_transparency_log_list_state_changed = 934 [(module) = "conscrypt"];
     optional ConscryptServiceUsed conscrypt_service_used = 965 [(module) = "conscrypt"];
     optional CertificateTransparencyVerificationReported certificate_transparency_verification_reported = 989 [(module) = "conscrypt"];
+    optional CertificateBlocklistBlockReported certificate_blocklist_block_reported = 1143 [(module) = "conscrypt"];
 }
 
 /*
@@ -108,9 +109,24 @@ enum Padding {
   PKCS5 = 7;
   ISO10126 = 8;
 }
+
 message ConscryptServiceUsed {
   optional Algorithm algorithm = 1;
   optional Cipher cipher = 2;
   optional Mode mode = 3;
   optional Padding padding = 4;
+}
+
+/*
+ * Pushed atom on a report that the blocklist was hit.
+ */
+message CertificateBlocklistBlockReported {
+    // From where does this blocklist entry come from? Is that builtin Conscrypt or loaded at runtime?
+    optional BlocklistSource source = 1;
+
+    // The index that was hit (entry from the blocklist).
+    optional int32 index = 2;
+
+    // App UID that hit the blocklist.
+    optional int32 uid = 3 [(is_uid) = true];
 }

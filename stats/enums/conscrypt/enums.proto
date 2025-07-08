@@ -38,3 +38,9 @@ enum VerificationReason {
     REASON_NSCONFIG_DOMAIN_OPT_IN = 4;
     REASON_DRY_RUN = 5;
 }
+
+enum BlocklistSource {
+    BLOCKLIST_SOURCE_UNKNOWN = 0;
+    BLOCKLIST_SOURCE_BUILT_IN = 1;
+    BLOCKLIST_SOURCE_SHA1_FILE = 2;
+}
