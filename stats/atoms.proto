@@ -1473,6 +1473,7 @@ message Atom {
     extensions 1140; // HealthConnectLatencyStats health_connect_latency_stats
     extensions 1141; // AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed
     extensions 1142; // MediaRoutingSessionTransferReported media_routing_session_transfer_reported
+    extensions 1143; // CertificateBlocklistBlockReported certificate_blocklist_block_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -17281,6 +17282,8 @@ message SharesheetStarted {
     optional int32 num_provided_custom_actions = 10;
     // True if the calling app has provided an action for share modification.
     optional bool modify_share_action_provided = 11;
+    // True if the Chooser was launched in the interactive mode.
+    optional bool is_interactive_mode = 12;
 }
 
 /**
