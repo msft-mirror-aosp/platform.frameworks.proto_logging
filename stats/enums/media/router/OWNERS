@@ -1,5 +1,5 @@
-corakwue@google.com
+# Bug component: 137631
+include platform/frameworks/av:/media/janitors/better_together_OWNERS
+
 justinmcclain@google.com
 tkourim@google.com
-asapperstein@google.com
-aquilescanta@google.com
