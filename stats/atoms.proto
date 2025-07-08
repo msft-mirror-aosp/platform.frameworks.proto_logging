@@ -17282,6 +17282,8 @@ message SharesheetStarted {
     optional int32 num_provided_custom_actions = 10;
     // True if the calling app has provided an action for share modification.
     optional bool modify_share_action_provided = 11;
+    // True if the Chooser was launched in the interactive mode.
+    optional bool is_interactive_mode = 12;
 }
 
 /**
