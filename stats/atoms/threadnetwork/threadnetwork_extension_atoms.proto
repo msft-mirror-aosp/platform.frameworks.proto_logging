@@ -455,26 +455,38 @@ message ThreadnetworkTelemetryDataReported {
     optional uint32 mgmt_pending_get_reqs = 16;
   }
 
+
   enum EpskcDeactivatedReason {
-      EPSKC_DEACTIVATED_REASON_UNKNOWN = 0;         ///< Deactivated for an unknown reason.
-      EPSKC_DEACTIVATED_REASON_LOCAL_CLOSE = 1;     ///< Deactivated by a call to the API.
-      EPSKC_DEACTIVATED_REASON_REMOTE_CLOSE = 2;    ///< Disconnected by the peer.
-      EPSKC_DEACTIVATED_REASON_SESSION_ERROR = 3;   ///< Disconnected due to some error.
-      EPSKC_DEACTIVATED_REASON_SESSION_TIMEOUT = 4; ///< Disconnected due to timeout.
-      EPSKC_DEACTIVATED_REASON_MAX_ATTEMPTS = 5;    ///< Max allowed attempts reached.
-      EPSKC_DEACTIVATED_REASON_EPSKC_TIMEOUT = 6;   ///< The ePSKc mode timed out.
+    EPSKC_DEACTIVATED_REASON_UNKNOWN = 0;
+    EPSKC_DEACTIVATED_REASON_LOCAL_CLOSE =
+        1;  ///< Deactivated by a call to the API.
+    EPSKC_DEACTIVATED_REASON_REMOTE_CLOSE = 2;  ///< Disconnected by the peer.
+    EPSKC_DEACTIVATED_REASON_SESSION_ERROR =
+        3;  ///< Disconnected due to some error.
+    EPSKC_DEACTIVATED_REASON_SESSION_TIMEOUT =
+        4;  ///< Disconnected due to timeout.
+    EPSKC_DEACTIVATED_REASON_MAX_ATTEMPTS =
+        5;  ///< Max allowed attempts reached.
+    EPSKC_DEACTIVATED_REASON_EPSKC_TIMEOUT = 6;  ///< The ePSKc mode timed out.
   }
 
   message BorderAgentEpskcJourneyInfo {
-      // The timestamp of different events during the ePSKc journey.
-      optional uint32 activated_msec = 1;
-      optional uint32 connected_msec = 2;
-      optional uint32 petitioned_msec = 3;
-      optional uint32 retrieved_active_dataset_msec = 4;
-      optional uint32 retrieved_pending_dataset_msec = 5;
-      optional uint32 keep_alive_msec = 6;
-      optional uint32 deactivated_msec = 7;
-      optional EpskcDeactivatedReason deactivated_reason = 8;
+    // The timestamps for the ePSKc journey events are relative to the Thread
+    // stack's last uptime on the device. The duration of various phases, such
+    // as the period between activation and deactivation, will be determined
+    // using these timestamps.
+
+    // Thread devices consistently upload these timestamps as uint32. If a
+    // rounding error occurs where the deactivation time precedes the activation
+    // time, the duration will be calculated by adding a uint32 value.
+    optional uint32 activated_msec = 1;
+    optional uint32 connected_msec = 2;
+    optional uint32 petitioned_msec = 3;
+    optional uint32 retrieved_active_dataset_msec = 4;
+    optional uint32 retrieved_pending_dataset_msec = 5;
+    optional uint32 keep_alive_msec = 6;
+    optional uint32 deactivated_msec = 7;
+    optional EpskcDeactivatedReason deactivated_reason = 8;
   }
 
   message BorderAgentInfo {
