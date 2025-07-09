@@ -56,6 +56,7 @@ extend Atom {
         = 1010 [(module) = "wifi"];
     optional WifiNetworkValidationReport wifi_network_validation_report = 1057 [(module) = "wifi"];
     optional WifiPeriodicScanReport wifi_periodic_scan_report = 1128 [(module) = "wifi"];
+    optional WifiQosPoliciesFromAccessPointRequested wifi_qos_policies_from_access_point_requested = 1148 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -930,4 +931,32 @@ message WifiPeriodicScanReport {
 
     // the time interval between two periodic scan
     optional int32 scan_interval_ms = 4;
+}
+
+/**
+ * Logged when a request to add QoS policies is received from an Access Point.
+ *
+ * Logged From: QosPolicyRequestHandler
+ * Estimated Logging Rate:
+ *  Peak: 200 times per device per day.
+ *  Avg: 25 times per device per day.
+ */
+message WifiQosPoliciesFromAccessPointRequested {
+    // Number of QoS policies requested in this batch
+    optional int32 num_policies = 1;
+
+    // Whether any policies in the batch use the Source IP classifier
+    optional bool uses_classifier_source_ip = 2;
+
+    // Whether any policies in the batch use the Destination IP classifier
+    optional bool uses_classifier_destination_ip = 3;
+
+    // Whether any policies in the batch use the Destination Port Range classifier
+    optional bool uses_classifier_destination_port_range = 4;
+
+    // Whether any policies in the batch use the Source Port classifier
+    optional bool uses_classifier_source_port = 5;
+
+    // Whether any policies in the batch use the IP Protocol classifier
+    optional bool uses_classifier_ip_protocol = 6;
 }
