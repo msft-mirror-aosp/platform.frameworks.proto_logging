@@ -424,6 +424,10 @@ enum ElementId {
     // Request write medical permission screen
     ALLOW_WRITE_HEALTH_RECORDS_BUTTON = 286;
     CANCEL_WRITE_HEALTH_RECORDS_BUTTON = 287;
+    // Pretty Fhir Screen
+    PRETTY_FHIR_VIEW_SOURCE_DATA_BUTTON = 318;
+    PRETTY_FHIR_HEADER_CONTAINER = 319;
+    PRETTY_FHIR_GROUP_CONTAINER = 320;
     // End of PHR
 
     // Start of Connect Apps Onboarding
@@ -461,7 +465,7 @@ enum ElementId {
 
     // End of Connect Apps Onboarding
 
-    // Next available: 318;
+    // Next available: 321;
 }
 
 enum PageId {
@@ -530,6 +534,7 @@ enum PageId {
     SETTINGS_MANAGE_COMBINED_APP_PERMISSIONS_PAGE = 53;
     SETTINGS_MANAGE_MEDICAL_APP_PERMISSIONS_PAGE = 54;
     REQUEST_WRITE_MEDICAL_PERMISSION_PAGE = 55;
+    PRETTY_FHIR_PAGE = 60;
 
     // Connect Apps Onboarding
     CONNECT_TWO_APPS_ONBOARDING_PAGE = 56;
@@ -537,7 +542,7 @@ enum PageId {
     ALMOST_DONE_PAGE = 58;
     FITNESS_APP_ONBOARDING_PAGE = 59;
 
-    // Next available: 60;
+    // Next available: 61;
 }
 
 enum Action {
