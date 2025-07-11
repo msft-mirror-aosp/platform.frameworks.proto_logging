@@ -242,11 +242,7 @@ message PackageInstallerSessionReported {
     // --- ADI result section ---
 
     // Reason by ADI was bypassed.
-    enum DeveloperVerificationBypassedReason {
-        BYPASSED_REASON_UNSPECIFIED = 0;
-        BYPASSED_REASON_ADB = 1;
-    }
-    optional DeveloperVerificationBypassedReason adi_bypassed_reason = 36;
+    optional int32 adi_bypassed_reason = 36;
     // Whether a timeout extension has been requested by the verifier.
     optional bool adi_timeout_extension_requested = 37;
     // Whether the verification session has extension params.
