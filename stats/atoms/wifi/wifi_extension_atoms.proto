@@ -59,6 +59,7 @@ extend Atom {
     optional WifiQosPoliciesFromAccessPointRequested wifi_qos_policies_from_access_point_requested = 1148 [(module) = "wifi"];
     optional WifiQosPoliciesFromApplicationRequested wifi_qos_policies_from_application_requested = 1158 [(module) = "wifi"];
     optional SoftApInfoChanged soft_ap_info_changed = 1166 [(module) = "wifi"];
+    optional WifiPowerStatsReported wifi_power_stats_reported = 1194 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -1121,3 +1122,86 @@ message SoftApInfoChanged {
     // Wi-Fi standard of the connection
     optional android.net.wifi.WifiStandard standard = 4;
 }
+
+/* Logs when:
+* 1. Battery decreased by 1% - In betterystats
+* 2. Connection state changes for STA, P2P (GC)
+* 3. Interface enable/disabled for SoftAP, P2P (GO), NAN
+*
+* Estimated Logging Rate:
+*  Peak: 300 times per device per day.
+*  Avg: 100 times per device per day.
+*
+* Logged from:
+*      service/java/com/android/server/wifi/ClientModeImpl.java
+*/
+message WifiPowerStatsReported {
+    // Members ref to go/wifi-chip-power-stats
+
+    // Main core, Aux core …etc
+    optional int32 core_index = 1;
+
+    // duration of the radio is on (unit: ms)
+    optional int32 radio_on_time_ms = 2;
+
+    // duration of the radio is in transmit state (unit: ms), all packets including mgnt/data/action frame.
+    optional int32 tx_time_ms = 3;
+
+    // duration of the radio is in receiving data state (unit: ms)
+    optional int32 rx_time_ms = 4;
+
+    // Rx packets for my BSS data. (unit: ms)
+    optional int32 mybss_ucastrx_time_ms = 5;
+
+    // The number of receiving idle/listening levels which is basically defined by band and bandwidth combinations of the chip capability
+    optional int32 rx_listening_levels_num = 6;
+
+    // An array of duration of the radio in the receiving idle/listening state
+    repeated int32 rx_listening_time_per_levels = 7;
+
+    // Tx index representing a specific data rate
+    repeated int32 tx_rate_index = 8;
+
+    // Tx operating band
+    repeated int32 tx_band = 9;
+
+    // Tx bandwidth
+    repeated int32 tx_bw = 10;
+
+    // Tx number of spatial streams
+    repeated int32 tx_nss = 11;
+
+    // Tx number of times a transmit/reception occurred with this rate combination
+    repeated int32 tx_count = 12;
+
+     // Rx index representing a specific data rate
+    repeated int32 rx_rate_index = 13;
+
+    // Rx operating band
+    repeated int32 rx_band = 14;
+
+    // Rx bandwidth
+    repeated int32 rx_bw = 15;
+
+    // Rx number of spatial streams
+    repeated int32 rx_nss = 16;
+
+    // Rx number of times a transmit/reception occurred with this rate combination
+    repeated int32 rx_count = 17;
+
+    // The total time the chip is powered on (unit: ms)
+    optional int32 wlan_pwr_on_time_ms = 18;
+
+    // The number of sleep levels.
+    optional int32 sleep_levels_num = 19;
+
+    // An array of the total time the chip is in this sleep level (unit: milliseconds). The index starts by the deepest sleep level.
+    repeated int32 sleep_time_per_levels = 20;
+
+    // Sequence number of reporting
+    optional int32 reporting_sequence = 21;
+
+    // The working wifi role(s) while reporting
+    optional int32 wifi_role = 22;
+}
+
