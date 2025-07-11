@@ -33,6 +33,8 @@ extend Atom {
 *
 * Logged from
 * frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/desktopmode/DesktopModeEventLogger.kt
+*
+* Needs to be in sync with the google3 version ../protos/enums/android/desktopmode/enums.proto.
 */
 message DesktopModeUIChanged {
   // User interactions with desktopmode
@@ -42,8 +44,8 @@ message DesktopModeUIChanged {
     EXIT = 2;
   }
 
-  // The reason for entering desktopmode
-  enum  EnterReason {
+  // The reason for entering desktopmode.
+  enum EnterReason {
     UNKNOWN_ENTER = 0;
     OVERVIEW = 1;
     APP_HANDLE_DRAG = 2;
@@ -51,11 +53,11 @@ message DesktopModeUIChanged {
     APP_FREEFORM_INTENT = 4; // This covers intent based starts from app-shortcut, taskbar, keyboard shortcuts where we don't use any custom transition
     KEYBOARD_SHORTCUT_ENTER = 5;
     SCREEN_ON = 6; // desktop mode visible after screen turned on
-    APP_FROM_OVERVIEW = 7;
+    OVERVIEW_TASK_MENU = 7;
   }
 
-  // The reason for exiting desktopmode
-  enum  ExitReason {
+  // The reason for exiting desktopmode.
+  enum ExitReason {
     UNKNOWN_EXIT = 0;
     DRAG_TO_EXIT = 1;
     APP_HANDLE_MENU_BUTTON_EXIT = 2;
@@ -81,9 +83,11 @@ message DesktopModeUIChanged {
 *
 * Logged from
 * frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/desktopmode/DesktopModeEventLogger.kt
+*
+* Needs to be in sync with the google3 version ../protos/enums/android/desktopmode/enums.proto.
 */
 message DesktopModeSessionTaskUpdate {
-  // The kind of the app event
+  // The kind of the app event.
   enum TaskEvent {
     UNKNOWN_TASK_EVENT = 0;
     TASK_ADDED = 1;
@@ -158,6 +162,8 @@ message DesktopModeSessionTaskUpdate {
 *
 * Logged from
 * frameworks/base/libs/WindowManager/Shell/src/com/android/wm/shell/desktopmode/DesktopModeEventLogger.kt
+*
+* * Needs to be in sync with the google3 version ../protos/enums/android/desktopmode/enums.proto.
 */
 message DesktopModeTaskSizeUpdated {
   // The trigger for task resize
