@@ -641,7 +641,7 @@ message Atom {
             [(module) = "framework"];
         AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
         AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
-        CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car"];
+        CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car", (module) = "framework"];
         UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
         AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "appsearch"];
         AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "appsearch"];
@@ -1637,8 +1637,8 @@ message Atom {
                 (truncate_timestamp) = true];
         MediaCapabilities media_capabilities = 10130 [(module) = "framework"];
         CarWatchdogSystemIoUsageSummary car_watchdog_system_io_usage_summary =
-            10131 [(module) = "car"];
-        CarWatchdogUidIoUsageSummary car_watchdog_uid_io_usage_summary = 10132 [(module) = "car"];
+            10131 [(module) = "car", (module) = "framework"];
+        CarWatchdogUidIoUsageSummary car_watchdog_uid_io_usage_summary = 10132 [(module) = "car", (module) = "framework"];
         ImsRegistrationFeatureTagStats ims_registration_feature_tag_stats =
                 10133 [(module) = "telephony"];
         RcsClientProvisioningStats rcs_client_provisioning_stats =
