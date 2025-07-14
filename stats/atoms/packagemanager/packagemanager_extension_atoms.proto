@@ -319,7 +319,7 @@ message PackageInstallerSessionReported {
     // The duration between the last onVerificationRetry is called till when a response is received from the verifier (or timeout). -1 if unapplicable.
     optional int64 adi_verification_retry_duration_millis = 53;
     // The duration between then the binding is first started and when the verifier is connected.
-    optional int64 adb_verification_connection_millis = 54;
+    optional int64 adi_verification_connection_millis = 54;
 
     // Whether the user has responded in the user confirmation dialog.
     optional bool user_response_received = 55;
