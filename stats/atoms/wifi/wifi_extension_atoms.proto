@@ -57,6 +57,7 @@ extend Atom {
     optional WifiNetworkValidationReport wifi_network_validation_report = 1057 [(module) = "wifi"];
     optional WifiPeriodicScanReport wifi_periodic_scan_report = 1128 [(module) = "wifi"];
     optional WifiQosPoliciesFromAccessPointRequested wifi_qos_policies_from_access_point_requested = 1148 [(module) = "wifi"];
+    optional WifiQosPoliciesFromApplicationRequested wifi_qos_policies_from_application_requested = 1158 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -959,4 +960,92 @@ message WifiQosPoliciesFromAccessPointRequested {
 
     // Whether any policies in the batch use the IP Protocol classifier
     optional bool uses_classifier_ip_protocol = 6;
+}
+
+/**
+ * Logged when a request to add QoS policies is received from an application.
+ *
+ * Logged From: ApplicationQosPolicyRequestHandler
+ * Estimated Logging Rate:
+ *  Peak: 200 times per device per day.
+ *  Avg: 25 times per device per day.
+ */
+message WifiQosPoliciesFromApplicationRequested {
+    /**
+     * Direction of the traffic stream
+     */
+    enum Direction {
+        UNKNOWN = 0;
+
+        // Policies match packets in the downlink direction
+        DOWNLINK = 1;
+
+        // Policies match packets in the uplink direction
+        UPLINK = 2;
+    }
+
+    // Number of QoS policies requested in this batch
+    optional int32 num_policies = 1;
+
+    // The uid of the requesting application
+    optional int32 uid = 2 [(is_uid) = true];
+
+    // Direction of the traffic stream that these policies apply to
+    optional Direction direction = 3;
+
+    /**
+     * Classifiers
+     */
+
+    // Whether any policies in the batch use the Source IP classifier
+    optional bool uses_classifier_source_ip = 4;
+
+    // Whether any policies in the batch use the Destination IP classifier
+    optional bool uses_classifier_destination_ip = 5;
+
+    // Whether any policies in the batch use the Source Port classifier
+    optional bool uses_classifier_source_port = 6;
+
+    // Whether any policies in the batch use the Destination Port classifier
+    optional bool uses_classifier_destination_port = 7;
+
+    // Whether any policies in the batch use the Destination Port Range classifier
+    optional bool uses_classifier_destination_port_range = 8;
+
+    // Whether any policies in the batch use the IP Protocol classifier
+    optional bool uses_classifier_ip_protocol = 9;
+
+    // Whether any policies in the batch use the IP Version classifier
+    optional bool uses_classifier_ip_version = 10;
+
+    // Whether any policies in the batch use the Flow Label classifier
+    optional bool uses_classifier_flow_label = 11;
+
+    // Whether any policies in the batch use the DSCP classifier
+    optional bool uses_classifier_dscp = 12;
+
+    /**
+     * QoS characteristics
+     */
+
+    // Whether any policies in the batch use QoS characteristics
+    optional bool uses_qos_characteristics = 13;
+
+    // Whether any policies in the batch use the Max MSDU Size characteristic
+    optional bool uses_characteristic_max_msdu_size = 14;
+
+    // Whether any policies in the batch use the Service Start Time Info characteristic
+    optional bool uses_characteristic_service_start_time_info = 15;
+
+    // Whether any policies in the batch use the Mean Data Rate characteristic
+    optional bool uses_characteristic_mean_data_rate = 16;
+
+    // Whether any policies in the batch use the Burst Size characteristic
+    optional bool uses_characteristic_burst_size = 17;
+
+    // Whether any policies in the batch use the MSDU Lifetime characteristic
+    optional bool uses_characteristic_msdu_lifetime = 18;
+
+    // Whether any policies in the batch use the MSDU Delivery Info characteristic
+    optional bool uses_characteristic_msdu_delivery_info = 19;
 }
