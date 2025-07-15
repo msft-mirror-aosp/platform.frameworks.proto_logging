@@ -26,6 +26,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional FsckFailedReported fsck_failed_reported = 1150 [(module) = "virtualizationservice"];
+  optional CgroupMemoryBreachReported cgroup_memory_breach_reported = 1151 [(module) = "virtualizationservice"];
 }
 
 /*
@@ -44,3 +45,20 @@ message FsckFailedReported {
   optional string vm_identifier = 3;
 }
 
+/*
+ * Reports that the cgroup monitor within microdroid had detected a high breach event.
+ * Logged from: packages/modules/Virtualization/
+ * This atom is pushed for a failure case that, ideally, should not happen.
+ * Thus, average throughput will be <1 event per device per day.
+ * Peak throughput (in the case of some bug) would be on the order of 100 per day.
+ */
+message CgroupMemoryBreachReported {
+  // Count of high breach events detected.
+  optional int64 high_breach_count = 1;
+  // The peak high memory in megabytes.
+  optional int64 high_memory_peak_mb = 2;
+  // The UID that requested a VM via AVF.
+  optional int32 vm_requester_uid = 3 [(is_uid) = true];
+  // Human readable name of the VM.
+  optional string vm_identifier = 4;
+}

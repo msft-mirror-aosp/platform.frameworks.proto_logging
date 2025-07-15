@@ -1481,6 +1481,7 @@ message Atom {
     extensions 1148; // WifiQosPoliciesFromAccessPointRequested wifi_qos_policies_from_access_point_requested
     extensions 1149; // DisplayEventCallbackOccurred display_event_callback_occurred
     extensions 1150; // FsckFailedReported fsck_failed_reported
+    extensions 1151; // CgroupMemoryBreachReported cgroup_memory_breach_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
