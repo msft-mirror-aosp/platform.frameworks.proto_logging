@@ -166,13 +166,8 @@ message TetheringActiveSessionsReported {
  * Estimated Logging Rate: On permission change, infrequent.
  */
 message ConnectivityPermissionChangeListenerLatencyReported {
-  // Latency of the onPermissionsChanged call, in microseconds.
-  repeated int32 latency_micros = 1 [(histogram_bin_option).generated_bins = {
-    min: 1
-    max: 50000 // 50ms
-    count: 18
-    strategy: EXPONENTIAL
-  }];
+    // Latency of the onPermissionsChanged call, in microseconds.
+    optional int32 latency_micros = 1;
 }
 
 /**

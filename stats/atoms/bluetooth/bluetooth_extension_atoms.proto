@@ -82,6 +82,10 @@ extend Atom {
         = 1084 [(module) = "bluetooth"];
     optional BluetoothPbapClientContactDownloadReported bluetooth_pbap_client_contact_download_reported
         = 1104 [(module) = "bluetooth"];
+    optional BluetoothOppLauncherCreated bluetooth_opp_launcher_created
+        = 1146 [(module) = "bluetooth"];
+    optional BluetoothOppShareStatusCompleteReported bluetooth_opp_share_status_complete_reported
+        = 1147 [(module) = "bluetooth"];
 
 }
 
@@ -842,4 +846,60 @@ message PhonebookDownload {
   optional uint64 storage_duration_millis = 6;
   // Number of contacts images
   optional uint64 contacts_with_images = 7;
+}
+
+/**
+ * Logs BluetoothOpp LauncherCreated when a OPP share launcher is triggered.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ *
+ * Estimated Logging Rate:
+ *     Peak: 3 times in 1 day | Avg: 1 per device per day
+ *     Once per OPP share. OPP stands for Object Push Profile in Bluetooth.
+ *     An OPP share is a file transfer between two devices using Bluetooth.
+ */
+message BluetoothOppLauncherCreated {
+  // The uid of the app initiating the share.
+  optional int32 uid = 1[(is_uid) = true];
+
+  // The number of files included in this share request.
+  optional int32 file_count = 2;
+}
+
+/**
+ * Logs BluetoothOpp ShareStatusComplete when a OPP share session is completed.
+ *
+ * Logged from:
+ *     packages/modules/Bluetooth
+ *
+ * Estimated Logging Rate:
+ *     Peak: 3 times in 1 day | Avg: 1 per device per day
+ *     Once per OPP file share.
+ *     OPP stands for Object Push Profile in Bluetooth.
+ *     An OPP share is a file transfer between two devices using Bluetooth.
+ */
+message BluetoothOppShareStatusCompleteReported {
+  // The final result of the transfer.
+  optional android.bluetooth.BluetoothOppSessionStatus session_status = 1;
+
+  // The direction of the transfer (Sending/Receiving).
+  optional android.bluetooth.BluetoothOppTransferDirection direction = 2;
+
+  // Total duration from the file start to completion.
+  optional android.bluetooth.BluetoothOppTransferDuration transfer_duration =
+      3;
+
+  // The file size classification.
+  optional android.bluetooth.BluetoothOppFileSize file_size = 4;
+
+  // The transfer speed classification.
+  optional android.bluetooth.BluetoothOppTransferSpeed transfer_speed = 5;
+
+  // The categorized MIME type of the file.
+  optional android.bluetooth.BluetoothOppMimeTypeCategory mime_type_category = 6;
+
+  // Remote Device Information
+  optional BluetoothRemoteDeviceInformation remote_device_information = 7
+      [(log_mode) = MODE_BYTES];
 }
