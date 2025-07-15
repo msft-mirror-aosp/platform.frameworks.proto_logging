@@ -1476,6 +1476,8 @@ message Atom {
     extensions 1143; // CertificateBlocklistBlockReported certificate_blocklist_block_reported
     extensions 1144; // WsVisibleTileOutdated ws_visible_tile_outdated
     extensions 1145; // CaptivePortalLoginReported captive_portal_login_reported
+    extensions 1146; // BluetoothOppLauncherCreated bluetooth_opp_launcher_created
+    extensions 1147; // BluetoothOppShareStatusCompleteReported bluetooth_opp_share_status_complete_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
