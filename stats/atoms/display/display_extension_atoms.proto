@@ -27,6 +27,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional DisplayModeDirectorVoteChanged display_mode_director_vote_changed = 792 [(module) = "framework"];
+  optional DisplayEventCallbackOccurred display_event_callback_occurred = 1149 [(module) = "framework"];
 }
 
 /* Pushed atom for vote status change */
@@ -43,3 +44,10 @@ message DisplayModeDirectorVoteChanged {
   optional int32 summary_value = 5;
 }
 
+/* Pushed atom for display event callback */
+message DisplayEventCallbackOccurred {
+  // The type of display event that occurred.
+  optional android.display.EventType event_type = 1;
+  // The UID of the client that received this callback.
+  optional int32 uid = 2 [(is_uid) = true];
+}
