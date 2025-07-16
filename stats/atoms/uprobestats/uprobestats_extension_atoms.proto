@@ -187,4 +187,6 @@ message AndroidGraphicsBitmapAllocationSnapshot {
         SNAPSHOT_TYPE_MAX_ALLOCATION_SIZE = 2;
     }
     optional SnapshotType snapshot_type = 6;
+
+    optional string activity_name = 7;
 }
