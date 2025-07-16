@@ -143,6 +143,10 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_UNKNOWN = 0;
   // Counts the number of requests when a local network is satisfied by requests in a rematch.
   CRITICAL_COUNTS_EVENT_TYPE_SATISFIED_BY_LOCAL_NETWORK = 1;
+  // Counts QUIC connection closures when a UID loses network access.
+  CRITICAL_COUNTS_EVENT_TYPE_QUIC_CONNECTION_CLOSE_LOST_ACCESS = 2;
+  // Counts QUIC connection closures when the socket is destroyed.
+  CRITICAL_COUNTS_EVENT_TYPE_QUIC_CONNECTION_CLOSE_SOCKET_DESTROY = 3;
 }
 
 // Type of NetworkRequest. See android.net.NetworkRequest.
