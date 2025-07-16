@@ -477,4 +477,7 @@ message PackageManagerCacheInvalidationReported {
 
   // When to call PropertyInvalidatedCache invalidation.
   optional InvalidationReason invalidation_reason = 2;
+
+  // The number of invalidations reported.
+  optional int32 count = 3;
 }
