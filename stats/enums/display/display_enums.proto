@@ -119,3 +119,19 @@ enum LuxBucketEnum {
     LUX_RANGE_30000_100000 = 13;
     LUX_RANGE_100000_INF = 14;
 }
+
+/*  Define the types of display events that can occur.
+    Logged in DisplayEventCallbackOccurred atom.
+    The original definition of this enum comes from
+    frameworks/base/core/java/android/hardware/display/DisplayManager.java ->
+    EventType
+*/
+enum EventType {
+  TYPE_UNKNOWN = 0;
+  TYPE_DISPLAY_ADDED = 1;
+  TYPE_DISPLAY_REMOVED = 2;
+  TYPE_DISPLAY_CHANGED = 3;
+  TYPE_DISPLAY_REFRESH_RATE_CHANGED = 4;
+  TYPE_DISPLAY_STATE_CHANGED = 5;
+  TYPE_DISPLAY_BRIGHTNESS_CHANGED = 6;
+}
