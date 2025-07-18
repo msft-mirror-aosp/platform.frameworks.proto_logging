@@ -87,6 +87,8 @@ message CheckInRetryReported {
     NETWORK_TIME_UNAVAILABLE = 2;
     // Check-in retry happens due to an failure in the previous RPC
     RPC_FAILURE = 3;
+    // Check-in retry happens due to a failure generating key attestation leaf certificate
+    KEY_ATTESTATION_GENERATION_FAILURE = 4;
   }
 
   optional RetryReason reason= 1;
