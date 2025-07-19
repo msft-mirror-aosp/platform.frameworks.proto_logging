@@ -19,6 +19,7 @@ syntax = "proto2";
 package com.google.android.wear.notification;
 
 option java_multiple_files = true;
+option java_outer_classname = "WearNotificationProtoEnums";
 
 // Defines the specific point in the notification's journey in the watch
 enum NotificationEvent {

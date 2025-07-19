@@ -28,6 +28,8 @@ option java_multiple_files = true;
 extend Atom {
   optional MediaRouterEventReported media_router_event_reported = 1017
       [(module) = "mediarouter"];
+  optional MediaRoutingSessionTransferReported media_routing_session_transfer_reported = 1142
+      [(module) = "mediarouter"];
 }
 
 /**
@@ -63,5 +65,5 @@ message MediaRoutingSessionTransferReported {
   // Whether the device where media is being routed was an intelligent device suggestion.
   optional bool is_suggested_device = 5;
   // Length of the media routing session in millis.
-  optional int32 session_length_millis = 6;
+  optional int64 session_length_millis = 6;
 }

@@ -241,7 +241,17 @@ message PackageInstallerSessionReported {
 
     // --- ADI result section ---
 
-    // Reason by ADI was bypassed.
+    // Reason why ADI verification was bypassed.
+    // This corresponds to the reason code integer passed from the ADI module to the system,
+    // using the DeveloperVerificationSession#reportVerificationBypassed(int) method.
+    // Some predefined values are:
+    //  0: The verification was bypassed due to unspecified reason.
+    //  1: The verification was bypassed because the installation was initialized
+    //     from ADB.
+    //  2: The verification was bypassed because it could not be performed due to
+    //     emergency.
+    //  3: The verification was bypassed because the installation was done in a
+    //     testing environment.
     optional int32 adi_bypassed_reason = 36;
     // Whether a timeout extension has been requested by the verifier.
     optional bool adi_timeout_extension_requested = 37;
