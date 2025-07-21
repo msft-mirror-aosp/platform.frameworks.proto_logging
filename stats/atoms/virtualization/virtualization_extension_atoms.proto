@@ -27,7 +27,6 @@ option java_multiple_files = true;
 extend Atom {
   optional FsckFailedReported fsck_failed_reported = 1150 [(module) = "virtualizationservice"];
   optional CgroupMemoryBreachReported cgroup_memory_breach_reported = 1151 [(module) = "virtualizationservice"];
-  optional GetOrCreateSkSecretFailedReported get_or_create_sk_secret_failed_reported = 1152 [(module) = "virtualizationservice"];
 }
 
 /*
@@ -62,20 +61,4 @@ message CgroupMemoryBreachReported {
   optional int32 vm_requester_uid = 3 [(is_uid) = true];
   // Human readable name of the VM.
   optional string vm_identifier = 4;
-}
-
-/*
- * Reports that a VM failed to get or create a secret in secretkeeper.
- * Logged from: packages/modules/Virtualization/
- * This atom is pushed for a failure case that, ideally, should not happen.
- * Thus, average throughput will be <1 event per device per day.
- * Peak throughput (in the case of some bug) would be on the order of 100 per day.
- */
-message GetOrCreateSkSecretFailedReported {
-  // How many times (for a given request) the failed operation was retried.
-  optional int32 retry_count = 1;
-  // The UID that requested a VM via AVF.
-  optional int32 vm_requester_uid = 2 [(is_uid) = true];
-  // Human readable name of the VM.
-  optional string vm_identifier = 3;
 }
