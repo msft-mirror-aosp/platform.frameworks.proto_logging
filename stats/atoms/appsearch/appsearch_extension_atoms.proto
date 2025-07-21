@@ -354,7 +354,7 @@ message AppSearchAppsIndexerStatsReported {
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/appsindexer/AppOpenEventIndexerUserInstance.java
  * Estimated Logging Rate: once per device per day
  *
- * Next tag: 9
+ * Next tag: 10
  */
 message AppSearchAppOpenEventIndexerStatsReported {
 
@@ -374,6 +374,10 @@ message AppSearchAppOpenEventIndexerStatsReported {
   // Timestamps
   optional int64 update_start_wallclock_timestamp_millis = 7;
   optional int64 last_app_update_wallclock_timestamp_millis = 8;
+
+  // Flag indicating if Emergency Update has been triggered for AppOpenEvent Indexer User Instance.
+  // This field is meant to be false until a Force Update is manually triggered
+  optional bool force_update_triggered = 9;
 }
 
 /**
