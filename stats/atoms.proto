@@ -14533,7 +14533,7 @@ message AppSearchStorageInfo {
  * Reported from:
  *   packages/modules/AppSearch/service/java/com/android/server/appsearch/contactsindexer/ContactsIndexerManagerService.java
  *
- * Next tag: 18
+ * Next tag: 19
  */
 message ContactsIndexerUpdateStatsReported {
     enum UpdateType {
@@ -14601,6 +14601,10 @@ message ContactsIndexerUpdateStatsReported {
     // last_contacted_update_timestamp_millis. If the fields do not match, then we
     // were unexpectedly not synced up with CP2 at the time of the update.
     optional int64 previous_last_contact_updated_timestamp_millis = 17;
+
+    // Flag indicating if Emergency Update has been triggered for a Contacts Indexer User Instance.
+    // This field is meant to be false until a Force Update is manually triggered
+    optional bool force_update_triggered = 18;
 }
 
 /**
