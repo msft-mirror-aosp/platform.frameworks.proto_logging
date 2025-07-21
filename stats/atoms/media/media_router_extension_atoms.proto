@@ -28,7 +28,7 @@ option java_multiple_files = true;
 extend Atom {
   optional MediaRouterEventReported media_router_event_reported = 1017
       [(module) = "mediarouter"];
-  optional MediaRoutingSessionTransferReported media_routing_session_transfer_reported = 1142
+  optional RoutingChangeReported routing_change_reported = 1142
       [(module) = "mediarouter"];
 }
 
@@ -46,14 +46,14 @@ message MediaRouterEventReported {
 }
 
 /**
- * Pushed atom. Logs an event for a media routing session when it is being transferred.
+ * Pushed atom. Logs an event when there is a change in media routing.
  *
  * Logged from:
  *   frameworks/base/media/java/android/media/
  * Estimated Logging Rate:
  *   Avg: 10 per device per day
  */
-message MediaRoutingSessionTransferReported {
+message RoutingChangeReported {
   // Point where the routing session originated from (Output switcher, Unified Media Object notification card, etc.)
   optional android.media.router.EntryPoint entry_point = 1;
   // Client app package uid for which the media is being routed.

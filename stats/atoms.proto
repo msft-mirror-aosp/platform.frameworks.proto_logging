@@ -1472,7 +1472,7 @@ message Atom {
     extensions 1139; // WearNetworkStateChanged wear_network_state_changed
     extensions 1140; // HealthConnectLatencyStats health_connect_latency_stats
     extensions 1141; // AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed
-    extensions 1142; // MediaRoutingSessionTransferReported media_routing_session_transfer_reported
+    extensions 1142; // RoutingChangeReported routing_change_reported
     extensions 1143; // CertificateBlocklistBlockReported certificate_blocklist_block_reported
     extensions 1144; // WsVisibleTileOutdated ws_visible_tile_outdated
     extensions 1145; // CaptivePortalLoginReported captive_portal_login_reported
