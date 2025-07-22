@@ -49,6 +49,9 @@ extend Atom {
 
   optional AppSearchVmInitializationStatsReported
           app_search_vm_initialization_stats_reported = 1127 [(module) = "appsearch"];
+
+  optional AppSearchPersistToDiskStatsReported
+          app_search_persist_to_disk_stats_reported = 1153 [(module) = "appsearch"];
 }
 
 // Keep in sync with
@@ -64,7 +67,7 @@ enum AppSearchEnabledFeatures {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 27
+ * Next tag: 30
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -153,6 +156,15 @@ message AppSearchSetSchemaStatsReported {
     // The bitmask for all enabled features on this device. Must be one or a combination of the
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 26;
+
+    // The last write operation call type.
+    optional int32 last_write_operation = 27;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_write_operation_latency_millis = 28;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 29;
 }
 
 /**
@@ -482,4 +494,91 @@ message AppSearchVmInitializationStatsReported {
   optional VmInitializationType.Code vm_init_type = 1;
 
   optional AppSearchVmStartAttempts vm_start_attempts = 2 [(android.os.statsd.log_mode) = MODE_BYTES];
+}
+
+/**
+ * Stats for persist-to-disk operations in AppSearch.
+
+ * Next tag: 25
+ */
+message AppSearchPersistToDiskStatsReported {
+
+  // The sampling interval for this specific type of stats
+  // For example, sampling_interval=10 means that one out of every 10 stats was logged.
+  optional int32 sampling_interval = 1;
+
+  // # of previous skipped sample for this specific type of stats
+  // We can't push atoms too closely, so some samples might be skipped
+  // In order to extrapolate the counts, we need to save the number of skipped stats and add it back
+  // For example, the true count of an event could be estimated as:
+  //   SUM(sampling_interval * (num_skipped_sample + 1)) as est_count
+  optional int32 num_skipped_sample = 2;
+
+  // Package UID of the application.
+  optional int32 uid = 3 [(is_uid) = true];
+
+  // Needs to be sync with AppSearchResult#ResultCode in
+  // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchResult.java
+  optional int32 status_code = 4;
+
+  // The bitmask for all enabled features on this device. Must be one or a combination of the
+  // types AppSearchEnabledFeatures.
+  optional int64 enabled_features = 5;
+
+  // The call type that trigger this persist to disk call.
+  optional int32 trigger_call_type = 6;
+
+  // The last write operation call type.
+  optional int32 last_write_operation = 7;
+
+  // The latency for last write operation which hold the write lock in milliseconds.
+  optional int32 last_write_operation_latency_millis = 8;
+
+  // The time passed while waiting to acquire the lock during Java function calls
+  optional int32 java_lock_acquisition_latency_millis = 9;
+
+  // The time passed while get the vm instance.
+  optional int32 get_vm_latency_millis = 10;
+
+  // Overall time used for setting schema including the binder latency
+  optional int32 total_latency_millis = 11;
+
+  // The type of persist operation.
+  optional int32 persist_type = 12;
+
+  // The latency of the native persist operation (excluding Java overhead) in milliseconds.
+  optional int32 native_latency_millis = 13;
+
+  // The latency of persisting the blob store in milliseconds.
+  optional int32 native_blob_store_persist_latency_millis = 14;
+
+  // The total latency of persisting the document store in milliseconds.
+  optional int32 native_document_store_total_persist_latency_millis = 15;
+
+  // The latency of persisting individual components of the document store in milliseconds.
+  optional int32 native_document_store_components_persist_latency_millis = 16;
+
+  // The latency of updating the document store checksum in milliseconds.
+  optional int32 native_document_store_checksum_update_latency_millis = 17;
+
+  // The latency of updating the document log checksum in milliseconds.
+  optional int32 native_document_log_checksum_update_latency_millis = 18;
+
+  // The latency of syncing document log data to disk in milliseconds.
+  optional int32 native_document_log_data_sync_latency_millis = 19;
+
+  // The latency of persisting the schema store in milliseconds.
+  optional int32 native_schema_store_persist_latency_millis = 20;
+
+  // The total latency of persisting all indexes in milliseconds.
+  optional int32 native_index_persist_latency_millis = 21;
+
+  // The latency of persisting the integer index in milliseconds.
+  optional int32 native_integer_index_persist_latency_millis = 22;
+
+  // The latency of persisting the qualified ID join index in milliseconds.
+  optional int32 native_qualified_id_join_index_persist_latency_millis = 23;
+
+  // The latency of persisting the embedding index in milliseconds.
+  optional int32 native_embedding_index_persist_latency_millis = 24;
 }

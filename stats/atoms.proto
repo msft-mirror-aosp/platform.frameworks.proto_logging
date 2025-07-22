@@ -1483,6 +1483,7 @@ message Atom {
     extensions 1150; // FsckFailedReported fsck_failed_reported
     extensions 1151; // CgroupMemoryBreachReported cgroup_memory_breach_reported
     extensions 1152; // GetOrCreateSkSecretFailedReported get_or_create_sk_secret_failed_reported
+    extensions 1153; // AppSearchPersistToDiskStatsReported app_search_persist_to_disk_stats_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -13878,7 +13879,7 @@ message AppSearchCallStatsReported {
 /**
  * Logs detailed stats for putting a single document in AppSearch
  *
- * Next tag: 19
+ * Next tag: 23
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -13943,12 +13944,24 @@ message AppSearchPutDocumentStatsReported {
 
     // Time used to index all embeddings in the document.
     optional int32 embedding_index_latency_millis = 18;
+
+    // The last write operation call type.
+    optional int32 last_write_operation = 19;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_write_operation_latency_millis = 20;
+
+    // The time passed while waiting to acquire the lock during Java function calls
+    optional int32 java_lock_acquisition_latency_millis = 21;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 22;
 }
 
 /**
  * Logs detailed stats for AppSearch Initialize
  *
- * Next tag: 28
+ * Next tag: 30
  */
 message AppSearchInitializeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14043,12 +14056,18 @@ message AppSearchInitializeStatsReported {
 
     // Number of documents that failed to be reindexed during index restoration.
     optional int32  native_num_failed_reindexed_documents = 27;
+
+    // The time passed while waiting to acquire the lock during Java function calls
+    optional int32 java_lock_acquisition_latency_millis = 28;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 29;
 }
 
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 61
+ * Next tag: 64
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -14250,12 +14269,21 @@ message AppSearchQueryStatsReported {
     // Number of result states being force-evicted from ResultStateManager due to
     // budget limit. This doesn't include expired or invalidated states.
     optional int32 num_result_states_evicted = 60;
+
+    // The last write operation call type.
+    optional int32 last_write_operation = 61;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_write_operation_latency_millis = 62;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 63;
 }
 
 /**
  * Logs detailed stats for remove in AppSearch
  *
- * Next tag: 17
+ * Next tag: 21
  */
 message AppSearchRemoveStatsReported {
     // The sampling interval for this specific type of stats
@@ -14314,6 +14342,18 @@ message AppSearchRemoveStatsReported {
 
     // Time used to delete each document.
     optional int32 document_removal_latency_ms = 16;
+
+    // The last write operation call type.
+    optional int32 last_write_operation = 17;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_write_operation_latency_millis = 18;
+
+    // The time passed while waiting to acquire the lock during Java function calls
+    optional int32 java_lock_acquisition_latency_millis = 19;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 20;
 }
 
 /**
@@ -14322,7 +14362,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 18
+ * Next tag: 22
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14382,6 +14422,18 @@ message AppSearchOptimizeStatsReported {
 
     //Number of namespaces deleted.
     optional int32 num_deleted_namespaces = 17;
+
+    // The last write operation call type.
+    optional int32 last_write_operation = 18;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_write_operation_latency_millis = 19;
+
+    // The time passed while waiting to acquire the lock during Java function calls
+    optional int32 java_lock_acquisition_latency_millis = 20;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 21;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
