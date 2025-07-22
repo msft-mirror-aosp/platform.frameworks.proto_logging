@@ -21,6 +21,7 @@ package android.os.statsd.wear.notification;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/wear/notification/enums.proto";
+import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
 
 option java_package = "com.android.os.wear.notification";
 option java_multiple_files = true;
@@ -84,12 +85,13 @@ message WearNotificationMetadataReported {
   // Package name of the application that created the notification event.
   optional string package_name = 3;
 
+  // TODO: b/433268207 move these WS enums to top level directory wear/notification
   // Device on which the notification event was created (watch vs phone)
-  optional com.google.android.wear.notification.NotificationSource source_device = 4;
+  optional android.app.wearservices.RequestSource source_device = 4;
 
   // The alerting effect of the notification. (None, Haptics, Sound, Both)
-  optional com.google.android.wear.notification.NotificationAlertEffect alerting_effect = 5;
+  optional android.app.wearservices.NotificationAlertingEffect alerting_effect = 5;
 
   // The style of the notification.
-  optional com.google.android.wear.notification.NotificationStyle style = 6;
+  optional android.app.wearservices.NotificationStyle style = 6;
 }

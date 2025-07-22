@@ -87,6 +87,8 @@ message CheckInRetryReported {
     NETWORK_TIME_UNAVAILABLE = 2;
     // Check-in retry happens due to an failure in the previous RPC
     RPC_FAILURE = 3;
+    // Check-in retry happens due to a failure generating key attestation leaf certificate
+    KEY_ATTESTATION_GENERATION_FAILURE = 4;
   }
 
   optional RetryReason reason= 1;
@@ -174,6 +176,8 @@ message DeviceLockProvisionStateEvent {
     EVENT_FINALIZATION = 4;
     // The kiosk app attempted to clear all restrictions but it did not end in a successful finalization.
     EVENT_FINALIZATION_FAILURE = 5;
+    // DLC was unable to send a report about finalization due to KA generation failure
+    EVENT_KA_GEN_FAILURE_REPORT_FINALIZATION = 6;
   }
 
   optional Event event = 1;
