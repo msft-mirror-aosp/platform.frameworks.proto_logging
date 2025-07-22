@@ -54,6 +54,12 @@ message DesktopModeUIChanged {
     KEYBOARD_SHORTCUT_ENTER = 5;
     SCREEN_ON = 6; // desktop mode visible after screen turned on
     OVERVIEW_TASK_MENU = 7;
+    ADB_COMMAND = 8;
+    RECENTS = 9; // This covers quick switch and enter empty desk from recents.
+    EXIT_PIP = 10; // Activity exiting PiP entering freeform.
+    DISPLAY_CONNECT = 11;
+    DESK_REPARENT = 12;
+    APP_SELF_REPOSITION = 13;
   }
 
   // The reason for exiting desktopmode.
@@ -67,6 +73,12 @@ message DesktopModeUIChanged {
     SCREEN_OFF = 6;
     TASK_MINIMIZED = 7; // the task gets minimized
     TASK_MOVED_TO_BACK = 8; // The task moved to back due to back gesture or button.
+    DISPLAY_DISCONNECTED = 9;
+    FULLSCREEN_LAUNCH = 10;
+    ADB_COMMAND_EXIT = 11;
+    TASK_MOVED_FROM_DESK = 12;
+    RECENTS_DISMISS = 13;
+    ENTER_PIP = 14;
   }
 
   optional Event event = 1;
