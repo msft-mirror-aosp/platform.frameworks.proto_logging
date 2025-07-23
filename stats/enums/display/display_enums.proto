@@ -135,3 +135,11 @@ enum EventType {
   TYPE_DISPLAY_STATE_CHANGED = 5;
   TYPE_DISPLAY_BRIGHTNESS_CHANGED = 6;
 }
+
+// Represents the direction of a brightness adjustment.
+enum BrightnessDirectionEnum {
+  // Default or unknown state
+  DIRECTION_UNKNOWN = 0;
+  DIRECTION_INCREASE = 1;
+  DIRECTION_DECREASE = 2;
+}

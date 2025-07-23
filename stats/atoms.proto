@@ -24226,6 +24226,9 @@ message DisplayBrightnessChanged {
 
     // A categorized ambient light value, designed for scenarios needing discrete light levels (e.g., display adjustments).
     optional android.display.LuxBucketEnum lux_bucket = 26;
+
+    // Direction of a display brightness adjustment, determined by comparing current and initial brightness in nits.
+    optional android.display.BrightnessDirectionEnum brightness_direction = 27;
 }
 
 // Logs daily ambient brightness stats.

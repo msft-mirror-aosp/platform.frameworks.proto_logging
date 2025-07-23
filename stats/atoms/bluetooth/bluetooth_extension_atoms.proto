@@ -865,6 +865,9 @@ message BluetoothOppLauncherCreated {
 
   // The number of files included in this share request.
   optional int32 file_count = 2;
+
+  // The summed file size bucket of all files included in this share request.
+  optional android.bluetooth.BluetoothOppFileSize file_size = 3;
 }
 
 /**

@@ -25,5 +25,3 @@ per-file stats/enums/healthfitness/ui/enums.proto=mridulagarwal@google.com
 # Accessibility
 per-file stats/enums/stats/accessibility/accessibility_enums.proto = danielnorman@google.com, chunkulin@google.com
 
-# Desktop Mode
-per-file stats/enums/desktopmode/... = file:platform/frameworks/base:/libs/WindowManager/Shell/src/com/android/wm/shell/desktopmode/OWNERS
