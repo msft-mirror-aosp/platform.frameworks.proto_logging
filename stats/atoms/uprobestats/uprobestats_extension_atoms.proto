@@ -133,11 +133,20 @@ enum BindServiceFlags {
   * Expected logging rate is on the order of tens in a day.
   */
 message BindServiceLockedWithBalFlagsReported {
+    // The package name of the intent passed to bindServiceLocked.
     optional string intent_package_name = 1;
     // The flags passed to the bindServiceLocked call.
     // Must be one or a combination of the types in BindServiceFlags enum above.
     optional int64 flags = 2;
+    // The package name of the app that called bindServiceLocked.
     optional string calling_package_name = 3;
+    // The action of the intent passed to bindServiceLocked.
+    optional string intent_action = 4;
+    // The package name of the component passed to bindServiceLocked.
+    // This package may gain the BAL capabilities of the calling_package_name.
+    optional string intent_component_name_package = 5;
+    // The class name of the component passed to bindServiceLocked.
+    optional string intent_component_name_class = 6;
 }
 
 /**
