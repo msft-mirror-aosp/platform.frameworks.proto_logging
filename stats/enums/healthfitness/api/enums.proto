@@ -214,6 +214,7 @@ enum DataType {
   SLEEP_SESSION = 42;
   ACTIVITY_INTENSITY = 43;
   NICOTINE_INTAKE = 44;
+  ALCOHOL_CONSUMPTION = 45;
 }
 
 enum MedicalResourceType {
