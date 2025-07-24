@@ -17432,6 +17432,8 @@ message SharesheetStarted {
     optional bool modify_share_action_provided = 11;
     // True if the Chooser was launched in the interactive mode.
     optional bool is_interactive_mode = 12;
+    // True if the text toggle is shown (go/screenshot-app-metadata).
+    optional bool is_text_toggle_shown = 13;
 }
 
 /**
