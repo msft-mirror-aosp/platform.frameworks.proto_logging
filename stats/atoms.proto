@@ -1484,6 +1484,9 @@ message Atom {
     extensions 1151; // CgroupMemoryBreachReported cgroup_memory_breach_reported
     extensions 1152; // GetOrCreateSkSecretFailedReported get_or_create_sk_secret_failed_reported
     extensions 1153; // AppSearchPersistToDiskStatsReported app_search_persist_to_disk_stats_reported
+    extensions 1154; // BiometricPromptStarted biometric_prompt_started
+    extensions 1155; // BiometricPromptEvent biometric_prompt_event
+    extensions 1156; // BiometricPromptEnded biometric_prompt_ended
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
