@@ -143,3 +143,68 @@ enum BrightnessDirectionEnum {
   DIRECTION_INCREASE = 1;
   DIRECTION_DECREASE = 2;
 }
+
+/**
+ * Display offload session types.
+ */
+enum DisplayOffloadSessionType {
+    DISPLAY_OFFLOAD_SESSION_TYPE_UNSPECIFIED = 0;
+    DISPLAY_OFFLOAD_SESSION_TYPE_WATCHFACE = 1;
+    DISPLAY_OFFLOAD_SESSION_TYPE_SYSUI_OVERLAY = 2;
+    DISPLAY_OFFLOAD_SESSION_TYPE_SYSTEM_FITNESS_TRACKER = 3;
+    DISPLAY_OFFLOAD_SESSION_TYPE_APP_OFFLOAD = 4;
+}
+
+/**
+ * Display offload MCU renderer types.
+ */
+enum DisplayOffloadRendererType {
+    DISPLAY_OFFLOAD_RENDERER_TYPE_UNSPECIFIED = 0;
+    DISPLAY_OFFLOAD_RENDERER_TYPE_LEGACY_DAVINCI = 1;
+    DISPLAY_OFFLOAD_RENDERER_TYPE_LEGACY_PELE = 2;
+    DISPLAY_OFFLOAD_RENDERER_TYPE_REMOTE_COMPOSE = 3;
+    DISPLAY_OFFLOAD_RENDERER_TYPE_PELE = 4;
+    DISPLAY_OFFLOAD_RENDERER_TYPE_CUSTOM = 5;
+    DISPLAY_OFFLOAD_RENDERER_TYPE_TEST = 6;
+}
+
+/**
+ * Display offload top-level states.
+ */
+enum DisplayOffloadState {
+    DISPLAY_OFFLOAD_STATE_UNSPECIFIED = 0;
+    DISPLAY_OFFLOAD_STATE_DEOFFLOADED = 1;
+    DISPLAY_OFFLOAD_STATE_OFFLOADED = 2;
+}
+
+/**
+ * Display offload transition types, based on frameworks/opt/wear/src/com/android/clockwork/displayoffload/DisplayOffloadState.java.
+ */
+enum DisplayOffloadTransitionType {
+    DISPLAY_OFFLOAD_TRANSITION_TYPE_UNSPECIFIED = 0;
+    DISPLAY_OFFLOAD_RANSITION_TYPE_OFFLOAD_STATE_TRANSMISSION = 1;
+    DISPLAY_OFFLOAD_RANSITION_TYPE_OFFLOAD_FINALIZATION = 2;
+    DISPLAY_OFFLOAD_RANSITION_TYPE_DEOFFLOAD_FINALIZATION = 3;
+}
+
+/**
+ * Display offload aggregation levels. Describes whether the data is aggregated at the cycle-level
+ * (consists of one or more sessions) or at the session-level. Used in atoms which describe both
+ * cycles and sessions with the same set of data points, but which must still make the distinction
+ * between them.
+ */
+enum DisplayOffloadAggregationLevel {
+    DISPLAY_OFFLOAD_AGGREGATION_LEVEL_UNSPECIFIED = 0;
+    DISPLAY_OFFLOAD_AGGREGATION_LEVEL_CYCLE = 1;
+    DISPLAY_OFFLOAD_AGGREGATION_LEVEL_SESSION = 2;
+}
+
+/**
+ * Display offload transition result, mirrors TransitionResult from frameworks/opt/displayoffload/libs/service/src/android/service/displayoffload/ITransitionContext.aidl.
+ */
+enum DisplayOffloadTransitionResult {
+    DISPLAY_OFFLOAD_TRANSITION_RESULT_UNSPECIFIED = 0;
+    DISPLAY_OFFLOAD_TRANSITION_RESULT_INCOMPLETE = 1;
+    DISPLAY_OFFLOAD_TRANSITION_RESULT_COMPLETE = 2;
+    DISPLAY_OFFLOAD_TRANSITION_RESULT_ABORTED = 3;
+}
