@@ -13836,7 +13836,7 @@ message RebootEscrowRebootReported {
 /**
  * Logs stats for AppSearch function calls
  *
- * Next tag: 14
+ * Next tag: 15
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13887,6 +13887,9 @@ message AppSearchCallStatsReported {
 
     // The wall-clock timestamp in milliseconds since the previous request.
     optional int64 time_since_previous_request_millis = 13;
+
+    // The total latency for creating or waiting the user executor.
+    optional int64 executor_acquisition_latency_millis = 14;
 }
 
 /**
