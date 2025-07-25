@@ -61,11 +61,13 @@ enum EntryPoint {
   // Denotes the entry point of a session started from the system output switcher.
   ENTRY_POINT_SYSTEM_OUTPUT_SWITCHER = 1;
   // Denotes the entry point of a session started from the Unified Media Object notification card.
-  ENTRY_POINT_SYSTEM_UMO = 2;
+  ENTRY_POINT_SYSTEM_MEDIA_CONTROLS = 2;
   // Denotes the entry point of a session started from an app managing its media routing.
   ENTRY_POINT_LOCAL_ROUTER = 3;
-  // Denoted the entry point of a session started from an app managing the media routing of another app.
+  // Denotes the entry point of a session started from an app managing the media routing of another app.
   ENTRY_POINT_PROXY_ROUTER = 4;
+  // Denotes the entry point of a session started from the output switcher in TV.
+  ENTRY_POINT_TV_OUTPUT_SWITCHER = 5;
 }
 
 /**
