@@ -490,6 +490,10 @@ message WifiSettingInfo {
         LOCATION_MODE = 8;
         // A flag controlled by DeviceConfig to dry run external scorer or not.
         EXTERNAL_SCORER_DRY_RUN = 9;
+        // QoS feature initiated by the access point
+        QOS_NETWORK_CENTRIC = 10;
+        // QoS feature initiated by an application
+        QOS_APPLICATION_CENTRIC = 11;
     }
 
     // Name of the Wifi setting
