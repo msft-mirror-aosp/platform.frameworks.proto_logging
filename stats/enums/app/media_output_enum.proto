@@ -64,3 +64,13 @@ enum SubResult {
     ROUTE_NOT_AVAILABLE = 4;
     INVALID_COMMAND = 5;
 }
+
+/**
+ * The source of ordering of a device in the Output Switcher.
+ */
+enum SuggestionProvider {
+    UNSPECIFIED = 0;
+    ROUTE_LISTING_PREFERENCE = 1;
+    DEVICE_SUGGESTION_APP = 2;
+    DEVICE_SUGGESTION_OTHER = 3;
+}
