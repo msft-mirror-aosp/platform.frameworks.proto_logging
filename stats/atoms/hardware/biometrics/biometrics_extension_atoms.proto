@@ -28,6 +28,9 @@ import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 extend Atom {
   optional BiometricUnenrolled biometric_unenrolled = 944 [(module) = "framework"];
   optional BiometricEnumerated biometric_enumerated = 945 [(module) = "framework"];
+  optional BiometricPromptStarted biometric_prompt_started = 1154 [(module) = "sysui"];
+  optional BiometricPromptEvent biometric_prompt_event = 1155 [(module) = "sysui"];
+  optional BiometricPromptEnded biometric_prompt_ended = 1156 [(module) = "sysui"];
 }
 
 /**
@@ -64,5 +67,86 @@ message BiometricEnumerated {
     repeated int32 template_ids_hal = 4;
     // Numerical IDs for templates reported by HAL. Ids increment with every new enrollment. Eg: 1, 2...
     repeated int32 template_ids_framework = 5;
+}
+
+// Logged when the BiometricPrompt starts, includes request information
+message BiometricPromptStarted {
+    // Session Id of the current operation
+    optional int32 session_id = 1;
+
+    // Whether device credential is allowed by app
+    optional bool allow_device_credential_fallback = 2;
+
+    // Authenticators
+    optional bool authenticator_device_credential = 3;
+    optional bool authenticator_weak = 4;
+    optional bool authenticator_strong = 5;
+    optional bool authenticator_identity_check = 6;
+
+    // Whether confirmation is required
+    optional bool require_confirmation = 7;
+
+    // Whether app has passed custom title
+    optional bool has_custom_title = 8;
+
+    // Whether app has passed custom subtitle
+    optional bool has_custom_subtitle = 9;
+
+    // Whether app has passed custom description
+    optional bool has_custom_description = 10;
+
+    // Whether app has passed custom content view
+    optional bool has_custom_content = 11;
+
+    // Whether app has passed custom negative button
+    optional bool has_custom_negative_button_text = 12;
+
+    // Number of fallback options added
+    optional int32 fallback_count = 13;
+
+    // Whether Identity Check is active
+    optional bool is_identity_check_active = 14;
+}
+
+// Logged each time a non-cancelling event occurs within prompt
+message BiometricPromptEvent {
+    enum EventType {
+        EVENT_TYPE_UNKNOWN = 0;
+        EVENT_TYPE_BIOMETRIC_VIEW_SHOWN = 1;
+        EVENT_TYPE_CREDENTIAL_VIEW_SHOWN = 2;
+        EVENT_TYPE_FALLBACK_VIEW_SHOWN = 3;
+        EVENT_TYPE_WATCH_RANGING_STARTED = 4;
+        EVENT_TYPE_WATCH_RANGING_SUCCESS = 5;
+        EVENT_TYPE_WATCH_RANGING_ENDED = 6;
+    }
+
+    // Session Id of the current operation
+    optional int32 session_id = 1;
+
+    // The event being logged
+    optional EventType event = 2;
+}
+
+// Logged once when a prompt session ends.
+message BiometricPromptEnded {
+    enum PromptEndedReason {
+        PROMPT_ENDED_REASON_UNKNOWN = 0;
+        PROMPT_ENDED_REASON_BIOMETRIC_CONFIRMED = 1;
+        PROMPT_ENDED_REASON_NEGATIVE = 2;
+        PROMPT_ENDED_REASON_USER_CANCEL = 3;
+        PROMPT_ENDED_REASON_BIOMETRIC_CONFIRM_NOT_REQUIRED = 4;
+        PROMPT_ENDED_REASON_ERROR = 5;
+        PROMPT_ENDED_REASON_SERVER_REQUESTED = 6;
+        PROMPT_ENDED_REASON_CREDENTIAL_CONFIRMED = 7;
+        PROMPT_ENDED_REASON_CONTENT_VIEW_MORE_OPTIONS = 8;
+        PROMPT_ENDED_REASON_ERROR_NO_WM = 9;
+        PROMPT_ENDED_REASON_FALLBACK_OPTION = 10;
+    }
+
+    // Session Id of the current operation
+    optional int32 session_id = 1;
+
+    // The reason prompt ended
+    optional PromptEndedReason reason = 2;
 }
 
