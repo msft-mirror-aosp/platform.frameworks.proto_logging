@@ -30,18 +30,14 @@
 
 #define DEBUG true
 
-using std::map;
-using std::string;
+namespace android {
+namespace express {
+namespace {
 
 namespace fs = std::filesystem;
 namespace pb = google::protobuf;
 
-namespace android {
-namespace express {
-
-namespace {
-
-bool validateMetricId(const string& metricId) {
+bool validateMetricId(const std::string& metricId) {
     // validation is done according to regEx
     static const char* regExStr = "[a-z]+[a-z_0-9]*[.]value_[a-z]+[a-z_0-9]*";
     static const std::regex expr(regExStr);
@@ -55,7 +51,7 @@ bool validateMetricId(const string& metricId) {
     return true;
 }
 
-bool readMetrics(const fs::path& cfgFile, map<string, ExpressMetric>& metrics) {
+bool readMetrics(const fs::path& cfgFile, std::map<std::string, ExpressMetric>& metrics) {
     std::ifstream fileStream(cfgFile.c_str());
     std::stringstream buffer;
     buffer << fileStream.rdbuf();
@@ -97,7 +93,7 @@ bool readMetrics(const fs::path& cfgFile, map<string, ExpressMetric>& metrics) {
 
 }  // namespace
 
-bool readCatalog(const char* configDir, map<string, ExpressMetric>& metrics) {
+bool readCatalog(const char* configDir, std::map<std::string, ExpressMetric>& metrics) {
     MEASURE_FUNC();
     auto configDirPath = configDir;
 
@@ -122,7 +118,8 @@ bool readCatalog(const char* configDir, map<string, ExpressMetric>& metrics) {
     return true;
 }
 
-bool generateMetricsIds(const map<string, ExpressMetric>& metrics, MetricInfoMap& metricsIds) {
+bool generateMetricsIds(const std::map<std::string, ExpressMetric>& metrics,
+                        MetricInfoMap& metricsIds) {
     MEASURE_FUNC();
     std::unordered_set<int64_t> currentHashes;
 
