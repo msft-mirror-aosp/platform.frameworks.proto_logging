@@ -465,7 +465,12 @@ enum ElementId {
 
     // End of Connect Apps Onboarding
 
-    // Next available: 321;
+    // Native steps
+    NATIVE_STEPS_BANNER = 321;
+    NATIVE_STEPS_BANNER_DISMISS_BUTTON = 322;
+    NATIVE_STEPS_BANNER_REVIEW_BUTTON = 323;
+
+    // Next available: 324;
 }
 
 enum PageId {
