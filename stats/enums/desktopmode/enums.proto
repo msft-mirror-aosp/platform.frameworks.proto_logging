@@ -37,6 +37,7 @@ enum EnterReason {
   DISPLAY_CONNECT = 11;
   DESK_REPARENT = 12;
   APP_SELF_REPOSITION = 13;
+  TASKBAR_ICON = 14;
 }
 
 // The reason for exiting desktopmode.
