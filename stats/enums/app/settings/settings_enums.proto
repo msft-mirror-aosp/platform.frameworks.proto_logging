@@ -2471,6 +2471,86 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_SUPERVISION_MAIN_TOGGLE_ON = 2082;
+
+    // ACTION: Track entry point of the user into the onboarding process
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_ENTRY_SOURCE = 2083;
+
+    // ACTION: Mark the user who starts the onboarding process
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_START = 2084;
+
+    // ACTION: Marks the user who completes the onboarding process
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_COMPLETE = 2085;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations
+    // Marks the user who enters this page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_ADDRESS_PAGE_VIEW = 2086;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations
+    // Tracks whether addresses already exist when the user enters this page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_ADDRESSES_INITIAL_EXIST = 2087;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations
+    // Tracks whether the user has completed the address editing
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_ADDRESS_EDIT_COMPLETE = 2088;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations > Confirm location settings
+    // Marks the user who enters this page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_PERMISSION_PAGE_VIEW = 2089;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations > Confirm location settings
+    // Tracks if the user changes the state when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_BACKGROUND_LOCATION_CHANGED_ON_EXIT = 2090;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations > Confirm location settings
+    // Tracks if the user changes the state when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_LOCATION_HISTORY_CHANGED_ON_EXIT = 2091;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations > Confirm location settings
+    //         > Set up Transit mode
+    // Marks the user who enters this page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_TRANSIT_PAGE_VIEW = 2092;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations > Confirm location settings
+    //         > Set up Transit mode
+    // Tracks if the user changes the state when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_TRANSIT_SOUND_CHANGED_ON_EXIT = 2093;
+
+    // ACTION: Onboarding > Introduction > Set home & work locations > Confirm location settings
+    //         > Set up Transit mode
+    // Tracks if the user changes the state when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_ONBOARDING_TRANSIT_BLUETOOTH_CHANGED_ON_EXIT = 2094;
+
+    // ACTION: Modes > Transit
+    // Tracks the user Transit Mode on/off status
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_MODE_TOGGLE_STATE = 2095;
+
+    // ACTION: Modes > Transit > Mode settings
+    // Tracks whether the user enters the Transit Mode settings page
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_MODE_PAGE_VIEW = 2096;
+
+    // ACTION: Modes > Transit > Mode settings
+    // Tracks if the user changes the state when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_MODE_SOUND_CHANGED_ON_EXIT = 2097;
+
+    // ACTION: Modes > Transit > Mode settings
+    // Tracks if the user changes the state when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_MODE_BLUETOOTH_CHANGED_ON_EXIT = 2098;
 }
 
 /**
