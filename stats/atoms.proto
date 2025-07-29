@@ -1489,6 +1489,7 @@ message Atom {
     extensions 1156; // BiometricPromptEnded biometric_prompt_ended
     extensions 1157; // HealthConnectRecordingMethodStats health_connect_recording_method_stats
     extensions 1158; // WifiQosPoliciesFromApplicationRequested wifi_qos_policies_from_application_requested
+    extensions 1159; // PsiMonitorFailedReported psi_monitor_failed_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
