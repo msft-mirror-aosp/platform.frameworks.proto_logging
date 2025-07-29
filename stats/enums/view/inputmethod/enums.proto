@@ -300,5 +300,7 @@ enum ImeRequestPhaseEnum {
     PHASE_SERVER_CLIENT_INVOKER = 78;
     // The server will dispatch the show request to the IME, but this is already visible.
     PHASE_SERVER_ALREADY_VISIBLE = 79;
+    // The show/hide request will be dispatched to the InsetsController of the ViewRootImpl.
+    PHASE_CLIENT_INSETS_CONTROLLER_DISPATCH = 80;
 }
 

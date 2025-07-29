@@ -6379,16 +6379,16 @@ message LmkKillOccurred {
         LOW_FILECACHE_AFTER_THRASHING = 8;
         LOW_MEM = 9;
         DIRECT_RECL_STUCK = 10;
-        VENDOR_KILL_REASON_1 = 1000;
-        VENDOR_KILL_REASON_2 = 1001;
-        VENDOR_KILL_REASON_3 = 1002;
-        VENDOR_KILL_REASON_4 = 1003;
-        VENDOR_KILL_REASON_5 = 1004;
-        VENDOR_KILL_REASON_6 = 1005;
-        VENDOR_KILL_REASON_7 = 1006;
-        VENDOR_KILL_REASON_8 = 1007;
-        VENDOR_KILL_REASON_9 = 1008;
-        VENDOR_KILL_REASON_10 = 1009;
+        VENDOR_KILL_REASON1 = 1000;
+        VENDOR_KILL_REASON2 = 1001;
+        VENDOR_KILL_REASON3 = 1002;
+        VENDOR_KILL_REASON4 = 1003;
+        VENDOR_KILL_REASON5 = 1004;
+        VENDOR_KILL_REASON6 = 1005;
+        VENDOR_KILL_REASON7 = 1006;
+        VENDOR_KILL_REASON8 = 1007;
+        VENDOR_KILL_REASON9 = 1008;
+        VENDOR_KILL_REASON10 = 1009;
     }
 
     // The uid if available. -1 means not available.
@@ -13841,7 +13841,7 @@ message RebootEscrowRebootReported {
 /**
  * Logs stats for AppSearch function calls
  *
- * Next tag: 15
+ * Next tag: 23
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13895,6 +13895,30 @@ message AppSearchCallStatsReported {
 
     // The total latency for creating or waiting the user executor.
     optional int64 executor_acquisition_latency_millis = 14;
+
+    // The time that the API call was first received.
+    repeated int64 last_n_time_millis = 15;
+
+    // Type of the function call value is in sync with
+    // frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/external/localstorage/stats/CallStats.java
+    repeated int32 last_n_call_type = 16;
+
+    // Package UID of the application.
+    repeated int32 last_n_uid = 17 [(is_uid) = true];
+
+    // Hash of the database name within AppSearch.
+    repeated int32 last_n_database = 18;
+
+    // Needs to be sync with AppSearchResult#ResultCode in
+    // packages/modules/AppSearch/framework/java/external/android/app/appsearch/AppSearchResult.java
+    repeated int32 last_n_status_code = 19;
+
+    // Overall time used for setting schema including the binder latency
+    repeated int32 last_n_total_latency_millis = 20;
+
+    // The type of persist operation.
+    repeated int32 last_n_on_executor_latency_millis = 21;
+
 }
 
 /**

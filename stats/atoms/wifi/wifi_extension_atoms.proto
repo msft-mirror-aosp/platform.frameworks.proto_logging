@@ -791,6 +791,8 @@ message ScorerPredictionResultReported {
     optional TrueFalseUnknown speed_sufficient_throughput_predictor_ds = 10;
     // ThroughputPredictor calculated link speed is sufficient in the upstream direction.
     optional TrueFalseUnknown speed_sufficient_throughput_predictor_us = 11;
+    // Whether the scorer is enabled
+    optional TrueFalseUnknown is_active_scorer = 12;
 }
 
 /**
