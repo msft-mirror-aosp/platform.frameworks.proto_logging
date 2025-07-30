@@ -14114,7 +14114,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 64
+ * Next tag: 68
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -14325,6 +14325,20 @@ message AppSearchQueryStatsReported {
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 63;
+
+    // The overall time used for the first native search call.
+    optional int32 first_native_call_latency_millis = 64;
+
+    // The actual number of results returned in the current page.
+    optional int32 additional_pages_returned_result_count = 65;
+
+    // The number of additional pages retrieved after the first one if it did not return enough
+    // results.
+    optional int32 additional_page_count = 66;
+
+    // The overall time used for retrieving additional pages if the first page did not return enough
+    // results.
+    optional int32 additional_page_retrieval_latency_millis = 67;
 }
 
 /**
