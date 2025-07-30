@@ -67,6 +67,8 @@ extend Atom {
   optional HealthConnectLatencyStats health_connect_latency_stats = 1140 [(module) = "healthfitness"];
 
   optional HealthConnectRecordingMethodStats health_connect_recording_method_stats = 1157 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectDeviceInfoStats health_connect_device_info_stats = 1160 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 }
 
 // Track HealthDataService API operations.
@@ -476,4 +478,29 @@ message HealthConnectRecordingMethodStats {
 
   // The specific recording method used to capture the record.
   optional android.healthfitness.api.RecordingMethod recording_method = 3;
+}
+
+/**
+ * Metrics for device info collected via PWW.
+ *
+ * Estimated Logging Rate:
+ * Peak: ~100 times per week per device (5 pkg * 20 types)
+ * Avg: ~5 times per week per device (1 pkg * 5 types)
+ */
+message HealthConnectDeviceInfoStats {
+  // The package name of the application that wrote the data.
+  optional string package_name = 1;
+
+  // The data type of the records in question.
+  optional android.healthfitness.api.DataType data_type = 2
+  [(field_restriction_option).health_connect = true];
+
+  // Whether or not the records from the package of the type have manufacturer set
+  optional bool has_manufacturer = 3;
+
+  // Whether or not the records from the package of the type have device model set
+  optional bool has_model = 4;
+
+  // Whether or not the records from the package of the type have device type set
+  optional bool has_type = 5;
 }
