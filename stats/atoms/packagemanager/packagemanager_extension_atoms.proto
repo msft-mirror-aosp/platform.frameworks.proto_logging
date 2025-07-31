@@ -288,6 +288,7 @@ message PackageInstallerSessionReported {
         USER_ACTION_REQUIRED_REASON_NETWORK_UNAVAILABLE = 1;
         USER_ACTION_REQUIRED_REASON_DEVELOPER_BLOCKED = 2;
         USER_ACTION_REQUIRED_REASON_LITE_VERIFICATION = 3;
+        USER_ACTION_REQUIRED_REASON_UNKNOWN = 4;
     }
     optional DeveloperVerificationUserActionRequiredReason adi_user_action_required_reason = 44;
     // User response code, this responds to the system API DEVELOPER_VERIFICATION_USER_RESPONSE codes.
@@ -331,6 +332,9 @@ message PackageInstallerSessionReported {
     optional bool user_response_received = 55;
     // Whether the user has responded in the developer verification confirmation dialog.
     optional bool adi_user_response_received = 56;
+
+    // The UID of the app that was installed or updated if the session was successful, -1 otherwise.
+    optional int32 app_uid = 57 [(is_uid) = true];
 }
 
 /**
