@@ -2554,6 +2554,12 @@ enum Action {
     // Tracks if the user changes the state when exiting the page
     // CATEGORY: SETTINGS
     ACTION_TRANSIT_MODE_BLUETOOTH_CHANGED_ON_EXIT = 2098;
+
+    // ACTION: Settings > Parental controls > Supervision main toggle
+    //         > Supervision generic error screen > Try again button
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_SUPERVISION_TRY_AGAIN = 2099;
 }
 
 /**
@@ -6035,6 +6041,10 @@ enum PageId {
     // OPEN: Settings > Display > Always-on displays
     // CATEGORY: SETTINGS
     AMBIENT_DISPLAY_ALWAYS_ON = 2176;
+
+    // Settings > Parental controls > Supervision generic error screen
+    // CATEGORY: SETTINGS
+    DIALOG_SUPERVISION_GENERIC_ERROR = 2177;
 }
 
 // Battery Saver schedule types.
