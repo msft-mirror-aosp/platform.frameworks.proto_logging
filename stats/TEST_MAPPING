@@ -4,6 +4,9 @@
       "name": "stats-log-api-gen-test"
     },
     {
+      "name": "PlatformAtomsTest"
+    },
+    {
       "name": "StatsCodeGenJavaTest",
       "options": [
         {
