@@ -1,0 +1,86 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.memory;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.memory";
+option java_multiple_files = true;
+
+extend Atom {
+    optional MemcgMemorySnapshot memcg_memory_snapshot = 10251 [(module) = "framework"];
+    optional MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot = 10252 [(module) = "framework"];
+}
+
+/*
+ * Logs the memcg memory for a process.
+ *
+ * Pulled from StatsCompanionService for all managed processes (from ActivityManagerService)
+ * and for selected native processes.
+ */
+message MemcgMemorySnapshot {
+    // The uid if available. -1 means not available.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The process name.
+    // Usually package name or process cmdline.
+    // Provided by ActivityManagerService or read from /proc/PID/cmdline.
+    optional string process_name = 2;
+
+    // The pid of the process.
+    // Allows to disambiguate instances of the process.
+    optional int32 pid = 3;
+
+    // Memory as tracked by memcg. Read from the memory.current field in
+    // /sys/fs/cgroup/../pid_PID/memory.current.
+    optional int64 memory_current_in_bytes = 4;
+
+    // Memory swap peak as tracked by memcg. Read from the memory.swap.current field in
+    // /sys/fs/cgroup/../pid_PID/memory.swap.current.
+    optional int64 memory_swap_current_in_bytes = 5;
+}
+
+/*
+ * Logs the memcg high memory water mark for a process.
+ *
+ * Pulled from StatsCompanionService for all managed processes (from ActivityManagerService)
+ * and for selected native processes.
+ */
+message MemcgMemoryHighWaterMarkSnapshot {
+    // The uid if available. -1 means not available.
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The process name.
+    // Usually package name or process cmdline.
+    // Provided by ActivityManagerService or read from /proc/PID/cmdline.
+    optional string process_name = 2;
+
+    // The pid of the process.
+    // Allows to disambiguate instances of the process.
+    optional int32 pid = 3;
+
+    // Memory peak as tracked by memcg. Read from the memory.peak field in
+    // /sys/fs/cgroup/../pid_PID/memory.peak.
+    optional int64 memory_peak_in_bytes = 4;
+
+    // Memory swap peak as tracked by memcg. Read from the memory.swap.peak field in
+    // /sys/fs/cgroup/../pid_PID/memory.swap.peak.
+    optional int64 memory_swap_peak_in_bytes = 5;
+}
