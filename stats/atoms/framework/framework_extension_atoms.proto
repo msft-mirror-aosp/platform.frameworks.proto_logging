@@ -93,6 +93,7 @@ extend Atom {
     optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
     optional ZramWritebackEvent zram_writeback_event = 1202 [(module) = "framework"];
     optional AppUsageQueryEventStats app_usage_query_event_stats = 10260 [(module) = "framework"];
+    optional UsageEventReportedStats usage_event_reported_stats = 10262 [(module) = "framework"];
 }
 
 /**
@@ -1857,3 +1858,39 @@ message AppUsageQueryEventStats {
   // The duration between the `beginTime` and `endTime` parameters in milliseconds.
   optional int64 time_span_millis = 3;
 }
+
+/**
+ * Logs reported number of usage events.
+ *
+ * Logged from:
+ * frameworks/base/services/usage/java/com/android/server/usage/UsageStatsService.java
+ */
+message UsageEventReportedStats {
+    // The values below are kept in sync with their definitions in
+    // frameworks/base/core/java/android/app/usage/UsageEvents.java
+    enum EventType {
+        NONE = 0;
+        MOVE_TO_FOREGROUND = 1;
+        MOVE_TO_BACKGROUND = 2;
+        CONFIGURATION_CHANGE = 5;
+        USER_INTERACTION = 7;
+        SHORTCUT_INVOCATION = 8;
+        CHOOSER_ACTION = 9;
+        NOTIFICATION_SEEN = 10;
+        STANDBY_BUCKET_CHANGED = 11;
+        NOTIFICATION_INTERRUPTION = 12;
+        SLICE_PINNED = 14;
+        SCREEN_INTERACTIVE = 15;
+        SCREEN_NON_INTERACTIVE = 16;
+        KEYGUARD_SHOWN = 17;
+        KEYGUARD_HIDDEN = 18;
+        FOREGROUND_SERVICE_START = 19;
+        FOREGROUND_SERVICE_STOP = 20;
+        ACTIVITY_STOPPED = 23;
+        LOCUS_ID_SET = 30;
+    }
+    optional EventType event_type = 1;
+    // Total count per event type, cumulative since boot.
+    optional int32 event_count = 2;
+}
+
