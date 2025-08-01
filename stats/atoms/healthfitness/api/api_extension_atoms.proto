@@ -71,6 +71,7 @@ extend Atom {
   optional HealthConnectDeviceInfoStats health_connect_device_info_stats = 1160 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 
   optional HealthConnectDataGranularityStats health_connect_data_granularity_stats = 1165 [(module) = "healthfitness"];
+  optional HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported = 1167 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -528,5 +529,33 @@ message HealthConnectDataGranularityStats {
 
   // True when granularity being logged is during an active session i.e. while sleep or exercise
   optional android.healthfitness.api.DataState data_state = 4;
+}
 
+/**
+ * Metrics for native tracking.
+ *
+ * Estimated Logging Rate: once per day.
+ * Logged from: packages/modules/HealthFitness/service/java/com/android/server/healthconnect/common/logging/DailyLoggingService.java
+ */
+message HealthConnectNativeTrackingStatsReported {
+  // Datatypes for which native tracking is currently active.
+  repeated android.healthfitness.api.NativeTrackingDataType native_data_types_active = 1;
+
+  // Datatypes for which the user has explicitly turned off native tracking.
+  repeated android.healthfitness.api.NativeTrackingDataType native_data_types_disabled = 2;
+
+  // Number of times a record has been written to disk this boot cycle.
+  optional int32 number_of_writes = 3;
+
+  // How many seconds have elapsed since the device booted.
+  optional int32 uptime_seconds = 4;
+
+  // The last error, if one occurred.
+  optional android.healthfitness.api.NativeTrackingErrorCode last_error_code = 5;
+
+  // Number of packages reading steps data.
+  optional int32 steps_readers_count = 6;
+
+  // Number of packages writing steps data.
+  optional int32 steps_writers_count = 7;
 }

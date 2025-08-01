@@ -256,6 +256,18 @@ enum SessionDataType {
   SESSION_DATA_TYPE_SLEEP = 2;
 }
 
+// Data types that are supported in the native tracking module.
+enum NativeTrackingDataType {
+  NATIVE_TRACKING_DATA_TYPE_UNSPECIFIED = 0;
+  NATIVE_TRACKING_DATA_TYPE_STEPS = 1;
+}
+
+// Errors encountered during tracker execution will be mapped to one of these.
+enum NativeTrackingErrorCode {
+  NATIVE_TRACKING_ERROR_CODE_UNSPECIFIED = 0;
+  NATIVE_TRACKING_ERROR_CODE_NONE = 1;
+}
+
 enum RecordingMethod {
   RECORDING_METHOD_UNKNOWN = 0;
   RECORDING_METHOD_ACTIVE_RECORDED = 1;
