@@ -86,6 +86,7 @@ extend Atom {
     optional AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported = 1103 [(module) = "framework"];
     optional DisplayCompatRestartMenuEventReported display_compat_restart_menu_event_reported = 1134 [(module) = "framework"];
     optional AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed = 1141 [(module) = "framework"];
+    optional WidgetInteractionEvent widget_interaction_event = 1175 [(module) = "framework"];
     optional EthernetBytesTransfer ethernet_bytes_transfer = 10249 [(module) = "framework"];
     optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
     optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
@@ -1726,4 +1727,34 @@ message CustomVibrationPatternReported {
     VIBRATION_PATTERN_SAVED = 1;
     VIBRATION_PATTERN_PLAYED = 2;
   }
+}
+
+/*
+ * Logs the interaction with widgets managed by AppWidgetService.
+ * Estimated Logging Rate: 24 per device per day
+ * Logged from:
+ *   frameworks/base/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+ */
+message WidgetInteractionEvent {
+    // The uid of the app that hosts this widget.
+    optional int32 host_uid = 1 [(is_uid) = true];
+
+    // The ComponentName of the AppWidgetProvider. Allows us to identify what type of widget this
+    // interaction came from.
+    optional string provider = 2;
+
+    // The start of the time range that this event represents in epoch milliseconds.
+    optional int64 start_millis = 3;
+
+    // The end of the time range that this event represents in epoch milliseconds.
+    optional int64 end_millis = 4;
+
+    // The duration that the widget was visible within the range of time that this event represents.
+    optional int64 visible_duration_millis = 5;
+
+    // The global coordinates of the widget at the end of the event time range.
+    optional int32 rect_left = 6;
+    optional int32 rect_top = 7;
+    optional int32 rect_right = 8;
+    optional int32 rect_bottom = 9;
 }
