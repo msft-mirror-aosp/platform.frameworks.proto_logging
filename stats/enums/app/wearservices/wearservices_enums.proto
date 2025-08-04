@@ -1001,7 +1001,7 @@ enum BugreportResult {
 }
 
 // This enum depicts a bugreport event
-// Next ID: 5
+// Next ID: 12
 enum BugreportEvent {
   EVENT_BUGREPORT_UNKNOWN = 0;
   EVENT_BUGREPORT_REQUESTED = 1;
@@ -1023,6 +1023,13 @@ enum BugreportEvent {
   // A stale bug report file is discarded without being uploaded.
   // Only logged by WCS_AUTO_UPLOAD component.
   EVENT_BUGREPORT_DISCARDED = 9;
+  // Companion's cross stack logs are requested to be included in the bugreport,
+  // when the bugreport is triggered via BugreportManager.
+  EVENT_BUGREPORT_CROSS_STACK_LOGS_REQUESTED = 10;
+  // Companion's cross stack logs are received by WearServices,
+  // when the bugreport is triggered via BugreportManager.
+  EVENT_BUGREPORT_CROSS_STACK_LOGS_RECEIVED = 11;
+
 }
 
 // This enum depicts a bugreport failure reason
