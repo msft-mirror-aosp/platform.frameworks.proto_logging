@@ -1,10 +1,12 @@
 {
   "presubmit": [
     {
-      "name": "stats-log-api-gen-test"
+      "name": "stats-log-api-gen-test",
+      "host": true
     },
     {
-      "name": "PlatformAtomsTest"
+      "name": "PlatformAtomsTest",
+      "host": true
     },
     {
       "name": "StatsCodeGenJavaTest",
