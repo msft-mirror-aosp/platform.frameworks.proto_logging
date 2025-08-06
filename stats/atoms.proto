@@ -1496,6 +1496,7 @@ message Atom {
     extensions 1163; // DisplayOffloadCycleStats display_offload_cycle_stats
     extensions 1164; // DisplayOffloadSessionStats display_offload_session_stats
     extensions 1165; // HealthConnectDataGranularityStats health_connect_data_granularity_stats
+    extensions 1166; // SoftApInfoChanged soft_ap_info_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
