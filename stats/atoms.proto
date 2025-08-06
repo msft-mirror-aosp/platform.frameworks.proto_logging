@@ -1498,6 +1498,7 @@ message Atom {
     extensions 1165; // HealthConnectDataGranularityStats health_connect_data_granularity_stats
     extensions 1166; // SoftApInfoChanged soft_ap_info_changed
     extensions 1167; // HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported
+    extensions 1168; // RouteListingPreferenceSuggestionApiCalled route_listing_preference_suggestion_api_called
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
