@@ -4377,6 +4377,10 @@ message BluetoothQualityReportReported {
     // Buffer underflow count (in byte) since last event
     // Original type: uint32_t
     optional int64 buffer_underflow_bytes = 19;
+    // Identifier for the remote device/metric id
+    // Default: 0 if the device's metric id is unknown.
+    // Original type: uint32_t
+    optional int32 metric_id = 20;
 }
 
 /**
