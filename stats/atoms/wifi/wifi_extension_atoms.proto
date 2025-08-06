@@ -58,6 +58,7 @@ extend Atom {
     optional WifiPeriodicScanReport wifi_periodic_scan_report = 1128 [(module) = "wifi"];
     optional WifiQosPoliciesFromAccessPointRequested wifi_qos_policies_from_access_point_requested = 1148 [(module) = "wifi"];
     optional WifiQosPoliciesFromApplicationRequested wifi_qos_policies_from_application_requested = 1158 [(module) = "wifi"];
+    optional SoftApInfoChanged soft_ap_info_changed = 1166 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -1054,4 +1055,27 @@ message WifiQosPoliciesFromApplicationRequested {
 
     // Whether any policies in the batch use the MSDU Delivery Info characteristic
     optional bool uses_characteristic_msdu_delivery_info = 19;
+}
+
+/**
+ * Logged when SoftAp Info changed intent is triggered
+ *
+ * Logged From: SoftApManager.onInfoChanged
+ * Estimated Logging Rate:
+ *  Peak: 50 times per device per day.
+ *  Avg: 10 times per device per day.
+ */
+message SoftApInfoChanged {
+    // The center frequency of the primary 20 MHz frequency (in MHz) of the channel over which the
+    // Soft AP was set.
+    optional int32 channel_frequency_mhz = 1;
+
+    // Band of the Soft AP
+    optional int32 band = 2;
+
+    // Soft AP channel width
+    optional android.net.wifi.WifiChannelWidth channel_width_mhz = 3;
+
+    // Wi-Fi standard of the connection
+    optional android.net.wifi.WifiStandard standard = 4;
 }
