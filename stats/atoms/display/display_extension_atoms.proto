@@ -127,80 +127,157 @@ message DisplayOffloadCycleStats {
 
   optional int32 offload_cycle_duration_ms = 6;
 
-  repeated int32 gpu_draw_time_per_frame_ms = 7
-    [(histogram_bin_option).generated_bins = {
-      min: 0
-      max: 25
-      count: 25
-      strategy: LINEAR
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  repeated int32 always_on_display_cpu_and_gpu_draw_time_per_frame_ms = 7
+    [(histogram_bin_option).explicit_bins = {
+      bin: 1
+      bin: 5
+      bin: 7
+      bin: 9
+      bin: 11
+      bin: 12
+      bin: 13
+      bin: 14
+      bin: 15
+      bin: 16
+      bin: 17
+      bin: 18
+      bin: 19
+      bin: 20
+      bin: 25
+      bin: 29
+      bin: 31
+      bin: 33
+      bin: 35
+      bin: 37
+      bin: 40
+      bin: 45
+      bin: 50
+      bin: 55
+      bin: 60
     }];
 
-  // Number of frames drawn in AOD at a given frames-per-minute frame rate.
-  repeated int32 always_on_display_frame_count_per_fpm = 8
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  repeated int32 false_interactive_cpu_and_gpu_draw_time_per_frame_ms = 8
     [(histogram_bin_option).explicit_bins = {
-      bin: 1     // 1/60 FPS
-      bin: 3     // 1/20 FPS
-      bin: 12    // 1/5 FPS
-      bin: 60    // 1 FPS
-      bin: 300   // 5 FPS
-      bin: 600   // 10 FPS
-      bin: 900   // 15 FPS
-      bin: 1200  // 20 FPS
-      bin: 1500  // 25 FPS
-      bin: 1800  // 30 FPS
-      bin: 2100  // 35 FPS
-      bin: 2400  // 40 FPS
-      bin: 2700  // 45 FPS
-      bin: 3000  // 50 FPS
-      bin: 3300  // 55 FPS
-      bin: 3600  // 60 FPS
+      bin: 1
+      bin: 5
+      bin: 7
+      bin: 9
+      bin: 11
+      bin: 12
+      bin: 13
+      bin: 14
+      bin: 15
+      bin: 16
+      bin: 17
+      bin: 18
+      bin: 19
+      bin: 20
+      bin: 25
+      bin: 29
+      bin: 31
+      bin: 33
+      bin: 35
+      bin: 37
+      bin: 40
+      bin: 45
+      bin: 50
+      bin: 55
+      bin: 60
     }];
 
-  // Number of frames drawn in false-interactive mode at a given frames-per-minute frame rate.
-  repeated int32 false_interactive_frame_count_per_fpm = 9
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  repeated int32 always_on_display_cpu_draw_time_per_frame_ms = 9
     [(histogram_bin_option).explicit_bins = {
-      bin: 1     // 1/60 FPS
-      bin: 3     // 1/20 FPS
-      bin: 12    // 1/5 FPS
-      bin: 60    // 1 FPS
-      bin: 300   // 5 FPS
-      bin: 600   // 10 FPS
-      bin: 900   // 15 FPS
-      bin: 1200  // 20 FPS
-      bin: 1500  // 25 FPS
-      bin: 1800  // 30 FPS
-      bin: 2100  // 35 FPS
-      bin: 2400  // 40 FPS
-      bin: 2700  // 45 FPS
-      bin: 3000  // 50 FPS
-      bin: 3300  // 55 FPS
-      bin: 3600  // 60 FPS
+      bin: 1
+      bin: 5
+      bin: 7
+      bin: 9
+      bin: 11
+      bin: 12
+      bin: 13
+      bin: 14
+      bin: 15
+      bin: 16
+      bin: 17
+      bin: 18
+      bin: 19
+      bin: 20
+      bin: 25
+      bin: 29
+      bin: 31
+      bin: 33
+      bin: 35
+      bin: 37
+      bin: 40
+      bin: 45
+      bin: 50
+      bin: 55
+      bin: 60
     }];
+
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  repeated int32 false_interactive_cpu_draw_time_per_frame_ms = 10
+    [(histogram_bin_option).explicit_bins = {
+      bin: 1
+      bin: 5
+      bin: 7
+      bin: 9
+      bin: 11
+      bin: 12
+      bin: 13
+      bin: 14
+      bin: 15
+      bin: 16
+      bin: 17
+      bin: 18
+      bin: 19
+      bin: 20
+      bin: 25
+      bin: 29
+      bin: 31
+      bin: 33
+      bin: 35
+      bin: 37
+      bin: 40
+      bin: 45
+      bin: 50
+      bin: 55
+      bin: 60
+    }];
+
+  optional float always_on_display_target_fps = 11;
+  optional float false_interactive_target_fps = 12;
 
   // Time to move framebuffer to display hardware, per frame
-  optional int32 min_framebuffer_to_display_hw_transfer_time_per_frame_ms = 10;
-  optional int32 avg_framebuffer_to_display_hw_transfer_time_per_frame_ms = 11;
-  optional int32 max_framebuffer_to_display_hw_transfer_time_per_frame_ms = 12;
+  optional int32 min_framebuffer_to_display_hw_transfer_time_per_frame_ms = 13;
+  optional int32 avg_framebuffer_to_display_hw_transfer_time_per_frame_ms = 14;
+  optional int32 max_framebuffer_to_display_hw_transfer_time_per_frame_ms = 15;
 
   // GPU command queue flush count, GPU driver-driven, per frame
-  optional int32 avg_driver_driven_gpu_command_queue_flush_count_per_frame = 13;
-  optional int32 max_driver_driven_gpu_command_queue_flush_count_per_frame = 14;
+  optional int32 avg_driver_driven_gpu_command_queue_flush_count_per_frame = 16;
+  optional int32 max_driver_driven_gpu_command_queue_flush_count_per_frame = 17;
 
   // GPU command queue flush count, client forced, per frame
-  optional int32 avg_client_forced_gpu_command_queue_flush_count_per_frame = 15;
-  optional int32 max_client_forced_gpu_command_queue_flush_count_per_frame = 16;
+  optional int32 avg_client_forced_gpu_command_queue_flush_count_per_frame = 18;
+  optional int32 max_client_forced_gpu_command_queue_flush_count_per_frame = 19;
 
-  optional int32 total_frame_count = 17;
-  optional int32 janky_frame_count = 18;
+  optional int32 total_frame_count = 20;
+  optional int32 janky_frame_count = 21;
 
   // Number of tilt-to-wakes and the time device spent in false-interactive mode after TTW
-  optional int32 tilt_to_wake_event_count = 19;
-  optional int32 tilt_to_wake_false_interactive_duration_ms = 20;
+  optional int32 tilt_to_wake_event_count = 22;
+  optional int32 tilt_to_wake_false_interactive_duration_ms = 23;
+
+  optional int32 cache_memory_max_bytes = 24;
+  optional int32 cache_offload_cycle_end_bytes = 25;
+  optional int32 cache_max_available_memory_block_bytes = 26;
 }
 
 /**
- * Logs offload session stats when offload cycle ends (one atom per session that
- * took part in the cycle).
+ * Logs offload session stats when offload cycle ends (one atom per offload session that
+ * was present on MCU during the cycle, including ineligible and ignored sessions).
  *
  * Logged from:
  *  frameworks/opt/wear/src/com/android/clockwork/displayoffload/DisplayOffloadService.java
@@ -216,42 +293,58 @@ message DisplayOffloadSessionStats {
   optional int32 uid = 3 [(is_uid) = true];
   optional android.display.DisplayOffloadSessionType session_type = 4;
   optional android.display.DisplayOffloadRendererType renderer_type = 5;
+  optional android.display.DisplayOffloadSessionEligibility eligibility = 6;
 
   // Fast memory usage
-  optional int32 fast_memory_max_bytes = 6;
-  optional int32 fast_memory_offload_cycle_end_bytes = 7;
-  optional int32 fast_memory_max_available_memory_block_bytes = 8;
+  optional int32 fast_memory_max_bytes = 7;
+  optional int32 fast_memory_offload_cycle_end_bytes = 8;
+  optional int32 fast_memory_max_available_memory_block_bytes = 9;
 
   // Regular memory usage
-  optional int32 regular_memory_max_bytes = 9;
-  optional int32 regular_memory_offload_cycle_end_bytes = 10;
-  optional int32 regular_memory_max_available_memory_block_bytes = 11;
+  optional int32 regular_memory_max_bytes = 10;
+  optional int32 regular_memory_offload_cycle_end_bytes = 11;
+  optional int32 regular_memory_max_available_memory_block_bytes = 12;
 
   // External memory usage
-  optional int32 external_memory_max_bytes = 12;
-  optional int32 external_memory_offload_cycle_end_bytes = 13;
-  optional int32 external_memory_max_available_memory_block_bytes = 14;
+  optional int32 external_memory_max_bytes = 13;
+  optional int32 external_memory_offload_cycle_end_bytes = 14;
+  optional int32 external_memory_max_available_memory_block_bytes = 15;
 
-  // Glyph memory usage
-  optional int32 glyph_memory_max_bytes = 15;
-  optional int32 glyph_memory_offload_cycle_end_bytes = 16;
-  optional int32 glyph_memory_max_available_memory_block_bytes = 17;
+  optional int32 layout_size_bytes = 16;
 
-  optional int32 layout_size_bytes = 18;
-
-  repeated int32 expression_evaluation_time_per_frame_ms = 19
+  // Histogram bins (26): [-inf, 1), [1, 3), [3, 5) .. [47, 49), [49, +inf)
+  repeated int32 always_on_display_expression_evaluation_time_per_frame_ms = 17
     [(histogram_bin_option).generated_bins = {
-      min: 0
-      max: 25
-      count: 25
+      min: 1
+      max: 49
+      count: 24
       strategy: LINEAR
     }];
 
-  repeated int32 renderer_draw_time_per_frame_ms = 20
+  // Histogram bins (26): [-inf, 1), [1, 2), [2, 3) .. [24, 25), [25, +inf)
+  repeated int32 false_interactive_expression_evaluation_time_per_frame_ms = 18
+  [(histogram_bin_option).generated_bins = {
+    min: 1
+    max: 25
+    count: 24
+    strategy: LINEAR
+  }];
+
+  // Histogram bins (26): [-inf, 1), [1, 3), [3, 5) .. [47, 49), [49, +inf)
+  repeated int32 always_on_display_renderer_draw_time_per_frame_ms = 19
     [(histogram_bin_option).generated_bins = {
-      min: 0
+      min: 1
+      max: 49
+      count: 24
+      strategy: LINEAR
+    }];
+
+  // Histogram bins (26): [-inf, 1), [1, 2), [2, 3) .. [24, 25), [25, +inf)
+  repeated int32 false_interactive_renderer_draw_time_per_frame_ms = 20
+    [(histogram_bin_option).generated_bins = {
+      min: 1
       max: 25
-      count: 25
+      count: 24
       strategy: LINEAR
     }];
 }
