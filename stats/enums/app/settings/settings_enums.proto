@@ -2560,6 +2560,14 @@ enum Action {
     // CATEGORY: SETTINGS
     // OS: V
     ACTION_SUPERVISION_TRY_AGAIN = 2099;
+
+    // OPEN: Settings > System -> Touchpad
+    // OPEN: Settings > System -> Mouse
+    // CATEGORY: SETTINGS
+    ACTION_TOP_LEFT_ACTION_CORNER_SHORTCUT_CHANGED = 2100;
+    ACTION_TOP_RIGHT_ACTION_CORNER_SHORTCUT_CHANGED = 2101;
+    ACTION_BOTTOM_LEFT_ACTION_CORNER_SHORTCUT_CHANGED = 2102;
+    ACTION_BOTTOM_RIGHT_ACTION_CORNER_SHORTCUT_CHANGED = 2103;
 }
 
 /**
@@ -6045,6 +6053,11 @@ enum PageId {
     // Settings > Parental controls > Supervision generic error screen
     // CATEGORY: SETTINGS
     DIALOG_SUPERVISION_GENERIC_ERROR = 2177;
+
+    // OPEN: Settings > System -> Touchpad
+    // OPEN: Settings > System -> Mouse
+    // CATEGORY: SETTINGS
+    ACTION_CORNERS = 2178;
 }
 
 // Battery Saver schedule types.

@@ -69,6 +69,9 @@ extend Atom {
   optional HealthConnectRecordingMethodStats health_connect_recording_method_stats = 1157 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 
   optional HealthConnectDeviceInfoStats health_connect_device_info_stats = 1160 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+
+  optional HealthConnectDataGranularityStats health_connect_data_granularity_stats = 1165 [(module) = "healthfitness"];
+  optional HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported = 1167 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -461,6 +464,7 @@ message HealthConnectLatencyStats {
   optional int64 latency = 3;
 
 }
+
 /**
  * Metrics for recording methods collected via PWW.
  *
@@ -503,4 +507,55 @@ message HealthConnectDeviceInfoStats {
 
   // Whether or not the records from the package of the type have device type set
   optional bool has_type = 5;
+}
+
+/**
+ * Metrics for Data Granularity of Non-Sensitive Series Data Type
+
+ * Estimated Logging Rate:
+ * Peak: ~60 times per week (5 pkg * 6 types * 2 boolean)
+ * Avg: ~12 times per week (1 pkg * 6 types * 2 boolean)
+ */
+message HealthConnectDataGranularityStats {
+
+  // Package name writing data.
+  optional string package_name = 1;
+
+  // Data type being written.
+  optional android.healthfitness.api.SeriesDataType series_data_type = 2;
+
+  // Average time gap between different records in milliseconds (round to closest long).
+  optional int64 granularity = 3;
+
+  // True when granularity being logged is during an active session i.e. while sleep or exercise
+  optional android.healthfitness.api.DataState data_state = 4;
+}
+
+/**
+ * Metrics for native tracking.
+ *
+ * Estimated Logging Rate: once per day.
+ * Logged from: packages/modules/HealthFitness/service/java/com/android/server/healthconnect/common/logging/DailyLoggingService.java
+ */
+message HealthConnectNativeTrackingStatsReported {
+  // Datatypes for which native tracking is currently active.
+  repeated android.healthfitness.api.NativeTrackingDataType native_data_types_active = 1;
+
+  // Datatypes for which the user has explicitly turned off native tracking.
+  repeated android.healthfitness.api.NativeTrackingDataType native_data_types_disabled = 2;
+
+  // Number of times a record has been written to disk this boot cycle.
+  optional int32 number_of_writes = 3;
+
+  // How many seconds have elapsed since the device booted.
+  optional int32 uptime_seconds = 4;
+
+  // The last error, if one occurred.
+  optional android.healthfitness.api.NativeTrackingErrorCode last_error_code = 5;
+
+  // Number of packages reading steps data.
+  optional int32 steps_readers_count = 6;
+
+  // Number of packages writing steps data.
+  optional int32 steps_writers_count = 7;
 }
