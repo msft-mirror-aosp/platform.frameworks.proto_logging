@@ -1066,6 +1066,46 @@ message WifiQosPoliciesFromApplicationRequested {
  *  Avg: 10 times per device per day.
  */
 message SoftApInfoChanged {
+    enum ChannelWidthMhz {
+        CHANNEL_WIDTH_UNKNOWN = 0;
+
+        // SAP Channel bandwidth is 20 MHZ but no HT.
+        CHANNEL_WIDTH_20MHZ_NOHT = 1;
+
+        // SAP Channel bandwidth is 20
+        CHANNEL_WIDTH_20MHZ = 2;
+
+        // SAP Channel bandwidth is 40
+        CHANNEL_WIDTH_40MHZ = 3;
+
+        // SAP Channel bandwidth is 80
+        CHANNEL_WIDTH_80MHZ = 4;
+
+        // SAP Channel bandwidth is 160 MHZ, but 80MHZ + 80MHZ.
+        CHANNEL_WIDTH_80MHZ_PLUS_MHZ = 5;
+
+        // SAP Channel bandwidth is 160
+        CHANNEL_WIDTH_160MHZ = 6;
+
+        // SAP Channel bandwidth is 2160 MHZ.
+        CHANNEL_WIDTH_2160MHZ = 7;
+
+        // SAP Channel bandwidth is 4320 MHZ.
+        CHANNEL_WIDTH_4320MHZ = 8;
+
+        //SAP Channel bandwidth is 6480 MHZ.
+        CHANNEL_WIDTH_6480MHZ = 9;
+
+        // SAP Channel bandwidth is 8640 MHZ
+        CHANNEL_WIDTH_8640MHZ = 10;
+
+        // SAP Channel bandwidth is 320 MHZ.
+        CHANNEL_WIDTH_320MHZ = 11;
+
+        // SAP Channel bandwidth is automatically selected by the chip.
+        CHANNEL_WIDTH_AUTO = 12;
+    }
+
     // The center frequency of the primary 20 MHz frequency (in MHz) of the channel over which the
     // Soft AP was set.
     optional int32 channel_frequency_mhz = 1;
@@ -1074,7 +1114,7 @@ message SoftApInfoChanged {
     optional int32 band = 2;
 
     // Soft AP channel width
-    optional android.net.wifi.WifiChannelWidth channel_width_mhz = 3;
+    optional ChannelWidthMhz channel_width_mhz = 3;
 
     // Wi-Fi standard of the connection
     optional android.net.wifi.WifiStandard standard = 4;
