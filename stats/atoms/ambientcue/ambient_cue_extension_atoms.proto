@@ -62,4 +62,7 @@ message AmbientCueEventReported {
 
   // The cue bar reached the timeout.
   optional bool reached_timeout = 10;
+
+  // The uid of the target app.
+  optional int32 uid = 11 [(is_uid) = true];
 }
