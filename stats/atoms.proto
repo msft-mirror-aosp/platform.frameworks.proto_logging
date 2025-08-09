@@ -17459,6 +17459,8 @@ message RankingSelected {
     optional int32 position_picked = 4;
     // Whether the selected target is pinned.
     optional bool is_pinned = 5;
+    // Whether extra text was included when sharing file/image.
+    optional bool included_extra_text_when_sharing_file = 6;
 }
 
 /**
