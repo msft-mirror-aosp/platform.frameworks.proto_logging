@@ -69,7 +69,15 @@ message BiometricEnumerated {
     repeated int32 template_ids_framework = 5;
 }
 
-// Logged when the BiometricPrompt starts, includes request information
+
+/**
+ * Logged when the BiometricPrompt starts, includes request information
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/biometrics/ui/biometricprompt/BiometricPromptLogger.kt
+ *
+ * Estimated logging rate: 10 times per day
+ */
 message BiometricPromptStarted {
     // Session Id of the current operation
     optional int32 session_id = 1;
@@ -108,7 +116,14 @@ message BiometricPromptStarted {
     optional bool is_identity_check_active = 14;
 }
 
-// Logged each time a non-cancelling event occurs within prompt
+/**
+ * Logged each time a non-cancelling event occurs within prompt
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/biometrics/ui/biometricprompt/BiometricPromptLogger.kt
+ *
+ * Estimated logging rate: 4 times per Biometric Prompt Session
+ */
 message BiometricPromptEvent {
     enum EventType {
         EVENT_TYPE_UNKNOWN = 0;
@@ -127,7 +142,14 @@ message BiometricPromptEvent {
     optional EventType event = 2;
 }
 
-// Logged once when a prompt session ends.
+/**
+ * Logged once when a prompt session ends.
+ *
+ * Logged from:
+ *   frameworks/base/packages/SystemUI/src/com/android/systemui/biometrics/ui/biometricprompt/BiometricPromptLogger.kt
+ *
+ * Estimated logging rate: 10 times per day
+ */
 message BiometricPromptEnded {
     enum PromptEndedReason {
         PROMPT_ENDED_REASON_UNKNOWN = 0;
