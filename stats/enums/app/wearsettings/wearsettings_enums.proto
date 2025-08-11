@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 541
+// Next ID: 542
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -102,6 +102,7 @@ enum ItemId {
   AUDIO_ADJUSTMENT = 409;
   AUDIO_BALANCE_SLIDER_PREFERENCE = 410;
   AUDIO_BALANCE_LEFT_RIGHT_TEXT = 411;
+  BATTERY_HEALTH_ASSISTANCE = 541;
   BATTERY_SAVER_AUTO_BATTERY_SAVER_ENABLED = 324;
   BATTERY_SAVER_BATTERY_SAVER = 315;
   BATTERY_SHOW_PERCENTAGE = 531;
