@@ -16086,6 +16086,28 @@ message ContactsProviderStatusReported {
         DANGLING_CONTACTS_CLEANUP_TASK = 1;
     }
 
+    // Indicates the inferred origin of the data for the account associated with an operation.
+    // See ContactsContract.Settings.AccountAttributes.
+    enum AccountDataOrigin {
+        ACCOUNT_DATA_ORIGIN_UNSPECIFIED = 0;
+        // The account matches the local account returned by
+        // ContactsContract.RawContacts.getLocalAccount*
+        ACCOUNT_DATA_ORIGIN_LOCAL = 1;
+        // The account exists in the accounts returned by
+        // ContactsContract.SimContacts.getSimAccounts and has ADN_EF_TYPE
+        ACCOUNT_DATA_ORIGIN_SIM_ADN = 2;
+        // The account exists in the accounts returned by AccountManager.getAccounts
+        ACCOUNT_DATA_ORIGIN_CLOUD = 4;
+        // The account exists in the accounts returned by
+        // ContactsContract.SimContacts.getSimAccounts and has FDN_EF_TYPE. This is 258 so
+        // that for each of the SIM cases the second bit is set.
+        ACCOUNT_DATA_ORIGIN_SIM_FDN = 258;
+        // The account exists in the accounts returned by
+        // ContactsContract.SimContacts.getSimAccounts and has SDN_EF_TYPE. This is 514 so
+        // that for each of the SIM cases the second bit is set.
+        ACCOUNT_DATA_ORIGIN_SIM_SDN = 514;
+    }
+
     optional ApiType api_type = 1;
     // Defined in
     // packages/providers/ContactsProvider/src/com/android/providers/contacts/ContactsProvider2.java
@@ -16102,6 +16124,17 @@ message ContactsProviderStatusReported {
     // profile cases.)
     // For GAL_CALL, it's the GAL provider UID.
     optional int32 uid = 9 [(is_uid) = true];
+
+    // The account type that the data is associated with. Currently this is only included for
+    // raw contact inserts.
+    optional string account_type = 10;
+    // Indicates the inferred origin of the data account associated with an operation. Currently
+    // this is only included for raw contact inserts.
+    optional AccountDataOrigin account_data_origin = 11;
+    // The value of ContactsContract.DefaultAccount.getDefaultAccountForNewContacts at the time of a
+    // raw contact insert. This will be one of the
+    // ContactsContract.DefaultAccount.DefaultAccountAndState.DEFAULT_ACCOUNT_STATE_* values.
+    optional int32 default_account_state = 12;
 }
 
 /**
