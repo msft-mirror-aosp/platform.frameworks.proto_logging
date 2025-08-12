@@ -30,7 +30,7 @@ extend Atom {
       [(module) = "mediarouter"];
   optional RoutingChangeReported routing_change_reported = 1142
       [(module) = "mediarouter"];
-  optional RouteListingPreferenceSuggestionApiCalled route_listing_preference_suggestion_api_called = 1168
+  optional RouteListingPreferenceUpdated route_listing_preference_updated = 1168
       [(module) = "mediarouter"];
 }
 
@@ -72,16 +72,18 @@ message RoutingChangeReported {
 
 /**
  * Pushed atom. Logs an event at the end of a media router lifecycle with the
- * number of route listing preference suggestion API calls made on that router.
+ * number of route listing preference API calls made on that router.
  *
  * Logged from:
  *   frameworks/base/media/java/android/media/
  * Estimated Logging Rate:
  *   Avg: 10 per device per day
  */
- message RouteListingPreferenceSuggestionApiCalled {
+ message RouteListingPreferenceUpdated {
   // The package calling the API to set route listing preference.
   optional int32 calling_package_uid = 1 [(is_uid) = true];
   // The count of the API calls made in the lifecycle of the media router.
-  optional int32 call_count = 2;
+  optional int64 call_count = 2;
+  // The count of the API calls made in the lifecycle of the media router which have the suggested flag set.
+  optional int64 suggested_flag_call_count = 3;
 }
