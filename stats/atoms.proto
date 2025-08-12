@@ -1498,7 +1498,7 @@ message Atom {
     extensions 1165; // HealthConnectDataGranularityStats health_connect_data_granularity_stats
     extensions 1166; // SoftApInfoChanged soft_ap_info_changed
     extensions 1167; // HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported
-    extensions 1168; // RouteListingPreferenceSuggestionApiCalled route_listing_preference_suggestion_api_called
+    extensions 1168; // RouteListingPreferenceUpdated route_listing_preference_updated
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15358,6 +15358,10 @@ message PerfettoUploaded {
         PERFETTO_TRACED_ENABLE_PRIORITY_BOOST_INVALID_CONFIG = 61;
         PERFETTO_TRACED_ENABLE_PRIORITY_BOOST_OTHER_ERROR = 62;
 
+        // Exclusive session inside traced.
+        PERFETTO_TRACED_ENABLE_TRACING_EXCLUSIVE_SESSION_REJECTED = 63;
+        PERFETTO_TRACED_ENABLE_TRACING_EXCLUSIVE_SESSION_NOT_ALLOWED = 64;
+
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
         PERFETTO_FINALIZE_TRACE_AND_EXIT = 11;
@@ -16086,6 +16090,28 @@ message ContactsProviderStatusReported {
         DANGLING_CONTACTS_CLEANUP_TASK = 1;
     }
 
+    // Indicates the inferred origin of the data for the account associated with an operation.
+    // See ContactsContract.Settings.AccountAttributes.
+    enum AccountDataOrigin {
+        ACCOUNT_DATA_ORIGIN_UNSPECIFIED = 0;
+        // The account matches the local account returned by
+        // ContactsContract.RawContacts.getLocalAccount*
+        ACCOUNT_DATA_ORIGIN_LOCAL = 1;
+        // The account exists in the accounts returned by
+        // ContactsContract.SimContacts.getSimAccounts and has ADN_EF_TYPE
+        ACCOUNT_DATA_ORIGIN_SIM_ADN = 2;
+        // The account exists in the accounts returned by AccountManager.getAccounts
+        ACCOUNT_DATA_ORIGIN_CLOUD = 4;
+        // The account exists in the accounts returned by
+        // ContactsContract.SimContacts.getSimAccounts and has FDN_EF_TYPE. This is 258 so
+        // that for each of the SIM cases the second bit is set.
+        ACCOUNT_DATA_ORIGIN_SIM_FDN = 258;
+        // The account exists in the accounts returned by
+        // ContactsContract.SimContacts.getSimAccounts and has SDN_EF_TYPE. This is 514 so
+        // that for each of the SIM cases the second bit is set.
+        ACCOUNT_DATA_ORIGIN_SIM_SDN = 514;
+    }
+
     optional ApiType api_type = 1;
     // Defined in
     // packages/providers/ContactsProvider/src/com/android/providers/contacts/ContactsProvider2.java
@@ -16102,6 +16128,17 @@ message ContactsProviderStatusReported {
     // profile cases.)
     // For GAL_CALL, it's the GAL provider UID.
     optional int32 uid = 9 [(is_uid) = true];
+
+    // The account type that the data is associated with. Currently this is only included for
+    // raw contact inserts.
+    optional string account_type = 10;
+    // Indicates the inferred origin of the data account associated with an operation. Currently
+    // this is only included for raw contact inserts.
+    optional AccountDataOrigin account_data_origin = 11;
+    // The value of ContactsContract.DefaultAccount.getDefaultAccountForNewContacts at the time of a
+    // raw contact insert. This will be one of the
+    // ContactsContract.DefaultAccount.DefaultAccountAndState.DEFAULT_ACCOUNT_STATE_* values.
+    optional int32 default_account_state = 12;
 }
 
 /**
