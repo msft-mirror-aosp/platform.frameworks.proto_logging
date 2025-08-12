@@ -522,7 +522,7 @@ message HealthConnectDataGranularityStats {
   optional string package_name = 1;
 
   // Data type being written.
-  optional android.healthfitness.api.SeriesDataType series_data_type = 2;
+  optional android.healthfitness.api.GranularityDataType granularity_data_type = 2;
 
   // Average time gap between different records in milliseconds (round to closest long).
   optional int64 granularity = 3;
