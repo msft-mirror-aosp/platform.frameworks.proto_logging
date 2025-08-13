@@ -1499,6 +1499,8 @@ message Atom {
     extensions 1166; // SoftApInfoChanged soft_ap_info_changed
     extensions 1167; // HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported
     extensions 1168; // RouteListingPreferenceUpdated route_listing_preference_updated
+    extensions 1169; // BluetoothEnergyMonitorReported bluetooth_energy_monitor_reported
+    extensions 1170; // BluetoothRFStatsReported bluetooth_rf_stats_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16219,6 +16221,7 @@ message AppFreezeChanged {
         UFR_OOM_ADJ_FOLLOW_UP = 30;
         UFR_OOM_ADJ_RECONFIGURATION = 31;
         UFR_OOM_ADJ_REASON_SERVICE_BINDER_CALL = 32;
+        UFR_OOM_ADJ_REASON_BATCH_UPDATE_REQUEST = 33;
     }
 
     optional UnfreezeReason unfreeze_reason_v2 = 6;
