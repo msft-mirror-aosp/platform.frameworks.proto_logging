@@ -565,7 +565,7 @@ message Atom {
         BlobLeased blob_leased = 299 [(module) = "framework"];
         BlobOpened blob_opened = 300 [(module) = "framework"];
         ContactsProviderStatusReported contacts_provider_status_reported = 301 [(module) = "contactsprovider"];
-        KeystoreKeyEventReported keystore_key_event_reported = 302;
+        KeystoreKeyEventReported keystore_key_event_reported = 302 [deprecated = true];
         NetworkTetheringReported  network_tethering_reported =
             303 [(module) = "network_tethering"];
         sysui.ImeTouchReported ime_touch_reported = 304 [(module) = "sysui"];
@@ -18536,6 +18536,8 @@ message MediametricsAudioTrackStatusReported {
 }
 
 /**
+ * Deprecated in Android S. Use the Keystore2.* atoms on S+.
+ *
  * Logs: i) creation of different types of cryptographic keys in the keystore,
  * ii) operations performed using the keys,
  * iii) attestation of the keys
