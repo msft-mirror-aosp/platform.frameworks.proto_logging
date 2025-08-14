@@ -43,8 +43,14 @@ extend Atom {
  *   Avg: 10 per device per day
  */
 message MediaRouterEventReported {
+  // The media router event being logged. For example: session start, transfer to route, etc.
   optional android.media.router.EventType event_type = 1;
+  // Result of the media router event.
   optional android.media.router.Result result = 2;
+  // Point where the routing event originated from (Output switcher, Unified Media Object card, etc.)
+  optional android.media.router.EntryPoint entry_point = 3;
+  // Whether the device where media is being routed was a device suggestion.
+  optional bool is_suggested_device = 4;
 }
 
 /**
