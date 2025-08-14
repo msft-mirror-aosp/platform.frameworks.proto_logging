@@ -67,7 +67,7 @@ enum AppSearchEnabledFeatures {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 30
+ * Next tag: 44
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -157,14 +157,58 @@ message AppSearchSetSchemaStatsReported {
     // types AppSearchEnabledFeatures.
     optional int64 enabled_features = 26;
 
-    // The last write operation call type.
-    optional int32 last_write_operation = 27;
+    // The last blocking operation call type.
+    optional int32 last_blocking_operation = 27;
 
-    // The latency for last write operation which hold the write lock in milliseconds.
-    optional int32 last_write_operation_latency_millis = 28;
+    // The latency for last blocking operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 28;
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 29;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 30;
+
+    // Number of join index-incompatible schema type changes
+    optional int32 join_index_incompatible_type_change_count = 31;
+
+    // Number of scorable property-incompatible schema type changes
+    optional int32 scorable_property_incompatible_type_change_count = 32;
+
+    // Number of documents deleted.
+    optional int32 deleted_documents_count = 33;
+
+    // Whether the term index is restored.
+    optional bool is_term_index_restored = 34;
+
+    // Whether the integer index is restored.
+    optional bool is_integer_index_restored = 35;
+
+    // Whether the embedding index is restored.
+    optional bool is_embedding_index_restored = 36;
+
+    // Whether the qualified-id join index is restored.
+    optional bool is_qualified_id_join_index_restored = 37;
+
+    // Latency for setting the schema in the schema store.
+    optional int32 native_schema_store_set_schema_latency_millis = 38;
+
+    // Latency for updating the document store's derived data using
+    // DocumentStore::UpdateSchemaStore.
+    optional int32 native_document_store_update_schema_latency_millis = 39;
+
+    // Latency for updating the document store's derived data using
+    // DocumentStore::OptimizedUpdateSchemaStore.
+    optional int32 native_document_store_optimized_update_schema_latency_millis = 40;
+
+    // Latency for rebuilding the index following an index-incompatible schema change.
+    optional int32 native_index_restoration_latency_millis = 41;
+
+    // Latency for regenerating the scorable property cache.
+    optional int32 native_scorable_property_cache_regeneration_latency_millis = 42;
+
+    // Whether or not AppSearch skipped sending the schema to Icing because it didn't change.
+    optional bool skipped_icing_interaction = 43;
 }
 
 /**
@@ -507,7 +551,7 @@ message AppSearchVmInitializationStatsReported {
 /**
  * Stats for persist-to-disk operations in AppSearch.
 
- * Next tag: 25
+ * Next tag: 26
  */
 message AppSearchPersistToDiskStatsReported {
 
@@ -536,11 +580,11 @@ message AppSearchPersistToDiskStatsReported {
   // The call type that trigger this persist to disk call.
   optional int32 trigger_call_type = 6;
 
-  // The last write operation call type.
-  optional int32 last_write_operation = 7;
+  // The last blocking operation call type.
+  optional int32 last_blocking_operation = 7;
 
-  // The latency for last write operation which hold the write lock in milliseconds.
-  optional int32 last_write_operation_latency_millis = 8;
+  // The latency for last blocking operation which hold the write lock in milliseconds.
+  optional int32 last_blocking_operation_latency_millis = 8;
 
   // The time passed while waiting to acquire the lock during Java function calls
   optional int32 java_lock_acquisition_latency_millis = 9;
@@ -589,4 +633,7 @@ message AppSearchPersistToDiskStatsReported {
 
   // The latency of persisting the embedding index in milliseconds.
   optional int32 native_embedding_index_persist_latency_millis = 24;
+
+  // Time passed while the task is running in AppSearch without any waiting time.
+  optional int32 unblocked_appsearch_latency_millis = 25;
 }
