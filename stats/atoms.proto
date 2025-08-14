@@ -16127,6 +16127,26 @@ message ContactsProviderStatusReported {
         ACCOUNT_DATA_ORIGIN_SIM_SDN = 514;
     }
 
+    // Specifies whether the calling package owns the account type of the account associated with an
+    // operation.
+    enum CallerAccountTypeOwnership {
+        CALLER_ACCOUNT_TYPE_OWNERSHIP_UNSPECIFIED = 0;
+        // The calling package is the one that declares the authenticator for the account type.
+        CALLER_ACCOUNT_TYPE_OWNERSHIP_OWNED = 1;
+        // The calling package does not declare the authenticator for the account type.
+        CALLER_ACCOUNT_TYPE_OWNERSHIP_NOT_OWNED = 2;
+    }
+
+    // Information about the sync adapter of the account associated with an operation.
+    enum AccountSyncMode {
+        ACCOUNT_SYNC_MODE_UNSPECIFIED = 0;
+        // There is a sync adapter for the account type but it doesn't declare
+        // supportsUploading=true
+        ACCOUNT_SYNC_MODE_DOWN_ONLY = 1;
+        // There is a sync adapter for the account type and it declares supportsUploading=true
+        ACCOUNT_SYNC_MODE_BIDIRECTIONAL = 2;
+    }
+
     optional ApiType api_type = 1;
     // Defined in
     // packages/providers/ContactsProvider/src/com/android/providers/contacts/ContactsProvider2.java
@@ -16154,6 +16174,10 @@ message ContactsProviderStatusReported {
     // raw contact insert. This will be one of the
     // ContactsContract.DefaultAccount.DefaultAccountAndState.DEFAULT_ACCOUNT_STATE_* values.
     optional int32 default_account_state = 12;
+    // Whether caller owns the account type for the operation or not.
+    optional CallerAccountTypeOwnership caller_account_type_ownership = 13;
+    // The sync adapter mode for the account of the operation's data .
+    optional AccountSyncMode account_sync_mode = 14;
 }
 
 /**
