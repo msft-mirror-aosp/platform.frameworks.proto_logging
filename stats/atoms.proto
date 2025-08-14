@@ -565,7 +565,7 @@ message Atom {
         BlobLeased blob_leased = 299 [(module) = "framework"];
         BlobOpened blob_opened = 300 [(module) = "framework"];
         ContactsProviderStatusReported contacts_provider_status_reported = 301 [(module) = "contactsprovider"];
-        KeystoreKeyEventReported keystore_key_event_reported = 302;
+        KeystoreKeyEventReported keystore_key_event_reported = 302 [deprecated = true];
         NetworkTetheringReported  network_tethering_reported =
             303 [(module) = "network_tethering"];
         sysui.ImeTouchReported ime_touch_reported = 304 [(module) = "sysui"];
@@ -1501,6 +1501,7 @@ message Atom {
     extensions 1168; // RouteListingPreferenceUpdated route_listing_preference_updated
     extensions 1169; // BluetoothEnergyMonitorReported bluetooth_energy_monitor_reported
     extensions 1170; // BluetoothRFStatsReported bluetooth_rf_stats_reported
+    extensions 1171; // InitAppScanReported init_app_scan_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -13942,7 +13943,7 @@ message AppSearchCallStatsReported {
 /**
  * Logs detailed stats for putting a single document in AppSearch
  *
- * Next tag: 23
+ * Next tag: 24
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -14008,17 +14009,20 @@ message AppSearchPutDocumentStatsReported {
     // Time used to index all embeddings in the document.
     optional int32 embedding_index_latency_millis = 18;
 
-    // The last write operation call type.
-    optional int32 last_write_operation = 19;
+    // The last blocking operation call type.
+    optional int32 last_blocking_operation = 19;
 
-    // The latency for last write operation which hold the write lock in milliseconds.
-    optional int32 last_write_operation_latency_millis = 20;
+    // The latency for last blocking operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 20;
 
     // The time passed while waiting to acquire the lock during Java function calls
     optional int32 java_lock_acquisition_latency_millis = 21;
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 22;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 23;
 }
 
 /**
@@ -14130,7 +14134,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 68
+ * Next tag: 69
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -14333,11 +14337,11 @@ message AppSearchQueryStatsReported {
     // budget limit. This doesn't include expired or invalidated states.
     optional int32 num_result_states_evicted = 60;
 
-    // The last write operation call type.
-    optional int32 last_write_operation = 61;
+    // The last blocking operation call type.
+    optional int32 last_blocking_operation = 61;
 
-    // The latency for last write operation which hold the write lock in milliseconds.
-    optional int32 last_write_operation_latency_millis = 62;
+    // The latency for last blocking operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 62;
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 63;
@@ -14355,12 +14359,15 @@ message AppSearchQueryStatsReported {
     // The overall time used for retrieving additional pages if the first page did not return enough
     // results.
     optional int32 additional_page_retrieval_latency_millis = 67;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 68;
 }
 
 /**
  * Logs detailed stats for remove in AppSearch
  *
- * Next tag: 21
+ * Next tag: 22
  */
 message AppSearchRemoveStatsReported {
     // The sampling interval for this specific type of stats
@@ -14420,17 +14427,20 @@ message AppSearchRemoveStatsReported {
     // Time used to delete each document.
     optional int32 document_removal_latency_ms = 16;
 
-    // The last write operation call type.
-    optional int32 last_write_operation = 17;
+    // The last blocking operation call type.
+    optional int32 last_blocking_operation = 17;
 
-    // The latency for last write operation which hold the write lock in milliseconds.
-    optional int32 last_write_operation_latency_millis = 18;
+    // The latency for last blocking operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 18;
 
     // The time passed while waiting to acquire the lock during Java function calls
     optional int32 java_lock_acquisition_latency_millis = 19;
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 20;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 21;
 }
 
 /**
@@ -14439,7 +14449,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 22
+ * Next tag: 23
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14500,17 +14510,20 @@ message AppSearchOptimizeStatsReported {
     //Number of namespaces deleted.
     optional int32 num_deleted_namespaces = 17;
 
-    // The last write operation call type.
-    optional int32 last_write_operation = 18;
+    // The last blocking operation call type.
+    optional int32 last_blocking_operation = 18;
 
-    // The latency for last write operation which hold the write lock in milliseconds.
-    optional int32 last_write_operation_latency_millis = 19;
+    // The latency for last blocking operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 19;
 
     // The time passed while waiting to acquire the lock during Java function calls
     optional int32 java_lock_acquisition_latency_millis = 20;
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 21;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 22;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -18535,6 +18548,8 @@ message MediametricsAudioTrackStatusReported {
 }
 
 /**
+ * Deprecated in Android S. Use the Keystore2.* atoms on S+.
+ *
  * Logs: i) creation of different types of cryptographic keys in the keystore,
  * ii) operations performed using the keys,
  * iii) attestation of the keys
