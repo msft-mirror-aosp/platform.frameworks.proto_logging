@@ -258,7 +258,6 @@ message Atom {
         PhoneStateChanged phone_state_changed = 95 [(module) = "framework"];
         UserRestrictionChanged user_restriction_changed = 96;
         SettingsUIChanged settings_ui_changed = 97 [(module) = "settings"];
-        ConnectivityStateChanged connectivity_state_changed = 98 [(module) = "framework"];
         // TODO: service state change is very noisy shortly after boot, as well
         // as at other transitions - coming out of doze, device plugged in, etc.
         // Consider removing this if it becomes a problem
@@ -1805,7 +1804,7 @@ message Atom {
     // DO NOT USE field numbers above 100,000 in AOSP.
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
     // Field numbers 200,000 and above are reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
@@ -7192,23 +7191,6 @@ message ExternalStorageInfo {
     optional VolumeType volume_type = 2;
     // Total size of the sd card in bytes.
     optional int64 size_bytes = 3;
-}
-
-/*
- * Logs when a connection becomes available and lost.
- * Logged in StatsCompanionService.java
- */
-message ConnectivityStateChanged {
-  // Id of the network.
-  optional int32 net_id = 1;
-
-  enum State {
-    UNKNOWN = 0;
-    CONNECTED = 1;
-    DISCONNECTED = 2;
-  }
-  // Connected state of a network.
-  optional State state = 2;
 }
 
 /**
