@@ -13860,7 +13860,7 @@ message RebootEscrowRebootReported {
 /**
  * Logs stats for AppSearch function calls
  *
- * Next tag: 23
+ * Next tag: 28
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13938,12 +13938,29 @@ message AppSearchCallStatsReported {
     // The type of persist operation.
     repeated int32 last_n_on_executor_latency_millis = 21;
 
+    // The last write operation call type.
+    optional int32 last_blocking_operation = 22;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 23;
+
+    // The time passed while waiting to acquire the lock during Java function calls
+    optional int32 java_lock_acquisition_latency_millis = 24;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 25;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 26;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 27;
 }
 
 /**
  * Logs detailed stats for putting a single document in AppSearch
  *
- * Next tag: 24
+ * Next tag: 25
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -14023,12 +14040,16 @@ message AppSearchPutDocumentStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 23;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 24;
+
 }
 
 /**
  * Logs detailed stats for AppSearch Initialize
  *
- * Next tag: 30
+ * Next tag: 31
  */
 message AppSearchInitializeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14129,12 +14150,15 @@ message AppSearchInitializeStatsReported {
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 29;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 30;
 }
 
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 69
+ * Next tag: 70
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -14362,6 +14386,9 @@ message AppSearchQueryStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 68;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 69;
 }
 
 /**
@@ -14441,6 +14468,9 @@ message AppSearchRemoveStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 21;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 22;
 }
 
 /**
@@ -14449,7 +14479,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 23
+ * Next tag: 24
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14524,6 +14554,9 @@ message AppSearchOptimizeStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 22;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 23;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
