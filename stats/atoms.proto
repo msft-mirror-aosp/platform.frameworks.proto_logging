@@ -1501,6 +1501,7 @@ message Atom {
     extensions 1169; // BluetoothEnergyMonitorReported bluetooth_energy_monitor_reported
     extensions 1170; // BluetoothRFStatsReported bluetooth_rf_stats_reported
     extensions 1171; // InitAppScanReported init_app_scan_reported
+    extensions 1172; // SensitiveAppLockEventReported sensitive_app_lock_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

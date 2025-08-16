@@ -25,6 +25,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional SensitiveAppLockStateChanged sensitive_app_lock_state_changed = 1030 [(module) = "sensitiveapplock"];
+  optional SensitiveAppLockEventReported sensitive_app_lock_event_reported = 1172 [(module) = "sensitiveapplock"];
 }
 
 /**
@@ -37,4 +38,44 @@ message SensitiveAppLockStateChanged {
   repeated int32 packages_uid = 2 [(is_uid) = true];
   // True if the user has profile lock enabled.
   optional bool profile_lock_enabled = 3;
+}
+
+/**
+ * Logs when a sensitive app lock event occurs.
+ *
+ * Logged from package: packages/apps/Car/SensitiveAppLock
+ */
+message SensitiveAppLockEventReported {
+  enum SensitiveAppLockEventType {
+    UNSPECIFIED_APP_LOCK_EVENT_TYPE = 0;
+    APP_LOCK_ENABLED = 1;
+    APP_LOCK_DISABLED = 2;
+    APP_LOCK_SETTINGS_SCREEN_OPENED = 3;
+    PACKAGED_ADDED = 4;
+    PACKAGE_REMOVED = 5;
+    PACKAGE_UNLOCK_REQUESTED = 6;
+    PACKAGE_LAUNCHED = 7;
+  }
+
+  enum SignInEventType {
+    UNSPECIFIED_SIGN_IN_EVENT_TYPE = 0;
+    USER_ALREADY_SIGNED_IN = 1;
+    USER_STARTED_SIGN_IN = 2;
+    USER_COMPLETED_SIGN_IN = 3;
+    USER_DECLINED_SIGN_IN = 4;
+  }
+
+  enum RecoveryFlowEventType {
+    UNSPECIFIED_RECOVERY_FLOW_EVENT_TYPE = 0;
+    USER_STARTED_REAUTH_RECOVERY_FLOW = 1;
+    USER_COMPLETED_REAUTH_RECOVERY_FLOW = 2;
+    USER_STARTED_MANUAL_RESET_RECOVERY_FLOW = 3;
+    USER_STARTED_PIN_RECREATE_FLOW = 4;
+    USER_RECREATED_PIN = 5;
+  }
+
+  optional int32 package_uid = 1 [(is_uid) = true];
+  optional SensitiveAppLockEventType event_type = 2;
+  optional SignInEventType sign_in_event_type = 3;
+  optional RecoveryFlowEventType recovery_flow_event_type = 4;
 }
