@@ -2568,6 +2568,38 @@ enum Action {
     ACTION_TOP_RIGHT_ACTION_CORNER_SHORTCUT_CHANGED = 2101;
     ACTION_BOTTOM_LEFT_ACTION_CORNER_SHORTCUT_CHANGED = 2102;
     ACTION_BOTTOM_RIGHT_ACTION_CORNER_SHORTCUT_CHANGED = 2103;
+
+    // Action: Measures the duration from initiating the read ambient data request to successfully
+    // retrieving the Maps account index.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_AMBIENT_DATA_READ_LATENCY = 2104;
+
+    // Action: Measures the duration from initiating the eligibility check to receiving a response
+    // for the location history status.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_ELIGIBILITY_CHECK_LATENCY = 2105;
+
+    // Action: Measures the duration from initiating the authorization token acquisition to
+    //         successfully obtaining the token for querying home or work addresses.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_GET_AUTH_TOKEN = 2106;
+
+    // Action: Measures the duration from initiating the Geller sync to the completion for querying
+    //         home or work addresses.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_GELLER_SYNC = 2107;
+
+    // Action: Measures the duration from the start of reading the Geller data to its completion.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_GELLER_READ = 2108;
+
+    // Action: Measures the duration from converting a place ID into a formatted address.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_PLACE_API = 2109;
+
+    // Action: Measures the entire duration of the location fetch process, from start to finish.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_TOTAL = 2110;
 }
 
 /**
