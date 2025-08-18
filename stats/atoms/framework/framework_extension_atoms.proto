@@ -88,6 +88,7 @@ extend Atom {
     optional AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed = 1141 [(module) = "framework"];
     optional EthernetBytesTransfer ethernet_bytes_transfer = 10249 [(module) = "framework"];
     optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
+    optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
 }
 
 /**
@@ -1696,4 +1697,33 @@ message SatelliteBytesTransfer {
     optional int64 tx_bytes = 7;
 
     optional int64 tx_packets = 8;
+}
+
+/**
+ * Atom for a custom vibration pattern has saved or played by a ringtone or a notification.
+ * Estimated logging rate:
+ *   The event collected when the user saved a new selected custom vibration pattern from system
+ *   settings, or when a user receives calls/texts, or other notifications play the selected
+ *   custom vibration pattern. Roughly it could be up to ~200 atoms / day.
+ */
+message CustomVibrationPatternReported {
+  optional EventType event_type = 1;
+  /** The ringtone type defined in RingtoneManager#TYPE_*/
+  optional int32 ringtone_type = 2;
+  /** The ID of the vibration pattern */
+  optional int32 pattern_id = 3;
+  /** The current ringer mode from AudioManager */
+  optional int32 current_ringer_mode = 4;
+  /**
+   * Whether the vibration pattern is from the ringtone contains audio-coupled haptics channels.
+   * See RingtoneManager#hasHapticChannels, if true means the rhythm of the pattern is synchronized
+   * with the audio channel.
+   */
+  optional bool is_audio_coupled_haptics = 5;
+
+  enum EventType {
+    UNKNOWN = 0;
+    VIBRATION_PATTERN_SAVED = 1;
+    VIBRATION_PATTERN_PLAYED = 2;
+  }
 }
