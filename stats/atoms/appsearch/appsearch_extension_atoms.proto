@@ -67,7 +67,7 @@ enum AppSearchEnabledFeatures {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 44
+ * Next tag: 45
  */
 message AppSearchSetSchemaStatsReported {
     // The sampling interval for this specific type of stats
@@ -209,6 +209,9 @@ message AppSearchSetSchemaStatsReported {
 
     // Whether or not AppSearch skipped sending the schema to Icing because it didn't change.
     optional bool skipped_icing_interaction = 43;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 44;
 }
 
 /**
@@ -551,7 +554,7 @@ message AppSearchVmInitializationStatsReported {
 /**
  * Stats for persist-to-disk operations in AppSearch.
 
- * Next tag: 26
+ * Next tag: 27
  */
 message AppSearchPersistToDiskStatsReported {
 
@@ -636,4 +639,7 @@ message AppSearchPersistToDiskStatsReported {
 
   // Time passed while the task is running in AppSearch without any waiting time.
   optional int32 unblocked_appsearch_latency_millis = 25;
+
+  // The number of times that we called icing.
+  optional int32 num_icing_calls = 26;
 }
