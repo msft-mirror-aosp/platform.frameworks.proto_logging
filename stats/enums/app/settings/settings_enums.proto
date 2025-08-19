@@ -2600,6 +2600,11 @@ enum Action {
     // Action: Measures the entire duration of the location fetch process, from start to finish.
     // CATEGORY: SETTINGS
     ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_TOTAL = 2110;
+
+    // ACTION: Settings > System -> Touchpad -> Use
+    // Tracks the package name of the app the user choose to launch with three finger tap
+    // CATEGORY: SETTINGS
+    ACTION_TOUCHPAD_THREE_FINGER_TAP_LAUNCHING_APP = 2111;
 }
 
 /**
