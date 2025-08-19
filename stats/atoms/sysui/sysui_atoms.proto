@@ -684,6 +684,9 @@ message MediaOutputOpSwitchReported {
 
     // Indicate target device has ongoing session or not
     optional bool target_has_ongoing_session = 11;
+
+    // The source of route ordering in Output Switcher.
+    optional android.app.settings.mediaoutput.SuggestionProvider suggestion_provider = 12;
 }
 
 /*
@@ -715,6 +718,9 @@ message MediaOutputOpInteractionReported {
 
     // Indicate target device is suggested route
     optional bool target_is_suggested = 4;
+
+    // The source of route ordering in Output Switcher.
+    optional android.app.settings.mediaoutput.SuggestionProvider suggestion_provider = 5;
 }
 
 /**
