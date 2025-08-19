@@ -13261,12 +13261,31 @@ message GrantPermissionsActivityButtonActions {
     // Target SDK of the package
     optional int32 target_sdk = 7;
 
-    // Selected precision of the location permission - bit flags indicate which
-    // locations were chosen
+    // A bitmask indicating the final location precision chosen in the permission dialog.
+    // This will be the same as the initial precision if the user made no changes.
     optional int32 selected_precision = 8;
 
     // Whether Permission Rationale was shown on grant permission activity
     optional bool permission_rationale_shown = 9;
+
+    // The initial/default location precision selected in the permission dialog.
+    optional int32 initial_precision = 10;
+
+    // The type of location prompt shown to the user. This is only relevant for location
+    // permissions.
+    enum LocationPromptType {
+        UNKNOWN = 0;
+        BOTH_PRECISIONS = 1;
+        COARSE_ONLY = 2;
+        FINE_ONLY = 3;
+     }
+
+    // This is only relevant for location permissions.
+    optional LocationPromptType location_prompt_type = 11;
+
+    // Whether the user has clicked on the accuracy buttons in the location permission dialog.
+    // This is only relevant for location permissions.
+    optional bool is_precision_button_clicked = 12;
 }
 
 /**
