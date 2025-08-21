@@ -218,6 +218,7 @@ enum DataType {
   ACTIVITY_INTENSITY = 43;
   NICOTINE_INTAKE = 44;
   ALCOHOL_CONSUMPTION = 45;
+  SYMPTOMS = 46;
 }
 
 enum MedicalResourceType {
