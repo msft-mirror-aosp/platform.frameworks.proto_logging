@@ -6095,6 +6095,10 @@ enum PageId {
     // OPEN: Settings > System -> Mouse
     // CATEGORY: SETTINGS
     ACTION_CORNERS = 2178;
+
+    // Settings > Parental controls > App store filters
+    // CATEGORY: SETTINGS
+    SUPERVISION_APP_STORE_FILTERS = 2179;
 }
 
 // Battery Saver schedule types.
