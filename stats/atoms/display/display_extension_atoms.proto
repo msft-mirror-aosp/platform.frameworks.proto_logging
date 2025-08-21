@@ -32,6 +32,7 @@ extend Atom {
   optional DisplayOffloadTransitionReported display_offload_transition_reported = 1162 [(module) = "framework"];
   optional DisplayOffloadCycleStats display_offload_cycle_stats = 1163 [(module) = "framework"];
   optional DisplayOffloadSessionStats display_offload_session_stats = 1164 [(module) = "framework"];
+  optional DisplayInfoChanged display_info_changed = 1174 [(module) = "framework"];
 }
 
 /* Pushed atom for vote status change */
@@ -347,4 +348,30 @@ message DisplayOffloadSessionStats {
       count: 24
       strategy: LINEAR
     }];
+}
+
+/* Pushed atom for when display information changes */
+message DisplayInfoChanged {
+
+  // The number of distinct DisplayInfo groups that changed in this event.
+  optional int32 num_display_info_groups_changed = 1;
+
+  // How many times BASIC_PROPERTIES DisplayInfo group changed in this event.
+  optional int32 basic_properties_changed = 2;
+
+  // How many times DIMENSIONS_AND_SHAPES DisplayInfo group changed in this event.
+  optional int32 dimensions_and_shapes_changed = 3;
+
+  // How many times ORIENTATION_AND_ROTATION DisplayInfo group changed in this event.
+  optional int32 orientation_and_rotation_changed = 4;
+
+  // How many times REFRESH_RATE_AND_MODE DisplayInfo group changed in this event.
+  optional int32 refresh_rate_and_mode_changed = 5;
+
+  // How many times COLOR_AND_BRIGHTNESS DisplayInfo group changed in this event.
+  optional int32 color_and_brightness_changed = 6;
+
+  // How many times STATE DisplayInfo group changed in this event.
+  optional int32 state_changed = 7;
+
 }
