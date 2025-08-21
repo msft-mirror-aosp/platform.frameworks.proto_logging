@@ -53,8 +53,10 @@ message DisplayModeDirectorVoteChanged {
 message DisplayEventCallbackOccurred {
   // The type of display event that occurred.
   optional android.display.EventType event_type = 1;
-  // The UID of the client that received this callback.
+  // The UIDs of the clients that received this callback.
   repeated int32 uid = 2 [(is_uid) = true];
+  // Number of clients that received this callback.
+  optional int32 client_count = 3;
 }
 
 /**
