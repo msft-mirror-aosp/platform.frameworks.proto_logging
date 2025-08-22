@@ -1367,7 +1367,7 @@ message AdvancedProtectionStateInfo {
     optional int32 hours_since_last_change = 2;
 }
 
-/** Reports failures of enableUsbData signal API calls for the USB data protection feature.
+/** Reports failures of enableUsbData signal API calls for the USB data protection feature and unexpected USB events.
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/features/UsbDataAdvancedProtectionHook.java
  * Estimated Logging Rate:
@@ -1378,6 +1378,7 @@ message AdvancedProtectionUsbStateChangeErrorReported {
     // USB data. If true, then the API call failed to enable USB data.
     optional bool desired_signal_state = 1;
     optional int32 retries_occurred = 2;
+    optional android.security.advancedprotection.UsbErrorType error_type = 3;
 }
 
 /** Reports the type of notification displayed for USB data protection.
