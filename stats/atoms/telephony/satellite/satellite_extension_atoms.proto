@@ -477,6 +477,9 @@ message SatelliteEntitlement {
   optional android.telephony.SatelliteEntitlementServicePolicy entitlement_data_policy = 8;
   // Global connect type of the subscription
   optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 9;
+  // The HTTP status code when the entitlement query fails due to an HTTP error.
+  // This is only populated when the 'result' field is ERROR_HTTP_STATUS_NOT_SUCCESS.
+  optional int32 http_status_code = 10;
 }
 
 /**
