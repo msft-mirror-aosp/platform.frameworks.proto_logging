@@ -63,6 +63,8 @@ int write_java_methods_q_schema(FILE* out, const SignatureInfoMap& signatureInfo
          signatureInfoMapIt != signatureInfoMap.end(); signatureInfoMapIt++) {
         // Print method signature.
         vector<java_type_t> signature = signatureInfoMapIt->first;
+        fprintf(out, "%s@android.annotation.SuppressLint(\"ObsoleteSdkInt\")\n", indent.c_str());
+        fprintf(out, "%s@RequiresApi(%d)\n", indent.c_str(), API_Q);
         fprintf(out, "%spublic static void write(int code", indent.c_str());
         int argIndex = 1;
         for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
