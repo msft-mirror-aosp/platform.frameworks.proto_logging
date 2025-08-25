@@ -1504,6 +1504,7 @@ message Atom {
     extensions 1172; // SensitiveAppLockEventReported sensitive_app_lock_event_reported
     extensions 1173; // CustomVibrationPatternReported custom_vibration_pattern_reported
     extensions 1174; // DisplayInfoChanged display_info_changed
+    extensions 1175; // WidgetInteractionEvent widget_interaction_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
