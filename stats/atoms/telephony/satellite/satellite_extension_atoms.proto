@@ -152,6 +152,8 @@ message SatelliteController {
   optional int32 carrier_roaming_satellite_config_version = 44;
   // Max allowed data mode for satellite data.
   optional int32 max_allowed_data_mode = 45;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 46;
 }
 
 /**
@@ -202,6 +204,10 @@ message SatelliteSession {
   optional bool is_ntn_only_carrier = 19;
   // Max user inactivity duration in seconds
   optional int32 max_inactivity_duration_sec = 20;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 21;
+  // Session connect type
+  optional android.telephony.SatelliteSessionConnectType session_connection_mode = 22;
 }
 
 /**
@@ -223,6 +229,10 @@ message SatelliteIncomingDatagram {
   optional int32 carrier_id = 5;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 6;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 7;
+  // Session connect type
+  optional android.telephony.SatelliteSessionConnectType session_connection_mode = 8;
 }
 
 /**
@@ -246,6 +256,10 @@ message SatelliteOutgoingDatagram {
   optional int32 carrier_id = 6;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 7;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 8;
+  // Session connect type
+  optional android.telephony.SatelliteSessionConnectType session_connection_mode = 9;
 }
 
 /**
@@ -265,6 +279,8 @@ message SatelliteProvision {
   optional int32 carrier_id = 5;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 6;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 7;
 }
 
 /**
@@ -293,6 +309,10 @@ message SatelliteSosMessageRecommender {
   optional int32 carrier_id = 10;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 11;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 12;
+  // Session connect type
+  optional android.telephony.SatelliteSessionConnectType session_connection_mode = 13;
 }
 
 /**
@@ -384,6 +404,10 @@ message CarrierRoamingSatelliteSession {
   // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
   // to be captured
   repeated int64 per_app_satellite_data_consumed_bytes = 34;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 35;
+  // Session connect type
+  optional android.telephony.SatelliteSessionConnectType session_connection_mode = 36;
 }
 
 /**
@@ -414,6 +438,12 @@ message CarrierRoamingSatelliteControllerStats {
   optional int32 count_of_satellite_sessions = 11;
   // Whether the service is Carrier Roaming NB-Iot NTN network or not.
   optional bool is_nb_iot_ntn = 12;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 13;
+  // Total count of Automatic connection type sessions
+  optional int32 count_of_session_connection_mode_automatic = 14;
+  // Total count of Manual connection type sessions
+  optional int32 count_of_session_connection_mode_manual = 15;
 }
 
 /**
@@ -445,6 +475,8 @@ message SatelliteEntitlement {
   repeated int32 entitlement_service_type = 7;
   // data policy entitlement
   optional android.telephony.SatelliteEntitlementServicePolicy entitlement_data_policy = 8;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 9;
 }
 
 /**
@@ -495,4 +527,8 @@ message SatelliteAccessController {
   optional android.telephony.TriggeringEvent triggering_event = 11;
   // Whether this satellite service is from NTN only carrier.
   optional bool is_ntn_only_carrier = 12;
+  // Global connect type of the subscription
+  optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 13;
+  // Session connect type
+  optional android.telephony.SatelliteSessionConnectType session_connection_mode = 14;
 }
