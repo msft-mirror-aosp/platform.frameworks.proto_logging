@@ -124,6 +124,8 @@ enum TerribleErrorType {
   TYPE_TETHER_WIFIP2P_TYPE_MISMATCH = 13;
   // Indicate Wi-Fi report firmware support APF version 0.
   TYPE_WIFI_REPORT_APF_VERSION_ZERO = 14;
+  // Indicate BPF shim not initialized, it should be kernel uapi bug mentioned in b/438099891.
+  TYPE_BPF_COORDINATOR_SHIM_INIT_ERROR = 15;
 }
 
 // Type of critical bytes event.
