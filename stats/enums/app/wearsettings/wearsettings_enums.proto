@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 545
+// Next ID: 546
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -272,6 +272,7 @@ enum ItemId {
   HEALTH_HEIGHT = 386;
   HEALTH_WEIGHT = 385;
   INPUT_ADD_VIRTUAL_KEYBOARD_SCREEN = 317;
+  INPUT_PHYSICAL_KEYBOARD = 545;
   INPUT_SMART_REPLY = 253;
   LOCATION_LOCATION_FROM_PHONE_TOGGLE = 337;
   LOCATION_LOCATION_FROM_WATCH_TOGGLE = 338;
