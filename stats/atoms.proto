@@ -2321,6 +2321,8 @@ message WifiConnectionResultReported {
     optional int64 l3_connecting_duration_ms = 22;
     // The disconnect reason of previous session
     optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
+    // The first 3 octets of the AP bssid
+    optional string vendor_oui = 24;
 }
 
 /**
