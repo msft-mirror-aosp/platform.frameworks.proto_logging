@@ -17791,9 +17791,9 @@ message UserInfo {
  *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
  */
 message MultiUserInfo {
-    // Maximum users supported on the device
+    // Maximum regular switchable users supported on the device (switchable criterion since 2025).
     optional int32 max_supported_users = 1;
-    // Whether multi user setting is on.
+    // Whether multiple switchable users are supported.
     optional bool multi_user_setting_on = 2;
     // Whether device supports multiuser and owner have no restriction in adding users.
     optional bool supports_adding_full_users = 3;
