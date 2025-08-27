@@ -131,6 +131,8 @@ enum KeyboardSystemEvent {
     TOGGLE_MAXIMIZE_FREEFORM_WINDOW = 56;
     // Minimize a window in desktop mode
     MINIMIZE_FREEFORM_WINDOW = 57;
+    // Quit the focused task in desktop mode.
+    QUIT_FOCUSED_DESKTOP_TASK = 58;
 }
 
 /**
