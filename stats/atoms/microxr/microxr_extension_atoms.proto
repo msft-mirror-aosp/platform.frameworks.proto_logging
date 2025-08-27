@@ -30,6 +30,8 @@ extend Atom {
       microxr_device_boot_complete_reported = 901 [(module) = "microxr"];
   optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
       [(module) = "microxr"];
+  optional MicroXRMcuCrashOccurred microxr_mcu_crash_occurred = 1183
+      [(module) = "microxr"];
 }
 
 /*
@@ -62,4 +64,10 @@ enum DonDoffState {
  */
 message MicroXrDonDoffStateChanged {
   optional DonDoffState don_doff_new_state = 1;
+}
+
+/*
+ *  Logs when MCU crashes.
+ */
+message MicroXRMcuCrashOccurred {
 }
