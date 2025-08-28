@@ -1511,6 +1511,7 @@ message Atom {
     extensions 1179; // RuntimeUnsafeDclReported runtime_unsafe_dcl_reported
     extensions 1180; // DeviceSuggestionsInteractionReported device_suggestions_interaction_reported
     extensions 1181; // CarDataSubscriptionEventReported car_data_subscription_event_reported
+    extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
