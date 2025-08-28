@@ -15350,7 +15350,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 63.
+    // Next id: 65.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
