@@ -1505,6 +1505,9 @@ message Atom {
     extensions 1173; // CustomVibrationPatternReported custom_vibration_pattern_reported
     extensions 1174; // DisplayInfoChanged display_info_changed
     extensions 1175; // WidgetInteractionEvent widget_interaction_event
+    extensions 1176; // VcnGatewayConnectionStateChanged vcn_gateway_connection_state_changed
+    extensions 1177; // VcnNetworkStateChanged vcn_network_state_changed
+    extensions 1178; // VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15350,7 +15353,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 63.
+    // Next id: 65.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
