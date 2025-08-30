@@ -1508,6 +1508,7 @@ message Atom {
     extensions 1176; // VcnGatewayConnectionStateChanged vcn_gateway_connection_state_changed
     extensions 1177; // VcnNetworkStateChanged vcn_network_state_changed
     extensions 1178; // VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed
+    extensions 1179; // RuntimeUnsafeDclReported runtime_unsafe_dcl_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
