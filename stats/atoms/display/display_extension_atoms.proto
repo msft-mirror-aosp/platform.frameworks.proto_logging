@@ -257,25 +257,26 @@ message DisplayOffloadCycleStats {
   optional int32 min_framebuffer_to_display_hw_transfer_time_per_frame_ms = 13;
   optional int32 avg_framebuffer_to_display_hw_transfer_time_per_frame_ms = 14;
   optional int32 max_framebuffer_to_display_hw_transfer_time_per_frame_ms = 15;
+  optional int32 var_framebuffer_to_display_hw_transfer_time_per_frame_ms = 16;
 
   // GPU command queue flush count, GPU driver-driven, per frame
-  optional int32 avg_driver_driven_gpu_command_queue_flush_count_per_frame = 16;
-  optional int32 max_driver_driven_gpu_command_queue_flush_count_per_frame = 17;
+  optional int32 avg_driver_driven_gpu_command_queue_flush_count_per_frame = 17;
+  optional int32 max_driver_driven_gpu_command_queue_flush_count_per_frame = 18;
 
   // GPU command queue flush count, client forced, per frame
-  optional int32 avg_client_forced_gpu_command_queue_flush_count_per_frame = 18;
-  optional int32 max_client_forced_gpu_command_queue_flush_count_per_frame = 19;
+  optional int32 avg_client_forced_gpu_command_queue_flush_count_per_frame = 19;
+  optional int32 max_client_forced_gpu_command_queue_flush_count_per_frame = 20;
 
-  optional int32 total_frame_count = 20;
-  optional int32 janky_frame_count = 21;
+  optional int32 total_frame_count = 21;
+  optional int32 janky_frame_count = 22;
 
   // Number of tilt-to-wakes and the time device spent in false-interactive mode after TTW
-  optional int32 tilt_to_wake_event_count = 22;
-  optional int32 tilt_to_wake_false_interactive_duration_ms = 23;
+  optional int32 tilt_to_wake_event_count = 23;
+  optional int32 tilt_to_wake_false_interactive_duration_ms = 24;
 
-  optional int32 cache_memory_max_bytes = 24;
-  optional int32 cache_offload_cycle_end_bytes = 25;
-  optional int32 cache_max_available_memory_block_bytes = 26;
+  optional int32 cache_memory_max_bytes = 25;
+  optional int32 cache_offload_cycle_end_bytes = 26;
+  optional int32 cache_max_available_memory_block_bytes = 27;
 }
 
 /**
