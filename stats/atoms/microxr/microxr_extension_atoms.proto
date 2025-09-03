@@ -26,15 +26,40 @@ option java_multiple_files = true;
 
 extend Atom {
   // Pushed Atom
-  optional MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported = 901
-  [(module) = "microxr"];
+  optional MicroXRDeviceBootCompleteReported
+      microxr_device_boot_complete_reported = 901 [(module) = "microxr"];
+  optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
+      [(module) = "microxr"];
 }
 
 /*
  *  Logs when a MicroXR Device is done booting.
+ *
+ * Logged from:
+ *  microxr-system-ui/src/com/android/microxr/systemui/BootNotifier.java
  */
 message MicroXRDeviceBootCompleteReported {
   // Device ready elapsed time in milliseconds.
   // Logged from microxr-system-ui.
   optional int64 device_ready_time_millis = 1;
+}
+
+// This enum represents the state changes between Don and Doff
+enum DonDoffState {
+  DON_DOFF_STATE_UNKNOWN = 0;
+  DON_DOFF_STATE_DONNED = 1;
+  DON_DOFF_STATE_DOFFED = 2;
+  DON_DOFF_STATE_DISABLED = 3;
+}
+
+/*
+ *  Logged each time the don/doff state changed
+ *
+ * Logged from:
+ *  microxr-system-ui-client/src/com/android/microxr/systemuiclient/WearDetectionClient.java
+ * Estimated Logging Rate:
+ *  Avg on the order of 10s per day at most
+ */
+message MicroXrDonDoffStateChanged {
+  optional DonDoffState don_doff_new_state = 1;
 }
