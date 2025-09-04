@@ -1512,6 +1512,7 @@ message Atom {
     extensions 1180; // DeviceSuggestionsInteractionReported device_suggestions_interaction_reported
     extensions 1181; // CarDataSubscriptionEventReported car_data_subscription_event_reported
     extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
+    extensions 1183; // MicroXRMcuCrashOccurred microxr_mcu_crash_occurred
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -23645,7 +23646,7 @@ message CdmAssociationAction {
         REMOVED = 2;
     }
 
-    enum DeviceProfile{
+    enum DeviceProfile {
         DEVICE_PROFILE_NULL = 0;
         DEVICE_PROFILE_WATCH = 1;
         DEVICE_PROFILE_APP_STREAMING = 2;
@@ -23655,6 +23656,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
         DEVICE_PROFILE_VIRTUAL_DEVICE = 7;
         DEVICE_PROFILE_WEARABLE_SENSING = 8;
+        DEVICE_PROFILE_FITNESS_TRACKER = 9;
     }
 
     // Action taken on the CDM association been created by companion apps.
