@@ -158,6 +158,7 @@ message PreRebootDexoptJobEnded {
         // The job was not scheduled because a job scheduler failure occurred.
         STATUS_NOT_SCHEDULED_JOB_SCHEDULER = 8;
     }
+
     optional Status status = 1;
 
     // Number of packages successfully optimized.
@@ -203,6 +204,7 @@ message PreRebootDexoptJobEnded {
         JOB_TYPE_OTA = 1;
         JOB_TYPE_MAINLINE = 2;
     }
+
     optional JobType job_type = 12;
 
     // The reason for the failure. Only applicable when `status` is `STATUS_FAILED`.
@@ -218,4 +220,34 @@ message PreRebootDexoptJobEnded {
     }
 
     optional FailureReason failure_reason = 13;
+
+    // The end status of Pre-reboot Dexopt artifacts.
+    enum ArtifactsEndStatus {
+        // Should not be used, not even in unexpected cases.
+        END_STATUS_UNSPECIFIED = 0;
+        // The artifacts were committed.
+        END_STATUS_COMMITTED = 1;
+        // Pre-reboot Dexopt was not enabled or enabled but not started, or artifacts were
+        // unexpectedly lost for whatever reason. Combine this with `status` to find out the exact
+        // case.
+        END_STATUS_MISSING = 2;
+        // Failed to check the status. Should normally not happen.
+        END_STATUS_ERROR = 3;
+        // The artifacts had not been committed within a configured period of time and were cleaned
+        // up.
+        END_STATUS_EXPIRED = 4;
+        // The artifacts were created for one update while the device applied (i.e., committed) a
+        // different update, so the artifacts were no longer relevant and were cleaned up.
+        END_STATUS_OBSOLETE = 5;
+        // The artifacts were created for one update while the device installed (i.e., staged) a
+        // different update, so the artifacts were no longer relevant and were cleaned up.
+        END_STATUS_SUPERSEDED = 6;
+    }
+
+    optional ArtifactsEndStatus artifacts_end_status = 14;
+
+    // The time elapsed in milliseconds between when the artifacts were created (typically when
+    // the job was started the first time) and when this atom was reported (typically when the
+    // artifacts were committed or cleaned up), or 0 if not applicable.
+    optional int64 artifacts_age_millis = 15;
 }
