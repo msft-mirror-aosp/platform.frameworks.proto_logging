@@ -1513,6 +1513,7 @@ message Atom {
     extensions 1181; // CarDataSubscriptionEventReported car_data_subscription_event_reported
     extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
     extensions 1183; // MicroXRMcuCrashOccurred microxr_mcu_crash_occurred
+    extensions 1184; // ExternalDisplaySettingsChanged external_display_settings_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -15358,7 +15359,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 65.
+    // Next id: 63.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
