@@ -136,6 +136,8 @@ enum TerribleErrorType {
   // transition to this state. This enum tracks how often this rare race
   // condition occurs.
   TYPE_IP_ADDRESS_LEFT_IN_LINKPROPERTIES = 17;
+  // Indicate BPF UBSAN kernel bug mentioned in b/240347583
+  TYPE_BPF_UBSAN_KERNEL_BUG_ERROR = 18;
 }
 
 // Type of critical bytes event.
