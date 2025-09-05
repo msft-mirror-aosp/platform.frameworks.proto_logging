@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 543
+// Next ID: 545
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -158,6 +158,8 @@ enum ItemId {
   CELLULAR_UNLOCK_SIM = 265;
   CELLULAR_VOICEMAIL_NUMBER = 269;
   CONNECTIVITY_AIRPLANE_MODE = 120;
+  CONNECTIVITY_AIRPLANE_MODE_SETTINGS = 543;
+  CONNECTIVITY_AIRPLANE_MODE_SYNC = 544;
   CONNECTIVITY_BLUETOOTH = 133;
   CONNECTIVITY_CELLULAR = 20;
   // WearOS only
