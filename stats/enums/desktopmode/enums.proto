@@ -57,6 +57,7 @@ enum ExitReason {
   TASK_MOVED_FROM_DESK = 12;
   RECENTS_DISMISS = 13;
   ENTER_PIP = 14;
+  ENTER_BUBBLE = 15;
 }
 
 // The reason a task was focused
