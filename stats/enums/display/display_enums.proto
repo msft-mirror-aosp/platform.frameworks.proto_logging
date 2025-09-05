@@ -215,3 +215,14 @@ enum DisplayOffloadTransitionResult {
     DISPLAY_OFFLOAD_TRANSITION_RESULT_COMPLETE = 1;
     DISPLAY_OFFLOAD_TRANSITION_RESULT_ABORTED = 2;
 }
+
+/**
+ * Display event source. Logged in DisplayInfoChanged atom.
+ */
+enum EventSource {
+    EVENT_SOURCE_UNKNOWN = 0;
+    EVENT_SOURCE_DISPLAY_SWAP = 1;
+    EVENT_SOURCE_DISPLAY_MANAGER = 2;
+    EVENT_SOURCE_WINDOW_MANAGER = 3;
+    EVENT_SOURCE_OTHER = 4;
+}
