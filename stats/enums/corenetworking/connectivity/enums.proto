@@ -163,6 +163,13 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_QUIC_CONNECTION_CLOSE_SOCKET_DESTROY = 3;
 }
 
+// Type of critical duration event.
+enum CriticalDurationEventType {
+  CRITICAL_DURATION_EVENT_TYPE_UNKNOWN = 0;
+  // Total BPF objects loaded time in milliseconds.
+  CRITICAL_DURATION_EVENT_TYPE_BPF_TOTAL_OBJECTS_LOAD_TIME_MILLISECONDS = 1;
+}
+
 // Type of NetworkRequest. See android.net.NetworkRequest.
 enum NetworkRequestType {
     NETWORK_REQUEST_TYPE_UNSPECIFIED = 0;

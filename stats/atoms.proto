@@ -1522,6 +1522,7 @@ message Atom {
     extensions 1188; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
     extensions 1189; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
     extensions 1190; // AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled
+    extensions 1191; // CoreNetworkingCriticalDurationEventOccurred core_networking_critical_duration_event_occurred
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
