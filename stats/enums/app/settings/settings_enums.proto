@@ -6099,6 +6099,16 @@ enum PageId {
     // Settings > Parental controls > App store filters
     // CATEGORY: SETTINGS
     SUPERVISION_APP_STORE_FILTERS = 2179;
+
+    // OPEN: Settings > Accessibility > Hearing devices > Send feedback (when user uses ASHA type hearing aids)
+    // CATEGORY: SETTINGS
+    // OS: B
+    ACCESSIBILITY_HEARING_DEVICES_ASHA_FEEDBACK = 2180;
+
+    // OPEN: Settings > Accessibility > Hearing devices > Send feedback (when user uses HAP type hearing aids)
+    // CATEGORY: SETTINGS
+    // OS: B
+    ACCESSIBILITY_HEARING_DEVICES_HAP_FEEDBACK = 2181;
 }
 
 // Battery Saver schedule types.
