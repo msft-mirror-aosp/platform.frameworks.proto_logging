@@ -377,4 +377,7 @@ message DisplayInfoChanged {
   // How many times STATE DisplayInfo group changed in this event.
   optional int32 state_changed = 7;
 
+  // The source of the event.
+  optional android.display.EventSource event_source = 8;
+
 }
