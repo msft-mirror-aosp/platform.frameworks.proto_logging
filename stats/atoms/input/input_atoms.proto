@@ -145,6 +145,7 @@ message TouchGestureClassified {
         LONG_PRESS = 3;
         DEEP_PRESS = 4;
         SCROLL = 5;
+        FLING = 6;
     }
     // The classification of the gesture.
     optional Classification classification = 2;
@@ -156,6 +157,10 @@ message TouchGestureClassified {
     // The distance from the location of the first touch event to the
     // location of the touch event when the classification was made.
     optional float displacement_px = 4;
+
+    // The velocity of the touch event stream when the classification
+    // was made.
+    optional float velocity_px_millis = 5;
 }
 
 /**
