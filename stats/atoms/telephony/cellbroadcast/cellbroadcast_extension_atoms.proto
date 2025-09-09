@@ -1,0 +1,46 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.cellbroadcast;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/telephony/cellbroadcast/enums.proto";
+
+option java_package = "com.android.os.telephony.cellbroadcast";
+option java_multiple_files = true;
+
+extend Atom {
+  optional CellbroadcastUxReported cellbroadcast_ux_reported = 1187 [(module) = "cellbroadcast"];
+}
+
+/**
+ * Logs when the user receives a wireless emergency alert message in a language different from the language set on their device
+ * Logged from:
+ *     packages/apps/CellBroadcastReceiver/src/com/android/cellbroadcastreceiver/
+ */
+message CellbroadcastUxReported {
+    // The Message Identifier, as defined in 3GPP 23.041 clause 9.4.1.2.2
+    optional int32 message_id = 1;
+    // The translation is showing (e.g. device language setting != alert language setting)
+    optional bool translation_button_show = 2;
+    // The translation triggered
+    optional bool translation_is_triggered = 3;
+    // The result reason of translation
+    optional android.telephony.cellbroadcast.TranslationErrorType error_type = 4;
+}
