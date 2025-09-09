@@ -1514,6 +1514,8 @@ message Atom {
     extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
     extensions 1183; // MicroXRMcuCrashOccurred microxr_mcu_crash_occurred
     extensions 1184; // ExternalDisplaySettingsChanged external_display_settings_changed
+    extensions 1185; // DisabledLauncherActivityUidsReported disabled_launcher_activity_uids_reported
+    extensions 1186; // BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
