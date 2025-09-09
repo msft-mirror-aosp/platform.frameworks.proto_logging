@@ -242,6 +242,8 @@ enum InputDeviceBus {
     BLUETOOTH = 2;
     // Universal Stylus Initiative (USI) protocol (https://universalstylus.org)
     USI = 3;
+    // Virtual devices
+    VIRTUAL = 4;
 }
 
 /**
