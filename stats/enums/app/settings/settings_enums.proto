@@ -6109,6 +6109,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: B
     ACCESSIBILITY_HEARING_DEVICES_HAP_FEEDBACK = 2181;
+
+    // Settings > Connected Device > External displays
+    // CATEGORY: SETTINGS
+    SETTINGS_EXTERNAL_DISPLAY_CATEGORY = 2182;
 }
 
 // Battery Saver schedule types.
