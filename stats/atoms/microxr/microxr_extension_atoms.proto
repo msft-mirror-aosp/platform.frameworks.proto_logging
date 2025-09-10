@@ -32,6 +32,8 @@ extend Atom {
       [(module) = "microxr"];
   optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 1183
       [(module) = "microxr"];
+  optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 1188
+      [(module) = "microxr"];
 }
 
 /*
@@ -70,4 +72,26 @@ message MicroXrDonDoffStateChanged {
  *  Logs when MCU crashes.
  */
 message MicroXrMcuCrashOccurred {
+}
+
+/*
+ *  Logs when a sound trigger (hotword) is detected by a local 1st
+ *  stage activation.
+ */
+message MicroXrSoundTriggerDetected {
+
+  enum ValidationType {
+    VALIDATION_TYPE_UNSPECIFIED = 0;
+    VALIDATION_TYPE_LOCAL = 1;
+    VALIDATION_TYPE_REMOTE = 2;
+  }
+
+  enum ValidationStatus {
+    VALIDATION_STATUS_UNSPECIFIED = 0;
+    VALIDATION_STATUS_ACCEPTED = 1;
+    VALIDATION_STATUS_REJECTED = 2;
+  }
+
+  optional ValidationType validation_type = 1;
+  optional ValidationStatus validation_status = 2;
 }
