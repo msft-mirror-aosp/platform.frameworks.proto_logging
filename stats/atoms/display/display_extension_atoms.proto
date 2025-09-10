@@ -130,7 +130,7 @@ message DisplayOffloadCycleStats {
 
   optional int32 offload_cycle_duration_ms = 6;
 
-  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [167, 200), [200, +inf)
   repeated int32 always_on_display_cpu_and_gpu_draw_time_per_frame_ms = 7
     [(histogram_bin_option).explicit_bins = {
       bin: 1
@@ -138,29 +138,29 @@ message DisplayOffloadCycleStats {
       bin: 7
       bin: 9
       bin: 11
-      bin: 12
       bin: 13
-      bin: 14
       bin: 15
-      bin: 16
       bin: 17
-      bin: 18
-      bin: 19
-      bin: 20
+      bin: 21
       bin: 25
       bin: 29
-      bin: 31
       bin: 33
-      bin: 35
       bin: 37
-      bin: 40
+      bin: 41
       bin: 45
       bin: 50
       bin: 55
-      bin: 60
+      bin: 61
+      bin: 67
+      bin: 83
+      bin: 100
+      bin: 133
+      bin: 150
+      bin: 167
+      bin: 200
     }];
 
-  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [167, 200), [200, +inf)
   repeated int32 false_interactive_cpu_and_gpu_draw_time_per_frame_ms = 8
     [(histogram_bin_option).explicit_bins = {
       bin: 1
@@ -168,29 +168,29 @@ message DisplayOffloadCycleStats {
       bin: 7
       bin: 9
       bin: 11
-      bin: 12
       bin: 13
-      bin: 14
       bin: 15
-      bin: 16
       bin: 17
-      bin: 18
-      bin: 19
-      bin: 20
+      bin: 21
       bin: 25
       bin: 29
-      bin: 31
       bin: 33
-      bin: 35
       bin: 37
-      bin: 40
+      bin: 41
       bin: 45
       bin: 50
       bin: 55
-      bin: 60
+      bin: 61
+      bin: 67
+      bin: 83
+      bin: 100
+      bin: 133
+      bin: 150
+      bin: 167
+      bin: 200
     }];
 
-  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [167, 200), [200, +inf)
   repeated int32 always_on_display_cpu_draw_time_per_frame_ms = 9
     [(histogram_bin_option).explicit_bins = {
       bin: 1
@@ -198,29 +198,29 @@ message DisplayOffloadCycleStats {
       bin: 7
       bin: 9
       bin: 11
-      bin: 12
       bin: 13
-      bin: 14
       bin: 15
-      bin: 16
       bin: 17
-      bin: 18
-      bin: 19
-      bin: 20
+      bin: 21
       bin: 25
       bin: 29
-      bin: 31
       bin: 33
-      bin: 35
       bin: 37
-      bin: 40
+      bin: 41
       bin: 45
       bin: 50
       bin: 55
-      bin: 60
+      bin: 61
+      bin: 67
+      bin: 83
+      bin: 100
+      bin: 133
+      bin: 150
+      bin: 167
+      bin: 200
     }];
 
-  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [55, 60), [60, +inf)
+  // Histogram bins (26): [-inf, 1), [1, 5), [5, 7) ... [167, 200), [200, +inf)
   repeated int32 false_interactive_cpu_draw_time_per_frame_ms = 10
     [(histogram_bin_option).explicit_bins = {
       bin: 1
@@ -228,26 +228,26 @@ message DisplayOffloadCycleStats {
       bin: 7
       bin: 9
       bin: 11
-      bin: 12
       bin: 13
-      bin: 14
       bin: 15
-      bin: 16
       bin: 17
-      bin: 18
-      bin: 19
-      bin: 20
+      bin: 21
       bin: 25
       bin: 29
-      bin: 31
       bin: 33
-      bin: 35
       bin: 37
-      bin: 40
+      bin: 41
       bin: 45
       bin: 50
       bin: 55
-      bin: 60
+      bin: 61
+      bin: 67
+      bin: 83
+      bin: 100
+      bin: 133
+      bin: 150
+      bin: 167
+      bin: 200
     }];
 
   optional float always_on_display_target_fps = 11;
@@ -267,16 +267,17 @@ message DisplayOffloadCycleStats {
   optional int32 avg_client_forced_gpu_command_queue_flush_count_per_frame = 19;
   optional int32 max_client_forced_gpu_command_queue_flush_count_per_frame = 20;
 
-  optional int32 total_frame_count = 21;
-  optional int32 janky_frame_count = 22;
+  optional int32 requested_frame_count = 21;
+  optional int32 drawn_frame_count = 22;
+  optional int32 janky_frame_count = 23;
 
   // Number of tilt-to-wakes and the time device spent in false-interactive mode after TTW
-  optional int32 tilt_to_wake_event_count = 23;
-  optional int32 tilt_to_wake_false_interactive_duration_ms = 24;
+  optional int32 tilt_to_wake_event_count = 24;
+  optional int32 tilt_to_wake_false_interactive_duration_ms = 25;
 
-  optional int32 cache_memory_max_bytes = 25;
-  optional int32 cache_offload_cycle_end_bytes = 26;
-  optional int32 cache_max_available_memory_block_bytes = 27;
+  optional int32 cache_memory_max_bytes = 26;
+  optional int32 cache_offload_cycle_end_bytes = 27;
+  optional int32 cache_max_available_memory_block_bytes = 28;
 }
 
 /**
