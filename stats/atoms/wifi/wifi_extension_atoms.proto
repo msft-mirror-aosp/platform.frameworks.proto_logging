@@ -496,6 +496,8 @@ message WifiSettingInfo {
         QOS_NETWORK_CENTRIC = 10;
         // QoS feature initiated by an application
         QOS_APPLICATION_CENTRIC = 11;
+        // Whether mobility state is set
+        MOBILITY_STATE_AVAILABLE = 12;
     }
 
     // Name of the Wifi setting
