@@ -1234,7 +1234,7 @@ message Atom {
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
-    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 901; // MicroXrDeviceBootCompleteReported micro_xr_device_boot_complete_reported
     extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
     extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 904; // A2dpSessionReported a2dp_session_reported
@@ -1512,7 +1512,7 @@ message Atom {
     extensions 1180; // DeviceSuggestionsInteractionReported device_suggestions_interaction_reported
     extensions 1181; // CarDataSubscriptionEventReported car_data_subscription_event_reported
     extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
-    extensions 1183; // MicroXRMcuCrashOccurred microxr_mcu_crash_occurred
+    extensions 1183; // MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred
     extensions 1184; // ExternalDisplaySettingsChanged external_display_settings_changed
     extensions 1185; // DisabledLauncherActivityUidsReported disabled_launcher_activity_uids_reported
     extensions 1186; // BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported
