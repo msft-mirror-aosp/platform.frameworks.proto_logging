@@ -48,8 +48,8 @@ enum NotificationEvent {
   EVENT_FILTERED_IN_UI = 9;
   // Notification alerted to user
   EVENT_ALERTED_TO_USER = 10;
-  // User gazed at the notification, not used, deprecated
-  EVENT_USER_GAZED = 11;
+  // User gazed and notification was processed
+  EVENT_PROCESSED_BY_USER_GAZE = 11;
   // User did not gaze within window and timed out
   EVENT_USER_GAZE_TIMED_OUT = 19;
   // Glanceable skipped due to being muted

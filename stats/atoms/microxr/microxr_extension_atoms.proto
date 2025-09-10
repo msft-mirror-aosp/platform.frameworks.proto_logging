@@ -26,11 +26,11 @@ option java_multiple_files = true;
 
 extend Atom {
   // Pushed Atom
-  optional MicroXRDeviceBootCompleteReported
-      microxr_device_boot_complete_reported = 901 [(module) = "microxr"];
+  optional MicroXrDeviceBootCompleteReported
+      micro_xr_device_boot_complete_reported = 901 [(module) = "microxr"];
   optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
       [(module) = "microxr"];
-  optional MicroXRMcuCrashOccurred microxr_mcu_crash_occurred = 1183
+  optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 1183
       [(module) = "microxr"];
 }
 
@@ -40,7 +40,7 @@ extend Atom {
  * Logged from:
  *  microxr-system-ui/src/com/android/microxr/systemui/BootNotifier.java
  */
-message MicroXRDeviceBootCompleteReported {
+message MicroXrDeviceBootCompleteReported {
   // Device ready elapsed time in milliseconds.
   // Logged from microxr-system-ui.
   optional int64 device_ready_time_millis = 1;
@@ -69,5 +69,5 @@ message MicroXrDonDoffStateChanged {
 /*
  *  Logs when MCU crashes.
  */
-message MicroXRMcuCrashOccurred {
+message MicroXrMcuCrashOccurred {
 }
