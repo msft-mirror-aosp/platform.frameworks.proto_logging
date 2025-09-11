@@ -133,6 +133,8 @@ enum KeyboardSystemEvent {
     MINIMIZE_FREEFORM_WINDOW = 57;
     // Quit the focused task in desktop mode.
     QUIT_FOCUSED_DESKTOP_TASK = 58;
+    // Toggle fullscreen status of the focused task.
+    TOGGLE_FULLSCREEN = 59;
 }
 
 /**

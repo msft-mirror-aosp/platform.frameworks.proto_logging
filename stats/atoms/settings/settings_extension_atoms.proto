@@ -161,14 +161,12 @@ message ExternalDisplaySettingsChanged {
     }
     // The settings that were changed.
     optional ExternalDisplaySetting setting = 1;
-    // The display id of the external display.
-    optional int32 display_id = 2;
     // The width of the display in pixels.
-    optional int32 display_width = 3;
+    optional int32 display_width = 2;
     // The height of the display in pixels.
-    optional int32 display_height = 4;
+    optional int32 display_height = 3;
     // The rotation of the display in degrees. 0, 90, 180, 270.
-    optional int32 display_rotation = 5;
+    optional int32 display_rotation = 4;
     // The size of the display in percentage.
-    optional float display_size = 6;
+    optional float display_size = 5;
 }
