@@ -36,11 +36,8 @@ extend Atom {
       [(module) = "microxr"];
 }
 
-/*
- *  Logs when a MicroXR Device is done booting.
- *
- * Logged from:
- *  microxr-system-ui/src/com/android/microxr/systemui/BootNotifier.java
+/**
+ * Logged when a MicroXR Device is done booting.
  */
 message MicroXrDeviceBootCompleteReported {
   // Device ready elapsed time in milliseconds.
@@ -48,38 +45,43 @@ message MicroXrDeviceBootCompleteReported {
   optional int64 device_ready_time_millis = 1;
 }
 
-// This enum represents the state changes between Don and Doff
+/**
+ * Represents the current Don or Doff state.
+ */
 enum DonDoffState {
   DON_DOFF_STATE_UNKNOWN = 0;
+  // Glasses are "donned", i.e. worn.
   DON_DOFF_STATE_DONNED = 1;
+  // Glasses are "doffed", i.e. not worn.
   DON_DOFF_STATE_DOFFED = 2;
+  // Don/doff detection is disabled.
   DON_DOFF_STATE_DISABLED = 3;
 }
 
-/*
- *  Logged each time the don/doff state changed
+/**
+ * Logged each time the don/doff state changed
  *
- * Logged from:
- *  microxr-system-ui-client/src/com/android/microxr/systemuiclient/WearDetectionClient.java
  * Estimated Logging Rate:
- *  Avg on the order of 10s per day at most
+ *   Avg on the order of tens per day at most
  */
 message MicroXrDonDoffStateChanged {
   optional DonDoffState don_doff_new_state = 1;
 }
 
-/*
- *  Logs when MCU crashes.
+/**
+ * Logged when the MCU crashes.
  */
 message MicroXrMcuCrashOccurred {
 }
 
-/*
- *  Logs when a sound trigger (hotword) is detected by a local 1st
- *  stage activation.
+/**
+ * Logged when a sound trigger (hotword) is detected by a local 1st
+ * stage activation.
+ *
+ * Estimated Logging Rate:
+ *   Avg on the order of tens or hundreds per day at most
  */
 message MicroXrSoundTriggerDetected {
-
   enum ValidationType {
     VALIDATION_TYPE_UNSPECIFIED = 0;
     VALIDATION_TYPE_LOCAL = 1;
