@@ -22,6 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
+// Next ID: 2113
 enum Action {
 
     // Reserved for biometrics
@@ -2605,11 +2606,17 @@ enum Action {
     // Tracks the package name of the app the user choose to launch with three finger tap
     // CATEGORY: SETTINGS
     ACTION_TOUCHPAD_THREE_FINGER_TAP_LAUNCHING_APP = 2111;
+
+    // ACTION: Settings > Network & internet > Airplane mode > Airplane mode sync toggle
+    //   SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    ACTION_AIRPLANE_MODE_SYNC_TOGGLE = 2112;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
+// Next ID: 2184
 enum PageId {
     reserved 2123 to 2130;
 
@@ -4060,7 +4067,7 @@ enum PageId {
     // OS: Q
     FACE = 1511;
 
-   // OPEN: Settings > Acessibility > HearingAid pairing instructions dialog
+    // OPEN: Settings > Acessibility > HearingAid pairing instructions dialog
     // CATEGORY: SETTINGS
     // OS: Q
     DIALOG_ACCESSIBILITY_HEARINGAID = 1512;
@@ -6117,6 +6124,10 @@ enum PageId {
     // Settings > Accounts and backup
     // CATEGORY: SETTINGS
     ACCOUNTS_AND_BACKUP = 2183;
+
+    // OPEN: Settings > Network & internet > Airplane mode
+    // CATEGORY: SETTINGS
+    AIRPLANE_MODE_SETTINGS = 2184;
 }
 
 // Battery Saver schedule types.
