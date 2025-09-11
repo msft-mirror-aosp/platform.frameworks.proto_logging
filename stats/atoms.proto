@@ -6548,6 +6548,8 @@ message UiEventReported {
     // An identifier used to disambiguate which logs refer to a particular instance of some
     // UI element. Useful when there might be multiple instances simultaneously active.
     optional int32 instance_id = 4;
+    // Event name translated from the event id. Populated on the server side.
+    optional string event_name = 5;
 }
 
 /**
