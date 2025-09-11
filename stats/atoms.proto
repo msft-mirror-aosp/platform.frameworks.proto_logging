@@ -1518,6 +1518,7 @@ message Atom {
     extensions 1186; // BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported
     extensions 1187; // CellbroadcastUxReported cellbroadcast_ux_reported
     extensions 1188; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
+    extensions 1189; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
