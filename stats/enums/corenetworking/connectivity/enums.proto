@@ -126,6 +126,9 @@ enum TerribleErrorType {
   TYPE_WIFI_REPORT_APF_VERSION_ZERO = 14;
   // Indicate BPF shim not initialized, it should be kernel uapi bug mentioned in b/438099891.
   TYPE_BPF_COORDINATOR_SHIM_INIT_ERROR = 15;
+  // Indicate an unexpected reflection error occurred in specifier redaction methods (e.g.
+  // redact(long) and getApplicationRedactions()).
+  TYPE_SPECIFIER_REDACTION_REFLECTION_ERROR = 16;
 }
 
 // Type of critical bytes event.
