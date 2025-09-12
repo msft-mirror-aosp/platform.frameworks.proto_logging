@@ -6113,6 +6113,10 @@ enum PageId {
     // Settings > Connected Device > External displays
     // CATEGORY: SETTINGS
     SETTINGS_EXTERNAL_DISPLAY_CATEGORY = 2182;
+
+    // Settings > Accounts and backup
+    // CATEGORY: SETTINGS
+    ACCOUNTS_AND_BACKUP = 2183;
 }
 
 // Battery Saver schedule types.
