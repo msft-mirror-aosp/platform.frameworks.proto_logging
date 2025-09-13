@@ -76,6 +76,13 @@ message RoutingChangeReported {
   optional bool is_suggested_device = 5;
   // Length of the media routing session in millis.
   optional int64 session_length_millis = 6;
+  // Whether the route had an active suggestion from the active route listing preference.
+  optional bool is_suggested_by_rlp = 7;
+  // Whether the route had an active device suggestion from the media app.
+  optional bool is_device_suggestion_by_media_app = 8;
+  // Whether the route had an active device suggestion from an app other than the media app.
+  optional bool is_device_suggestion_by_another_app = 9;
+
 }
 
 /**
