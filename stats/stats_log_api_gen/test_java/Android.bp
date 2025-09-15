@@ -25,10 +25,11 @@ android_test {
         "general-tests",
     ],
     srcs: [
-        "src/**/*.java",
         ":cts-atom-java-gen",
+        ":test-atom-java-gen-with-worksource",
         ":test-atom-java-gen",
         ":test-vendor-atom-java-gen",
+        "src/**/*.java",
     ],
     static_libs: [
         "junit",
@@ -83,6 +84,17 @@ genrule {
         " --module statsdtest" +
         " --javaPackage com.android.test.statslogapigen" +
         " --javaClass TestAtomsLog",
+}
+
+genrule {
+    name: "test-atom-java-gen-with-worksource",
+    tools: ["stats-log-api-gen"],
+    out: ["com/android/test/statslogapigen/worksource/TestAtomsLogWs.java"],
+    cmd: "$(location stats-log-api-gen) --java $(out)" +
+        " --module statsdtest" +
+        " --javaPackage com.android.test.statslogapigen.worksource" +
+        " --javaClass TestAtomsLogWs" +
+        " --worksource",
 }
 
 ctsPackage = "com.android.cts.statslogapigen"

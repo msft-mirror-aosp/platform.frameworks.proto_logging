@@ -106,7 +106,7 @@ void write_native_header_preamble(FILE* out, const string& cppNamespace, bool in
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
 
 // Common Java helpers.
-void write_java_atom_codes(FILE* out, const Atoms& atoms);
+void write_java_atom_codes(FILE* out, const Atoms& atoms, const bool supportWorkSource);
 
 void write_java_enum_values(FILE* out, const Atoms& atoms);
 
@@ -114,7 +114,7 @@ int write_java_method_signature(FILE* out, const vector<java_type_t>& signature,
                                 const AtomDecl& attributionDecl);
 
 void write_java_usage(FILE* out, const string& method_name, const string& atom_code_name,
-                      const AtomDecl& atom);
+                      const AtomDecl& atom, const bool supportWorkSource);
 
 int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
                                    const bool staticMethods);
