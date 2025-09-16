@@ -2616,7 +2616,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2184
+// Next ID: 2186
 enum PageId {
     reserved 2123 to 2130;
 
@@ -6085,6 +6085,10 @@ enum PageId {
     // Settings > Parental controls > Web content filters
     // CATEGORY: SETTINGS
     SUPERVISION_WEB_CONTENT_FILTERS = 2174;
+
+    // Settings > Parental controls > Web content filters > On x apps
+    // CATEGORY: SETTINGS
+    SUPERVISION_WEB_CONTENT_FILTERS_SUPPORTED_APPS = 2185;
 
     // OPEN: Settings > Display > HDR brightness
     // CATEGORY: SETTINGS
