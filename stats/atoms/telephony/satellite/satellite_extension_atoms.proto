@@ -210,6 +210,26 @@ message SatelliteSession {
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 22;
   // Satellite PLMN
   optional string plmn = 23;
+  // Total screen on time in sec while the satellite session is enabled
+  optional int32 screen_on_time_sec = 24;
+  // Battery level drop percentage during the satellite session is enabled
+  // This value is only populated if both start and end battery levels were successfully retrieved.
+  // A value of -1 indicates an invalid or unrecorded measurement and MUST be excluded
+  // from any aggregate calculations (e.g., average).
+  optional int32 battery_level_drop_percent = 25;
+  // Indicates if the charger was connected at any point during the satellite session.
+  optional bool was_charging_during_session = 26;
+  // The factory-rated design capacity of the battery in milliampere-hours (mAh).
+  // This value is read from the system's power profile (e.g., via
+  // PowerProfile.getBatteryCapacity()) and represents the battery's
+  // original capacity when new. It does not change with battery age or health.
+  optional int32 battery_design_capacity_mah = 27;
+  // Absolute energy consumed during the satellite session in nanowatt-hours (nWh).
+  // Calculated by taking the delta of BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER
+  // between the start and end of the session. A positive value indicates energy
+  // consumption (discharging). This value is only populated if both start and
+  // end measurements were successfully retrieved.
+  optional int64 energy_consumed_nwh = 28;
 }
 
 /**
@@ -424,6 +444,26 @@ message CarrierRoamingSatelliteSession {
   optional bool is_wfc_enabled = 39;
   // Whether wifi calling is registered during the session
   optional bool is_wfc_registered = 40;
+  // Total screen on time in sec while the satellite session is enabled
+  optional int32 screen_on_time_sec = 41;
+  // Battery level drop percentage during the satellite session is enabled
+  // This value is only populated if both start and end battery levels were successfully retrieved.
+  // A value of -1 indicates an invalid or unrecorded measurement and MUST be excluded
+  // from any aggregate calculations (e.g., average).
+  optional int32 battery_level_drop_percent = 42;
+  // Indicates if the charger was connected at any point during the satellite session.
+  optional bool was_charging_during_session = 43;
+  // The factory-rated design capacity of the battery in milliampere-hours (mAh).
+  // This value is read from the system's power profile (e.g., via
+  // PowerProfile.getBatteryCapacity()) and represents the battery's
+  // original capacity when new. It does not change with battery age or health.
+  optional int32 battery_design_capacity_mah = 44;
+  // Absolute energy consumed during the satellite session in nanowatt-hours (nWh).
+  // Calculated by taking the delta of BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER
+  // between the start and end of the session. A positive value indicates energy
+  // consumption (discharging). This value is only populated if both start and
+  // end measurements were successfully retrieved.
+  optional int64 energy_consumed_nwh = 45;
 }
 
 /**
