@@ -201,6 +201,9 @@ message WsNotificationBridgemodeUpdated {
 
   // Represents the number of excluded tags added.
   optional android.app.wearservices.ExcludedTagsCount excluded_tags_count= 4;
+
+  // Represents in which profile the application is running on.
+  optional android.app.wearservices.Profile profile= 5;
 }
 
 /** Logged when a notification is blocked/unblocked in the WearServices application. */
