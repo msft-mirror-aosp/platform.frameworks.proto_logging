@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2113
+// Next ID: 2116
 enum Action {
 
     // Reserved for biometrics
@@ -2611,6 +2611,20 @@ enum Action {
     //   SUBTYPE: 0 is off, 1 is on
     // CATEGORY: SETTINGS
     ACTION_AIRPLANE_MODE_SYNC_TOGGLE = 2112;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Verify your email
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_VERIFY_RECOVERY_SUCCESS = 2113;
+
+    // ACTION: Settings > Parental controls > Controls for this phone Set up PIN
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_ADD_RECOVERY_ON_SETUP_SUCCESS = 2114;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Add recovery email
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_ADD_RECOVERY_POST_SETUP_SUCCESS = 2115;
 }
 
 /**
