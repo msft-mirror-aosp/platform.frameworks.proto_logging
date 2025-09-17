@@ -400,7 +400,7 @@ int write_stats_log_java_vendor(FILE* out, const Atoms& atoms, const string& jav
     const char* finalPrefix = staticMethods ? "final " : "";
     fprintf(out, "public %sclass %s {\n", finalPrefix, javaClass.c_str());
 
-    write_java_atom_codes(out, atoms);
+    write_java_atom_codes(out, atoms, /*supportWorkSource=*/false);
     write_java_enum_values_vendor(out, atoms);
 
 #ifdef JAVA_INCLUDE_SRCS_DIR
