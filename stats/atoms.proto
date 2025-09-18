@@ -12606,7 +12606,7 @@ message SystemMemory {
 
     // Total unreclaimable ion.
     // Reported from os.Debug.getIonHeapsSizeKb (R+)
-    optional int32 total_ion_kb = 5;
+    optional int32 total_ion_kb = 5 [deprecated = true];
 
     // Measures for the amount of memory we could not account for.
     // Essentially points to kernel allocations (as all userspace allocs are
