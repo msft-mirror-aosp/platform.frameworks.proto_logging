@@ -907,6 +907,8 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    // Start pushed Android Platform extension atoms.
+    // ID Range: 2 - 9999 {{{
     extensions 332; // ArtDatumReported art_datum_reported
     extensions 366; // OdrefreshReported odrefresh_reported
     extensions 385; // AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported
@@ -1521,6 +1523,14 @@ message Atom {
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
+    // }}} End platform pushed extension atoms.
+    // ID Range: 2 - 9999
+
+    // Start pushed generic vendor extension atoms.
+    // ID Range: 300,000 - 349,999 {{{
+
+    // }}} End pushed generic vendor extension atoms.
+    // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
     // Next: 10246
@@ -1818,9 +1828,19 @@ message Atom {
     extensions 10252; // MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot
     extensions 99999; // Atom99999 atom_99999
 
-    // DO NOT USE field numbers above 100,000 in AOSP.
+    // }}} End pulled Android platform extension atoms.
+    // ID Range: 10,000 - 99,999
+
+    // Start pulled generic vendor extension atoms.
+    // ID Range: 350,000 - 399,999 {{{
+
+    // }}} End pulled generic vendor extension atoms.
+    // ID Range: 350,000 - 399,999
+
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
-    // Field numbers 200,000 and above are reserved for future use; do not use them at all.
+    // Field numbers 200,000 - 299,999 are reserved for future use; do not use them at all.
+    // Field numbers 300,000 - 399,999 are reserved for generic vendor atoms.
+    // Field numbers 400,000 and above reserved for future use; do not use them at all.
     reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
