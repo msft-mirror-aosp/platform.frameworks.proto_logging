@@ -2616,9 +2616,9 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2186
+// Next ID: 2188
 enum PageId {
-    reserved 2123 to 2130;
+    reserved 2123 to 2130, 2185;
 
     // Unknown page. Should not be used in production code.
     PAGE_UNKNOWN = 0;
@@ -6086,9 +6086,13 @@ enum PageId {
     // CATEGORY: SETTINGS
     SUPERVISION_WEB_CONTENT_FILTERS = 2174;
 
-    // Settings > Parental controls > Web content filters > On x apps
+    // Settings > Parental controls > Web content filters > Websites - On x apps
     // CATEGORY: SETTINGS
-    SUPERVISION_WEB_CONTENT_FILTERS_SUPPORTED_APPS = 2185;
+    SUPERVISION_WEB_CONTENT_FILTERS_BROWSER_SUPPORTED_APPS = 2186;
+
+    // Settings > Parental controls > Web content filters > Search results - On x apps
+    // CATEGORY: SETTINGS
+    SUPERVISION_WEB_CONTENT_FILTERS_SEARCH_SUPPORTED_APPS = 2187;
 
     // OPEN: Settings > Display > HDR brightness
     // CATEGORY: SETTINGS
