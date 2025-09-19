@@ -54,6 +54,12 @@ extend Atom {
       wear_media_output_switcher_fastpair_api_timeout = 759 [(module) = "MediaOutputSwitcher"];
 }
 
+/**
+ * Logs when a media action is reported.
+ *
+ * Logged from package: vendor/google_clockwork/packages/MediaSessions
+ * Estimated Logging Rate: Peak is 10 MediaActions per second
+ */
 message MediaActionReported {
   enum SessionAdvertising {
     SESSION_ADVERTISING_UNKNOWN = 0;
@@ -81,6 +87,11 @@ message MediaActionReported {
 
   // The way in which the media app advertised this media session.
   optional SessionAdvertising session_advertising = 6;
+  // The screen on which the media action was performed. Values :
+  // (TRIGGER_SOURCE_PLAYER_SCREEN, TRIGGER_SOURCE_OVERFLOW_SCREEN,
+  // TRIGGER_SOURCE_QUEUE_SCREEN, TRIGGER_SOURCE_VOLUME_SCREEN)
+  optional com.google.android.wearable.media.sessions.TriggerSource
+      trigger_source = 7;
 }
 
 message MediaControlsLaunched {
