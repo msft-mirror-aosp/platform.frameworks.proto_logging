@@ -38,6 +38,8 @@ enum EnterReason {
   DESK_REPARENT = 12;
   APP_SELF_REPOSITION = 13;
   TASKBAR_ICON = 14;
+  TASK_LAUNCH = 15;
+  CLIENT_REQUEST_EXIT_FULLSCREEN = 16; // The activity requested to enter fullscreen.
 }
 
 // The reason for exiting desktopmode.
@@ -58,6 +60,7 @@ enum ExitReason {
   RECENTS_DISMISS = 13;
   ENTER_PIP = 14;
   ENTER_BUBBLE = 15;
+  CLIENT_REQUEST_ENTER_FULLSCREEN = 16; // The activity requested to exit fullscreen.
 }
 
 // The reason a task was focused
