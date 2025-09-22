@@ -35,6 +35,8 @@ extend Atom {
       android_graphics_bitmap_allocation_snapshot = 1118 [(module) = "uprobestats"];
   optional DisabledLauncherActivityUidsReported disabled_launcher_activity_uids_reported = 1185 [(module) = "uprobestats"];
   optional BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported = 1186 [(module) = "uprobestats"];
+  optional AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled =
+          1190 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -228,4 +230,23 @@ message DisabledLauncherActivityUidsReported {
 message BindServiceLockedWithBalFlagsUidsReported {
     optional int32 binder_uid = 1 [(is_uid) = true];
     optional int32 bindee_uid = 2 [(is_uid) = true];
+}
+
+/**
+ * Records Bitmap scaling events.
+ *
+ * Logged via Hummingbird for probes at android.graphics.Bitmap scaling methods.
+ *
+ * Estimated Logging Rate:
+ *   Peak: 10 times in a second | Avg: O(hundreds) per device per day
+ */
+message AndroidGraphicsBitmapScaled {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 original_width = 2;
+    optional int32 original_height = 3;
+    optional int32 scaled_width = 4;
+    optional int32 scaled_height = 5;
+    optional AndroidGraphicsBitmapAllocationSnapshot.PixelStorageType
+        pixel_storage_type = 6;
+    optional string activity_name = 7;
 }
