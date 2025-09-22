@@ -15337,6 +15337,18 @@ message CameraActionEvent {
 
     // Extension metric
     optional int32 ext_capture_format = 30;
+
+    // Type of error throwed
+    enum ErrorState {
+        CAMERA_UNKNOWN = 0;
+        CAMERA_PERMISSION_DENIED = 1;
+        CAMERA_HAL_REQUEST_ERROR = 2;
+        CAMERA_SERVICE_INTERNAL_ERROR = 3;
+        CAMERA_HAL_DEVICE_ERROR = 4;
+        CAMERA_HAL_CALLBACK_ERROR = 5;
+        CAMERA_WATCHDOG_ERROR = 6;
+    }
+    optional ErrorState error_state = 31;
 }
 
 /**
