@@ -30,12 +30,12 @@ extend Atom {
       micro_xr_device_boot_complete_reported = 901 [(module) = "microxr"];
   optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
       [(module) = "microxr"];
-  optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 1183
-      [(module) = "microxr"];
   optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 1188
       [(module) = "microxr"];
   optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed = 1189
       [(module) = "microxr"];
+  optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
+      [(module) = "microxr-vendor"];
 }
 
 /**
@@ -74,6 +74,9 @@ message MicroXrDonDoffStateChanged {
  * Logged when the MCU crashes.
  */
 message MicroXrMcuCrashOccurred {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
 }
 
 /**

@@ -1514,7 +1514,7 @@ message Atom {
     extensions 1180; // DeviceSuggestionsInteractionReported device_suggestions_interaction_reported
     extensions 1181; // CarDataSubscriptionEventReported car_data_subscription_event_reported
     extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
-    extensions 1183; // MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred
+    reserved 1183; // Moved atom to Generic VendorAtoms
     extensions 1184; // ExternalDisplaySettingsChanged external_display_settings_changed
     extensions 1185; // DisabledLauncherActivityUidsReported disabled_launcher_activity_uids_reported
     extensions 1186; // BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported
@@ -1530,6 +1530,7 @@ message Atom {
 
     // Start pushed generic vendor extension atoms.
     // ID Range: 300,000 - 349,999 {{{
+    extensions 300000; // MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred
 
     // }}} End pushed generic vendor extension atoms.
     // ID Range: 300,000 - 349,999
