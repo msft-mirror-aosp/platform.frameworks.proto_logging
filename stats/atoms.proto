@@ -1531,6 +1531,8 @@ message Atom {
     // Start pushed generic vendor extension atoms.
     // ID Range: 300,000 - 349,999 {{{
 
+    reserved 349999; // TestGenericVendorAtomReported
+
     // }}} End pushed generic vendor extension atoms.
     // ID Range: 300,000 - 349,999
 
