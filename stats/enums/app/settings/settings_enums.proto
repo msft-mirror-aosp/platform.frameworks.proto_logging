@@ -2638,7 +2638,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2188
+// Next ID: 2189
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6158,6 +6158,11 @@ enum PageId {
     // OPEN: Settings > Network & internet > Airplane mode
     // CATEGORY: SETTINGS
     AIRPLANE_MODE_SETTINGS = 2184;
+
+    // OPEN: Settings > System > Multi user > User > Delete user
+    // OPEN: Settings > System > Multi user > User > Make this user an admin (off)
+    // CATEGORY: SETTINGS
+    DIALOG_CANNOT_REMOVE_LAST_ADMIN_USER = 2188;
 }
 
 // Battery Saver schedule types.
