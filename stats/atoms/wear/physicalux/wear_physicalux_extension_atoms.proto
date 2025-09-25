@@ -60,6 +60,8 @@ message WearGestureReported {
     optional com.google.android.clockwork.physicalux.Gesture gesture = 2;
     // The UIDs to whom this event was reported.
     repeated int32 uids = 3 [(is_uid) = true];
+    // The system action that was triggered by the gesture.
+    optional com.google.android.clockwork.physicalux.SystemAction system_action = 4;
 }
 
 /**
