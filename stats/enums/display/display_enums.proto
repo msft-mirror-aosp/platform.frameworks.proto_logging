@@ -67,6 +67,11 @@ enum DisplayBrightnessRangeEnum {
     RANGE_2500_2750 = 36;
     RANGE_2750_3000 = 37;
     RANGE_3000_INF = 38;
+
+    // Reserved ranges start from 100.
+    // Special range for brightness min when the screen is off. This will be
+    // mapped to the 0 bucket.
+    RANGE_0_MIN = 100;
 }
 
 // The original definition of this enum comes from
