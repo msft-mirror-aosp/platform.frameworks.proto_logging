@@ -2625,6 +2625,14 @@ enum Action {
     //                                      > Add recovery email
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_ADD_RECOVERY_POST_SETUP_SUCCESS = 2115;
+
+    // ACTION: Settings -> System -> Reset Options -> Erase emoney services
+    // CATEGORY: SETTINGS
+    ACTION_ERASE_EMONEY_SERVICES = 2116;
+
+    // Custom tag to log the result of erasing emoney services
+    // CATEGORY: SETTINGS
+    ACTION_ERASE_EMONEY_SERVICES_RESULT = 2117;
 }
 
 /**
