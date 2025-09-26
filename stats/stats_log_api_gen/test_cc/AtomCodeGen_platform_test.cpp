@@ -29,12 +29,12 @@ namespace {
 using namespace testing;
 using std::unique_ptr;
 
-TEST(AtomCodeGenTest, AtomConstants) {
+TEST(PlatformCodeGenTest, AtomConstants) {
     ASSERT_EQ(android::stats::BLE_SCAN_STATE_CHANGED, 2);
     ASSERT_EQ(android::stats::cts::TEST_ATOM_REPORTED, 205);
 }
 
-TEST(AtomCodeGenTest, CreateLinearHistogram) {
+TEST(PlatformCodeGenTest, CreateLinearHistogram) {
     unique_ptr<android::stats::StatsHistogram> hist =
             android::stats::create_test_extension_atom_reported__linear_histogram_histogram();
 
@@ -43,7 +43,7 @@ TEST(AtomCodeGenTest, CreateLinearHistogram) {
     EXPECT_THAT(hist->getBinCounts(), ElementsAre(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 }
 
-TEST(AtomCodeGenTest, CreateExponentialHistogram) {
+TEST(PlatformCodeGenTest, CreateExponentialHistogram) {
     unique_ptr<android::stats::StatsHistogram> hist =
             android::stats::create_test_extension_atom_reported__exponential_histogram_histogram();
 
@@ -52,7 +52,7 @@ TEST(AtomCodeGenTest, CreateExponentialHistogram) {
     EXPECT_THAT(hist->getBinCounts(), ElementsAre(0, 0, 0, 0, 0, 0, 0));
 }
 
-TEST(AtomCodeGenTest, CreateExplicitHistogram) {
+TEST(PlatformCodeGenTest, CreateExplicitHistogram) {
     unique_ptr<android::stats::StatsHistogram> hist =
             android::stats::create_test_extension_atom_reported__explicit_histogram_histogram();
 

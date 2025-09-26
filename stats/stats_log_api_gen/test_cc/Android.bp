@@ -22,15 +22,18 @@ package {
 cc_test {
     name: "stats_code_gen_cc_test",
     srcs: [
-        "AtomCodeGen_test.cpp",
+        "AtomCodeGen_bootstrap_test.cpp",
+        "AtomCodeGen_platform_test.cpp",
     ],
     generated_headers: [
         "test_atom_cc_gen_hdrs",
         "cts_atom_cc_gen_hdrs",
+        "bootstrap_atom_cc_gen_hdrs",
     ],
     generated_sources: [
         "test_atom_cc_gen_srcs",
         "cts_atom_cc_gen_srcs",
+        "bootstrap_atom_cc_gen_srcs",
     ],
     test_suites: [
         "device-tests",
@@ -43,8 +46,10 @@ cc_test {
         "-Wno-deprecated-declarations",
     ],
     shared_libs: [
-        "libstatssocket",
+        "android.os.statsbootstrap_aidl-cpp",
+        "libstatsbootstrap",
         "libstatspull",
+        "libstatssocket",
     ],
     static_libs: [
         "libgmock",
@@ -101,4 +106,22 @@ genrule {
     out: ["statslog_cts.cpp"],
     cmd: "$(location stats-log-api-gen) --cpp $(genDir)/statslog_cts.cpp --module cts" +
         "  --namespace android,stats,cts --importHeader statslog_cts.h",
+}
+
+genrule {
+    name: "bootstrap_atom_cc_gen_hdrs",
+    tools: ["stats-log-api-gen"],
+    out: ["statslog_bootstrap_test.h"],
+    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_bootstrap_test.h --module apex" +
+        "  --namespace android,stats,bs" +
+        "  --interface bootstrap",
+}
+
+genrule {
+    name: "bootstrap_atom_cc_gen_srcs",
+    tools: ["stats-log-api-gen"],
+    out: ["statslog_bootstrap_test.cpp"],
+    cmd: "$(location stats-log-api-gen) --cpp $(genDir)/statslog_bootstrap_test.cpp --module apex" +
+        "  --namespace android,stats,bs --importHeader statslog_bootstrap_test.h" +
+        "  --interface bootstrap",
 }

@@ -127,6 +127,30 @@ typedef enum {
     JAVA_TYPE_BYTE_ARRAY = -2,
 } java_type_t;
 
+inline const char* java_type_to_string(java_type_t type) {
+    switch (type) {
+        case JAVA_TYPE_UNKNOWN_OR_INVALID: return "JAVA_TYPE_UNKNOWN_OR_INVALID";
+        case JAVA_TYPE_ATTRIBUTION_CHAIN: return "JAVA_TYPE_ATTRIBUTION_CHAIN";
+        case JAVA_TYPE_BOOLEAN: return "JAVA_TYPE_BOOLEAN";
+        case JAVA_TYPE_INT: return "JAVA_TYPE_INT";
+        case JAVA_TYPE_LONG: return "JAVA_TYPE_LONG";
+        case JAVA_TYPE_FLOAT: return "JAVA_TYPE_FLOAT";
+        case JAVA_TYPE_DOUBLE: return "JAVA_TYPE_DOUBLE";
+        case JAVA_TYPE_STRING: return "JAVA_TYPE_STRING";
+        case JAVA_TYPE_ENUM: return "JAVA_TYPE_ENUM";
+        case JAVA_TYPE_BOOLEAN_ARRAY: return "JAVA_TYPE_BOOLEAN_ARRAY";
+        case JAVA_TYPE_INT_ARRAY: return "JAVA_TYPE_INT_ARRAY";
+        case JAVA_TYPE_LONG_ARRAY: return "JAVA_TYPE_LONG_ARRAY";
+        case JAVA_TYPE_FLOAT_ARRAY: return "JAVA_TYPE_FLOAT_ARRAY";
+        case JAVA_TYPE_DOUBLE_ARRAY: return "JAVA_TYPE_DOUBLE_ARRAY";
+        case JAVA_TYPE_STRING_ARRAY: return "JAVA_TYPE_STRING_ARRAY";
+        case JAVA_TYPE_ENUM_ARRAY: return "JAVA_TYPE_ENUM_ARRAY";
+        case JAVA_TYPE_OBJECT: return "JAVA_TYPE_OBJECT";
+        case JAVA_TYPE_BYTE_ARRAY: return "JAVA_TYPE_BYTE_ARRAY";
+    }
+    return "Unknown";
+}
+
 enum AnnotationType {
     ANNOTATION_TYPE_UNKNOWN = 0,
     ANNOTATION_TYPE_INT = 1,
