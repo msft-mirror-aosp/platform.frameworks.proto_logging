@@ -36,6 +36,7 @@ enum ElementId {
     MANAGE_DATA_BUTTON = 153;
     EXPORT_ERROR_BANNER = 229;
     EXPORT_ERROR_BANNER_BUTTON = 238;
+    DEVICES_BUTTON = 338;
 
     // New home page
     CONNECTED_APP_HOME_SCREEN_BUTTON = 328;
@@ -486,13 +487,16 @@ enum ElementId {
     ENTER_EXISTING_APPS_STATE_SHOW_SYSTEM_MENU = 326;
     ENTER_EXISTING_APPS_STATE_HIDE_SYSTEM_MENU = 327;
 
-    // Next available: 336;
+    MEDICAL_RECORDS_HEADER = 336;
+    MEDICAL_RECORDS_HEADER_LINK = 337;
+
+    // Next available: 339;
 }
 
 enum PageId {
 
     // Deprecated enum values
-    reserved 17, 18, 24;
+    reserved 17, 18, 24, 62, 63;
 
     PAGE_UNKNOWN = 0;
     HOME_PAGE = 1;
@@ -558,8 +562,9 @@ enum PageId {
     PRETTY_FHIR_PAGE = 60;
 
     COMBINED_ALL_DATA_PAGE = 61;
-    MEDICAL_RECORDS_HEADER = 62;
-    MEDICAL_RECORDS_HEADER_LINK = 63;
+    // MEDICAL_RECORDS_HEADER = 62;
+    // MEDICAL_RECORDS_HEADER_LINK = 63;
+    NEW_HOME_PAGE = 64;
 
     // Connect Apps Onboarding
     CONNECT_TWO_APPS_ONBOARDING_PAGE = 56;
@@ -567,7 +572,7 @@ enum PageId {
     ALMOST_DONE_PAGE = 58;
     FITNESS_APP_ONBOARDING_PAGE = 59;
 
-    // Next available: 64;
+    // Next available: 65;
 }
 
 enum Action {
