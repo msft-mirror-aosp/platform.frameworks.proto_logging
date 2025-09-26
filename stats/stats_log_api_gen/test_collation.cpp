@@ -82,20 +82,12 @@ static bool map_contains_vector(const SignatureInfoMap& s, int count, ...) {
 class CollationTest : public testing::TestWithParam<bool> {
     class MFErrorCollector : public google::protobuf::compiler::MultiFileErrorCollector {
     public:
-#if GOOGLE_PROTOBUF_VERSION >= 5026000
         void RecordError(absl::string_view filename, int line, int column,
                          absl::string_view message) override {
             fprintf(stdout, "[Error] %.*s:%d:%d - %.*s", static_cast<int>(filename.size()),
                     filename.data(), line, column, static_cast<int>(message.size()),
                     message.data());
         }
-#else
-        void AddError(const std::string& filename, int line, int column,
-                      const std::string& message) override {
-            fprintf(stdout, "[Error] %s:%d:%d - %s", filename.c_str(), line, column,
-                    message.c_str());
-        }
-#endif
     };
 
 public:
