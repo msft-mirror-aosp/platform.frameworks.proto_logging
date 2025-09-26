@@ -123,18 +123,11 @@ int write_java_work_source_methods(FILE* out, const SignatureInfoMap& signatureI
 
 class MFErrorCollector : public google::protobuf::compiler::MultiFileErrorCollector {
 public:
-#if GOOGLE_PROTOBUF_VERSION >= 5026000
     void RecordError(absl::string_view filename, int line, int column,
                      absl::string_view message) override {
         fprintf(stderr, "[Error] %.*s:%d:%d - %.*s\n", static_cast<int>(filename.size()),
                 filename.data(), line, column, static_cast<int>(message.size()), message.data());
     }
-#else
-    void AddError(const std::string& filename, int line, int column,
-                  const std::string& message) override {
-        fprintf(stderr, "[Error] %s:%d:%d - %s\n", filename.c_str(), line, column, message.c_str());
-    }
-#endif
 };
 
 int get_max_requires_api_level(int minApiLevel, const AtomDeclSet* atomDeclSet,
