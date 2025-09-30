@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2116
+// Next ID: 2122
 enum Action {
 
     // Reserved for biometrics
@@ -2633,6 +2633,29 @@ enum Action {
     // Custom tag to log the result of erasing emoney services
     // CATEGORY: SETTINGS
     ACTION_ERASE_EMONEY_SERVICES_RESULT = 2117;
+
+    // ACTION: Transit onboarding
+    // Tracks whether Maps background location is already enabled when the user
+    // starts the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_BACKGROUND_LOCATION_INITIAL_ON = 2118;
+
+    // ACTION: Transit onboarding
+    // Tracks whether the location history is already enabled when the user
+    // starts the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_HISTORY_INITIAL_ON = 2119;
+
+    // ACTION: Transit onboarding
+    // Tracks whether the Transit mode is already setup when the user starts
+    // the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_TRANSIT_INITIAL_SETUP = 2120;
+
+    // ACTION: Transit onboarding
+    // Tracks the count of DNS error retries.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_DNS_ERROR_RETRY = 2121;
 }
 
 /**
