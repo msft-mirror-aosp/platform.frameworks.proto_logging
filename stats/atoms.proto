@@ -1534,7 +1534,7 @@ message Atom {
     // ID Range: 300,000 - 349,999 {{{
     extensions 300000; // MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred
 
-    reserved 349999; // TestGenericVendorAtomReported
+    extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 
     // }}} End pushed generic vendor extension atoms.
     // ID Range: 300,000 - 349,999
