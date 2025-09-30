@@ -20,7 +20,6 @@ package android.os.statsd.adpf;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
-import "frameworks/proto_logging/stats/atoms/adpf/adpf_atoms.proto";
 import "frameworks/proto_logging/stats/enums/adpf/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
@@ -31,9 +30,11 @@ extend Atom {
     // Pushed atoms
     optional ThermalStatusCalled thermal_status_called = 772 [(module) = "framework"];
     optional ThermalHeadroomCalled thermal_headroom_called = 773 [(module) = "framework"];
-    optional ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called = 774 [(module) = "framework"];
+    optional ThermalHeadroomThresholdsCalled thermal_headroom_thresholds_called =
+            774 [(module) = "framework"];
     optional AdpfHintSessionTidCleanup adpf_hint_session_tid_cleanup = 839 [(module) = "framework"];
-    optional ThermalHeadroomListenerDataReported thermal_headroom_listener_data_reported = 1051 [(module) = "framework"];
+    optional ThermalHeadroomListenerDataReported thermal_headroom_listener_data_reported =
+            1051 [(module) = "framework"];
     optional CpuHeadroomReported cpu_headroom_reported = 1052 [(module) = "framework"];
     optional GpuHeadroomReported gpu_headroom_reported = 1053 [(module) = "framework"];
 
@@ -41,7 +42,8 @@ extend Atom {
     optional ThermalHeadroomThresholds thermal_headroom_thresholds = 10201 [(module) = "framework"];
     optional AdpfSessionSnapshot adpf_session_snapshot = 10218 [(module) = "framework"];
     optional AdpfSupportInfo adpf_support_info = 10237 [(module) = "framework"];
-    optional ThermalHeadroomListenerInfo thermal_headroom_listener_info = 10238 [(module) = "framework"];
+    optional ThermalHeadroomListenerInfo thermal_headroom_listener_info =
+            10238 [(module) = "framework"];
 }
 
 /**
