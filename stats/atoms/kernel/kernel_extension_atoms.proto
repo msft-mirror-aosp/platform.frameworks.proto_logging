@@ -27,6 +27,8 @@ option java_multiple_files = true;
 extend Atom {
     optional KernelOomKillOccurred kernel_oom_kill_occurred = 754
         [(module) = "framework"];
+    optional AggregatedKernelWakelockInfo aggregated_kernel_wakelock_info = 10253
+        [(module) = "framework"];
 }
 
 /**
@@ -64,4 +66,13 @@ message KernelOomKillOccurred {
 
     // OOM victim's page tables, which was freed after the process' death
     optional int64 pgtables_kb = 10;
+}
+
+/**
+ * Logs aggregated info regarding Kernel Wakelocks.
+ * Pulled from frameworks/base/services/core/java/com/android/server/stats/pull/StatsPullAtomService.java
+*/
+message AggregatedKernelWakelockInfo {
+    /* Total amount of time the kernel held at least a wakelock (microseconds). */
+    optional int64 kernel_wakelock_duration_us = 1;
 }
