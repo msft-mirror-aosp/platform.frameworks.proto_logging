@@ -84,6 +84,7 @@ enum ActiveRuleType {
   TYPE_IMMERSIVE = 5;
   TYPE_THEATER = 6;
   TYPE_MANAGED = 7;
+  TYPE_TRANSIT = 8;
   // Intentional gap for future automatic rule types.
   TYPE_MANUAL = 999;
 }
