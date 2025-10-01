@@ -31,6 +31,8 @@ extend Atom {
     [(module) = "cts", (restriction_category) = RESTRICTION_DIAGNOSTIC];
     optional StatsSocketLossReported stats_socket_loss_reported =
             752 [(module) = "statsdsocket", (module) = "statsd", (module) = "statsdtest"];
+    optional TestGenericVendorAtomReported test_generic_vendor_atom_reported = 349999
+                [(android.os.statsd.module) = "generic-vendor-test"];
 }
 
 message TestExtensionAtomNestedMessage {
@@ -147,4 +149,12 @@ message StatsSocketLossReported {
     repeated int32 tags = 6;
 
     repeated int32 counts = 7;
+}
+
+/**
+ * Used for stats-log-api-gen tests
+ */
+message TestGenericVendorAtomReported {
+    optional string reverse_domain_name = 1;
+    optional int32 int_value = 2;
 }

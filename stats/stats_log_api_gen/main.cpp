@@ -98,10 +98,39 @@ static void print_usage() {
 #ifdef WITH_VENDOR
     fprintf(stderr,
             "  --vendor-proto       Path to the proto file for vendor atoms logging\n"
-            "code generation.\n");
+            "code generation (deprecated, use \"--interface VENDOR --proto <path>\" instead).\n");
+    fprintf(stderr,
+            "  --proto       Path to the proto file for atoms logging code generation.\n");
 #endif
 }
 
+static int collate_atoms_from_sources(const string& moduleName, const string& proto, Atoms& atoms) {
+    if (proto.empty()) {
+        return collate_atoms(*Atom::descriptor(), moduleName, atoms);
+    }
+
+    MFErrorCollector errorCollector;
+    google::protobuf::compiler::DiskSourceTree sourceTree;
+    google::protobuf::compiler::Importer importer(&sourceTree, &errorCollector);
+    const google::protobuf::FileDescriptor* fileDescriptor;
+    sourceTree.MapPath("", fs::current_path().c_str());
+
+    const char* androidBuildTop = std::getenv("ANDROID_BUILD_TOP");
+
+    fs::path protobufSrc = androidBuildTop != nullptr ? androidBuildTop : fs::current_path();
+    protobufSrc /= "external/protobuf/src";
+    sourceTree.MapPath("", protobufSrc.c_str());
+
+    if (androidBuildTop != nullptr) {
+        sourceTree.MapPath("", androidBuildTop);
+    }
+
+    fileDescriptor = importer.Import(proto);
+    if (fileDescriptor == nullptr) {
+        return 1;
+    }
+    return collate_atoms(*fileDescriptor->FindMessageTypeByName("Atom"), moduleName, atoms);
+}
 /**
  * Do the argument parsing and execute the tasks.
  */
@@ -117,11 +146,10 @@ static int run(int argc, char const* const* argv) {
     string moduleName = DEFAULT_MODULE_NAME;
     string cppNamespace = DEFAULT_CPP_NAMESPACE;
     string cppHeaderImport = DEFAULT_CPP_HEADER_IMPORT;
-    string vendorProto;
+    string proto;
     InterfaceApi interface = InterfaceApi::PLATFORM;
     bool supportWorkSource = false;
     int minApiLevel = API_LEVEL_CURRENT;
-    bool bootstrap = false;
     bool javaStaticMethods = true;
 
     int index = 1;
@@ -222,7 +250,7 @@ static int run(int argc, char const* const* argv) {
                 minApiLevel = atoi(argv[index]);
             }
         } else if (0 == strcmp("--bootstrap", argv[index])) {
-            bootstrap = true;
+            interface = InterfaceApi::BOOTSTRAP;
 #ifdef WITH_VENDOR
         } else if (0 == strcmp("--vendor-proto", argv[index])) {
             index++;
@@ -230,8 +258,8 @@ static int run(int argc, char const* const* argv) {
                 print_usage();
                 return 1;
             }
-
-            vendorProto = argv[index];
+            interface = InterfaceApi::VENDOR;
+            proto = argv[index];
 #endif
         } else if (0 == strcmp("--interface", argv[index])) {
             index++;
@@ -246,10 +274,17 @@ static int run(int argc, char const* const* argv) {
                 print_usage();
                 return 1;
             }
+        } else if (0 == strcmp("--proto", argv[index])) {
+            index++;
+            if (index >= argc) {
+                print_usage();
+                return 1;
+            }
+            proto = argv[index];
         }
-
         index++;
     }
+
     if (index < argc) {
         fprintf(stderr, "Error: Unknown command line argument\n");
         print_usage();
@@ -273,8 +308,7 @@ static int run(int argc, char const* const* argv) {
         return 1;
     }
 
-    if (bootstrap || interface == InterfaceApi::BOOTSTRAP) {
-        interface = InterfaceApi::BOOTSTRAP;
+    if (interface == InterfaceApi::BOOTSTRAP) {
         if (cppFilename.empty() && headerFilename.empty()) {
             fprintf(stderr, "Bootstrap flag can only be used for cpp/header files.\n");
             return 1;
@@ -290,34 +324,8 @@ static int run(int argc, char const* const* argv) {
     }
 
     // Collate the parameters.
-    int errorCount = 0;
-
     Atoms atoms;
-
-    MFErrorCollector errorCollector;
-    google::protobuf::compiler::DiskSourceTree sourceTree;
-    google::protobuf::compiler::Importer importer(&sourceTree, &errorCollector);
-
-    if (vendorProto.empty()) {
-        errorCount = collate_atoms(*Atom::descriptor(), moduleName, atoms);
-    } else {
-        const google::protobuf::FileDescriptor* fileDescriptor;
-        sourceTree.MapPath("", fs::current_path().c_str());
-
-        const char* androidBuildTop = std::getenv("ANDROID_BUILD_TOP");
-
-        fs::path protobufSrc = androidBuildTop != nullptr ? androidBuildTop : fs::current_path();
-        protobufSrc /= "external/protobuf/src";
-        sourceTree.MapPath("", protobufSrc.c_str());
-
-        if (androidBuildTop != nullptr) {
-            sourceTree.MapPath("", androidBuildTop);
-        }
-
-        fileDescriptor = importer.Import(vendorProto);
-        errorCount =
-                collate_atoms(*fileDescriptor->FindMessageTypeByName("Atom"), moduleName, atoms);
-    }
+    int errorCount = collate_atoms_from_sources(moduleName, proto, atoms);
 
     if (errorCount != 0) {
         return 1;
@@ -327,6 +335,8 @@ static int run(int argc, char const* const* argv) {
     vector<java_type_t> attributionSignature;
     collate_atom(*android::os::statsd::AttributionNode::descriptor(), attributionDecl,
                  attributionSignature);
+
+    const bool isVendor = interface == InterfaceApi::VENDOR;
 
     // Write the .cpp file
     if (!cppFilename.empty()) {
@@ -346,12 +356,12 @@ static int run(int argc, char const* const* argv) {
             fprintf(stderr, "Unable to open file for write: %s\n", cppFilename.c_str());
             return 1;
         }
-        if (vendorProto.empty()) {
+        if (!isVendor) {
             errorCount = android::stats_log_api_gen::write_stats_log_cpp(
                     out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
                     interface == InterfaceApi::BOOTSTRAP);
-        } else {
 #ifdef WITH_VENDOR
+        } else {
             errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
                     out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
 #endif
@@ -371,12 +381,12 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
 
-        if (vendorProto.empty()) {
+        if (!isVendor) {
             errorCount = android::stats_log_api_gen::write_stats_log_header(
                     out, atoms, attributionDecl, cppNamespace, minApiLevel,
                     interface == InterfaceApi::BOOTSTRAP);
-        } else {
 #ifdef WITH_VENDOR
+        } else {
             errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
                     out, atoms, attributionDecl, cppNamespace);
 #endif
@@ -407,12 +417,12 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
 
-        if (vendorProto.empty()) {
+        if (!isVendor) {
             errorCount = android::stats_log_api_gen::write_stats_log_java(
                     out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel,
                     supportWorkSource, javaStaticMethods);
-        } else {
 #ifdef WITH_VENDOR
+        } else {
             if (supportWorkSource) {
                 fprintf(stderr, "The attribution chain is not supported for vendor atoms");
                 return 1;
@@ -428,7 +438,7 @@ static int run(int argc, char const* const* argv) {
 
     // Write the main .rs file
     if (!rustFilename.empty()) {
-        if (rustHeaderCrate.empty() && vendorProto.empty()) {
+        if (rustHeaderCrate.empty() && !isVendor) {
             fprintf(stderr, "rustHeaderCrate flag is either not passed or is empty\n");
             return 1;
         }
@@ -439,12 +449,14 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
 
-        if (vendorProto.empty()) {
+        if (!isVendor) {
             errorCount += android::stats_log_api_gen::write_stats_log_rust(
                     out, atoms, attributionDecl, minApiLevel, rustHeaderCrate.c_str());
+#ifdef WITH_VENDOR
         } else {
             errorCount += android::stats_log_api_gen::write_stats_log_rust_vendor(out, atoms,
                                                                                   attributionDecl);
+#endif
         }
 
         fclose(out);
@@ -452,11 +464,12 @@ static int run(int argc, char const* const* argv) {
 
     // Write the header .rs file
     if (!rustHeaderFilename.empty()) {
-        if (!vendorProto.empty()) {
+#ifdef WITH_VENDOR
+        if (isVendor) {
             fprintf(stderr, "rustHeaderFilename is not needed for vendor proto\n");
             return 1;
         }
-
+#endif
         if (rustHeaderCrate.empty()) {
             fprintf(stderr, "rustHeaderCrate flag is either not passed or is empty");
             return 1;
