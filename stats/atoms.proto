@@ -1833,6 +1833,7 @@ message Atom {
     extensions 10250; // SatelliteBytesTransfer satellite_bytes_transfer
     extensions 10251; // MemcgMemorySnapshot memcg_memory_snapshot
     extensions 10252; // MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot
+    extensions 10253; // AggregatedKernelWakelockInfo aggregated_kernel_wakelock_info
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
