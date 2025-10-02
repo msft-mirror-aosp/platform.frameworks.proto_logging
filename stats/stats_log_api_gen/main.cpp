@@ -89,12 +89,9 @@ static void print_usage() {
             "  --worksource         Include support for logging WorkSource "
             "objects.\n");
     fprintf(stderr, "                                        Default is \"current\".\n");
-    fprintf(stderr,
-            "  --bootstrap          If this logging is from a bootstrap process. "
-            "Only supported for cpp. Do not use unless necessary.\n"
-            "Deprecated - use --interface bootstrap instead\n");
     fprintf(stderr, "  --interface          The code gen API to use.\n"
-            " Supported APIs are platform (default), vendor or bootstrap");
+            " Supported APIs are platform (default), vendor or bootstrap\n"
+            " Bootstrap only supported for cpp. Do not use unless necessary.\n");
 #ifdef WITH_VENDOR
     fprintf(stderr,
             "  --vendor-proto       Path to the proto file for vendor atoms logging\n"
@@ -249,8 +246,6 @@ static int run(int argc, char const* const* argv) {
             if (0 != strcmp("current", argv[index])) {
                 minApiLevel = atoi(argv[index]);
             }
-        } else if (0 == strcmp("--bootstrap", argv[index])) {
-            interface = InterfaceApi::BOOTSTRAP;
 #ifdef WITH_VENDOR
         } else if (0 == strcmp("--vendor-proto", argv[index])) {
             index++;
