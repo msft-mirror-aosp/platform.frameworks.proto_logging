@@ -28,7 +28,8 @@ cc_test_host {
         "-DUNIT_TEST",
     ],
     srcs: [
-        "test_platform_protos.cpp",
+        "test_atoms_protos.cpp",
+        "test_generic_vendor_protos.cpp",
     ],
 
     static_libs: [
