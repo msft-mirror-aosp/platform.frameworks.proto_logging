@@ -147,22 +147,26 @@ cc_test_host {
         "-DUNIT_TEST",
     ],
     srcs: [
-        "test_api_gen.cpp",
+        "test_api_gen_external_atom.cpp",
+        "test_api_gen_generic_vendor.cpp",
         "test_api_gen_vendor.cpp",
+        "test_api_gen.cpp",
         "test_collation.cpp",
-        "test.proto",
         "test_feature_atoms.proto",
         "test_vendor_atoms.proto",
+        "test.proto",
     ],
 
     static_libs: [
         "libgmock_host",
-        "libtestvendoratoms",
+        "libtestgenatoms",
     ],
 
     shared_libs: [
         "android.frameworks.stats-V2-ndk",
         "libstatslog",
+        "libstatspull",
+        "libstatssocket",
     ],
 
     proto: {
@@ -199,7 +203,8 @@ genrule {
     cmd: "$(location stats-log-api-gen) --header $(out)" +
         " --module test" +
         " --namespace android,VendorAtoms" +
-        " --vendor-proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+        " --interface vendor" +
+        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
     out: [
         "test_vendor_atoms.h",
     ],
@@ -217,7 +222,8 @@ genrule {
         " --module test" +
         " --importHeader test_vendor_atoms.h" +
         " --namespace android,VendorAtoms" +
-        " --vendor-proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+        " --interface vendor" +
+        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
     out: [
         "test_vendor_atoms.cpp",
     ],
@@ -228,20 +234,88 @@ genrule {
     ],
 }
 
+genrule {
+    name: "test_external_atoms.h",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --header $(out)" +
+        " --module test" +
+        " --namespace android,ExternalAtoms" +
+        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+    out: [
+        "test_external_atoms.h",
+    ],
+    srcs: [
+        "test_vendor_atoms.proto",
+        ":libprotobuf-internal-descriptor-proto",
+        ":libstats_atom_options_protos",
+    ],
+}
+
+genrule {
+    name: "test_external_atoms.cpp",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
+        " --module test" +
+        " --importHeader test_external_atoms.h" +
+        " --namespace android,ExternalAtoms" +
+        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+    out: [
+        "test_external_atoms.cpp",
+    ],
+    srcs: [
+        "test_vendor_atoms.proto",
+        ":libprotobuf-internal-descriptor-proto",
+        ":libstats_atom_options_protos",
+    ],
+}
+
+genrule {
+    name: "test_generic_vendor_atoms.h",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --header $(out)" +
+        " --module generic-vendor-test" +
+        " --namespace android,GenericVendorAtoms" +
+        " --interface vendor",
+    out: [
+        "test_generic_vendor_atoms.h",
+    ],
+}
+
+genrule {
+    name: "test_generic_vendor_atoms.cpp",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
+        " --module generic-vendor-test" +
+        " --importHeader test_generic_vendor_atoms.h" +
+        " --namespace android,GenericVendorAtoms" +
+        " --interface vendor",
+    out: [
+        "test_generic_vendor_atoms.cpp",
+    ],
+}
+
 cc_library_static {
-    name: "libtestvendoratoms",
+    name: "libtestgenatoms",
     host_supported: true,
     generated_headers: [
+        "test_external_atoms.h",
+        "test_generic_vendor_atoms.h",
         "test_vendor_atoms.h",
     ],
     generated_sources: [
+        "test_external_atoms.cpp",
+        "test_generic_vendor_atoms.cpp",
         "test_vendor_atoms.cpp",
     ],
     export_generated_headers: [
+        "test_external_atoms.h",
+        "test_generic_vendor_atoms.h",
         "test_vendor_atoms.h",
     ],
     shared_libs: [
         "android.frameworks.stats-V2-ndk",
+        "libstatssocket",
+        "libstatspull",
     ],
 }
 
@@ -261,7 +335,8 @@ genrule {
     name: "test_vendor_atoms.rs",
     tools: ["stats-log-api-gen"],
     cmd: "$(location stats-log-api-gen) --rust $(out)" +
-        " --vendor-proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+        " --interface vendor" +
+        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
     out: [
         "test_vendor_atoms.rs",
     ],
