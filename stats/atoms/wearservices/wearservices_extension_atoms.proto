@@ -90,6 +90,9 @@ extend Atom {
 
   optional WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot = 10227
       [(module) = "wearservices"];
+
+  optional WsCompanionMetadataSnapshot ws_companion_metadata_snapshot = 10254
+      [(module) = "wearservices"];
 }
 
 /**
@@ -488,4 +491,23 @@ message WsVisibleTileOutdated {
 
   // Class name for the tile that is outdated.
   repeated string component_class_name = 2;
+}
+
+/**
+ * Snapshot for the companion state (phone metadata).
+ *
+ * Logged from:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/companion/telemetry/CompanionMetadataPulledAtomsRegistry.java
+ */
+message WsCompanionMetadataSnapshot {
+  // The version of the Companion SDK that is running on the phone. The meaning
+  // of this version is different for devices that are built from google3 from
+  // the others.
+  optional string companion_sdk_version = 1;
+
+  // The version of the Companion App that is running on the phone.
+  optional string companion_app_version = 2;
+
+  // The package name of the Companion App that is running on the phone.
+  optional string companion_app_package_name = 3;
 }
