@@ -7886,6 +7886,19 @@ message BootTimeEventElapsedTime {
         UNKNOWN = 0;
         // Time when init starts 1st stage. Logged from bootstat.
         ANDROID_INIT_STAGE_1 = 1;
+        // Times when the init starts each boot stage.
+        // Logged from bootstat by ro.boottime.event.*
+        ANDROID_INIT_ON_EARLY_INIT   = 23;
+        ANDROID_INIT_ON_INIT         = 24;
+        ANDROID_INIT_ON_LATE_INIT    = 25;
+        ANDROID_INIT_ON_EARLY_FS     = 26;
+        ANDROID_INIT_ON_FS           = 27;
+        ANDROID_INIT_ON_POST_FS      = 28;
+        ANDROID_INIT_ON_LATE_FS      = 29;
+        ANDROID_INIT_ON_POST_FS_DATA = 30;
+        ANDROID_INIT_ON_ZYGOTE_START = 31;
+        ANDROID_INIT_ON_EARLY_BOOT   = 32;
+        ANDROID_INIT_ON_BOOT         = 33;
         // Time when sys.boot_completed prop is set.
         // Logged from bootstat.
         BOOT_COMPLETE = 2;
