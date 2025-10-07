@@ -30,9 +30,9 @@ extend Atom {
       micro_xr_device_boot_complete_reported = 901 [(module) = "microxr"];
   optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
       [(module) = "microxr"];
-  optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 1188
+  optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 300001
       [(module) = "microxr"];
-  optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed = 1189
+  optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed = 300002
       [(module) = "microxr"];
   optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
       [(module) = "microxr-vendor"];
@@ -99,8 +99,12 @@ message MicroXrSoundTriggerDetected {
     VALIDATION_STATUS_REJECTED = 2;
   }
 
-  optional ValidationType validation_type = 1;
-  optional ValidationStatus validation_status = 2;
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  optional ValidationType validation_type = 2;
+  optional ValidationStatus validation_status = 3;
 }
 
 /**
@@ -128,15 +132,19 @@ enum MediaTransport {
  *   Average on the order of tens per day at most
  */
 message MicroXrAudioPlaybackCompleted {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
   // Transport used by this playback stream.
-  optional MediaTransport transport = 1;
+  optional MediaTransport transport = 2;
 
   // Duration of the stream, in milliseconds. This is the wallclock duration
   // from stream start until stream end.
-  optional int32 duration_ms = 2;
+  optional int32 duration_ms = 3;
 
   // Duration of audio actually played, not counting underflows or gaps.
-  optional int32 duration_played_ms = 3;
+  optional int32 duration_played_ms = 4;
 
   //
   // Underflows
@@ -157,16 +165,16 @@ message MicroXrAudioPlaybackCompleted {
   //
 
   // Number of underflows.
-  optional int32 underflows_total_count = 4;
+  optional int32 underflows_total_count = 5;
 
   // Total (cumulative) duration of all underflows.
-  optional int64 underflows_total_duration_ms = 5;
+  optional int64 underflows_total_duration_ms = 6;
 
   // Histogram of underflow durations. Underflows cannot be shorter than the
   // packet duration, which is expected to be about 20ms. Standard advice is to
   // use fewer than 20 bins. Empirically, we expect most underflows are less than
   // 1 second.
-  repeated int32 underflows_duration_histogram_ms = 6 [(histogram_bin_option).explicit_bins = {
+  repeated int32 underflows_duration_histogram_ms = 7 [(histogram_bin_option).explicit_bins = {
     bin: 25
     bin: 50
     bin: 100
@@ -176,10 +184,10 @@ message MicroXrAudioPlaybackCompleted {
   }];
 
   // Total (cumulative) lateness of all underflows.
-  optional int64 underflows_total_lateness_ms = 7;
+  optional int64 underflows_total_lateness_ms = 8;
 
   // Histogram of underflow lateness.
-  repeated int32 underflows_lateness_histogram_ms = 8 [(histogram_bin_option).explicit_bins = {
+  repeated int32 underflows_lateness_histogram_ms = 9 [(histogram_bin_option).explicit_bins = {
     bin: 25
     bin: 50
     bin: 100
