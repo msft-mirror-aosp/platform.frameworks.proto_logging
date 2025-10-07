@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 547
+// Next ID: 549
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -448,4 +448,6 @@ enum ItemId {
   ONE_HANDED_GESTURES_HINTS_CADENCE_MONTHLY = 539;
   ONE_HANDED_GESTURES_HINTS_CADENCE_ONCE = 540;
   ADVANCE_PERMISSIONS_ALL_FILES_ACCESS = 541;
+  DISPLAY_NOTIFICATION_AFTER_WRIST_RAISE = 547;
+  DISPLAY_NOTIFICATION_IMMEDIATELY = 548;
 }
