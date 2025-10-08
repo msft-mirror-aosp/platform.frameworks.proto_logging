@@ -60,6 +60,7 @@ extend Atom {
     optional WifiQosPoliciesFromApplicationRequested wifi_qos_policies_from_application_requested = 1158 [(module) = "wifi"];
     optional SoftApInfoChanged soft_ap_info_changed = 1166 [(module) = "wifi"];
     optional WifiPowerStatsReported wifi_power_stats_reported = 1194 [(module) = "wifi"];
+    optional WifiNl80211CommandResultReported wifi_nl80211_command_result_reported = 1198 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -1205,3 +1206,43 @@ message WifiPowerStatsReported {
     optional int32 wifi_role = 22;
 }
 
+/**
+ * Logged when Wifi NL802.11 command is called
+ *
+ * Logged From: packages/modules/Wifi/service/java/com/android/server/wifi/nl80211/Nl80211Proxy.java
+ * Estimated Logging Rate:
+ *  Peak: 50 times per device per day.
+ *  Avg: 10 times per device per day.
+ */
+message WifiNl80211CommandResultReported {
+    enum ReasonCode {
+        UNKNOWN = 0;
+
+        // NL command success
+        SUCCESS = 1;
+
+        // Netlink file descriptor is null
+        SEND_FD_UNAVAILABLE = 2;
+
+        // Request to send null message
+        SEND_NLMSG_NULL = 3;
+
+        // Sending message timeout
+        SEND_NLMSG_TIMEOUT = 4;
+
+        // Receive null response message
+        RESPONSE_NLMSG_NULL = 5;
+
+        // Response NL message with type error
+        RESPONSE_NLMSG_ERROR = 6;
+
+        // Wait for response timeout
+        RESPONSE_NLMSG_TIMEOUT = 7;
+    }
+
+    // NL commands defined in {@link com.android.server.wifi.nl80211.NetlinkConstants#NetlinkConstants}
+    optional android.net.wifi.Nl80211CommandId command_id = 1;
+
+    // The result of calling the API
+    optional ReasonCode reason_code = 2;
+}
