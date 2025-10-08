@@ -25,15 +25,21 @@ option java_package = "com.android.os.statsd.microxr";
 option java_multiple_files = true;
 
 extend Atom {
-  // Pushed atoms.
+  // Pushed atoms (platform).
   optional MicroXrDeviceBootCompleteReported
       micro_xr_device_boot_complete_reported = 901 [(module) = "microxr"];
   optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
       [(module) = "microxr"];
+  optional MicroXrPhotoCaptured micro_xr_photo_captured = 1196
+      [(module) = "microxr"];
+  optional MicroXrVideoCaptured micro_xr_video_captured = 1197
+      [(module) = "microxr"];
+
+  // Pushed atoms (generic vendor extensions).
   optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 300001
-      [(module) = "microxr"];
+      [(module) = "microxr-vendor"];
   optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed = 300002
-      [(module) = "microxr"];
+      [(module) = "microxr-vendor"];
   optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
       [(module) = "microxr-vendor"];
 }
@@ -68,6 +74,78 @@ enum DonDoffState {
  */
 message MicroXrDonDoffStateChanged {
   optional DonDoffState don_doff_new_state = 1;
+}
+
+/**
+ * How a photo or video capture was triggered.
+ */
+enum PhotoOrVideoTrigger {
+  // Triggered by an unknown means.
+  PHOTO_OR_VIDEO_TRIGGER_UNKNOWN = 0;
+  // Triggered by a button press on the glasses.
+  PHOTO_OR_VIDEO_TRIGGER_BUTTON = 1;
+  // Triggered by a voice command.
+  PHOTO_OR_VIDEO_TRIGGER_VOICE = 2;
+}
+
+/**
+ * Status of a photo or video capture.
+ */
+enum PhotoOrVideoStatus {
+  PHOTO_OR_VIDEO_STATUS_UNKNOWN = 0;
+  // Capture success.
+  PHOTO_OR_VIDEO_STATUS_SUCCESS = 1;
+  // Capture failed for an unspecified reason.
+  PHOTO_OR_VIDEO_STATUS_FAILED = 2;
+  // Capture failed because another capture was already in progress.
+  PHOTO_OR_VIDEO_STATUS_FAILED_IN_PROGRESS = 3;
+  // Capture failed due to a thwart check.
+  PHOTO_OR_VIDEO_STATUS_FAILED_THWART_CHECK = 4;
+  // Capture was disabled to mitigate a thermal problem.
+  PHOTO_OR_VIDEO_STATUS_FAILED_THERMAL = 5;
+}
+
+/**
+ * Logged each time a photo is captured.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrPhotoCaptured {
+  optional PhotoOrVideoTrigger trigger = 1;
+  optional PhotoOrVideoStatus status = 2;
+
+  // Time from when photo capture starts until the photo was captured, in
+  // milliseconds. Includes ae_latency_ms. If there was a burst of captures
+  // (such as for HDR), includes the time to capture all frames in the burst.
+  optional int32 latency_ms = 3;
+
+  // Time from when photo capture starts until Auto Exposure completes, in
+  // milliseconds.
+  optional int32 ae_latency_ms = 4;
+}
+
+/**
+ * Logged each time a video is captured.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrVideoCaptured {
+  optional PhotoOrVideoTrigger trigger = 1;
+  optional PhotoOrVideoStatus status = 2;
+
+  // Duration of the video, which is the time between capture of the first and
+  // last frame, in milliseconds.
+  optional int32 duration_ms = 3;
+
+  // Time from when video capture starts until the first frame of the video is
+  // captured, in milliseconds. Includes ae_latency_ms.
+  optional int32 first_frame_latency_ms = 4;
+
+  // Time from when video capture starts until Auto Exposure completes, in
+  // milliseconds.
+  optional int32 ae_latency_ms = 5;
 }
 
 /**
