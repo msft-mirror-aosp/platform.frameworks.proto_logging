@@ -38,3 +38,10 @@ enum GestureDetectionState {
   STATE_ACTIVE = 1;
   STATE_INACTIVE = 2;
 }
+
+// System Actions
+enum SystemAction {
+  SYSTEM_ACTION_UNSPECIFIED = 0;
+  SYSTEM_ACTION_HOME = 1;
+  SYSTEM_ACTION_BACK = 2;
+}
