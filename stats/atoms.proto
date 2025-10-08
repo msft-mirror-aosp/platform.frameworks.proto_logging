@@ -1524,6 +1524,7 @@ message Atom {
     extensions 1190; // AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled
     extensions 1191; // CoreNetworkingCriticalDurationEventOccurred core_networking_critical_duration_event_occurred
     extensions 1192; // SecureLockDeviceStateChanged secure_lock_device_state_changed
+    extensions 1193; // AdvancedProtectionUsbEventReported advanced_protection_usb_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
