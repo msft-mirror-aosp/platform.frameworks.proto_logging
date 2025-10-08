@@ -490,7 +490,14 @@ enum ElementId {
     MEDICAL_RECORDS_HEADER = 336;
     MEDICAL_RECORDS_HEADER_LINK = 337;
 
-    // Next available: 339;
+    // Matchmaking
+    EXPANDABLE_PREFERENCE = 339;
+    MATCHMAKING_SCREEN_HEADER = 340;
+    MATCHMAKING_SCREEN_HEADER_ICON_VIEW = 341;
+    MATCHMAKING_SCREEN_FOOTER = 342;
+    MATCHMAKING_SCREEN_FOOTER_LINK = 343;
+
+    // Next available: 344;
 }
 
 enum PageId {
@@ -572,7 +579,10 @@ enum PageId {
     ALMOST_DONE_PAGE = 58;
     FITNESS_APP_ONBOARDING_PAGE = 59;
 
-    // Next available: 65;
+    // Matchmaking
+    MATCHMAKING_PAGE = 65;
+
+    // Next available: 66;
 }
 
 enum Action {
