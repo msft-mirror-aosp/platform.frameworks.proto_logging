@@ -16353,6 +16353,8 @@ message AppFreezeChanged {
     }
 
     optional UnfreezeReason unfreeze_reason_v2 = 6;
+
+    optional int32 uid = 7 [(is_uid) = true];
 }
 
 /**
