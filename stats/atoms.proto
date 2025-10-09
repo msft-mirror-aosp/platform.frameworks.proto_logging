@@ -1527,6 +1527,8 @@ message Atom {
     extensions 1193; // AdvancedProtectionUsbEventReported advanced_protection_usb_event_reported
     extensions 1194; // WifiPowerStatsReported wifi_power_stats_reported
     extensions 1195; // MediaCodecResourceTracked media_codec_resource_tracked
+    extensions 1196; // MicroXrPhotoCaptured micro_xr_photo_captured
+    extensions 1197; // MicroXrVideoCaptured micro_xr_video_captured
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
