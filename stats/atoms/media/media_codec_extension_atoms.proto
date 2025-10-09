@@ -25,19 +25,19 @@ import "frameworks/proto_logging/stats/enums/media/codec/enums.proto";
 extend Atom {
   optional MediaCodecReclaimRequestCompleted
       media_codec_reclaim_request_completed = 600
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecStarted media_codec_started = 641
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecStopped media_codec_stopped = 642
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecRendered media_codec_rendered = 684
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional AppMediaCodecUsageReported app_media_codec_usage_reported = 1082
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecResourceTracked media_codec_resource_tracked = 1195
         [(module) = "media_metrics"];
