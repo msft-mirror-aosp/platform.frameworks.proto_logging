@@ -1609,7 +1609,7 @@ message Atom {
         FaceSettings face_settings = 10058 [(module) = "framework"];
         CoolingDevice cooling_device = 10059 [(module) = "framework"];
         AppOps app_ops = 10060 [(module) = "framework"];
-        ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework"];
+        ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework", deprecated = true];
         SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info =
                 10062 [(module) = "surfaceflinger"];
         SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info =
@@ -1621,7 +1621,7 @@ message Atom {
                 10067 [(module) = "framework"];
         GraphicsStats graphics_stats = 10068 [(module) = "hwui"];
         RuntimeAppOpAccess runtime_app_op_access = 10069 [(module) = "framework"];
-        IonHeapSize ion_heap_size = 10070 [(module) = "framework"];
+        IonHeapSize ion_heap_size = 10070 [(module) = "framework", deprecated = true];
         PackageNotificationPreferences package_notification_preferences =
                 10071 [(module) = "framework"];
         PackageNotificationChannelPreferences package_notification_channel_preferences =
@@ -12606,22 +12606,32 @@ message SystemIonHeapSize {
 }
 
 /*
+ * Deprecated in 26Q1.
+ *
  * Logs the total size of the ion heap.
  *
  * Pulled from StatsCompanionService.
  */
 message IonHeapSize {
+    // Deprecated due to end of ION support.
+    option deprecated = true;
+
     // Total size of all ion heaps in kilobytes.
     // Read from: /sys/kernel/ion/total_heaps_kb.
     optional int32 total_size_kb = 1;
 }
 
 /*
+ * Deprecated in 26Q1.
+ *
  * Logs the per-process size of the system ion heap.
  *
  * Pulled from StatsCompanionService.
  */
 message ProcessSystemIonHeapSize {
+    // Deprecated due to end of ION support.
+    option deprecated = true;
+
     // The uid if available. -1 means not available.
     optional int32 uid = 1 [(is_uid) = true];
 
