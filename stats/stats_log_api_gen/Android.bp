@@ -129,7 +129,6 @@ cc_test_library {
     srcs: ["include_cc_srcs/StatsHistogram.cpp"],
     export_include_dirs: ["include_cc_hdrs"],
     host_supported: true,
-    device_supported: false,
 }
 
 // ==========================================================

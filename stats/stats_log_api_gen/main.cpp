@@ -198,6 +198,7 @@ static int run(int argc, char const* const* argv) {
     bool supportWorkSource = false;
     int minApiLevel = API_LEVEL_CURRENT;
     bool javaStaticMethods = true;
+    bool typeSafe = false;
 
     int index = 1;
     while (index < argc) {
@@ -335,6 +336,8 @@ static int run(int argc, char const* const* argv) {
                 protos.push_back(argv[index]);
                 index++;
             }
+        } else if (0 == strcmp("--type-safe", argv[index])) {
+            typeSafe = true;
         }
 
         index++;
@@ -412,13 +415,26 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
         if (!isVendor) {
-            errorCount = android::stats_log_api_gen::write_stats_log_cpp(
-                    out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
-                    interface == InterfaceApi::BOOTSTRAP);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp_typesafe(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+            }
+
 #ifdef WITH_VENDOR
         } else {
-            errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
-                    out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor_typesafe(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+            }
 #endif
         }
         fclose(out);
@@ -437,13 +453,24 @@ static int run(int argc, char const* const* argv) {
         }
 
         if (!isVendor) {
-            errorCount = android::stats_log_api_gen::write_stats_log_header(
-                    out, atoms, attributionDecl, cppNamespace, minApiLevel,
-                    interface == InterfaceApi::BOOTSTRAP);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_header_typesafe(
+                        out, atoms, attributionDecl, cppNamespace, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_header(
+                        out, atoms, attributionDecl, cppNamespace, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+            }
 #ifdef WITH_VENDOR
         } else {
-            errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
-                    out, atoms, attributionDecl, cppNamespace);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_header_vendor_typesafe(
+                        out, atoms, attributionDecl, cppNamespace);
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
+                        out, atoms, attributionDecl, cppNamespace);
+            }
 #endif
         }
         fclose(out);
