@@ -42,6 +42,8 @@ extend Atom {
       [(module) = "microxr-vendor"];
   optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
       [(module) = "microxr-vendor"];
+  optional MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info = 300003
+      [(module) = "microxr-vendor"];
 }
 
 /**
@@ -287,4 +289,70 @@ message MicroXrAudioPlaybackCompleted {
     bin: 500
     bin: 1000
   }];
+}
+
+/**
+ * Logged with certain frequency.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens or hundreds per day at most
+ */
+message MicroXrMcuPowerDeepSleepInfo {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  // Histogram of MCU Sleep Durations.
+  repeated int32 duration_ms_histogram_counts = 2 [
+    (histogram_bin_option).explicit_bins = {
+      bin: 1
+      bin: 64
+      bin: 128
+      bin: 256
+      bin: 512
+      bin: 1024
+      bin: 2048
+      bin: 4096
+      bin: 8192
+      bin: 16384
+      bin: 32768
+    }
+  ];
+
+  // Wakeup triggered by Bluetooth activity.
+  optional int32 wakeup_reason_bluetooth = 3;
+
+  // Wakeup requested to handle or report a crash/fault.
+  optional int32 wakeup_reason_crash_request = 4;
+
+  // Deep sleep entry was preempted, system did not fully sleep.
+  // Example: If any interrupt is already pending, the WFI(Wait for intterupt) instruction
+  // executed by POWER_EnterDeepSleep() will return immediately and we won't actually enter deep sleep.
+  optional int32 wakeup_reason_preempted = 5;
+
+  // Wakeup due to a DMA transfer completion or event.
+  optional int32 wakeup_reason_dma = 6;
+
+  // Wakeup triggered by a sensor event.
+  // Specific sensor type can be added as a field in the atom if needed.
+  // For now, including Proximity Sensor, GPIO.
+  optional int32 wakeup_reason_sensor = 7;
+
+  // Wakeup triggered by voice activity detection (e.g., hotword).
+  optional int32 wakeup_reason_voice_activity = 8;
+
+  // Wakeup triggered by a dedicated wake signal from the AP/SoC.
+  optional int32 wakeup_reason_ap_wake_signal = 9;
+
+  // Wakeup triggered by an internal timer expiration.
+  optional int32 wakeup_reason_wake_timer = 10;
+
+  // The maximum sleep duration in ms within the reporting period.
+  optional int64 max_sleep_duration_ms = 11;
+
+  // The number of deep sleep entries within the reporting period.
+  optional int32 num_sleeps = 12;
+
+  // The total accumulated deep sleep duration in ms within the reporting period.
+  optional int64 total_sleep_duration_ms = 13;
 }
