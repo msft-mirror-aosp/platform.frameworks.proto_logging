@@ -178,12 +178,18 @@ cc_test_host {
     data: [
         ":libprotobuf-internal-protos",
         ":libstats_internal_protos",
+        ":libstats_proto_host",
         "test_external.proto",
     ],
 
     test_options: {
         unit_test: true,
     },
+
+    required: [
+        "libprotobuf-cpp-full",
+        "libstats_proto_host",
+    ],
 }
 
 // Filegroup for stats-log-api-gen test proto.
