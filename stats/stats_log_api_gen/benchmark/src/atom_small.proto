@@ -17,6 +17,15 @@
 syntax = "proto2";
 
 message AtomSmall {
+    enum EnumSmall {
+        UNKNOWN = 0;
+        VALUE_1 = 1;
+        VALUE_2 = 2;
+        VALUE_3 = 3;
+        VALUE_4 = 4;
+        VALUE_5 = 5;
+    }
+
     optional string string_field_1 = 1;
     optional string string_field_2 = 2;
     optional int32 int32_field_1 = 3;
@@ -27,4 +36,6 @@ message AtomSmall {
     optional bool bool_field_2 = 8;
     optional float float_field_1 = 9;
     optional float float_field_2 = 10;
+    optional EnumSmall enum_field_1 = 11;
+    optional EnumSmall enum_field_2 = 12 [default = VALUE_5];
 }
