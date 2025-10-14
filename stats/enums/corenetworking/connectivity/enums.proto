@@ -138,6 +138,8 @@ enum TerribleErrorType {
   TYPE_IP_ADDRESS_LEFT_IN_LINKPROPERTIES = 17;
   // Indicate BPF UBSAN kernel bug mentioned in b/240347583
   TYPE_BPF_UBSAN_KERNEL_BUG_ERROR = 18;
+  // Indicates there were too many active low power standby ports.
+  TYPE_TOO_MANY_LOW_POWER_STANDBY_PORTS = 19;
 }
 
 // Type of critical bytes event.
