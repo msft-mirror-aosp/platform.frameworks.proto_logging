@@ -2686,7 +2686,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2189
+// Next ID: 2191
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6215,6 +6215,10 @@ enum PageId {
     // OPEN: Settings > Accessibility > System controls > Power button ends call
     // CATEGORY: SETTINGS
     ACTION_POWER_BUTTON_ENDS_CALL = 2189;
+
+    // OPEN: Settings > Connected devices > Device > Game Controller Settings
+    // CATEGORY: SETTINGS
+    SETTINGS_GAME_CONTROLLER = 2190;
 }
 
 // Battery Saver schedule types.
