@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package android.stats_log_api_gen.ext;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto";
+
+extend Atom {
+    optional VendorPulledExtension vendor_pulled_extension = 150001
+            [(android.os.statsd.module) = "test"];
+}
+
+message VendorPulledExtension {
+    optional int32 identifier = 1;
+}

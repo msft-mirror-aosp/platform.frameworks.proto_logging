@@ -20,8 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.frameworks.stats.AnnotationId;
 import android.frameworks.stats.VendorAtom;
-import com.android.test.statslogapigen.VendorAtomsLog;
-import org.junit.After;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -495,5 +494,10 @@ public class VendorAtomCodeGenTest {
         assertThat(atom.valuesAnnotations[1].annotations[0].value.getBoolValue()).isEqualTo(true);
 
         assertThat(atom.atomAnnotations).isNull();
+    }
+
+    @Test
+    public void testVendorPulledExtensionAtomConstantsExists() throws Exception {
+        assertThat(VendorAtomsLog.VENDOR_PULLED_EXTENSION).isEqualTo(150001);
     }
 }

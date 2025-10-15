@@ -499,5 +499,9 @@ TEST(ApiGenVendorAtomTest, buildAtomWithTriggerResetAnnotationTest) {
     EXPECT_EQ(atom.atomAnnotations, std::nullopt);
 }
 
+TEST(ApiGenVendorAtomTest, VendorPulledExtensionsConstantsExist) {
+    EXPECT_EQ(VENDOR_PULLED_EXTENSION, 150001);
+}
+
 }  // namespace api_gen_vendor_tests
 }  // namespace android

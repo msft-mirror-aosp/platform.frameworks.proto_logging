@@ -154,6 +154,7 @@ cc_test_host {
         "test_collation.cpp",
         "test_feature_atoms.proto",
         "test_vendor_atoms.proto",
+        "test_vendor_extension_atoms.proto",
         "test.proto",
     ],
 
@@ -200,6 +201,16 @@ filegroup {
         "test_external.proto",
         "test_feature_atoms.proto",
         "test_vendor_atoms.proto",
+        "test_vendor_extension_atoms.proto",
+    ],
+}
+
+filegroup {
+    name: "stats_log_api_gen_vendor_test_protos",
+    srcs: [
+        "test_vendor_extension_atoms.proto",
+        // Intentionally out of order to ensure atom is loaded properly.
+        "test_vendor_atoms.proto",
     ],
 }
 
@@ -210,12 +221,13 @@ genrule {
         " --module test" +
         " --namespace android,VendorAtoms" +
         " --interface vendor" +
-        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+        " --proto $(in)",
     out: [
         "test_vendor_atoms.h",
     ],
     srcs: [
         "test_vendor_atoms.proto",
+        "test_vendor_extension_atoms.proto",
         ":libprotobuf-internal-descriptor-proto",
         ":libstats_atom_options_protos",
     ],
@@ -229,12 +241,13 @@ genrule {
         " --importHeader test_vendor_atoms.h" +
         " --namespace android,VendorAtoms" +
         " --interface vendor" +
-        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
+        " --proto $(in)",
     out: [
         "test_vendor_atoms.cpp",
     ],
     srcs: [
         "test_vendor_atoms.proto",
+        "test_vendor_extension_atoms.proto",
         ":libprotobuf-internal-descriptor-proto",
         ":libstats_atom_options_protos",
     ],
