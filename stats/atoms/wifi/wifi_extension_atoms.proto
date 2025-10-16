@@ -1215,34 +1215,9 @@ message WifiPowerStatsReported {
  *  Avg: 10 times per device per day.
  */
 message WifiNl80211CommandResultReported {
-    enum ReasonCode {
-        UNKNOWN = 0;
-
-        // NL command success
-        SUCCESS = 1;
-
-        // Netlink file descriptor is null
-        SEND_FD_UNAVAILABLE = 2;
-
-        // Request to send null message
-        SEND_NLMSG_NULL = 3;
-
-        // Sending message timeout
-        SEND_NLMSG_TIMEOUT = 4;
-
-        // Receive null response message
-        RESPONSE_NLMSG_NULL = 5;
-
-        // Response NL message with type error
-        RESPONSE_NLMSG_ERROR = 6;
-
-        // Wait for response timeout
-        RESPONSE_NLMSG_TIMEOUT = 7;
-    }
-
     // NL commands defined in {@link com.android.server.wifi.nl80211.NetlinkConstants#NetlinkConstants}
     optional android.net.wifi.Nl80211CommandId command_id = 1;
 
     // The result of calling the API
-    optional ReasonCode reason_code = 2;
+    optional android.net.wifi.Nl80211CommandReasonCode reason_code = 2;
 }

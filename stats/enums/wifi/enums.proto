@@ -425,7 +425,7 @@ enum Nl80211CommandId {
     NL80211_CMD_START_AP = 15;
     NL80211_CMD_STOP_AP = 16;
 
-    NL80211_CMD_GET_STATIO = 17;
+    NL80211_CMD_GET_STATION = 17;
     NL80211_CMD_SET_STATION = 18;
     NL80211_CMD_NEW_STATION = 19;
     NL80211_CMD_DEL_STATION = 20;
@@ -643,13 +643,42 @@ enum Nl80211CommandId {
     NL80211_CMD_ADD_LINK_STA = 150;
     NL80211_CMD_MODIFY_LINK_STA = 151;
     NL80211_CMD_REMOVE_LINK_STA = 152;
+    NL80211_CMD_ANDROID_KABI_RESERVED_1 = 153;
+    NL80211_CMD_ANDROID_KABI_RESERVED_2 = 154;
+    NL80211_CMD_ANDROID_KABI_RESERVED_3 = 155;
+    NL80211_CMD_ANDROID_KABI_RESERVED_4 = 156;
+    NL80211_CMD_ANDROID_KABI_RESERVED_5 = 157;
+    NL80211_CMD_ANDROID_KABI_RESERVED_6 = 158;
+    NL80211_CMD_ANDROID_KABI_RESERVED_7 = 159;
+    NL80211_CMD_ANDROID_KABI_RESERVED_8 = 160;
+    NL80211_CMD_ANDROID_KABI_RESERVED_9 = 161;
+    NL80211_CMD_ANDROID_KABI_RESERVED_10 = 162;
+}
 
-    NL80211_CMD_SET_HW_TIMESTAMP = 153;
+enum Nl80211CommandReasonCode {
+        NLMSG_UNKNOWN = 0;
 
-    NL80211_CMD_LINKS_REMOVED = 154;
+        // NL command success
+        RESPONSE_NLMSG_DONE = 1;
 
-    NL80211_CMD_SET_TID_TO_LINK_MAPPING = 155;
+        // Netlink file descriptor is null
+        SEND_FD_UNAVAILABLE = 2;
 
-    NL80211_CMD_ASSOC_MLO_RECONF = 156;
-    NL80211_CMD_EPCS_CFG = 157;
+        // Request to send null message
+        SEND_NLMSG_NULL = 3;
+
+        // Sending message failed
+        SEND_NLMSG_FAILED = 4;
+
+        // Receive null response message
+        RESPONSE_NLMSG_NULL = 5;
+
+        // Response NL message with type error
+        RESPONSE_NLMSG_ERROR = 6;
+
+        // Wait for response but exception occurs
+        RESPONSE_NLMSG_EXCEPTION = 7;
+
+        // Complete single response
+        RESPONSE_DONE_NO_MULTI = 8;
 }
