@@ -267,17 +267,20 @@ message DisplayOffloadCycleStats {
   optional int32 avg_client_forced_gpu_command_queue_flush_count_per_frame = 19;
   optional int32 max_client_forced_gpu_command_queue_flush_count_per_frame = 20;
 
-  optional int32 requested_frame_count = 21;
-  optional int32 drawn_frame_count = 22;
-  optional int32 janky_frame_count = 23;
+  optional int32 always_on_display_requested_frame_count = 21;
+  optional int32 false_interactive_requested_frame_count = 22;
+  optional int32 always_on_display_drawn_frame_count = 23;
+  optional int32 false_interactive_drawn_frame_count = 24;
+  optional int32 always_on_display_janky_frame_count = 25;
+  optional int32 false_interactive_janky_frame_count = 26;
 
   // Number of tilt-to-wakes and the time device spent in false-interactive mode after TTW
-  optional int32 tilt_to_wake_event_count = 24;
-  optional int32 tilt_to_wake_false_interactive_duration_ms = 25;
+  optional int32 tilt_to_wake_event_count = 27;
+  optional int32 tilt_to_wake_false_interactive_duration_ms = 28;
 
-  optional int32 cache_memory_max_bytes = 26;
-  optional int32 cache_offload_cycle_end_bytes = 27;
-  optional int32 cache_max_available_memory_block_bytes = 28;
+  optional int32 cache_memory_max_bytes = 29;
+  optional int32 cache_offload_cycle_end_bytes = 30;
+  optional int32 cache_max_available_memory_block_bytes = 31;
 }
 
 /**
