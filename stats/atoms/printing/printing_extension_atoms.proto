@@ -20,27 +20,23 @@ package android.os.statsd.printing;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
-import "frameworks/proto_logging/stats/attribution_node.proto";
 
 import "frameworks/proto_logging/stats/enums/printing/enums.proto";
 
 extend Atom {
-    optional FrameworkPrintJob framework_print_job = 1071 [(module) =
-    "printspooler"]; optional FrameworkPrinterDiscovery
-    framework_printer_discovery = 1072 [(module) = "printspooler"];
-    optional FrameworkMainPrintUiLaunched
-    framework_main_print_ui_launched = 1073 [(module) = "printspooler"];
-    optional FrameworkAdvancedOptionsUiLaunched
-    framework_advanced_ui_launched = 1074 [(module) = "printspooler"];
-
-    optional BipsPrintJob bips_print_job = 1075 [(module) =
-    "builtinprintservice"]; optional BipsDiscoveredPrinterCapabilities
-    bips_discovered_printer_capabilities = 1076 [(module) =
-    "builtinprintservice"]; optional BipsPrinterDiscovery
-    bips_printer_discovery = 1077 [(module) = "builtinprintservice"];
-    optional BipsRequestPrinterCapabilitiesStatus
-    bips_request_printer_capabilities_status = 1078 [(module) =
-    "builtinprintservice"];
+    optional FrameworkPrintJob framework_print_job = 1071 [(module) = "printspooler"];
+    optional FrameworkPrinterDiscovery framework_printer_discovery =
+            1072 [(module) = "printspooler"];
+    optional FrameworkMainPrintUiLaunched framework_main_print_ui_launched =
+            1073 [(module) = "printspooler"];
+    optional FrameworkAdvancedOptionsUiLaunched framework_advanced_ui_launched =
+            1074 [(module) = "printspooler"];
+    optional BipsPrintJob bips_print_job = 1075 [(module) = "builtinprintservice"];
+    optional BipsDiscoveredPrinterCapabilities bips_discovered_printer_capabilities =
+            1076 [(module) = "builtinprintservice"];
+    optional BipsPrinterDiscovery bips_printer_discovery = 1077 [(module) = "builtinprintservice"];
+    optional BipsRequestPrinterCapabilitiesStatus bips_request_printer_capabilities_status =
+            1078 [(module) = "builtinprintservice"];
 }
 
 // Printing Framework Events

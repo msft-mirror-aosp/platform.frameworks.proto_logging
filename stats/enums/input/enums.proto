@@ -131,6 +131,10 @@ enum KeyboardSystemEvent {
     TOGGLE_MAXIMIZE_FREEFORM_WINDOW = 56;
     // Minimize a window in desktop mode
     MINIMIZE_FREEFORM_WINDOW = 57;
+    // Quit the focused task in desktop mode.
+    QUIT_FOCUSED_DESKTOP_TASK = 58;
+    // Toggle fullscreen status of the focused task.
+    TOGGLE_FULLSCREEN = 59;
 }
 
 /**
@@ -240,6 +244,8 @@ enum InputDeviceBus {
     BLUETOOTH = 2;
     // Universal Stylus Initiative (USI) protocol (https://universalstylus.org)
     USI = 3;
+    // Virtual devices
+    VIRTUAL = 4;
 }
 
 /**

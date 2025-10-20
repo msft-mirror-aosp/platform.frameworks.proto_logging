@@ -25,19 +25,22 @@ import "frameworks/proto_logging/stats/enums/media/codec/enums.proto";
 extend Atom {
   optional MediaCodecReclaimRequestCompleted
       media_codec_reclaim_request_completed = 600
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecStarted media_codec_started = 641
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecStopped media_codec_stopped = 642
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional MediaCodecRendered media_codec_rendered = 684
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
 
   optional AppMediaCodecUsageReported app_media_codec_usage_reported = 1082
-        [(module) = "framework", (module) = "media_metrics"];
+        [(module) = "media_metrics"];
+
+  optional MediaCodecResourceTracked media_codec_resource_tracked = 1195
+        [(module) = "media_metrics"];
 }
 
 /**
@@ -353,4 +356,41 @@ message AppMediaCodecUsageReported {
 
     // Total codecs killed so far (because of all the killed applications)
     optional int32 total_codecs_killed = 18;
+}
+
+
+/**
+ * MediaResourceManagerService (media.resource_manager) logs this event
+ * when a codec start operation (initiated by an application) completes
+ * successfully or otherwise.
+ * Since there is a max limit on maximum concurrent codec instances, this
+ * atom won't be logged often.
+ *
+ * Logged from:
+ *   frameworks/av/services/mediaresourcemanager/ResourceManagerServiceNew.cpp
+ *
+ * @since 25Q4
+ */
+message MediaCodecResourceTracked {
+    // Randomly generated Codec ID for identifying the codec.
+    // This can be used to retrieve more information about the
+    // codec from MediaCodecReported atom.
+    optional int64 codec_id = 1;
+
+    // Whether the codec started successfully or requested for reclaiming other codecs.
+    // A value of true ==> codec started successfully
+    // A value of false ==> is requesting the RM to reclaim other codecs.
+    optional bool is_codec_started = 2;
+
+    // Whether the resource tracking matches the above operation.
+    optional bool is_resource_tracking_matches = 3;
+
+    // Total number of codecs resource tracked events during this instance of the service.
+    // type as int32 should be enough to contain this count.
+    optional int32 total_resource_tracked_events = 4;
+
+    // Total number of successful resource tracking so far.
+    // NOTE that {total_resource_tracked_events - total_successful_tracking}
+    // should give the failure count.
+    optional int32 total_successful_tracking = 5;
 }

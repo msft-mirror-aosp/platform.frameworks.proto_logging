@@ -21,7 +21,7 @@ package android.os.statsd.uprobestats;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 
-option java_package = "com.android.os.uprobestats";
+option java_package = "com.android.uprobestats";
 option java_multiple_files = true;
 
 extend Atom {
@@ -33,6 +33,10 @@ extend Atom {
           1039 [(module) = "uprobestats"];
   optional AndroidGraphicsBitmapAllocationSnapshot
       android_graphics_bitmap_allocation_snapshot = 1118 [(module) = "uprobestats"];
+  optional DisabledLauncherActivityUidsReported disabled_launcher_activity_uids_reported = 1185 [(module) = "uprobestats"];
+  optional BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported = 1186 [(module) = "uprobestats"];
+  optional AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled =
+          1190 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -60,6 +64,7 @@ message SetComponentEnabledSettingReported {
     optional string class_name = 2;
     optional int32 new_state = 3;
     optional string calling_package_name = 4;
+    optional bool is_launcher_activity = 5;
 }
 
 /**
@@ -197,5 +202,51 @@ message AndroidGraphicsBitmapAllocationSnapshot {
     }
     optional SnapshotType snapshot_type = 6;
 
+    optional string activity_name = 7;
+}
+
+/**
+  * Logged by uprobestats when launcher activities are disabled.
+  * Disabling the launcher activity is a common abuse technique to
+  * hide the malicious app's icon from the launcher.
+  *
+  * Logging rate is on the order of tens in a day.
+  */
+message DisabledLauncherActivityUidsReported {
+    optional int32 calling_uid = 1 [(is_uid) = true];
+    optional int32 disabled_activity_uid = 2 [(is_uid) = true];
+}
+
+/**
+  * Logged by uprobestats on when apps bind to other apps while
+  * passing along their BAL privileges (using the BAL flags).
+  * Only privileged apps are allowed to do BAL
+  * (e.g. apps managing companion devices), and vulnerabilities in those
+  * apps can lead to unwanted BAL by malicious apps. This metric is used
+  * to detect such vulnerabilities.
+  *
+  * Expected logging rate is on the order of tens in a day.
+  */
+message BindServiceLockedWithBalFlagsUidsReported {
+    optional int32 binder_uid = 1 [(is_uid) = true];
+    optional int32 bindee_uid = 2 [(is_uid) = true];
+}
+
+/**
+ * Records Bitmap scaling events.
+ *
+ * Logged via Hummingbird for probes at android.graphics.Bitmap scaling methods.
+ *
+ * Estimated Logging Rate:
+ *   Peak: 10 times in a second | Avg: O(hundreds) per device per day
+ */
+message AndroidGraphicsBitmapScaled {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional int32 original_width = 2;
+    optional int32 original_height = 3;
+    optional int32 scaled_width = 4;
+    optional int32 scaled_height = 5;
+    optional AndroidGraphicsBitmapAllocationSnapshot.PixelStorageType
+        pixel_storage_type = 6;
     optional string activity_name = 7;
 }

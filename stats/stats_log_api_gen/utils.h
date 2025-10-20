@@ -106,7 +106,7 @@ void write_native_header_preamble(FILE* out, const string& cppNamespace, bool in
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
 
 // Common Java helpers.
-void write_java_atom_codes(FILE* out, const Atoms& atoms);
+void write_java_atom_codes(FILE* out, const Atoms& atoms, const bool supportWorkSource);
 
 void write_java_enum_values(FILE* out, const Atoms& atoms);
 
@@ -114,7 +114,7 @@ int write_java_method_signature(FILE* out, const vector<java_type_t>& signature,
                                 const AtomDecl& attributionDecl);
 
 void write_java_usage(FILE* out, const string& method_name, const string& atom_code_name,
-                      const AtomDecl& atom);
+                      const AtomDecl& atom, const bool supportWorkSource);
 
 int write_java_non_chained_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
                                    const bool staticMethods);
@@ -123,9 +123,10 @@ int write_java_work_source_methods(FILE* out, const SignatureInfoMap& signatureI
 
 class MFErrorCollector : public google::protobuf::compiler::MultiFileErrorCollector {
 public:
-    void AddError(const std::string& filename, int line, int column,
-                  const std::string& message) override {
-        fprintf(stderr, "[Error] %s:%d:%d - %s\n", filename.c_str(), line, column, message.c_str());
+    void RecordError(absl::string_view filename, int line, int column,
+                     absl::string_view message) override {
+        fprintf(stderr, "[Error] %.*s:%d:%d - %.*s\n", static_cast<int>(filename.size()),
+                filename.data(), line, column, static_cast<int>(message.size()), message.data());
     }
 };
 

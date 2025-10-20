@@ -43,7 +43,7 @@ message LskfAuthenticationAttempted {
     // The number of failed attempts since the last successful attempt (for the
     // same user), not counting attempts that never reached the real credential
     // check for a reason such as detection of a duplicate wrong guess,
-    // credential too short, delay still remaining, etc.
+    // credential too short, timeout still remaining, etc.
     optional int32 num_failures = 2;
 
     // The number of the duplicate wrong guesses that have been detected since

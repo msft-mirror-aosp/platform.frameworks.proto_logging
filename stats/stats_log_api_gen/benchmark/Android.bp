@@ -1,0 +1,139 @@
+//
+// Copyright (C) 2025 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+    default_team: "trendy_team_android_telemetry_client_infra",
+}
+
+cc_benchmark {
+    name: "stats-log-api-gen-benchmark",
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+        "-Wno-deprecated-declarations",
+        "-Wno-enum-compare",
+        "-Wno-missing-field-initializers",
+        "-Wno-unused-function",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        // Bug: http://b/29823425 Disable -Wvarargs for Clang update to r271374
+        "-Wno-varargs",
+        "-Wthread-safety",
+    ],
+    srcs: [
+        "src/generated_code_benchmark.cpp",
+        "src/main.cpp",
+        "src/protobuf_benchmark.cpp",
+        "src/struct_benchmark.cpp",
+    ],
+    header_libs: [
+        "libstatspull_headers",
+        "libstatssocket_headers",
+    ],
+    static_libs: [
+        "libbenchmark-atoms-logging",
+        "libgtest",
+    ],
+    shared_libs: [
+        "libtestatom-large-proto-cpp",
+        "libtestatom-medium-proto-cpp",
+        "libtestatom-small-proto-cpp",
+        "libprotobuf-cpp-lite",
+    ],
+    data: [
+        ":libtestatom-large-proto-cpp",
+        ":libtestatom-medium-proto-cpp",
+        ":libtestatom-small-proto-cpp",
+    ],
+    test_config: "AndroidTest.xml",
+}
+
+cc_library_static {
+    name: "libbenchmark-atoms-logging",
+    generated_headers: [
+        "test_atom_cc_gen_hdrs",
+    ],
+    generated_sources: [
+        "test_atom_cc_gen_srcs",
+    ],
+    header_libs: [
+        "libstatspull_headers",
+        "libstatssocket_headers",
+    ],
+    export_generated_headers: [
+        "test_atom_cc_gen_hdrs",
+    ],
+    srcs: [
+        "src/libstatspull.c",
+        "src/libstatssocket.c",
+    ],
+}
+
+cc_library_shared {
+    name: "libtestatom-large-proto-cpp",
+    proto: {
+        type: "lite",
+        export_proto_headers: true,
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
+    srcs: [
+        "src/atom_large.proto",
+    ],
+    shared_libs: [
+        "libprotobuf-cpp-lite",
+    ],
+    export_include_dirs: ["src"],
+}
+
+cc_library_shared {
+    name: "libtestatom-medium-proto-cpp",
+    proto: {
+        type: "lite",
+        export_proto_headers: true,
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
+    srcs: [
+        "src/atom_medium.proto",
+    ],
+    shared_libs: [
+        "libprotobuf-cpp-lite",
+    ],
+    export_include_dirs: ["src"],
+}
+
+cc_library_shared {
+    name: "libtestatom-small-proto-cpp",
+    proto: {
+        type: "lite",
+        export_proto_headers: true,
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
+    srcs: [
+        "src/atom_small.proto",
+    ],
+    shared_libs: [
+        "libprotobuf-cpp-lite",
+    ],
+    export_include_dirs: ["src"],
+}

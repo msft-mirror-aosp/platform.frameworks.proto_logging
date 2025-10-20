@@ -124,6 +124,22 @@ enum TerribleErrorType {
   TYPE_TETHER_WIFIP2P_TYPE_MISMATCH = 13;
   // Indicate Wi-Fi report firmware support APF version 0.
   TYPE_WIFI_REPORT_APF_VERSION_ZERO = 14;
+  // Indicate BPF shim not initialized, it should be kernel uapi bug mentioned in b/438099891.
+  TYPE_BPF_COORDINATOR_SHIM_INIT_ERROR = 15;
+  // Indicate an unexpected reflection error occurred in specifier redaction methods (e.g.
+  // redact(long) and getApplicationRedactions()).
+  TYPE_SPECIFIER_REDACTION_REFLECTION_ERROR = 16;
+  // Indicates IP address unexpectedly still remains in LinkProperties when
+  // entering IpClient#ClearingIpAddressesState. The only way this can happen
+  // is an RTM_NEWADDR message was processed by IpClient in the brief window
+  // between the LinkProperties reset in the IpClient#StoppedState and the
+  // transition to this state. This enum tracks how often this rare race
+  // condition occurs.
+  TYPE_IP_ADDRESS_LEFT_IN_LINKPROPERTIES = 17;
+  // Indicate BPF UBSAN kernel bug mentioned in b/240347583
+  TYPE_BPF_UBSAN_KERNEL_BUG_ERROR = 18;
+  // Indicates there were too many active low power standby ports.
+  TYPE_TOO_MANY_LOW_POWER_STANDBY_PORTS = 19;
 }
 
 // Type of critical bytes event.
@@ -147,6 +163,13 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_QUIC_CONNECTION_CLOSE_LOST_ACCESS = 2;
   // Counts QUIC connection closures when the socket is destroyed.
   CRITICAL_COUNTS_EVENT_TYPE_QUIC_CONNECTION_CLOSE_SOCKET_DESTROY = 3;
+}
+
+// Type of critical duration event.
+enum CriticalDurationEventType {
+  CRITICAL_DURATION_EVENT_TYPE_UNKNOWN = 0;
+  // Total BPF objects loaded time in milliseconds.
+  CRITICAL_DURATION_EVENT_TYPE_BPF_TOTAL_OBJECTS_LOAD_TIME_MILLISECONDS = 1;
 }
 
 // Type of NetworkRequest. See android.net.NetworkRequest.

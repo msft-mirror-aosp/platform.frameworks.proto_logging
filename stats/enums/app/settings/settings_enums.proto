@@ -22,6 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
+// Next ID: 2122
 enum Action {
 
     // Reserved for biometrics
@@ -2600,13 +2601,69 @@ enum Action {
     // Action: Measures the entire duration of the location fetch process, from start to finish.
     // CATEGORY: SETTINGS
     ACTION_TRANSIT_ONBOARDING_LOCATION_FETCH_LATENCY_TOTAL = 2110;
+
+    // ACTION: Settings > System -> Touchpad -> Use
+    // Tracks the package name of the app the user choose to launch with three finger tap
+    // CATEGORY: SETTINGS
+    ACTION_TOUCHPAD_THREE_FINGER_TAP_LAUNCHING_APP = 2111;
+
+    // ACTION: Settings > Network & internet > Airplane mode > Airplane mode sync toggle
+    //   SUBTYPE: 0 is off, 1 is on
+    // CATEGORY: SETTINGS
+    ACTION_AIRPLANE_MODE_SYNC_TOGGLE = 2112;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Verify your email
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_VERIFY_RECOVERY_SUCCESS = 2113;
+
+    // ACTION: Settings > Parental controls > Controls for this phone Set up PIN
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_ADD_RECOVERY_ON_SETUP_SUCCESS = 2114;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Add recovery email
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_ADD_RECOVERY_POST_SETUP_SUCCESS = 2115;
+
+    // ACTION: Settings -> System -> Reset Options -> Erase emoney services
+    // CATEGORY: SETTINGS
+    ACTION_ERASE_EMONEY_SERVICES = 2116;
+
+    // Custom tag to log the result of erasing emoney services
+    // CATEGORY: SETTINGS
+    ACTION_ERASE_EMONEY_SERVICES_RESULT = 2117;
+
+    // ACTION: Transit onboarding
+    // Tracks whether Maps background location is already enabled when the user
+    // starts the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_BACKGROUND_LOCATION_INITIAL_ON = 2118;
+
+    // ACTION: Transit onboarding
+    // Tracks whether the location history is already enabled when the user
+    // starts the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_LOCATION_HISTORY_INITIAL_ON = 2119;
+
+    // ACTION: Transit onboarding
+    // Tracks whether the Transit mode is already setup when the user starts
+    // the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_TRANSIT_INITIAL_SETUP = 2120;
+
+    // ACTION: Transit onboarding
+    // Tracks the count of DNS error retries.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_DNS_ERROR_RETRY = 2121;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
+// Next ID: 2189
 enum PageId {
-    reserved 2123 to 2130;
+    reserved 2123 to 2130, 2185;
 
     // Unknown page. Should not be used in production code.
     PAGE_UNKNOWN = 0;
@@ -4055,7 +4112,7 @@ enum PageId {
     // OS: Q
     FACE = 1511;
 
-   // OPEN: Settings > Acessibility > HearingAid pairing instructions dialog
+    // OPEN: Settings > Acessibility > HearingAid pairing instructions dialog
     // CATEGORY: SETTINGS
     // OS: Q
     DIALOG_ACCESSIBILITY_HEARINGAID = 1512;
@@ -6074,6 +6131,14 @@ enum PageId {
     // CATEGORY: SETTINGS
     SUPERVISION_WEB_CONTENT_FILTERS = 2174;
 
+    // Settings > Parental controls > Web content filters > Websites - On x apps
+    // CATEGORY: SETTINGS
+    SUPERVISION_WEB_CONTENT_FILTERS_BROWSER_SUPPORTED_APPS = 2186;
+
+    // Settings > Parental controls > Web content filters > Search results - On x apps
+    // CATEGORY: SETTINGS
+    SUPERVISION_WEB_CONTENT_FILTERS_SEARCH_SUPPORTED_APPS = 2187;
+
     // OPEN: Settings > Display > HDR brightness
     // CATEGORY: SETTINGS
     HDR_BRIGHTNESS_SETTINGS = 2175;
@@ -6090,6 +6155,37 @@ enum PageId {
     // OPEN: Settings > System -> Mouse
     // CATEGORY: SETTINGS
     ACTION_CORNERS = 2178;
+
+    // Settings > Parental controls > App store filters
+    // CATEGORY: SETTINGS
+    SUPERVISION_APP_STORE_FILTERS = 2179;
+
+    // OPEN: Settings > Accessibility > Hearing devices > Send feedback (when user uses ASHA type hearing aids)
+    // CATEGORY: SETTINGS
+    // OS: B
+    ACCESSIBILITY_HEARING_DEVICES_ASHA_FEEDBACK = 2180;
+
+    // OPEN: Settings > Accessibility > Hearing devices > Send feedback (when user uses HAP type hearing aids)
+    // CATEGORY: SETTINGS
+    // OS: B
+    ACCESSIBILITY_HEARING_DEVICES_HAP_FEEDBACK = 2181;
+
+    // Settings > Connected Device > External displays
+    // CATEGORY: SETTINGS
+    SETTINGS_EXTERNAL_DISPLAY_CATEGORY = 2182;
+
+    // Settings > Accounts and backup
+    // CATEGORY: SETTINGS
+    ACCOUNTS_AND_BACKUP = 2183;
+
+    // OPEN: Settings > Network & internet > Airplane mode
+    // CATEGORY: SETTINGS
+    AIRPLANE_MODE_SETTINGS = 2184;
+
+    // OPEN: Settings > System > Multi user > User > Delete user
+    // OPEN: Settings > System > Multi user > User > Make this user an admin (off)
+    // CATEGORY: SETTINGS
+    DIALOG_CANNOT_REMOVE_LAST_ADMIN_USER = 2188;
 }
 
 // Battery Saver schedule types.

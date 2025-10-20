@@ -907,6 +907,8 @@ message Atom {
 
     // Pushed atom extensions.
     // The atom definitions are under atoms/<feature>/<feature>_extension_atoms.proto
+    // Start pushed Android Platform extension atoms.
+    // ID Range: 2 - 9999 {{{
     extensions 332; // ArtDatumReported art_datum_reported
     extensions 366; // OdrefreshReported odrefresh_reported
     extensions 385; // AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported
@@ -1234,7 +1236,7 @@ message Atom {
     extensions 898; // SearchDataExtractionDetailsReported search_data_extraction_details_reported
     extensions 899; // EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported
     extensions 900; // CameraFeatureCombinationQueryEvent camera_feature_combination_query_event
-    extensions 901; // MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported
+    extensions 901; // MicroXrDeviceBootCompleteReported micro_xr_device_boot_complete_reported
     extensions 902; // AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported
     extensions 903; // AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported
     extensions 904; // A2dpSessionReported a2dp_session_reported
@@ -1503,9 +1505,49 @@ message Atom {
     extensions 1171; // InitAppScanReported init_app_scan_reported
     extensions 1172; // SensitiveAppLockEventReported sensitive_app_lock_event_reported
     extensions 1173; // CustomVibrationPatternReported custom_vibration_pattern_reported
+    extensions 1174; // DisplayInfoChanged display_info_changed
+    extensions 1175; // WidgetInteractionEvent widget_interaction_event
+    extensions 1176; // VcnGatewayConnectionStateChanged vcn_gateway_connection_state_changed
+    extensions 1177; // VcnNetworkStateChanged vcn_network_state_changed
+    extensions 1178; // VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed
+    extensions 1179; // RuntimeUnsafeDclReported runtime_unsafe_dcl_reported
+    extensions 1180; // DeviceSuggestionsInteractionReported device_suggestions_interaction_reported
+    extensions 1181; // CarDataSubscriptionEventReported car_data_subscription_event_reported
+    extensions 1182; // MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed
+    reserved 1183; // Moved atom to Generic VendorAtoms
+    extensions 1184; // ExternalDisplaySettingsChanged external_display_settings_changed
+    extensions 1185; // DisabledLauncherActivityUidsReported disabled_launcher_activity_uids_reported
+    extensions 1186; // BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported
+    extensions 1187; // CellbroadcastUxReported cellbroadcast_ux_reported
+    reserved 1188; // Moved atom to Generic VendorAtoms
+    reserved 1189; // Moved atom to Generic VendorAtoms
+    extensions 1190; // AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled
+    extensions 1191; // CoreNetworkingCriticalDurationEventOccurred core_networking_critical_duration_event_occurred
+    extensions 1192; // SecureLockDeviceStateChanged secure_lock_device_state_changed
+    extensions 1193; // AdvancedProtectionUsbEventReported advanced_protection_usb_event_reported
+    extensions 1194; // WifiPowerStatsReported wifi_power_stats_reported
+    extensions 1195; // MediaCodecResourceTracked media_codec_resource_tracked
+    extensions 1196; // MicroXrPhotoCaptured micro_xr_photo_captured
+    extensions 1197; // MicroXrVideoCaptured micro_xr_video_captured
+    extensions 1198; // WifiNl80211CommandResultReported wifi_nl80211_command_result_reported
+    extensions 1199; // WearTilePeekDurationReported wear_tile_peek_duration_reported
+    extensions 1200; // WearTileTapReported wear_tile_tap_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
+    // }}} End platform pushed extension atoms.
+    // ID Range: 2 - 9999
+
+    // Start pushed generic vendor extension atoms.
+    // ID Range: 300,000 - 349,999 {{{
+    extensions 300000; // MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred
+    extensions 300001; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
+    extensions 300002; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
+
+    extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
+
+    // }}} End pushed generic vendor extension atoms.
+    // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
     // Next: 10246
@@ -1570,7 +1612,7 @@ message Atom {
         FaceSettings face_settings = 10058 [(module) = "framework"];
         CoolingDevice cooling_device = 10059 [(module) = "framework"];
         AppOps app_ops = 10060 [(module) = "framework"];
-        ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework"];
+        ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework", deprecated = true];
         SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info =
                 10062 [(module) = "surfaceflinger"];
         SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info =
@@ -1582,7 +1624,7 @@ message Atom {
                 10067 [(module) = "framework"];
         GraphicsStats graphics_stats = 10068 [(module) = "hwui"];
         RuntimeAppOpAccess runtime_app_op_access = 10069 [(module) = "framework"];
-        IonHeapSize ion_heap_size = 10070 [(module) = "framework"];
+        IonHeapSize ion_heap_size = 10070 [(module) = "framework", deprecated = true];
         PackageNotificationPreferences package_notification_preferences =
                 10071 [(module) = "framework"];
         PackageNotificationChannelPreferences package_notification_channel_preferences =
@@ -1801,11 +1843,23 @@ message Atom {
     extensions 10250; // SatelliteBytesTransfer satellite_bytes_transfer
     extensions 10251; // MemcgMemorySnapshot memcg_memory_snapshot
     extensions 10252; // MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot
+    extensions 10253; // AggregatedKernelWakelockInfo aggregated_kernel_wakelock_info
+    extensions 10254; // WsCompanionMetadataSnapshot ws_companion_metadata_snapshot
     extensions 99999; // Atom99999 atom_99999
 
-    // DO NOT USE field numbers above 100,000 in AOSP.
+    // }}} End pulled Android platform extension atoms.
+    // ID Range: 10,000 - 99,999
+
+    // Start pulled generic vendor extension atoms.
+    // ID Range: 350,000 - 399,999 {{{
+
+    // }}} End pulled generic vendor extension atoms.
+    // ID Range: 350,000 - 399,999
+
     // Field numbers 100,000 - 199,999 are reserved for non-AOSP (e.g. OEMs) to use.
-    // Field numbers 200,000 and above are reserved for future use; do not use them at all.
+    // Field numbers 200,000 - 299,999 are reserved for future use; do not use them at all.
+    // Field numbers 300,000 - 399,999 are reserved for generic vendor atoms.
+    // Field numbers 400,000 and above reserved for future use; do not use them at all.
     reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
@@ -2284,6 +2338,8 @@ message WifiConnectionResultReported {
     optional int64 l3_connecting_duration_ms = 22;
     // The disconnect reason of previous session
     optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
+    // The first 3 octets of the AP bssid
+    optional string vendor_oui = 24;
 }
 
 /**
@@ -6505,6 +6561,8 @@ message UiEventReported {
     // An identifier used to disambiguate which logs refer to a particular instance of some
     // UI element. Useful when there might be multiple instances simultaneously active.
     optional int32 instance_id = 4;
+    // Event name translated from the event id. Populated on the server side.
+    optional string event_name = 5;
 }
 
 /**
@@ -7841,6 +7899,19 @@ message BootTimeEventElapsedTime {
         UNKNOWN = 0;
         // Time when init starts 1st stage. Logged from bootstat.
         ANDROID_INIT_STAGE_1 = 1;
+        // Times when the init starts each boot stage.
+        // Logged from bootstat by ro.boottime.event.*
+        ANDROID_INIT_ON_EARLY_INIT   = 23;
+        ANDROID_INIT_ON_INIT         = 24;
+        ANDROID_INIT_ON_LATE_INIT    = 25;
+        ANDROID_INIT_ON_EARLY_FS     = 26;
+        ANDROID_INIT_ON_FS           = 27;
+        ANDROID_INIT_ON_POST_FS      = 28;
+        ANDROID_INIT_ON_LATE_FS      = 29;
+        ANDROID_INIT_ON_POST_FS_DATA = 30;
+        ANDROID_INIT_ON_ZYGOTE_START = 31;
+        ANDROID_INIT_ON_EARLY_BOOT   = 32;
+        ANDROID_INIT_ON_BOOT         = 33;
         // Time when sys.boot_completed prop is set.
         // Logged from bootstat.
         BOOT_COMPLETE = 2;
@@ -12538,22 +12609,32 @@ message SystemIonHeapSize {
 }
 
 /*
+ * Deprecated in 26Q1.
+ *
  * Logs the total size of the ion heap.
  *
  * Pulled from StatsCompanionService.
  */
 message IonHeapSize {
+    // Deprecated due to end of ION support.
+    option deprecated = true;
+
     // Total size of all ion heaps in kilobytes.
     // Read from: /sys/kernel/ion/total_heaps_kb.
     optional int32 total_size_kb = 1;
 }
 
 /*
+ * Deprecated in 26Q1.
+ *
  * Logs the per-process size of the system ion heap.
  *
  * Pulled from StatsCompanionService.
  */
 message ProcessSystemIonHeapSize {
+    // Deprecated due to end of ION support.
+    option deprecated = true;
+
     // The uid if available. -1 means not available.
     optional int32 uid = 1 [(is_uid) = true];
 
@@ -12591,7 +12672,7 @@ message SystemMemory {
 
     // Total unreclaimable ion.
     // Reported from os.Debug.getIonHeapsSizeKb (R+)
-    optional int32 total_ion_kb = 5;
+    optional int32 total_ion_kb = 5 [deprecated = true];
 
     // Measures for the amount of memory we could not account for.
     // Essentially points to kernel allocations (as all userspace allocs are
@@ -13261,12 +13342,31 @@ message GrantPermissionsActivityButtonActions {
     // Target SDK of the package
     optional int32 target_sdk = 7;
 
-    // Selected precision of the location permission - bit flags indicate which
-    // locations were chosen
+    // A bitmask indicating the final location precision chosen in the permission dialog.
+    // This will be the same as the initial precision if the user made no changes.
     optional int32 selected_precision = 8;
 
     // Whether Permission Rationale was shown on grant permission activity
     optional bool permission_rationale_shown = 9;
+
+    // The initial/default location precision selected in the permission dialog.
+    optional int32 initial_precision = 10;
+
+    // The type of location prompt shown to the user. This is only relevant for location
+    // permissions.
+    enum LocationPromptType {
+        UNKNOWN = 0;
+        BOTH_PRECISIONS = 1;
+        COARSE_ONLY = 2;
+        FINE_ONLY = 3;
+     }
+
+    // This is only relevant for location permissions.
+    optional LocationPromptType location_prompt_type = 11;
+
+    // Whether the user has clicked on the accuracy buttons in the location permission dialog.
+    // This is only relevant for location permissions.
+    optional bool is_precision_button_clicked = 12;
 }
 
 /**
@@ -13844,7 +13944,7 @@ message RebootEscrowRebootReported {
 /**
  * Logs stats for AppSearch function calls
  *
- * Next tag: 23
+ * Next tag: 28
  */
 message AppSearchCallStatsReported {
     // The sampling interval for this specific type of stats
@@ -13922,12 +14022,29 @@ message AppSearchCallStatsReported {
     // The type of persist operation.
     repeated int32 last_n_on_executor_latency_millis = 21;
 
+    // The last write operation call type.
+    optional int32 last_blocking_operation = 22;
+
+    // The latency for last write operation which hold the write lock in milliseconds.
+    optional int32 last_blocking_operation_latency_millis = 23;
+
+    // The time passed while waiting to acquire the lock during Java function calls
+    optional int32 java_lock_acquisition_latency_millis = 24;
+
+    // The time passed while get the vm instance.
+    optional int32 get_vm_latency_millis = 25;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 26;
+
+    // Time passed while the task is running in AppSearch without any waiting time.
+    optional int32 unblocked_appsearch_latency_millis = 27;
 }
 
 /**
  * Logs detailed stats for putting a single document in AppSearch
  *
- * Next tag: 24
+ * Next tag: 25
  */
 message AppSearchPutDocumentStatsReported {
     // The sampling interval for this specific type of stats
@@ -14007,12 +14124,16 @@ message AppSearchPutDocumentStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 23;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 24;
+
 }
 
 /**
  * Logs detailed stats for AppSearch Initialize
  *
- * Next tag: 30
+ * Next tag: 31
  */
 message AppSearchInitializeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14113,12 +14234,15 @@ message AppSearchInitializeStatsReported {
 
     // The time passed while get the vm instance.
     optional int32 get_vm_latency_millis = 29;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 30;
 }
 
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 69
+ * Next tag: 70
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -14346,6 +14470,9 @@ message AppSearchQueryStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 68;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 69;
 }
 
 /**
@@ -14425,6 +14552,9 @@ message AppSearchRemoveStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 21;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 22;
 }
 
 /**
@@ -14433,7 +14563,7 @@ message AppSearchRemoveStatsReported {
  * stats pushed from:
  *   frameworks/base/apex/appsearch/service/java/com/android/server/appsearch/AppSearchManagerService.java
  *
- * Next tag: 23
+ * Next tag: 24
  */
 message AppSearchOptimizeStatsReported {
     // The sampling interval for this specific type of stats
@@ -14508,6 +14638,9 @@ message AppSearchOptimizeStatsReported {
 
     // Time passed while the task is running in AppSearch without any waiting time.
     optional int32 unblocked_appsearch_latency_millis = 22;
+
+    // The number of times that we called icing.
+    optional int32 num_icing_calls = 23;
 }
 
 // Reports information in external/icing/proto/icing/proto/storage.proto#DocumentStorageInfoProto
@@ -15248,6 +15381,18 @@ message CameraActionEvent {
 
     // Extension metric
     optional int32 ext_capture_format = 30;
+
+    // Type of error throwed
+    enum ErrorState {
+        CAMERA_UNKNOWN = 0;
+        CAMERA_PERMISSION_DENIED = 1;
+        CAMERA_HAL_REQUEST_ERROR = 2;
+        CAMERA_SERVICE_INTERNAL_ERROR = 3;
+        CAMERA_HAL_DEVICE_ERROR = 4;
+        CAMERA_HAL_CALLBACK_ERROR = 5;
+        CAMERA_WATCHDOG_ERROR = 6;
+    }
+    optional ErrorState error_state = 31;
 }
 
 /**
@@ -16246,6 +16391,8 @@ message AppFreezeChanged {
     }
 
     optional UnfreezeReason unfreeze_reason_v2 = 6;
+
+    optional int32 uid = 7 [(is_uid) = true];
 }
 
 /**
@@ -17737,9 +17884,9 @@ message UserInfo {
  *     frameworks/base/services/core/java/com/android/server/pm/UserManagerService.java
  */
 message MultiUserInfo {
-    // Maximum users supported on the device
+    // Maximum regular switchable users supported on the device (switchable criterion since 2025).
     optional int32 max_supported_users = 1;
-    // Whether multi user setting is on.
+    // Whether multiple switchable users are supported.
     optional bool multi_user_setting_on = 2;
     // Whether device supports multiuser and owner have no restriction in adding users.
     optional bool supports_adding_full_users = 3;
@@ -23584,7 +23731,7 @@ message CdmAssociationAction {
         REMOVED = 2;
     }
 
-    enum DeviceProfile{
+    enum DeviceProfile {
         DEVICE_PROFILE_NULL = 0;
         DEVICE_PROFILE_WATCH = 1;
         DEVICE_PROFILE_APP_STREAMING = 2;
@@ -23594,6 +23741,7 @@ message CdmAssociationAction {
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 6;
         DEVICE_PROFILE_VIRTUAL_DEVICE = 7;
         DEVICE_PROFILE_WEARABLE_SENSING = 8;
+        DEVICE_PROFILE_FITNESS_TRACKER = 9;
     }
 
     // Action taken on the CDM association been created by companion apps.

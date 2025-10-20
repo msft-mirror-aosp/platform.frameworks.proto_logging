@@ -1,0 +1,83 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.vcn;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/stats/vcn/vcn.proto";
+
+option java_package = "com.android.os.vcn";
+option java_multiple_files = true;
+
+extend Atom {
+    optional VcnGatewayConnectionStateChanged vcn_gateway_connection_state_changed = 1176 [(module) = "vcn"];
+    optional VcnNetworkStateChanged vcn_network_state_changed = 1177 [(module) = "vcn"];
+    optional VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed = 1178 [(module) = "vcn"];
+}
+
+/**
+ * Log for state changes of VcnGatewayConnection.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/VcnGatewayConnection.java
+ * Estimated Logging Rate: <10 per device per day
+ */
+message VcnGatewayConnectionStateChanged {
+    // Unique ID of the VcnGatewayConnection instance. This ID is derived from
+    // the gateway configuration and represents a specific instance of a gateway
+    // connection. A new ID will be generated if a gateway is torn down and
+    // restarted for the same configuration.
+    optional int32 gw_id = 1;
+    // Represents the reason VcnGatewayConnection may be torn down.
+    optional android.stats.vcn.VcnGatewayTeardownReason gw_teardown_reason = 2;
+    // Whether it is in SAFE_MODE state.
+    optional bool is_in_safe_mode = 3;
+}
+
+/**
+ * Log for state changes of VCN network of a particular VcnGatewayConnection.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/VcnGatewayConnection.java
+ * Estimated Logging Rate: <10 per device per day
+ */
+message VcnNetworkStateChanged {
+    // gw_id associated with the relevant VcnGatewayConnection.
+    optional int32 gw_id = 1;
+    // Unique ID of the VCN network brought up.
+    optional int32 network_id = 2;
+    // Whether the network is connected or has disconnected.
+    optional bool is_connected = 3;
+    // Whether the network has NetworkAgent.VALIDATION_STATUS_VALID.
+    optional bool is_validated = 4;
+}
+
+/**
+ * Log for state changes of underlying networks tracked by a particular VcnGatewayConnection.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/routeselection/UnderlyingNetworkController.java
+ * Estimated Logging Rate: <10 per device per day
+ */
+message VcnUnderlyingNetworksStateChanged {
+    // gw_id associated with the relevant VcnGatewayConnection.
+    optional int32 gw_id = 1;
+    // The number of validated underlying networks tracked by the VcnGatewayConnection's UnderlyingNetworkController.
+    optional int32 validated_underlying_network_count = 2;
+}

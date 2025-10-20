@@ -44,17 +44,13 @@ message MemcgMemorySnapshot {
     // Provided by ActivityManagerService or read from /proc/PID/cmdline.
     optional string process_name = 2;
 
-    // The pid of the process.
-    // Allows to disambiguate instances of the process.
-    optional int32 pid = 3;
-
     // Memory as tracked by memcg. Read from the memory.current field in
     // /sys/fs/cgroup/../pid_PID/memory.current.
-    optional int64 memory_current_in_bytes = 4;
+    optional int64 memory_current_in_kilobytes = 3;
 
     // Memory swap peak as tracked by memcg. Read from the memory.swap.current field in
     // /sys/fs/cgroup/../pid_PID/memory.swap.current.
-    optional int64 memory_swap_current_in_bytes = 5;
+    optional int64 memory_swap_current_in_kilobytes = 4;
 }
 
 /*
@@ -72,15 +68,11 @@ message MemcgMemoryHighWaterMarkSnapshot {
     // Provided by ActivityManagerService or read from /proc/PID/cmdline.
     optional string process_name = 2;
 
-    // The pid of the process.
-    // Allows to disambiguate instances of the process.
-    optional int32 pid = 3;
-
     // Memory peak as tracked by memcg. Read from the memory.peak field in
     // /sys/fs/cgroup/../pid_PID/memory.peak.
-    optional int64 memory_peak_in_bytes = 4;
+    optional int64 memory_peak_in_kilobytes = 3;
 
     // Memory swap peak as tracked by memcg. Read from the memory.swap.peak field in
     // /sys/fs/cgroup/../pid_PID/memory.swap.peak.
-    optional int64 memory_swap_peak_in_bytes = 5;
+    optional int64 memory_swap_peak_in_kilobytes = 4;
 }

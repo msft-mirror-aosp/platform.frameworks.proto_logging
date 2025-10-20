@@ -65,6 +65,7 @@ enum Action {
     CURATED_PHOTOS_FETCH_START = 43;
     CURATED_PHOTOS_FETCH_END = 44;
     CURATED_PHOTOS_RENDER_COMPLETE = 45;
+    ENTER_EXTENDIBLE_THEME_ICON_PICKER = 46;
 }
 
 enum LocationPreference {
@@ -147,4 +148,5 @@ enum CustomizationPickerSrceen {
 enum AppIconStyle {
     APP_ICON_STYLE_UNSPECIFIED = 0;
     APP_ICON_STYLE_THEMED = 1;
+    APP_ICON_STYLE_EXTENDIBLE_THEME = 2;
 }

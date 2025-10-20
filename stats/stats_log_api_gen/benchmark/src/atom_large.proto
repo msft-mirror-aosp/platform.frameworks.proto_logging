@@ -1,0 +1,90 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+message AtomLarge {
+    optional string string_field_1 = 1;
+    optional string string_field_2 = 2;
+    optional string string_field_3 = 3;
+    optional string string_field_4 = 4;
+    optional string string_field_5 = 5;
+    optional string string_field_6 = 6;
+    optional string string_field_7 = 7;
+    optional string string_field_8 = 8;
+    optional string string_field_9 = 9;
+    optional string string_field_10 = 10;
+    optional int32 int32_field_1 = 11;
+    optional int32 int32_field_2 = 12;
+    optional int32 int32_field_3 = 13;
+    optional int32 int32_field_4 = 14;
+    optional int32 int32_field_5 = 15;
+    optional int32 int32_field_6 = 16;
+    optional int32 int32_field_7 = 17;
+    optional int32 int32_field_8 = 18;
+    optional int32 int32_field_9 = 19;
+    optional int32 int32_field_10 = 20;
+    optional int32 int32_field_11 = 21;
+    optional int32 int32_field_12 = 22;
+    optional int32 int32_field_13 = 23;
+    optional int32 int32_field_14 = 24;
+    optional int32 int32_field_15 = 25;
+    optional int32 int32_field_16 = 26;
+    optional int32 int32_field_17 = 27;
+    optional int32 int32_field_18 = 28;
+    optional int32 int32_field_19 = 29;
+    optional int32 int32_field_20 = 30;
+    optional int64 int64_field_1 = 31;
+    optional int64 int64_field_2 = 32;
+    optional int64 int64_field_3 = 33;
+    optional int64 int64_field_4 = 34;
+    optional int64 int64_field_5 = 35;
+    optional int64 int64_field_6 = 36;
+    optional int64 int64_field_7 = 37;
+    optional int64 int64_field_8 = 38;
+    optional int64 int64_field_9 = 39;
+    optional int64 int64_field_10 = 40;
+    optional int64 int64_field_11 = 41;
+    optional int64 int64_field_12 = 42;
+    optional int64 int64_field_13 = 43;
+    optional int64 int64_field_14 = 44;
+    optional int64 int64_field_15 = 45;
+    optional int64 int64_field_16 = 46;
+    optional int64 int64_field_17 = 47;
+    optional int64 int64_field_18 = 48;
+    optional int64 int64_field_19 = 49;
+    optional int64 int64_field_20 = 50;
+    optional bool bool_field_1 = 51;
+    optional bool bool_field_2 = 52;
+    optional bool bool_field_3 = 53;
+    optional bool bool_field_4 = 54;
+    optional bool bool_field_5 = 55;
+    optional bool bool_field_6 = 56;
+    optional bool bool_field_7 = 57;
+    optional bool bool_field_8 = 58;
+    optional bool bool_field_9 = 59;
+    optional bool bool_field_10 = 60;
+    optional float float_field_1 = 61;
+    optional float float_field_2 = 62;
+    optional float float_field_3 = 63;
+    optional float float_field_4 = 64;
+    optional float float_field_5 = 65;
+    optional float float_field_6 = 66;
+    optional float float_field_7 = 67;
+    optional float float_field_8 = 68;
+    optional float float_field_9 = 69;
+    optional float float_field_10 = 70;
+}

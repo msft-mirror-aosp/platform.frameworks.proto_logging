@@ -25,16 +25,266 @@ option java_package = "com.android.os.statsd.microxr";
 option java_multiple_files = true;
 
 extend Atom {
-  // Pushed Atom
-  optional MicroXRDeviceBootCompleteReported microxr_device_boot_complete_reported = 901
-  [(module) = "microxr"];
+  // Pushed atoms (platform).
+  optional MicroXrDeviceBootCompleteReported
+      micro_xr_device_boot_complete_reported = 901 [(module) = "microxr"];
+  optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
+      [(module) = "microxr"];
+  optional MicroXrPhotoCaptured micro_xr_photo_captured = 1196
+      [(module) = "microxr"];
+  optional MicroXrVideoCaptured micro_xr_video_captured = 1197
+      [(module) = "microxr"];
+
+  // Pushed atoms (generic vendor extensions).
+  optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 300001
+      [(module) = "microxr-vendor"];
+  optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed = 300002
+      [(module) = "microxr-vendor"];
+  optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
+      [(module) = "microxr-vendor"];
 }
 
-/*
- *  Logs when a MicroXR Device is done booting.
+/**
+ * Logged when a MicroXR Device is done booting.
  */
-message MicroXRDeviceBootCompleteReported {
+message MicroXrDeviceBootCompleteReported {
   // Device ready elapsed time in milliseconds.
   // Logged from microxr-system-ui.
   optional int64 device_ready_time_millis = 1;
+}
+
+/**
+ * Represents the current Don or Doff state.
+ */
+enum DonDoffState {
+  DON_DOFF_STATE_UNKNOWN = 0;
+  // Glasses are "donned", i.e. worn.
+  DON_DOFF_STATE_DONNED = 1;
+  // Glasses are "doffed", i.e. not worn.
+  DON_DOFF_STATE_DOFFED = 2;
+  // Don/doff detection is disabled.
+  DON_DOFF_STATE_DISABLED = 3;
+}
+
+/**
+ * Logged each time the don/doff state changed
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrDonDoffStateChanged {
+  optional DonDoffState don_doff_new_state = 1;
+}
+
+/**
+ * How a photo or video capture was triggered.
+ */
+enum PhotoOrVideoTrigger {
+  // Triggered by an unknown means.
+  PHOTO_OR_VIDEO_TRIGGER_UNKNOWN = 0;
+  // Triggered by a button press on the glasses.
+  PHOTO_OR_VIDEO_TRIGGER_BUTTON = 1;
+  // Triggered by a voice command.
+  PHOTO_OR_VIDEO_TRIGGER_VOICE = 2;
+}
+
+/**
+ * Status of a photo or video capture.
+ */
+enum PhotoOrVideoStatus {
+  PHOTO_OR_VIDEO_STATUS_UNKNOWN = 0;
+  // Capture success.
+  PHOTO_OR_VIDEO_STATUS_SUCCESS = 1;
+  // Capture failed for an unspecified reason.
+  PHOTO_OR_VIDEO_STATUS_FAILED = 2;
+  // Capture failed because another capture was already in progress.
+  PHOTO_OR_VIDEO_STATUS_FAILED_IN_PROGRESS = 3;
+  // Capture failed due to a thwart check.
+  PHOTO_OR_VIDEO_STATUS_FAILED_THWART_CHECK = 4;
+  // Capture was disabled to mitigate a thermal problem.
+  PHOTO_OR_VIDEO_STATUS_FAILED_THERMAL = 5;
+}
+
+/**
+ * Reasons for a MCU crash report.
+ */
+enum McuReportCrashReasons {
+  MCU_REPORT_CRASH_REASONS_UNSPECIFIED = 0;
+  // Reported when a crash dump is received from the MCU.
+  MCU_REPORT_CRASH_REASONS_CRASH = 1;
+  // Reported when the MCU stops responding to watchdog pings.
+  MCU_REPORT_CRASH_REASONS_WATCHDOG_FAILURE = 2;
+}
+
+/**
+ * Logged each time a photo is captured.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrPhotoCaptured {
+  optional PhotoOrVideoTrigger trigger = 1;
+  optional PhotoOrVideoStatus status = 2;
+
+  // Time from when photo capture starts until the photo was captured, in
+  // milliseconds. Includes ae_latency_ms. If there was a burst of captures
+  // (such as for HDR), includes the time to capture all frames in the burst.
+  optional int32 latency_ms = 3;
+
+  // Time from when photo capture starts until Auto Exposure completes, in
+  // milliseconds.
+  optional int32 ae_latency_ms = 4;
+}
+
+/**
+ * Logged each time a video is captured.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrVideoCaptured {
+  optional PhotoOrVideoTrigger trigger = 1;
+  optional PhotoOrVideoStatus status = 2;
+
+  // Duration of the video, which is the time between capture of the first and
+  // last frame, in milliseconds.
+  optional int32 duration_ms = 3;
+
+  // Time from when video capture starts until the first frame of the video is
+  // captured, in milliseconds. Includes ae_latency_ms.
+  optional int32 first_frame_latency_ms = 4;
+
+  // Time from when video capture starts until Auto Exposure completes, in
+  // milliseconds.
+  optional int32 ae_latency_ms = 5;
+}
+
+/**
+ * Logged when the MCU crashes.
+ */
+message MicroXrMcuCrashOccurred {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  // Reasons for the crash.
+  optional McuReportCrashReasons reason = 2;
+}
+
+/**
+ * Logged when a sound trigger (hotword) is detected by a local 1st
+ * stage activation.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens or hundreds per day at most
+ */
+message MicroXrSoundTriggerDetected {
+  enum ValidationType {
+    VALIDATION_TYPE_UNSPECIFIED = 0;
+    VALIDATION_TYPE_LOCAL = 1;
+    VALIDATION_TYPE_REMOTE = 2;
+  }
+
+  enum ValidationStatus {
+    VALIDATION_STATUS_UNSPECIFIED = 0;
+    VALIDATION_STATUS_ACCEPTED = 1;
+    VALIDATION_STATUS_REJECTED = 2;
+  }
+
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  optional ValidationType validation_type = 2;
+  optional ValidationStatus validation_status = 3;
+}
+
+/**
+ * Transport used by a media stream.
+ */
+enum MediaTransport {
+  MEDIA_TRANSPORT_UNKNOWN = 0;
+
+  // Transports that terminate on the AP (application processor).
+  MEDIA_TRANSPORT_A2DP = 1;
+  MEDIA_TRANSPORT_RFCOMM = 2;
+  MEDIA_TRANSPORT_L2CAP = 3;
+  MEDIA_TRANSPORT_WIFI = 4;
+
+  // Transports that terminate on the MCU.
+  MEDIA_TRANSPORT_OFFLOADED_A2DP = 5;
+  MEDIA_TRANSPORT_OFFLOADED_RFCOMM = 6;
+  MEDIA_TRANSPORT_OFFLOADED_L2CAP = 7;
+}
+
+/**
+ * Logged when an audio playback stream completes.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrAudioPlaybackCompleted {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  // Transport used by this playback stream.
+  optional MediaTransport transport = 2;
+
+  // Duration of the stream, in milliseconds. This is the wallclock duration
+  // from stream start until stream end.
+  optional int32 duration_ms = 3;
+
+  // Duration of audio actually played, not counting underflows or gaps.
+  optional int32 duration_played_ms = 4;
+
+  //
+  // Underflows
+  //
+  // An underflow occurs when audio is written to the speakers more slowly than
+  // it is consumed by the speakers. Underflows are usually caused by late
+  // arrival of network packets due to abnormally high congestion or latency.
+  // Late packets are dropped.
+  //
+  // One "underflow" is a sequence of dropped packets. Each underflow has two
+  // properties: a duration (how many packets were dropped) and a lateness (how
+  // late the first underflowed packet arrived relative to its deadline).
+  //
+  // Underflow statistics are pre-aggregated histograms, instead of a separte
+  // atom per underflow event, because this will be logged from an MCU which
+  // buffer large queues of atoms and in pathological cases there may be large
+  // numbers of underflows.
+  //
+
+  // Number of underflows.
+  optional int32 underflows_total_count = 5;
+
+  // Total (cumulative) duration of all underflows.
+  optional int64 underflows_total_duration_ms = 6;
+
+  // Histogram of underflow durations. Underflows cannot be shorter than the
+  // packet duration, which is expected to be about 20ms. Standard advice is to
+  // use fewer than 20 bins. Empirically, we expect most underflows are less than
+  // 1 second.
+  repeated int32 underflows_duration_histogram_ms = 7 [(histogram_bin_option).explicit_bins = {
+    bin: 25
+    bin: 50
+    bin: 100
+    bin: 250
+    bin: 500
+    bin: 1000
+  }];
+
+  // Total (cumulative) lateness of all underflows.
+  optional int64 underflows_total_lateness_ms = 8;
+
+  // Histogram of underflow lateness.
+  repeated int32 underflows_lateness_histogram_ms = 9 [(histogram_bin_option).explicit_bins = {
+    bin: 25
+    bin: 50
+    bin: 100
+    bin: 250
+    bin: 500
+    bin: 1000
+  }];
 }

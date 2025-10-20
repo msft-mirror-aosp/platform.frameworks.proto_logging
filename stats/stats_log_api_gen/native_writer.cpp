@@ -284,7 +284,8 @@ static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& s
                     default:
                         // Unsupported types: OBJECT, DOUBLE, ATTRIBUTION_CHAIN,
                         // and all repeated fields
-                        fprintf(stderr, "Encountered unsupported type. %d, %d\n", *arg, argIndex);
+                        fprintf(stderr, "Unsupported Bootstrap atom field type %s at position %d\n",
+                                java_type_to_string(*arg), argIndex);
                         return 1;
                 }
                 const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =

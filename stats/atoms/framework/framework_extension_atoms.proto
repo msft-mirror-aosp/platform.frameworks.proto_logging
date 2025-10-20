@@ -86,6 +86,8 @@ extend Atom {
     optional AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported = 1103 [(module) = "framework"];
     optional DisplayCompatRestartMenuEventReported display_compat_restart_menu_event_reported = 1134 [(module) = "framework"];
     optional AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed = 1141 [(module) = "framework"];
+    optional AdvancedProtectionUsbEventReported advanced_protection_usb_event_reported = 1193 [(module) = "framework"];
+    optional WidgetInteractionEvent widget_interaction_event = 1175 [(module) = "framework"];
     optional EthernetBytesTransfer ethernet_bytes_transfer = 10249 [(module) = "framework"];
     optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
     optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
@@ -1367,7 +1369,7 @@ message AdvancedProtectionStateInfo {
     optional int32 hours_since_last_change = 2;
 }
 
-/** Reports failures of enableUsbData signal API calls for the USB data protection feature.
+/** Reports failures of enableUsbData signal API calls for the USB data protection feature and unexpected USB events.
  * Logged from:
  *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/features/UsbDataAdvancedProtectionHook.java
  * Estimated Logging Rate:
@@ -1378,6 +1380,7 @@ message AdvancedProtectionUsbStateChangeErrorReported {
     // USB data. If true, then the API call failed to enable USB data.
     optional bool desired_signal_state = 1;
     optional int32 retries_occurred = 2;
+    optional android.security.advancedprotection.UsbErrorType error_type = 3;
 }
 
 /** Reports the type of notification displayed for USB data protection.
@@ -1388,6 +1391,16 @@ message AdvancedProtectionUsbStateChangeErrorReported {
  */
 message AdvancedProtectionUsbNotificationDisplayed {
     optional android.security.advancedprotection.UsbNotificationType notification_type = 1;
+}
+
+/** Reports usb events while under USB data protection.
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/security/advancedprotection/features/UsbDataAdvancedProtectionHook.java
+ * Estimated Logging Rate:
+ *   Peak: 25 times per device per day. | Avg: 1-3 times per device per day.
+ */
+message AdvancedProtectionUsbEventReported {
+    optional android.security.advancedprotection.UsbEvent usb_event = 1;
 }
 
 /**
@@ -1477,6 +1490,7 @@ message DevicePresenceChanged {
         DEVICE_PROFILE_NEARBY_DEVICE_STREAMING = 8;
         DEVICE_PROFILE_VIRTUAL_DEVICE = 9;
         DEVICE_PROFILE_WEARABLE_SENSING = 10;
+        DEVICE_PROFILE_FITNESS_TRACKER = 11;
     }
 
     enum DevicePresenceStatus {
@@ -1726,4 +1740,34 @@ message CustomVibrationPatternReported {
     VIBRATION_PATTERN_SAVED = 1;
     VIBRATION_PATTERN_PLAYED = 2;
   }
+}
+
+/*
+ * Logs the interaction with widgets managed by AppWidgetService.
+ * Estimated Logging Rate: 24 per device per day
+ * Logged from:
+ *   frameworks/base/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+ */
+message WidgetInteractionEvent {
+    // The uid of the app that hosts this widget.
+    optional int32 host_uid = 1 [(is_uid) = true];
+
+    // The ComponentName of the AppWidgetProvider. Allows us to identify what type of widget this
+    // interaction came from.
+    optional string provider = 2;
+
+    // The start of the time range that this event represents in epoch milliseconds.
+    optional int64 start_millis = 3;
+
+    // The end of the time range that this event represents in epoch milliseconds.
+    optional int64 end_millis = 4;
+
+    // The duration that the widget was visible within the range of time that this event represents.
+    optional int64 visible_duration_millis = 5;
+
+    // The global coordinates of the widget at the end of the event time range.
+    optional int32 rect_left = 6;
+    optional int32 rect_top = 7;
+    optional int32 rect_right = 8;
+    optional int32 rect_bottom = 9;
 }

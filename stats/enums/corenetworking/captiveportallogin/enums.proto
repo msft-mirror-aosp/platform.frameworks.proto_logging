@@ -43,6 +43,8 @@ enum CaptivePortalUsingWebViewReason {
     REASON_NOT_SUPPORT_MULTI_NETWORK = 4;
     // Due to the private DNS is enabled on V and below.
     REASON_PRIVATE_DNS_ENABLED_V_AND_BELOW = 5;
-    // Due to the user clicks the menu item "Use old interface".
-    REASON_USE_OLD_INTERFACE = 6;
+    // Due to the user clicks the menu item "Use classic portal".
+    REASON_USE_CLASSIC_PORTAL = 6 [deprecated = true];
+    // Due to the user clicks the menu item "Use classic view",
+    REASON_USE_CLASSIC_VIEW = 7;
 }

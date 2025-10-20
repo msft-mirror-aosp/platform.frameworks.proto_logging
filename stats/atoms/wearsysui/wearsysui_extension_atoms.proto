@@ -32,6 +32,9 @@ extend Atom {
   [(module) = "framework"];
   optional FirstOverlayStateChanged first_overlay_state_changed = 917
   [(module) = "framework"];
+  optional WearTilePeekDurationReported wear_tile_peek_duration_reported = 1199
+      [(module) = "wearsysui"];
+  optional WearTileTapReported wear_tile_tap_reported = 1200 [(module) = "wearsysui"];
 }
 
 /**
@@ -71,4 +74,53 @@ message FirstOverlayStateChanged {
     optional int64 state_change_time_ms = 2;
     // Indicates whether the lock screen is enabled
     optional bool is_locked_screen_active = 3;
+}
+
+/**
+ * Logs for Tile Peek Duration.
+ * Logged from:
+ * java/com/google/android/wearable/sysui/mainui/carousel/logging/SysUiTilesSessionLogger.java
+ * Logged when:
+ * 1. Tile becomes visible.
+ * 2. Tile peek is cancelled - by either a swipe, tap, swipe to dismiss or a button press.
+ */
+message WearTilePeekDurationReported {
+  enum TilePeekState {
+    UNKNOWN = 0;
+    START = 1;
+    END = 2;
+  }
+
+  // Component uid of the tile provider
+  optional int32 component_package_uid = 1 [(is_uid) = true];
+
+  // Component class name of the tile provider, represents an activity name.
+  optional string component_class_name = 2;
+
+  // Duration the tile was visible for in milliseconds
+  optional int32 tile_peek_duration_ms = 3;
+
+  // Position of the tile in the tile tray
+  optional int32 tile_position = 4;
+
+  // Type of event for the tile peek - start or end
+  optional TilePeekState tile_peek_state = 5;
+}
+
+/**
+ * Logs for Tile Tap.
+ * Logged from:
+ * java/com/google/android/wearable/sysui/mainui/carousel/logging/SysUiTilesSessionLogger.java
+ * Logged when:
+ * 1. Tile is tapped.
+ */
+message WearTileTapReported {
+  // Component uid of the tile provider
+  optional int32 component_package_uid = 1 [(is_uid) = true];
+
+  // Component class name of the tile provider, represents an activity name.
+  optional string component_class_name = 2;
+
+  // Position of the tile in the tile tray
+  optional int32 tile_position = 3;
 }

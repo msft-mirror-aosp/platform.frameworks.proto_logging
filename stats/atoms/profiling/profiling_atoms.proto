@@ -48,6 +48,7 @@ message ProfilingRequest {
     optional ProfilingType profiling_type = 2;
     optional bool includes_params = 3;
     optional RequestResult request_result = 4;
+    optional bool is_rate_limiter_disabled = 5;
 }
 
 /*

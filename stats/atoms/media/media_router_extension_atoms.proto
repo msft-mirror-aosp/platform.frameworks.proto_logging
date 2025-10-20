@@ -32,6 +32,8 @@ extend Atom {
       [(module) = "mediarouter"];
   optional RouteListingPreferenceUpdated route_listing_preference_updated = 1168
       [(module) = "mediarouter"];
+  optional DeviceSuggestionsInteractionReported device_suggestions_interaction_reported = 1180
+      [(module) = "mediarouter"];
 }
 
 /**
@@ -43,8 +45,14 @@ extend Atom {
  *   Avg: 10 per device per day
  */
 message MediaRouterEventReported {
+  // The media router event being logged. For example: session start, transfer to route, etc.
   optional android.media.router.EventType event_type = 1;
+  // Result of the media router event.
   optional android.media.router.Result result = 2;
+  // Point where the routing event originated from (Output switcher, Unified Media Object card, etc.)
+  optional android.media.router.EntryPoint entry_point = 3;
+  // Whether the device where media is being routed was a device suggestion.
+  optional bool is_suggested_device = 4;
 }
 
 /**
@@ -68,6 +76,13 @@ message RoutingChangeReported {
   optional bool is_suggested_device = 5;
   // Length of the media routing session in millis.
   optional int64 session_length_millis = 6;
+  // Whether the route had an active suggestion from the active route listing preference.
+  optional bool is_suggested_by_rlp = 7;
+  // Whether the route had an active device suggestion from the media app.
+  optional bool is_device_suggestion_by_media_app = 8;
+  // Whether the route had an active device suggestion from an app other than the media app.
+  optional bool is_device_suggestion_by_another_app = 9;
+
 }
 
 /**
@@ -86,4 +101,25 @@ message RoutingChangeReported {
   optional int64 call_count = 2;
   // The count of the API calls made in the lifecycle of the media router which have the suggested flag set.
   optional int64 suggested_flag_call_count = 3;
+}
+
+/**
+ * Pushed atom. Logs an event at the end of a media router lifecycle with the
+ * number of device suggestion calls made on that router. It captures updates of device suggestions
+ * made by a suggesting package as well as calls made to fetch device suggestions.
+ *
+ * Logged from:
+ *   frameworks/base/media/java/android/media/
+ * Estimated Logging Rate:
+ *   Avg: 10 per device per day
+ */
+ message DeviceSuggestionsInteractionReported {
+  // The package for which devices are suggested.
+  optional int32 target_package_uid = 1 [(is_uid) = true];
+  // The package suggesting the devices.
+  optional int32 suggesting_package_uid = 2 [(is_uid) = true];
+  // The count of the calls made in the lifecycle of the media router to update device suggestions.
+  optional int64 update_call_count = 3;
+  // The count of the calls made in the lifecycle of the media router to request device suggestions.
+  optional int64 request_call_count = 4;
 }

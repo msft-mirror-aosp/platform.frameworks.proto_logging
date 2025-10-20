@@ -668,7 +668,7 @@ void write_native_header_epilogue(FILE* out, const string& cppNamespace) {
 }
 
 // Java
-void write_java_atom_codes(FILE* out, const Atoms& atoms) {
+void write_java_atom_codes(FILE* out, const Atoms& atoms, const bool supportWorkSource) {
     fprintf(out, "    // Constants for atom codes.\n");
 
     std::map<int, AtomDeclSet::const_iterator> atom_code_to_non_chained_decl_map;
@@ -681,10 +681,15 @@ void write_java_atom_codes(FILE* out, const Atoms& atoms) {
         fprintf(out, "\n");
         fprintf(out, "    /**\n");
         fprintf(out, "     * %s %s<br>\n", (*atomIt)->message.c_str(), (*atomIt)->name.c_str());
-        write_java_usage(out, "write", constant, **atomIt);
+        write_java_usage(out, "write", constant, **atomIt, /*supportWorkSource=*/false);
+        if (supportWorkSource) {
+            write_java_usage(out, "write", constant, **atomIt,
+                             /*supportWorkSource=*/true);
+        }
         auto non_chained_decl = atom_code_to_non_chained_decl_map.find((*atomIt)->code);
         if (non_chained_decl != atom_code_to_non_chained_decl_map.end()) {
-            write_java_usage(out, "write_non_chained", constant, **(non_chained_decl->second));
+            write_java_usage(out, "write_non_chained", constant, **(non_chained_decl->second),
+                             /*supportWorkSource=*/false);
         }
         fprintf(out, "     */\n");
         fprintf(out, "    public static final int %s = %d;\n", constant.c_str(), (*atomIt)->code);
@@ -737,13 +742,17 @@ int write_java_method_signature(FILE* out, const vector<java_type_t>& signature,
 }
 
 void write_java_usage(FILE* out, const string& method_name, const string& atom_code_name,
-                      const AtomDecl& atom) {
+                      const AtomDecl& atom, const bool supportWorkSource) {
     fprintf(out, "     * Usage: StatsLog.%s(StatsLog.%s", method_name.c_str(),
             atom_code_name.c_str());
     for (vector<AtomField>::const_iterator field = atom.fields.begin(); field != atom.fields.end();
          field++) {
         if (field->javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
-            fprintf(out, ", android.os.WorkSource workSource");
+            if (supportWorkSource) {
+                fprintf(out, ", android.os.WorkSource workSource");
+            } else {
+                fprintf(out, ", int[] uid, java.lang.String[] tag");
+            }
         } else if (field->javaType == JAVA_TYPE_BYTE_ARRAY) {
             fprintf(out, ", byte[] %s", field->name.c_str());
         } else {

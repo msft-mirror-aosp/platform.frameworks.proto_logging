@@ -175,3 +175,23 @@ enum SatelliteEntitlementServicePolicy {
   // Satellite service policy entitlement is unconstrained
   SATELLITE_ENTITLEMENT_SERVICE_POLICY_SUPPORT_ALL = 3;
 }
+
+enum SatelliteGlobalConnectType {
+  // Global connect type for subscriber is Unknown
+  SATELLITE_GLOBAL_CONNECT_TYPE_UNKNOWN = 0;
+  // Global connect type for subscriber is Automatic
+  SATELLITE_GLOBAL_CONNECT_TYPE_AUTOMATIC = 1;
+  // Global connect type for subscriber is Manual
+  SATELLITE_GLOBAL_CONNECT_TYPE_MANUAL = 2;
+  // Global connect type for subscriber is Hybrid
+  SATELLITE_GLOBAL_CONNECT_TYPE_HYBRID = 3;
+}
+
+enum SatelliteSessionConnectType {
+  // Session connect type for subscriber is Unknown
+  SATELLITE_SESSION_CONNECT_TYPE_UNKNOWN = 0;
+  // Session connect type for subscriber is Automatic
+  SATELLITE_SESSION_CONNECT_TYPE_AUTOMATIC = 1;
+  // Session connect type for subscriber is Manual
+  SATELLITE_SESSION_CONNECT_TYPE_MANUAL = 2;
+}
