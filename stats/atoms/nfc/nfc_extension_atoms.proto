@@ -88,6 +88,7 @@ message NfcProprietaryCapabilitiesReported {
   optional bool is_power_saving_mode_supported = 3;
   optional bool is_autotransact_polling_loop_filter_supported = 4;
   optional int32 number_of_exit_frames_supported = 5;
+  optional bool is_reader_mode_annotations_supported = 6;
 }
 
 message NfcExitFrameTableChanged {
