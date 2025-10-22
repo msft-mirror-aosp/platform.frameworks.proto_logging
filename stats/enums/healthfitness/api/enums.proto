@@ -219,6 +219,7 @@ enum DataType {
   NICOTINE_INTAKE = 44;
   ALCOHOL_CONSUMPTION = 45;
   SYMPTOMS = 46;
+  CYCLE_PHASES = 47;
 }
 
 enum MedicalResourceType {
