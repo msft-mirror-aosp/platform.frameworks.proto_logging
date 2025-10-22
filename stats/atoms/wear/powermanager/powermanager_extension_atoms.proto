@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+package android.os.statsd.wear.powermanager;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.wear.powermanager";
+option java_multiple_files = true;
+
+extend Atom {
+  optional WearScreenOnRequestIssued wear_screen_on_request_issued = 1201
+      [(android.os.statsd.module) = "framework"];
+}
+
+/**
+ * Logged when a screen on request is issued for a Wear device.
+ *
+ * Logged from:
+ *   frameworks/opt/wear/src/com/android/clockwork/displayoffload/WearAsyncDisplayOffloader.java
+ * Estimated Logging Rate:
+ *   Avg: 150 per device per day
+ */
+message WearScreenOnRequestIssued {}
