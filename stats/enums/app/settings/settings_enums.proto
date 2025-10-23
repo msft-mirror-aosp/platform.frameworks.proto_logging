@@ -6186,6 +6186,10 @@ enum PageId {
     // OPEN: Settings > System > Multi user > User > Make this user an admin (off)
     // CATEGORY: SETTINGS
     DIALOG_CANNOT_REMOVE_LAST_ADMIN_USER = 2188;
+
+    // OPEN: Settings > Accessibility > System controls > Power button ends call
+    // CATEGORY: SETTINGS
+    ACTION_POWER_BUTTON_ENDS_CALL = 2189;
 }
 
 // Battery Saver schedule types.
