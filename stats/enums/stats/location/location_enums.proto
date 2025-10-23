@@ -120,3 +120,12 @@ enum ActivityImportance {
     IMPORTANCE_FORGROUND_SERVICE = 2;
     IMPORTANCE_BACKGROUND = 3;
 }
+
+// Location permission level for an app (e.g. always-on, while-in-use, etc.)
+enum LocationPermissionLevel {
+    LOCATION_PERMISSION_LEVEL_UNKNOWN = 0;
+    LOCATION_PERMISSION_LEVEL_NONE = 1;
+    LOCATION_PERMISSION_LEVEL_ONLY_THIS_TIME = 2;
+    LOCATION_PERMISSION_LEVEL_WHILE_IN_USE = 3;
+    LOCATION_PERMISSION_LEVEL_ALWAYS_ON = 4;
+}
