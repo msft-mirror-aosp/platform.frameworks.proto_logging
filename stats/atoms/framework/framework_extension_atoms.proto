@@ -91,6 +91,7 @@ extend Atom {
     optional EthernetBytesTransfer ethernet_bytes_transfer = 10249 [(module) = "framework"];
     optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
     optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
+    optional ZramWritebackEvent zram_writeback_event = 1202 [(module) = "framework"];
 }
 
 /**
@@ -1770,4 +1771,50 @@ message WidgetInteractionEvent {
     optional int32 rect_top = 7;
     optional int32 rect_right = 8;
     optional int32 rect_bottom = 9;
+}
+
+/*
+ * Logs when a zram writeback is considered / attempted / completed etc.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/am/CachedAppOptimizer.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 5 times in 1 sec | Avg: 100 per device per day
+ */
+message ZramWritebackEvent {
+
+  enum EventType {
+    UNKNOWN = 0;
+    SKIPPED_NO_ACTIVITY = 1;
+    SKIPPED_RSS_SWAP_TOO_HIGH = 2;
+    SKIPPED_MMD_SERVICE_UNAVAILABLE = 3;
+    SKIPPED_UNSUPPORTED_BY_MMD = 4;
+    SKIPPED_OTHER_REASONS = 5;
+    SKIPPED_HAS_GPU_MEMORY = 6;
+    SKIPPED_HAS_DMA_BUF = 7;
+    DISABLED_BY_FLAG = 8;
+    STARTED = 9;
+    SUCCEEDED = 10;
+    FAILED_DEVICE_FULL = 11;
+    FAILED_UNSUPPORTED = 12;
+    FAILED_OTHER = 13;
+  }
+  optional EventType event_type = 1;
+
+  // The uid of the process owning the zram memory.
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // The name of the process. Empty if same as package name.
+  optional string process_name = 3;
+
+  optional bool has_activities = 4;
+
+  optional int64 rss_swap_kb = 5;
+
+  optional int64 zram_bytes_written = 6;
+
+  optional bool has_dma_buf = 7;
+
+  optional bool has_gpu_memory = 8;
 }
