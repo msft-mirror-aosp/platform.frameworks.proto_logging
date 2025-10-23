@@ -29,6 +29,7 @@ extend Atom {
     optional VcnGatewayConnectionStateChanged vcn_gateway_connection_state_changed = 1176 [(module) = "vcn"];
     optional VcnNetworkStateChanged vcn_network_state_changed = 1177 [(module) = "vcn"];
     optional VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed = 1178 [(module) = "vcn"];
+    optional VcnUnderlyingNetworkSwitched vcn_underlying_network_switched = 1204 [(module) = "vcn"];
 }
 
 /**
@@ -80,4 +81,21 @@ message VcnUnderlyingNetworksStateChanged {
     optional int32 gw_id = 1;
     // The number of validated underlying networks tracked by the VcnGatewayConnection's UnderlyingNetworkController.
     optional int32 validated_underlying_network_count = 2;
+}
+
+/**
+ * Log for state changes of underlying networks tracked by a particular VcnGatewayConnection.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/VcnGatewayConnection.java
+ * Estimated Logging Rate: <10 per device per day
+ */
+message VcnUnderlyingNetworkSwitched {
+  // gw_id associated with the relevant VcnGatewayConnection.
+  optional int32 gw_id = 1;
+
+  // Transports of the network we switched from.
+  optional android.stats.vcn.TransportMask old_network = 2;
+  // Transports of the network we switched to.
+  optional android.stats.vcn.TransportMask new_network = 3;
 }
