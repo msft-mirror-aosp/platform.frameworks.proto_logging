@@ -126,7 +126,13 @@ static int collate_atoms_from_sources(const string& moduleName, const string& pr
     if (fileDescriptor == nullptr) {
         return 1;
     }
-    return collate_atoms(*fileDescriptor->FindMessageTypeByName("Atom"), moduleName, atoms);
+
+    const auto atomDescriptor = fileDescriptor->FindMessageTypeByName("Atom");
+    if (atomDescriptor == nullptr) {
+        fprintf(stderr, "Error: Atom proto not found in a --proto file\n");
+        return 1;
+    }
+    return collate_atoms(*atomDescriptor, moduleName, atoms);
 }
 /**
  * Do the argument parsing and execute the tasks.

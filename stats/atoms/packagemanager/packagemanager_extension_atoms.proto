@@ -337,6 +337,9 @@ message PackageInstallerSessionReported {
 
     // The UID of the app that was installed or updated if the session was successful, -1 otherwise.
     optional int32 app_uid = 57 [(is_uid) = true];
+
+    // Total size of the APKs for which fs verity was enabled. 0 if fs verity was not enabled for any APKs.
+    optional int64 fs_verity_enabled_apks_size_bytes = 58;
 }
 
 /**

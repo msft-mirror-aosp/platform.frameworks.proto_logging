@@ -73,7 +73,7 @@ enum DonDoffState {
  *   Average on the order of tens per day at most
  */
 message MicroXrDonDoffStateChanged {
-  optional DonDoffState don_doff_new_state = 1;
+  optional DonDoffState don_doff_new_state = 1 [(state_field_option).exclusive_state = true];
 }
 
 /**
