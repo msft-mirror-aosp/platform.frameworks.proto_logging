@@ -16,6 +16,8 @@
 
 #include "settings_provider.h"
 
+#include <string>
+
 namespace android {
 namespace stats_log_api_gen {
 

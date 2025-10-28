@@ -918,7 +918,7 @@ AtomDeclSet get_annotations(int argIndex,
 }
 
 bool has_histograms(const AtomDeclSet& decls) {
-    return std::find_if_not(decls.begin(), decls.end(), [](shared_ptr<AtomDecl> decl) {
+    return std::find_if_not(decls.begin(), decls.end(), [](const shared_ptr<AtomDecl>& decl) {
                return decl->fieldNameToHistBinOption.empty();
            }) != decls.end();
 }
