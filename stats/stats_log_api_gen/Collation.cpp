@@ -17,10 +17,11 @@
 #include "Collation.h"
 
 #include <google/protobuf/descriptor.h>
+
+#include <algorithm>
+#include <map>
 #include <stdarg.h>
 #include <stdio.h>
-
-#include <map>
 #include <string_view>
 
 #include "frameworks/proto_logging/stats/atom_field_options.pb.h"
@@ -143,7 +144,7 @@ static java_type_t java_type(const FieldDescriptor& field, const bool isUintAllo
 /**
  * Gather the enums info.
  */
-void collate_enums(const EnumDescriptor& enumDescriptor, AtomField& atomField) {
+static void collate_enums(const EnumDescriptor& enumDescriptor, AtomField& atomField) {
     for (int i = 0; i < enumDescriptor.value_count(); i++) {
         atomField.enumValues[enumDescriptor.value(i)->number()] = enumDescriptor.value(i)->name();
     }
@@ -442,7 +443,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
     }
 
     // Check if atom is in uint type allowlist.
-    std::string_view atomName = atom.name();
+    const std::string_view atomName = atom.name();
     bool isUintAllowed = !(find(begin(UINT_ATOM_ALLOWLIST), end(UINT_ATOM_ALLOWLIST), atomName) ==
                            end(UINT_ATOM_ALLOWLIST));
 
@@ -549,8 +550,8 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
 
 // This function flattens the fields of the AttributionNode proto in an Atom
 // proto and generates the corresponding atom decl and signature.
-bool get_non_chained_node(const Descriptor& atom, AtomDecl& atomDecl,
-                          vector<java_type_t>& signature) {
+static bool get_non_chained_node(const Descriptor& atom, AtomDecl& atomDecl,
+                                 vector<java_type_t>& signature) {
     // Build a sorted list of the fields. Descriptor has them in source file
     // order.
     map<int, const FieldDescriptor*> fields;

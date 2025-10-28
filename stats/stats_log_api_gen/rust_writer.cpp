@@ -32,7 +32,7 @@
 namespace android {
 namespace stats_log_api_gen {
 
-const char* rust_type_name(java_type_t type, bool lifetime) {
+static const char* rust_type_name(java_type_t type, bool lifetime) {
     switch (type) {
         case JAVA_TYPE_BOOLEAN:
             return "bool";
