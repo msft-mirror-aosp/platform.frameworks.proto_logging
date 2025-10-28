@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2122
+// Next ID: 2127
 enum Action {
 
     // Reserved for biometrics
@@ -2656,6 +2656,31 @@ enum Action {
     // Tracks the count of DNS error retries.
     // CATEGORY: SETTINGS
     ACTION_TRANSIT_ONBOARDING_DNS_ERROR_RETRY = 2121;
+
+    // ACTION: Settings > System > Languages > System Languages > Move language up
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MOVE_LANGUAGE_UP = 2122;
+
+    // ACTION: Settings > System > Languages > System Languages > Move language down
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MOVE_LANGUAGE_DOWN = 2123;
+
+    // ACTION: Settings > System > Languages > System Languages > Move language to top
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MOVE_LANGUAGE_TOP = 2124;
+
+    // ACTION: Settings > System > Languages > System Languages > Position of system language
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_GET_SYSTEM_LANGUAGE_POSITION = 2125;
+
+    // ACTION: Settings > System > Languages > System Languages > Size of language list
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_GET_LANGUAGE_LIST_SIZE = 2126;
 }
 
 /**
