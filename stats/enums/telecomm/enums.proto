@@ -510,3 +510,14 @@ enum CallTypeEnum {
     SELF_MANAGED_CALL_TYPE = 2;
     TRANSACTIONAL_CALL_TYPE = 3;
 }
+
+/**
+ * Indicating the result of the endpoint change event, which includes unknown,
+ * same type (as requested), different type (as requested), or overridden.
+ */
+enum EndpointChangeResultEnum {
+    ENDPOINT_RESULT_UNKNOWN = 0;
+    ENDPOINT_RESULT_SAME = 1;
+    ENDPOINT_RESULT_DIFFERENT = 2;
+    ENDPOINT_RESULT_OVERRIDDEN = 3;
+}
