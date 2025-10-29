@@ -71,7 +71,10 @@ extend Atom {
   optional HealthConnectDeviceInfoStats health_connect_device_info_stats = 1160 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
 
   optional HealthConnectDataGranularityStats health_connect_data_granularity_stats = 1165 [(module) = "healthfitness"];
+
   optional HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported = 1167 [(module) = "healthfitness"];
+
+  optional HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported = 1203 [(module) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.
@@ -558,4 +561,20 @@ message HealthConnectNativeTrackingStatsReported {
 
   // Number of packages writing steps data.
   optional int32 steps_writers_count = 7;
+}
+
+/**
+ * Metrics for HealthConnectBackupAgent used in D2D migrations.
+ *
+ * Logged from: packages/modules/HealthFitness/backuprestore/src/com/android/health/connect/backuprestore/BackupAgentLogger.java
+ */
+message HealthConnectBackupAgentEventReported {
+
+  optional android.healthfitness.api.HealthConnectBackupAgentOperation backup_agent_operation = 1;
+
+  optional android.healthfitness.api.HealthConnectBackupAgentStatus status = 2;
+
+  optional android.healthfitness.api.HealthConnectBackupAgentError error = 3;
+
+  optional int32 latency_ms = 4;
 }
