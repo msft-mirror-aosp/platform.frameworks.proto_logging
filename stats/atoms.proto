@@ -1534,6 +1534,7 @@ message Atom {
     extensions 1200; // WearTileTapReported wear_tile_tap_reported
     extensions 1201; // WearScreenOnRequestIssued wear_screen_on_request_issued
     extensions 1202; // ZramWritebackEvent zram_writeback_event
+    extensions 1203; // HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
