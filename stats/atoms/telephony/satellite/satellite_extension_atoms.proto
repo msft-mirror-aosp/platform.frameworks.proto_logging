@@ -418,6 +418,12 @@ message CarrierRoamingSatelliteSession {
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 36;
   // Satellite PLMN
   optional string plmn = 37;
+  // Whether wifi is enabled during the session
+  optional bool is_wifi_enabled = 38;
+  // Whether wifi calling is enabled during the session
+  optional bool is_wfc_enabled = 39;
+  // Whether wifi calling is registered during the session
+  optional bool is_wfc_registered = 40;
 }
 
 /**
