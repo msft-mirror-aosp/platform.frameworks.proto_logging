@@ -23,3 +23,19 @@ enum VcnGatewayTeardownReason {
     GATEWAY_TEARDOWN_REASON_NETWORK_AGENT_UNWANTED = 3;
     GATEWAY_TEARDOWN_REASON_REQUESTED = 4;
   }
+
+// Represents the transport types of a network as a bitmask.
+// This design allows for supporting multi-transport types network by combining
+// values using bitwise OR operations.
+//
+// For TRANSPORT_MASK_NONE tag number, it's chosen to be less than max allowed
+// enum tag number (2**29 -1). So this should support up to MAX_TRANSPORT=27.
+enum TransportMask {
+    TRANSPORT_MASK_UNSPECIFIED = 0;
+    TRANSPORT_MASK_NONE = 268435456; // No Network. 1 << 28
+    TRANSPORT_MASK_CELLULAR = 1; // 1 << TRANSPORT_CELLULAR(=0)
+    TRANSPORT_MASK_WIFI = 2; // 1 << TRANSPORT_WIFI(=1)
+
+    // Additional transport types examples:
+    // TRANSPORT_MASK_WIFI_VPN = 18; // 1 << TRANSPORT_WIFI | 1 << TRANSPORT_VPN
+}
