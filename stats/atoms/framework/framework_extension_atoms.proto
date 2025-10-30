@@ -1597,12 +1597,23 @@ message BinderCallsReported {
     // The total duration for executing the calls since last report.
     optional int64 call_duration_sum_micros = 6;
 
+    // Sum of squared duration in microseconds for calls since last report.
+    optional int64 call_duration_sum_squared_micros = 9;
+
     // Duration stats for low-rate spam. These are not necessarily excessive,
     // so they are part of the general stats rather than spam.
     // Unlike the fields in BinderSpamReported, these field are only reported
     // for the AIDL targets for which we collect call stats.
     optional int32 seconds_with_at_least_10_calls = 7;
     optional int32 seconds_with_at_least_50_calls = 8;
+
+    // Number of calls for which CPU time was sampled.
+    // CPU time is sampled because it is expensive to collect.
+    optional int64 cpu_time_count = 10;
+    // Total CPU time in microseconds for the sampled calls.
+    optional int64 cpu_time_sum_micros = 11;
+    // Sum of squared CPU time in microseconds for the sampled calls.
+    optional int64 cpu_time_squared_micros = 12;
 }
 
 /**
