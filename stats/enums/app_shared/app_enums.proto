@@ -526,6 +526,11 @@ enum AppExitSubReasonCode {
     SUBREASON_ANR_TYPE_START_FOREGROUND_SERVICE = 47;
 
     reserved 48; // For SUBREASON_ANR_TYPE_SYSTEM_SERVER_WATCHDOG_TIMEOUT
+
+    /**
+     * The process was killed because it had enqueued too many broadcasts.
+     */
+    SUBREASON_EXCESSIVE_ENQUEUED_BROADCASTS_COUNT = 49;
 }
 
 /**
