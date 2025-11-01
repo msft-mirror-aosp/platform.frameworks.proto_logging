@@ -1,0 +1,50 @@
+
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+syntax = "proto2";
+package android.os.statsd.automotive.cardatasubscriptionlib;
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+option java_package = "com.android.os.automotive.cardatasubscriptionlib";
+option java_multiple_files = true;
+extend Atom {
+  optional CarDataSubscriptionEventReported car_data_subscription_event_reported = 1181 [(module) = "cardatasubscriptionlib"];
+}
+/**
+ * Logs when a data subscription event occurs in cardatasubscriptionlib.
+ *
+ * Logged from package: packages/apps/Car/systemlibs/car-data-subscription-lib
+ *  Estimated Logging Rate:
+ *  Peak: 1 times in 30000 ms | Avg: 10 per device per day
+ */
+message CarDataSubscriptionEventReported {
+  // Describes current type of data subscription event
+  enum DataSubscriptionEventType {
+    // Unknown data subscription event type
+    UNSPECIFIED_EVENT_TYPE = 0;
+    // Proactive message launched event type
+    PROACTIVE_MESSAGE_LAUNCHED = 1;
+    // Reactive message launched event type
+    REACTIVE_MESSAGE_LAUNCHED = 2;
+    // The user clicks on the button in the popup
+    BUTTON_CLICKED = 3;
+  }
+  // session of one data subscription cycle, it marks either from when a proactive/reactive
+  // message is launched until when either the button is clicked or when the message is
+  // dismissed. This is a local identifier
+  optional int64 session_id = 1;
+  optional DataSubscriptionEventType event_type = 2;
+}
