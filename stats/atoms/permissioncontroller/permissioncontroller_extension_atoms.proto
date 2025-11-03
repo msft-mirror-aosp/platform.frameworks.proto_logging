@@ -48,6 +48,8 @@ extend Atom {
         1035 [(module) = "permissioncontroller"];
     optional PermissionManagerPageInteraction permission_manager_page_interaction =
         1049 [(module) = "permissioncontroller"];
+    optional RoleSettingsConfirmationDialogActionReported role_settings_confirmation_dialog_action_reported =
+        1205 [(module) = "permissioncontroller"];
 }
 
 /**
@@ -285,4 +287,30 @@ message PermissionManagerPageInteraction {
     // The permission group the user interacted with, only applies to
     // STANDARD_PERMISSION_GROUP_CLICKED and ADDITIONAL_PERMISSION_GROUP_CLICKED
     optional string permission_group_name = 3;
+}
+
+/**
+ * Reports that User has confirmed the change of a default app for a role in settings.
+ * Logged from:
+ *   packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/role/ui/DefaultAppConfirmationDialogFragment.java
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message RoleSettingsConfirmationDialogActionReported {
+  // UID of application assigned the role
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Package name of application assigned the role
+  optional string package_name = 2;
+
+  optional string role_name = 3;
+
+  enum Result {
+    RESULT_UNSPECIFIED = 0;
+    RESULT_CANCELLED = 1;
+    RESULT_OK = 2;
+  }
+
+  // Which button or action the user invoked to close the dialog
+  optional Result result = 4;
 }

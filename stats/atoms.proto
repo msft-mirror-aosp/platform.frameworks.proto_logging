@@ -1536,6 +1536,7 @@ message Atom {
     extensions 1202; // ZramWritebackEvent zram_writeback_event
     extensions 1203; // HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported
     extensions 1204; // VcnUnderlyingNetworkSwitched vcn_underlying_network_switched
+    extensions 1205; // RoleSettingsConfirmationDialogActionReported role_settings_confirmation_dialog_action_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
