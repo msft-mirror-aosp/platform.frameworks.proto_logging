@@ -1534,6 +1534,8 @@ message Atom {
     extensions 1200; // WearTileTapReported wear_tile_tap_reported
     extensions 1201; // WearScreenOnRequestIssued wear_screen_on_request_issued
     extensions 1202; // ZramWritebackEvent zram_writeback_event
+    extensions 1203; // HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported
+    extensions 1204; // VcnUnderlyingNetworkSwitched vcn_underlying_network_switched
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1545,6 +1547,7 @@ message Atom {
     extensions 300000; // MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred
     extensions 300001; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
     extensions 300002; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
+    extensions 300003; // MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 
@@ -1847,6 +1850,8 @@ message Atom {
     extensions 10252; // MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot
     extensions 10253; // AggregatedKernelWakelockInfo aggregated_kernel_wakelock_info
     extensions 10254; // WsCompanionMetadataSnapshot ws_companion_metadata_snapshot
+    extensions 10255; // CallEndPointStats call_end_point_stats
+    extensions 10256; // DmabufStats dmabuf_stats
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.

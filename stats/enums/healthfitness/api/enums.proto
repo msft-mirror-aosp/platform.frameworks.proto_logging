@@ -115,6 +115,27 @@ enum ImportStatus {
   IMPORT_STATUS_ERROR_VERSION_MISMATCH = 5;
 }
 
+// represents Device to Device events for HealthConnectBackupAgent.java
+enum HealthConnectBackupAgentOperation {
+    AGENT_OPERATION_UNKNOWN = 0;
+    AGENT_OPERATION_BACKUP = 1;
+    AGENT_OPERATION_FULL_BACKUP = 2;
+    AGENT_OPERATION_RESTORE = 3;
+}
+
+enum HealthConnectBackupAgentStatus {
+    AGENT_STATUS_UNKNOWN = 0;
+    AGENT_STATUS_STARTED = 1;
+    AGENT_STATUS_SUCCESS = 2;
+    AGENT_STATUS_FAILURE = 3;
+}
+
+enum HealthConnectBackupAgentError {
+    AGENT_ERROR_UNKNOWN = 0;
+    AGENT_ERROR_STAGING_FAILED_EXCEPTION = 1;
+    AGENT_ERROR_TIMEOUT_EXCEPTION = 2;
+}
+
 // START: Backup and Restore enums
 
 // Each of these represents a value in DataBackupType.java.

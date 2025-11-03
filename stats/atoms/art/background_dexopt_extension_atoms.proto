@@ -115,6 +115,18 @@ extend Atom {
     }
 
     optional Pass pass = 8;
+
+    // True if this run is the first run since boot, not counting cancelled runs.
+    optional bool is_first_run = 9;
+
+    // The latency of the job, in milliseconds, including time spent in sleep.
+    //
+    // This value is the elapsed time until the start time of this job run, from one of the
+    // following two events:
+    // 1. The completion time of the last finished (either completed or failed, not cancelled) run
+    //    since boot, if `is_first_run` is `false`.
+    // 2. The time the job was scheduled, if `is_first_run` is `true`.
+    optional int64 job_latency_ms = 10;
 }
 
 /**

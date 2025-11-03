@@ -463,6 +463,74 @@ enum AppExitSubReasonCode {
      * Cached state.
      */
     SUBREASON_EXCESSIVE_OUTGOING_BROADCASTS_WHILE_CACHED = 32;
+
+    /**
+     * The app itself due to its own internal logic or behavior has triggered an ANR.
+     */
+    SUBREASON_ANR_TYPE_APP_TRIGGERED = 33;
+
+    /**
+     * The app took too long to start up.
+     */
+    SUBREASON_ANR_TYPE_BIND_APPLICATION = 34;
+
+    /**
+     * The app's broadcast receiver took too long to process the message.
+     */
+    SUBREASON_ANR_TYPE_BROADCAST_OF_INTENT = 35;
+
+    /**
+     * The app's content provider took too long to respond.
+     */
+    SUBREASON_ANR_TYPE_CONTENT_PROVIDER_NOT_RESPONDING = 36;
+
+    /**
+     * The app's service took too long to finish Service.onCreate() and Service.onStartCommand() /
+     * Service.onBind()
+     */
+    SUBREASON_ANR_TYPE_EXECUTING_SERVICE = 37;
+
+    reserved 38; // For SUBREASON_ANR_TYPE_FOREGROUND_SERVICE_TIMEOUT
+
+    /**
+     * A foreground short service took too long to respond to onTimeout().
+     */
+    SUBREASON_ANR_TYPE_FOREGROUND_SHORT_SERVICE_TIMEOUT = 39;
+
+    reserved 40; // For SUBREASON_ANR_TYPE_GPU_HANG
+
+    /**
+     * The app took too long to respond to an input event.
+     */
+    SUBREASON_ANR_TYPE_INPUT_DISPATCHING_TIMEOUT = 41;
+
+    /**
+     * The app took too long to respond to an input event because no window was focused.
+     */
+    SUBREASON_ANR_TYPE_INPUT_DISPATCHING_TIMEOUT_NO_FOCUSED_WINDOW = 42;
+
+    reserved 43; // For SUBREASON_ANR_TYPE_JOB_SERVICE_BIND
+
+    reserved 44; // For SUBREASON_ANR_TYPE_JOB_SERVICE_NOTIFICATION_NOT_PROVIDED
+
+    /**
+     * The job service took too long to start.
+     */
+    SUBREASON_ANR_TYPE_JOB_SERVICE_START = 45;
+
+    reserved 46; // For SUBREASON_ANR_TYPE_JOB_SERVICE_STOP
+
+    /**
+     * The foreground service took too long to start.
+     */
+    SUBREASON_ANR_TYPE_START_FOREGROUND_SERVICE = 47;
+
+    reserved 48; // For SUBREASON_ANR_TYPE_SYSTEM_SERVER_WATCHDOG_TIMEOUT
+
+    /**
+     * The process was killed because it had enqueued too many broadcasts.
+     */
+    SUBREASON_EXCESSIVE_ENQUEUED_BROADCASTS_COUNT = 49;
 }
 
 /**

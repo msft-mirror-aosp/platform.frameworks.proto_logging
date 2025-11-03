@@ -40,10 +40,10 @@ extend Atom {
     optional int32 system_server_compilation_seconds = 7;
 
     // Cache space at start of update.
-    optional int32 cache_space_free_start_mib = 8;
+    optional int32 cache_space_free_start_mib = 8 [deprecated = true];
 
     // Cache space at end of update.
-    optional int32 cache_space_free_end_mib = 9;
+    optional int32 cache_space_free_end_mib = 9 [deprecated = true];
 
     // Compilation time of the boot classpath for the primary architecture
     // ("primary boot classpath"), in milliseconds.

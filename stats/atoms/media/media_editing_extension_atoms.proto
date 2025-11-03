@@ -200,4 +200,8 @@ message MediaEditingEndedReported {
   optional string output_media_item_codec_name_1 = 77;
   // The second MediaCodec codec component name used to encode the output, or an empty string if unknown or not applicable.
   optional string output_media_item_codec_name_2 = 78;
+
+  // Since Android 26Q2.
+  // The uid of the application that requested the editing operation.
+  optional int32 requester_uid = 79 [(is_uid) = true];
 }

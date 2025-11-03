@@ -16,6 +16,7 @@
 
 #include "native_writer.h"
 
+#include <cstdint>
 #include <stdio.h>
 
 #include "Collation.h"

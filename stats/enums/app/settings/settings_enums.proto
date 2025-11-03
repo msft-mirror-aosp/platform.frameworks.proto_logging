@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2122
+// Next ID: 2129
 enum Action {
 
     // Reserved for biometrics
@@ -2656,12 +2656,47 @@ enum Action {
     // Tracks the count of DNS error retries.
     // CATEGORY: SETTINGS
     ACTION_TRANSIT_ONBOARDING_DNS_ERROR_RETRY = 2121;
+
+    // ACTION: Settings > System > Languages > System Languages > Move language up
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MOVE_LANGUAGE_UP = 2122;
+
+    // ACTION: Settings > System > Languages > System Languages > Move language down
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MOVE_LANGUAGE_DOWN = 2123;
+
+    // ACTION: Settings > System > Languages > System Languages > Move language to top
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_MOVE_LANGUAGE_TOP = 2124;
+
+    // ACTION: Settings > System > Languages > System Languages > Position of system language
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_GET_SYSTEM_LANGUAGE_POSITION = 2125;
+
+    // ACTION: Settings > System > Languages > System Languages > Size of language list
+    // CATEGORY: SETTINGS
+    // OS: V
+    ACTION_GET_LANGUAGE_LIST_SIZE = 2126;
+
+
+    // ACTION: Settings > Parental controls > Set up a parental controls PIN
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_SET_UP_PIN_ENTRY = 2127;
+
+    // ACTION: Settings > Parental controls > Enable supervision through
+    //         SetupSupervisionActivity
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_ENABLE_SUPERVISION = 2128;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2189
+// Next ID: 2191
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6190,6 +6225,10 @@ enum PageId {
     // OPEN: Settings > Accessibility > System controls > Power button ends call
     // CATEGORY: SETTINGS
     ACTION_POWER_BUTTON_ENDS_CALL = 2189;
+
+    // OPEN: Settings > Connected devices > Device > Game Controller Settings
+    // CATEGORY: SETTINGS
+    SETTINGS_GAME_CONTROLLER = 2190;
 }
 
 // Battery Saver schedule types.
