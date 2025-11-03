@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2129
+// Next ID: 2130
 enum Action {
 
     // Reserved for biometrics
@@ -2691,6 +2691,10 @@ enum Action {
     //         SetupSupervisionActivity
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_ENABLE_SUPERVISION = 2128;
+
+    // ACTION: Log which application the user used to complete the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_COMPLETE_ENTRY_SOURCE = 2129;
 }
 
 /**
