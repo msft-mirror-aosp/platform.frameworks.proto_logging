@@ -2700,7 +2700,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2191
+// Next ID: 2192
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6233,6 +6233,10 @@ enum PageId {
     // OPEN: Settings > Connected devices > Device > Game Controller Settings
     // CATEGORY: SETTINGS
     SETTINGS_GAME_CONTROLLER = 2190;
+
+    // OPEN: SUW Welcome screen > Accessibility > Vision Settings > Color inversion
+    // CATEGORY: SETTINGS
+    SUW_ACCESSIBILITY_TOGGLE_SCREEN_COLOR_INVERSION = 2191;
 }
 
 // Battery Saver schedule types.
