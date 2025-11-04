@@ -17,6 +17,30 @@
 syntax = "proto2";
 
 message AtomLarge {
+    enum EnumLarge {
+        UNKNOWN = 0;
+        VALUE_1 = 1;
+        VALUE_2 = 2;
+        VALUE_3 = 3;
+        VALUE_4 = 4;
+        VALUE_5 = 5;
+        VALUE_6 = 6;
+        VALUE_7 = 7;
+        VALUE_8 = 8;
+        VALUE_9 = 9;
+        VALUE_10 = 10;
+        VALUE_11 = 11;
+        VALUE_12 = 12;
+        VALUE_13 = 13;
+        VALUE_14 = 14;
+        VALUE_15 = 15;
+        VALUE_16 = 16;
+        VALUE_17 = 17;
+        VALUE_18 = 18;
+        VALUE_19 = 19;
+        VALUE_20 = 20;
+    }
+
     optional string string_field_1 = 1;
     optional string string_field_2 = 2;
     optional string string_field_3 = 3;
@@ -87,4 +111,9 @@ message AtomLarge {
     optional float float_field_8 = 68;
     optional float float_field_9 = 69;
     optional float float_field_10 = 70;
+    optional EnumLarge enum_field_1 = 71;
+    optional EnumLarge enum_field_2 = 72;
+    optional EnumLarge enum_field_3 = 73;
+    optional EnumLarge enum_field_4 = 74;
+    optional EnumLarge enum_field_5 = 75;
 }
