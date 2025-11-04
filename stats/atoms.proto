@@ -1537,6 +1537,11 @@ message Atom {
     extensions 1203; // HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported
     extensions 1204; // VcnUnderlyingNetworkSwitched vcn_underlying_network_switched
     extensions 1205; // RoleSettingsConfirmationDialogActionReported role_settings_confirmation_dialog_action_reported
+    extensions 1206; // MediaAutolaunchSettingChanged media_autolaunch_setting_changed
+    extensions 1207; // MediaAutolaunchSettingsPageVisited media_autolaunch_session_reported
+    extensions 1208; // MediaAutolaunchTriggered media_autolaunch_triggered
+    extensions 1209; // MediaAutolaunchDismissed media_autolaunch_dismissed
+    extensions 1210; // MediaAutolaunchDailySettingStateReported media_autolaunch_daily_setting_state_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
