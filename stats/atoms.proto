@@ -1860,6 +1860,7 @@ message Atom {
     extensions 10256; // DmabufStats dmabuf_stats
     extensions 10257; // MemcgMemoryStatSnapshot memcg_memory_stat_snapshot
     extensions 10258; // SupervisionState supervision_state
+    extensions 10259; // AdaptiveSuspendStats adaptive_suspend_stats
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
