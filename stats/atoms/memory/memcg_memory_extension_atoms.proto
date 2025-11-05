@@ -106,4 +106,8 @@ message MemcgMemoryStatSnapshot {
 
     // Amount of cached filesystem data mapped with mmap().
     optional int32 file_mapped_memory_in_kilobytes = 7;
+
+    // Memory swap peak as tracked by memcg. Read from the memory.swap.current
+    // field in /sys/fs/cgroup/../pid_PID/memory.swap.current.
+    optional int32 memory_swap_current_in_kilobytes = 8;
 }
