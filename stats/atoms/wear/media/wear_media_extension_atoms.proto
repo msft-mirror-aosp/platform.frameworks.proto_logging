@@ -52,6 +52,19 @@ extend Atom {
 
   optional WearMediaOutputSwitcherFastPairApiTimeout
       wear_media_output_switcher_fastpair_api_timeout = 759 [(module) = "MediaOutputSwitcher"];
+
+  optional MediaAutolaunchSettingChanged media_autolaunch_setting_changed = 1206
+      [(module) = "wearmedia"];
+  optional MediaAutolaunchSettingsPageVisited
+      media_autolaunch_settings_page_visited = 1207
+      [(module) = "wearmedia"];
+  optional MediaAutolaunchTriggered media_autolaunch_triggered = 1208
+      [(module) = "wearmedia"];
+  optional MediaAutolaunchDismissed media_autolaunch_dismissed = 1209
+      [(module) = "wearmedia"];
+  optional MediaAutolaunchDailySettingStateReported
+      media_autolaunch_daily_setting_state_reported = 1210
+      [(module) = "wearmedia"];
 }
 
 /**
@@ -253,4 +266,100 @@ message MediaControlApiUsageReported {
 
   // Result status of the API call.
   optional MediaControlApiStatus media_control_api_status = 3;
+}
+
+/**
+ * Logs daily autolaunch settings state.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message MediaAutolaunchDailySettingStateReported {
+  // Type of the autolaunch setting.
+  enum SettingType {
+    SETTING_TYPE_UNKNOWN = 0;
+    SETTING_TYPE_GLOBAL = 1;
+    SETTING_TYPE_PER_APP = 2;
+  }
+
+  // State of the autolaunch setting.
+  enum SettingState {
+    SETTING_STATE_UNKNOWN = 0;
+    SETTING_STATE_ENABLED = 1;
+    SETTING_STATE_DISABLED = 2;
+  }
+
+  // Type of the autolaunch setting.
+  optional SettingType setting_type = 1;
+  // State of the autolaunch setting.
+  optional SettingState setting_state = 2;
+  // Package name of the remote media app for which the setting is applied.
+  // The package here is on the phone and we can’t use uid.
+  optional string package_name = 3;
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 4;
+}
+
+/**
+ * Logs when media autolaunch settings page is visited on the watch.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message MediaAutolaunchSettingsPageVisited {
+
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 1;
+}
+
+/**
+ * Logs when media autolaunch is triggered on the watch.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message MediaAutolaunchTriggered {
+  // Package name of the remote media app for which the setting is applied.
+  // The package here is on the phone and we can’t use uid.
+  optional string package_name = 1;
+  // Latency from media playback starting to autolaunch UI being triggered.
+  optional int32 latency_ms = 2;
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 3;
+}
+
+/**
+ * Logs when media autolaunch is dismissed on the watch.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message MediaAutolaunchDismissed {
+  // Package name of the remote media app for which the setting is applied.
+  // The package here is on the phone and hence can’t use uid.
+  optional string package_name = 1 ;
+  // Time elapsed from autolaunch being triggered to it being dismissed.
+  optional int32 time_since_autolaunch_ms = 2;
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 3;
+}
+
+/**
+ * Logs when media autolaunch settings are changed on the watch.
+ *
+ * Logged from:
+ * package: vendor/google_clockwork/packages/Media
+ */
+message MediaAutolaunchSettingChanged {
+  // Type of the autolaunch setting.
+  optional MediaAutolaunchDailySettingStateReported.SettingType setting_type =
+      1;
+  // State of the autolaunch setting.
+  optional MediaAutolaunchDailySettingStateReported.SettingState setting_state =
+      2;
+  // Package name of the remote media app for which the setting is applied.
+  // The package here is on the phone and we can’t use uid.
+  optional string package_name = 3;
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 4;
 }
