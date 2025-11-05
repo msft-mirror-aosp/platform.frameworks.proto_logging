@@ -1718,6 +1718,16 @@ message BinderCallsReported {
     // usually excessive.
     optional int32 seconds_with_at_least125_calls = 13;
     optional int32 seconds_with_at_least250_calls = 14;
+    // Histogram of call duration latency in microseconds.
+    repeated int32 duration_histogram_micros = 15 [
+        (histogram_bin_option).generated_bins = {
+          min: 5
+          max: 287562411.534772744
+          count: 98
+          strategy: EXPONENTIAL
+        },
+        (unit) = UNIT_MICROSECONDS
+      ];
 }
 
 /**
