@@ -1542,6 +1542,7 @@ message Atom {
     extensions 1208; // MediaAutolaunchTriggered media_autolaunch_triggered
     extensions 1209; // MediaAutolaunchDismissed media_autolaunch_dismissed
     extensions 1210; // MediaAutolaunchDailySettingStateReported media_autolaunch_daily_setting_state_reported
+    extensions 1211; // UsbUserspaceAoaEnabled usb_userspace_aoa_enabled
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
