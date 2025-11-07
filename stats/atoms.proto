@@ -2358,6 +2358,8 @@ message WifiConnectionResultReported {
     optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
     // The first 3 octets of the AP bssid
     optional string vendor_oui = 24;
+    // Last disconnection involved firmware alert, else 0
+    optional int32 last_firmware_alert_reason = 25;
 }
 
 /**
