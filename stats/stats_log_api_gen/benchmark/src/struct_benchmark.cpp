@@ -22,6 +22,30 @@
 
 namespace {
 
+enum class EnumLarge {
+    UNKNOWN = 0,
+    VALUE_1 = 1,
+    VALUE_2 = 2,
+    VALUE_3 = 3,
+    VALUE_4 = 4,
+    VALUE_5 = 5,
+    VALUE_6 = 6,
+    VALUE_7 = 7,
+    VALUE_8 = 8,
+    VALUE_9 = 9,
+    VALUE_10 = 10,
+    VALUE_11 = 11,
+    VALUE_12 = 12,
+    VALUE_13 = 13,
+    VALUE_14 = 14,
+    VALUE_15 = 15,
+    VALUE_16 = 16,
+    VALUE_17 = 17,
+    VALUE_18 = 18,
+    VALUE_19 = 19,
+    VALUE_20 = 20
+};
+
 struct AtomLarge {
     std::string string_field_1;
     std::string string_field_2;
@@ -93,6 +117,11 @@ struct AtomLarge {
     float float_field_8;
     float float_field_9;
     float float_field_10;
+    EnumLarge enum_field_1;
+    EnumLarge enum_field_2;
+    EnumLarge enum_field_3;
+    EnumLarge enum_field_4;
+    EnumLarge enum_field_5;
 };
 
 class AtomLargeBuilder {
@@ -378,12 +407,47 @@ public:
         return *this;
     }
 
+    AtomLargeBuilder& setEnumField1(EnumLarge value) {
+        atom.enum_field_1 = value;
+        return *this;
+    }
+    AtomLargeBuilder& setEnumField2(EnumLarge value) {
+        atom.enum_field_2 = value;
+        return *this;
+    }
+    AtomLargeBuilder& setEnumField3(EnumLarge value) {
+        atom.enum_field_3 = value;
+        return *this;
+    }
+    AtomLargeBuilder& setEnumField4(EnumLarge value) {
+        atom.enum_field_4 = value;
+        return *this;
+    }
+    AtomLargeBuilder& setEnumField5(EnumLarge value) {
+        atom.enum_field_5 = value;
+        return *this;
+    }
+
     const AtomLarge& build() const {
         return atom;
     }
 
 private:
     AtomLarge atom;
+};
+
+enum class EnumMedium {
+    UNKNOWN = 0,
+    VALUE_1 = 1,
+    VALUE_2 = 2,
+    VALUE_3 = 3,
+    VALUE_4 = 4,
+    VALUE_5 = 5,
+    VALUE_6 = 6,
+    VALUE_7 = 7,
+    VALUE_8 = 8,
+    VALUE_9 = 9,
+    VALUE_10 = 10
 };
 
 struct AtomMedium {
@@ -422,6 +486,11 @@ struct AtomMedium {
     float float_field_3;
     float float_field_4;
     float float_field_5;
+    EnumMedium enum_field_1;
+    EnumMedium enum_field_2;
+    EnumMedium enum_field_3;
+    EnumMedium enum_field_4;
+    EnumMedium enum_field_5;
 };
 
 class AtomMediumBuilder {
@@ -567,12 +636,42 @@ public:
         return *this;
     }
 
+    AtomMediumBuilder& setEnumField1(EnumMedium value) {
+        atom.enum_field_1 = value;
+        return *this;
+    }
+    AtomMediumBuilder& setEnumField2(EnumMedium value) {
+        atom.enum_field_2 = value;
+        return *this;
+    }
+    AtomMediumBuilder& setEnumField3(EnumMedium value) {
+        atom.enum_field_3 = value;
+        return *this;
+    }
+    AtomMediumBuilder& setEnumField4(EnumMedium value) {
+        atom.enum_field_4 = value;
+        return *this;
+    }
+    AtomMediumBuilder& setEnumField5(EnumMedium value) {
+        atom.enum_field_5 = value;
+        return *this;
+    }
+
     const AtomMedium& build() const {
         return atom;
     }
 
 private:
     AtomMedium atom;
+};
+
+enum class EnumSmall {
+    UNKNOWN = 0,
+    VALUE_1 = 1,
+    VALUE_2 = 2,
+    VALUE_3 = 3,
+    VALUE_4 = 4,
+    VALUE_5 = 5
 };
 
 struct AtomSmall {
@@ -586,6 +685,8 @@ struct AtomSmall {
     bool bool_field_2;
     float float_field_1;
     float float_field_2;
+    EnumSmall enum_field_1;
+    EnumSmall enum_field_2 = EnumSmall::VALUE_5;
 };
 
 class AtomSmallBuilder {
@@ -628,6 +729,14 @@ public:
     }
     AtomSmallBuilder& setFloatField2(float value) {
         atom.float_field_2 = value;
+        return *this;
+    }
+    AtomSmallBuilder& setEnumField1(EnumSmall value) {
+        atom.enum_field_1 = value;
+        return *this;
+    }
+    AtomSmallBuilder& setEnumField2(EnumSmall value) {
+        atom.enum_field_2 = value;
         return *this;
     }
 
@@ -712,6 +821,11 @@ int writeAtom(const AtomLarge& atom) {
     AStatsEvent_writeFloat(statsEvent, atom.float_field_8);
     AStatsEvent_writeFloat(statsEvent, atom.float_field_9);
     AStatsEvent_writeFloat(statsEvent, atom.float_field_10);
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_1));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_2));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_3));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_4));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_5));
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;
@@ -755,6 +869,11 @@ int writeAtom(const AtomMedium& atom) {
     AStatsEvent_writeFloat(statsEvent, atom.float_field_3);
     AStatsEvent_writeFloat(statsEvent, atom.float_field_4);
     AStatsEvent_writeFloat(statsEvent, atom.float_field_5);
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_1));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_2));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_3));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_4));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_5));
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;
@@ -773,6 +892,8 @@ int writeAtom(const AtomSmall& atom) {
     AStatsEvent_writeBool(statsEvent, atom.bool_field_2);
     AStatsEvent_writeFloat(statsEvent, atom.float_field_1);
     AStatsEvent_writeFloat(statsEvent, atom.float_field_2);
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_1));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_2));
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;
@@ -875,7 +996,12 @@ static void BM_StatsWriteStructWithInitLarge(benchmark::State& state) {
                           .float_field_7 = 7.0f,
                           .float_field_8 = 8.0f,
                           .float_field_9 = 9.0f,
-                          .float_field_10 = 10.0f};
+                          .float_field_10 = 10.0f,
+                          .enum_field_1 = EnumLarge::VALUE_1,
+                          .enum_field_2 = EnumLarge::VALUE_2,
+                          .enum_field_3 = EnumLarge::VALUE_3,
+                          .enum_field_4 = EnumLarge::VALUE_4,
+                          .enum_field_5 = EnumLarge::VALUE_5};
         benchmark::DoNotOptimize(writeAtom(atom));
     }
 }
@@ -917,7 +1043,12 @@ static void BM_StatsWriteStructWithInitMedium(benchmark::State& state) {
                            .float_field_2 = 2.0f,
                            .float_field_3 = 3.0f,
                            .float_field_4 = 4.0f,
-                           .float_field_5 = 5.0f};
+                           .float_field_5 = 5.0f,
+                           .enum_field_1 = EnumMedium::VALUE_1,
+                           .enum_field_2 = EnumMedium::VALUE_2,
+                           .enum_field_3 = EnumMedium::VALUE_3,
+                           .enum_field_4 = EnumMedium::VALUE_4,
+                           .enum_field_5 = EnumMedium::VALUE_5};
         benchmark::DoNotOptimize(writeAtom(atom));
     }
 }
@@ -986,6 +1117,11 @@ static void BM_StatsWriteStructWithBuilderLarge(benchmark::State& state) {
         builder.setInt32Field18(18).setInt64Field18(18L);
         builder.setInt32Field19(19).setInt64Field19(19L);
         builder.setInt32Field20(20).setInt64Field20(20L);
+        builder.setEnumField1(EnumLarge::VALUE_1)
+                .setEnumField2(EnumLarge::VALUE_2)
+                .setEnumField3(EnumLarge::VALUE_3)
+                .setEnumField4(EnumLarge::VALUE_4)
+                .setEnumField5(EnumLarge::VALUE_5);
         benchmark::DoNotOptimize(writeAtom(builder.build()));
     }
 }
@@ -1024,6 +1160,11 @@ static void BM_StatsWriteStructWithBuilderMedium(benchmark::State& state) {
         builder.setInt32Field8(8).setInt64Field8(8L);
         builder.setInt32Field9(9).setInt64Field9(9L);
         builder.setInt32Field10(10).setInt64Field10(10L);
+        builder.setEnumField1(EnumMedium::VALUE_1)
+                .setEnumField2(EnumMedium::VALUE_2)
+                .setEnumField3(EnumMedium::VALUE_3)
+                .setEnumField4(EnumMedium::VALUE_4)
+                .setEnumField5(EnumMedium::VALUE_5);
         benchmark::DoNotOptimize(writeAtom(builder.build()));
     }
 }
@@ -1040,7 +1181,9 @@ static void BM_StatsWriteStructWithInitSmall(benchmark::State& state) {
                           .bool_field_1 = true,
                           .bool_field_2 = false,
                           .float_field_1 = 1.0f,
-                          .float_field_2 = 2.0f};
+                          .float_field_2 = 2.0f,
+                          .enum_field_1 = EnumSmall::VALUE_1,
+                          .enum_field_2 = EnumSmall::VALUE_2};
         benchmark::DoNotOptimize(writeAtom(atom));
     }
 }
@@ -1059,6 +1202,8 @@ static void BM_StatsWriteStructWithBuilderSmall(benchmark::State& state) {
                 .setInt64Field2(2L)
                 .setBoolField2(false)
                 .setFloatField2(2.0f);
+        builder.setEnumField1(EnumSmall::VALUE_3);
+        builder.setEnumField2(EnumSmall::VALUE_4);
         benchmark::DoNotOptimize(writeAtom(builder.build()));
     }
 }

@@ -31,6 +31,7 @@ extend Atom {
   optional ScreenInteractiveSessionReported screen_interactive_session_reported
       = 837 [(module) = "framework"];
   optional ScreenDimReported screen_dim_reported = 867 [(module) = "framework"];
+  optional AdaptiveSuspendStats adaptive_suspend_stats = 10259 [(module) = "framework"];
 }
 
 /**
@@ -167,4 +168,107 @@ message ScreenDimReported {
 
    // Timeout default setting
    optional int32 default_timeout_millis = 6;
+}
+
+/**
+ * Logs stats about the Adaptive Suspend algorithm.
+ *
+ * Logged from:
+ *   system/hardware/interfaces/suspend/1.0/default/SuspendControlService.cpp
+ */
+message AdaptiveSuspendStats {
+   /* Number of suspend attempts during this interval */
+   optional int32 total_suspend_attempts = 1;
+
+   /**
+    * Number of suspend attempts that failed during this interval,
+    * a subset of total_suspend_attempts
+    */
+   optional int32 total_failed_suspends = 2;
+
+   /**
+    * Number of successful suspends with duration < configured break-even
+    * during this interval.
+    */
+   optional int32 total_short_suspends = 3;
+
+   /**
+    * Time spent in suspend with duration >= configured break-even,
+    * during this interval.
+    */
+   optional int64 time_suspended_long_millis = 4;
+
+   /**
+    * Time spent in suspend with duration < configured break-even,
+    * during this interval
+    */
+   optional int64 time_suspended_short_millis = 5;
+
+   /**
+    * The break-even time configured from the server based on
+    * local offline power testing.
+    */
+   optional int32 break_even_millis = 6;
+
+   /**
+    * Time spent doing suspend/resume work for all successful suspends during
+    * this interval, regardless of short vs long suspend duration.
+    */
+   optional int64 time_suspending_success_millis = 7;
+
+   /**
+    * Time spent doing suspend/resume work for all
+    * failed suspend attempts during this interval.
+    */
+   optional int64 time_suspending_fail_millis = 8;
+
+   /* Number of times suspend backoff started during this interval. */
+   optional int32 new_backoffs = 9;
+
+   /**
+    * Number of times suspend backoff continued, either multiplying the backoff
+    * or remaining at the max backoff, during this interval.
+    */
+   optional int32 backoff_continuations = 10;
+
+   /**
+    * Time spent in backoff during this interval. i.e. Total of individual
+    * backoff durations, each of which is measured from the moment a "new
+    * backoff" is initiated to the time beginning of the successful suspend that
+    * causes backoff to end, which will be some time before the backoff is
+    * actually ended.
+    */
+   optional int64 time_backed_off_millis = 11;
+
+   /* A histogram of successful suspend durations, in milliseconds. */
+   repeated int32 suspend_duration_millis_bins = 12 [(histogram_bin_option).explicit_bins = {
+      bin: 1000
+      bin: 2500
+      bin: 4000
+      bin: 7000
+      bin: 12000
+   }];
+
+   /* A histogram of the lengths of consecutive bad suspend streaks. */
+   repeated int32 consecutive_bad_suspend_bins = 13 [(histogram_bin_option).explicit_bins = {
+      bin: 2
+      bin: 4
+      bin: 7
+      bin: 11
+   }];
+
+   /**
+    * Number of times a backoff chain continued
+    * while the delay was capped at its maximum value.
+    */
+   optional int32 max_backoff_continuations = 14;
+
+   /* Number of times a bad suspend occurred following a good suspend. */
+   optional int32 new_bad_suspends = 15;
+
+   /**
+    * Number of bad suspends that occurred in sequences which ended in
+    * a good suspend before the backoff threshold was reached.
+    */
+   optional int32 early_recovery_bad_suspends = 16;
 }

@@ -50,10 +50,15 @@ cc_benchmark {
         "libgtest",
     ],
     shared_libs: [
+        "libprotobuf-cpp-lite",
         "libtestatom-large-proto-cpp",
         "libtestatom-medium-proto-cpp",
         "libtestatom-small-proto-cpp",
-        "libprotobuf-cpp-lite",
+    ],
+    required: [
+        "libtestatom-large-proto-cpp",
+        "libtestatom-medium-proto-cpp",
+        "libtestatom-small-proto-cpp",
     ],
     data: [
         ":libtestatom-large-proto-cpp",
@@ -131,6 +136,28 @@ cc_library_shared {
     },
     srcs: [
         "src/atom_small.proto",
+    ],
+    shared_libs: [
+        "libprotobuf-cpp-lite",
+    ],
+    export_include_dirs: ["src"],
+}
+
+// Build target added to assess increased memory footprint
+cc_library_shared {
+    name: "libtestatom-all-proto-cpp",
+    proto: {
+        type: "lite",
+        export_proto_headers: true,
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
+    srcs: [
+        "src/atom_large.proto",
+        "src/atom_medium.proto",
+        "src/atom_small.proto",
+        "src/atoms_all.proto",
     ],
     shared_libs: [
         "libprotobuf-cpp-lite",

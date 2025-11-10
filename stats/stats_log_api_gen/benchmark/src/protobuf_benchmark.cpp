@@ -95,6 +95,11 @@ int writeAtom(const AtomLarge& atom) {
     AStatsEvent_writeFloat(statsEvent, atom.float_field_8());
     AStatsEvent_writeFloat(statsEvent, atom.float_field_9());
     AStatsEvent_writeFloat(statsEvent, atom.float_field_10());
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_1()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_2()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_3()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_4()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_5()));
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;
@@ -138,6 +143,11 @@ int writeAtom(const AtomMedium& atom) {
     AStatsEvent_writeFloat(statsEvent, atom.float_field_3());
     AStatsEvent_writeFloat(statsEvent, atom.float_field_4());
     AStatsEvent_writeFloat(statsEvent, atom.float_field_5());
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_1()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_2()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_3()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_4()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_5()));
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;
@@ -156,6 +166,8 @@ int writeAtom(const AtomSmall& atom) {
     AStatsEvent_writeBool(statsEvent, atom.bool_field_2());
     AStatsEvent_writeFloat(statsEvent, atom.float_field_1());
     AStatsEvent_writeFloat(statsEvent, atom.float_field_2());
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_1()));
+    AStatsEvent_writeInt32(statsEvent, static_cast<int32_t>(atom.enum_field_2()));
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;

@@ -1536,6 +1536,14 @@ message Atom {
     extensions 1202; // ZramWritebackEvent zram_writeback_event
     extensions 1203; // HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported
     extensions 1204; // VcnUnderlyingNetworkSwitched vcn_underlying_network_switched
+    extensions 1205; // RoleSettingsConfirmationDialogActionReported role_settings_confirmation_dialog_action_reported
+    extensions 1206; // MediaAutolaunchSettingChanged media_autolaunch_setting_changed
+    extensions 1207; // MediaAutolaunchSettingsPageVisited media_autolaunch_session_reported
+    extensions 1208; // MediaAutolaunchTriggered media_autolaunch_triggered
+    extensions 1209; // MediaAutolaunchDismissed media_autolaunch_dismissed
+    extensions 1210; // MediaAutolaunchDailySettingStateReported media_autolaunch_daily_setting_state_reported
+    extensions 1211; // UsbUserspaceAoaEnabled usb_userspace_aoa_enabled
+    extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1852,6 +1860,9 @@ message Atom {
     extensions 10254; // WsCompanionMetadataSnapshot ws_companion_metadata_snapshot
     extensions 10255; // CallEndPointStats call_end_point_stats
     extensions 10256; // DmabufStats dmabuf_stats
+    extensions 10257; // MemcgMemoryStatSnapshot memcg_memory_stat_snapshot
+    extensions 10258; // SupervisionState supervision_state
+    extensions 10259; // AdaptiveSuspendStats adaptive_suspend_stats
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
@@ -2347,6 +2358,8 @@ message WifiConnectionResultReported {
     optional WifiDisconnectReported.FailureCode last_disconnect_reason = 23;
     // The first 3 octets of the AP bssid
     optional string vendor_oui = 24;
+    // Last disconnection involved firmware alert, else 0
+    optional int32 last_firmware_alert_reason = 25;
 }
 
 /**

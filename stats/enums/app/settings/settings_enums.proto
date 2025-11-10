@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2129
+// Next ID: 2132
 enum Action {
 
     // Reserved for biometrics
@@ -2682,7 +2682,6 @@ enum Action {
     // OS: V
     ACTION_GET_LANGUAGE_LIST_SIZE = 2126;
 
-
     // ACTION: Settings > Parental controls > Set up a parental controls PIN
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_SET_UP_PIN_ENTRY = 2127;
@@ -2691,12 +2690,31 @@ enum Action {
     //         SetupSupervisionActivity
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_ENABLE_SUPERVISION = 2128;
+
+    // ACTION: Log which application the user used to complete the onboarding flow.
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_COMPLETE_ENTRY_SOURCE = 2129;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Delete PIN & turn off controls option
+    // Tracks when a user only has platform supervision enabled and can only
+    // disable supervision due to other users on the device requiring the
+    // platform credential.
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_MULTIPLE_USERS_DISABLE_SUPERVISION = 2130;
+
+    // ACTION: Settings > Parental controls > Manage your PIN
+    //                                      > Delete PIN option
+    // Tracks when a user has multiple providers and confirms the dialog to
+    // delete the platform credential.
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_MULTIPLE_PROVIDERS_DELETE_PIN = 2131;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2191
+// Next ID: 2192
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6229,6 +6247,10 @@ enum PageId {
     // OPEN: Settings > Connected devices > Device > Game Controller Settings
     // CATEGORY: SETTINGS
     SETTINGS_GAME_CONTROLLER = 2190;
+
+    // OPEN: SUW Welcome screen > Accessibility > Vision Settings > Color inversion
+    // CATEGORY: SETTINGS
+    SUW_ACCESSIBILITY_TOGGLE_SCREEN_COLOR_INVERSION = 2191;
 }
 
 // Battery Saver schedule types.

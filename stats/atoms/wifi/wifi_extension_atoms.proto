@@ -907,6 +907,9 @@ message WifiNetworkValidationReport {
 
     // Device connect to a captive portal network
     optional bool captive_portal_detected = 4;
+
+    // last rssi from scan result
+    optional int32 rssi = 5;
 }
 
 

@@ -1,0 +1,55 @@
+/*
+ * Copyright (C) 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.app.wearsysui;
+
+option java_multiple_files = true;
+option java_outer_classname = "WearSysUiEnums";
+
+// This enum depicts the text type of the content shown in WFCO.
+// Next ID: 3
+enum WatchFaceContentOverlayTextType {
+  // The data type is not specified.
+  TEXT_TYPE_UNSPECIFIED = 0;
+  // Simple, non-interactive text.
+  TEXT_TYPE_STATIC = 1;
+  // Dynamic Text like chronometer, such as a timer or stopwatch, media etc.
+  TEXT_TYPE_DYNAMIC = 2;
+}
+
+// This enum depicts the type of content entry shown in WFCO.
+// Next ID: 3
+enum WatchFaceContentOverlayEntryType {
+  // The entry type is not specified.
+  ENTRY_TYPE_UNSPECIFIED = 0;
+  // A live update, such as a ride-sharing ETA.
+  ENTRY_TYPE_LIVE_UPDATE = 1;
+  // An ongoing activity, such as a workout or timer.
+  ENTRY_TYPE_ONGOING_ACTIVITY = 2;
+}
+
+// This enum depicts the state of the screen when WF Overlay Content was updated
+// Next ID: 3
+enum ScreenState {
+  // Screen state unspecified
+  STATE_UNSPECIFIED = 0;
+  // Screen state interactive
+  STATE_INTERACTIVE = 1;
+  // Screen state not interactive (PETC, Ambient)
+  STATE_NON_INTERACTIVE = 2;
+}

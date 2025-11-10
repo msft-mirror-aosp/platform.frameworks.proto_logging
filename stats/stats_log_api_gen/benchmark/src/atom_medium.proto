@@ -17,6 +17,20 @@
 syntax = "proto2";
 
 message AtomMedium {
+    enum EnumMedium {
+        UNKNOWN = 0;
+        VALUE_1 = 1;
+        VALUE_2 = 2;
+        VALUE_3 = 3;
+        VALUE_4 = 4;
+        VALUE_5 = 5;
+        VALUE_6 = 6;
+        VALUE_7 = 7;
+        VALUE_8 = 8;
+        VALUE_9 = 9;
+        VALUE_10 = 10;
+    }
+
     optional string string_field_1 = 1;
     optional string string_field_2 = 2;
     optional string string_field_3 = 3;
@@ -52,4 +66,9 @@ message AtomMedium {
     optional float float_field_3 = 33;
     optional float float_field_4 = 34;
     optional float float_field_5 = 35;
+    optional EnumMedium enum_field_1 = 36;
+    optional EnumMedium enum_field_2 = 37;
+    optional EnumMedium enum_field_3 = 38;
+    optional EnumMedium enum_field_4 = 39;
+    optional EnumMedium enum_field_5 = 40;
 }
