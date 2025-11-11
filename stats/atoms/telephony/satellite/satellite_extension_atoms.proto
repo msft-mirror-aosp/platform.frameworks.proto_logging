@@ -208,6 +208,8 @@ message SatelliteSession {
   optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 21;
   // Session connect type
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 22;
+  // Satellite PLMN
+  optional string plmn = 23;
 }
 
 /**
@@ -233,6 +235,8 @@ message SatelliteIncomingDatagram {
   optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 7;
   // Session connect type
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 8;
+  // Satellite PLMN
+  optional string plmn = 9;
 }
 
 /**
@@ -260,6 +264,8 @@ message SatelliteOutgoingDatagram {
   optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 8;
   // Session connect type
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 9;
+  // Satellite PLMN
+  optional string plmn = 10;
 }
 
 /**
@@ -313,6 +319,8 @@ message SatelliteSosMessageRecommender {
   optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 12;
   // Session connect type
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 13;
+  // Satellite PLMN
+  optional string plmn = 14;
 }
 
 /**
@@ -408,6 +416,8 @@ message CarrierRoamingSatelliteSession {
   optional android.telephony.SatelliteGlobalConnectType supported_connection_mode = 35;
   // Session connect type
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 36;
+  // Satellite PLMN
+  optional string plmn = 37;
 }
 
 /**
