@@ -52,16 +52,16 @@ enum LaunchSource {
   COMPLICATION = 5;
 }
 
-// Indicates the screen from which a media action was triggered.
-enum TriggerSource {
-  // This is the default value when the trigger source is not set.
-  TRIGGER_SOURCE_UNKNOWN_SCREEN = 0;
-  // The action was triggered from the main player screen, showing playback controls.
-  TRIGGER_SOURCE_PLAYER_SCREEN = 1;
-  // The action was triggered from an overflow screen.
-  TRIGGER_SOURCE_OVERFLOW_SCREEN = 2;
-  // The action was triggered from the queue screen, which displays the current playlist or queue.
-  TRIGGER_SOURCE_QUEUE_SCREEN = 3;
-  // The action was triggered from the volume control screen.
-  TRIGGER_SOURCE_VOLUME_SCREEN = 4;
+// Indicates the media screen for the usecase
+enum MediaScreen {
+  // This is the default value when the media screen is not set.
+  MEDIA_SCREEN_UNKNOWN_SCREEN = 0;
+  // This is the player screen, showing playback controls.
+  MEDIA_SCREEN_PLAYER_SCREEN = 1;
+  // The is the overflow screen, showing additional actions.
+  MEDIA_SCREEN_OVERFLOW_SCREEN = 2;
+  // The is the queue screen, showing the current playlist or queue.
+  MEDIA_SCREEN_QUEUE_SCREEN = 3;
+  // The is the volume screen, showing the volume controls.
+  MEDIA_SCREEN_VOLUME_SCREEN = 4;
 }
