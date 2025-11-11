@@ -1544,6 +1544,7 @@ message Atom {
     extensions 1210; // MediaAutolaunchDailySettingStateReported media_autolaunch_daily_setting_state_reported
     extensions 1211; // UsbUserspaceAoaEnabled usb_userspace_aoa_enabled
     extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
+    extensions 1213; // StaleEncryptedstoreDetected stale_encrypted_store_detected
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
