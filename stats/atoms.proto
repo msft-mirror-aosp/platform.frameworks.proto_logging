@@ -12046,6 +12046,9 @@ message MediaCodecReported {
     // @Since U-QPR2
     optional int32 caller_uid = 78 [(is_uid) = true];
     optional int64 pixel_format = 79;
+    // @Since 26Q2
+    optional int32 retry_hdcp_success_count = 80;
+    optional int32 retry_hdcp_failure_count = 81;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
