@@ -42,14 +42,3 @@ enum WatchFaceContentOverlayEntryType {
   // An ongoing activity, such as a workout or timer.
   ENTRY_TYPE_ONGOING_ACTIVITY = 2;
 }
-
-// This enum depicts the state of the screen when WF Overlay Content was updated
-// Next ID: 3
-enum ScreenState {
-  // Screen state unspecified
-  STATE_UNSPECIFIED = 0;
-  // Screen state interactive
-  STATE_INTERACTIVE = 1;
-  // Screen state not interactive (PETC, Ambient)
-  STATE_NON_INTERACTIVE = 2;
-}
