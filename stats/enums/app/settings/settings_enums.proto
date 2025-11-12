@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2132
+// Next ID: 2134
 enum Action {
 
     // Reserved for biometrics
@@ -2709,6 +2709,18 @@ enum Action {
     // delete the platform credential.
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_MULTIPLE_PROVIDERS_DELETE_PIN = 2131;
+
+  // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
+  //         > Confirm location settings > Set up Transit mode
+  // Tracks the user's sound setting when exiting the page
+  // CATEGORY: SETTINGS
+  ACTION_TRANSIT_ONBOARDING_TRANSIT_SOUND_EXIT = 2132;
+
+  // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
+  //         > Confirm location settings > Set up Transit mode
+  // Tracks the user's bluetooth setting when exiting the page
+  // CATEGORY: SETTINGS
+  ACTION_TRANSIT_ONBOARDING_TRANSIT_BLUETOOTH_EXIT = 2133;
 }
 
 /**
