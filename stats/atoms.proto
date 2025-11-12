@@ -16705,6 +16705,9 @@ message CellularServiceState {
 
     // Whether the subscription is an opportunistic (can change CBRS network when available).
     optional bool is_opportunistic = 18;
+
+    // PLMN
+    optional string plmn = 19;
  }
 
 /**
@@ -16934,6 +16937,9 @@ message IncomingSms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 20;
+
+    // PLMN
+    optional string plmn = 21;
 }
 
 /**
@@ -17036,6 +17042,9 @@ message OutgoingSms {
 
     // The application uid.
     optional int32 app_uid = 25[(is_uid) = true];
+
+    // PLMN
+    optional string plmn = 26;
 }
 
 /**
@@ -17228,6 +17237,9 @@ message DataCallSession {
 
     // Determine the slice capability of data network
     optional int32 slice_capability = 28;
+
+    // PLMN
+    optional string plmn = 29;
 }
 
 /**
@@ -24344,6 +24356,9 @@ message IncomingMms {
 
     // The length of PDU in bytes
     optional int32 pdu_length = 15;
+
+    // PLMN
+    optional string plmn = 16;
 }
 
 /**
@@ -24413,6 +24428,9 @@ message OutgoingMms {
 
     // The application uid.
     optional int32 app_uid = 18 [(is_uid) = true];
+
+    // PLMN
+    optional string plmn = 19;
 }
 
 message PrivacySignalNotificationInteraction {
