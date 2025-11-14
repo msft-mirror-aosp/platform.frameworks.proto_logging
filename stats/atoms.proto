@@ -1546,6 +1546,7 @@ message Atom {
     extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
     extensions 1213; // StaleEncryptedstoreDetected stale_encrypted_store_detected
     extensions 1214; // SettingsAppFunctionEvent settings_app_function_event
+    extensions 1215; // RangingPeerDisconnected ranging_peer_disconnected
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

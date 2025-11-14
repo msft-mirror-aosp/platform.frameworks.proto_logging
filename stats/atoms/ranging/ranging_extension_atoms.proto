@@ -18,34 +18,42 @@ syntax = "proto2";
 
 package android.os.statsd.ranging;
 
-
-import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/enums/ranging/enums.proto";
 
 option java_package = "com.android.os.ranging";
 option java_multiple_files = true;
 
 extend Atom {
-  optional RangingSessionConfigured ranging_session_configured = 993 [(module) = "ranging"];
-  optional RangingSessionStarted ranging_session_started = 994 [(module) = "ranging"];
-  optional RangingSessionClosed ranging_session_closed = 995 [(module) = "ranging"];
-  optional RangingTechnologyStarted ranging_technology_started = 996 [(module) = "ranging"];
-  optional RangingTechnologyStopped ranging_technology_stopped = 997 [(module) = "ranging"];
+  optional RangingSessionConfigured ranging_session_configured = 993
+      [(module) = "ranging"];
+  optional RangingSessionStarted ranging_session_started = 994
+      [(module) = "ranging"];
+  optional RangingSessionClosed ranging_session_closed = 995
+      [(module) = "ranging"];
+  optional RangingTechnologyStarted ranging_technology_started = 996
+      [(module) = "ranging"];
+  optional RangingTechnologyStopped ranging_technology_stopped = 997
+      [(module) = "ranging"];
+  optional RangingPeerDisconnected ranging_peer_disconnected = 1215
+      [(module) = "ranging"];
 }
 
 /*
- * A ranging session has been configured, either after OOB negotiation or directly from raw
- * parameters.
+ * A ranging session has been configured, either after OOB negotiation or
+ * directly from raw parameters.
  */
 message RangingSessionConfigured {
   // Unique identifier for the session.
   optional int64 session_id = 1;
 
-  // The duration it took to do OOB in milliseconds. Omitted if the session was configured directly.
+  // The duration it took to do OOB in milliseconds. Omitted if the session was
+  // configured directly.
   optional int64 oob_duration_ms = 2;
 
-  // Whether the configuration was reached via OOB negotiation or provided directly through the API.
+  // Whether the configuration was reached via OOB negotiation or provided
+  // directly through the API.
   optional android.ranging.SessionType type = 3;
 
   // The role of the local device in this session.
@@ -68,7 +76,8 @@ message RangingSessionStarted {
   // UID of the process that requested ranging through the API.
   optional int32 uid = 2 [(is_uid) = true];
 
-  // The duration it took to start the session after configuring in milliseconds.
+  // The duration it took to start the session after configuring in
+  // milliseconds.
   optional int64 start_latency_ms = 3;
 
   // Whether the process that requested ranging is privileged.
@@ -85,7 +94,8 @@ message RangingSessionClosed {
   // State the session was in before it closed.
   optional android.ranging.SessionState last_state = 2;
 
-  // Duration the session was in the 'last_state' before closing, in milliseconds.
+  // Duration the session was in the 'last_state' before closing, in
+  // milliseconds.
   optional int64 last_state_duration_ms = 3;
 
   // Reason why the session closed.
@@ -133,4 +143,35 @@ message RangingTechnologyStopped {
 
   // UID of the process that started this session through the API.
   optional int32 uid = 6 [(is_uid) = true];
+}
+
+/*
+ * A peer has disconnected from a session.
+ */
+message RangingPeerDisconnected {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // Technology that the peer was using when it disconnected.
+  optional android.ranging.Technology technology = 3;
+
+  // Device type of the peer that disconnected.
+  optional android.ranging.DeviceType peer_device_type = 4;
+
+  // The last successfully measured distance in meters.
+  optional float last_range_m = 5;
+
+  // The RSSI in dBm of the last successful data exchange, if available.
+  optional int32 last_rssi_dbm = 6;
+
+  // The delay spread in meters of the last successful data exchange, if
+  // available.
+  optional float delay_spread_m = 7;
+
+  // The confidence level of the last successful data exchange, between 0 and 1,
+  // if available.
+  optional float confidence_level = 8;
 }
