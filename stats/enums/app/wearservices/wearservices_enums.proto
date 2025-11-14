@@ -1001,7 +1001,7 @@ enum BugreportResult {
 }
 
 // This enum depicts a bugreport event
-// Next ID: 12
+// Next ID: 13
 enum BugreportEvent {
   EVENT_BUGREPORT_UNKNOWN = 0;
   EVENT_BUGREPORT_REQUESTED = 1;
@@ -1029,6 +1029,7 @@ enum BugreportEvent {
   // Companion's cross stack logs are received by WearServices,
   // when the bugreport is triggered via BugreportManager.
   EVENT_BUGREPORT_CROSS_STACK_LOGS_RECEIVED = 11;
+  EVENT_BUGREPORT_CANCELED = 12;
 
 }
 
