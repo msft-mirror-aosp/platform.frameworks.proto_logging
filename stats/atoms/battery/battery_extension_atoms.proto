@@ -41,4 +41,6 @@ message RawBatteryGaugeStatsReported {
   repeated float voltage_volts = 2;
   // Current (mA)
   repeated float current_milliamps = 3;
+  // Last sampled system clock time in previous batch
+  optional int64 previous_last_sample_timestamp_ms = 4;
   }
