@@ -1453,6 +1453,18 @@ message ClipboardGetEventReported {
      * measured in seconds, including the device asleep time.
      */
     optional int32 time_since_set_in_secs = 5;
+
+    /**
+     * Whether the source app set android.content.extra.IS_SENSITIVE as true for any
+     * ClipDescription in the clip.
+    */
+    optional bool is_sensitive = 6;
+
+    /**
+     * Whether it is known that the user explicitly took action that one would know leads to a
+     * reading the clip.
+    */
+    optional bool is_user_initiated = 7;
 }
 
 /**
