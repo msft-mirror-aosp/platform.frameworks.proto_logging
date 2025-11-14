@@ -37,6 +37,7 @@ extend Atom {
   optional BindServiceLockedWithBalFlagsUidsReported bind_service_locked_with_bal_flags_uids_reported = 1186 [(module) = "uprobestats"];
   optional AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled =
           1190 [(module) = "uprobestats"];
+  optional AccessibilityRuntimePermissionGrantReported accessibility_runtime_permission_grant_reported = 1217 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -249,4 +250,23 @@ message AndroidGraphicsBitmapScaled {
     optional AndroidGraphicsBitmapAllocationSnapshot.PixelStorageType
         pixel_storage_type = 6;
     optional string activity_name = 7;
+}
+
+/**
+ * Records Runtime Permission Grants *only* when the app gaining the permission
+ * had an enabled accessibility service.
+ *
+ * Logged via Hummingbird for probes at
+ * PermissionManagerService.grantRuntimePermission and
+ * Binder.execTransactInternal (for preceding a11y calls).
+ *
+ * Estimated Logging Rate:
+ *   Peak: 10 times in a second | Avg: O(tens) per device per day
+ */
+message AccessibilityRuntimePermissionGrantReported {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional string permission_name = 2;
+    optional int64 timestamp_millis = 3;
+    repeated int32 preceding_accessibility_service_connection_code = 4;
+    repeated int64 preceding_accessibility_service_connection_timestamps_millis = 5;
 }
