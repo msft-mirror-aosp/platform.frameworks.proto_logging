@@ -93,6 +93,9 @@ extend Atom {
 
   optional WsCompanionMetadataSnapshot ws_companion_metadata_snapshot = 10254
       [(module) = "wearservices"];
+
+  optional WsPhoneMetadataSnapshot ws_phone_metadata_snapshot = 10261
+      [(module) = "wearservices"];
 }
 
 /**
@@ -510,4 +513,22 @@ message WsCompanionMetadataSnapshot {
 
   // The package name of the Companion App that is running on the phone.
   optional string companion_app_package_name = 3;
+}
+
+/**
+ * Snapshot for the phone state.
+ *
+ * Logged from:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/companion/telemetry/CompanionMetadataPulledAtomsRegistry.java
+ */
+message WsPhoneMetadataSnapshot {
+  // The model of the phone.
+  optional string model = 1;
+
+  // The build fingerprint of the phone, containing the device, product, brand
+  // and build ID.
+  optional string build_fingerprint = 2;
+
+  // The SDK version of the phone (Android version).
+  optional int64 sdk_version = 3;
 }
