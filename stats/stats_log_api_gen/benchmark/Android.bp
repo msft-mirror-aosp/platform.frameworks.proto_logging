@@ -41,20 +41,9 @@ cc_benchmark {
         "src/protobuf_benchmark.cpp",
         "src/struct_benchmark.cpp",
     ],
-    generated_headers: [
-        "test_atom_cc_gen_hdrs",
-    ],
-    generated_sources: [
-        "test_atom_cc_gen_srcs",
-    ],
-    header_libs: [
-        "libstatspull_headers",
-        "libstatssocket_headers",
-    ],
     static_libs: [
+        "libbenchmark-atoms-logging",
         "libgtest",
-        "libstatspull-fake",
-        "libstatssocket-fake",
         "libtestatom-large-proto-cpp",
         "libtestatom-medium-proto-cpp",
         "libtestatom-small-proto-cpp",
@@ -63,6 +52,22 @@ cc_benchmark {
         "libprotobuf-cpp-lite",
     ],
     test_config: "AndroidTest.xml",
+}
+
+cc_atomslog_library_static {
+    name: "libbenchmark-atoms-logging",
+    atoms_module: "statsdtest",
+    namespace: "android,stats",
+    basename: "statslog_test",
+    include_default_shared_libs: false,
+    header_libs: [
+        "libstatspull_headers",
+        "libstatssocket_headers",
+    ],
+    whole_static_libs: [
+        "libstatspull-fake",
+        "libstatssocket-fake",
+    ],
 }
 
 cc_library_static {

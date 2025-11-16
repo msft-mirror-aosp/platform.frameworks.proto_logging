@@ -123,7 +123,7 @@ filegroup {
     path: "include_java",
 }
 
-cc_test_library {
+cc_library_static {
     name: "stats-log-api-gen-cc-lib",
     srcs: ["include_cc_srcs/StatsHistogram.cpp"],
     export_include_dirs: ["include_cc_hdrs"],
