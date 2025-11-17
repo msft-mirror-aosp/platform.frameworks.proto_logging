@@ -61,6 +61,7 @@ extend Atom {
     optional SoftApInfoChanged soft_ap_info_changed = 1166 [(module) = "wifi"];
     optional WifiPowerStatsReported wifi_power_stats_reported = 1194 [(module) = "wifi"];
     optional WifiNl80211CommandResultReported wifi_nl80211_command_result_reported = 1198 [(module) = "wifi"];
+    optional WifiAwarePeerFoundReported wifi_aware_peer_found_reported = 1222 [(module) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
@@ -1223,4 +1224,56 @@ message WifiNl80211CommandResultReported {
 
     // The result of calling the API
     optional android.net.wifi.Nl80211CommandReasonCode reason_code = 2;
+}
+
+/**
+ * Logged when Wifi Aware found peeer
+ *
+ * Logged From: packages/modules/Wifi/service/java/com/android/server/wifi/aware/WifiAwareStateManager.java
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 1 times per device per day.
+ */
+message WifiAwarePeerFoundReported {
+    enum Result {
+        RESULT_UNKNOWN = 0;
+        PEER_FOUND = 1;
+        PEER_NOT_FOUND = 2;
+        SESSION_TERMINATED = 3;
+    }
+    enum Role {
+        UNKNOWN = 0;
+        PUBLISH = 1;
+        SUBSCRIBE = 2;
+    }
+
+    // The AttributionNode to identify the caller
+    repeated AttributionNode attribution_node = 1;
+
+    // public or subscribe
+    optional Role role = 2;
+
+    // peer is fouund or not
+    optional Result result = 3;
+
+    // Duration start from publish or subscribe until reported
+    optional int64 from_pubsub_ms = 4;
+
+    // Duration start from discovery reported
+    optional int64 from_discovery_ms = 5;
+
+    // Whether to indicate Wifi Aware ranging
+    optional int32 ranging_indication = 6;
+
+    // Wifi STA is connected or disconnected
+    optional bool is_sta_connected = 7;
+
+    // Wifi STA connected frequency
+    optional int32 sta_frquency = 8;
+
+    // Is 5G band supported
+    optional bool is_5g_supported = 9;
+
+    // has screen ever turned off since attach
+    optional bool has_ever_screen_off = 10;
 }
