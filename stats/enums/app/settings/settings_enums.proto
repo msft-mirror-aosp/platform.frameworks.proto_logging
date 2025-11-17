@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2144
+// Next ID: 2199
 enum Action {
 
     // Reserved for biometrics
@@ -6330,6 +6330,10 @@ enum PageId {
     // OPEN: Satellite Quick Settings Tile (clicked) > Satellite Landing Page
     // CATEGORY: SETTINGS
     SATELLITE_LANDING_PAGE = 2197;
+
+    // ACTION: Settings > Sound & vibration > Assistant Volume
+    // CATEGORY: SETTINGS
+    ACTION_ASSISTANT_VOLUME = 2198;
 }
 
 // Battery Saver schedule types.
