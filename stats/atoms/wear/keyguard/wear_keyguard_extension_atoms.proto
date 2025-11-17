@@ -1,0 +1,63 @@
+syntax = "proto2";
+
+package android.os.statsd.wear.keyguard;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_multiple_files = true;
+
+extend Atom {
+  optional WearKeyguardLockStateChanged wear_keyguard_lock_state_changed = 1218
+      [(android.os.statsd.module) = "framework"];
+}
+
+/**
+ * Logged when the keyguard lock state changes.
+ *
+ * Logged from:
+ *   vendor/google_clockwork/packages/SystemUI/src/com/google/android/clockwork/systemui/keyguard/KeyguardRequestLogger.java
+ * Estimated Logging Rate:
+ *   Peak: 4 times in 1000 ms | Avg: 20 per device per day
+ */
+message WearKeyguardLockStateChanged {
+
+  // Values of @LockState defined in
+  // vendor/google_clockwork/packages/SystemUI/src/com/google/android/clockwork/systemui/keyguard/LocalKeyguardDelegate.java
+  enum WearKeyguardLockState {
+    STATE_UNKNOWN = 0;
+    STATE_UNLOCKED = 1;
+    STATE_LOCK_PENDING = 2;
+    STATE_LOCKING = 3;
+    STATE_LOCKED = 4;
+    STATE_UNLOCKING = 5;
+  }
+
+  // The lock state before the change
+  optional WearKeyguardLockState lock_state = 1;
+
+  // The lock state after the change
+  optional WearKeyguardLockState next_lock_state = 2;
+
+  // Values of @LockReason defined in
+  // vendor/google_clockwork/packages/SystemUI/src/com/google/android/clockwork/systemui/keyguard/KeyguardRequestLogger.java
+  enum WearKeyguardLockReason {
+    LOCK_REASON_UNKNOWN = 0;
+    LOCK_REASON_KEYGUARD_REMOVED = 1;
+    LOCK_REASON_KEYGUARD_DISABLED = 2;
+    LOCK_REASON_AUTH_CHANGED = 3;
+    LOCK_REASON_GOING_TO_SLEEP = 4;
+    LOCK_REASON_USER_UNLOCK = 5;
+    LOCK_REASON_STARTING_EXIT_ANIMATION = 6;
+    LOCK_REASON_LOCK_REQUEST = 7;
+    LOCK_REASON_LOCK_REQUEST_OFFBODY = 8;
+    LOCK_REASON_LOCK_SYS_READY = 9;
+    LOCK_REASON_KEYGUARD_ENABLED = 10;
+    LOCK_REASON_KEYGUARD_ENTRY_BLOCKED = 11;
+    LOCK_REASON_KEYGUARD_ENTRY_UNBLOCKED = 12;
+    LOCK_REASON_UNLOCK_SYS_READY = 13;
+  }
+
+  // The reason for the lock state change
+  optional WearKeyguardLockReason lock_reason = 3;
+}
