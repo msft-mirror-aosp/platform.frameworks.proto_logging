@@ -101,9 +101,9 @@ message MediaActionReported {
   // The way in which the media app advertised this media session.
   optional SessionAdvertising session_advertising = 6;
   // The screen on which the media action was performed. Values :
-  // (TRIGGER_SOURCE_PLAYER_SCREEN, TRIGGER_SOURCE_OVERFLOW_SCREEN,
-  // TRIGGER_SOURCE_QUEUE_SCREEN, TRIGGER_SOURCE_VOLUME_SCREEN)
-  optional com.google.android.wearable.media.sessions.TriggerSource
+  // (MEDIA_SCREEN_PLAYER_SCREEN, MEDIA_SCREEN_OVERFLOW_SCREEN,
+  // MEDIA_SCREEN_QUEUE_SCREEN, MEDIA_SCREEN_VOLUME_SCREEN)
+  optional com.google.android.wearable.media.sessions.MediaScreen
       trigger_source = 7;
 }
 
