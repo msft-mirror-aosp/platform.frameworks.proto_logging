@@ -294,4 +294,7 @@ message CallEndPointStats {
 
     // Average time from the request to notification
     optional int32 average_latency_ms = 6;
+
+    // The number of times this stat occurs
+    optional int32 count = 7;
 }
