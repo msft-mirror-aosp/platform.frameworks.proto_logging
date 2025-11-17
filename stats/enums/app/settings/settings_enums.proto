@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2132
+// Next ID: 2134
 enum Action {
 
     // Reserved for biometrics
@@ -2709,6 +2709,18 @@ enum Action {
     // delete the platform credential.
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_MULTIPLE_PROVIDERS_DELETE_PIN = 2131;
+
+  // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
+  //         > Confirm location settings > Set up Transit mode
+  // Tracks the user's sound setting when exiting the page
+  // CATEGORY: SETTINGS
+  ACTION_TRANSIT_ONBOARDING_TRANSIT_SOUND_EXIT = 2132;
+
+  // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
+  //         > Confirm location settings > Set up Transit mode
+  // Tracks the user's bluetooth setting when exiting the page
+  // CATEGORY: SETTINGS
+  ACTION_TRANSIT_ONBOARDING_TRANSIT_BLUETOOTH_EXIT = 2133;
 }
 
 /**
@@ -6382,4 +6394,19 @@ enum OnboardingAction {
     ACTION_FACE_SKIP_LOCK_SCREEN_OFF = 14;
     ACTION_FACE_ENROLL_TRY_AGAIN = 15;
     ACTION_FACE_TRY_FAST_ENROLL = 16;
+}
+
+// Settings AppFunction identifiers
+enum AppFunctionIdentifier {
+  UNKNOWN_APP_FUNCTION = 0;
+  APP_FUNCTION_GET_UNCATEGORIZED = 1;
+  APP_FUNCTION_GET_STORAGE = 2;
+  APP_FUNCTION_GET_BATTERY = 3;
+  APP_FUNCTION_GET_MOBILE_DATA = 4;
+  APP_FUNCTION_GET_NOTIFICATIONS = 5;
+  APP_FUNCTION_GET_APPS = 6;
+  APP_FUNCTION_GET_METADATA = 7;
+  APP_FUNCTION_SET_DEVICE_STATE = 8;
+  APP_FUNCTION_ADJUST_DEVICE_STATE_BY_PERCENTAGE = 9;
+  APP_FUNCTION_OFFSET_DEVICE_STATE_BY_VALUE = 10;
 }

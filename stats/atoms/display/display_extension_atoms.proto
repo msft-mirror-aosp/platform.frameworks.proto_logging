@@ -72,10 +72,10 @@ message DisplayOffloadStateChanged {
 
   // Dimensions for offload sessions that were present in the cycle.
   // Sessions can persist across multiple cycles.
-  // All lists must be sorted by (UID, session type, renderer type) tuples.
+  // All lists must be sorted by (UID, experience type, renderer type) tuples.
   repeated int32 session_ids = 2;
   repeated int32 uids = 3 [(is_uid) = true];
-  repeated android.display.DisplayOffloadSessionType session_types = 4;
+  repeated android.display.DisplayOffloadExperienceType experience_types = 4;
   repeated android.display.DisplayOffloadRendererType renderer_types = 5;
 
   optional android.display.DisplayOffloadState offload_state = 6;
@@ -95,11 +95,11 @@ message DisplayOffloadTransitionReported {
 
   // Dimensions for offload sessions that were present in the cycle.
   // Sessions can persist across multiple cycles.
-  // All lists must be sorted by (UID, session type, renderer type) tuples.
+  // All lists must be sorted by (UID, experience type, renderer type) tuples.
   // Session-level transitions will contain a single element in the lists.
   repeated int32 session_ids = 2;
   repeated int32 uids = 3 [(is_uid) = true];
-  repeated android.display.DisplayOffloadSessionType session_types = 4;
+  repeated android.display.DisplayOffloadExperienceType experience_types = 4;
   repeated android.display.DisplayOffloadRendererType renderer_types = 5;
 
   optional android.display.DisplayOffloadAggregationLevel aggregation_level = 6;
@@ -122,10 +122,10 @@ message DisplayOffloadCycleStats {
 
   // Dimensions for offload sessions that were present in the cycle.
   // Sessions can persist across multiple cycles.
-  // All lists must be sorted by (UID, session type, renderer type) tuples.
+  // All lists must be sorted by (UID, experience type, renderer type) tuples.
   repeated int32 session_ids = 2;
   repeated int32 uids = 3 [(is_uid) = true];
-  repeated android.display.DisplayOffloadSessionType session_types = 4;
+  repeated android.display.DisplayOffloadExperienceType experience_types = 4;
   repeated android.display.DisplayOffloadRendererType renderer_types = 5;
 
   optional int32 offload_cycle_duration_ms = 6;
@@ -299,7 +299,7 @@ message DisplayOffloadSessionStats {
   // Sessions can persist across multiple cycles.
   optional int32 session_id = 2;
   optional int32 uid = 3 [(is_uid) = true];
-  optional android.display.DisplayOffloadSessionType session_type = 4;
+  optional android.display.DisplayOffloadExperienceType experience_type = 4;
   optional android.display.DisplayOffloadRendererType renderer_type = 5;
   optional android.display.DisplayOffloadSessionEligibility eligibility = 6;
 

@@ -92,6 +92,7 @@ extend Atom {
     optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
     optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
     optional ZramWritebackEvent zram_writeback_event = 1202 [(module) = "framework"];
+    optional AppUsageQueryEventStats app_usage_query_event_stats = 10260 [(module) = "framework"];
 }
 
 /**
@@ -1817,4 +1818,19 @@ message ZramWritebackEvent {
   optional bool has_dma_buf = 7;
 
   optional bool has_gpu_memory = 8;
+}
+
+/**
+ * Logs queried number of usage events.
+ *
+ * Logged from:
+ * frameworks/base/services/usage/java/com/android/server/usage/UsageStatsService.java
+ */
+message AppUsageQueryEventStats {
+  // The UID of the application querying the usage events.
+  optional int32 uid = 1 [(is_uid) = true];
+  // The total number of usage events returned by the queryEvent() call.
+  optional int32 event_count = 2;
+  // The duration between the `beginTime` and `endTime` parameters in milliseconds.
+  optional int64 time_span_millis = 3;
 }

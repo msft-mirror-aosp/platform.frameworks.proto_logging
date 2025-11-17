@@ -30,6 +30,31 @@ extend Atom {
   optional SettingsExtApiReported settings_extapi_reported = 1001 [(module) = "settings"];
   optional SettingsBiometricsOnboarding settings_biometrics_onboarding = 1060 [(module) = "settings"];
   optional ExternalDisplaySettingsChanged external_display_settings_changed = 1184 [(module) = "settings"];
+  optional SettingsAppFunctionEvent settings_app_function_event = 1214 [(module) = "settings"];
+}
+
+/**
+ * Logs when Settings SPA UI has changed.
+ *
+ * Logged from:
+ *   packages/apps/Settings
+ *
+ * Estimated Logging Rate:
+ *   Peak: 10 times in 1 sec| Avg: 5.000 times per device per day
+ */
+message SettingsAppFunctionEvent {
+
+  // Settings AppFunction enum defined in settings_enums.proto.
+  optional android.app.settings.AppFunctionIdentifier app_function_id = 1;
+
+  // Calling Package uid.
+  optional int32 calling_package_uid = 2 [(is_uid) = true];
+
+  // Latency between the request and result made by the AppFunction.
+  optional int64 latency_millis = 3;
+
+  // Error code if the operations did not complete successfully.
+  optional int32 error_code = 4;
 }
 
 

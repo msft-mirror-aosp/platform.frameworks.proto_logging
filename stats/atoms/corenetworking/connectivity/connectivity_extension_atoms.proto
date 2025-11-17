@@ -30,6 +30,7 @@ extend Atom {
     optional NetworkRequestStateChanged network_request_state_changed = 779 [(module) = "connectivity"];
     optional TetheringActiveSessionsReported tethering_active_sessions_reported = 925 [(module) = "connectivity"];
     optional ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported = 1138 [(module) = "connectivity"];
+    optional LoopbackUsageReported loopback_usage_reported = 1216 [(module) = "connectivity"];
     optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests = 10247 [(module) = "connectivity"];
 }
 
@@ -187,3 +188,19 @@ message SatisfiedByLocalNetworkRequests {
     // Request count.
     optional int32 count = 3;
 }
+
+/**
+ * Logs when network traffic is detected over loopback between two UIDs.
+ *
+ * Logged from: packages/modules/Connectivity/service/src/com/android/
+ *              server/ConnectivityService.java
+ * Estimated Logging Rate:
+ *   Peak: 10s per minute | Avg: low, 10s per day
+ */
+message LoopbackUsageReported {
+    optional int32 sender_uid = 1 [(is_uid) = true];
+    optional int32 receiver_uid = 2 [(is_uid) = true];
+    optional android.corenetworking.connectivity.LoopbackAccessResult result = 3;
+}
+
+

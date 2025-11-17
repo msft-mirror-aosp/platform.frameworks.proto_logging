@@ -147,7 +147,4 @@ message WearWatchFaceContentOverlayEventReported {
 
   // The type of the text being displayed.
   optional android.app.wearsysui.WatchFaceContentOverlayTextType text_type = 4;
-
-  // State of the screen when the event happened.
-  optional android.app.wearsysui.ScreenState screen_state = 5;
 }
