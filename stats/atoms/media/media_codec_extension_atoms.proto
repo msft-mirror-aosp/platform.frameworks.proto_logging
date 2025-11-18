@@ -393,4 +393,8 @@ message MediaCodecResourceTracked {
     // NOTE that {total_resource_tracked_events - total_successful_tracking}
     // should give the failure count.
     optional int32 total_successful_tracking = 5;
+
+    // The name of the codec for which this atom is posed.
+    // eg. `OMX.google.aac.decoder`
+    optional string codec_name = 6;
 }
