@@ -16831,6 +16831,8 @@ message TelephonyNetworkRequestsV2 {
         SATELLITE_EIMS_RESTRICTED = 9;
         //Satellite supl restricted capability was requested.
         SATELLITE_SUPL_RESTRICTED =10;
+        // UfcSlicing capability(OTT Slicing) was requested
+        PRIORITIZE_UNIFIFED_COMMUNICATIONS =11;
     }
     // Carrier ID of the SIM card.
     // See https://source.android.com/devices/tech/config/carrierid.
@@ -17202,6 +17204,9 @@ message DataCallSession {
 
     // Whether the call is over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 27;
+
+    // Determine the slice capability of data network
+    optional int32 slice_capability = 28;
 }
 
 /**
