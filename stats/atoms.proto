@@ -1546,10 +1546,13 @@ message Atom {
     extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
     extensions 1213; // StaleEncryptedstoreDetected stale_encrypted_store_detected
     extensions 1214; // SettingsAppFunctionEvent settings_app_function_event
-    extensions 1215; // RangingPeerDisconnected ranging_peer_disconnected
+    extensions 1215; // RangingPeerDisconnectedAtRange ranging_peer_disconnected_at_range
     extensions 1216; // LoopbackUsageReported loopback_usage_reported
     extensions 1217; // AccessibilityRuntimePermissionGrantReported accessibility_runtime_permission_grant_reported
     extensions 1218; // WearKeyguardLockStateChanged wear_keyguard_lock_state_changed
+    extensions 1219; // RangingPeerDisconnectedWithRssi ranging_peer_disconnected_with_rssi
+    extensions 1220; // RangingPeerDisconnectedWithDelaySpread ranging_peer_disconnected_with_delay_spread
+    extensions 1221; // RangingPeerDisconnectedWithConfidenceLevel ranging_peer_disconnected_with_confidence_level
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
