@@ -160,13 +160,13 @@ cc_test_host {
     static_libs: [
         "libgmock_host",
         "libtestgenatoms",
+        "libstatspull-fake",
+        "libstatssocket-fake",
     ],
 
     shared_libs: [
         "android.frameworks.stats-V2-ndk",
         "libstatslog",
-        "libstatspull",
-        "libstatssocket",
     ],
 
     proto: {
@@ -320,8 +320,8 @@ cc_library_static {
     ],
     shared_libs: [
         "android.frameworks.stats-V2-ndk",
-        "libstatssocket",
-        "libstatspull",
+        "libstatspull-fake",
+        "libstatssocket-fake",
     ],
 }
 
