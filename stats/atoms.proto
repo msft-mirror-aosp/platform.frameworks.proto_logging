@@ -1549,6 +1549,7 @@ message Atom {
     extensions 1215; // RangingPeerDisconnected ranging_peer_disconnected
     extensions 1216; // LoopbackUsageReported loopback_usage_reported
     extensions 1217; // AccessibilityRuntimePermissionGrantReported accessibility_runtime_permission_grant_reported
+    extensions 1218; // WearKeyguardLockStateChanged wear_keyguard_lock_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
