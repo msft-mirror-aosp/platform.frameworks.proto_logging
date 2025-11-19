@@ -41,3 +41,20 @@ enum InteractionType {
     // Indicates that the app function execution was triggered by a user-scheduled task.
     USER_SCHEDULED = 3;
 }
+
+/**
+ * The enum class of AppFunction function type.
+ *
+ * Next tag: 3
+ */
+enum FunctionType {
+    FUNCTION_TYPE_UNSPECIFIED = 0;
+
+    // Indicates that the function implementation is provided during the build
+    // time.
+    FUNCTION_TYPE_STATIC = 1;
+
+    // Indicates that the function implementation is provided by the app at
+    // runtime.
+    FUNCTION_TYPE_DYNAMIC = 2;
+}
