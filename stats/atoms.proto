@@ -25492,6 +25492,11 @@ message WsTileListChanged {
     // Null for cases where the tile change originated from paired phone
     // where request_source would be RequestSource.PHONE.
     optional string origin_package_name = 5;
+
+    // The container type for the tile or widget. For tile, this will be
+    // fullscreen always. For widgets, this value is specified when the widget
+    // has been added. Value -1 is used to indicate that this field is not used.
+    optional int32 container_type = 6;
 }
 
 /**
@@ -25511,6 +25516,11 @@ message WsTileSnapshot {
     //
     // See go/wear-dd-tiles-oem-metadata for details.
     repeated int32 vendor_metadata_size_bytes = 3;
+
+    // The container type for the tile or widget. For tile, this will be
+    // fullscreen always. For widgets, this value is specified when the widget
+    // has been added. Value -1 is used to indicate that this field is not used.
+    repeated int32 container_type = 4;
 }
 /*
 * Logs calls to getType of a contentProvider, where the caller has potentially no access to
