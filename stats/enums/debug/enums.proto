@@ -23,6 +23,7 @@ option java_multiple_files = true;
 /**
  * adb connection state used to track adb connection changes in AdbDebuggingManager.java.
  */
+// Next ID: 24
 enum AdbConnectionStateEnum {
     UNKNOWN = 0;
 
@@ -35,6 +36,11 @@ enum AdbConnectionStateEnum {
      * The user allowed the adb connection from the system.
      */
     USER_ALLOWED = 2;
+
+    /**
+     * The user always allowed the adb connection from the system.
+     */
+    USER_ALWAYS_ALLOWED = 23;
 
     /**
      * The user denied the adb connection from the system.
@@ -63,5 +69,79 @@ enum AdbConnectionStateEnum {
      * The adb session has been disconnected.
      */
     DISCONNECTED = 7;
-}
 
+    /**
+     * Wireless debugging is turned on.
+     */
+    ADB_WIFI_ENABLED = 8;
+
+    /**
+     * Wireless debugging is turned on due to auto-enable.
+     */
+    ADB_WIFI_AUTO_ENABLED = 9;
+
+    /**
+     * Wireless debugging is turned off.
+     */
+    ADB_WIFI_DISABLED = 10;
+
+    /**
+     * Wireless debugging is turned off due to connecting to an untrusted network.
+     */
+    ADB_WIFI_AUTO_DISABLED = 11;
+
+    /**
+     * User allows wireless debugging.
+     */
+    ADB_WIFI_ALLOW_NETWORK = 12;
+
+    /**
+     * User allows wireless debugging with always allow option.
+     */
+    ADB_WIFI_ALWAYS_ALLOW_NETWORK = 13;
+
+    /**
+     * User denies wireless debugging.
+     */
+    ADB_WIFI_DENY_NETWORK = 14;
+
+    /**
+     * User unpair a paired device.
+     */
+    ADB_WIFI_UNPAIR_DEVICE = 15;
+
+    /**
+     * Device has connected through adb wifi.
+     */
+    ADB_WIFI_DEVICE_CONNECTED = 16;
+
+    /**
+     * Device has disconnected from adb wifi.
+     */
+    ADB_WIFI_DEVICE_DISCONNECTED = 17;
+
+    /**
+     * Device is pairing using QR code.
+     */
+    ADB_WIFI_QR_PAIRING_STARTED = 18;
+
+    /**
+     * Device is pairing using pairing code.
+     */
+    ADB_WIFI_PAIRING_CODE_STARTED = 19;
+
+    /**
+     * Device successfully paired.
+     */
+    ADB_WIFI_PAIRING_SUCCEEDED = 20;
+
+    /**
+     * Device failed to pair.
+     */
+    ADB_WIFI_PAIRING_FAILED = 21;
+
+    /**
+     * Pairing is cancelled.
+     */
+    ADB_WIFI_PAIRING_CANCELLED = 22;
+}
