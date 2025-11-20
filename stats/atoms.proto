@@ -1554,6 +1554,8 @@ message Atom {
     extensions 1220; // RangingPeerDisconnectedWithDelaySpread ranging_peer_disconnected_with_delay_spread
     extensions 1221; // RangingPeerDisconnectedWithConfidenceLevel ranging_peer_disconnected_with_confidence_level
     extensions 1222; // WifiAwarePeerFoundReported wifi_aware_peer_found_reported
+    extensions 1223; // ComputerControlSessionReported computer_control_session_reported
+    extensions 1224; // ComputerControlFailedSessionReported computer_control_failed_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
