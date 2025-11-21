@@ -1,0 +1,185 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.computercontrol;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/attribution_node.proto";
+
+option java_package = "com.android.os.computercontrol";
+
+extend Atom {
+  optional ComputerControlSessionReported computer_control_session_reported =
+      1223 [(module) = "computercontrol"];
+  optional ComputerControlFailedSessionReported
+      computer_control_failed_session_reported = 1224
+      [(module) = "computercontrol"];
+}
+
+/**
+ * Logs when a successfully created computer control session has been closed.
+ *
+ * Logged from:
+ *   frameworks/base/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionImpl.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 per device per hour | Avg: 1 per device per day
+ */
+message ComputerControlSessionReported {
+  // The attribution chain of the app that requested the session.
+  repeated AttributionNode attribution_node = 1;
+
+  // The applications that may be automated during this session.
+  repeated int32 target_applications_uids = 2 [(is_uid) = true];
+
+  // The number of applications that may be automated during this session.
+  // This is the length of the target_applications_uids list.
+  optional int32 target_application_count = 3;
+
+  enum CloseReason {
+    CLOSE_REASON_UNKNOWN = 0;
+    // Closed by the caller.
+    CALLER_INITIATED = 1;
+    // Closed by the user during an auth flow, to take control of the app, etc.
+    USER_INITIATED = 2;
+    // The session timed out.
+    SESSION_TIMED_OUT = 3;
+    // The display was empty for a long period of time.
+    SESSION_EMPTY = 4;
+  }
+  // The reason for the session being closed.
+  optional CloseReason close_reason = 4;
+
+  // The duration of the session from the time the user approved it
+  // (onSessionCreated) until the time it was closed (onClosed).
+  //
+  // Note that this does not include the time between the owner requesting it
+  // (requestSession), through the user approving it (onSessionPending), until
+  // the time it was approved (onSessionCreated).
+  optional int64 duration_millis = 5;
+
+  enum BlockReason {
+    BLOCK_REASON_UNKNOWN = 0;
+    // Secure content is present.
+    SECURE_CONTENT = 1;
+    // Disallowed activity launched.
+    DISALLOWED_ACTIVITY_LAUNCH = 2;
+  }
+  // Ordered list of reasons for the session being blocked.
+  // The same value can be repeated, meaning it was blocked multiple times for
+  // that reason.
+  repeated BlockReason block_reasons = 6;
+
+  // The number of times the session was blocked.
+  // This is the length of the block_reasons list.
+  optional int32 block_count = 7;
+
+  // The number of times a MirrorView was successfully set to mirror this
+  // session.
+  optional int32 mirrored_views = 8;
+
+  // The number of times a MirrorView was set to mirror this session was
+  // successfully set to interactive mode.
+  optional int32 mirrored_views_interactive = 9;
+
+  // Ordered list of applications successfully launched by the session owner.
+  // The same value can be repeated, meaning it was launched multiple times.
+  repeated int32 application_launches_uids = 10 [(is_uid) = true];
+
+  // The number of successful application launches by the session owner.
+  // This is the length of the application_launches_uids list.
+  optional int32 application_launch_count = 11;
+
+  // The number of successful taps sent by the session owner.
+  optional int32 taps = 12;
+
+  // The number of successful swipes sent by the session owner.
+  optional int32 swipes = 13;
+
+  // The number of successful long presses sent by the session owner.
+  optional int32 long_presses = 14;
+
+  // The number of successful texts inserted by the session owner.
+  optional int32 insert_texts = 15;
+
+  enum Action {
+    ACTION_UNKNOWN = 0;
+    // The session owner performed a back navigation.
+    GO_BACK = 1;
+  }
+  // Ordered list of actions successfully performed by the session owner.
+  // The same value can be repeated, meaning it was performed multiple times.
+  repeated Action performed_actions = 16;
+
+  // The number of successful actions performed by the session owner.
+  // This does not sum up the other actions like taps, it refers to specialized
+  // actions like ACTION_GO_BACK.
+  // This is the length of the performed_actions list.
+  optional int32 performed_action_count = 17;
+}
+
+/**
+ * Logs when a computer control session has failed to be created.
+ *
+ * Logged from:
+ *   frameworks/base/services/companion/java/com/android/server/companion/virtual/computercontrol/ComputerControlSessionProcessor.java
+ *   frameworks/base/services/companion/java/com/android/server/companion/virtual/VirtualDeviceManagerService.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 per device per hour | Avg: 1 per device per day
+ */
+message ComputerControlFailedSessionReported {
+  // The attribution chain of the app that requested the session.
+  repeated AttributionNode attribution_node = 1;
+
+  // The applications that were requested to be automated during this session.
+  repeated int32 target_applications_uids = 2 [(is_uid) = true];
+
+  // The number of applications that were requested to be automated during this
+  // session.
+  // This is the length of the target_applications_uids list.
+  optional int32 target_application_count = 3;
+
+  enum FailReason {
+    FAIL_REASON_UNKNOWN = 0;
+    // The managed policy has disabled sessions from the caller.
+    MANAGED_POLICY_DISABLED = 1;
+    // The caller is not allowlisted.
+    CALLER_NOT_ALLOWED = 2;
+    // The session name is not unique across all sessions.
+    NAME_NOT_UNIQUE = 3;
+    // A requested target application is invalid because of one of:
+    // - It is empty.
+    // - It is the permission-control app.
+    // - It does not have a launcher activity.
+    // - It is not allowlisted.
+    INVALID_TARGET_APPLICATION = 4;
+    // The system failed to notify the caller that the session is pending user
+    // approval.
+    SESSION_PENDING_NOTIFICATION_FAILED = 5;
+    // The maximum number of allowed concurrent sessions has been reached.
+    SESSION_LIMIT_REACHED = 6;
+    // The device is currently locked.
+    DEVICE_LOCKED = 7;
+    // The user did not approve the creation of a new session.
+    PERMISSION_DENIED = 8;
+  }
+  // The reason for the session creation failing.
+  optional FailReason reason = 4;
+}
