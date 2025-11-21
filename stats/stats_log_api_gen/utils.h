@@ -69,6 +69,8 @@ string make_constant_name(const string& str);
 
 string snake_to_pascal(const string& snake);
 
+string to_cpp_typesafe_name(const AtomField& field);
+
 const char* cpp_type_name(java_type_t type, bool isVendorAtomLogging = false);
 
 const char* java_type_name(java_type_t type);
@@ -78,6 +80,8 @@ bool is_repeated_field(java_type_t type);
 bool is_primitive_field(java_type_t type);
 
 AtomDeclSet get_annotations(int argIndex, const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet);
+
+vector<AtomField> get_enum_fields(const AtomDecl& atomDecl);
 
 // Common Native helpers
 void write_namespace(FILE* out, const string& cppNamespaces);
@@ -90,6 +94,10 @@ void write_native_atom_constants(FILE* out, const Atoms& atoms, const AtomDecl& 
 
 void write_native_atom_enums(FILE* out, const Atoms& atoms);
 
+int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool useScopedEnums);
+
+int write_native_atom_types(FILE* out, const Atoms& atoms);
+
 void write_native_method_signature(FILE* out, const string& signaturePrefix,
                                    const vector<java_type_t>& signature,
                                    const AtomDecl& attributionDecl, const string& closer,
@@ -99,9 +107,8 @@ void write_native_method_header(FILE* out, const string& methodName,
                                 const SignatureInfoMap& signatureInfoMap,
                                 const AtomDecl& attributionDecl, bool isVendorAtomLogging = false);
 
-void write_native_header_preamble(FILE* out, const string& cppNamespace, bool includePull,
-                                  bool hasHistograms, bool bootstrap,
-                                  bool isVendorAtomLogging = false);
+void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                                  bool bootstrap, bool isVendorAtomLogging = false);
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
 
@@ -135,6 +142,8 @@ int get_max_requires_api_level(int minApiLevel, const AtomDeclSet* atomDeclSet,
 
 bool has_histograms(const AtomDeclSet& decls);
 
+bool has_attribution_node(const AtomDeclSet& decls);
+
 void write_native_histogram_helper_declarations(FILE* out, const AtomDeclSet& atomDeclSet);
 
 int write_native_histogram_helper_definitions(FILE* out, const AtomDeclSet& atomDeclSet);
@@ -148,6 +157,9 @@ int write_cc_srcs_classes(FILE* out, const char* path, const std::vector<std::st
 
 int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
                                  const bool staticMethods);
+
+bool contains_repeated_field(const vector<AtomField>& atomFields);
+
 }  // namespace stats_log_api_gen
 }  // namespace android
 

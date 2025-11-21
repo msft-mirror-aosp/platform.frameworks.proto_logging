@@ -524,6 +524,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
 
         if (javaType == JAVA_TYPE_ENUM || javaType == JAVA_TYPE_ENUM_ARRAY) {
             atField.enumTypeName = field.enum_type()->name();
+            atField.enumTypeNameFull = field.enum_type()->full_name();
             // All enums are treated as ints when it comes to function signatures.
             collate_enums(*field.enum_type(), atField);
         }

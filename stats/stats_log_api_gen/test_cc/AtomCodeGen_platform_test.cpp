@@ -17,10 +17,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <limits>
-
-#include "statslog_cts.h"
-#include "statslog_test.h"
+#include <statslog_cts.h>
+#include <statslog_test.h>
 
 #ifdef __ANDROID__
 

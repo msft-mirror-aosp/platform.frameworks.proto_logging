@@ -152,6 +152,22 @@ static int write_java_histogram_helper(FILE* out, const string& atomName, const 
     return errorCount;
 }
 
+static void write_header_histogram_sources(FILE* out, const Atoms& atoms) {
+#ifdef CC_INCLUDE_HDRS_DIR
+    const bool hasHistograms = has_histograms(atoms.decls);
+    const vector<string> excludeList =
+            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
+    if (hasHistograms) {
+        write_native_histogram_helper_declarations(out, atoms.decls);
+    }
+#else
+    // suppress unused parameter error
+    (void)out;
+    (void)atoms;
+#endif
+}
+
 static int write_src_header(FILE* out, const fs::path& filePath) {
     ifstream fileStream(filePath);
     if (!fileStream.is_open()) {
@@ -360,6 +376,53 @@ string snake_to_pascal(const string& snake) {
     return pascal;
 }
 
+vector<AtomField> get_enum_fields(const AtomDecl& atomDecl) {
+    vector<AtomField> enum_fields;
+    for (const auto& field : atomDecl.fields) {
+        if (field.javaType == JAVA_TYPE_ENUM || field.javaType == JAVA_TYPE_ENUM_ARRAY) {
+            enum_fields.push_back(field);
+        }
+    }
+    return enum_fields;
+}
+
+string to_cpp_typesafe_name(const AtomField& field) {
+    switch (field.javaType) {
+        case JAVA_TYPE_BOOLEAN:
+            return "bool";
+        case JAVA_TYPE_INT:
+            return "int32_t";
+        case JAVA_TYPE_ENUM:
+            return field.enumTypeName;
+        case JAVA_TYPE_LONG:
+            return "int64_t";
+        case JAVA_TYPE_FLOAT:
+            return "float";
+        case JAVA_TYPE_DOUBLE:
+            return "double";
+        case JAVA_TYPE_STRING:
+            return "std::string";
+        case JAVA_TYPE_BYTE_ARRAY:
+            return "std::vector<uint8_t>";
+        case JAVA_TYPE_BOOLEAN_ARRAY:
+            return "std::vector<bool>";
+        case JAVA_TYPE_INT_ARRAY:
+            return "std::vector<int32_t>";
+        case JAVA_TYPE_ENUM_ARRAY:
+            return "std::vector<" + field.enumTypeName + ">";
+        case JAVA_TYPE_LONG_ARRAY:
+            return "std::vector<int64_t>";
+        case JAVA_TYPE_FLOAT_ARRAY:
+            return "std::vector<float>";
+        case JAVA_TYPE_STRING_ARRAY:
+            return "std::vector<std::string>";
+        case JAVA_TYPE_DOUBLE_ARRAY:
+            return "std::vector<double>";
+        default:
+            return "UNKNOWN";
+    }
+}
+
 const char* cpp_type_name(java_type_t type, bool isVendorAtomLogging) {
     switch (type) {
         case JAVA_TYPE_BOOLEAN:
@@ -448,6 +511,15 @@ bool is_repeated_field(java_type_t type) {
 static bool contains_repeated_field(const vector<java_type_t>& signature) {
     for (const java_type_t& javaType : signature) {
         if (is_repeated_field(javaType)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool contains_repeated_field(const vector<AtomField>& atomFields) {
+    for (auto& field : atomFields) {
+        if (is_repeated_field(field.javaType)) {
             return true;
         }
     }
@@ -572,6 +644,77 @@ void write_native_atom_enums(FILE* out, const Atoms& atoms) {
     }
 }
 
+int write_native_atom_types(FILE* out, const Atoms& atoms) {
+    for (auto& atomDecl : atoms.decls) {
+        if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
+            fprintf(out, "// Usage: stats_write(const %s& atom);\n", atomDecl->message.c_str());
+        } else {
+            fprintf(out,
+                    "// Usage: addAStatsEvent(AStatsEventList* pulled_data, const %s& atom);\n",
+                    atomDecl->message.c_str());
+        }
+
+        fprintf(out, "struct %s final {\n", atomDecl->message.c_str());
+
+        // write enum definitions
+        if (write_native_atom_enums_typesafe(out, *atomDecl,
+                                             /*useScopedEnums=*/true) != 0) {
+            return 1;
+        }
+
+        // write fields
+        for (auto& field : atomDecl->fields) {
+            if (field.javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
+                fprintf(out, "  std::vector<AttributionNode> %s;\n", field.name.c_str());
+            } else {
+                fprintf(out, "  %s %s;\n", to_cpp_typesafe_name(field).c_str(),
+                        field.name.c_str());
+            }
+        }
+
+        fprintf(out, "};\n\n");
+    }
+    return 0;
+}
+
+int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool useScopedEnums) {
+    // maps proto enumType to its full type name
+    map<string, string> processedEnums;
+    for (auto& field : get_enum_fields(atomFields)) {
+        // There might be N fields with the same enum type
+        // avoid duplication definitions
+        if (processedEnums.find(field.enumTypeName) != processedEnums.end()) {
+            // test if fully qualified name is also the same
+            if (processedEnums[field.enumTypeName] != field.enumTypeNameFull) {
+                fprintf(stderr, "Duplicated enum type name detected %s vs %s\n",
+                        processedEnums[field.enumTypeName].c_str(), field.enumTypeNameFull.c_str());
+                fprintf(stderr,
+                        "Unsupported fully qualified type names generation. "
+                        "Vote up for http://b/460830603\n");
+                return 1;
+            }
+            continue;
+        }
+
+        processedEnums.insert(std::make_pair(field.enumTypeName, field.enumTypeNameFull));
+
+        const char* scopedEnumSpecifier = useScopedEnums ? "class " : "";
+
+        fprintf(out, "  enum %s%s {\n", scopedEnumSpecifier, field.enumTypeName.c_str());
+        size_t i = 0;
+        for (map<int, string>::const_iterator value = field.enumValues.begin();
+             value != field.enumValues.end(); value++) {
+            fprintf(out, "    %s = %d", make_constant_name(value->second).c_str(), value->first);
+            char const* const comma = (i == field.enumValues.size() - 1) ? "" : ",";
+            fprintf(out, "%s\n", comma);
+            i++;
+        }
+
+        fprintf(out, "};\n\n");
+    }
+    return 0;
+}
+
 void write_native_method_signature(FILE* out, const string& signaturePrefix,
                                           const vector<java_type_t>& signature,
                                           const AtomDecl& attributionDecl, const string& closer,
@@ -616,8 +759,11 @@ void write_native_method_header(FILE* out, const string& methodName,
     }
 }
 
-void write_native_header_preamble(FILE* out, const string& cppNamespace, bool includePull,
-                                  bool includeHistogram, bool bootstrap, bool isVendorAtomLogging) {
+void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                                  bool bootstrap, bool isVendorAtomLogging) {
+    const bool includePull = !atoms.pulledAtomsSignatureInfoMap.empty() && !bootstrap;
+    const bool includeHistogram = has_histograms(atoms.decls);
+
     // Print prelude
     fprintf(out, "// This file is autogenerated\n");
     fprintf(out, "\n");
@@ -628,7 +774,7 @@ void write_native_header_preamble(FILE* out, const string& cppNamespace, bool in
     fprintf(out, "#include <map>\n");
     fprintf(out, "#include <set>\n");
     fprintf(out, "#include <memory>\n");
-    if (includePull) {
+    if (includePull && !isVendorAtomLogging) {
         fprintf(out, "#include <stats_pull_atom_callback.h>\n");
     }
 
@@ -661,6 +807,8 @@ void write_native_header_preamble(FILE* out, const string& cppNamespace, bool in
     fprintf(out, " * API For logging statistics events.\n");
     fprintf(out, " */\n");
     fprintf(out, "\n");
+
+    write_header_histogram_sources(out, atoms);
 }
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace) {
@@ -921,6 +1069,14 @@ bool has_histograms(const AtomDeclSet& decls) {
     return std::find_if_not(decls.begin(), decls.end(), [](const shared_ptr<AtomDecl>& decl) {
                return decl->fieldNameToHistBinOption.empty();
            }) != decls.end();
+}
+
+bool has_attribution_node(const AtomDeclSet& decls) {
+    return std::any_of(decls.cbegin(), decls.cend(), [](const shared_ptr<AtomDecl>& decl) {
+        return std::any_of(decl->fields.cbegin(), decl->fields.cend(), [](const AtomField& field) {
+            return field.javaType == JAVA_TYPE_ATTRIBUTION_CHAIN;
+        });
+    });
 }
 
 void write_native_histogram_helper_declarations(FILE* out, const AtomDeclSet& atomDeclSet) {
