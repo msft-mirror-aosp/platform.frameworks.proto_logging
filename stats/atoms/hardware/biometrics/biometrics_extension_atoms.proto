@@ -114,6 +114,9 @@ message BiometricPromptStarted {
 
     // Whether Identity Check is active
     optional bool is_identity_check_active = 14;
+
+    // Whether prompt was called by a system app
+    optional bool is_system_caller = 15;
 }
 
 /**
@@ -133,6 +136,9 @@ message BiometricPromptEvent {
         EVENT_TYPE_WATCH_RANGING_STARTED = 4;
         EVENT_TYPE_WATCH_RANGING_SUCCESS = 5;
         EVENT_TYPE_WATCH_RANGING_ENDED = 6;
+        EVENT_TYPE_CREDENTIAL_PIN_VIEW_SHOWN = 7;
+        EVENT_TYPE_CREDENTIAL_PATTERN_VIEW_SHOWN = 8;
+        EVENT_TYPE_CREDENTIAL_PASSWORD_VIEW_SHOWN = 9;
     }
 
     // Session Id of the current operation
@@ -163,6 +169,9 @@ message BiometricPromptEnded {
         PROMPT_ENDED_REASON_CONTENT_VIEW_MORE_OPTIONS = 8;
         PROMPT_ENDED_REASON_ERROR_NO_WM = 9;
         PROMPT_ENDED_REASON_FALLBACK_OPTION = 10;
+        PROMPT_ENDED_REASON_CREDENTIAL_PIN_CONFIRMED = 11;
+        PROMPT_ENDED_REASON_CREDENTIAL_PATTERN_CONFIRMED = 12;
+        PROMPT_ENDED_REASON_CREDENTIAL_PASSWORD_CONFIRMED = 13;
     }
 
     // Session Id of the current operation
