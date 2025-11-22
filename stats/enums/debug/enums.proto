@@ -23,7 +23,7 @@ option java_multiple_files = true;
 /**
  * adb connection state used to track adb connection changes in AdbDebuggingManager.java.
  */
-// Next ID: 24
+// Next ID: 28
 enum AdbConnectionStateEnum {
     UNKNOWN = 0;
 
@@ -144,4 +144,24 @@ enum AdbConnectionStateEnum {
      * Pairing is cancelled.
      */
     ADB_WIFI_PAIRING_CANCELLED = 22;
+
+    /**
+     * QR code pairing succeeded.
+     */
+    ADB_WIFI_QR_CODE_PAIRING_SUCCEEDED = 24;
+
+    /**
+     * QR code pairing failed.
+     */
+    ADB_WIFI_QR_CODE_PAIRING_FAILED = 25;
+
+    /**
+     * Pairing code pairing succeeded.
+     */
+    ADB_WIFI_PAIRING_CODE_PAIRING_SUCCEEDED = 26;
+
+    /**
+     * Pairing code pairing failed.
+     */
+    ADB_WIFI_PAIRING_CODE_PAIRING_FAILED = 27;
 }
