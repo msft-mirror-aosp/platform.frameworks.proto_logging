@@ -44,6 +44,9 @@ extend Atom {
   optional MediaSubscriptionChanged media_subscription_changed = 990
       [(module) = "wearmedia"];
 
+  optional MediaScreenLaunched media_screen_launched = 1225
+      [(module) = "wearmedia"];
+
   optional WearMediaOutputSwitcherDeviceScanApiLatency
       wear_media_output_switcher_device_scan_api_latency = 757 [(module) = "MediaOutputSwitcher"];
 
@@ -191,6 +194,30 @@ message MediaSessionStateChanged {
 message MediaSubscriptionChanged {
   // Version of the media session apk installed in the device.
   optional int64 version_code = 1;
+}
+
+/**
+ * Logs when a media screen is opened.
+ *
+ * Logged from package: vendor/google_clockwork/packages/MediaSessions
+ * Estimated Logging Rate: Peak is 10 MediaScreenLaunched per second | Avg: 100
+ * per device per day
+ */
+message MediaScreenLaunched {
+  // Depicts the screen opened by the user : (OVERFLOW, QUEUE_SCREEN)
+  optional com.google.android.wearable.media.sessions.MediaScreen media_screen =
+      1;
+  // Screen from which the action was originated to distinguish between queue
+  // screen from Player Screen or Overflow Screen
+  optional com.google.android.wearable.media.sessions.MediaScreen
+      trigger_source = 2;
+  // Package name of the app that owns the media session. (This app is on the
+  // paired phone, and not on the watch, hence cannot use uid)
+  optional string media_player_package_name = 3;
+  // Depicts is the media session being referred is remote or local.
+  optional bool is_remote_session = 4;
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 5;
 }
 
 /**
