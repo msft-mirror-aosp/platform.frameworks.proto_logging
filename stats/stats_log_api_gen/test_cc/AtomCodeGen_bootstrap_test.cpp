@@ -17,9 +17,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <limits>
-
-#include "statslog_bootstrap_test.h"
+#include <statslog_bootstrap_test.h>
 
 #ifdef __ANDROID__
 

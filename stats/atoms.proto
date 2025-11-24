@@ -1546,9 +1546,17 @@ message Atom {
     extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
     extensions 1213; // StaleEncryptedstoreDetected stale_encrypted_store_detected
     extensions 1214; // SettingsAppFunctionEvent settings_app_function_event
-    extensions 1215; // RangingPeerDisconnected ranging_peer_disconnected
+    extensions 1215; // RangingPeerDisconnectedAtRange ranging_peer_disconnected_at_range
     extensions 1216; // LoopbackUsageReported loopback_usage_reported
     extensions 1217; // AccessibilityRuntimePermissionGrantReported accessibility_runtime_permission_grant_reported
+    extensions 1218; // WearKeyguardLockStateChanged wear_keyguard_lock_state_changed
+    extensions 1219; // RangingPeerDisconnectedWithRssi ranging_peer_disconnected_with_rssi
+    extensions 1220; // RangingPeerDisconnectedWithDelaySpread ranging_peer_disconnected_with_delay_spread
+    extensions 1221; // RangingPeerDisconnectedWithConfidenceLevel ranging_peer_disconnected_with_confidence_level
+    extensions 1222; // WifiAwarePeerFoundReported wifi_aware_peer_found_reported
+    extensions 1223; // ComputerControlSessionReported computer_control_session_reported
+    extensions 1224; // ComputerControlFailedSessionReported computer_control_failed_session_reported
+    extensions 1225; // MediaScreenLaunched media_screen_launched
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -16831,6 +16839,8 @@ message TelephonyNetworkRequestsV2 {
         SATELLITE_EIMS_RESTRICTED = 9;
         //Satellite supl restricted capability was requested.
         SATELLITE_SUPL_RESTRICTED =10;
+        // UfcSlicing capability(OTT Slicing) was requested
+        PRIORITIZE_UNIFIFED_COMMUNICATIONS =11;
     }
     // Carrier ID of the SIM card.
     // See https://source.android.com/devices/tech/config/carrierid.
@@ -17202,6 +17212,9 @@ message DataCallSession {
 
     // Whether the call is over Carrier Roaming NB-Iot NTN network.
     optional bool is_nb_iot_ntn = 27;
+
+    // Determine the slice capability of data network
+    optional int32 slice_capability = 28;
 }
 
 /**
@@ -25482,6 +25495,11 @@ message WsTileListChanged {
     // Null for cases where the tile change originated from paired phone
     // where request_source would be RequestSource.PHONE.
     optional string origin_package_name = 5;
+
+    // The container type for the tile or widget. For tile, this will be
+    // fullscreen always. For widgets, this value is specified when the widget
+    // has been added. Value -1 is used to indicate that this field is not used.
+    optional int32 container_type = 6;
 }
 
 /**
@@ -25501,6 +25519,11 @@ message WsTileSnapshot {
     //
     // See go/wear-dd-tiles-oem-metadata for details.
     repeated int32 vendor_metadata_size_bytes = 3;
+
+    // The container type for the tile or widget. For tile, this will be
+    // fullscreen always. For widgets, this value is specified when the widget
+    // has been added. Value -1 is used to indicate that this field is not used.
+    repeated int32 container_type = 4;
 }
 /*
 * Logs calls to getType of a contentProvider, where the caller has potentially no access to

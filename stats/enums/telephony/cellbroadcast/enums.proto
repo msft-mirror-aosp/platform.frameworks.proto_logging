@@ -22,8 +22,9 @@ option java_multiple_files = true;
 
 
 enum TranslationErrorType {
-    // Translation success or no error
+    // Translation unknown error
     TRANSLATION_ERROR_UNKNOWN = 0;
+    // Translation success
     TRANSLATION_ERROR_NONE = 1;
 
     // Errors occurring within CellBroadcastTranslateManager ---
@@ -47,4 +48,11 @@ enum TranslationErrorType {
     TRANSLATION_ERROR_STALE_RESULT = 9;
     // Translation result arrived, but the activity is finishing or has already been destroyed
     TRANSLATION_ERROR_ACTIVITY_DESTROYED = 10;
+
+    // Translation button is shown but translation is not requested
+    TRANSLATION_ERROR_NOT_APPLICABLE = 11;
+    // Translation is requested but language download is necessary
+    TRANSLATION_ERROR_LANGUAGE_MISSING = 12;
+    // Translation is failed due to exception
+    TRANSLATION_ERROR_EXCEPTION = 13;
 }

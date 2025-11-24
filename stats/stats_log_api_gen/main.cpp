@@ -28,6 +28,7 @@
 #include <string.h>
 #include <string>
 
+#include "absl/strings/match.h"
 
 #include "Collation.h"
 #include "frameworks/proto_logging/stats/atoms.pb.h"
@@ -114,20 +115,50 @@ static void print_usage() {
     fprintf(stderr,
             "  --vendor-proto       Path to the proto file for vendor atoms logging\n"
             "code generation (deprecated, use \"--interface VENDOR --proto <path>\" instead).\n");
-    fprintf(stderr,
-            "  --proto       Path to the proto file for atoms logging code generation.\n");
 #endif
+    fprintf(stderr, "  --proto       Path to proto files for atoms logging code generation.\n");
+    fprintf(stderr, "                Can be specified multiple times to include extension\n");
+    fprintf(stderr, "                files. Only one file must define the Atom proto.\n");
 }
 
-static int collate_atoms_from_sources(const string& moduleName, const string& proto, Atoms& atoms) {
-    if (proto.empty()) {
+static const Descriptor* load_protos_and_find_atom_descriptor(
+        google::protobuf::compiler::Importer& importer, const vector<string>& protos) {
+    const Descriptor* atomDescriptor = nullptr;
+    for (const string& proto : protos) {
+        if (absl::StartsWith(proto, "external/protobuf/src")) {
+            continue;
+        }
+        const google::protobuf::FileDescriptor* cur = importer.Import(proto);
+        if (cur == nullptr) {
+            return nullptr;
+        }
+        const Descriptor* curAtomDescriptor = cur->FindMessageTypeByName("Atom");
+        if (curAtomDescriptor != nullptr) {
+            if (atomDescriptor == nullptr) {
+                atomDescriptor = curAtomDescriptor;
+            } else {
+                fprintf(stderr, "Error: Multiple files contain Atom protos\n");
+                return nullptr;
+            }
+        }
+    }
+
+    if (atomDescriptor == nullptr) {
+        fprintf(stderr, "Error: Atom message not found in any --proto file\n");
+        return nullptr;
+    }
+    return atomDescriptor;
+}
+
+static int collate_atoms_from_sources(const string& moduleName, const vector<string>& protos,
+                                      Atoms& atoms) {
+    if (protos.empty()) {
         return collate_atoms(*Atom::descriptor(), moduleName, atoms);
     }
 
     MFErrorCollector errorCollector;
     google::protobuf::compiler::DiskSourceTree sourceTree;
     google::protobuf::compiler::Importer importer(&sourceTree, &errorCollector);
-    const google::protobuf::FileDescriptor* fileDescriptor;
     sourceTree.MapPath("", fs::current_path().c_str());
 
     const char* androidBuildTop = std::getenv("ANDROID_BUILD_TOP");
@@ -140,18 +171,13 @@ static int collate_atoms_from_sources(const string& moduleName, const string& pr
         sourceTree.MapPath("", androidBuildTop);
     }
 
-    fileDescriptor = importer.Import(proto);
-    if (fileDescriptor == nullptr) {
-        return 1;
-    }
-
-    const auto atomDescriptor = fileDescriptor->FindMessageTypeByName("Atom");
+    const Descriptor* atomDescriptor = load_protos_and_find_atom_descriptor(importer, protos);
     if (atomDescriptor == nullptr) {
-        fprintf(stderr, "Error: Atom proto not found in a --proto file\n");
         return 1;
     }
     return collate_atoms(*atomDescriptor, moduleName, atoms);
 }
+
 /**
  * Do the argument parsing and execute the tasks.
  */
@@ -167,11 +193,12 @@ static int run(int argc, char const* const* argv) {
     string moduleName = DEFAULT_MODULE_NAME;
     string cppNamespace = DEFAULT_CPP_NAMESPACE;
     string cppHeaderImport = DEFAULT_CPP_HEADER_IMPORT;
-    string proto;
+    vector<string> protos;
     InterfaceApi interface = InterfaceApi::PLATFORM;
     bool supportWorkSource = false;
     int minApiLevel = API_LEVEL_CURRENT;
     bool javaStaticMethods = true;
+    bool typeSafe = false;
 
     int index = 1;
     while (index < argc) {
@@ -278,7 +305,7 @@ static int run(int argc, char const* const* argv) {
                 return 1;
             }
             interface = InterfaceApi::VENDOR;
-            proto = argv[index];
+            protos.push_back(argv[index]);
 #endif
         } else if (0 == strcmp("--interface", argv[index])) {
             index++;
@@ -299,8 +326,20 @@ static int run(int argc, char const* const* argv) {
                 print_usage();
                 return 1;
             }
-            proto = argv[index];
+            protos.push_back(argv[index]);
+            index++;
+            while (index < argc) {
+                if (0 == strncmp(argv[index], "--", 2)) {
+                    index--;
+                    break;
+                }
+                protos.push_back(argv[index]);
+                index++;
+            }
+        } else if (0 == strcmp("--type-safe", argv[index])) {
+            typeSafe = true;
         }
+
         index++;
     }
 
@@ -344,7 +383,7 @@ static int run(int argc, char const* const* argv) {
 
     // Collate the parameters.
     Atoms atoms;
-    int errorCount = collate_atoms_from_sources(moduleName, proto, atoms);
+    int errorCount = collate_atoms_from_sources(moduleName, protos, atoms);
 
     if (errorCount != 0) {
         return 1;
@@ -376,13 +415,26 @@ static int run(int argc, char const* const* argv) {
             return 1;
         }
         if (!isVendor) {
-            errorCount = android::stats_log_api_gen::write_stats_log_cpp(
-                    out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
-                    interface == InterfaceApi::BOOTSTRAP);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp_typesafe(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+            }
+
 #ifdef WITH_VENDOR
         } else {
-            errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
-                    out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor_typesafe(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+            }
 #endif
         }
         fclose(out);
@@ -401,13 +453,24 @@ static int run(int argc, char const* const* argv) {
         }
 
         if (!isVendor) {
-            errorCount = android::stats_log_api_gen::write_stats_log_header(
-                    out, atoms, attributionDecl, cppNamespace, minApiLevel,
-                    interface == InterfaceApi::BOOTSTRAP);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_header_typesafe(
+                        out, atoms, attributionDecl, cppNamespace, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_header(
+                        out, atoms, attributionDecl, cppNamespace, minApiLevel,
+                        interface == InterfaceApi::BOOTSTRAP);
+            }
 #ifdef WITH_VENDOR
         } else {
-            errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
-                    out, atoms, attributionDecl, cppNamespace);
+            if (typeSafe) {
+                errorCount = android::stats_log_api_gen::write_stats_log_header_vendor_typesafe(
+                        out, atoms, attributionDecl, cppNamespace);
+            } else {
+                errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
+                        out, atoms, attributionDecl, cppNamespace);
+            }
 #endif
         }
         fclose(out);

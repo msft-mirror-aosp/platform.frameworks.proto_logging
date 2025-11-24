@@ -454,6 +454,35 @@ static int write_native_build_stats_event_methods(FILE* out,
     return 0;
 }
 
+static int write_cpp_sources(FILE* out, const Atoms& atoms, const string& cppNamespace) {
+#ifdef CC_INCLUDE_SRCS_DIR
+    const bool hasHistograms = has_histograms(atoms.decls);
+    const vector<string> excludeList =
+            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
+#endif
+
+    fprintf(out, "\n");
+    write_namespace(out, cppNamespace);
+
+    int ret = 0;
+#ifdef CC_INCLUDE_SRCS_DIR
+    ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
+    if (ret != 0) {
+        return ret;
+    }
+
+    // Write histogram helper definitions if any histogram annotations are present.
+    if (hasHistograms) {
+        ret = write_native_histogram_helper_definitions(out, atoms.decls);
+        if (ret != 0) {
+            return ret;
+        }
+    }
+#endif
+    return ret;
+}
+
 int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                         const string& cppNamespace, const string& importHeader,
                         const int minApiLevel, bool bootstrap) {
@@ -482,31 +511,10 @@ int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributi
         fprintf(out, "#include <utils/String16.h>\n");
     }
 
-#ifdef CC_INCLUDE_SRCS_DIR
-    const bool hasHistograms = has_histograms(atoms.decls);
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
-#endif
-
-    fprintf(out, "\n");
-    write_namespace(out, cppNamespace);
-
-    int ret = 0;
-#ifdef CC_INCLUDE_SRCS_DIR
-    ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
+    int ret = write_cpp_sources(out, atoms, cppNamespace);
     if (ret != 0) {
         return ret;
     }
-
-    // Write histogram helper definitions if any histogram annotations are present.
-    if (hasHistograms) {
-        ret = write_native_histogram_helper_definitions(out, atoms.decls);
-        if (ret != 0) {
-            return ret;
-        }
-    }
-#endif
 
     ret = write_native_stats_write_methods(out, atoms.signatureInfoMap, attributionDecl,
                                            minApiLevel, bootstrap);
@@ -532,9 +540,7 @@ int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributi
 
 int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                            const string& cppNamespace, const int minApiLevel, bool bootstrap) {
-    const bool includePull = !atoms.pulledAtomsSignatureInfoMap.empty() && !bootstrap;
-    const bool hasHistograms = has_histograms(atoms.decls);
-    write_native_header_preamble(out, cppNamespace, includePull, hasHistograms, bootstrap);
+    write_native_header_preamble(out, atoms, cppNamespace, bootstrap);
     write_native_atom_constants(out, atoms, attributionDecl);
     write_native_atom_enums(out, atoms);
 
@@ -550,17 +556,6 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
     fprintf(out, "  size_t arg_length;\n");
     fprintf(out, "};\n");
     fprintf(out, "\n");
-
-#ifdef CC_INCLUDE_HDRS_DIR
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
-
-    // Write histogram helper declarations if any histogram annotations are present.
-    if (hasHistograms) {
-        write_native_histogram_helper_declarations(out, atoms.decls);
-    }
-#endif
 
     // Print write methods
     fprintf(out, "//\n");
@@ -589,6 +584,71 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
 
     write_native_header_epilogue(out, cppNamespace);
 
+    return 0;
+}
+
+int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
+                                 const string& cppNamespace, const string& importHeader,
+                                 const int minApiLevel, bool bootstrap) {
+    (void)out;
+    (void)atoms;
+    (void)attributionDecl;
+    (void)cppNamespace;
+    (void)importHeader;
+    (void)minApiLevel;
+    (void)bootstrap;
+
+    fprintf(stderr, "Type-safe APIs generation for C++ sources is not supported."
+                    "Vote-up http://b/449793167 for support.\n");
+    return 1;
+}
+
+int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
+                                    const string& cppNamespace, const int minApiLevel,
+                                    bool bootstrap) {
+    (void)attributionDecl;
+    write_native_header_preamble(out, atoms, cppNamespace, bootstrap);
+
+    if (has_attribution_node(atoms.decls)) {
+        fprintf(out, "struct AttributionNode final {\n");
+        fprintf(out, "  AttributionNode(int32_t aUid, const std::string& aTag)\n");
+        fprintf(out, "    : uid(aUid), tag(aTag) {}\n");
+        fprintf(out, "  int32_t uid;\n");
+        fprintf(out, "  std::string tag;\n");
+        fprintf(out, "};\n\n");
+    }
+
+    // Print Atom classes definition
+    fprintf(out, "//\n");
+    fprintf(out, "// Atom definitions\n");
+    fprintf(out, "//\n");
+
+    if (write_native_atom_types(out, atoms) != 0) {
+        return 1;
+    };
+
+    // // Print write methods
+    fprintf(out, "//\n");
+    fprintf(out, "// Write methods\n");
+    fprintf(out, "//\n");
+
+    for (auto& atomDecl : atoms.decls) {
+        const string closer = contains_repeated_field(atomDecl->fields)
+                                      ? " __INTRODUCED_IN(__ANDROID_API_T__)"
+                                      : "";
+
+        if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
+            fprintf(out, "int stats_write(const %s& atom)%s;\n", atomDecl->message.c_str(),
+                    closer.c_str());
+        } else {
+            fprintf(out, "void addAStatsEvent(AStatsEventList* pulled_data, const %s& atom)%s;\n",
+                    atomDecl->message.c_str(), closer.c_str());
+        }
+    }
+
+    write_native_header_epilogue(out, cppNamespace);
+
+    (void)minApiLevel;
     return 0;
 }
 

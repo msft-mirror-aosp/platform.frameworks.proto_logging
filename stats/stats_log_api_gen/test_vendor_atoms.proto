@@ -49,6 +49,9 @@ message Atom {
             (android.os.statsd.truncate_timestamp) = true
         ];
     }
+
+    // Pulled atom extensions.
+    extensions 150001;  // VendorPulledExtension pulled_extension
 }
 
 message VendorAtom1 {

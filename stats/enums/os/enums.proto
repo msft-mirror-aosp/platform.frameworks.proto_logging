@@ -258,8 +258,10 @@ enum BatteryChargingStatusEnum {
 
 // They are primarily used by android/os/BatteryManager.java.
 enum BatteryChargingPolicyEnum {
+    CHARGING_POLICY_UNSPECIFIED = 0;
     CHARGING_POLICY_DEFAULT = 1;
     CHARGING_POLICY_ADAPTIVE_AON = 2;
     CHARGING_POLICY_ADAPTIVE_AC = 3;
     CHARGING_POLICY_ADAPTIVE_LONGLIFE = 4;
+    CHARGING_POLICY_FORCE_FULL_CHARGE = 5;
 }

@@ -211,13 +211,17 @@ struct AtomField {
     // If the field is of type enum, the following field contains enum type name
     string enumTypeName;
 
+    // Will include the package/message type
+    string enumTypeNameFull;
+
     inline AtomField() : name(), javaType(JAVA_TYPE_UNKNOWN_OR_INVALID) {
     }
     inline AtomField(const AtomField& that)
         : name(that.name),
           javaType(that.javaType),
           enumValues(that.enumValues),
-          enumTypeName(that.enumTypeName) {
+          enumTypeName(that.enumTypeName),
+          enumTypeNameFull(that.enumTypeNameFull) {
     }
 
     inline AtomField(string n, java_type_t jt) : name(n), javaType(jt) {

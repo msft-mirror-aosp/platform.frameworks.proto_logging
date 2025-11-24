@@ -341,60 +341,24 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
 
 int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                   const string& cppNamespace) {
-    const bool hasHistograms = has_histograms(atoms.decls);
-    write_native_header_preamble(out, cppNamespace, /*includePull=*/false, hasHistograms,
-                                 /*bootstrap=*/false, /*isVendorAtomLogging=*/true);
+    write_native_header_preamble(out, atoms, cppNamespace, /*bootstrap=*/false,
+                                 /*isVendorAtomLogging=*/true);
     write_native_atom_constants(out, atoms, attributionDecl, "createVendorAtom(",
                                 /*isVendorAtomLogging=*/true);
 
-#ifdef CC_INCLUDE_HDRS_DIR
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
-
-    // Write histogram helper declarations if any histogram annotations are present.
-    if (hasHistograms) {
-        write_native_histogram_helper_declarations(out, atoms.decls);
-    }
-#endif
-
-    for (AtomDeclSet::const_iterator atomIt = atoms.decls.begin(); atomIt != atoms.decls.end();
-         atomIt++) {
-        set<string> processedEnums;
-
-        for (vector<AtomField>::const_iterator field = (*atomIt)->fields.begin();
-             field != (*atomIt)->fields.end(); field++) {
-            if (field->javaType == JAVA_TYPE_ENUM || field->javaType == JAVA_TYPE_ENUM_ARRAY) {
-                // There might be N fields with the same enum type
-                // avoid duplication definitions
-                if (processedEnums.find(field->enumTypeName) != processedEnums.end()) {
-                    continue;
-                }
-
-                if (processedEnums.empty()) {
-                    fprintf(out, "class %s final {\n", (*atomIt)->message.c_str());
-                    fprintf(out, "public:\n\n");
-                }
-
-                processedEnums.insert(field->enumTypeName);
-
-                fprintf(out, "enum %s {\n", field->enumTypeName.c_str());
-                size_t i = 0;
-                for (map<int, string>::const_iterator value = field->enumValues.begin();
-                     value != field->enumValues.end(); value++) {
-                    fprintf(out, "    %s = %d", make_constant_name(value->second).c_str(),
-                            value->first);
-                    char const* const comma = (i == field->enumValues.size() - 1) ? "" : ",";
-                    fprintf(out, "%s\n", comma);
-                    i++;
-                }
-
-                fprintf(out, "};\n");
-            }
+    for (auto& atomDecl : atoms.decls) {
+        if (get_enum_fields(*atomDecl).empty()) {
+            continue;
         }
-        if (!processedEnums.empty()) {
-            fprintf(out, "};\n\n");
+        fprintf(out, "class %s final {\n", atomDecl->message.c_str());
+        fprintf(out, "public:\n\n");
+
+        // write enum definitions
+        if (write_native_atom_enums_typesafe(out, *atomDecl,
+                                             /*useScopedEnums=*/false) != 0) {
+            return 1;
         }
+        fprintf(out, "};\n");
     }
 
     fprintf(out, "using ::aidl::android::frameworks::stats::VendorAtom;\n");
@@ -411,6 +375,37 @@ int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl&
     write_native_header_epilogue(out, cppNamespace);
 
     return 0;
+}
+
+int write_stats_log_cpp_vendor_typesafe(FILE* out, const Atoms& atoms,
+                                        const AtomDecl& attributionDecl, const string& cppNamespace,
+                                        const string& importHeader) {
+    (void)out;
+    (void)atoms;
+    (void)attributionDecl;
+    (void)cppNamespace;
+    (void)importHeader;
+
+    fprintf(stderr,
+            "Type-safe APIs generation for vendor atoms is not supported (vote up "
+            "http://b/459894155)");
+
+    return 1;
+}
+
+int write_stats_log_header_vendor_typesafe(FILE* out, const Atoms& atoms,
+                                           const AtomDecl& attributionDecl,
+                                           const string& cppNamespace) {
+    (void)out;
+    (void)atoms;
+    (void)attributionDecl;
+    (void)cppNamespace;
+
+    fprintf(stderr,
+            "Type-safe APIs generation for vendor atoms is not supported (vote up "
+            "http://b/459894155)");
+
+    return 1;
 }
 
 }  // namespace stats_log_api_gen

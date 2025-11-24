@@ -23,17 +23,21 @@ cc_test {
     name: "stats_code_gen_cc_test",
     srcs: [
         "AtomCodeGen_bootstrap_test.cpp",
+        "AtomCodeGen_bootstrap_typesafe.cpp",
         "AtomCodeGen_platform_test.cpp",
+        "AtomCodeGen_platform_typesafe.cpp",
     ],
     generated_headers: [
-        "test_atom_cc_gen_hdrs",
-        "cts_atom_cc_gen_hdrs",
         "bootstrap_atom_cc_gen_hdrs",
+        "bootstrap_atom_cc_gen_typesafe_hdrs",
+        "cts_atom_cc_gen_hdrs",
+        "test_atom_cc_gen_hdrs",
+        "test_atom_cc_gen_typesafe_hdrs",
     ],
     generated_sources: [
-        "test_atom_cc_gen_srcs",
-        "cts_atom_cc_gen_srcs",
         "bootstrap_atom_cc_gen_srcs",
+        "cts_atom_cc_gen_srcs",
+        "test_atom_cc_gen_srcs",
     ],
     test_suites: [
         "device-tests",
@@ -48,11 +52,12 @@ cc_test {
     shared_libs: [
         "android.os.statsbootstrap_aidl-cpp",
         "libstatsbootstrap",
-        "libstatspull",
-        "libstatssocket",
     ],
     static_libs: [
         "libgmock",
+        "libstatspull-fake",
+        "libstatssocket-fake",
+        "stats-log-api-gen-cc-lib",
     ],
 }
 
@@ -90,6 +95,27 @@ genrule {
     out: ["statslog_test.cpp"],
     cmd: "$(location stats-log-api-gen) --cpp $(genDir)/statslog_test.cpp --module statsdtest" +
         "  --namespace android,stats --importHeader statslog_test.h",
+}
+
+genrule {
+    name: "bootstrap_atom_cc_gen_typesafe_hdrs",
+    tools: ["stats-log-api-gen"],
+    out: ["statslog_bootstrap_typesafe.h"],
+    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_bootstrap_typesafe.h" +
+        "  --module apex" +
+        "  --namespace android,stats,bs,typesafe" +
+        "  --type-safe" +
+        "  --interface bootstrap",
+}
+
+genrule {
+    name: "test_atom_cc_gen_typesafe_hdrs",
+    tools: ["stats-log-api-gen"],
+    out: ["statslog_test_typesafe.h"],
+    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_test_typesafe.h" +
+        "  --module statsdtest" +
+        "  --namespace android,stats,typesafe" +
+        "  --type-safe",
 }
 
 genrule {

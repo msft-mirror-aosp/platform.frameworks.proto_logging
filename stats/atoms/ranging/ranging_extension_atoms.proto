@@ -36,13 +36,26 @@ extend Atom {
       [(module) = "ranging"];
   optional RangingTechnologyStopped ranging_technology_stopped = 997
       [(module) = "ranging"];
-  optional RangingPeerDisconnected ranging_peer_disconnected = 1215
+  optional RangingPeerDisconnectedAtRange ranging_peer_disconnected_at_range =
+      1215 [(module) = "ranging"];
+  optional RangingPeerDisconnectedWithRssi ranging_peer_disconnected_with_rssi =
+      1219 [(module) = "ranging"];
+  optional RangingPeerDisconnectedWithDelaySpread
+      ranging_peer_disconnected_with_delay_spread = 1220 [(module) = "ranging"];
+  optional RangingPeerDisconnectedWithConfidenceLevel
+      ranging_peer_disconnected_with_confidence_level = 1221
       [(module) = "ranging"];
 }
 
 /*
  * A ranging session has been configured, either after OOB negotiation or
  * directly from raw parameters.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
  */
 message RangingSessionConfigured {
   // Unique identifier for the session.
@@ -68,6 +81,12 @@ message RangingSessionConfigured {
 
 /*
  * A ranging session has started.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
  */
 message RangingSessionStarted {
   // Unique identifier for the session.
@@ -86,6 +105,12 @@ message RangingSessionStarted {
 
 /*
  * A ranging session has been closed.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
  */
 message RangingSessionClosed {
   // Unique identifier for the session.
@@ -107,6 +132,12 @@ message RangingSessionClosed {
 
 /*
  * A ranging technology has started within a session.
+ *
+ * Logged from:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 2 times per hour per device
+ *   Avg: 2 times per day per device
  */
 message RangingTechnologyStarted {
   // Unique identifier for the session.
@@ -124,6 +155,12 @@ message RangingTechnologyStarted {
 
 /*
  * A ranging technology has stopped within a session.
+ *
+ * Logged from:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 2 times per hour per device
+ *   Avg: 2 times per day per device
  */
 message RangingTechnologyStopped {
   // Unique identifier for the session.
@@ -147,8 +184,14 @@ message RangingTechnologyStopped {
 
 /*
  * A peer has disconnected from a session.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
  */
-message RangingPeerDisconnected {
+message RangingPeerDisconnectedAtRange {
   // Unique identifier for the session.
   optional int64 session_id = 1;
 
@@ -159,19 +202,86 @@ message RangingPeerDisconnected {
   optional android.ranging.Technology technology = 3;
 
   // Device type of the peer that disconnected.
-  optional android.ranging.DeviceType peer_device_type = 4;
+  optional android.ranging.DeviceType peer_type = 4;
 
-  // The last successfully measured distance in meters.
+  // Last range (meters) measured before the peer disconnected.
   optional float last_range_m = 5;
+}
 
-  // The RSSI in dBm of the last successful data exchange, if available.
-  optional int32 last_rssi_dbm = 6;
+/*
+ * A peer has disconnected from a session.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
+ */
+message RangingPeerDisconnectedWithRssi {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
 
-  // The delay spread in meters of the last successful data exchange, if
-  // available.
-  optional float delay_spread_m = 7;
+  // UID of the process that started this session through the API.
+  optional int32 uid = 2 [(is_uid) = true];
 
-  // The confidence level of the last successful data exchange, between 0 and 1,
-  // if available.
-  optional float confidence_level = 8;
+  // Technology that the peer was using when it disconnected.
+  optional android.ranging.Technology technology = 3;
+
+  // Device type of the peer that disconnected.
+  optional android.ranging.DeviceType peer_type = 4;
+
+  // Last RSSI (dBm) measured before the peer disconnected.
+  optional int32 last_rssi_dbm = 5;
+}
+
+/*
+ * A peer has disconnected from a session.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
+ */
+message RangingPeerDisconnectedWithDelaySpread {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // Technology that the peer was using when it disconnected.
+  optional android.ranging.Technology technology = 3;
+
+  // Device type of the peer that disconnected.
+  optional android.ranging.DeviceType peer_type = 4;
+
+  // Last delay spread (meters) measured before the peer disconnected.
+  optional int32 delay_spread_m = 5;
+}
+
+/*
+ * A peer has disconnected from a session.
+ *
+ * Logged From:
+ *   android.server.ranging.metrics.SessionMetricsLogger
+ * Estimated Logging Rate:
+ *   Peak: 1 time per hour per device
+ *   Avg: 1 time per day per device
+ */
+message RangingPeerDisconnectedWithConfidenceLevel {
+  // Unique identifier for the session.
+  optional int64 session_id = 1;
+
+  // UID of the process that started this session through the API.
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // Technology that the peer was using when it disconnected.
+  optional android.ranging.Technology technology = 3;
+
+  // Device type of the peer that disconnected.
+  optional android.ranging.DeviceType peer_type = 4;
+
+  // Last confidence level (0-1) measured before the peer disconnected.
+  optional int32 confidence_level = 5;
 }
