@@ -54,4 +54,10 @@
    // native nativeOpenAccessoryControl() function. This is a critical step for
    // the system to be able to communicate with AOA accessories.
    optional android.os.usb.OpenAccessoryControlResult open_control_result = 4;
+
+   // Represents the state of the device-specific system property that can
+   // override the feature flag.
+   // A value of 'true' indicates that the property 'DEVICE_UAOA_ENABLED_PROPERTY'
+   // is set to true, enabling the feature for this device model.
+   optional bool device_enabled_for_userspace_aoa = 5;
  }
