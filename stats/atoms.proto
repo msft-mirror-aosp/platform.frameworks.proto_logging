@@ -1557,6 +1557,7 @@ message Atom {
     extensions 1223; // ComputerControlSessionReported computer_control_session_reported
     extensions 1224; // ComputerControlFailedSessionReported computer_control_failed_session_reported
     extensions 1225; // MediaScreenLaunched media_screen_launched
+    extensions 1226; // WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
