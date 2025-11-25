@@ -1543,7 +1543,7 @@ message Atom {
     extensions 1209; // MediaAutolaunchDismissed media_autolaunch_dismissed
     extensions 1210; // MediaAutolaunchDailySettingStateReported media_autolaunch_daily_setting_state_reported
     extensions 1211; // UsbUserspaceAoaEnabled usb_userspace_aoa_enabled
-    extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
+    extensions 1212; // WearLiveEntryEventReported wear_live_entry_event_reported
     extensions 1213; // StaleEncryptedstoreDetected stale_encrypted_store_detected
     extensions 1214; // SettingsAppFunctionEvent settings_app_function_event
     extensions 1215; // RangingPeerDisconnectedAtRange ranging_peer_disconnected_at_range
