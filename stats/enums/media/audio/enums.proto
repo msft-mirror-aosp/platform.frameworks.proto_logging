@@ -179,6 +179,22 @@ enum AudioDeviceInfoType {
     AUDIO_DEVICE_INFO_TYPE_BLE_BROADCAST   = 30;
 }
 
+// The audio mode (e.g. normal, ringtone, in-call).
+//
+// From
+// frameworks/base/media/java/android/media/AudioManager.java
+enum AudioMode {
+    AUDIO_MODE_UNSPECIFIED = 0;
+    AUDIO_MODE_NORMAL = 1;
+    AUDIO_MODE_RINGTONE = 2;
+    AUDIO_MODE_IN_CALL = 3;
+    AUDIO_MODE_IN_COMMUNICATION = 4;
+    AUDIO_MODE_CALL_SCREENING = 5;
+    AUDIO_MODE_CALL_REDIRECT = 6;
+    AUDIO_MODE_COMMUNICATION_REDIRECT = 7;
+    AUDIO_MODE_ASSISTANT_CONVERSATION = 8;
+}
+
 // The event (method) associated with the AudioRecord (e.g. create, start,
 // stop, etc.)
 enum AudioRecordEvent {
@@ -445,4 +461,19 @@ enum SharingMode {
   SHARING_MODE_EXCLUSIVE = 1;
   // Multiple application will be mixed by the AAudio server.
   SHARING_MODE_SHARED = 2;
+}
+
+enum AudioRoutingApiMethod {
+  AUDIO_ROUTING_API_METHOD_UNSPECIFIED = 0;
+  AUDIO_ROUTING_API_METHOD_SET_PREFERRED_DEVICES_FOR_STRATEGY = 1;
+  AUDIO_ROUTING_API_METHOD_SET_DEVICE_AS_NON_DEFAULT_FOR_STRATEGY = 2;
+  AUDIO_ROUTING_API_METHOD_SET_COMMUNICATION_DEVICE = 3;
+  AUDIO_ROUTING_API_METHOD_SET_SPEAKER_PHONE_ON = 4;
+  AUDIO_ROUTING_API_METHOD_SET_BLUETOOTH_SCO_ON = 5;
+}
+
+enum Status {
+    STATUS_UNKNOWN = 0;
+    STATUS_SUCCESS = 1;
+    STATUS_FAILURE = 2;
 }

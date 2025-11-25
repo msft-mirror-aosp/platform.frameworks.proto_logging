@@ -1,0 +1,54 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+package android.os.statsd.media;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+extend Atom {
+  optional AudioRoutingTransitionReported audio_routing_transition_reported = 1232 [(module) = "audio"];
+  optional AudioModeStateChanged audio_mode_state_changed = 1233 [(module) = "audio"];
+}
+
+/*
+ * Logs when a result is sent back to the routing management service/app.
+ *
+ * Estimated Logging Rate:
+ * Peak: 3/min | Avg: < 50/day
+ */
+message AudioRoutingTransitionReported {
+  optional int32 requester_uid = 1 [(is_uid) = true];
+  optional android.media.audio.AudioRoutingApiMethod api_method = 2;
+  repeated android.media.audio.AudioDeviceInfoType requested_device_types = 3;
+  repeated android.media.audio.Usage usage = 4;
+  optional int64 latency_ms = 5;
+  optional android.media.audio.Status status = 6;
+}
+
+/*
+ * Logs when a service/app initiates a audio mode change (e.g. in call, in communication, etc).
+ *
+ * Estimated Logging Rate:
+ * Peak: 3/min | Avg: < 100/day
+ */
+message AudioModeStateChanged {
+  optional int32 owner_uid = 1 [(is_uid) = true];
+  optional android.media.audio.AudioMode mode = 2;
+  optional int64 latency_ms = 3;
+}
