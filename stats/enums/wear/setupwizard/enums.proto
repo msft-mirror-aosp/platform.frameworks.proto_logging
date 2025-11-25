@@ -202,3 +202,23 @@ enum PhoneSwitchingCompanionOsTypeChange {
   PHONE_SWITCHING_COMPANION_OS_TYPE_CHANGE_IOS_TO_ANDROID = 2;
   PHONE_SWITCHING_COMPANION_OS_TYPE_CHANGE_IOS_TO_IOS = 3;
 }
+
+/**
+ * Indicates the final outcome of the blocking app update flow during setup.
+ */
+enum BlockingAppUpdateFinalStatus {
+  FINAL_STATUS_UNKNOWN = 0;
+  FINAL_STATUS_STARTED = 1;
+  FINAL_STATUS_SUCCESS = 2;
+  FINAL_STATUS_FAILURE = 3;
+}
+
+/**
+ * Indicates the type of exception that occurred outside of Play Services.
+ */
+enum BlockingAppUpdateExceptionType {
+  EXCEPTION_TYPE_UNSPECIFIED = 0;
+  EXCEPTION_TYPE_TIMEOUT = 1;
+  EXCEPTION_TYPE_REMOTE_EXCEPTION = 2;
+  EXCEPTION_TYPE_OTHER_EXCEPTION = 3;
+}
