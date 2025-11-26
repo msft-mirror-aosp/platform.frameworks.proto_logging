@@ -56,3 +56,47 @@ enum TranslationErrorType {
     // Translation is failed due to exception
     TRANSLATION_ERROR_EXCEPTION = 13;
 }
+
+
+enum MapErrorType {
+    // Map unknown error
+    MAP_ERROR_UNKNOWN = 0;
+    // Map success
+    MAP_ERROR_NONE = 1;
+
+    // Input data errors
+    // Smscbmessage object is null
+    MAP_ERROR_NO_MESSAGE = 2;
+    // No geometry information in the message
+    MAP_ERROR_NO_GEOMETRY_DATA = 3;
+    // Geometry information exists but is invalid data
+    MAP_ERROR_INVALID_GEOMETRY_DATA = 4;
+    // URI encoding failed
+    MAP_ERROR_URI_ENCODING_FAILED = 5;
+
+    // Core activity lookup errors
+    // No system activity found to handle the intent
+    MAP_ERROR_CORE_ACTIVITY_NOT_FOUND = 6;
+    // Found activity lacks required permission
+    MAP_ERROR_CORE_ACTIVITY_PERMISSION_DENIED = 7;
+    // Multiple system activities found
+    MAP_ERROR_MULTIPLE_CORE_ACTIVITIES_FOUND = 8;
+    // Exception occurred during permission check
+    MAP_ERROR_PERMISSION_CHECK_EXCEPTION = 9;
+
+    // Core activity execution error
+    // Failed to start the final selected activity
+    MAP_ERROR_CORE_ACTIVITY_START_FAILED = 10;
+}
+
+// Type of geographic information passed to the map activity
+enum GeoDataType {
+    // Unknown geometry type
+    GEO_DATA_TYPE_UNKNOWN = 0;
+    // Polygon geometry type
+    GEO_DATA_TYPE_POLYGON = 1;
+    // Circle geometry type
+    GEO_DATA_TYPE_CIRCLE = 2;
+    // Multiple geometry types (e.g., polygon + circle)
+    GEO_DATA_TYPE_MULTIPLE = 3;
+}

@@ -43,4 +43,12 @@ message CellbroadcastUxReported {
     optional bool translation_is_triggered = 3;
     // The result reason of translation
     optional android.telephony.cellbroadcast.TranslationErrorType error_type = 4;
+    // The map button is showing (e.g. alert message includes geometry data)
+    optional bool map_button_show = 5;
+    // The map triggered
+    optional bool map_is_triggered = 6;
+    // Type of geographic information passed to the map activity
+    optional android.telephony.cellbroadcast.GeoDataType map_geo_data_type = 7;
+    // The result reason of map
+    optional android.telephony.cellbroadcast.MapErrorType map_error_type = 8;
 }
