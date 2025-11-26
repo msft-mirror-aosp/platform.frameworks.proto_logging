@@ -52,6 +52,8 @@ extend Atom {
     = 961 [(module) = "wear_setupwizard"];
   optional  WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
     = 962 [(module) = "wear_setupwizard"];
+  optional  WearSetupWizardBlockingAppUpdateResultReported wear_setup_wizard_blocking_app_update_result_reported
+    = 1227 [(module) = "wear_setupwizard"];
 }
 
 /**
@@ -210,4 +212,13 @@ message WearSetupWizardPhoneSwitchTriggered {
   // Either ANDROID_TO_ANDROID, IOS_TO_ANDROID, or IOS_TO_IOS
   optional com.google.android.clockwork.setup.PhoneSwitchingCompanionOsTypeChange
     phone_switching_companion_os_type_change = 3;
+}
+
+// Atom to log the result of the blocking app update flow during setup.
+message WearSetupWizardBlockingAppUpdateResultReported {
+  // The final state of the blocking app update process.
+  optional com.google.android.clockwork.setup.BlockingAppUpdateFinalStatus status = 1;
+
+  // The type of exception that occurred outside of Play Services.
+  optional com.google.android.clockwork.setup.BlockingAppUpdateExceptionType exception_type = 2;
 }
