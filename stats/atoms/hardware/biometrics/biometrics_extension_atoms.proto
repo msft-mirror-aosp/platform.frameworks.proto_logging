@@ -117,6 +117,25 @@ message BiometricPromptStarted {
 
     // Whether prompt was called by a system app
     optional bool is_system_caller = 15;
+
+    // Enum representing the reason Identity Check is not active
+    enum IdentityCheckInactiveReason {
+        // Identity Check is either active (see is_identity_check_active) or the inactive reason is unknown
+        UNKNOWN = 0;
+        // Authenticators requested by client does not support Identity Check
+        DISABLED_REASON_AUTHENTICATORS = 1;
+        // Identity Check toggle is not enabled
+        DISABLED_REASON_TOGGLE_OFF = 2;
+        // Identity Check setup requirements not satisfied even though toggle is enabled
+        DISABLED_REASON_REQUIREMENTS_NOT_SATISFIED = 3;
+        // User does not have strong biometrics for Identity Check to be effective
+        DISABLED_REASON_STRONG_BIOMETRICS_NOT_ENROLLED = 4;
+        // Device is in a trusted location, making Identity Check inactive
+        DISABLED_REASON_IN_TRUSTED_LOCATION = 5;
+    }
+
+    // Reason for Identity Check not active when is_identity_check_active is false
+    optional IdentityCheckInactiveReason identity_check_inactive_reason = 16;
 }
 
 /**
