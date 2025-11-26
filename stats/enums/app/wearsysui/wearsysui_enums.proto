@@ -21,9 +21,9 @@ package android.app.wearsysui;
 option java_multiple_files = true;
 option java_outer_classname = "WearSysUiEnums";
 
-// This enum depicts the text type of the content shown in WFCO.
+// This enum depicts the text type of the content shown in Live Entry UI.
 // Next ID: 3
-enum WatchFaceContentOverlayTextType {
+enum LiveEntryTextType {
   // The data type is not specified.
   TEXT_TYPE_UNSPECIFIED = 0;
   // Simple, non-interactive text.
@@ -32,15 +32,15 @@ enum WatchFaceContentOverlayTextType {
   TEXT_TYPE_DYNAMIC = 2;
 }
 
-// This enum depicts the type of content entry shown in WFCO.
+// This enum depicts the type of content shown in Live Entry UI.
 // Next ID: 3
-enum WatchFaceContentOverlayEntryType {
+enum LiveEntryContentType {
   // The entry type is not specified.
-  ENTRY_TYPE_UNSPECIFIED = 0;
+  CONTENT_TYPE_UNSPECIFIED = 0;
   // A live update, such as a ride-sharing ETA.
-  ENTRY_TYPE_LIVE_UPDATE = 1;
+  CONTENT_TYPE_LIVE_UPDATE = 1;
   // An ongoing activity, such as a workout or timer.
-  ENTRY_TYPE_ONGOING_ACTIVITY = 2;
+  CONTENT_TYPE_ONGOING_ACTIVITY = 2;
 }
 // Quick Setting option selected by the user
 // Next ID: 3
