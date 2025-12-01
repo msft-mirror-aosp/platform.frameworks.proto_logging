@@ -571,4 +571,7 @@ message InitAppScanReported {
 
   // The final outcome of the signature verification process for this package.
   optional InitAppScanOutcome init_app_scan_outcome = 5;
+
+  // The name of the package being scanned.
+  optional string package_name = 6;
 }

@@ -1543,7 +1543,7 @@ message Atom {
     extensions 1209; // MediaAutolaunchDismissed media_autolaunch_dismissed
     extensions 1210; // MediaAutolaunchDailySettingStateReported media_autolaunch_daily_setting_state_reported
     extensions 1211; // UsbUserspaceAoaEnabled usb_userspace_aoa_enabled
-    extensions 1212; // WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported
+    extensions 1212; // WearLiveEntryEventReported wear_live_entry_event_reported
     extensions 1213; // StaleEncryptedstoreDetected stale_encrypted_store_detected
     extensions 1214; // SettingsAppFunctionEvent settings_app_function_event
     extensions 1215; // RangingPeerDisconnectedAtRange ranging_peer_disconnected_at_range
@@ -1557,6 +1557,8 @@ message Atom {
     extensions 1223; // ComputerControlSessionReported computer_control_session_reported
     extensions 1224; // ComputerControlFailedSessionReported computer_control_failed_session_reported
     extensions 1225; // MediaScreenLaunched media_screen_launched
+    extensions 1226; // WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported
+    extensions 1227; // WearSetupWizardBlockingAppUpdateResultReported wear_setup_wizard_blocking_app_update_result_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -8191,6 +8193,15 @@ message SnapshotMergeReported {
 
     // Whether this update attempt used io_uring.
     optional bool iouring_used = 19;
+
+    // Whether this update attempt used ublk.
+    optional bool ublk_used = 20;
+
+    // Time spent in install phase in milliseconds.
+    optional int64 install_time_millis = 21;
+
+    // Time spent in verification phase in milliseconds.
+    optional int64 verification_time_millis = 22;
 }
 
 /**

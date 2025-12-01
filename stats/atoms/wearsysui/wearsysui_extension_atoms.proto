@@ -36,7 +36,9 @@ extend Atom {
   optional WearTilePeekDurationReported wear_tile_peek_duration_reported = 1199
       [(module) = "wearsysui"];
   optional WearTileTapReported wear_tile_tap_reported = 1200 [(module) = "wearsysui"];
-  optional WearWatchFaceContentOverlayEventReported wear_watch_face_content_overlay_event_reported = 1212
+  optional WearLiveEntryEventReported wear_live_entry_event_reported = 1212
+      [(module) = "wearsysui"];
+  optional WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported = 1226
       [(module) = "wearsysui"];
 }
 
@@ -128,14 +130,14 @@ message WearTileTapReported {
   optional int32 tile_position = 3;
 }
 
-// Atom logged when an event is reported for WF Content Overlay (WFCO) UI.
+// Atom logged when an event is reported for Live Entry UI.
 //
-// Logged from: java/com/google/android/wearable/sysui/mainui/module/watchfaceoverlay/logging/WatchFaceOverlayStatsLogger.kt
+// Logged from: java/com/google/android/wearable/sysui/mainui/module/contentmanager/liveentry/LiveEntryStatsLogger.java
 //
 // Logged when:
-// 1. New content item is displayed on WFCO.
-// 2. User interacts with the content item on WFCO.
-message WearWatchFaceContentOverlayEventReported {
+// 1. New content item is displayed on live entry UI from WF Overlay or Notifications.
+// 2. User interacts with live entry item.
+message WearLiveEntryEventReported {
   // UiEvent ID associated with this event like UI_UPDATED, TAPPED, DISMISSED, OHG_INTERACTED, LONG_PRESS etc.
   optional int64 ui_event_id = 1;
 
@@ -143,8 +145,27 @@ message WearWatchFaceContentOverlayEventReported {
   optional int32 uid = 2 [(is_uid) = true];
 
   // The type of content being displayed.
-  optional android.app.wearsysui.WatchFaceContentOverlayEntryType entry_type = 3;
+  optional android.app.wearsysui.LiveEntryContentType content_type = 3;
 
   // The type of the text being displayed.
-  optional android.app.wearsysui.WatchFaceContentOverlayTextType text_type = 4;
+  optional android.app.wearsysui.LiveEntryTextType text_type = 4;
+}
+// Atom logged when an event is reported for Quick Setting UI.
+//
+// Logged from : java/com/google/android/wearable/sysui/mainui/module/watchfaceoverlay/penguin/settings/logging/QuickSettingsStatsLogger.kt
+// Logged when:
+// 1. Quick Setting is shown to the user.
+// 2. User interacts with the Quick Setting.
+message WearLiveUpdateQuickSettingEventReported{
+  // UiEvent for the interaction that happened ex. QUICK_SETTING_SHOWN, QSS_OPTION_SELECTED etc.
+  optional int64 ui_event_id = 1;
+
+  // UID (pkg info) for the app setting is displayed
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // Source from which Quick Setting was entered
+  optional android.app.wearsysui.QuickSettingEntrySource entrySource = 3;
+
+  // Setting option selected by the user for this content provider
+  optional android.app.wearsysui.QuickSettingOption optionType = 4;
 }
