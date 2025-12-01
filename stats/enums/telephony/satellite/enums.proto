@@ -216,3 +216,13 @@ enum SatelliteEntitlementQueryTrigger {
   // Retry entitlement query
   SATELLITE_ENTITLEMENT_QUERY_TRIGGER_RETRY = 8;
 }
+
+// Defines the source or reason for satellite service eligibility.
+enum SatelliteEligibilitySource {
+  // Unknown or unspecified eligibility source.
+  SATELLITE_ELIGIBILITY_SOURCE_UNKNOWN = 0;
+  // Service is available because the device/subscription is entitled.
+  SATELLITE_ELIGIBILITY_SOURCE_ENTITLEMENT = 1;
+  // Service is available based on a carrier configuration.
+  SATELLITE_ELIGIBILITY_SOURCE_CARRIER_CONFIG = 2;
+}
