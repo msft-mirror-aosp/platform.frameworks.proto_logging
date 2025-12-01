@@ -204,13 +204,13 @@ message MediaSubscriptionChanged {
  * per device per day
  */
 message MediaScreenLaunched {
-  // Depicts the screen opened by the user : (OVERFLOW, QUEUE_SCREEN)
-  optional com.google.android.wearable.media.sessions.MediaScreen media_screen =
-      1;
   // Screen from which the action was originated to distinguish between queue
   // screen from Player Screen or Overflow Screen
   optional com.google.android.wearable.media.sessions.MediaScreen
-      trigger_source = 2;
+      trigger_source = 1;
+   // Depicts the screen opened by the user : (OVERFLOW, QUEUE_SCREEN)
+  optional com.google.android.wearable.media.sessions.MediaScreen media_screen =
+      2;
   // Package name of the app that owns the media session. (This app is on the
   // paired phone, and not on the watch, hence cannot use uid)
   optional string media_player_package_name = 3;
