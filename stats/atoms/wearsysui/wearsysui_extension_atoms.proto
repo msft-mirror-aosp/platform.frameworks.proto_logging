@@ -164,8 +164,8 @@ message WearLiveUpdateQuickSettingEventReported{
   optional int32 uid = 2 [(is_uid) = true];
 
   // Source from which Quick Setting was entered
-  optional android.app.wearsysui.QuickSettingEntrySource entrySource = 3;
+  optional android.app.wearsysui.QuickSettingEntrySource entry_source = 3;
 
   // Setting option selected by the user for this content provider
-  optional android.app.wearsysui.QuickSettingOption optionType = 4;
+  optional android.app.wearsysui.QuickSettingOption option_type = 4;
 }
