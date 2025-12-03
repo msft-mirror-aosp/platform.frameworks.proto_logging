@@ -1562,6 +1562,7 @@ message Atom {
     extensions 1228; // WsBlockingAppUpdateNotificationShownStatusReported ws_blocking_app_update_notification_shown_status_reported
     extensions 1229; // WearTrayAnimationStarted wear_tray_animation_started
     extensions 1230; // WearTrayAnimationFinished wear_tray_animation_finished
+    extensions 1231; // MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

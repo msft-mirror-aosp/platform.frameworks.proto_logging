@@ -25,6 +25,8 @@ option java_package = "com.android.os.memory";
 option java_multiple_files = true;
 
 extend Atom {
+    optional MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event = 1231 [(module) = "framework"];
+
     optional MemcgMemorySnapshot memcg_memory_snapshot = 10251 [(module) = "framework"];
     optional MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot = 10252 [(module) = "framework"];
     optional MemcgMemoryStatSnapshot memcg_memory_stat_snapshot = 10257 [(module) = "framework"];
@@ -110,4 +112,22 @@ message MemcgMemoryStatSnapshot {
     // Memory swap peak as tracked by memcg. Read from the memory.swap.current
     // field in /sys/fs/cgroup/../pid_PID/memory.swap.current.
     optional int32 memory_swap_current_in_kilobytes = 8;
+}
+
+message MemcgMemoryExceedThresholdEvent {
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The process name.
+    // the process cmdline as passed by pmgd configuration
+    optional string process_name = 2;
+
+    // Amount of (resident) memory used in anonymous mappings such as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
+    optional int32 anon_memory_in_kilobytes = 3;
+
+    // Amount of memory used to cache filesystem data, including tmpfs and shared memory.
+    optional int32 file_memory_in_kilobytes = 4;
+
+    // Memory swap peak as tracked by memcg. Read from the memory.swap.current
+    // field in /sys/fs/cgroup/../pid_PID/memory.swap.current.
+    optional int32 memory_swap_current_in_kilobytes = 5;
 }
