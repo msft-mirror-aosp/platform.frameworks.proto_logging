@@ -44,6 +44,8 @@ extend Atom {
       [(module) = "microxr-vendor"];
   optional MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info = 300003
       [(module) = "microxr-vendor"];
+  optional MicroXrMcuBootTime micro_xr_mcu_boot_time = 300004
+      [(module) = "microxr-vendor"];
 }
 
 /**
@@ -355,4 +357,19 @@ message MicroXrMcuPowerDeepSleepInfo {
 
   // The total accumulated deep sleep duration in ms within the reporting period.
   optional int64 total_sleep_duration_ms = 13;
+}
+
+/**
+ * Logged boot time when mcu startup.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens per day at most
+ */
+message MicroXrMcuBootTime {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  // Time taken for the MCU to boot, in milliseconds.
+  optional int32 mcu_boot_time_ms = 2;
 }
