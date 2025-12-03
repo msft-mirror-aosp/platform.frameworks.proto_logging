@@ -134,7 +134,7 @@ enum ImeRequestOriginEnum {
     // The IME request originated in the IME.
     ORIGIN_IME = 7;
     // The IME request originated in the WindowManager Shell.
-    ORIGIN_WM_SHELL = 8;
+    ORIGIN_SHELL = 8;
 }
 
 enum ImeRequestPhaseEnum {
@@ -177,23 +177,23 @@ enum ImeRequestPhaseEnum {
     // Started the show IME runner.
     PHASE_WM_SHOW_IME_RUNNER = 18 [deprecated = true];
     // Ready to show IME.
-    PHASE_WM_SHOW_IME_READY = 19;
+    PHASE_WM_SHOW_IME_READY = 19 [deprecated = true];
     // The Window Manager has a connection to the IME insets control target.
     PHASE_WM_HAS_IME_INSETS_CONTROL_TARGET = 20 [deprecated = true];
     // Reached the window insets control target's show insets method.
-    PHASE_WM_WINDOW_INSETS_CONTROL_TARGET_SHOW_INSETS = 21;
+    PHASE_SERVER_WINDOW_INSETS_CONTROL_TARGET_SHOW_INSETS = 21;
     // Reached the window insets control target's hide insets method.
-    PHASE_WM_WINDOW_INSETS_CONTROL_TARGET_HIDE_INSETS = 22;
+    PHASE_SERVER_WINDOW_INSETS_CONTROL_TARGET_HIDE_INSETS = 22;
     // Reached the remote insets control target's show insets method.
-    PHASE_WM_REMOTE_INSETS_CONTROL_TARGET_SHOW_INSETS = 23;
+    PHASE_SERVER_REMOTE_INSETS_CONTROL_TARGET_SHOW_INSETS = 23;
     // Reached the remote insets control target's hide insets method.
-    PHASE_WM_REMOTE_INSETS_CONTROL_TARGET_HIDE_INSETS = 24;
+    PHASE_SHELL_REMOTE_INSETS_CONTROL_TARGET_HIDE_INSETS = 24;
     // Reached the remote insets controller.
-    PHASE_WM_REMOTE_INSETS_CONTROLLER = 25;
+    PHASE_SHELL_REMOTE_INSETS_CONTROLLER = 25;
     // Created the IME window insets show animation.
-    PHASE_WM_ANIMATION_CREATE = 26;
+    PHASE_SHELL_ANIMATION_CREATE = 26;
     // Started the IME window insets show animation.
-    PHASE_WM_ANIMATION_RUNNING = 27;
+    PHASE_SHELL_ANIMATION_RUNNING = 27;
     // Reached the client's show insets method.
     PHASE_CLIENT_SHOW_INSETS = 28;
     // Reached the client's hide insets method.
@@ -225,7 +225,7 @@ enum ImeRequestPhaseEnum {
     // Finished the IME window insets hide animation.
     PHASE_CLIENT_ANIMATION_FINISHED_HIDE = 42 [deprecated = true];
     // Aborted the request to show the IME post layout.
-    PHASE_WM_ABORT_SHOW_IME_POST_LAYOUT = 43;
+    PHASE_SERVER_ABORT_SHOW_IME_POST_LAYOUT = 43;
     // Reached the IME's showWindow method.
     PHASE_IME_SHOW_WINDOW = 44;
     // Reached the IME's hideWindow method.
@@ -237,21 +237,21 @@ enum ImeRequestPhaseEnum {
     // Reporting the new requested visible types.
     PHASE_CLIENT_REPORT_REQUESTED_VISIBLE_TYPES = 48;
     // Setting the IME visibility for the RemoteInsetsControlTarget.
-    PHASE_WM_SET_REMOTE_TARGET_IME_VISIBILITY = 49;
+    PHASE_SERVER_SET_REMOTE_TARGET_IME_VISIBILITY = 49;
     // IME has no insets pending and is server visible. Notify about changed controls.
-    PHASE_WM_POST_LAYOUT_NOTIFY_CONTROLS_CHANGED = 50;
+    PHASE_SERVER_POST_LAYOUT_NOTIFY_CONTROLS_CHANGED = 50;
     // Handling the dispatch of the IME visibility change.
-    PHASE_CLIENT_HANDLE_DISPATCH_IME_VISIBILITY_CHANGED = 51;
+    PHASE_CLIENT_HANDLE_DISPATCH_IME_VISIBILITY_CHANGED = 51 [deprecated = true];
     // Notifying that the IME visibility change.
-    PHASE_CLIENT_NOTIFY_IME_VISIBILITY_CHANGED = 52;
+    PHASE_IME_NOTIFY_IME_VISIBILITY_CHANGED = 52;
     // Updating the requested visible types.
     PHASE_CLIENT_UPDATE_REQUESTED_VISIBLE_TYPES = 53;
     // Reached the remote insets control target's setImeInputTargetRequestedVisibility method.
-    PHASE_WM_REMOTE_INSETS_CONTROL_TARGET_SET_REQUESTED_VISIBILITY = 54;
+    PHASE_WM_REMOTE_INSETS_CONTROL_TARGET_SET_REQUESTED_VISIBILITY = 54 [deprecated = true];
     // Received a new insets source control with a leash.
-    PHASE_WM_GET_CONTROL_WITH_LEASH = 55;
+    PHASE_SERVER_GET_CONTROL_WITH_LEASH = 55;
     // Updating the requested visible types in the WindowState and sending them to state controller.
-    PHASE_WM_UPDATE_REQUESTED_VISIBLE_TYPES = 56;
+    PHASE_SERVER_UPDATE_REQUESTED_VISIBLE_TYPES = 56;
     // Setting the requested IME visibility of a window.
     PHASE_SERVER_SET_VISIBILITY_ON_FOCUSED_WINDOW = 57;
     // Reached the redirect of InputMethodManager to InsetsController show/hide.
@@ -259,15 +259,15 @@ enum ImeRequestPhaseEnum {
     // Reached the InputMethodManager Handler call to send the visibility.
     PHASE_CLIENT_SET_IME_VISIBILITY = 59;
     // Calling into the listener to show/hide the IME from the ImeInsetsSourceProvider.
-    PHASE_WM_DISPATCH_IME_REQUESTED_CHANGED = 60;
+    PHASE_SERVER_DISPATCH_IME_REQUESTED_CHANGED = 60;
     // An ongoing user animation will not be interrupted by a IMM#showSoftInput.
     PHASE_CLIENT_NO_ONGOING_USER_ANIMATION = 61;
     // Dispatching the token to the ImeInsetsSourceProvider.
-    PHASE_WM_NOTIFY_IME_VISIBILITY_CHANGED_FROM_CLIENT = 62;
+    PHASE_SERVER_NOTIFY_IME_VISIBILITY_CHANGED_FROM_CLIENT = 62;
     // Now posting the IME visibility to the WMS handler.
-    PHASE_WM_POSTING_CHANGED_IME_VISIBILITY = 63;
+    PHASE_SERVER_POSTING_CHANGED_IME_VISIBILITY = 63;
     // Inside the WMS handler calling into the listener that calls into IMMS show/hide.
-    PHASE_WM_INVOKING_IME_REQUESTED_LISTENER = 64;
+    PHASE_SERVER_INVOKING_IME_REQUESTED_LISTENER = 64;
     // IME is requested to be hidden, but already hidden. Don't hide to avoid another animation.
     PHASE_CLIENT_ALREADY_HIDDEN = 65;
     // The view's handler is needed to check if we're running on a different thread. We can't
@@ -277,21 +277,21 @@ enum ImeRequestPhaseEnum {
     // app or the RemoteInsetsControlTarget).
     PHASE_SERVER_UPDATE_CLIENT_VISIBILITY = 67;
     // DisplayImeController received the requested visibility for the IME and stored it.
-    PHASE_WM_DISPLAY_IME_CONTROLLER_SET_IME_REQUESTED_VISIBLE = 68;
+    PHASE_SHELL_DISPLAY_IME_CONTROLLER_SET_IME_REQUESTED_VISIBLE = 68;
     // The control target reported its requestedVisibleTypes back to WindowManagerService.
-    PHASE_WM_UPDATE_DISPLAY_WINDOW_REQUESTED_VISIBLE_TYPES = 69;
+    PHASE_SERVER_UPDATE_DISPLAY_WINDOW_REQUESTED_VISIBLE_TYPES = 69;
     // The requestedVisibleTypes have not been changed, so this request is not continued.
-    PHASE_WM_REQUESTED_VISIBLE_TYPES_NOT_CHANGED = 70;
+    PHASE_WM_REQUESTED_VISIBLE_TYPES_NOT_CHANGED = 70 [deprecated = true];
     // Updating the currently animating types on the client side.
     PHASE_CLIENT_UPDATE_ANIMATING_TYPES = 71;
     // Updating the animating types in the WindowState on the WindowManager side.
-    PHASE_WM_UPDATE_ANIMATING_TYPES = 72;
+    PHASE_SERVER_UPDATE_ANIMATING_TYPES = 72;
     // Animating types of the WindowState have changed, now sending them to state controller.
-    PHASE_WM_WINDOW_ANIMATING_TYPES_CHANGED = 73;
+    PHASE_SERVER_WINDOW_ANIMATING_TYPES_CHANGED = 73;
     // ImeInsetsSourceProvider got notified that the hide animation is finished.
-    PHASE_WM_NOTIFY_HIDE_ANIMATION_FINISHED = 74;
+    PHASE_SERVER_NOTIFY_HIDE_ANIMATION_FINISHED = 74;
     // The control target reported its animatingTypes back to WindowManagerService.
-    PHASE_WM_UPDATE_DISPLAY_WINDOW_ANIMATING_TYPES = 75;
+    PHASE_SERVER_UPDATE_DISPLAY_WINDOW_ANIMATING_TYPES = 75;
     // InsetsController received a control for the IME.
     PHASE_CLIENT_ON_CONTROLS_CHANGED = 76;
     // Reached the IME invoker on the server.
