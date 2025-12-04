@@ -25516,6 +25516,9 @@ message WsTileListChanged {
     // fullscreen always. For widgets, this value is specified when the widget
     // has been added. Value -1 is used to indicate that this field is not used.
     optional int32 container_type = 6;
+
+    // Unique id of the instance of a tile or widget
+    optional int32 instance_id = 7;
 }
 
 /**
@@ -25540,6 +25543,9 @@ message WsTileSnapshot {
     // fullscreen always. For widgets, this value is specified when the widget
     // has been added. Value -1 is used to indicate that this field is not used.
     repeated int32 container_type = 4;
+
+    // Unique id of the instances of tiles or widgets
+    repeated int32 instance_id = 5;
 }
 /*
 * Logs calls to getType of a contentProvider, where the caller has potentially no access to
