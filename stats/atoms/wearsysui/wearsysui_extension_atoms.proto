@@ -114,6 +114,14 @@ message WearTilePeekDurationReported {
 
   // Type of event for the tile peek - start or end
   optional TilePeekState tile_peek_state = 5;
+
+  // The container type for the tile or widget. For tile, this will be
+  // fullscreen always. For widgets, this value is specified when the widget
+  // has been added. Value -1 is used to indicate that this field is not used.
+  optional int32 container_type = 6;
+
+  // Unique id of the instance of a tile or widget
+  optional int32 instance_id = 7;
 }
 
 /**
@@ -132,6 +140,14 @@ message WearTileTapReported {
 
   // Position of the tile in the tile tray
   optional int32 tile_position = 3;
+
+  // The container type for the tile or widget. For tile, this will be
+  // fullscreen always. For widgets, this value is specified when the widget
+  // has been added. Value -1 is used to indicate that this field is not used.
+  optional int32 container_type = 4;
+
+  // Unique id of the instance of a tile or widget
+  optional int32 instance_id = 5;
 }
 
 // Atom logged when an event is reported for Live Entry UI.
