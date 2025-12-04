@@ -55,27 +55,17 @@ cc_benchmark {
         "libgtest",
         "libstatspull-fake",
         "libstatssocket-fake",
+        "libtestatom-large-proto-cpp",
+        "libtestatom-medium-proto-cpp",
+        "libtestatom-small-proto-cpp",
     ],
     shared_libs: [
         "libprotobuf-cpp-lite",
-        "libtestatom-large-proto-cpp",
-        "libtestatom-medium-proto-cpp",
-        "libtestatom-small-proto-cpp",
-    ],
-    required: [
-        "libtestatom-large-proto-cpp",
-        "libtestatom-medium-proto-cpp",
-        "libtestatom-small-proto-cpp",
-    ],
-    data: [
-        ":libtestatom-large-proto-cpp",
-        ":libtestatom-medium-proto-cpp",
-        ":libtestatom-small-proto-cpp",
     ],
     test_config: "AndroidTest.xml",
 }
 
-cc_library_shared {
+cc_library_static {
     name: "libtestatom-large-proto-cpp",
     proto: {
         type: "lite",
@@ -93,7 +83,7 @@ cc_library_shared {
     export_include_dirs: ["src"],
 }
 
-cc_library_shared {
+cc_library_static {
     name: "libtestatom-medium-proto-cpp",
     proto: {
         type: "lite",
@@ -111,7 +101,7 @@ cc_library_shared {
     export_include_dirs: ["src"],
 }
 
-cc_library_shared {
+cc_library_static {
     name: "libtestatom-small-proto-cpp",
     proto: {
         type: "lite",
