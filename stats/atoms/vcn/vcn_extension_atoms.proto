@@ -30,6 +30,7 @@ extend Atom {
     optional VcnNetworkStateChanged vcn_network_state_changed = 1177 [(module) = "vcn"];
     optional VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed = 1178 [(module) = "vcn"];
     optional VcnUnderlyingNetworkSwitched vcn_underlying_network_switched = 1204 [(module) = "vcn"];
+    optional VcnNetworkValidationStatusReported vcn_network_validation_status_reported = 1234  [(module) = "vcn"];
 }
 
 /**
@@ -66,7 +67,24 @@ message VcnNetworkStateChanged {
     // Whether the network is connected or has disconnected.
     optional bool is_connected = 3;
     // Whether the network has NetworkAgent.VALIDATION_STATUS_VALID.
-    optional bool is_validated = 4;
+    optional bool is_validated = 4 [deprecated = true];
+}
+
+/**
+ * Log results of validation attempts on VCN network of a particular VcnGatewayConnection.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/VcnGatewayConnection.java
+ * Estimated Logging Rate: <1k per device per day
+ */
+message VcnNetworkValidationStatusReported {
+    // gw_id associated with the relevant VcnGatewayConnection.
+    optional int32 gw_id = 1;
+    // Unique ID of the VCN network brought up.
+    optional int32 network_id = 2;
+
+    optional android.stats.vcn.ValidationStatus prev_validation_status = 3;
+    optional android.stats.vcn.ValidationStatus new_validation_status = 4;
 }
 
 /**

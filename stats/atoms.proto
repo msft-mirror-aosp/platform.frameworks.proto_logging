@@ -1565,6 +1565,7 @@ message Atom {
     extensions 1231; // MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event
     extensions 1232; // AudioRoutingTransitionReported audio_routing_transition_reported
     extensions 1233; // AudioModeStateChanged audio_mode_state_changed
+    extensions 1234; // VcnNetworkValidationStatusReported vcn_network_validation_status_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

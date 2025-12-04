@@ -39,3 +39,12 @@ enum TransportMask {
     // Additional transport types examples:
     // TRANSPORT_MASK_WIFI_VPN = 18; // 1 << TRANSPORT_WIFI | 1 << TRANSPORT_VPN
 }
+
+// Represents the validation status of a network.
+enum ValidationStatus {
+    VALIDATION_STATUS_UNSPECIFIED = 0;
+    // There hasn't been any completed validation attempt yet.
+    VALIDATION_STATUS_PENDING = 1;
+    VALIDATION_STATUS_VALID = 2;
+    VALIDATION_STATUS_NOT_VALID = 3;
+}
