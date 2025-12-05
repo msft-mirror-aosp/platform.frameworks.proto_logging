@@ -765,7 +765,7 @@ message Atom {
         DockStateChanged dock_state_changed = 470 [(module) = "framework"];
         SafetySourceStateCollected safety_source_state_collected = 471 [(module) = "permissioncontroller"];
         SafetyCenterSystemEventReported safety_center_system_event_reported = 472 [(module) = "permissioncontroller"];
-        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller"];
+        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller", (module) = "settings"];
         SettingsProviderSettingChanged settings_provider_setting_changed = 474 [(module) = "framework"];
         BroadcastDeliveryEventReported broadcast_delivery_event_reported =
                 475 [(module) = "framework"];
