@@ -521,6 +521,7 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
                                    os::statsd::LogMode::MODE_BYTES;
 
         AtomField atField(std::string(field.name()), javaType);
+        atField.fieldNumber = field.number();
 
         if (javaType == JAVA_TYPE_ENUM || javaType == JAVA_TYPE_ENUM_ARRAY) {
             atField.enumTypeName = field.enum_type()->name();

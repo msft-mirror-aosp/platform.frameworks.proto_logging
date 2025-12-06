@@ -112,6 +112,10 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
 
+int write_native_source_preamble(FILE* out, const Atoms& atoms,
+                                 const string& importHeader, const int minApiLevel,
+                                 const string& cppNamespace, bool bootstrap);
+
 // Common Java helpers.
 void write_java_atom_codes(FILE* out, const Atoms& atoms, const bool supportWorkSource);
 
