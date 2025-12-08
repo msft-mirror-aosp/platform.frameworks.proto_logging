@@ -48,3 +48,11 @@ enum CaptivePortalUsingWebViewReason {
     // Due to the user clicks the menu item "Use classic view",
     REASON_USE_CLASSIC_VIEW = 7;
 }
+
+enum CaptivePortalLoginAppEvent {
+    CAPTIVE_PORTAL_LOGIN_APP_EVENT_UNKNOWN = 0;
+    // The captive portal login app is started.
+    CAPTIVE_PORTAL_LOGIN_APP_EVENT_STARTED = 1;
+    // The captive portal login app is done.
+    CAPTIVE_PORTAL_LOGIN_APP_EVENT_DONE = 2;
+}

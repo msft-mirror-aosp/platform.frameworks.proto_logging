@@ -765,7 +765,7 @@ message Atom {
         DockStateChanged dock_state_changed = 470 [(module) = "framework"];
         SafetySourceStateCollected safety_source_state_collected = 471 [(module) = "permissioncontroller"];
         SafetyCenterSystemEventReported safety_center_system_event_reported = 472 [(module) = "permissioncontroller"];
-        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller"];
+        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller", (module) = "settings"];
         SettingsProviderSettingChanged settings_provider_setting_changed = 474 [(module) = "framework"];
         BroadcastDeliveryEventReported broadcast_delivery_event_reported =
                 475 [(module) = "framework"];
@@ -1559,6 +1559,12 @@ message Atom {
     extensions 1225; // MediaScreenLaunched media_screen_launched
     extensions 1226; // WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported
     extensions 1227; // WearSetupWizardBlockingAppUpdateResultReported wear_setup_wizard_blocking_app_update_result_reported
+    extensions 1228; // WsBlockingAppUpdateNotificationShownStatusReported ws_blocking_app_update_notification_shown_status_reported
+    extensions 1229; // WearTrayAnimationStarted wear_tray_animation_started
+    extensions 1230; // WearTrayAnimationFinished wear_tray_animation_finished
+    extensions 1231; // MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event
+    extensions 1232; // AudioRoutingTransitionReported audio_routing_transition_reported
+    extensions 1233; // AudioModeStateChanged audio_mode_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1571,6 +1577,7 @@ message Atom {
     extensions 300001; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
     extensions 300002; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
     extensions 300003; // MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info
+    extensions 300004; // MicroXrMcuBootTime micro_xr_mcu_boot_time
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 
@@ -1880,6 +1887,7 @@ message Atom {
     extensions 10259; // AdaptiveSuspendStats adaptive_suspend_stats
     extensions 10260; // AppUsageQueryEventStats app_usage_query_event_stats
     extensions 10261; // WsPhoneMetadataSnapshot ws_phone_metadata_snapshot
+    extensions 10262; // UsageEventReportedStats usage_event_reported_stats;
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
@@ -12097,6 +12105,9 @@ message MediaCodecReported {
     // @Since U-QPR2
     optional int32 caller_uid = 78 [(is_uid) = true];
     optional int64 pixel_format = 79;
+    // @Since 26Q2
+    optional int32 retry_hdcp_success_count = 80;
+    optional int32 retry_hdcp_failure_count = 81;
     // !!! WARNING
     // Keep synchronized with MediametricsCodecReported.CodecData in
     // mediametrics_message.proto.
@@ -25511,6 +25522,9 @@ message WsTileListChanged {
     // fullscreen always. For widgets, this value is specified when the widget
     // has been added. Value -1 is used to indicate that this field is not used.
     optional int32 container_type = 6;
+
+    // Unique id of the instance of a tile or widget
+    optional int32 instance_id = 7;
 }
 
 /**
@@ -25535,6 +25549,9 @@ message WsTileSnapshot {
     // fullscreen always. For widgets, this value is specified when the widget
     // has been added. Value -1 is used to indicate that this field is not used.
     repeated int32 container_type = 4;
+
+    // Unique id of the instances of tiles or widgets
+    repeated int32 instance_id = 5;
 }
 /*
 * Logs calls to getType of a contentProvider, where the caller has potentially no access to

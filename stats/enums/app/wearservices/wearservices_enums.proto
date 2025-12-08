@@ -1067,3 +1067,20 @@ enum BugreportFailureReason {
   // The bug report upload was canceled before it finished.
   BUGREPORT_FAILURE_REASON_CANCELED = 12;
 }
+
+/**
+* Indicates the status of showing the blocking app update notification.
+*/
+enum BlockingAppUpdateNotificationShownStatus {
+  NOTIFICATION_SHOWN_STATUS_UNSPECIFIED = 0;
+  NOTIFICATION_SHOWN = 1;
+  NOTIFICATION_NOT_SHOWN = 2;
+}
+
+/**
+* Indicates the reason for not showing the blocking app update notification.
+*/
+enum BlockingAppUpdateNotificationFailureReason {
+  FAILURE_REASON_UNSPECIFIED = 0;
+  FAILURE_REASON_PLAY_STORE_INTENT_NULL = 1;
+}

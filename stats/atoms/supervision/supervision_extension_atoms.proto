@@ -22,7 +22,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 
 extend Atom {
-  optional SupervisionState supervision_state = 10258 [(module) = "supervision"];
+  optional SupervisionState supervision_state = 10258 [(module) = "framework"];
 }
 
 message SupervisionState {
@@ -32,9 +32,9 @@ message SupervisionState {
   // Whether supervision PIN is set on the device.
   optional bool is_credential_set = 2;
 
-  // Whether supervision PIN recovery method is set on the device.
-  optional bool is_recovery_method_set = 3;
+  // State of the supervision PIN recovery method, with -1 indicating unset.
+  optional int32 recovery_state = 3;
 
-  // Whether supervision PIN recovery method is verified on the device.
-  optional bool is_recovery_method_verified = 4;
+  // Android user ID represents full users only.
+  optional int32 user_id = 4;
 }

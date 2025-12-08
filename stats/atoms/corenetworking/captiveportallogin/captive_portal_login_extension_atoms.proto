@@ -45,4 +45,10 @@ message CaptivePortalLoginReported {
     // Record the specific reason why the WebView is triggered to display the
     // portal.
     optional CaptivePortalUsingWebViewReason reason = 3;
+
+    // Record the captive portal login app events.
+    optional CaptivePortalLoginAppEvent app_event = 4;
+
+    // How long it take for captive portal login operation to complete in ms.
+    optional int64 duration_ms = 5;
 }

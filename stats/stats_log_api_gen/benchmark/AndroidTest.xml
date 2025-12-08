@@ -24,6 +24,7 @@
         <option name="native-benchmark-device-path" value="/data/local/tmp" />
         <option name="benchmark-module-name" value="stats-log-api-gen-benchmark" />
         <option name="file-exclusion-filter-regex" value=".*\.config$" />
+        <option name="file-exclusion-filter-regex" value=".*\.so$" />
         <option name="ld-library-path" value="/data/local/tmp/stats-log-api-gen-benchmark/arm64:/data/local/tmp/stats-log-api-gen-benchmark/arm" />
     </test>
 </configuration>

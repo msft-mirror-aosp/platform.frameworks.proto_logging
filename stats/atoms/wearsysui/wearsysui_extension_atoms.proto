@@ -40,6 +40,10 @@ extend Atom {
       [(module) = "wearsysui"];
   optional WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported = 1226
       [(module) = "wearsysui"];
+  optional WearTrayAnimationStarted wear_tray_animation_started = 1229
+      [(module) = "wearsysui"];
+  optional WearTrayAnimationFinished wear_tray_animation_finished = 1230
+      [(module) = "wearsysui"];
 }
 
 /**
@@ -164,8 +168,24 @@ message WearLiveUpdateQuickSettingEventReported{
   optional int32 uid = 2 [(is_uid) = true];
 
   // Source from which Quick Setting was entered
-  optional android.app.wearsysui.QuickSettingEntrySource entrySource = 3;
+  optional android.app.wearsysui.QuickSettingEntrySource entry_source = 3;
 
   // Setting option selected by the user for this content provider
-  optional android.app.wearsysui.QuickSettingOption optionType = 4;
+  optional android.app.wearsysui.QuickSettingOption option_type = 4;
+}
+
+// Atom logged when a tray animation is started.
+//
+// Logged from: java/com/google/android/clockwork/sysui/common/syshealthlogging/ObserveTrayOpenStateForLatencyRecording.kt
+//
+// Logged ~6 times per day per device.
+message WearTrayAnimationStarted {
+}
+
+// Atom logged when a tray animation is finished.
+//
+// Logged from: java/com/google/android/clockwork/sysui/common/syshealthlogging/ObserveTrayOpenStateForLatencyRecording.kt
+//
+// Logged ~6 times per day per device.
+message WearTrayAnimationFinished {
 }

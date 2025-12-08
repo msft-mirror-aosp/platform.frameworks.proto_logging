@@ -131,7 +131,7 @@ message AudioTrackData {
  * Logged from:
  *   frameworks/av/media/libstagefright/MediaCodec.cpp
  *   frameworks/av/services/mediaanalytics/statsd_codec.cpp
- * Next Tag: 75
+ * Next Tag: 76
  */
 message CodecData {
   optional string codec = 1;
@@ -223,6 +223,9 @@ message CodecData {
   // @Since U-QPR2
   optional int32 caller_uid = 73;
   optional int64 pixel_format = 74;
+  // @Since 26Q2
+  optional int32 retry_hdcp_success_count = 75;
+  optional int32 retry_hdcp_failure_count = 76;
   // !!!WARNING!!!
   // Keep synchronized with MediaCodecReported in atoms.proto
   // Also keep AStatsEvent serialization synchronized in statsd_codec.cpp
