@@ -20,6 +20,7 @@ package android.os.statsd.wear.physicalux;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/view/enums.proto";
 import "frameworks/proto_logging/stats/enums/wear/physicalux/enums.proto";
 
 option java_package = "com.android.os.wear.physicalux";
@@ -54,14 +55,26 @@ message WearGestureSubscriptionChanged {
  * package: frameworks/opt/wear/src/com/android/clockwork/gesture
  */
 message WearGestureReported {
-    // The gesture action of the event.
+    // The gesture action of the event for local device use cases.
+    // Note that this is the action reported for the foreground subscribers.
     optional com.google.android.clockwork.physicalux.GestureAction action = 1;
     // The raw gesture of the event.
     optional com.google.android.clockwork.physicalux.Gesture gesture = 2;
     // The UIDs to whom this event was reported.
+    // Note that this is the UIDs of the foreground subscribers. The UIDs for the background
+    // subscribers is included in the respective _background_uids fields.
     repeated int32 uids = 3 [(is_uid) = true];
     // The system action that was triggered by the gesture.
     optional com.google.android.clockwork.physicalux.SystemAction system_action = 4;
+    // The display state when the gesture event happened.
+    optional android.view.DisplayStateEnum display_state = 5;
+    // The gesture action of the event for remote device use cases.
+    // Note that this is the action reported for the foreground subscribers.
+    optional com.google.android.clockwork.physicalux.GestureAction remote_action = 6;
+    // The UIDs of local background subscribers who received the event.
+    repeated int32 local_background_uids = 7 [(is_uid) = true];
+    // The UIDs of remote background subscribers who received the event.
+    repeated int32 remote_background_uids = 8 [(is_uid) = true];
 }
 
 /**
