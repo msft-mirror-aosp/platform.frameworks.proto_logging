@@ -1,0 +1,54 @@
+syntax = "proto2";
+
+package android.os.statsd.wear.watchface;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.wear.watchface";
+option java_multiple_files = true;
+
+extend Atom {
+  optional WearWatchFaceFirstFrameRendered wear_watch_face_first_frame_rendered = 1235
+      [(android.os.statsd.module) = "watchface"];
+  optional WearWatchFaceComplicationLoaded wear_watch_face_complication_loaded = 1236
+      [(android.os.statsd.module) = "watchface"];
+  optional WearWatchFaceAllComplicationsLoaded wear_watch_face_all_complications_loaded = 1237
+      [(android.os.statsd.module) = "watchface"];
+}
+
+/**
+ * Logged when the first frame of a watch face is rendered.
+ *
+ * Logged from:
+ *   vendor/google_clockwork/libs/wear-watchface-lib/watchface/src/main/java/androidx/wear/watchface/WatchFaceService.java
+ * Estimated Logging Rate:
+ *   Avg: ~150 per device per day
+ */
+message WearWatchFaceFirstFrameRendered {
+  optional int32 watch_face_package_uid = 1 [(is_uid) = true];
+  optional string watch_face_class_name = 2;
+}
+
+/**
+ * Logged when a complication is first loaded with valid data.
+ *
+ * Logged from:
+ *   vendor/google_clockwork/libs/wear-watchface-lib/watchface/src/main/java/androidx/wear/watchface/WatchFaceService.java
+ * Estimated Logging Rate:
+ *   Avg: ~150 per device per day
+ */
+message WearWatchFaceComplicationLoaded {
+  optional int32 complication_uid = 1 [(is_uid) = true];
+  optional string complication_class_name = 2;
+}
+
+/**
+ * Logged when all complications have loaded.
+ *
+ * Logged from:
+ *   vendor/google_clockwork/libs/wear-watchface-lib/watchface/src/main/java/androidx/wear/watchface/WatchFaceService.java
+ * Estimated Logging Rate:
+ *   Avg: ~150 per device per day
+ */
+message WearWatchFaceAllComplicationsLoaded {}
