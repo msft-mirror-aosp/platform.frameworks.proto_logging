@@ -1571,6 +1571,10 @@ message Atom {
     extensions 1237; // WearWatchFaceAllComplicationsLoaded wear_watch_face_all_complications_loaded
     extensions 1238; // WearSysUiCarouselAddTileButtonInteractionReported wear_sys_ui_carousel_add_tile_button_interaction_reported
     extensions 1239; // WearSysUiCarouselTileManagementEditButtonTapped wear_sys_ui_carousel_tile_management_edit_button_tapped
+    extensions 1240 ; // TaskContinuityMessageSent task_continuity_message_sent
+    extensions 1241; // TaskContinuityMessageReceived task_continuity_message_received
+    extensions 1242; // HandoffRequested handoff_requested
+    extensions 1243; // HandoffRequestFinished handoff_request_finished
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

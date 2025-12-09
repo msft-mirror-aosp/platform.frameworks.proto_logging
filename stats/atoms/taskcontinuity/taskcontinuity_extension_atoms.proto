@@ -1,0 +1,127 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.taskcontinuity;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.taskcontinuity";
+option java_multiple_files = true;
+
+extend Atom {
+  optional TaskContinuityMessageSent task_continuity_message_sent = 1240
+      [(module) = "framework"];
+  optional TaskContinuityMessageReceived task_continuity_message_received = 1241
+      [(module) = "framework"];
+  optional HandoffRequested handoff_requested = 1242 [(module) = "framework"];
+  optional HandoffRequestFinished handoff_request_finished = 1243
+      [(module) = "framework"];
+}
+
+/**
+ * Enumeration representing the type of task continuity message.
+ */
+enum TaskContinuityMessageTypeEnum {
+  UNKNOWN = 0;
+  TASK_STACK_BROADCAST = 1;
+  HANDOFF_REQUEST = 2;
+  HANDOFF_REQUEST_RESULT = 3;
+}
+
+/**
+ * Logged when the device sends a task continuity message.
+ *
+ * Expected logging frequency: 1 per hour per device.
+ * Peak logging frequency: 10 per hour per device.
+ *
+ * Logged from:
+ *   frameworks/base/services/companion/java/com/android/server/companion/datatransfer/continuity/connectivity/TaskContinuityMessenger.java
+ */
+message TaskContinuityMessageSent {
+  optional TaskContinuityMessageTypeEnum message_type = 1;
+  optional int32 recipients = 2;
+
+  /**
+   * Enumeration representing the result of this message send attempt, either
+   * success or a failure.
+   */
+  enum TaskContinuityMessageSentResult {
+    UNKNOWN = 0;
+    SUCCESS = 1;
+    FAILURE_INTERNAL_ERROR = 2;
+    FAILURE_MESSAGE_SERIALIZATION_FAILED = 3;
+    FAILURE_ASSOCIATION_NOT_FOUND = 4;
+  }
+  optional TaskContinuityMessageSentResult result = 3;
+}
+
+/**
+ * Logged when the device receives a task continuity message.
+ *
+ * Expected logging frequency: 1 per hour per device.
+ * Peak logging frequency: 10 per hour per device.
+ *
+ * Logged from:
+ *   frameworks/base/services/companion/java/com/android/server/companion/datatransfer/continuity/connectivity/TaskContinuityMessenger.java
+ */
+message TaskContinuityMessageReceived {
+  optional TaskContinuityMessageTypeEnum message_type = 1;
+}
+
+/**
+ * Logged when the device requests a handoff.
+ *
+ * Expected logging frequency: < 1 per hour per device.
+ * Peak logging frequency: 1 per hour per device.
+ *
+ * Logged from:
+ *   frameworks/base/services/companion/java/com/android/server/companion/datatransfer/continuity/handoff/HandoffRequestCallbackHolder.java
+ */
+message HandoffRequested {
+  /**
+   * A unique identifier for this request, used to correlate with
+   * HandoffRequestFinished.
+   */
+  optional int32 request_id = 1;
+}
+
+/**
+ * Logged when the device finishes a handoff request.
+ *
+ * Expected logging frequency: < 1 per hour per device.
+ * Peak logging frequency: 1 per hour per device.
+ *
+ * Logged from:
+ *   frameworks/base/services/companion/java/com/android/server/companion/datatransfer/continuity/handoff/HandoffRequestCallbackHolder.java
+ */
+message HandoffRequestFinished {
+  /**
+   * The request_id from the corresponding HandoffRequested.
+   */
+  optional int32 request_id = 1;
+
+  enum StatusCode {
+    UNKNOWN = 0;
+    SUCCESS = 1;
+    FAILURE_NO_DATA_PROVIDED_BY_TASK = 2;
+    FAILURE_TASK_NOT_FOUND = 3;
+    FAILURE_TIMEOUT = 4;
+  }
+  optional StatusCode status_code = 2;
+}
