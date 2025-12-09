@@ -44,6 +44,12 @@ extend Atom {
       [(module) = "wearsysui"];
   optional WearTrayAnimationFinished wear_tray_animation_finished = 1230
       [(module) = "wearsysui"];
+  optional WearSysUiCarouselAddTileButtonInteractionReported
+      wear_sys_ui_carousel_add_tile_button_interaction_reported = 1238
+      [(module) = "wearsysui"];
+  optional WearSysUiCarouselTileManagementEditButtonTapped
+      wear_sys_ui_carousel_tile_management_edit_button_tapped = 1239
+      [(module) = "wearsysui"];
 }
 
 /**
@@ -188,4 +194,55 @@ message WearTrayAnimationStarted {
 //
 // Logged ~6 times per day per device.
 message WearTrayAnimationFinished {
+}
+
+/**
+ * Logged when the user interacts with the "add tile" button.
+ *
+ * Logged from:
+ *   java/com/google/android/clockwork/sysui/mainui/module/carousel/ui/compose/addtile/AddTileViewModel.kt
+ *   java/com/google/android/clockwork/sysui/mainui/module/carousel/management/LlmWidgetsButtonBinder.kt
+ */
+message WearSysUiCarouselAddTileButtonInteractionReported {
+  // The index of the add tile button in the carousel.
+  optional int32 carousel_index = 1;
+  // The total number of items in the carousel.
+  optional int32 total_carousel_size = 2;
+
+  enum EventType {
+    UNKNOWN_EVENT_TYPE = 0;
+    // The add tile button was viewed.
+    VIEWED = 1;
+    // The add tile button was tapped.
+    TAPPED = 2;
+  }
+  // The type of interaction event.
+  optional EventType event_type = 3;
+
+  enum Source {
+    UNKNOWN_SOURCE = 0;
+    // The interaction was from the carousel.
+    CAROUSEL = 1;
+    // The interaction was from tile management.
+    TILE_MANAGEMENT = 2;
+  }
+  // The source of the interaction.
+  optional Source source = 4;
+}
+
+/**
+ * Logged when user taps on tile edit (pencil) button in tile management.
+ *
+ * Logged from:
+ *   java/com/google/android/clockwork/sysui/mainui/module/carousel/management/TileManagerController.kt
+ */
+message WearSysUiCarouselTileManagementEditButtonTapped {
+  // Unique id of the instance of a tile or widget being edited.
+  optional int32 instance_id = 1;
+  // Component uid of the tile provider being edited.
+  optional int32 component_package_uid = 2 [(is_uid) = true];
+  // Component class name of the tile provider being edited, represents an activity name.
+  optional string component_class_name = 3;
+  // The index of the tile in the wear services tile list.
+  optional int32 tile_wear_services_index = 4;
 }
