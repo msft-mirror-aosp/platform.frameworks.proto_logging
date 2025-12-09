@@ -1557,7 +1557,7 @@ message Atom {
     extensions 1223; // ComputerControlSessionReported computer_control_session_reported
     extensions 1224; // ComputerControlFailedSessionReported computer_control_failed_session_reported
     extensions 1225; // MediaScreenLaunched media_screen_launched
-    extensions 1226; // WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported
+    extensions 1226; // WearLiveUpdateSettingEventReported wear_live_update_setting_event_reported
     extensions 1227; // WearSetupWizardBlockingAppUpdateResultReported wear_setup_wizard_blocking_app_update_result_reported
     extensions 1228; // WsBlockingAppUpdateNotificationShownStatusReported ws_blocking_app_update_notification_shown_status_reported
     extensions 1229; // WearTrayAnimationStarted wear_tray_animation_started

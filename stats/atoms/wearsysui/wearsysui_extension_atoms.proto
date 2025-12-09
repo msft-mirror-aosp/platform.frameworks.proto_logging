@@ -38,8 +38,8 @@ extend Atom {
   optional WearTileTapReported wear_tile_tap_reported = 1200 [(module) = "wearsysui"];
   optional WearLiveEntryEventReported wear_live_entry_event_reported = 1212
       [(module) = "wearsysui"];
-  optional WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported = 1226
-      [(module) = "wearsysui"];
+  optional WearLiveUpdateSettingEventReported wear_live_update_setting_event_reported =
+    1226 [(module) = "wearsysui"];
   optional WearTrayAnimationStarted wear_tray_animation_started = 1229
       [(module) = "wearsysui"];
   optional WearTrayAnimationFinished wear_tray_animation_finished = 1230
@@ -161,14 +161,17 @@ message WearLiveEntryEventReported {
   // The type of the text being displayed.
   optional android.app.wearsysui.LiveEntryTextType text_type = 4;
 }
-// Atom logged when an event is reported for Quick Setting UI.
-//
-// Logged from : java/com/google/android/wearable/sysui/mainui/module/watchfaceoverlay/penguin/settings/logging/QuickSettingsStatsLogger.kt
-// Logged when:
-// 1. Quick Setting is shown to the user.
-// 2. User interacts with the Quick Setting.
-message WearLiveUpdateQuickSettingEventReported{
-  // UiEvent for the interaction that happened ex. QUICK_SETTING_SHOWN, QSS_OPTION_SELECTED etc.
+/**
+ * Atom logged when an event is reported for Live Update Setting UI.
+ *
+ * Logged from :
+ * java/com/google/android/wearable/sysui/mainui/module/watchfaceoverlay/penguin/settings/logging/LiveUpdateSettingStatsLogger.kt
+ * Logged when:
+ * 1. Live Update Setting is shown to the user.
+ * 2. User interacts with the Live Update Setting.
+ */
+message WearLiveUpdateSettingEventReported{
+  // UiEvent for the interaction that happened ex. LIVE_UPDATE_SETTING_SHOWN, SELECTED etc.
   optional int64 ui_event_id = 1;
 
   // Package name of the app for which settings is shown. Note this includes
@@ -176,10 +179,10 @@ message WearLiveUpdateQuickSettingEventReported{
   optional string package_name = 2;
 
   // Source from which Quick Setting was entered
-  optional android.app.wearsysui.QuickSettingEntrySource entry_source = 3;
+  optional android.app.wearsysui.LiveUpdateSettingEntrySource entry_source = 3;
 
-  // Setting option selected by the user for this content provider
-  optional android.app.wearsysui.QuickSettingOption option_type = 4;
+   // Setting option selected by the user for this content provider
+  optional android.app.wearsysui.LiveUpdateSettingOption option_type = 4;
 }
 
 // Atom logged when a tray animation is started.
