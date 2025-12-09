@@ -151,8 +151,9 @@ message WearLiveEntryEventReported {
   // UiEvent ID associated with this event like UI_UPDATED, TAPPED, DISMISSED, OHG_INTERACTED, LONG_PRESS etc.
   optional int64 ui_event_id = 1;
 
-  // The UID (to get pkg info) of the content provider.
-  optional int32 uid = 2 [(is_uid) = true];
+  // The package name of the app that is providing the content. Note this includes
+  // packages not installed on the watch, so it cannot be UID.
+  optional string package_name = 2;
 
   // The type of content being displayed.
   optional android.app.wearsysui.LiveEntryContentType content_type = 3;
@@ -170,8 +171,9 @@ message WearLiveUpdateQuickSettingEventReported{
   // UiEvent for the interaction that happened ex. QUICK_SETTING_SHOWN, QSS_OPTION_SELECTED etc.
   optional int64 ui_event_id = 1;
 
-  // UID (pkg info) for the app setting is displayed
-  optional int32 uid = 2 [(is_uid) = true];
+  // Package name of the app for which settings is shown. Note this includes
+  // packages not installed on the watch, so it cannot be UID.
+  optional string package_name = 2;
 
   // Source from which Quick Setting was entered
   optional android.app.wearsysui.QuickSettingEntrySource entry_source = 3;
