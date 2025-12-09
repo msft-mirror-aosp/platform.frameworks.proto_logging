@@ -1134,5 +1134,14 @@ int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
     return errors;
 }
 
+string replace_all(string str, const string& from, const string& to) {
+    size_t start = 0;
+    while ((start = str.find(from, start)) != string::npos) {
+        str.replace(start, from.length(), to);
+        start += to.length();
+    }
+    return str;
+}
+
 }  // namespace stats_log_api_gen
 }  // namespace android
