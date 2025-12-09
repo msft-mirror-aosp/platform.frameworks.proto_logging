@@ -90,11 +90,11 @@ static void print_usage() {
             "created by rust_library for the header. Not needed for --vendor-proto\n");
     fprintf(stderr, "  --module NAME        optional, module name to generate outputs for\n");
     fprintf(stderr,
-            "  --namespace COMMA,SEP,NAMESPACE   required for cpp/header with "
-            "module\n");
+            "  --namespace COMMA,SEP,NAMESPACE or COLON::SEP::NAMESPACE   required for cpp/header"
+            " with module\n");
     fprintf(stderr,
-            "                                    comma separated namespace of "
-            "the files\n");
+            "                                                             comma or double-colon "
+            "separated namespace of the files\n");
     fprintf(stderr,
             "  --importHeader NAME  required for cpp/jni to say which header to "
             "import for write helpers\n");
@@ -395,6 +395,8 @@ static int run(int argc, char const* const* argv) {
                  attributionSignature);
 
     const bool isVendor = interface == InterfaceApi::VENDOR;
+
+    replace_all(cppNamespace, "::", ",");
 
     // Write the .cpp file
     if (!cppFilename.empty()) {

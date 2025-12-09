@@ -160,6 +160,8 @@ int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
 
 bool contains_repeated_field(const vector<AtomField>& atomFields);
 
+std::string replace_all(std::string str, const std::string& from, const std::string& to);
+
 }  // namespace stats_log_api_gen
 }  // namespace android
 

@@ -86,7 +86,7 @@ genrule {
     tools: ["stats-log-api-gen"],
     out: ["statslog_test.h"],
     cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_test.h --module statsdtest" +
-        "  --namespace android,stats",
+        "  --namespace android::stats",
 }
 
 genrule {
