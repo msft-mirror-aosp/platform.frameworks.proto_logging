@@ -1576,6 +1576,7 @@ message Atom {
     extensions 1242; // HandoffRequested handoff_requested
     extensions 1243; // HandoffRequestFinished handoff_request_finished
     extensions 1244; // WearHardwareButtonInteractionReported wear_hardware_button_interaction_reported
+    extensions 1245; // DisplaySwitchToApIssued display_switch_to_ap_issued
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
