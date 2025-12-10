@@ -615,9 +615,9 @@ static int write_native_build_stats_event_methods(FILE* out,
 
 int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                         const string& cppNamespace, const string& importHeader,
-                        const int minApiLevel, bool bootstrap) {
+                        const int minApiLevel, bool bootstrap, bool includeExtraSrcs) {
     int ret = write_native_source_preamble(out, atoms, importHeader, minApiLevel, cppNamespace,
-                                           bootstrap);
+                                           bootstrap, includeExtraSrcs);
     if (ret != 0) {
         return ret;
     }
@@ -645,8 +645,9 @@ int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributi
 }
 
 int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                           const string& cppNamespace, const int minApiLevel, bool bootstrap) {
-    write_native_header_preamble(out, atoms, cppNamespace, bootstrap);
+                           const string& cppNamespace, const int minApiLevel, bool bootstrap,
+                           bool includeExtraSrcs) {
+    write_native_header_preamble(out, atoms, cppNamespace, bootstrap, includeExtraSrcs);
     write_native_atom_constants(out, atoms, attributionDecl);
     write_native_atom_enums(out, atoms);
 
@@ -695,7 +696,7 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
 
 int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                  const string& cppNamespace, const string& importHeader,
-                                 const int minApiLevel, bool bootstrap) {
+                                 const int minApiLevel, bool bootstrap, bool includeExtraSrcs) {
     if (bootstrap) {
         fprintf(stderr,
                 "Type-safe APIs generation for C++ bootstrap is not supported."
@@ -704,7 +705,7 @@ int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& 
     }
 
     int ret = write_native_source_preamble(out, atoms, importHeader, minApiLevel, cppNamespace,
-                                           bootstrap);
+                                           bootstrap, includeExtraSrcs);
     if (ret != 0) {
         return ret;
     }
@@ -724,9 +725,9 @@ int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& 
 
 int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                     const string& cppNamespace, const int minApiLevel,
-                                    bool bootstrap) {
+                                    bool bootstrap, bool includeExtraSrcs) {
     (void)attributionDecl;
-    write_native_header_preamble(out, atoms, cppNamespace, bootstrap);
+    write_native_header_preamble(out, atoms, cppNamespace, bootstrap, includeExtraSrcs);
 
     if (has_attribution_node(atoms.decls)) {
         fprintf(out, "struct AttributionNode final {\n");

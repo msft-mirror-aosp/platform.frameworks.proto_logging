@@ -152,20 +152,21 @@ static int write_java_histogram_helper(FILE* out, const string& atomName, const 
     return errorCount;
 }
 
-static void write_header_histogram_sources(FILE* out, const Atoms& atoms) {
-#ifdef CC_INCLUDE_HDRS_DIR
+static void write_header_histogram_sources(FILE* out, const Atoms& atoms, bool includeExtraSrcs) {
     const bool hasHistograms = has_histograms(atoms.decls);
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
+    if (includeExtraSrcs) {
+#ifdef CC_INCLUDE_HDRS_DIR
+        const vector<string> excludeList =
+                hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+        write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
+#endif
+    } else {
+        fprintf(out, "using namespace android::util::statslogapigen;\n\n");
+    }
+
     if (hasHistograms) {
         write_native_histogram_helper_declarations(out, atoms.decls);
     }
-#else
-    // suppress unused parameter error
-    (void)out;
-    (void)atoms;
-#endif
 }
 
 static int write_src_header(FILE* out, const fs::path& filePath) {
@@ -238,12 +239,15 @@ static int write_srcs_bodies(FILE* out, const char* path, int indent,
     return errors;
 }
 
-static int write_cpp_sources(FILE* out, const Atoms& atoms, const string& cppNamespace) {
-#ifdef CC_INCLUDE_SRCS_DIR
+static int write_cpp_sources(FILE* out, const Atoms& atoms,
+                             const string& cppNamespace, bool includeExtraSrcs) {
     const bool hasHistograms = has_histograms(atoms.decls);
+#ifdef CC_INCLUDE_SRCS_DIR
     const vector<string> excludeList =
             hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
+    if (includeExtraSrcs) {
+        write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
+    }
 #endif
 
     fprintf(out, "\n");
@@ -251,10 +255,13 @@ static int write_cpp_sources(FILE* out, const Atoms& atoms, const string& cppNam
 
     int ret = 0;
 #ifdef CC_INCLUDE_SRCS_DIR
-    ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
-    if (ret != 0) {
-        return ret;
+    if (includeExtraSrcs) {
+        ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
+        if (ret != 0) {
+            return ret;
+        }
     }
+#endif
 
     // Write histogram helper definitions if any histogram annotations are present.
     if (hasHistograms) {
@@ -263,9 +270,6 @@ static int write_cpp_sources(FILE* out, const Atoms& atoms, const string& cppNam
             return ret;
         }
     }
-#else
-    (void)atoms;
-#endif
     return ret;
 }
 
@@ -791,7 +795,7 @@ void write_native_method_header(FILE* out, const string& methodName,
 }
 
 void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
-                                  bool bootstrap, bool isVendorAtomLogging) {
+                                  bool bootstrap, bool includeExtraSrcs, bool isVendorAtomLogging) {
     const bool includePull = !atoms.pulledAtomsSignatureInfoMap.empty() && !bootstrap;
     const bool includeHistogram = has_histograms(atoms.decls);
 
@@ -809,13 +813,15 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
         fprintf(out, "#include <stats_pull_atom_callback.h>\n");
     }
 
+    if (includeExtraSrcs) {  // Inline headers from CC_INCLUDE_HDRS_DIR like StatsHistogram.h
 #ifdef CC_INCLUDE_HDRS_DIR
-    const vector<string> excludeList =
-            includeHistogram ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, CC_INCLUDE_HDRS_DIR, excludeList);
-#else
-    (void)includeHistogram;  // suppress unused parameter error
+        const vector<string> excludeList =
+                includeHistogram ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+        write_srcs_header(out, CC_INCLUDE_HDRS_DIR, excludeList);
 #endif
+    } else if (includeHistogram) {  // StatsHistogram is linked via a lib.
+        fprintf(out, "#include <StatsHistogram.h>\n");
+    }
 
     if (isVendorAtomLogging) {
         fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
@@ -837,9 +843,8 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
     fprintf(out, "/*\n");
     fprintf(out, " * API For logging statistics events.\n");
     fprintf(out, " */\n");
-    fprintf(out, "\n");
 
-    write_header_histogram_sources(out, atoms);
+    write_header_histogram_sources(out, atoms, includeExtraSrcs);
 }
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace) {
@@ -848,7 +853,8 @@ void write_native_header_epilogue(FILE* out, const string& cppNamespace) {
 
 int write_native_source_preamble(FILE* out, const Atoms& atoms,
                                  const string& importHeader, const int minApiLevel,
-                                 const string& cppNamespace, bool bootstrap) {
+                                 const string& cppNamespace, bool bootstrap,
+                                 bool includeExtraSrcs) {
     // Print prelude
     fprintf(out, "// This file is autogenerated\n");
     fprintf(out, "\n");
@@ -874,7 +880,7 @@ int write_native_source_preamble(FILE* out, const Atoms& atoms,
         fprintf(out, "#include <utils/String16.h>\n");
     }
 
-    return write_cpp_sources(out, atoms, cppNamespace);
+    return write_cpp_sources(out, atoms, cppNamespace, includeExtraSrcs);
 }
 
 // Java
