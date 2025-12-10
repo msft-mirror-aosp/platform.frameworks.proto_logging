@@ -38,6 +38,7 @@ cc_test {
         "bootstrap_atom_cc_gen_srcs",
         "cts_atom_cc_gen_srcs",
         "test_atom_cc_gen_srcs",
+        "test_atom_cc_gen_typesafe_srcs",
     ],
     test_suites: [
         "device-tests",
@@ -93,17 +94,17 @@ genrule {
     name: "test_atom_cc_gen_srcs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_test.cpp"],
-    cmd: "$(location stats-log-api-gen) --cpp $(genDir)/statslog_test.cpp --module statsdtest" +
-        "  --namespace android,stats --importHeader statslog_test.h",
+    cmd: "$(location stats-log-api-gen) --cpp $(out) --module statsdtest" +
+        "  --namespace android::stats --importHeader statslog_test.h",
 }
 
 genrule {
     name: "bootstrap_atom_cc_gen_typesafe_hdrs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_bootstrap_typesafe.h"],
-    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_bootstrap_typesafe.h" +
+    cmd: "$(location stats-log-api-gen) --header $(out)" +
         "  --module apex" +
-        "  --namespace android,stats,bs,typesafe" +
+        "  --namespace android::stats::bs::typesafe" +
         "  --type-safe" +
         "  --interface bootstrap",
 }
@@ -112,9 +113,20 @@ genrule {
     name: "test_atom_cc_gen_typesafe_hdrs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_test_typesafe.h"],
-    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_test_typesafe.h" +
+    cmd: "$(location stats-log-api-gen) --header $(out)" +
         "  --module statsdtest" +
-        "  --namespace android,stats,typesafe" +
+        "  --namespace android::stats::typesafe" +
+        "  --type-safe",
+}
+
+genrule {
+    name: "test_atom_cc_gen_typesafe_srcs",
+    tools: ["stats-log-api-gen"],
+    out: ["statslog_test_typesafe.cpp"],
+    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
+        "  --importHeader statslog_test_typesafe.h" +
+        "  --module statsdtest" +
+        "  --namespace android::stats::typesafe" +
         "  --type-safe",
 }
 
@@ -122,7 +134,7 @@ genrule {
     name: "cts_atom_cc_gen_hdrs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_cts.h"],
-    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_cts.h --module cts" +
+    cmd: "$(location stats-log-api-gen) --header $(out) --module cts" +
         "  --namespace android,stats,cts",
 }
 
@@ -130,7 +142,7 @@ genrule {
     name: "cts_atom_cc_gen_srcs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_cts.cpp"],
-    cmd: "$(location stats-log-api-gen) --cpp $(genDir)/statslog_cts.cpp --module cts" +
+    cmd: "$(location stats-log-api-gen) --cpp $(out) --module cts" +
         "  --namespace android,stats,cts --importHeader statslog_cts.h",
 }
 
@@ -138,7 +150,7 @@ genrule {
     name: "bootstrap_atom_cc_gen_hdrs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_bootstrap_test.h"],
-    cmd: "$(location stats-log-api-gen) --header $(genDir)/statslog_bootstrap_test.h --module apex" +
+    cmd: "$(location stats-log-api-gen) --header $(out) --module apex" +
         "  --namespace android,stats,bs" +
         "  --interface bootstrap",
 }
@@ -147,7 +159,7 @@ genrule {
     name: "bootstrap_atom_cc_gen_srcs",
     tools: ["stats-log-api-gen"],
     out: ["statslog_bootstrap_test.cpp"],
-    cmd: "$(location stats-log-api-gen) --cpp $(genDir)/statslog_bootstrap_test.cpp --module apex" +
+    cmd: "$(location stats-log-api-gen) --cpp $(out) --module apex" +
         "  --namespace android,stats,bs --importHeader statslog_bootstrap_test.h" +
         "  --interface bootstrap",
 }

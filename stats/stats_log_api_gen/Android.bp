@@ -33,6 +33,9 @@ cc_defaults {
         "-Wall",
         "-Werror",
         "-Wno-deprecated-declarations",
+        "-DJAVA_INCLUDE_SRCS_DIR=\"java/\"",
+        "-DCC_INCLUDE_HDRS_DIR=\"cc_hdrs/\"",
+        "-DCC_INCLUDE_SRCS_DIR=\"cc_srcs/\"",
     ],
     shared_libs: [
         "libstats_proto_host",
@@ -57,10 +60,6 @@ cc_binary_host {
     ],
     cflags: [
         "-DWITH_VENDOR",
-        "-DJAVA_INCLUDE_SRCS_DIR=\"java/\"",
-        "-DCC_INCLUDE_HDRS_DIR=\"cc_hdrs/\"",
-        "-DCC_INCLUDE_SRCS_DIR=\"cc_srcs/\"",
-
     ],
 
     shared_libs: [

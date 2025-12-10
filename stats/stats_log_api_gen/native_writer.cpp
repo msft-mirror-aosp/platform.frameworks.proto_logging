@@ -36,6 +36,56 @@ static void write_native_annotation_constants(FILE* out) {
     fprintf(out, "\n");
 }
 
+static void write_annotation_set(FILE* out, const AnnotationSet& annotations,
+                                 const string& fieldArgName, const string& methodPrefix,
+                                 const string& methodSuffix, const string& constantPrefix) {
+    const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
+            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
+    int resetState = -1;
+    int defaultState = -1;
+    for (const shared_ptr<Annotation>& annotation : annotations) {
+        const string& annotationConstant =
+                ANNOTATION_ID_CONSTANTS.at(annotation->annotationId).name;
+        switch (annotation->type) {
+            case ANNOTATION_TYPE_INT:
+                if (ANNOTATION_ID_TRIGGER_STATE_RESET == annotation->annotationId) {
+                    resetState = annotation->value.intValue;
+                } else if (ANNOTATION_ID_DEFAULT_STATE == annotation->annotationId) {
+                    defaultState = annotation->value.intValue;
+                } else if (ANNOTATION_ID_RESTRICTION_CATEGORY == annotation->annotationId) {
+                    fprintf(out, "        %saddInt32Annotation(%s%s%s,\n", methodPrefix.c_str(),
+                            methodSuffix.c_str(), constantPrefix.c_str(),
+                            annotationConstant.c_str());
+                    fprintf(out, "                                       %s%s);\n",
+                            constantPrefix.c_str(),
+                            get_restriction_category_str(annotation->value.intValue).c_str());
+                } else {
+                    fprintf(out, "        %saddInt32Annotation(%s%s%s, %d);\n",
+                            methodPrefix.c_str(), methodSuffix.c_str(), constantPrefix.c_str(),
+                            annotationConstant.c_str(), annotation->value.intValue);
+                }
+                break;
+            case ANNOTATION_TYPE_BOOL:
+                fprintf(out, "        %saddBoolAnnotation(%s%s%s, %s);\n", methodPrefix.c_str(),
+                        methodSuffix.c_str(), constantPrefix.c_str(), annotationConstant.c_str(),
+                        annotation->value.boolValue ? "true" : "false");
+                break;
+            default:
+                break;
+        }
+    }
+    if (defaultState != -1 && resetState != -1) {
+        const string& annotationConstant =
+                ANNOTATION_ID_CONSTANTS.at(ANNOTATION_ID_TRIGGER_STATE_RESET).name;
+        fprintf(out, "        if (static_cast<int32_t>(%s) == %d) {\n", fieldArgName.c_str(),
+                resetState);
+        fprintf(out, "            %saddInt32Annotation(%s%s%s, %d);\n", methodPrefix.c_str(),
+                methodSuffix.c_str(), constantPrefix.c_str(), annotationConstant.c_str(),
+                defaultState);
+        fprintf(out, "        }\n");
+    }
+}
+
 static void write_annotations(FILE* out, int argIndex,
                               const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet,
                               const string& methodPrefix, const string& methodSuffix,
@@ -46,56 +96,14 @@ static void write_annotations(FILE* out, int argIndex,
         return;
     }
     const AtomDeclSet& atomDeclSet = fieldNumberToAtomDeclSetIt->second;
-    const map<AnnotationId, AnnotationStruct>& ANNOTATION_ID_CONSTANTS =
-            get_annotation_id_constants(ANNOTATION_CONSTANT_NAME_PREFIX);
     const string constantPrefix = minApiLevel > API_R ? "ASTATSLOG_" : "";
     for (const shared_ptr<AtomDecl>& atomDecl : atomDeclSet) {
         const string atomConstant = make_constant_name(atomDecl->name);
         fprintf(out, "    if (%s == code) {\n", atomConstant.c_str());
         const AnnotationSet& annotations = atomDecl->fieldNumberToAnnotations.at(argIndex);
-        int resetState = -1;
-        int defaultState = -1;
-        for (const shared_ptr<Annotation>& annotation : annotations) {
-            const string& annotationConstant =
-                    ANNOTATION_ID_CONSTANTS.at(annotation->annotationId).name;
-            switch (annotation->type) {
-                case ANNOTATION_TYPE_INT:
-                    if (ANNOTATION_ID_TRIGGER_STATE_RESET == annotation->annotationId) {
-                        resetState = annotation->value.intValue;
-                    } else if (ANNOTATION_ID_DEFAULT_STATE == annotation->annotationId) {
-                        defaultState = annotation->value.intValue;
-                    } else if (ANNOTATION_ID_RESTRICTION_CATEGORY == annotation->annotationId) {
-                        fprintf(out, "        %saddInt32Annotation(%s%s%s,\n",
-                                methodPrefix.c_str(), methodSuffix.c_str(), constantPrefix.c_str(),
-                                annotationConstant.c_str());
-                        fprintf(out, "                                       %s%s);\n",
-                                constantPrefix.c_str(),
-                                get_restriction_category_str(annotation->value.intValue).c_str());
-                    } else {
-                        fprintf(out, "        %saddInt32Annotation(%s%s%s, %d);\n",
-                                methodPrefix.c_str(), methodSuffix.c_str(), constantPrefix.c_str(),
-                                annotationConstant.c_str(), annotation->value.intValue);
-                    }
-                    break;
-                case ANNOTATION_TYPE_BOOL:
-                    fprintf(out, "        %saddBoolAnnotation(%s%s%s, %s);\n", methodPrefix.c_str(),
-                            methodSuffix.c_str(), constantPrefix.c_str(),
-                            annotationConstant.c_str(),
-                            annotation->value.boolValue ? "true" : "false");
-                    break;
-                default:
-                    break;
-            }
-        }
-        if (defaultState != -1 && resetState != -1) {
-            const string& annotationConstant =
-                    ANNOTATION_ID_CONSTANTS.at(ANNOTATION_ID_TRIGGER_STATE_RESET).name;
-            fprintf(out, "        if (arg%d == %d) {\n", argIndex, resetState);
-            fprintf(out, "            %saddInt32Annotation(%s%s%s, %d);\n", methodPrefix.c_str(),
-                    methodSuffix.c_str(), constantPrefix.c_str(), annotationConstant.c_str(),
-                    defaultState);
-            fprintf(out, "        }\n");
-        }
+        const string fieldArgName = "arg" + std::to_string(argIndex);
+        write_annotation_set(out, annotations, fieldArgName, methodPrefix, methodSuffix,
+                             constantPrefix);
         fprintf(out, "    }\n");
     }
 }
@@ -110,7 +118,7 @@ static int write_native_method_body(FILE* out, const vector<java_type_t>& signat
     for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
          arg++) {
         if (minApiLevel < API_T && is_repeated_field(*arg)) {
-            fprintf(stderr, "Found repeated field type with min api level < T.");
+            fprintf(stderr, "Found repeated field type with minApiLevel < T.");
             return 1;
         }
         switch (*arg) {
@@ -187,6 +195,114 @@ static int write_native_method_body(FILE* out, const vector<java_type_t>& signat
     return 0;
 }
 
+static int write_native_method_body_typesafe(FILE* out, const AtomDecl& atomDecl,
+                                             const int minApiLevel) {
+    const string constantPrefix = minApiLevel > API_R ? "ASTATSLOG_" : "";
+
+    fprintf(out, "    AStatsEvent_setAtomId(event, %d);\n", atomDecl.code);
+
+    auto atomAnnotations = atomDecl.fieldNumberToAnnotations.find(ATOM_ID_FIELD_NUMBER);
+    if (atomAnnotations != atomDecl.fieldNumberToAnnotations.end()) {
+        write_annotation_set(out, atomAnnotations->second, "", "AStatsEvent_", "event, ",
+                             constantPrefix);
+    }
+
+    // looping over atomDecl->fields due to we need to have access to field names
+    for (auto& field : atomDecl.fields) {
+        const char* fName = field.name.c_str();
+        switch (field.javaType) {
+            case JAVA_TYPE_ATTRIBUTION_CHAIN:
+                fprintf(out, "    std::vector<uint32_t> aChainUids_%s;\n", fName);
+                fprintf(out, "    aChainUids_%s.reserve(atom.%s.size());\n", fName, fName);
+                fprintf(out, "    std::vector<const char*> aChainTags_%s;\n", fName);
+                fprintf(out, "    aChainUids_%s.reserve(atom.%s.size());\n", fName, fName);
+                fprintf(out, "    for (auto& aNode : atom.%s) {\n", fName);
+                fprintf(out, "        aChainUids_%s.push_back(aNode.uid);\n", fName);
+                fprintf(out, "        aChainTags_%s.push_back(aNode.tag.c_str());\n", fName);
+                fprintf(out, "    }\n");
+                fprintf(out,
+                        "    AStatsEvent_writeAttributionChain(event, "
+                        "aChainUids_%s.data(), aChainTags_%s.data(), "
+                        "static_cast<uint8_t>(aChainUids_%s.size()));\n",
+                        fName, fName, fName);
+                break;
+            case JAVA_TYPE_BYTE_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeByteArray(event, "
+                        "reinterpret_cast<const uint8_t*>(atom.%s.data()), "
+                        "atom.%s.size());\n",
+                        fName, fName);
+                break;
+            case JAVA_TYPE_BOOLEAN:
+                fprintf(out, "    AStatsEvent_writeBool(event, atom.%s);\n", fName);
+                break;
+            case JAVA_TYPE_INT:
+                [[fallthrough]];
+            case JAVA_TYPE_ENUM:
+                fprintf(out, "    AStatsEvent_writeInt32(event, static_cast<int32_t>(atom.%s));\n",
+                        fName);
+                break;
+            case JAVA_TYPE_FLOAT:
+                fprintf(out, "    AStatsEvent_writeFloat(event, atom.%s);\n", fName);
+                break;
+            case JAVA_TYPE_LONG:
+                fprintf(out, "    AStatsEvent_writeInt64(event, atom.%s);\n", fName);
+                break;
+            case JAVA_TYPE_STRING:
+                fprintf(out, "    AStatsEvent_writeString(event, atom.%s.c_str());\n", fName);
+                break;
+            case JAVA_TYPE_BOOLEAN_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeBoolArray(event, reinterpret_cast<const "
+                        "bool*>(atom.%s.data()), atom.%s.size());\n",
+                        fName, fName);
+                break;
+            case JAVA_TYPE_INT_ARRAY:
+                [[fallthrough]];
+            case JAVA_TYPE_ENUM_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeInt32Array(event, reinterpret_cast<const "
+                        "int32_t*>(atom.%s.data()), atom.%s.size());\n",
+                        fName, fName);
+                break;
+            case JAVA_TYPE_FLOAT_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeFloatArray(event, atom.%s.data(), atom.%s.size());\n",
+                        fName, fName);
+                break;
+            case JAVA_TYPE_LONG_ARRAY:
+                fprintf(out,
+                        "    AStatsEvent_writeInt64Array(event, atom.%s.data(), atom.%s.size());\n",
+                        fName, fName);
+                break;
+            case JAVA_TYPE_STRING_ARRAY:
+                fprintf(out, "    std::vector<const char*> sArray_%s;\n", fName);
+                fprintf(out, "    sArray_%s.reserve(atom.%s.size());\n", fName, fName);
+                fprintf(out, "    for (const auto& str : atom.%s) {\n", fName);
+                fprintf(out, "        sArray_%s.push_back(str.c_str());\n", fName);
+                fprintf(out, "    }\n");
+                fprintf(out,
+                        "    AStatsEvent_writeStringArray(event, sArray_%s.data(), "
+                        "sArray_%s.size());\n",
+                        fName, fName);
+                break;
+
+            default:
+                // Unsupported types: OBJECT, DOUBLE
+                fprintf(stderr, "Encountered unsupported type.\n");
+                return -1;
+        }
+
+        auto atomAnnotations = atomDecl.fieldNumberToAnnotations.find(field.fieldNumber);
+        if (atomAnnotations != atomDecl.fieldNumberToAnnotations.end()) {
+            const string fieldArgName = "atom." + field.name;
+            write_annotation_set(out, atomAnnotations->second, fieldArgName, "AStatsEvent_",
+                                 "event, ", constantPrefix);
+        }
+    }
+    return 0;
+}
+
 static void write_native_method_call(FILE* out, const string& methodName,
                                      const vector<java_type_t>& signature,
                                      const AtomDecl& attributionDecl, int argIndex) {
@@ -212,6 +328,49 @@ static void write_native_method_call(FILE* out, const string& methodName,
         argIndex++;
     }
     fprintf(out, ");\n");
+}
+
+static int write_native_stats_write_methods_typesafe(FILE* out, const Atoms& atoms,
+                                                     const AtomDecl& attributionDecl,
+                                                     const int minApiLevel, bool bootstrap) {
+    for (auto& atomDecl : atoms.decls) {
+        const bool atomHasRepeatedFields = contains_repeated_field(atomDecl->fields);
+        if (minApiLevel < API_T && atomHasRepeatedFields) {
+            fprintf(stderr, "Found repeated field type with minApiLevel < T.");
+            return 1;
+        }
+
+        const string apiCloser = atomHasRepeatedFields ? " __INTRODUCED_IN(__ANDROID_API_T__)" : "";
+
+        if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
+            fprintf(out, "int stats_write(const %s& atom)%s {\n", atomDecl->message.c_str(),
+                    apiCloser.c_str());
+            fprintf(out, "    AStatsEvent* event = AStatsEvent_obtain();\n");
+            int ret = write_native_method_body_typesafe(out, *atomDecl, minApiLevel);
+            if (ret != 0) {
+                return ret;
+            }
+            fprintf(out, "    const int ret = AStatsEvent_write(event);\n");
+            fprintf(out, "    AStatsEvent_release(event);\n");
+            fprintf(out, "    return ret;\n");
+        } else {
+            fprintf(out, "void addAStatsEvent(AStatsEventList* pulled_data, const %s& atom)%s {\n",
+                    atomDecl->message.c_str(), apiCloser.c_str());
+            fprintf(out, "    AStatsEvent* event = AStatsEventList_addStatsEvent(pulled_data);\n");
+            int ret = write_native_method_body_typesafe(out, *atomDecl, minApiLevel);
+            if (ret != 0) {
+                return ret;
+            }
+            fprintf(out, "    AStatsEvent_build(event);\n");
+        }
+
+        fprintf(out, "}\n\n");
+    }
+
+    (void)attributionDecl;
+    (void)bootstrap;
+
+    return 0;
 }
 
 static int write_native_stats_write_methods(FILE* out, const SignatureInfoMap& signatureInfoMap,
@@ -454,64 +613,11 @@ static int write_native_build_stats_event_methods(FILE* out,
     return 0;
 }
 
-static int write_cpp_sources(FILE* out, const Atoms& atoms, const string& cppNamespace) {
-#ifdef CC_INCLUDE_SRCS_DIR
-    const bool hasHistograms = has_histograms(atoms.decls);
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
-#endif
-
-    fprintf(out, "\n");
-    write_namespace(out, cppNamespace);
-
-    int ret = 0;
-#ifdef CC_INCLUDE_SRCS_DIR
-    ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
-    if (ret != 0) {
-        return ret;
-    }
-
-    // Write histogram helper definitions if any histogram annotations are present.
-    if (hasHistograms) {
-        ret = write_native_histogram_helper_definitions(out, atoms.decls);
-        if (ret != 0) {
-            return ret;
-        }
-    }
-#endif
-    return ret;
-}
-
 int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                         const string& cppNamespace, const string& importHeader,
                         const int minApiLevel, bool bootstrap) {
-    // Print prelude
-    fprintf(out, "// This file is autogenerated\n");
-    fprintf(out, "\n");
-
-    fprintf(out, "#include <%s>\n", importHeader.c_str());
-    if (!bootstrap) {
-        if (minApiLevel == API_Q) {
-            fprintf(out, "#include <StatsEventCompat.h>\n");
-        } else {
-            fprintf(out, "#include <stats_event.h>\n");
-        }
-
-        if (minApiLevel > API_R) {
-            fprintf(out, "#include <stats_annotations.h>\n");
-        }
-
-        if (minApiLevel > API_Q && !atoms.pulledAtomsSignatureInfoMap.empty()) {
-            fprintf(out, "#include <stats_pull_atom_callback.h>\n");
-        }
-    } else {
-        fprintf(out, "#include <StatsBootstrapAtomClient.h>\n");
-        fprintf(out, "#include <android/os/StatsBootstrapAtom.h>\n");
-        fprintf(out, "#include <utils/String16.h>\n");
-    }
-
-    int ret = write_cpp_sources(out, atoms, cppNamespace);
+    int ret = write_native_source_preamble(out, atoms, importHeader, minApiLevel, cppNamespace,
+                                           bootstrap);
     if (ret != 0) {
         return ret;
     }
@@ -590,17 +696,30 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
 int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                  const string& cppNamespace, const string& importHeader,
                                  const int minApiLevel, bool bootstrap) {
-    (void)out;
-    (void)atoms;
-    (void)attributionDecl;
-    (void)cppNamespace;
-    (void)importHeader;
-    (void)minApiLevel;
-    (void)bootstrap;
+    if (bootstrap) {
+        fprintf(stderr,
+                "Type-safe APIs generation for C++ bootstrap is not supported."
+                "Vote-up http://b/449793167 for support.\n");
+        return 1;
+    }
 
-    fprintf(stderr, "Type-safe APIs generation for C++ sources is not supported."
-                    "Vote-up http://b/449793167 for support.\n");
-    return 1;
+    int ret = write_native_source_preamble(out, atoms, importHeader, minApiLevel, cppNamespace,
+                                           bootstrap);
+    if (ret != 0) {
+        return ret;
+    }
+
+    ret = write_native_stats_write_methods_typesafe(out, atoms, attributionDecl, minApiLevel,
+                                                    bootstrap);
+    if (ret != 0) {
+        return ret;
+    }
+
+    // Print footer
+    fprintf(out, "\n");
+    write_closing_namespace(out, cppNamespace);
+
+    return 0;
 }
 
 int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
@@ -627,7 +746,7 @@ int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDec
         return 1;
     };
 
-    // // Print write methods
+    // Print write methods
     fprintf(out, "//\n");
     fprintf(out, "// Write methods\n");
     fprintf(out, "//\n");

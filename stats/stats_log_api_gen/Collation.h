@@ -205,6 +205,8 @@ struct AtomField {
     string name;
     java_type_t javaType;
 
+    int fieldNumber;
+
     // If the field is of type enum, the following map contains the list of enum
     // values.
     map<int /* numeric value */, string /* value name */> enumValues;
@@ -219,6 +221,7 @@ struct AtomField {
     inline AtomField(const AtomField& that)
         : name(that.name),
           javaType(that.javaType),
+          fieldNumber(that.fieldNumber),
           enumValues(that.enumValues),
           enumTypeName(that.enumTypeName),
           enumTypeNameFull(that.enumTypeNameFull) {
