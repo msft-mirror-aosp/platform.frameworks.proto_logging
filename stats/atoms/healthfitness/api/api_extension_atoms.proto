@@ -464,7 +464,7 @@ message HealthConnectLatencyStats {
   optional android.healthfitness.api.SessionDataType session_data_type = 2;
 
   // Latency between activity insert and activity end time
-  optional int64 latency = 3;
+  optional int64 latency_millis = 3;
 
 }
 
