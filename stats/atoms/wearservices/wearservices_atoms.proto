@@ -131,7 +131,7 @@ message WsNotificationUpdated {
   optional bool has_promotable_characteristics = 23;
 }
 
-/** Logged when a notification is updated in the WearServices application. */
+/** Logged when a notification is dismissed in the WearServices application. */
 message WsNotificationDismissalActioned {
   // Package name of the application that created the notification event.
   optional string package_name = 1;
@@ -159,6 +159,17 @@ message WsNotificationDismissalActioned {
 
   // The group type of the notification.
   optional android.app.wearservices.NotificationGroupType group_type = 9;
+
+  // Whether this notification has set FLAG_ONGOING_EVENT. Which means there may
+  // be many updates for this notification. (eg. app download progress updates).
+  optional bool is_ongoing_notification = 10;
+
+  // Whether this notification has set FLAG_PROMOTED_ONGOING.
+  optional bool is_promoted_ongoing = 11;
+
+  // Whether this notification has promotable characteristics, taken from
+  // Notification#hasPromotableCharacteristics().
+  optional bool has_promotable_characteristics = 12;
 }
 
 /** Logged when a notification is updated in the WearServices application. */
@@ -186,6 +197,17 @@ message WsNotificationActioned {
 
   // Representing string for the notification action title for the action pressed.
   optional android.app.wearservices.NotificationActionTitle action_title = 8;
+
+  // Whether this notification has set FLAG_ONGOING_EVENT. Which means there may
+  // be many updates for this notification. (eg. app download progress updates).
+  optional bool is_ongoing_notification = 9;
+
+  // Whether this notification has set FLAG_PROMOTED_ONGOING.
+  optional bool is_promoted_ongoing = 10;
+
+  // Whether this notification has promotable characteristics, taken from
+  // Notification#hasPromotableCharacteristics().
+  optional bool has_promotable_characteristics = 11;
 }
 
 /** Logged when bridge mode configuration of notifications for an applications are updated. */
@@ -222,6 +244,9 @@ message WsNotificationBlocking {
 
   // Blocking status of the notifications for the application.
   optional android.app.wearservices.NotificationBlockingStatus notification_blocking_status = 5;
+
+  // The type of notification that is being blocked or unblocked.
+  optional android.app.wearservices.NotificationBlockingType blocking_type = 6;
 }
 
 /** Logged for estimating the latency of a specific notification in a component. */

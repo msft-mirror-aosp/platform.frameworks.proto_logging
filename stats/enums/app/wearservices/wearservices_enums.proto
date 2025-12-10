@@ -400,6 +400,17 @@ enum NotificationBlockingStatus {
   NOTIFICATION_BLOCKING_STATUS_UNBLOCKED = 2;
 }
 
+// The type of notifications that is being blocked or unblocked.
+// NEXT ID = 3
+enum NotificationBlockingType {
+  // Unspecified notification type.
+  NOTIFICATION_BLOCKING_TYPE_UNSPECIFIED = 0;
+  // All posted notifications
+  NOTIFICATION_BLOCKING_TYPE_POSTED = 1;
+  // Promoted Notifications - notifications with Notification#FLAG_PROMOTED_ONGOING flag.
+  NOTIFICATION_BLOCKING_TYPE_PROMOTED = 2;
+}
+
 // Defines the bridge configuration type.
 // Next ID: 3
 enum BridgeConfig {
