@@ -1565,6 +1565,12 @@ message Atom {
     extensions 1231; // MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event
     extensions 1232; // AudioRoutingTransitionReported audio_routing_transition_reported
     extensions 1233; // AudioModeStateChanged audio_mode_state_changed
+    extensions 1234; // VcnNetworkValidationStatusReported vcn_network_validation_status_reported
+    extensions 1235; // WearWatchFaceFirstFrameRendered wear_watch_face_first_frame_rendered
+    extensions 1236; // WearWatchFaceComplicationLoaded wear_watch_face_complication_loaded
+    extensions 1237; // WearWatchFaceAllComplicationsLoaded wear_watch_face_all_complications_loaded
+    extensions 1238; // WearSysUiCarouselAddTileButtonInteractionReported wear_sys_ui_carousel_add_tile_button_interaction_reported
+    extensions 1239; // WearSysUiCarouselTileManagementEditButtonTapped wear_sys_ui_carousel_tile_management_edit_button_tapped
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
