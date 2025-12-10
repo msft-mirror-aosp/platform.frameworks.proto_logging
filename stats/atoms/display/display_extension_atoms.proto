@@ -33,6 +33,8 @@ extend Atom {
   optional DisplayOffloadCycleStats display_offload_cycle_stats = 1163 [(module) = "framework"];
   optional DisplayOffloadSessionStats display_offload_session_stats = 1164 [(module) = "framework"];
   optional DisplayInfoChanged display_info_changed = 1174 [(module) = "framework"];
+  optional DisplaySwitchToApIssued display_switch_to_ap_issued = 1245
+      [(android.os.statsd.module) = "framework"];
 }
 
 /* Pushed atom for vote status change */
@@ -385,3 +387,13 @@ message DisplayInfoChanged {
   optional android.display.EventSource event_source = 8;
 
 }
+
+/**
+ * Logged when the display rendering switches from MCU to AP.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/display/DisplayOffloadSessionImpl.java
+ * Estimated Logging Rate:
+ *   Avg: 150 per device per day
+ */
+message DisplaySwitchToApIssued {}
