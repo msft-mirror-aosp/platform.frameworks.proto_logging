@@ -90,11 +90,11 @@ static void print_usage() {
             "created by rust_library for the header. Not needed for --vendor-proto\n");
     fprintf(stderr, "  --module NAME        optional, module name to generate outputs for\n");
     fprintf(stderr,
-            "  --namespace COMMA,SEP,NAMESPACE   required for cpp/header with "
-            "module\n");
+            "  --namespace COMMA,SEP,NAMESPACE or COLON::SEP::NAMESPACE   required for cpp/header"
+            " with module\n");
     fprintf(stderr,
-            "                                    comma separated namespace of "
-            "the files\n");
+            "                                                             comma or double-colon "
+            "separated namespace of the files\n");
     fprintf(stderr,
             "  --importHeader NAME  required for cpp/jni to say which header to "
             "import for write helpers\n");
@@ -119,6 +119,7 @@ static void print_usage() {
     fprintf(stderr, "  --proto       Path to proto files for atoms logging code generation.\n");
     fprintf(stderr, "                Can be specified multiple times to include extension\n");
     fprintf(stderr, "                files. Only one file must define the Atom proto.\n");
+    fprintf(stderr, "  --omitExtraSrcs       Exclude extra srcs.\n");
 }
 
 static const Descriptor* load_protos_and_find_atom_descriptor(
@@ -199,6 +200,7 @@ static int run(int argc, char const* const* argv) {
     int minApiLevel = API_LEVEL_CURRENT;
     bool javaStaticMethods = true;
     bool typeSafe = false;
+    bool includeExtraSrcs = true;
 
     int index = 1;
     while (index < argc) {
@@ -338,6 +340,8 @@ static int run(int argc, char const* const* argv) {
             }
         } else if (0 == strcmp("--type-safe", argv[index])) {
             typeSafe = true;
+        } else if (0 == strcmp("--omitExtraSrcs", argv[index])) {
+            includeExtraSrcs = false;
         }
 
         index++;
@@ -396,6 +400,8 @@ static int run(int argc, char const* const* argv) {
 
     const bool isVendor = interface == InterfaceApi::VENDOR;
 
+    replace_all(cppNamespace, "::", ",");
+
     // Write the .cpp file
     if (!cppFilename.empty()) {
         // If this is for a specific module, the namespace must also be provided.
@@ -418,22 +424,24 @@ static int run(int argc, char const* const* argv) {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp_typesafe(
                         out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP);
+                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
 
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp(
                         out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP);
+                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
             }
 
 #ifdef WITH_VENDOR
         } else {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor_typesafe(
-                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport,
+                        includeExtraSrcs);
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
-                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport);
+                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport,
+                        includeExtraSrcs);
             }
 #endif
         }
@@ -451,25 +459,24 @@ static int run(int argc, char const* const* argv) {
             fprintf(stderr, "Unable to open file for write: %s\n", headerFilename.c_str());
             return 1;
         }
-
         if (!isVendor) {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_header_typesafe(
                         out, atoms, attributionDecl, cppNamespace, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP);
+                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_header(
                         out, atoms, attributionDecl, cppNamespace, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP);
+                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
             }
 #ifdef WITH_VENDOR
         } else {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_header_vendor_typesafe(
-                        out, atoms, attributionDecl, cppNamespace);
+                        out, atoms, attributionDecl, cppNamespace, includeExtraSrcs);
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
-                        out, atoms, attributionDecl, cppNamespace);
+                        out, atoms, attributionDecl, cppNamespace, includeExtraSrcs);
             }
 #endif
         }

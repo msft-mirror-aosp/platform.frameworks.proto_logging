@@ -152,20 +152,21 @@ static int write_java_histogram_helper(FILE* out, const string& atomName, const 
     return errorCount;
 }
 
-static void write_header_histogram_sources(FILE* out, const Atoms& atoms) {
-#ifdef CC_INCLUDE_HDRS_DIR
+static void write_header_histogram_sources(FILE* out, const Atoms& atoms, bool includeExtraSrcs) {
     const bool hasHistograms = has_histograms(atoms.decls);
-    const vector<string> excludeList =
-            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
+    if (includeExtraSrcs) {
+#ifdef CC_INCLUDE_HDRS_DIR
+        const vector<string> excludeList =
+                hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+        write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
+#endif
+    } else {
+        fprintf(out, "using namespace android::util::statslogapigen;\n\n");
+    }
+
     if (hasHistograms) {
         write_native_histogram_helper_declarations(out, atoms.decls);
     }
-#else
-    // suppress unused parameter error
-    (void)out;
-    (void)atoms;
-#endif
 }
 
 static int write_src_header(FILE* out, const fs::path& filePath) {
@@ -236,6 +237,40 @@ static int write_srcs_bodies(FILE* out, const char* path, int indent,
     }
 
     return errors;
+}
+
+static int write_cpp_sources(FILE* out, const Atoms& atoms,
+                             const string& cppNamespace, bool includeExtraSrcs) {
+    const bool hasHistograms = has_histograms(atoms.decls);
+#ifdef CC_INCLUDE_SRCS_DIR
+    const vector<string> excludeList =
+            hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+    if (includeExtraSrcs) {
+        write_srcs_header(out, CC_INCLUDE_SRCS_DIR, excludeList);
+    }
+#endif
+
+    fprintf(out, "\n");
+    write_namespace(out, cppNamespace);
+
+    int ret = 0;
+#ifdef CC_INCLUDE_SRCS_DIR
+    if (includeExtraSrcs) {
+        ret = write_cc_srcs_classes(out, CC_INCLUDE_SRCS_DIR, excludeList);
+        if (ret != 0) {
+            return ret;
+        }
+    }
+#endif
+
+    // Write histogram helper definitions if any histogram annotations are present.
+    if (hasHistograms) {
+        ret = write_native_histogram_helper_definitions(out, atoms.decls);
+        if (ret != 0) {
+            return ret;
+        }
+    }
+    return ret;
 }
 
 static bool make_java_class_static(string& line) {
@@ -405,7 +440,7 @@ string to_cpp_typesafe_name(const AtomField& field) {
         case JAVA_TYPE_BYTE_ARRAY:
             return "std::vector<uint8_t>";
         case JAVA_TYPE_BOOLEAN_ARRAY:
-            return "std::vector<bool>";
+            return "std::vector<uint8_t>";
         case JAVA_TYPE_INT_ARRAY:
             return "std::vector<int32_t>";
         case JAVA_TYPE_ENUM_ARRAY:
@@ -710,7 +745,7 @@ int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool
             i++;
         }
 
-        fprintf(out, "};\n\n");
+        fprintf(out, "  };\n\n");
     }
     return 0;
 }
@@ -760,7 +795,7 @@ void write_native_method_header(FILE* out, const string& methodName,
 }
 
 void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
-                                  bool bootstrap, bool isVendorAtomLogging) {
+                                  bool bootstrap, bool includeExtraSrcs, bool isVendorAtomLogging) {
     const bool includePull = !atoms.pulledAtomsSignatureInfoMap.empty() && !bootstrap;
     const bool includeHistogram = has_histograms(atoms.decls);
 
@@ -778,13 +813,15 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
         fprintf(out, "#include <stats_pull_atom_callback.h>\n");
     }
 
+    if (includeExtraSrcs) {  // Inline headers from CC_INCLUDE_HDRS_DIR like StatsHistogram.h
 #ifdef CC_INCLUDE_HDRS_DIR
-    const vector<string> excludeList =
-            includeHistogram ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
-    write_srcs_header(out, CC_INCLUDE_HDRS_DIR, excludeList);
-#else
-    (void)includeHistogram;  // suppress unused parameter error
+        const vector<string> excludeList =
+                includeHistogram ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
+        write_srcs_header(out, CC_INCLUDE_HDRS_DIR, excludeList);
 #endif
+    } else if (includeHistogram) {  // StatsHistogram is linked via a lib.
+        fprintf(out, "#include <StatsHistogram.h>\n");
+    }
 
     if (isVendorAtomLogging) {
         fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
@@ -806,13 +843,44 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
     fprintf(out, "/*\n");
     fprintf(out, " * API For logging statistics events.\n");
     fprintf(out, " */\n");
-    fprintf(out, "\n");
 
-    write_header_histogram_sources(out, atoms);
+    write_header_histogram_sources(out, atoms, includeExtraSrcs);
 }
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace) {
     write_closing_namespace(out, cppNamespace);
+}
+
+int write_native_source_preamble(FILE* out, const Atoms& atoms,
+                                 const string& importHeader, const int minApiLevel,
+                                 const string& cppNamespace, bool bootstrap,
+                                 bool includeExtraSrcs) {
+    // Print prelude
+    fprintf(out, "// This file is autogenerated\n");
+    fprintf(out, "\n");
+
+    fprintf(out, "#include <%s>\n", importHeader.c_str());
+    if (!bootstrap) {
+        if (minApiLevel == API_Q) {
+            fprintf(out, "#include <StatsEventCompat.h>\n");
+        } else {
+            fprintf(out, "#include <stats_event.h>\n");
+        }
+
+        if (minApiLevel > API_R) {
+            fprintf(out, "#include <stats_annotations.h>\n");
+        }
+
+        if (minApiLevel > API_Q && !atoms.pulledAtomsSignatureInfoMap.empty()) {
+            fprintf(out, "#include <stats_pull_atom_callback.h>\n");
+        }
+    } else {
+        fprintf(out, "#include <StatsBootstrapAtomClient.h>\n");
+        fprintf(out, "#include <android/os/StatsBootstrapAtom.h>\n");
+        fprintf(out, "#include <utils/String16.h>\n");
+    }
+
+    return write_cpp_sources(out, atoms, cppNamespace, includeExtraSrcs);
 }
 
 // Java
@@ -1132,6 +1200,15 @@ int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
         }
     }
     return errors;
+}
+
+string replace_all(string str, const string& from, const string& to) {
+    size_t start = 0;
+    while ((start = str.find(from, start)) != string::npos) {
+        str.replace(start, from.length(), to);
+        start += to.length();
+    }
+    return str;
 }
 
 }  // namespace stats_log_api_gen

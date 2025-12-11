@@ -26,18 +26,19 @@ namespace android {
 namespace stats_log_api_gen {
 
 int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                               const string& cppNamespace, const string& importHeader);
+                               const string& cppNamespace, const string& importHeader,
+                               bool includeExtraSrcs);
 
 int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                                  const string& cppNamespace);
+                                  const string& cppNamespace, bool includeExtraSrcs);
 
 int write_stats_log_cpp_vendor_typesafe(FILE* out, const Atoms& atoms,
                                         const AtomDecl& attributionDecl, const string& cppNamespace,
-                                        const string& importHeader);
+                                        const string& importHeader, bool includeExtraSrcs);
 
 int write_stats_log_header_vendor_typesafe(FILE* out, const Atoms& atoms,
                                            const AtomDecl& attributionDecl,
-                                           const string& cppNamespace);
+                                           const string& cppNamespace, bool includeExtraSrcs);
 
 }  // namespace stats_log_api_gen
 }  // namespace android

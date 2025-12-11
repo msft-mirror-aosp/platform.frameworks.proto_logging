@@ -1557,7 +1557,7 @@ message Atom {
     extensions 1223; // ComputerControlSessionReported computer_control_session_reported
     extensions 1224; // ComputerControlFailedSessionReported computer_control_failed_session_reported
     extensions 1225; // MediaScreenLaunched media_screen_launched
-    extensions 1226; // WearLiveUpdateQuickSettingEventReported wear_live_update_quick_setting_event_reported
+    extensions 1226; // WearLiveUpdateSettingEventReported wear_live_update_setting_event_reported
     extensions 1227; // WearSetupWizardBlockingAppUpdateResultReported wear_setup_wizard_blocking_app_update_result_reported
     extensions 1228; // WsBlockingAppUpdateNotificationShownStatusReported ws_blocking_app_update_notification_shown_status_reported
     extensions 1229; // WearTrayAnimationStarted wear_tray_animation_started
@@ -1571,6 +1571,12 @@ message Atom {
     extensions 1237; // WearWatchFaceAllComplicationsLoaded wear_watch_face_all_complications_loaded
     extensions 1238; // WearSysUiCarouselAddTileButtonInteractionReported wear_sys_ui_carousel_add_tile_button_interaction_reported
     extensions 1239; // WearSysUiCarouselTileManagementEditButtonTapped wear_sys_ui_carousel_tile_management_edit_button_tapped
+    extensions 1240 ; // TaskContinuityMessageSent task_continuity_message_sent
+    extensions 1241; // TaskContinuityMessageReceived task_continuity_message_received
+    extensions 1242; // HandoffRequested handoff_requested
+    extensions 1243; // HandoffRequestFinished handoff_request_finished
+    extensions 1244; // WearHardwareButtonInteractionReported wear_hardware_button_interaction_reported
+    extensions 1245; // DisplaySwitchToApIssued display_switch_to_ap_issued
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1584,6 +1590,7 @@ message Atom {
     extensions 300002; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
     extensions 300003; // MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info
     extensions 300004; // MicroXrMcuBootTime micro_xr_mcu_boot_time
+    extensions 300005; // MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 

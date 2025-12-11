@@ -30,6 +30,7 @@ extend Atom {
   optional WearGestureSubscriptionChanged wear_gesture_subscription_changed = 1095 [(module) = "framework"];
   optional WearGestureReported wear_gesture_reported = 1096 [(module) = "framework"];
   optional WearGestureDetectionStateChanged wear_gesture_detection_state_changed = 1097 [(module) = "framework"];
+  optional WearHardwareButtonInteractionReported wear_hardware_button_interaction_reported = 1244 [(module) = "framework"];
 }
 
 // This file contains atom related to Gestures in Wear.
@@ -88,4 +89,37 @@ message WearGestureDetectionStateChanged {
     optional com.google.android.clockwork.physicalux.GestureDetectionState state = 1;
     // The gesture actions with active subscriptions
     repeated com.google.android.clockwork.physicalux.GestureAction subscribed_actions = 2;
+}
+
+/**
+ * Logged when a hardware button is interacted with.
+ *
+ * Logged from:
+ * package: frameworks/opt/wear/src/com/android/clockwork/input/...
+ */
+message WearHardwareButtonInteractionReported {
+    // The hardware button that was interacted with.
+    optional HardwareButtonType hardware_button_type = 1;
+    // The interaction type of the hardware button.
+    optional HardwareButtonInteractionType hardware_button_interaction_type = 2;
+
+    enum HardwareButtonType {
+        HARDWARE_BUTTON_UNSPECIFIED = 0;
+        // The crown button on the watch.
+        HARDWARE_BUTTON_CROWN = 1;
+        // The stem primary hardware button on the watch.
+        HARDWARE_BUTTON_STEM_PRIMARY = 2;
+    }
+
+    enum HardwareButtonInteractionType {
+        HARDWARE_BUTTON_INTERACTION_UNSPECIFIED = 0;
+        // The hardware button was pressed.
+        HARDWARE_BUTTON_INTERACTION_PRESSED = 1;
+        // The hardware button was double-pressed.
+        HARDWARE_BUTTON_INTERACTION_DOUBLE_PRESSED = 2;
+        // The hardware button was long-pressed.
+        HARDWARE_BUTTON_INTERACTION_LONG_PRESSED = 3;
+        // The hardware button was very long-pressed.
+        HARDWARE_BUTTON_VERY_LONG_PRESSED = 4;
+    }
 }

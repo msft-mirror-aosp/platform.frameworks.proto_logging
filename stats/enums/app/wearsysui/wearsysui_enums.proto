@@ -42,9 +42,12 @@ enum LiveEntryContentType {
   // An ongoing activity, such as a workout or timer.
   CONTENT_TYPE_ONGOING_ACTIVITY = 2;
 }
-// Quick Setting option selected by the user
-// Next ID: 3
-enum QuickSettingOption {
+
+/**
+ * Live Update Setting option selected by the user
+ * Next ID: 3
+ */
+enum LiveUpdateSettingOption {
   // Option unspecified
   OPTION_UNSPECIFIED = 0;
   // Icon and Text option selected
@@ -53,16 +56,17 @@ enum QuickSettingOption {
   OPTION_ICON_ONLY = 2;
 }
 
-// The source from which Quick Setting was entered
-// Next ID: 4
-enum QuickSettingEntrySource {
+/**
+ * The source from which Live Update Setting was entered
+ * Next ID: 4
+ */
+enum LiveUpdateSettingEntrySource {
   // Entry unspecified
   ENTRY_SOURCE_UNSPECIFIED = 0;
-  // Entered from Live Entry UI
-  ENTRY_SOURCE_LIVE_ENTRY = 1;
+  // Entered from WFCO UI
+  ENTRY_SOURCE_WFCO = 1;
   // Entered from Notification Tray
   ENTRY_SOURCE_N10N_TRAY = 2;
   // Entered from Notification Full View
   ENTRY_SOURCE_N10N_FULL_VIEW = 3;
 }
-

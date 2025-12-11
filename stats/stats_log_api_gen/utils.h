@@ -108,9 +108,14 @@ void write_native_method_header(FILE* out, const string& methodName,
                                 const AtomDecl& attributionDecl, bool isVendorAtomLogging = false);
 
 void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
-                                  bool bootstrap, bool isVendorAtomLogging = false);
+                                  bool bootstrap, bool includeExtraSrcs,
+                                  bool isVendorAtomLogging = false);
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
+
+int write_native_source_preamble(FILE* out, const Atoms& atoms,
+                                 const string& importHeader, const int minApiLevel,
+                                 const string& cppNamespace, bool bootstrap, bool includeExtraSrcs);
 
 // Common Java helpers.
 void write_java_atom_codes(FILE* out, const Atoms& atoms, const bool supportWorkSource);
@@ -159,6 +164,8 @@ int write_java_histogram_helpers(FILE* out, const AtomDeclSet& atomDeclSet,
                                  const bool staticMethods);
 
 bool contains_repeated_field(const vector<AtomField>& atomFields);
+
+std::string replace_all(std::string str, const std::string& from, const std::string& to);
 
 }  // namespace stats_log_api_gen
 }  // namespace android
