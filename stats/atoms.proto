@@ -1590,7 +1590,7 @@ message Atom {
     extensions 300001; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
     extensions 300002; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
     extensions 300003; // MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info
-    extensions 300004; // MicroXrMcuBootTime micro_xr_mcu_boot_time
+    extensions 300004; // MicroXrMcuBootTimeReported micro_xr_mcu_boot_time_reported
     extensions 300005; // MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
