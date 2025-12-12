@@ -1,0 +1,50 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.wear.wakeupmemory;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.wear.wakeupmemory";
+option java_multiple_files = true;
+
+/**
+ * All logs are logged from: frameworks/opt/wear
+ */
+extend Atom {
+  optional WearWakeupMemoryCounters wear_wakeup_memory_counters = 1246 [(module) = "framework"];
+}
+
+/**
+ * Logged during a wakeup on a Wear device. This atom logs the count of the `pgmajfault` and
+ * `pgscan_direct` memory counters during a wakeup from suspend. The count is calculated
+ * as the delta of counters between the identified wakeup start and the wakeup end events.
+ */
+message WearWakeupMemoryCounters {
+    // The name of the process for which the memory counters are read.
+    optional string processName = 1;
+
+    // The count of page major faults for the process during wakeup.
+    optional int32 pageMajFaultCount = 2;
+
+    // The count of page scan direct for the process during wakeup.
+    optional int32 pageScanDirectCount = 3;
+}
+
+

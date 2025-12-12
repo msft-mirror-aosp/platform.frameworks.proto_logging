@@ -1238,7 +1238,7 @@ message WifiAwarePeerFoundReported {
     enum Result {
         RESULT_UNKNOWN = 0;
         PEER_FOUND = 1;
-        PEER_NOT_FOUND = 2;
+        EXPIRED = 2;
         SESSION_TERMINATED = 3;
     }
     enum Role {
