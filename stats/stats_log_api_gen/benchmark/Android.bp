@@ -59,11 +59,7 @@ cc_atomslog_library_static {
     atoms_module: "statsdtest",
     namespace: "android,stats",
     basename: "statslog_test",
-    include_default_shared_libs: false,
-    header_libs: [
-        "libstatspull_headers",
-        "libstatssocket_headers",
-    ],
+    include_default_libs: "headers_only",
     whole_static_libs: [
         "libstatspull-fake",
         "libstatssocket-fake",

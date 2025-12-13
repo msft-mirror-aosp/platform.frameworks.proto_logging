@@ -132,7 +132,7 @@ cc_atomslog_library_static {
     atoms_module: "statsdtest",
     namespace: "android::stats",
     basename: "statslog_test",
-    include_default_shared_libs: false,
+    include_default_libs: "none",
     whole_static_libs: [
         "libstatspull-fake",
         "libstatssocket-fake",
@@ -144,7 +144,7 @@ cc_atomslog_library_static {
     atoms_module: "cts",
     namespace: "android,stats,cts",
     basename: "statslog_cts",
-    include_default_shared_libs: false,
+    include_default_libs: "none",
     whole_static_libs: [
         "libstatspull-fake",
         "libstatssocket-fake",

@@ -1578,6 +1578,9 @@ message Atom {
     extensions 1244; // WearHardwareButtonInteractionReported wear_hardware_button_interaction_reported
     extensions 1245; // DisplaySwitchToApIssued display_switch_to_ap_issued
     extensions 1246; // WearWakeupMemoryCounters wear_wakeup_memory_counters
+    extensions 1247; // NpuWorkEventOccurred npu_work_event_occurred
+    extensions 1248; // WsNotificationSubscriptionRequested ws_notification_subscription_requested
+    extensions 1249; // WsNotificationSubscriptionLatencyReported ws_notification_subscription_latency_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1590,7 +1593,7 @@ message Atom {
     extensions 300001; // MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected
     extensions 300002; // MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed
     extensions 300003; // MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info
-    extensions 300004; // MicroXrMcuBootTime micro_xr_mcu_boot_time
+    extensions 300004; // MicroXrMcuBootTimeReported micro_xr_mcu_boot_time_reported
     extensions 300005; // MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported

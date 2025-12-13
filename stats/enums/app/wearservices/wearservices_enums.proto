@@ -591,7 +591,7 @@ enum NotificationFlowComponent {
  * API names are based on:
  * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/api/NotificationApiImpl.java
  *
- * Next ID: 20
+ * Next ID: 21
  */
 enum NotificationApiName {
   // Unknown value for backward compatibility
@@ -623,6 +623,8 @@ enum NotificationApiName {
   NOTIFICATION_API_NAME_MUTE_APP = 15;
   NOTIFICATION_API_NAME_UNMUTE_APP = 16;
   NOTIFICATION_API_NAME_CAN_MUTE_APP = 17;
+
+  NOTIFICATION_API_NAME_SUBSCRIBE_FOR_NOTIFICATION_UPDATES = 20;
 }
 
 
@@ -1094,4 +1096,31 @@ enum BlockingAppUpdateNotificationShownStatus {
 enum BlockingAppUpdateNotificationFailureReason {
   FAILURE_REASON_UNSPECIFIED = 0;
   FAILURE_REASON_PLAY_STORE_INTENT_NULL = 1;
+}
+
+
+// Defines the type of notification subscription content type.
+// Next ID: 4
+enum NotificationSubscriptionContentType {
+  // Unknown value.
+  SUBSCRIPTION_CONTENT_TYPE_UNKNOWN = 0;
+  // All content types.
+  SUBSCRIPTION_CONTENT_TYPE_ALL = 1;
+  // Status bar icon.
+  SUBSCRIPTION_CONTENT_TYPE_STATUS_BAR_ICON = 2;
+  // Status bar text.
+  SUBSCRIPTION_CONTENT_TYPE_STATUS_BAR_TEXT = 3;
+}
+
+// Defines the response type of a notification subscription request.
+// Next ID: 4
+enum NotificationSubscriptionResponseType {
+  // Unknown value.
+  SUBSCRIPTION_RESPONSE_TYPE_UNKNOWN = 0;
+  // Subscription is already up to date.
+  SUBSCRIPTION_RESPONSE_TYPE_ALREADY_UP_TO_DATE = 1;
+  // Subscription is not up to date and a refresh request was sent.
+  SUBSCRIPTION_RESPONSE_TYPE_REFRESH_REQUESTED = 2;
+  // Notification is not found.
+  SUBSCRIPTION_RESPONSE_TYPE_NOTIFICATION_NOT_FOUND = 3;
 }

@@ -99,6 +99,12 @@ extend Atom {
 
   optional WsPhoneMetadataSnapshot ws_phone_metadata_snapshot = 10261
       [(module) = "wearservices"];
+
+  optional WsNotificationSubscriptionRequested ws_notification_subscription_requested = 1248
+      [(module) = "wearservices"];
+
+  optional WsNotificationSubscriptionLatencyReported ws_notification_subscription_latency_reported = 1249
+      [(module) = "wearservices"];
 }
 
 /**
@@ -553,3 +559,37 @@ message WsBlockingAppUpdateNotificationShownStatusReported {
   optional android.app.wearservices.BlockingAppUpdateNotificationFailureReason failure_reason = 2;
 }
 
+/**
+ * Logged when notification subscription is changed.
+ *
+ * Logged from:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/subscription/SubscriptionManager.java
+ */
+message WsNotificationSubscriptionRequested {
+  // Package name of the application this notification belongs to.
+  // Note - this includes packages not installed locally on the watch, hence it
+  // cannot be a uid.
+  optional string notification_package_name = 1;
+
+  // The type of subscription content requested.
+  repeated android.app.wearservices.NotificationSubscriptionContentType content_type = 2 [packed = true];
+
+  // The response type of the subscription request.
+  optional android.app.wearservices.NotificationSubscriptionResponseType response_type = 3;
+}
+
+/**
+ * Logged to report latency for notification subscription flow.
+ *
+ * Logged from:
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/subscription/SubscriptionManager.java
+ */
+message WsNotificationSubscriptionLatencyReported {
+  // Package name of the application this notification belongs to.
+  // Note - this includes packages not installed locally on the watch, hence it
+  // cannot be a uid.
+  optional string notification_package_name = 1;
+
+  // The latency in milliseconds for the subscription flow.
+  optional int64 duration_millis = 2;
+}

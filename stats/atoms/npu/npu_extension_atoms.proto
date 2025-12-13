@@ -1,0 +1,67 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.npu;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+extend Atom {
+  optional NpuWorkEventOccurred npu_work_event_occurred = 1247 [(module) = "npu"];
+}
+
+/**
+ * Logs when a NPU work event is received in NpuManager. These are
+ * received when work is requested, starts, and ends, and is
+ * debounced over a period of 50ms.
+ *
+ * Logged from:
+ *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
+ *
+ * Estimaged Logging Rate:
+ *     Entirely dependent on utilization of the NPU
+ */
+message NpuWorkEventOccurred {
+  enum EventType {
+    UNKNOWN = 0;
+    REQUESTED = 1;
+    STARTED = 2;
+    ENDED = 3;
+  }
+
+  enum Reason {
+    UNSPECIFIED = 0;
+    INITIAL = 1;
+    RESUMED = 2;
+    CANCELLED_USER = 3;
+    CANCELLED_SYSTEM = 4;
+    PAUSED = 5;
+    FAILED = 6;
+    COMPLETED = 7;
+  }
+
+  optional int32 uid = 1 [(is_uid) = true];
+  optional int32 debug_pid = 2;
+  optional int32 original_uid = 3 [(is_uid) = true];
+  optional int32 job_priority = 4;
+  optional int32 effective_priority = 5;
+  optional int64 timestamp_ms = 6;
+  optional int32 device_number = 7;
+  optional EventType type = 8;
+  optional Reason reason = 9;
+}
