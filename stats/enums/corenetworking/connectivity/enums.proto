@@ -140,6 +140,8 @@ enum TerribleErrorType {
   TYPE_BPF_UBSAN_KERNEL_BUG_ERROR = 18;
   // Indicates there were too many active low power standby ports.
   TYPE_TOO_MANY_LOW_POWER_STANDBY_PORTS = 19;
+  // Indicate invalid network permission is sent to netd
+  TYPE_INVALID_NET_PERM_SENT_TO_NETD = 20;
 }
 
 // Type of critical bytes event.
