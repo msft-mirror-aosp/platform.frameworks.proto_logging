@@ -1581,6 +1581,8 @@ message Atom {
     extensions 1247; // NpuWorkEventOccurred npu_work_event_occurred
     extensions 1248; // WsNotificationSubscriptionRequested ws_notification_subscription_requested
     extensions 1249; // WsNotificationSubscriptionLatencyReported ws_notification_subscription_latency_reported
+    extensions 1250; // WebappTwaInstallerAppInstalled webapp_twa_installer_app_installed
+    extensions 1251; // WebappUsageReported webapp_usage_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
