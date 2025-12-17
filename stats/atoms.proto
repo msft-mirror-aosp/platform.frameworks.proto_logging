@@ -15522,7 +15522,7 @@ message PerfettoUploaded {
     // "PERFETTO_CMD" prefix to make clear they are specific to perfetto_cmd.
     // This state exists because of legacy reasons (i.e. these values existed
     // before go/perfetto-monitoring was a thing).
-    // Next id: 63.
+    // Next id: 66.
     enum Event {
         PERFETTO_UNDEFINED = 0;
 
@@ -15586,6 +15586,7 @@ message PerfettoUploaded {
         // Exclusive session inside traced.
         PERFETTO_TRACED_ENABLE_TRACING_EXCLUSIVE_SESSION_REJECTED = 63;
         PERFETTO_TRACED_ENABLE_TRACING_EXCLUSIVE_SESSION_NOT_ALLOWED = 64;
+        PERFETTO_TRACED_ENABLE_TRACING_DUPLICATE_BUFFER_NAME = 65;
 
         // Checkpoints inside perfetto_cmd after tracing has finished.
         PERFETTO_ON_TRACING_DISABLED = 4;
