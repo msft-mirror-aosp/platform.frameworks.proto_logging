@@ -275,6 +275,9 @@ message AdpfSessionSnapshot {
 
     // Number of graphics pipeline session..
     optional int32 num_graphics_pipeline_session = 7;
+
+    // Number of audio performance sessions.
+    optional int32 num_audio_performance_session = 8;
 }
 
 /**
