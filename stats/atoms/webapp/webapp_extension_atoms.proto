@@ -1,0 +1,86 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.webapp;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_multiple_files = true;
+option java_package = "com.android.os.webapp";
+
+extend Atom {
+  optional WebappTwaInstallerAppInstalled webapp_twa_installer_app_installed = 1250 [(module) = "framework"];
+  optional WebappUsageReported webapp_usage_reported = 1251 [(module) = "framework"];
+}
+
+/**
+ * Logged when a TWA is installed via TWA Installer.
+ *
+ * Logged from:
+ *   service/java/com/android/webapp/service/
+ *
+ * Estimated Logging Rate:
+ *   Avg: less than 1 per device per day
+ */
+message WebappTwaInstallerAppInstalled {
+  // The installation can be cancelled by the user manually in the UI, so we are
+  // also reporting it on top of just success or failure.
+  enum InstallStatus {
+    INSTALL_STATUS_UNKNOWN = 0;
+    INSTALL_STATUS_SUCCESS = 1;
+    INSTALL_STATUS_FAILURE = 2;
+    INSTALL_STATUS_CANCELLED = 3;
+  }
+  optional InstallStatus status = 1;
+
+  // Reason of install failure
+  enum FailureReason {
+    UNKNOWN = 0;
+    MANIFEST_FETCH_FAILURE = 1;
+    MANIFEST_PARSE_FAILURE = 2;
+    APP_MINTING_FAILURE = 3;
+  }
+  optional FailureReason failure_reason = 2;
+
+  // Total time taken for installing, in ms
+  optional int64 installation_time_ms = 3;
+
+  // The size of the generated apk in kilobytes
+  optional int64 apk_size_kb = 4;
+
+  // The uid of the installing browser
+  optional int32 browser_uid = 5 [(is_uid) = true];
+}
+
+/**
+ * Logged when a TWA installed by TWA Installer is used.
+ *
+ * Logged from:
+ *   service/java/com/android/webapp/service/
+ *
+ * Estimated Logging Rate:
+ *   Depends on the number of TWAs installed.
+ */
+message WebappUsageReported {
+  // The length of app usage session from launching to backgrounding in ms
+  optional int64 session_length_ms = 1;
+
+  // The uid of the app
+  optional int32 uid = 2 [(is_uid) = true];
+}
