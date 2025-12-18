@@ -38,6 +38,11 @@ message PerformanceHintSessionReported {
     // an application's rendering loop. Depending on the device implementation, session with this
     // mode enable should have higher resource priority.
     optional bool is_graphics_pipeline = 7;
+
+    // True if audio performance mode is enabled.
+    // Audio performance mode tells whether the threads of a session require sustained audio
+    // performance to handle variable workloads within strict time windows.
+    optional bool is_audio_performance = 8;
 }
 
 message ADPFSystemComponentInfo {
