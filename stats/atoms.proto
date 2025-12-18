@@ -2523,6 +2523,8 @@ message WifiDisconnectReported {
         DISCONNECT_NETWORK_WIFI7_TOGGLED = 10025;
         // Firmware alert triggered recently for this network
         DISCONNECT_FIRMWARE_ALERT = 10026;
+        // Pre-evaluation failed for this network
+        DISCONNECT_PRE_EVALUATION_FAIL = 10027;
     }
 
     // How long the session lasted from successful connection to disconnect.
