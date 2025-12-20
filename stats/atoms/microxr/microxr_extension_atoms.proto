@@ -293,6 +293,9 @@ message MicroXrAudioPlaybackCompleted {
     bin: 500
     bin: 1000
   }];
+
+  // Maximum size of the jitter buffer during playback.
+  optional int32 max_jitter_buffer_ms = 10;
 }
 
 /**

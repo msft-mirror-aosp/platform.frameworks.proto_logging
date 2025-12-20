@@ -6381,6 +6381,16 @@ message ForegroundServiceStateChanged {
 
     // Whether setFgsRestrictionLocked() was called in Service.startForeground().
     optional bool fgs_restriction_recalculated = 37;
+
+    // Enum representing the state of POST_NOTIFICATIONS permission
+    enum FgsNotificationPermissionState {
+        FGS_NOTIFICATION_PERMISSION_UNKNOWN = 0;
+        FGS_NOTIFICATION_PERMISSION_NOT_DECLARED = 1;
+        FGS_NOTIFICATION_PERMISSION_DECLARED_BUT_DENIED = 2;
+        FGS_NOTIFICATION_PERMISSION_DECLARED_AND_GRANTED = 3;
+    }
+
+    optional FgsNotificationPermissionState fgs_notification_permission_state = 38;
 }
 
 /**
