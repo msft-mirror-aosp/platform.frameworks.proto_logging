@@ -128,6 +128,7 @@ cc_library_static {
     srcs: ["include_cc_srcs/StatsHistogram.cpp"],
     export_include_dirs: ["include_cc_hdrs"],
     host_supported: true,
+    vendor_available: true,
 }
 
 // ==========================================================

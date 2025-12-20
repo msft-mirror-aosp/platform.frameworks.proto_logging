@@ -160,7 +160,7 @@ static void write_header_histogram_sources(FILE* out, const Atoms& atoms, bool i
                 hasHistograms ? vector<string>{} : vector<string>{HISTOGRAM_STEM};
         write_cc_srcs_classes(out, CC_INCLUDE_HDRS_DIR, excludeList);
 #endif
-    } else {
+    } else if (hasHistograms) {
         fprintf(out, "using namespace android::util::statslogapigen;\n\n");
     }
 
