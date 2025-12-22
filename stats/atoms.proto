@@ -4946,6 +4946,21 @@ message LeAudioConnectionSessionReported {
     repeated int64 streaming_session_duration_nanos = 11;
     // Streaming context type of each steaming session
     repeated android.bluetooth.leaudio.ContextType streaming_context_type = 12;
+
+    // Codec format of each streaming session
+    repeated int32 codec_format = 13;
+    // Vendor company id of each streaming session
+    repeated int32 vendor_company_id = 14;
+    // Vendor codec id of each streaming session
+    repeated int32 vendor_codec_id = 15;
+    // Sink sampling frequency in hz of each streaming session
+    repeated int32 sink_sampling_frequency_hz = 16;
+    // Source sampling frequency in hz of each streaming session
+    repeated int32 source_sampling_frequency_hz = 17;
+    // Whether DSA is used in each streaming session
+    repeated bool is_dsa_active = 18;
+    // Whether GMAP is used in each streaming session
+    repeated bool is_gmap_active = 19;
 }
 
 /**
