@@ -94,6 +94,9 @@ extend Atom {
     optional ZramWritebackEvent zram_writeback_event = 1202 [(module) = "framework"];
     optional AppUsageQueryEventStats app_usage_query_event_stats = 10260 [(module) = "framework"];
     optional UsageEventReportedStats usage_event_reported_stats = 10262 [(module) = "framework"];
+    optional AutomaticTimeZoneChangeRevertedByUserReported automatic_time_zone_change_reverted_by_user_reported = 1253 [(module) = "framework"];
+    optional TimeZoneDetectionDiscrepancyReported  time_zone_detection_discrepancy_reported = 1254 [(module) = "framework"];
+    optional TimeZoneTransitionStateChanged time_zone_transition_state_changed = 1255 [(module) = "framework"];
 }
 
 /**
@@ -1894,3 +1897,115 @@ message UsageEventReportedStats {
     optional int32 event_count = 2;
 }
 
+/** Logs when an automatic time zone change is reverted by the user.
+ *
+ * Estimated logging rate:
+ *  The event collected when the user changes the time zone manually after it was
+ * changed automatically. This is a rare event, but it can happen when the user notices the time zone
+ * changed unexpectedly. In most cases if user changes the time zone manually, further automatic time zone
+ * changes will not happen, unless user changes the time zone back to the automatic time zone.
+ * Atom is expected to be logged on average significantly less than once per day.
+ */
+message AutomaticTimeZoneChangeRevertedByUserReported {
+  enum Source {
+    // A placeholder for unknown values.
+    UNSPECIFIED = 0;
+    // The automated change was proposed by location source.
+    TIME_ZONE_SOURCE_LOCATION = 1;
+    // The automated change was proposed by telephony.
+    TIME_ZONE_SOURCE_TELEPHONY = 2;
+    // The automated change was proposed by fused signals.
+    TIME_ZONE_SOURCE_FUSED_SIGNALS = 3;
+  }
+  optional Source source = 1;
+  // The MCC (Mobile Country Code) from the telephony signal.
+  optional int32 mcc = 2;
+  // The MNC (Mobile Network Code) from the telephony signal.
+  optional int32 mnc = 3;
+  // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
+  optional int32 nitz_offset_seconds = 4;
+  // The time zone before the automatic time zone change.
+  optional int32 nitz_dst_offset_seconds = 5;
+  // The package uid of the location time zone provider.
+  optional string previous_time_zone_id = 6;
+  // The time zone after the automatic time zone change.
+  optional string rejected_automatic_time_zone_id = 7;
+  // The time zone after the manual time zone change.
+  optional string manual_time_zone_id = 8;
+  // Country code ISO 3166-1 alpha-2 of the country the device is currently in.
+  optional string geolocation_country_code = 9;
+  // The version of the time zone database.
+  optional string tzdb_version = 10;
+  // The package uid of the location time zone provider.
+  optional int32 location_time_zone_provider_uid = 11 [(is_uid) = true];
+}
+
+/**
+ * Logs when there is a discrepancy between the time zone suggested by the geolocation provider and
+ * the telephony provider.
+
+ * Estimated logging rate:
+ * This event is logged when for a specific period of time there is a discrepancy between the time
+ * zone suggested by the geolocation provider and the telephony provider. Atom is expected to be
+ * logged on average significantly less than once per day.
+ */
+message TimeZoneDetectionDiscrepancyReported {
+  // The time zone suggested by the geolocation provider.
+  optional string geolocation_time_zone_id = 1;
+  // The time zone suggested by the telephony provider.
+  optional string telephony_time_zone_id = 2;
+  // The MCC (Mobile Country Code) from the telephony signal.
+  optional int32 mcc = 3;
+  // The MNC (Mobile Network Code) from the telephony signal.
+  optional int32 mnc = 4;
+  // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
+  optional int32 nitz_offset_seconds = 5;
+  // The NITZ DST offset from the telephony signal.
+  optional int32 nitz_dst_offset_seconds = 6;
+  // Country code ISO 3166-1 alpha-2 of the country the device is currently in.
+  optional string geolocation_country_code = 7;
+  // The version of the time zone database.
+  optional string tzdb_version = 8;
+  // The package uid of the location time zone provider.
+  optional int32 location_time_zone_provider_uid = 9 [(is_uid) = true];
+}
+
+// Logs when a device transitions from one time zone to another.
+// A transition is when telephony and geolocation signals agree on a time zone, then one changes,
+// and then the other changes to match the first.
+//
+// Estimated logging rate:
+//   This event is logged when telephone transitions to a new time zone or when there is a
+//   geolocation or telephony erroneous  signal change between the time. Atom is expected to be
+//   logged on average significantly less than once per day.
+message TimeZoneTransitionStateChanged {
+  // The time zone before the transition started.
+  optional string previous_time_zone_id = 1;
+  // The new time zone after the transition completed.
+  optional string time_zone_id = 2;
+  // The timestamp when the geotimezone provider changed the time zone or -1 if
+  // geotimezone did not change the time zone.
+  optional int64 geotimezone_changed_timestamp = 3;
+  // The timestamp when the telephony provider changed the time zone or -1 if
+  // telephony did not change the time zone.
+  optional int64 telephony_time_zone_changed_timestamp = 4;
+  // The timestamp when the fused time zone provider changed the time zone or -1
+  // if fused time zone provider did not change the time zone.
+  optional int64 fused_time_zone_changed_timestamp = 5;
+  // True if the transition was aborted (e.g., the first signal reverted).
+  optional bool transition_aborted = 6;
+  // The MCC (Mobile Country Code) from the telephony signal.
+  optional int32 mcc = 7;
+  // The MNC (Mobile Network Code) from the telephony signal.
+  optional int32 mnc = 8;
+  // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
+  optional int32 nitz_offset_seconds = 9;
+  // The NITZ DST offset from the telephony signal.
+  optional int32 nitz_dst_offset_seconds = 10;
+  // Country code ISO 3166-1 alpha-2 of the country the device is currently in.
+  optional string geolocation_country_code = 11;
+  // The version of the time zone database.
+  optional string tzdb_version = 12;
+  // The package uid of the location time zone provider.
+  optional int32 location_time_zone_provider_uid = 13 [(is_uid) = true];
+}
