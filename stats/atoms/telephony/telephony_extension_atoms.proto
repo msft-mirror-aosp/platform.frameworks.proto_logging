@@ -33,7 +33,17 @@ extend Atom {
     optional ConnectedChannelChanged connected_channel_changed = 882 [(module) = "telephony"];
     optional SmsOtpRedacted sms_otp_redacted = 1136 [(module) = "telephony"];
     optional SmsOtpEvaluation sms_otp_evaluation = 1137 [(module) = "telephony"];
+    optional CarrierPrivilegesReported carrier_privileges_reported = 1252 [(module) = "telephony"];
     // 10208 is reserved due to removing the old atom.
+}
+
+message CarrierPrivilegesReported {
+    // The carrier id of the SIM.
+    optional int32 sim_carrier_id = 1;
+    // The number of packages granted carrier privileges by the SIM.
+    optional int32 sim_privileged_package_count = 2;
+    // The number of packages granted carrier privileges by device configuration.
+    optional int32 config_privileged_package_count = 3;
 }
 
 message CellularRadioPowerStateChanged {
