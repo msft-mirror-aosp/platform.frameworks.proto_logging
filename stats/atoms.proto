@@ -1584,6 +1584,9 @@ message Atom {
     extensions 1250; // WebappTwaInstallerAppInstalled webapp_twa_installer_app_installed
     extensions 1251; // WebappUsageReported webapp_usage_reported
     extensions 1252; // CarrierPrivilegesReported carrier_privileges_reported
+    extensions 1253; // AutomaticTimeZoneChangeRevertedByUser
+    extensions 1254; // TimeZoneDetectionDiscrepancy
+    extensions 1255; // TimeZoneTransition
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2526,6 +2529,8 @@ message WifiDisconnectReported {
         DISCONNECT_NETWORK_WIFI7_TOGGLED = 10025;
         // Firmware alert triggered recently for this network
         DISCONNECT_FIRMWARE_ALERT = 10026;
+        // Pre-evaluation failed for this network
+        DISCONNECT_PRE_EVALUATION_FAIL = 10027;
     }
 
     // How long the session lasted from successful connection to disconnect.

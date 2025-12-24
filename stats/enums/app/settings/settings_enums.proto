@@ -2726,7 +2726,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2193
+// Next ID: 2194
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6267,6 +6267,10 @@ enum PageId {
     // OPEN: Settings > Device
     // CATEGORY: SETTINGS
     SETTINGS_DEVICE_CATEGORY = 2192;
+
+    // OPEN: Intent: android.settings.VPN_APP_EXCLUSION_SETTINGS
+    // CATEGORY: SETTINGS
+    VPN_APP_EXCLUSION = 2193;
 }
 
 // Battery Saver schedule types.
