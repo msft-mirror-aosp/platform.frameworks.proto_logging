@@ -26,6 +26,7 @@ option java_multiple_files = true;
 
 extend Atom {
     optional MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event = 1231 [(module) = "framework"];
+    optional MemcgMemoryProcessKillEvent memcg_memory_process_kill_event = 1256 [(module) = "framework"];
 
     optional MemcgMemorySnapshot memcg_memory_snapshot = 10251 [(module) = "framework"];
     optional MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot = 10252 [(module) = "framework"];
@@ -130,4 +131,33 @@ message MemcgMemoryExceedThresholdEvent {
     // Memory swap peak as tracked by memcg. Read from the memory.swap.current
     // field in /sys/fs/cgroup/../pid_PID/memory.swap.current.
     optional int32 memory_swap_current_in_kilobytes = 5;
+}
+
+message MemcgMemoryProcessKillEvent {
+    enum KillReason {
+        UNKNOWN_BREACH = 0;
+        // anon memory higher than vendor threshold
+        ANON_MEMORY_BREACH = 1;
+        // vendor provided Memcg memory was breached for too long
+        TOTAL_MEMCG_MEMORY_BREACH = 2;
+    }
+
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // The process name.
+    // the process cmdline as passed by pmgd configuration
+    optional string process_name = 2;
+
+    // reason for kill
+    optional KillReason kill_reason = 3;
+
+    // Amount of (resident) memory used in anonymous mappings such as brk(), sbrk(), and mmap(MAP_ANONYMOUS).
+    optional int32 anon_memory_in_kilobytes = 4;
+
+    // Amount of memory used to cache filesystem data, including tmpfs and shared memory.
+    optional int32 file_memory_in_kilobytes = 5;
+
+    // Memory swap peak as tracked by memcg. Read from the memory.swap.current
+    // field in /sys/fs/cgroup/../pid_PID/memory.swap.current.
+    optional int32 memory_swap_current_in_kilobytes = 6;
 }
