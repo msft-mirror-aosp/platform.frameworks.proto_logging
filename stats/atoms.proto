@@ -1587,6 +1587,7 @@ message Atom {
     extensions 1253; // AutomaticTimeZoneChangeRevertedByUser
     extensions 1254; // TimeZoneDetectionDiscrepancy
     extensions 1255; // TimeZoneTransition
+    extensions 1256; // MemcgMemoryProcessKillEvent memcg_memory_process_kill_event
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
