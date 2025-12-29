@@ -509,7 +509,7 @@ static int run(int argc, char const* const* argv) {
         if (!isVendor) {
             errorCount = android::stats_log_api_gen::write_stats_log_java(
                     out, atoms, attributionDecl, javaClass, javaPackage, minApiLevel,
-                    supportWorkSource, javaStaticMethods);
+                    supportWorkSource, javaStaticMethods, includeExtraSrcs);
 #ifdef WITH_VENDOR
         } else {
             if (supportWorkSource) {
@@ -518,7 +518,7 @@ static int run(int argc, char const* const* argv) {
             }
 
             errorCount = android::stats_log_api_gen::write_stats_log_java_vendor(
-                    out, atoms, javaClass, javaPackage, javaStaticMethods);
+                    out, atoms, javaClass, javaPackage, javaStaticMethods, includeExtraSrcs);
 #endif
         }
 
