@@ -195,3 +195,24 @@ enum SatelliteSessionConnectType {
   // Session connect type for subscriber is Manual
   SATELLITE_SESSION_CONNECT_TYPE_MANUAL = 2;
 }
+
+enum SatelliteEntitlementQueryTrigger {
+  // Entitlement refresh trigger event is unknown
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_UNKNOWN = 0;
+  // Entitlement refresh triggered on boot up
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_BOOTUP = 1;
+  // Entitlement refresh triggered on daily timer
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_REFRESH_TIMER = 2;
+  // Entitlement refresh triggered on internet status change
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_INTERNET_CONNECTED = 3;
+  // Entitlement refresh triggered on carrier config
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_CARRIER_CONFIG_CHANGED = 4;
+  // Entitlement refresh triggered on FCM tickle
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_FCM_TICKLE = 5;
+  // Entitlement refresh triggered on SIM refresh
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_SIM_REFRESH = 6;
+  // Entitlement refresh triggered on toggling airplane mode
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_AIRPLANE_MODE_TOGGLE = 7;
+  // Retry entitlement query
+  SATELLITE_ENTITLEMENT_QUERY_TRIGGER_RETRY = 8;
+}
