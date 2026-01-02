@@ -21,7 +21,6 @@ package android.os.statsd.wearsysui;
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/app/wearsysui/wearsysui_enums.proto";
-import "frameworks/proto_logging/stats/enums/app/wearservices/wearservices_enums.proto";
 
 option java_package = "com.android.os.wearsysui";
 option java_multiple_files = true;
@@ -50,11 +49,6 @@ extend Atom {
       [(module) = "wearsysui"];
   optional WearSysUiCarouselTileManagementEditButtonTapped
       wear_sys_ui_carousel_tile_management_edit_button_tapped = 1239
-      [(module) = "wearsysui"];
-  optional WearNotificationFullViewEventReported
-      wear_notification_full_view_event_reported = 1257
-      [(module) = "wearsysui"];
-  optional WearNotificationTrayEventReported wear_notification_tray_event_reported = 1258
       [(module) = "wearsysui"];
 }
 
@@ -272,82 +266,4 @@ message WearSysUiCarouselTileManagementEditButtonTapped {
   optional string component_class_name = 3;
   // The index of the tile in the wear services tile list.
   optional int32 tile_wear_services_index = 4;
-}
-
-/**
- * Atom containing user interaction associated with the full view.
- *
- * Logged from: google3/java/com/google/android/clockwork/sysui/common/logging/NotificationLogger.java
- *
- */
-message WearNotificationFullViewEventReported {
-  // UiEvent of the event reported including UI shown, UI removed, touch, scrolled, RSB scrolled, open on phone, open on watch etc.
-  optional int32 event_id = 1;
-  // Package identifier. An integer index assigned to each distinct package generated on the device to distinguish apps on a single device.
-  // Not the app uid and cannot be translated to package name.
-  optional int32 package_id = 2;
-  // Surface where full view is being shown
-  optional android.app.wearsysui.NotificationSurface surface = 3;
-  // Instance of the notificationf or a given surface. This is needed since we
-  // can have 1+ instances of HUN on top of each other from same app.
-  optional int32 instance = 4;
-}
-
-/**
- * Atom logged when an event happens in the notification tray.
- *
- * Logged from: google3/java/com/google/android/clockwork/sysui/common/logging/NotificationLogger.java
- *
- */
-message WearNotificationTrayEventReported {
-  // UiEvent of the event reported (this includes TRAY_OPENED)
-  optional int32 event_id = 1;
-  // Number of live entries present in the tray
-  optional int32 num_liveentries = 2;
-  // The live entries in the tray, in the order that they appear there
-  optional WearLiveEntriesList live_entries_list = 3 [(log_mode) = MODE_BYTES];
-  // Number of notifications present in the tray
-  optional int32 num_notifications = 4;
-  // The notifications in the panel, in the order that they appear there
-  optional WearNotificationsList notifications_list = 5 [(log_mode) = MODE_BYTES];
-}
-
-/**
- * Proto describing the live entries present.
- */
-message WearLiveEntries {
-  // Package identifier. An integer index assigned to each distinct package generated on the device to distinguish apps on a single device.
-  // Not the app uid and cannot be translated to package name.
-  optional int32 package_id = 1;
-  // Live Entry content type
-  optional android.app.wearsysui.LiveEntryContentType content_type = 2;
-  // Live Entry text type
-  optional android.app.wearsysui.LiveEntryTextType text_type = 3;
-}
-
-/**
- * Proto describing the list of live entries present.
- */
-message WearLiveEntriesList {
-  repeated WearLiveEntries live_entries = 1;
-}
-
-/**
- * Proto describing metadata about the content.
- */
-message WearNotification {
-  // Package identifier. An integer index assigned to each distinct package generated on the device to distinguish apps on a single device.
-  // Not the app uid and cannot be translated to package name.
-  optional int32 package_id = 1;
-  // The style of the notification
-  optional android.app.wearservices.NotificationStyle style = 2;
-  // The category of the notification
-  optional android.app.wearservices.NotificationCategory category = 3;
-}
-
-/**
- * Proto describing the list of notifications present.
- */
-message WearNotificationsList {
-  repeated WearNotification notifications = 1;
 }
