@@ -1588,6 +1588,9 @@ message Atom {
     extensions 1254; // TimeZoneDetectionDiscrepancy
     extensions 1255; // TimeZoneTransition
     extensions 1256; // MemcgMemoryProcessKillEvent memcg_memory_process_kill_event
+    extensions 1257; // WearNotificationFullViewEventReported wear_notification_full_view_event_reported
+    extensions 1258; // WearNotificationTrayEventReported wear_notification_tray_event_reported
+
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
