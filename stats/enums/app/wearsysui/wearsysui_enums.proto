@@ -70,20 +70,3 @@ enum LiveUpdateSettingEntrySource {
   // Entered from Notification Full View
   ENTRY_SOURCE_N10N_FULL_VIEW = 3;
 }
-
-/**
- * Surface hosting the full view notification
- * Next ID: 5
-*/
-enum NotificationSurface {
-  // Surface unspecified
-  SURFACE_UNSPECIFIED = 0;
-  // Notification tray surface
-  SURFACE_TRAY = 1;
-  // Glanceable full view surface
-  SURFACE_GLANCEABLE_FV = 2;
-  // Heads up notification full view surface
-  SURFACE_HUN_FV = 3;
-  // Live update full view surface
-  SURFACE_LIVE_UPDATE_FV = 4;
-}
