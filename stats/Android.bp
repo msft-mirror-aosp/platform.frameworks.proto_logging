@@ -41,7 +41,7 @@ atom_protos = [
     // go/keep-sorted end
 ]
 
-cc_library_host_shared {
+cc_library {
     name: "libstats_proto_host",
     srcs: [
         "atom_field_options.proto",
@@ -59,6 +59,8 @@ cc_library_host_shared {
             "external/protobuf/src",
         ],
     },
+    host_supported: true,
+    device_supported: false,
 }
 
 filegroup {

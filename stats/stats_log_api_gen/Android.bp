@@ -37,13 +37,17 @@ cc_defaults {
         "-DCC_INCLUDE_HDRS_DIR=\"cc_hdrs/\"",
         "-DCC_INCLUDE_SRCS_DIR=\"cc_srcs/\"",
     ],
-    shared_libs: [
-        "libstats_proto_host",
+    static_libs: [
         "libprotobuf-cpp-full",
+    ],
+    whole_static_libs: [
+        "libstats_proto_host",
     ],
     proto: {
         type: "full",
     },
+    device_supported: false,
+    host_supported: true,
 }
 
 cc_binary_host {
@@ -62,7 +66,7 @@ cc_binary_host {
         "-DWITH_VENDOR",
     ],
 
-    shared_libs: [
+    static_libs: [
         "libbase",
     ],
 
@@ -71,6 +75,8 @@ cc_binary_host {
         "stats-log-api-gen-copy-cc-hdrs",
         "stats-log-api-gen-copy-cc-srcs",
     ],
+
+    stl: "libc++_static",
 
     tidy: true,
 
@@ -159,7 +165,9 @@ cc_test_host {
 
     static_libs: [
         "libgmock_host",
-        "libtestgenatoms",
+        "libstatslog_test_external",
+        "libstatslog_test_generic_vendor",
+        "libstatslog_test_vendor",
         "libstatspull-fake",
         "libstatssocket-fake",
     ],
@@ -213,128 +221,37 @@ filegroup {
     ],
 }
 
-genrule {
-    name: "test_vendor_atoms.h",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --header $(out)" +
-        " --module test" +
-        " --namespace android,VendorAtoms" +
-        " --interface vendor" +
-        " --proto $(in)",
-    out: [
-        "test_vendor_atoms.h",
-    ],
-    srcs: [
+cc_atomslog_library_static {
+    name: "libstatslog_test_external",
+    atoms_module: "test",
+    basename: "test_external_atoms",
+    namespace: "android::ExternalAtoms",
+    proto_srcs: [
         "test_vendor_atoms.proto",
-        "test_vendor_extension_atoms.proto",
-        ":libprotobuf-internal-descriptor-proto",
-        ":libstats_atom_options_protos",
     ],
-}
-
-genrule {
-    name: "test_vendor_atoms.cpp",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
-        " --module test" +
-        " --importHeader test_vendor_atoms.h" +
-        " --namespace android,VendorAtoms" +
-        " --interface vendor" +
-        " --proto $(in)",
-    out: [
-        "test_vendor_atoms.cpp",
-    ],
-    srcs: [
-        "test_vendor_atoms.proto",
-        "test_vendor_extension_atoms.proto",
-        ":libprotobuf-internal-descriptor-proto",
-        ":libstats_atom_options_protos",
-    ],
-}
-
-genrule {
-    name: "test_external_atoms.h",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --header $(out)" +
-        " --module test" +
-        " --namespace android,ExternalAtoms" +
-        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
-    out: [
-        "test_external_atoms.h",
-    ],
-    srcs: [
-        "test_vendor_atoms.proto",
-        ":libprotobuf-internal-descriptor-proto",
-        ":libstats_atom_options_protos",
-    ],
-}
-
-genrule {
-    name: "test_external_atoms.cpp",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
-        " --module test" +
-        " --importHeader test_external_atoms.h" +
-        " --namespace android,ExternalAtoms" +
-        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
-    out: [
-        "test_external_atoms.cpp",
-    ],
-    srcs: [
-        "test_vendor_atoms.proto",
-        ":libprotobuf-internal-descriptor-proto",
-        ":libstats_atom_options_protos",
-    ],
-}
-
-genrule {
-    name: "test_generic_vendor_atoms.h",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --header $(out)" +
-        " --module generic-vendor-test" +
-        " --namespace android,GenericVendorAtoms" +
-        " --interface vendor",
-    out: [
-        "test_generic_vendor_atoms.h",
-    ],
-}
-
-genrule {
-    name: "test_generic_vendor_atoms.cpp",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
-        " --module generic-vendor-test" +
-        " --importHeader test_generic_vendor_atoms.h" +
-        " --namespace android,GenericVendorAtoms" +
-        " --interface vendor",
-    out: [
-        "test_generic_vendor_atoms.cpp",
-    ],
-}
-
-cc_library_static {
-    name: "libtestgenatoms",
     host_supported: true,
-    generated_headers: [
-        "test_external_atoms.h",
-        "test_generic_vendor_atoms.h",
-        "test_vendor_atoms.h",
+}
+
+cc_atomslog_library_static {
+    name: "libstatslog_test_vendor",
+    atoms_module: "test",
+    basename: "test_vendor_atoms",
+    namespace: "android::VendorAtoms",
+    interface: "vendor",
+    proto_srcs: [
+        "test_vendor_atoms.proto",
+        "test_vendor_extension_atoms.proto",
     ],
-    generated_sources: [
-        "test_external_atoms.cpp",
-        "test_generic_vendor_atoms.cpp",
-        "test_vendor_atoms.cpp",
-    ],
-    export_generated_headers: [
-        "test_external_atoms.h",
-        "test_generic_vendor_atoms.h",
-        "test_vendor_atoms.h",
-    ],
-    shared_libs: [
-        "android.frameworks.stats-V2-ndk",
-        "libstatspull-fake",
-        "libstatssocket-fake",
-    ],
+    host_supported: true,
+}
+
+cc_atomslog_library_static {
+    name: "libstatslog_test_generic_vendor",
+    atoms_module: "generic-vendor-test",
+    basename: "test_generic_vendor_atoms",
+    namespace: "android::GenericVendorAtoms",
+    interface: "vendor",
+    host_supported: true,
 }
 
 rust_test_host {
