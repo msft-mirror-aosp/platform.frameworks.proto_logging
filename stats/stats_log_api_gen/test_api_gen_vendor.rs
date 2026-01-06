@@ -32,6 +32,11 @@ trait VendorAtomValueExt {
     fn unwrap_float_value(&self) -> f32;
     fn unwrap_bool_value(&self) -> bool;
     fn unwrap_byte_array_value(&self) -> &[u8];
+    fn unwrap_repeated_bool_value(&self) -> &[bool];
+    fn unwrap_repeated_int_value(&self) -> &[i32];
+    fn unwrap_repeated_long_value(&self) -> &[i64];
+    fn unwrap_repeated_float_value(&self) -> &[f32];
+    fn unwrap_repeated_string_value(&self) -> &[Option<String>];
 }
 
 impl VendorAtomValueExt for VendorAtomValue {
@@ -66,6 +71,41 @@ impl VendorAtomValueExt for VendorAtomValue {
             _ => panic!("not a ByteArrayValue"),
         }
     }
+    fn unwrap_repeated_bool_value(&self) -> &[bool] {
+        match self {
+            VendorAtomValue::RepeatedBoolValue(Some(x)) => x,
+            VendorAtomValue::RepeatedBoolValue(None) => panic!("RepeatedBoolValue is None"),
+            _ => panic!("not a RepeatedBoolValue"),
+        }
+    }
+    fn unwrap_repeated_int_value(&self) -> &[i32] {
+        match self {
+            VendorAtomValue::RepeatedIntValue(Some(x)) => x,
+            VendorAtomValue::RepeatedIntValue(None) => panic!("RepeatedIntValue is None"),
+            _ => panic!("not a RepeatedIntValue"),
+        }
+    }
+    fn unwrap_repeated_long_value(&self) -> &[i64] {
+        match self {
+            VendorAtomValue::RepeatedLongValue(Some(x)) => x,
+            VendorAtomValue::RepeatedLongValue(None) => panic!("RepeatedLongValue is None"),
+            _ => panic!("not a RepeatedLongValue"),
+        }
+    }
+    fn unwrap_repeated_float_value(&self) -> &[f32] {
+        match self {
+            VendorAtomValue::RepeatedFloatValue(Some(x)) => x,
+            VendorAtomValue::RepeatedFloatValue(None) => panic!("RepeatedFloatValue is None"),
+            _ => panic!("not a RepeatedFloatValue"),
+        }
+    }
+    fn unwrap_repeated_string_value(&self) -> &[Option<String>] {
+        match self {
+            VendorAtomValue::RepeatedStringValue(Some(x)) => x,
+            VendorAtomValue::RepeatedStringValue(None) => panic!("RepeatedStringValue is None"),
+            _ => panic!("not a RepeatedStringValue"),
+        }
+    }
 }
 
 /// Tests native auto generated code for specific vendor atom contains proper ids
@@ -73,8 +113,7 @@ impl VendorAtomValueExt for VendorAtomValue {
 fn atom_id_constants_test() {
     assert_eq!(test_vendor_atoms::vendorAtom1::Vendoratom1::CODE, 105501);
     assert_eq!(test_vendor_atoms::vendorAtom2::Vendoratom2::CODE, 105502);
-    // TODO(b/216543320): support repeated fields in Rust
-    // assert_eq!(test_vendor_atoms::vendorAtom4::Vendoratom4::CODE, 105504);
+    assert_eq!(test_vendor_atoms::vendorAtom4::Vendoratom4::CODE, 105504);
 }
 
 /// Tests native auto generated code for specific vendor atom contains proper enums
@@ -100,9 +139,12 @@ fn atom_enum_test() {
     assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield3::AnotherType2 as i32, 2);
     assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield3::AnotherType3 as i32, 3);
 
-    // TODO(b/216543320): support repeated fields in Rust
-    // assert_eq!(test_vendor_atoms::vendorAtom4::Enumfield1::TypeUnknown as i32, 0);
-    // assert_eq!(test_vendor_atoms::vendorAtom4::Enumfield1::Type1 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendorAtom4::Type4::TypeUnknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendorAtom4::Type4::Type1 as i32, 1);
+
+    assert_eq!(test_vendor_atoms::vendorAtom4::EnumRepeated::Type5Unknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendorAtom4::EnumRepeated::Type51 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendorAtom4::EnumRepeated::Type52 as i32, 2);
 }
 
 #[test]
@@ -155,8 +197,54 @@ fn build_vendor_atom3_api_test() {
 
 #[test]
 fn build_vendor_atom4_api_test() {
-    // TODO(b/216543320): support repeated fields in Rust
-    // vendorAtom4 depends on repeated fields
+    use test_vendor_atoms::vendorAtom4;
+
+    const TEST_REPEATED_BOOL_VALUE: &[bool] = &[true, false, true];
+    const TEST_REPEATED_FLOAT_VALUE: &[f32] = &[1.0, 2.0, 3.0];
+    const TEST_REPEATED_INT_VALUE: &[i32] = &[10, 20, 30];
+    const TEST_REPEATED_LONG_VALUE: &[i64] = &[100, 200, 300];
+    const TEST_REPEATED_STRING_VALUE: &[&str] = &["foo", "bar", "baz"];
+    const TEST_REPEATED_ENUM_VALUE: &[vendorAtom4::EnumRepeated] =
+        &[vendorAtom4::EnumRepeated::Type51, vendorAtom4::EnumRepeated::Type52];
+
+    let atom = vendorAtom4::Vendoratom4 {
+        reverse_domain_name: TEST_STRING_VALUE,
+        float_field: TEST_FLOAT_VALUE,
+        int_field: TEST_INT_VALUE,
+        long_field: TEST_LONG_VALUE,
+        bool_field: TEST_BOOL_VALUE,
+        type4: vendorAtom4::Type4::Type1,
+        bool_repeated: TEST_REPEATED_BOOL_VALUE,
+        float_repeated: TEST_REPEATED_FLOAT_VALUE,
+        int_repeated: TEST_REPEATED_INT_VALUE,
+        long_repeated: TEST_REPEATED_LONG_VALUE,
+        string_repeated: TEST_REPEATED_STRING_VALUE,
+        enum_repeated: TEST_REPEATED_ENUM_VALUE,
+    }
+    .to_vendor_atom();
+
+    assert_eq!(atom.atomId, vendorAtom4::Vendoratom4::CODE);
+    assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
+    assert_eq!(atom.values.len(), 11);
+    assert_eq!(atom.values[0].unwrap_float_value(), TEST_FLOAT_VALUE);
+    assert_eq!(atom.values[1].unwrap_int_value(), TEST_INT_VALUE);
+    assert_eq!(atom.values[2].unwrap_long_value(), TEST_LONG_VALUE);
+    assert_eq!(atom.values[3].unwrap_bool_value(), TEST_BOOL_VALUE);
+    assert_eq!(atom.values[4].unwrap_int_value(), vendorAtom4::Type4::Type1 as _);
+    assert_eq!(atom.values[5].unwrap_repeated_bool_value(), TEST_REPEATED_BOOL_VALUE);
+    assert_eq!(atom.values[6].unwrap_repeated_float_value(), TEST_REPEATED_FLOAT_VALUE);
+    assert_eq!(atom.values[7].unwrap_repeated_int_value(), TEST_REPEATED_INT_VALUE);
+    assert_eq!(atom.values[8].unwrap_repeated_long_value(), TEST_REPEATED_LONG_VALUE);
+
+    let expected_strings: Vec<Option<String>> =
+        TEST_REPEATED_STRING_VALUE.iter().map(|&s| Some(s.to_string())).collect();
+    assert_eq!(atom.values[9].unwrap_repeated_string_value(), expected_strings.as_slice());
+
+    let expected_enums: Vec<i32> = TEST_REPEATED_ENUM_VALUE.iter().map(|&e| e as i32).collect();
+    assert_eq!(atom.values[10].unwrap_repeated_int_value(), expected_enums.as_slice());
+
+    assert!(atom.valuesAnnotations.is_none());
+    assert!(atom.atomAnnotations.is_none());
 }
 
 #[test]

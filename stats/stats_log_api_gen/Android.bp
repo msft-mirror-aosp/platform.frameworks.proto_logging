@@ -349,6 +349,22 @@ rust_test_host {
     ],
 }
 
+rust_test_host {
+    name: "test_api_gen_rust",
+    crate_name: "test_api_gen_rust",
+    srcs: ["test_api_gen.rs"],
+    edition: "2021",
+    rustlibs: [
+        "libstatslog_rust",
+        "libstatslog_rust_header",
+    ],
+    static_libs: [
+        "libstatssocket-fake",
+        "libstatspull-fake",
+    ],
+    test_suites: ["general-tests"],
+}
+
 genrule {
     name: "test_vendor_atoms.rs",
     tools: ["stats-log-api-gen"],
@@ -461,6 +477,7 @@ rust_library {
         "libstatspull_bindgen",
         "libthiserror",
     ],
+    host_supported: true,
     apex_available: [
         "//apex_available:platform",
         "com.android.resolv",
@@ -497,4 +514,5 @@ rust_library {
     flags: [
         "-A clippy::needless-lifetimes",
     ],
+    host_supported: true,
 }

@@ -57,6 +57,43 @@ static const char* rust_type_name(java_type_t type, bool lifetime) {
             } else {
                 return "&[u8]";
             }
+        case JAVA_TYPE_BOOLEAN_ARRAY:
+            if (lifetime) {
+                return "&'a [bool]";
+            } else {
+                return "&[bool]";
+            }
+        case JAVA_TYPE_INT_ARRAY:
+        case JAVA_TYPE_ENUM_ARRAY:
+            if (lifetime) {
+                return "&'a [i32]";
+            } else {
+                return "&[i32]";
+            }
+        case JAVA_TYPE_LONG_ARRAY:
+            if (lifetime) {
+                return "&'a [i64]";
+            } else {
+                return "&[i64]";
+            }
+        case JAVA_TYPE_FLOAT_ARRAY:
+            if (lifetime) {
+                return "&'a [f32]";
+            } else {
+                return "&[f32]";
+            }
+        case JAVA_TYPE_DOUBLE_ARRAY:
+            if (lifetime) {
+                return "&'a [f64]";
+            } else {
+                return "&[f64]";
+            }
+        case JAVA_TYPE_STRING_ARRAY:
+            if (lifetime) {
+                return "&'a [&'a str]";
+            } else {
+                return "&[&str]";
+            }
         default:
             return "UNKNOWN";
     }
@@ -151,6 +188,8 @@ static void write_rust_method_signature(FILE* out, const char* namePrefix, const
             }
             if (type == JAVA_TYPE_ENUM) {
                 fprintf(out, ": %s,%s", make_camel_case_name(atomField.name).c_str(), separator);
+            } else if (type == JAVA_TYPE_ENUM_ARRAY) {
+                fprintf(out, ": &[%s],%s", make_camel_case_name(atomField.name).c_str(), separator);
             } else {
                 fprintf(out, ": %s,%s", rust_type_name(type, false), separator);
             }
@@ -207,7 +246,7 @@ static void write_rust_atom_constants(FILE* out, const Atoms& atoms,
 static void write_rust_atom_constant_values(FILE* out, const shared_ptr<AtomDecl>& atomDecl) {
     bool hasConstants = false;
     for (const AtomField& field : atomDecl->fields) {
-        if (field.javaType == JAVA_TYPE_ENUM) {
+        if (field.javaType == JAVA_TYPE_ENUM || field.javaType == JAVA_TYPE_ENUM_ARRAY) {
             fprintf(out, "    #[repr(i32)]\n");
             fprintf(out, "    #[derive(Clone, Copy, Eq, PartialEq)]\n");
             fprintf(out, "    pub enum %s {\n", make_camel_case_name(field.name).c_str());
@@ -309,6 +348,14 @@ static int write_rust_method_body(FILE* out, const AtomDecl& atomDecl,
         fprintf(stderr, "TODO: Do we need to handle this case?");
         return 1;
     }
+    if (minApiLevel < API_T) {
+        for (const auto& atomField : atomDecl.fields) {
+            if (is_repeated_field(atomField.javaType)) {
+                fprintf(stderr, "Found repeated field type with min api level < T.");
+                return 1;
+            }
+        }
+    }
     if (atomDecl.atomType == ATOM_TYPE_PUSHED) {
         fprintf(out, "            let __event = AStatsEvent_obtain();\n");
         fprintf(out, "            let __dropper = crate::AStatsEventDropper(__event);\n");
@@ -365,6 +412,48 @@ static int write_rust_method_body(FILE* out, const AtomDecl& atomDecl,
                 fprintf(out, "            let str = std::ffi::CString::new(%s)?;\n", name.c_str());
                 fprintf(out, "            AStatsEvent_writeString(__event, str.as_ptr());\n");
                 break;
+            case JAVA_TYPE_BOOLEAN_ARRAY:
+                fprintf(out,
+                        "            AStatsEvent_writeBoolArray(__event, %s.as_ptr(), %s.len());\n",
+                        name.c_str(), name.c_str());
+                break;
+            case JAVA_TYPE_INT_ARRAY:
+                fprintf(out,
+                        "            AStatsEvent_writeInt32Array(__event, %s.as_ptr(), "
+                        "%s.len());\n",
+                        name.c_str(), name.c_str());
+                break;
+            case JAVA_TYPE_ENUM_ARRAY:
+                fprintf(out,
+                        "            let int_arr = %s.iter().map(|&v| v as i32)"
+                        ".collect::<Vec<i32>>();\n"
+                        "            AStatsEvent_writeInt32Array(__event, int_arr.as_ptr(), "
+                        "int_arr.len());\n",
+                        name.c_str());
+                break;
+            case JAVA_TYPE_FLOAT_ARRAY:
+                fprintf(out,
+                        "            AStatsEvent_writeFloatArray(__event, %s.as_ptr(), "
+                        "%s.len());\n",
+                        name.c_str(), name.c_str());
+                break;
+            case JAVA_TYPE_LONG_ARRAY:
+                fprintf(out,
+                        "            AStatsEvent_writeInt64Array(__event, %s.as_ptr(), "
+                        "%s.len());\n",
+                        name.c_str(), name.c_str());
+                break;
+            case JAVA_TYPE_STRING_ARRAY:
+                fprintf(out,
+                        "            let str_arr = %s.iter().map(|s| "
+                        "std::ffi::CString::new(*s))"
+                        ".collect::<std::result::Result<Vec<_>, _>>()?;\n"
+                        "            let ptr_arr = str_arr.iter().map(|s| s.as_ptr())"
+                        ".collect::<std::vec::Vec<_>>();\n"
+                        "            AStatsEvent_writeStringArray(__event, ptr_arr.as_ptr(), "
+                        "%s.len());",
+                        name.c_str(), name.c_str());
+                break;
             default:
                 // Unsupported types: OBJECT, DOUBLE
                 fprintf(stderr, "Encountered unsupported type: %d.", type);
@@ -410,7 +499,7 @@ static bool needs_lifetime(const shared_ptr<AtomDecl>& atomDecl) {
     for (const AtomField& atomField : atomDecl->fields) {
         const java_type_t& type = atomField.javaType;
         if (type == JAVA_TYPE_ATTRIBUTION_CHAIN || type == JAVA_TYPE_STRING ||
-            type == JAVA_TYPE_BYTE_ARRAY) {
+            type == JAVA_TYPE_BYTE_ARRAY || is_repeated_field(type)) {
             return true;
         }
     }
@@ -520,6 +609,36 @@ static int write_rust_vendor_atom_method(FILE* out, const shared_ptr<AtomDecl>& 
                 break;
             case JAVA_TYPE_BYTE_ARRAY:
                 fprintf(out, "ByteArrayValue(Some(self.%s.to_vec())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_BOOLEAN_ARRAY:
+                fprintf(out,
+                        "RepeatedBoolValue(Some(self.%s.to_vec())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_INT_ARRAY:
+                fprintf(out, "RepeatedIntValue(Some(self.%s.to_vec())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_ENUM_ARRAY:
+                fprintf(out,
+                        "RepeatedIntValue(Some(self.%s.iter().map(|&v| v as i32).collect())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_FLOAT_ARRAY:
+                fprintf(out,
+                        "RepeatedFloatValue(Some(self.%s.to_vec())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_LONG_ARRAY:
+                fprintf(out,
+                        "RepeatedLongValue(Some(self.%s.to_vec())),\n",
+                        get_variable_name(field.name).c_str());
+                break;
+            case JAVA_TYPE_STRING_ARRAY:
+                fprintf(out,
+                        "RepeatedStringValue(Some(self.%s.iter().map(|s| "
+                        "Some(s.to_string())).collect())),\n",
                         get_variable_name(field.name).c_str());
                 break;
             default:
@@ -644,6 +763,8 @@ static void write_rust_struct(FILE* out, const shared_ptr<AtomDecl>& atomDecl,
             fprintf(out, "        pub %s:", get_variable_name(atomField.name).c_str());
             if (type == JAVA_TYPE_ENUM) {
                 fprintf(out, " %s,\n", make_camel_case_name(atomField.name).c_str());
+            } else if (type == JAVA_TYPE_ENUM_ARRAY) {
+                fprintf(out, " &'a [%s],\n", make_camel_case_name(atomField.name).c_str());
             } else {
                 fprintf(out, " %s,\n", rust_type_name(type, true));
             }
@@ -706,13 +827,6 @@ static int write_rust_stats_write_atoms(FILE* out, const AtomDeclSet& atomDeclSe
                                         const int minApiLevel, const char* headerCrate,
                                         bool isVendor) {
     for (const auto& atomDecl : atomDeclSet) {
-        // TODO(b/216543320): support repeated fields in Rust
-        if (std::find_if(atomDecl->fields.begin(), atomDecl->fields.end(),
-                         [](const AtomField& atomField) {
-                             return is_repeated_field(atomField.javaType);
-                         }) != atomDecl->fields.end()) {
-            continue;
-        }
         fprintf(out, "pub mod %s {\n", atomDecl->name.c_str());
         if (isVendor) {
             const char* AIDL_STATS = "android_frameworks_stats::aidl::android::frameworks::stats";
@@ -826,3 +940,4 @@ int write_stats_log_rust_vendor(FILE* out, const Atoms& atoms, const AtomDecl& a
 
 }  // namespace stats_log_api_gen
 }  // namespace android
+
