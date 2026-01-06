@@ -122,6 +122,7 @@ protected:
             mBadRestrictedAtoms4 = BadRestrictedAtoms4::descriptor();
             mBadRestrictedAtoms5 = BadRestrictedAtoms5::descriptor();
             mGoodUintAtoms = GoodUintAtoms::descriptor();
+            mGenericVendorPulledAtoms = GenericVendorPulledAtom::descriptor();
         } else {
             mEvent = mFileDescriptor->FindMessageTypeByName("Event");
             mIntAtom = mFileDescriptor->FindMessageTypeByName("IntAtom");
@@ -150,6 +151,8 @@ protected:
             mBadRestrictedAtoms4 = mFileDescriptor->FindMessageTypeByName("BadRestrictedAtoms4");
             mBadRestrictedAtoms5 = mFileDescriptor->FindMessageTypeByName("BadRestrictedAtoms5");
             mGoodUintAtoms = mFileDescriptor->FindMessageTypeByName("GoodUintAtoms");
+            mGenericVendorPulledAtoms =
+                    mFileDescriptor->FindMessageTypeByName("GenericVendorPulledAtom");
         }
     }
 
@@ -180,6 +183,7 @@ protected:
     const Descriptor* mBadRestrictedAtoms4;
     const Descriptor* mBadRestrictedAtoms5;
     const Descriptor* mGoodUintAtoms;
+    const Descriptor* mGenericVendorPulledAtoms;
 };
 
 INSTANTIATE_TEST_SUITE_P(ProtoProvider, CollationTest, testing::Values(true, false));
@@ -561,6 +565,38 @@ TEST_P(CollationTest, CollateVendorAtoms) {
 
     EXPECT_EQ(199999, (*atomIt)->code);
     EXPECT_EQ("pulled_atom_199999", (*atomIt)->name);
+    EXPECT_EQ("AnotherIntAtom", (*atomIt)->message);
+    EXPECT_NO_ENUM_FIELD((*atomIt));
+    atomIt++;
+
+    EXPECT_EQ(atoms.decls.end(), atomIt);
+}
+
+TEST_P(CollationTest, CollateGenericVendorPulledAtoms) {
+    Atoms atoms;
+    const int errorCount = collate_atoms(*mGenericVendorPulledAtoms, DEFAULT_MODULE_NAME, atoms);
+
+    EXPECT_EQ(0, errorCount);
+    EXPECT_EQ(1ul, atoms.signatureInfoMap.size());
+    EXPECT_EQ(1ul, atoms.pulledAtomsSignatureInfoMap.size());
+
+    // IntAtom
+    EXPECT_MAP_CONTAINS_SIGNATURE(atoms.signatureInfoMap, JAVA_TYPE_INT);
+
+    // AnotherIntAtom
+    EXPECT_MAP_CONTAINS_SIGNATURE(atoms.pulledAtomsSignatureInfoMap, JAVA_TYPE_INT);
+
+    ASSERT_EQ(2ul, atoms.decls.size());
+
+    AtomDeclSet::const_iterator atomIt = atoms.decls.begin();
+    EXPECT_EQ(1, (*atomIt)->code);
+    EXPECT_EQ("pushed_atom_1", (*atomIt)->name);
+    EXPECT_EQ("IntAtom", (*atomIt)->message);
+    EXPECT_NO_ENUM_FIELD((*atomIt));
+    atomIt++;
+
+    EXPECT_EQ(350000, (*atomIt)->code);
+    EXPECT_EQ("pulled_atom_350000", (*atomIt)->name);
     EXPECT_EQ("AnotherIntAtom", (*atomIt)->message);
     EXPECT_NO_ENUM_FIELD((*atomIt));
     atomIt++;
