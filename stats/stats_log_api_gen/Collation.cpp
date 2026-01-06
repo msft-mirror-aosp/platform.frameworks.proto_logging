@@ -41,10 +41,18 @@ using std::map;
 
 const bool dbg = false;
 
-const int PLATFORM_PULLED_ATOMS_START = 10000;
-const int PLATFORM_PULLED_ATOMS_END = 99999;
-const int VENDOR_PULLED_ATOMS_START = 150000;
-const int VENDOR_PULLED_ATOMS_END = 199999;
+struct AtomIdRange {
+    int start;
+    int end;
+};
+
+const AtomIdRange PLATFORM_PULLED_ATOMS_RANGE = {10000, 99999};
+const AtomIdRange VENDOR_PULLED_ATOMS_RANGE = {150000, 199999};
+const AtomIdRange GENERIC_VENDOR_PULLED_ATOMS_RANGE = {350000, 399999};
+
+static bool isAtomIdInRange(int atomId, const AtomIdRange& range) {
+    return atomId >= range.start && atomId <= range.end;
+}
 
 //
 // AtomDecl class
@@ -606,8 +614,9 @@ static void populateFieldNumberToAtomDeclSet(const shared_ptr<AtomDecl>& atomDec
 
 static AtomType getAtomType(const FieldDescriptor& atomField) {
     const int atomId = atomField.number();
-    if ((atomId >= PLATFORM_PULLED_ATOMS_START && atomId <= PLATFORM_PULLED_ATOMS_END) ||
-        (atomId >= VENDOR_PULLED_ATOMS_START && atomId <= VENDOR_PULLED_ATOMS_END)) {
+    if (isAtomIdInRange(atomId, PLATFORM_PULLED_ATOMS_RANGE) ||
+        isAtomIdInRange(atomId, VENDOR_PULLED_ATOMS_RANGE) ||
+        isAtomIdInRange(atomId, GENERIC_VENDOR_PULLED_ATOMS_RANGE)) {
         return ATOM_TYPE_PULLED;
     } else {
         return ATOM_TYPE_PUSHED;
