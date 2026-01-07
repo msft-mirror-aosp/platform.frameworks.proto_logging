@@ -43,6 +43,7 @@ cc_benchmark {
     ],
     static_libs: [
         "libbenchmark-atoms-logging",
+        "libbenchmark-atoms-logging-typesafe",
         "libgtest",
         "libtestatom-large-proto-cpp",
         "libtestatom-medium-proto-cpp",
@@ -64,6 +65,19 @@ cc_atomslog_library_static {
         "libstatspull-fake",
         "libstatssocket-fake",
     ],
+}
+
+cc_atomslog_library_static {
+    name: "libbenchmark-atoms-logging-typesafe",
+    atoms_module: "statsdtest",
+    namespace: "android,stats,typesafe",
+    basename: "statslog_test_typesafe",
+    include_default_libs: "headers_only",
+    whole_static_libs: [
+        "libstatspull-fake",
+        "libstatssocket-fake",
+    ],
+    gen_type: "typesafe",
 }
 
 cc_library_static {
