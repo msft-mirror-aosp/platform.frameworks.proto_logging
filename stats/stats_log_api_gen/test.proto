@@ -333,6 +333,11 @@ message VendorAtoms {
     optional AnotherIntAtom pulled_atom_199999 = 199999;
 }
 
+message GenericVendorPulledAtom {
+  optional IntAtom pushed_atom_1 = 1;
+  optional AnotherIntAtom pulled_atom_350000 = 350000;
+}
+
 message GoodRestrictedAtoms {
     optional GoodRestrictedAtom pushed_atom_1 = 1
         [(android.os.statsd.restriction_category) = RESTRICTION_DIAGNOSTIC];

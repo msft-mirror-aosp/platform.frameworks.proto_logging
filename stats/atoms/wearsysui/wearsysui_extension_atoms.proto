@@ -50,6 +50,8 @@ extend Atom {
   optional WearSysUiCarouselTileManagementEditButtonTapped
       wear_sys_ui_carousel_tile_management_edit_button_tapped = 1239
       [(module) = "wearsysui"];
+  optional WearTrayOpenKeyEventOccurred wear_tray_open_key_event_occurred = 1257
+      [(module) = "wearsysui"];
 }
 
 /**
@@ -266,4 +268,18 @@ message WearSysUiCarouselTileManagementEditButtonTapped {
   optional string component_class_name = 3;
   // The index of the tile in the wear services tile list.
   optional int32 tile_wear_services_index = 4;
+}
+
+// Atom logged when a tray open key event is received by sysui.
+//
+// This is sent when the watch is offloaded and the user rotates the crown or swipes up/down on the screen.
+//
+// Logged from  https://source.corp.google.com/piper///depot/google3/java/com/google/android/clockwork/sysui/common/uimodetray/TrayEventsHandler.java
+// Logged ~6 times per day per device.
+message WearTrayOpenKeyEventOccurred {
+  // The key code for the key event that triggered the tray open.
+  optional int32 key_code = 1;
+  // The timestamp from the key event.
+  // https://developer.android.com/reference/android/view/KeyEvent#getEventTime()
+  optional int64 event_time_ms = 2;
 }

@@ -1919,9 +1919,9 @@ message AutomaticTimeZoneChangeRevertedByUserReported {
   }
   optional Source source = 1;
   // The MCC (Mobile Country Code) from the telephony signal.
-  optional int32 mcc = 2;
+  optional string mcc = 2;
   // The MNC (Mobile Network Code) from the telephony signal.
-  optional int32 mnc = 3;
+  optional string mnc = 3;
   // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
   optional int32 nitz_offset_seconds = 4;
   // The time zone before the automatic time zone change.
@@ -1955,9 +1955,9 @@ message TimeZoneDetectionDiscrepancyReported {
   // The time zone suggested by the telephony provider.
   optional string telephony_time_zone_id = 2;
   // The MCC (Mobile Country Code) from the telephony signal.
-  optional int32 mcc = 3;
+  optional string mcc = 3;
   // The MNC (Mobile Network Code) from the telephony signal.
-  optional int32 mnc = 4;
+  optional string mnc = 4;
   // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
   optional int32 nitz_offset_seconds = 5;
   // The NITZ DST offset from the telephony signal.
@@ -1995,9 +1995,9 @@ message TimeZoneTransitionStateChanged {
   // True if the transition was aborted (e.g., the first signal reverted).
   optional bool transition_aborted = 6;
   // The MCC (Mobile Country Code) from the telephony signal.
-  optional int32 mcc = 7;
+  optional string mcc = 7;
   // The MNC (Mobile Network Code) from the telephony signal.
-  optional int32 mnc = 8;
+  optional string mnc = 8;
   // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
   optional int32 nitz_offset_seconds = 9;
   // The NITZ DST offset from the telephony signal.
