@@ -15670,6 +15670,7 @@ message PerfettoUploaded {
     optional Event event = 1;
 
     // UUID matching the one set inside the SystemInfo trace packet.
+    // The UUID LSB maps to the statsd triggering subscription ID.
     optional int64 trace_uuid_lsb = 2;
     optional int64 trace_uuid_msb = 3;
 
@@ -15709,6 +15710,10 @@ message PerfettoTrigger {
 
     // The name of the trigger which fired.
     optional string trigger_name = 2;
+
+    // UUID lsb matching the one set inside the SystemInfo trace packet.
+    // The UUID LSB maps to the statsd triggering subscription ID.
+    optional int64 trace_uuid_lsb = 3;
 }
 
 /**
@@ -23199,6 +23204,7 @@ message TracingServiceReportEvent {
   optional Event event = 1;
 
   // UUID of the trace.
+  // The UUID LSB maps to the statsd triggering subscription ID.
   optional int64 trace_uuid_lsb = 2;
   optional int64 trace_uuid_msb = 3;
 }
