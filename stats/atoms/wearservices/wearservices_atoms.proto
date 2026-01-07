@@ -125,10 +125,6 @@ message WsNotificationUpdated {
 
   // Whether this notification has set FLAG_PROMOTED_ONGOING.
   optional bool is_promoted_ongoing = 22;
-
-  // Whether this notification has promotable characteristics, taken from
-  // Notification#hasPromotableCharacteristics().
-  optional bool has_promotable_characteristics = 23;
 }
 
 /** Logged when a notification is dismissed in the WearServices application. */
@@ -166,10 +162,6 @@ message WsNotificationDismissalActioned {
 
   // Whether this notification has set FLAG_PROMOTED_ONGOING.
   optional bool is_promoted_ongoing = 11;
-
-  // Whether this notification has promotable characteristics, taken from
-  // Notification#hasPromotableCharacteristics().
-  optional bool has_promotable_characteristics = 12;
 }
 
 /** Logged when a notification is updated in the WearServices application. */
@@ -204,10 +196,6 @@ message WsNotificationActioned {
 
   // Whether this notification has set FLAG_PROMOTED_ONGOING.
   optional bool is_promoted_ongoing = 10;
-
-  // Whether this notification has promotable characteristics, taken from
-  // Notification#hasPromotableCharacteristics().
-  optional bool has_promotable_characteristics = 11;
 }
 
 /** Logged when bridge mode configuration of notifications for an applications are updated. */
