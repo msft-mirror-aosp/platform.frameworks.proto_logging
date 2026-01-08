@@ -16,6 +16,7 @@
 #include <benchmark/benchmark.h>
 #include <stats_annotations.h>
 #include <statslog_test.h>
+#include <statslog_test_typesafe.h>
 
 using namespace android::stats;
 
@@ -59,10 +60,10 @@ int stats_write_baseline_simplified(int32_t code, int32_t arg1, int32_t arg2, in
     return ret;
 }
 
-struct IsolatedUidChanged {
-    int32_t parent_uid = 0;
-    int32_t isolated_uid = 100;
-    int32_t event = 1;
+struct IsolatedUidChanged final {
+    int32_t parent_uid;
+    int32_t isolated_uid;
+    int32_t event;
 };
 
 /**
@@ -75,8 +76,8 @@ int writeAtom(const IsolatedUidChanged& atom) {
     AStatsEvent_writeInt32(statsEvent, atom.parent_uid);
     AStatsEvent_addBoolAnnotation(statsEvent, ASTATSLOG_ANNOTATION_ID_IS_UID, true);
     AStatsEvent_writeInt32(statsEvent, atom.isolated_uid);
-    AStatsEvent_writeInt32(statsEvent, atom.event);
     AStatsEvent_addBoolAnnotation(statsEvent, ASTATSLOG_ANNOTATION_ID_IS_UID, true);
+    AStatsEvent_writeInt32(statsEvent, atom.event);
     const int ret = AStatsEvent_write(statsEvent);
     AStatsEvent_release(statsEvent);
     return ret;
@@ -160,3 +161,12 @@ static void BM_StatsWriteStructWithBuilder(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_StatsWriteStructWithBuilder);
+
+// expected to be equal to BM_StatsWriteStruct
+static void BM_StatsWriteTypesafe(benchmark::State& state) {
+    while (state.KeepRunning()) {
+        typesafe::IsolatedUidChanged atom;
+        benchmark::DoNotOptimize(typesafe::stats_write(atom));
+    }
+}
+BENCHMARK(BM_StatsWriteTypesafe);

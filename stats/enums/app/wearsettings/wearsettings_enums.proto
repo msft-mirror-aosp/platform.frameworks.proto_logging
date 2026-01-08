@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 550
+// Next ID: 556
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -229,6 +229,8 @@ enum ItemId {
   DISPLAY_SIZE = 503;
   DISPLAY_WRIST_ORIENTATION = 368;
   DND_OPTIONS_ALARMS = 179;
+  DND_OPTIONS_ALARMS_SOUND = 552;
+  DND_OPTIONS_ALARMS_VIBRATION = 553;
   DND_OPTIONS_CALLS = 180;
   DND_OPTIONS_EVENTS = 181;
   DND_OPTIONS_REMINDERS = 182;
@@ -308,6 +310,8 @@ enum ItemId {
   PRIORITY_MODES_CUSTOMIZE_STARRED_CALLERS = 521;
   PRIORITY_MODES_CUSTOMIZE_REPEAT_CALLERS = 522;
   PRIORITY_MODES_CUSTOMIZE_ALARMS = 523;
+  PRIORITY_MODES_CUSTOMIZE_ALARMS_SOUND = 554;
+  PRIORITY_MODES_CUSTOMIZE_ALARMS_VIBRATION = 555;
   PRIORITY_MODES_CUSTOMIZE_MEDIA_SOUNDS = 524;
   NFC_TAP_AND_PAY = 258;
   POWER_OFF = 299;

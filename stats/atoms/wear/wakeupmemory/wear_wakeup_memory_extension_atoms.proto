@@ -38,13 +38,13 @@ extend Atom {
  */
 message WearWakeupMemoryCounters {
     // The name of the process for which the memory counters are read.
-    optional string processName = 1;
+    optional string process_name = 1;
 
     // The count of page major faults for the process during wakeup.
-    optional int32 pageMajFaultCount = 2;
+    optional int32 page_maj_fault_count = 2;
 
     // The count of page scan direct for the process during wakeup.
-    optional int32 pageScanDirectCount = 3;
+    optional int32 page_scan_direct_count = 3;
 }
 
 
