@@ -47,6 +47,15 @@ extend Atom {
   optional MediaScreenLaunched media_screen_launched = 1225
       [(module) = "wearmedia"];
 
+  optional RemoteRouteInfoReported remote_route_info_reported = 1261
+      [(module) = "wearmedia"];
+
+  optional MediaOutputClicked media_output_clicked = 1262
+      [(module) = "wearmedia"];
+
+  optional OutputSwitcherEntryClicked output_switcher_entry_clicked = 1263
+      [(module) = "wearmedia"];
+
   optional WearMediaOutputSwitcherDeviceScanApiLatency
       wear_media_output_switcher_device_scan_api_latency = 757 [(module) = "MediaOutputSwitcher"];
 
@@ -390,3 +399,66 @@ message MediaAutolaunchSettingChanged {
   // Version of the media session apk installed in the device.
   optional int64 version_code = 4;
 }
+
+/**
+ * Logs when watch receives the media output info change on the phone.
+ *
+ * Logged from package: vendor/google_clockwork/packages/MediaSessions
+ * Estimated Logging Rate: Peak is 1 RemoteRouteInfoReported per second | Avg: 10 per device per day
+ */
+message RemoteRouteInfoReported {
+  // Package name of the app that owns the media session. (This app is on the
+  // paired phone, and not on the watch, hence cannot use uid)
+  optional string media_player_package_name = 1;
+
+  // Route type of the selected route on which phone is playing the media.
+  optional com.google.android.wearable.media.sessions.CustomRouteType selected_route_type = 2;
+
+  // List of route types available for switching for the media playback happening on the phone.
+  repeated com.google.android.wearable.media.sessions.CustomRouteType available_route_types = 3;
+
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 4;
+}
+
+/**
+ * Logs the media output click for bridged media session.
+ *
+ * Logged from package: vendor/google_clockwork/packages/MediaSessions
+ * Estimated Logging Rate: Peak is 1 MediaOutputClicked per second | Avg: 10 per device per day.
+ */
+message MediaOutputClicked {
+  // Package name of the app that owns the media session. (This app is on the
+  // paired phone, and not on the watch, hence cannot use uid)
+  optional string media_player_package_name = 1;
+
+  // Route type of the selected route on which phone is playing the media.
+  optional com.google.android.wearable.media.sessions.CustomRouteType custom_route_type = 2;
+
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 3;
+}
+
+/**
+ * Logs the output switcher entry clicked.
+ *
+ * Logged from package: vendor/google_clockwork/packages/MediaSessions
+ * Estimated Logging Rate: Peak is 1 OutputSwitcherEntryClicked per second | Avg: 10 per device per
+ * day.
+ */
+message OutputSwitcherEntryClicked {
+  // Package name of the app that owns the media session. (This app is on the
+  // paired phone, and not on the watch, hence cannot use uid)
+  optional string media_player_package_name = 1;
+
+  // Route type of the selected route on which phone is playing the media.
+  optional com.google.android.wearable.media.sessions.CustomRouteType custom_route_type = 2;
+
+  // Depicts is the media session being referred is remote or local.
+  optional bool is_remote_session = 3;
+
+  // Version of the media session apk installed in the device.
+  optional int64 version_code = 4;
+}
+
+
