@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2136
+// Next ID: 2197
 enum Action {
 
     // Reserved for biometrics
@@ -6281,6 +6281,7 @@ enum PageId {
     // OPEN: Intent: android.settings.VPN_APP_EXCLUSION_SETTINGS
     // CATEGORY: SETTINGS
     VPN_APP_EXCLUSION = 2193;
+
     // OPEN: Settings > Network & internet > Mobile network security
     // CATEGORY: SETTINGS
     DIALOG_NETWORK_PROTECTION = 2194;
@@ -6288,6 +6289,10 @@ enum PageId {
     // OPEN: Settings > System > Light Animations
     // CATEGORY: SETTINGS
     LIGHT_ANIMATIONS_FRAGMENT = 2195;
+
+    // OPEN: Settings > Security and privacy > More security and privacy > Protect SIM card
+    // CATEGORY: Settings
+    AUTOMATIC_SIM_PIN_MANAGEMENT = 2196;
 }
 
 // Battery Saver schedule types.
