@@ -1599,6 +1599,9 @@ message Atom {
     extensions 1264; // WearSystemTrayIconUpdated wear_system_tray_icon_updated
     extensions 1265; // ContactsPickerSessionStartedReported contacts_picker_session_started_reported
     extensions 1266; // ContactsPickerSessionFinishedReported contacts_picker_session_finished_reported
+    extensions 1267; // NativeZygoteStarted native_zygote_started
+
+
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
