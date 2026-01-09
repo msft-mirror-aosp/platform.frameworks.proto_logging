@@ -1595,6 +1595,7 @@ message Atom {
     extensions 1261; // RemoteRouteInfoReported remote_route_info_reported
     extensions 1262; // MediaOutputClicked media_output_clicked
     extensions 1263; // OutputSwitcherEntryClicked output_switcher_entry_clicked
+    extensions 1264; // WearSystemTrayIconUpdated wear_system_tray_icon_updated
 
 
     extensions 9999; // Atom9999 atom_9999

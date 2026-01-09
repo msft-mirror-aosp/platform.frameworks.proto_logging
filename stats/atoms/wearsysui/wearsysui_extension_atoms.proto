@@ -58,6 +58,8 @@ extend Atom {
       [(module) = "wearsysui"];
   optional WearNotificationTrayEventReported wear_notification_tray_event_reported = 1259
       [(module) = "wearsysui"];
+  optional WearSystemTrayIconUpdated wear_system_tray_icon_updated = 1264
+      [(module) = "wearsysui"];
 }
 
 /**
@@ -366,4 +368,20 @@ message WearNotification {
  */
 message WearNotificationsList {
   repeated WearNotification notifications = 1;
+}
+
+/**
+ * Atom logged when a system tray icon is updated.
+ *
+ * Logged from: google3/java/com/google/android/clockwork/sysui/common/logging/WatchFaceOverlayLogger.kt
+ *
+ * Estimated Logging Rate:
+ * Peak: 40 times per day per device | Avg: 6 per device per day
+ *
+ */
+message WearSystemTrayIconUpdated {
+  // Type of icon shown on the screen
+  optional android.app.wearsysui.IconType icon_type = 1;
+  // The new state of the icon.
+  optional android.app.wearsysui.State state = 2;
 }
