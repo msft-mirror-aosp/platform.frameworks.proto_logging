@@ -28,6 +28,7 @@ cc_library_static {
     srcs: [
         "a2dp/enums.proto",
         "enums.proto",
+        "gatt/enums.proto",
         "hci/enums.proto",
         "hfp/enums.proto",
         "le/enums.proto",
@@ -50,6 +51,7 @@ filegroup {
   srcs: [
       "a2dp/enums.proto",
       "enums.proto",
+      "gatt/enums.proto",
       "hci/enums.proto",
       "hfp/enums.proto",
       "le/enums.proto",

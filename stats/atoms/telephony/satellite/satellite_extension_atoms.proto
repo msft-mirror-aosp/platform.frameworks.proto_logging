@@ -540,6 +540,8 @@ message SatelliteEntitlement {
   // The HTTP status code when the entitlement query fails due to an HTTP error.
   // This is only populated when the 'result' field is ERROR_HTTP_STATUS_NOT_SUCCESS.
   optional int32 http_status_code = 10;
+  // what triggered entitlement refresh
+  optional android.telephony.SatelliteEntitlementQueryTrigger trigger_event = 11;
 }
 
 /**

@@ -22,6 +22,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/attribution_node.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/enums.proto";
+import "frameworks/proto_logging/stats/enums/bluetooth/gatt/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/hci/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/le/enums.proto";
 import "frameworks/proto_logging/stats/enums/bluetooth/rfcomm/enums.proto";
@@ -93,6 +94,9 @@ extend Atom {
   optional BluetoothEnergyMonitorReported bluetooth_energy_monitor_reported =
       1169 [(module) = "bluetooth"];
   optional BluetoothRfStatsReported bluetooth_rf_stats_reported = 1170
+      [(module) = "bluetooth"];
+  optional BluetoothGattOffloadSessionStateChanged
+      bluetooth_gatt_offload_session_state_changed = 1260
       [(module) = "bluetooth"];
 }
 
@@ -836,6 +840,47 @@ message BluetoothPbapClientContactDownloadReported {
       download_status = 2;
   // Phonebooks downloaded
   optional PhonebookDownloads phonebook_downloads = 3 [(log_mode) = MODE_BYTES];
+}
+
+message BluetoothGattOffloadSessionStateChanged {
+  // An identifier that can be used to match events for this device.
+  optional int32 metric_id = 1;
+  // Offload session ID assigned from host stack
+  optional int32 session_id = 2;
+  // Role of the GATT connection (Client or Server)
+  optional android.bluetooth.gatt.GattRoleEnum gatt_role = 3;
+  // State of the GATT offload session
+  optional android.bluetooth.gatt.GattOffloadSessionStateEnum state = 4;
+  // Bitmask representing the combined GATT Characteristic Properties
+  // for ALL characteristics included in the offload session. This is an OR'ed
+  // value of all individual characteristic properties. These values determine
+  // how a Characteristic Value can be used or how its descriptors can be
+  // accessed. The bits are defined in android.bluetooth.BluetoothGattCharacteristic
+  // and are based on the Bluetooth Core Specification, Volume 3, Part G, Section 3.3.1.1.
+  // Each bit corresponds to a property:
+  //   Bit 0 (0x01): PROPERTY_BROADCAST
+  //   Bit 1 (0x02): PROPERTY_READ
+  //   Bit 2 (0x04): PROPERTY_WRITE_NO_RESPONSE
+  //   Bit 3 (0x08): PROPERTY_WRITE
+  //   Bit 4 (0x10): PROPERTY_NOTIFY
+  //   Bit 5 (0x20): PROPERTY_INDICATE
+  //   Bit 6 (0x40): PROPERTY_SIGNED_WRITE
+  //   Bit 7 (0x80): PROPERTY_EXTENDED_PROPS
+  // Example: If the session includes one characteristic with READ (0x02) and
+  // another with NOTIFY (0x10), this bitmask would be 0x12 (18).
+  optional int32 gatt_characteristic_properties_bitmask = 5;
+  // Duration of the offload session in milliseconds
+  optional int64 session_duration_ms = 6;
+  // Error code of offload session failures
+  optional android.bluetooth.gatt.GattOffloadErrorEnum error_code = 7;
+  // Connection owner's UID, e.g. App uid
+  optional int32 uid = 8 [(is_uid) = true];
+  // The Attribution tag to identify the last caller in the attribution chain.
+  // It is particularly useful for distinguishing between apps that operate under the shared UID.
+  // This tag typically contains the application name or a feature identifier, and does not contain
+  // user-specific information. It helps provide more granular attribution than what might be
+  // available solely through the UID.
+  optional string attribution_tag = 9;
 }
 
 message PhonebookDownloads {

@@ -1,0 +1,49 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+package android.bluetooth.gatt;
+
+option java_outer_classname = "BluetoothGattProtoEnums";
+option java_multiple_files = true;
+
+enum GattRoleEnum {
+  GATT_ROLE_UNKNOWN = 0;
+  GATT_ROLE_CLIENT = 1;
+  GATT_ROLE_SERVER = 2;
+}
+
+enum GattOffloadSessionStateEnum {
+  GATT_OFFLOAD_SESSION_STATE_UNKNOWN = 0;
+  GATT_OFFLOAD_SESSION_STATE_STARTED = 1;
+  GATT_OFFLOAD_SESSION_STATE_STOPPED = 2;
+  GATT_OFFLOAD_SESSION_STATE_FAILED = 3;
+}
+
+enum GattOffloadErrorEnum {
+  GATT_OFFLOAD_ERROR_UNKNOWN = 0;
+  GATT_OFFLOAD_ERROR_NONE = 1;
+  GATT_OFFLOAD_ERROR_INVALID_PARAMETERS = 2;
+  GATT_OFFLOAD_ERROR_PERMISSION_DENIED = 3;
+  GATT_OFFLOAD_ERROR_HAL_FAILURE = 4;
+  GATT_OFFLOAD_ERROR_DUPLICATE_SESSION = 5;
+  GATT_OFFLOAD_ERROR_CONCURRENT_NOTIFICATION_INDICATION = 6;
+  GATT_OFFLOAD_ERROR_INVALID_HANDLE = 7;
+  GATT_OFFLOAD_ERROR_INTERNAL_ERROR = 8;
+  GATT_OFFLOAD_ERROR_DATABASE_OUT_OF_SYNC = 9;
+  GATT_OFFLOAD_ERROR_RESPONSE_TIMEOUT =10;
+  GATT_OFFLOAD_ERROR_PROTOCOL_VIOLATION = 11;
+}

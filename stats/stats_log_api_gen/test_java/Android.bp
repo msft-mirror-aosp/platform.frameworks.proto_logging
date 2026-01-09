@@ -25,18 +25,17 @@ android_test {
         "general-tests",
     ],
     srcs: [
-        ":cts-atom-java-gen",
-        ":test-atom-java-gen-with-worksource",
-        ":test-atom-java-gen",
-        ":test-generic-vendor-atom-java-gen",
-        ":test-platform-external-atom-java-gen",
-        ":test-vendor-atom-java-gen",
         "src/**/*.java",
     ],
     static_libs: [
         "junit",
-        "android.frameworks.stats-V2-java",
         "compatibility-device-util-axt",
+        "statsdtest_cts_java_gen",
+        "statsdtest_java_gen",
+        "statsdtest_worksource_java_gen",
+        "test_generic_vendor_java_gen",
+        "test_platform_external_java_gen",
+        "test_vendor_java_gen",
     ],
     libs: [
         "android.test.runner.stubs.system",
@@ -59,86 +58,49 @@ java_test_host {
     ],
 }
 
-genrule {
-    name: "test-vendor-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    // Command has --interface last to verify flag processing.
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module test" +
-        " --javaPackage com.android.test.statslogapigen" +
-        " --javaClass VendorAtomsLog" +
-        " --proto $(in)" +
-        " --interface vendor",
-    out: [
-        "com/android/test/statslogapigen/VendorAtomsLog.java",
-    ],
-    srcs: [
-        ":stats_log_api_gen_vendor_test_protos",
-        ":libprotobuf-internal-descriptor-proto",
-        ":libstats_atom_options_protos",
-    ],
+java_atomslog_library {
+    name: "test_vendor_java_gen",
+    atoms_module: "test",
+    package_name: "com.android.test.statslogapigen",
+    class_name: "VendorAtomsLog",
+    interface: "vendor",
+    proto_srcs: [":stats_log_api_gen_vendor_test_protos"],
 }
 
-genrule {
-    name: "test-generic-vendor-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module generic-vendor-test" +
-        " --javaPackage com.android.test.statslogapigen" +
-        " --javaClass GenericVendorAtomsLog" +
-        " --interface vendor",
-    out: [
-        "com/android/test/statslogapigen/GenericVendorAtomsLog.java",
-    ],
+java_atomslog_library {
+    name: "test_generic_vendor_java_gen",
+    atoms_module: "generic-vendor-test",
+    package_name: "com.android.test.statslogapigen",
+    class_name: "GenericVendorAtomsLog",
+    interface: "vendor",
 }
 
-genrule {
-    name: "test-platform-external-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module test" +
-        " --javaPackage com.android.test.statslogapigen" +
-        " --javaClass PlatformExternalAtomsLog" +
-        " --proto frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto",
-    out: [
-        "com/android/test/statslogapigen/PlatformExternalAtomsLog.java",
-    ],
-    srcs: [
-        ":stats_log_api_gen_test_protos",
-        ":libprotobuf-internal-descriptor-proto",
-        ":libstats_atom_options_protos",
-    ],
+java_atomslog_library {
+    name: "test_platform_external_java_gen",
+    atoms_module: "test",
+    package_name: "com.android.test.statslogapigen",
+    class_name: "PlatformExternalAtomsLog",
+    proto_srcs: [":stats_log_api_gen_vendor_test_protos"],
 }
 
-testPackage = "com.android.test.statslogapigen"
-genrule {
-    name: "test-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    out: ["com/android/test/statslogapigen/TestAtomsLog.java"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module statsdtest" +
-        " --javaPackage com.android.test.statslogapigen" +
-        " --javaClass TestAtomsLog",
+java_atomslog_library {
+    name: "statsdtest_java_gen",
+    atoms_module: "statsdtest",
+    package_name: "com.android.test.statslogapigen",
+    class_name: "TestAtomsLog",
 }
 
-genrule {
-    name: "test-atom-java-gen-with-worksource",
-    tools: ["stats-log-api-gen"],
-    out: ["com/android/test/statslogapigen/worksource/TestAtomsLogWs.java"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module statsdtest" +
-        " --javaPackage com.android.test.statslogapigen.worksource" +
-        " --javaClass TestAtomsLogWs" +
-        " --worksource",
+java_atomslog_library {
+    name: "statsdtest_worksource_java_gen",
+    atoms_module: "statsdtest",
+    package_name: "com.android.test.statslogapigen.worksource",
+    class_name: "TestAtomsLogWs",
+    worksource_support: true,
 }
 
-ctsPackage = "com.android.cts.statslogapigen"
-genrule {
-    name: "cts-atom-java-gen",
-    tools: ["stats-log-api-gen"],
-    out: ["com/android/cts/statslogapigen/CtsAtomsLog.java"],
-    cmd: "$(location stats-log-api-gen) --java $(out)" +
-        " --module cts" +
-        " --javaPackage com.android.cts.statslogapigen" +
-        " --javaClass CtsAtomsLog",
+java_atomslog_library {
+    name: "statsdtest_cts_java_gen",
+    atoms_module: "cts",
+    package_name: "com.android.cts.statslogapigen",
+    class_name: "CtsAtomsLog",
 }

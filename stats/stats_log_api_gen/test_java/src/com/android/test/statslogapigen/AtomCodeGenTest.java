@@ -18,6 +18,7 @@ package com.android.test.statslogapigen;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import android.util.statslogapigen.StatsHistogram;
 import com.android.cts.statslogapigen.CtsAtomsLog;
 import com.android.test.statslogapigen.TestAtomsLog;
 import org.junit.Test;
@@ -37,31 +38,31 @@ public class AtomCodeGenTest {
 
     @Test
     public void testCreateLinearHistogram() throws Exception {
-        TestAtomsLog.StatsHistogram hist =
+        StatsHistogram hist =
                 TestAtomsLog.createTestExtensionAtomReported_LinearHistogramHistogram();
         assertThat(hist.getBinCounts()).isEqualTo(new int[12]);
         assertThat(hist.getBins())
-                .isEqualTo(new float[] {TestAtomsLog.StatsHistogram.UNDERFLOW, 0, 10, 20, 30, 40,
+                .isEqualTo(new float[] {StatsHistogram.UNDERFLOW, 0, 10, 20, 30, 40,
                         50, 60, 70, 80, 90, 100});
     }
 
     @Test
     public void testCreateExponentialHistogram() throws Exception {
-        TestAtomsLog.StatsHistogram hist =
+        StatsHistogram hist =
                 TestAtomsLog.createTestExtensionAtomReported_ExponentialHistogramHistogram();
         assertThat(hist.getBinCounts()).isEqualTo(new int[7]);
         assertThat(hist.getBins())
                 .isEqualTo(new float[] {
-                        TestAtomsLog.StatsHistogram.UNDERFLOW, 5, 10, 20, 40, 80, 160});
+                        StatsHistogram.UNDERFLOW, 5, 10, 20, 40, 80, 160});
     }
 
     @Test
     public void testCreateExplicitHistogram() throws Exception {
-        TestAtomsLog.StatsHistogram hist =
+        StatsHistogram hist =
                 TestAtomsLog.createTestExtensionAtomReported_ExplicitHistogramHistogram();
         assertThat(hist.getBinCounts()).isEqualTo(new int[6]);
         assertThat(hist.getBins())
                 .isEqualTo(
-                        new float[] {TestAtomsLog.StatsHistogram.UNDERFLOW, -10, -7, 0, 19, 100});
+                        new float[] {StatsHistogram.UNDERFLOW, -10, -7, 0, 19, 100});
     }
 }
