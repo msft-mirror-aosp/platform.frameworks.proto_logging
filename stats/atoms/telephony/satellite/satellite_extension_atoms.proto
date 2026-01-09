@@ -464,6 +464,8 @@ message CarrierRoamingSatelliteSession {
   // consumption (discharging). This value is only populated if both start and
   // end measurements were successfully retrieved.
   optional int64 energy_consumed_nwh = 45;
+  // The source of satellite service eligibility for this session.
+  optional android.telephony.SatelliteEligibilitySource eligibility_source = 46;
 }
 
 /**
@@ -486,7 +488,9 @@ message CarrierRoamingSatelliteControllerStats {
   optional int32 satellite_session_gap_max_sec = 7;
   // Carrier id of the subscription connected to non-terrestrial network
   optional int32 carrier_id = 8;
-  // Whether this device is entitled or not.
+  // Whether this device is entitled or not. A device is considered entitled if it has been
+  // explicitly entitled by an entitlement server, or if the carrier configuration enables the
+  // service and no entitlement server is required.
   optional bool is_device_entitled = 9;
   // Whether device is in DSDS mode
   optional bool is_multi_sim = 10;
@@ -504,6 +508,10 @@ message CarrierRoamingSatelliteControllerStats {
   optional android.telephony.SatelliteEntitlementServicePolicy service_data_policy = 16;
   // Duration of total session times in a day
   optional int32 total_session_duration_sec = 17;
+  // Whether device is able to scan satellite network.
+  optional bool satellite_attach_supported = 18;
+  // The source of satellite service eligibility.
+  optional android.telephony.SatelliteEligibilitySource eligibility_source = 19;
 }
 
 /**
