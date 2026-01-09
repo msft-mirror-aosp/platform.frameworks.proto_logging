@@ -6271,6 +6271,10 @@ enum PageId {
     // OPEN: Intent: android.settings.VPN_APP_EXCLUSION_SETTINGS
     // CATEGORY: SETTINGS
     VPN_APP_EXCLUSION = 2193;
+
+    // OPEN: Settings > Network & internet > Mobile network security
+    // CATEGORY: SETTINGS
+    DIALOG_NETWORK_PROTECTION = 2194;
 }
 
 // Battery Saver schedule types.
