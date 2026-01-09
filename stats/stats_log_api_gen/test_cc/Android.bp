@@ -28,13 +28,7 @@ cc_test {
         "AtomCodeGen_platform_typesafe.cpp",
     ],
     generated_headers: [
-        "bootstrap_atom_cc_gen_hdrs",
         "bootstrap_atom_cc_gen_typesafe_hdrs",
-        "test_atom_cc_gen_typesafe_hdrs",
-    ],
-    generated_sources: [
-        "bootstrap_atom_cc_gen_srcs",
-        "test_atom_cc_gen_typesafe_srcs",
     ],
     test_suites: [
         "device-tests",
@@ -51,9 +45,11 @@ cc_test {
         "libstatsbootstrap",
     ],
     static_libs: [
-        "libstatslog_test",
-        "libstatslog_cts",
         "libgmock",
+        "libstatslog_bootstrap_test",
+        "libstatslog_cts",
+        "libstatslog_test",
+        "libstatslog_typesafe_test",
     ],
 }
 
@@ -88,43 +84,34 @@ genrule {
         "  --interface bootstrap",
 }
 
-genrule {
-    name: "test_atom_cc_gen_typesafe_hdrs",
-    tools: ["stats-log-api-gen"],
-    out: ["statslog_test_typesafe.h"],
-    cmd: "$(location stats-log-api-gen) --header $(out)" +
-        "  --module statsdtest" +
-        "  --namespace android::stats::typesafe" +
-        "  --type-safe",
+cc_atomslog_library_static {
+    name: "libstatslog_typesafe_test",
+    atoms_module: "statsdtest",
+    namespace: "android::stats::typesafe",
+    basename: "statslog_test_typesafe",
+    include_default_libs: "none",
+    whole_static_libs: [
+        "libstatspull-fake",
+        "libstatssocket-fake",
+    ],
+    gen_type: "typesafe",
 }
 
-genrule {
-    name: "test_atom_cc_gen_typesafe_srcs",
-    tools: ["stats-log-api-gen"],
-    out: ["statslog_test_typesafe.cpp"],
-    cmd: "$(location stats-log-api-gen) --cpp $(out)" +
-        "  --importHeader statslog_test_typesafe.h" +
-        "  --module statsdtest" +
-        "  --namespace android::stats::typesafe" +
-        "  --type-safe",
-}
-
-genrule {
-    name: "bootstrap_atom_cc_gen_hdrs",
-    tools: ["stats-log-api-gen"],
-    out: ["statslog_bootstrap_test.h"],
-    cmd: "$(location stats-log-api-gen) --header $(out) --module apex" +
-        "  --namespace android,stats,bs" +
-        "  --interface bootstrap",
-}
-
-genrule {
-    name: "bootstrap_atom_cc_gen_srcs",
-    tools: ["stats-log-api-gen"],
-    out: ["statslog_bootstrap_test.cpp"],
-    cmd: "$(location stats-log-api-gen) --cpp $(out) --module apex" +
-        "  --namespace android,stats,bs --importHeader statslog_bootstrap_test.h" +
-        "  --interface bootstrap",
+cc_atomslog_library_static {
+    name: "libstatslog_bootstrap_test",
+    atoms_module: "apex",
+    namespace: "android::stats::bs",
+    basename: "statslog_bootstrap_test",
+    include_default_libs: "none",
+    whole_static_libs: [
+        "libstatspull-fake",
+        "libstatssocket-fake",
+    ],
+    interface: "bootstrap",
+    shared_libs: [
+        "android.os.statsbootstrap_aidl-cpp",
+        "libstatsbootstrap",
+    ],
 }
 
 cc_atomslog_library_static {
