@@ -18095,6 +18095,12 @@ message AccessibilityShortcutStats {
     // Boolean indicating whether the user turns on qs shortcut for any
     // accessibility feature that support qs shortcut.
     optional bool use_qs_shortcut = 8;
+
+    // The definition of the top-row accessibility key.
+    // From frameworks/proto_logging/stats/enums/stats/accessibility/accessibility_enums.proto.
+    optional android.stats.accessibility.ShortcutType top_row_key_type = 9;
+    // Number of accessibility services in top-row accessibility key.
+    optional int32 top_row_key_service_num = 10;
 }
 
 /**
