@@ -979,7 +979,7 @@ enum RemoteInteractionsState {
 }
 
 // This enum depicts different components of the bugreport flow
-// Next ID: 5
+// Next ID: 7
 enum BugreportComponent {
   // Depicts an unknown component
   BUGREPORT_COMPONENT_UNKNOWN = 0;
@@ -995,6 +995,12 @@ enum BugreportComponent {
 
   // Atoms created by WCS auto upload feature
   BUGREPORT_COMPONENT_WCS_AUTO_UPLOAD = 4;
+
+  // Depicts the WearServices bugreport API
+  BUGREPORT_COMPONENT_WEAR_SERVICES_API = 5;
+
+  // Depicts the local feedback app on the watch
+  BUGREPORT_COMPONENT_LOCAL_FEEDBACK_APP = 6;
 }
 
 // This enum depicts the result of the bugreport
