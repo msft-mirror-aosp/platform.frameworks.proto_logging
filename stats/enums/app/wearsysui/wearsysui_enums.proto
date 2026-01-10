@@ -87,3 +87,37 @@ enum NotificationSurface {
   // Live update full view surface
   SURFACE_LIVE_UPDATE_FV = 4;
 }
+
+/**
+ * Enum representing the visibility state change.
+ * Next ID: 3
+ */
+enum State {
+  STATE_UNKNOWN = 0;
+  VISIBLE = 1;
+  HIDDEN = 2;
+}
+
+/**
+ * Enum representing the type of icon shown on the screen.
+ * Next ID: 17
+ */
+enum IconType {
+  ICON_TYPE_UNSPECIFIED = 0;
+  TYPE_BATTERY_LOW = 1;
+  TYPE_BATTERY_SAVER = 2;
+  TYPE_CHARGING = 3;
+  TYPE_AIRPLANE_MODE = 4;
+  TYPE_BEDTIME_MODE = 5;
+  TYPE_DO_NOT_DISTURB = 6;
+  TYPE_PHONE_DISCONNECTED = 7;
+  TYPE_BLUETOOTH_OFF = 8;
+  TYPE_LTE_DISCONNECTED = 9;
+  TYPE_MICROPHONE = 10;
+  TYPE_LOCATION = 11;
+  TYPE_THEATER_MODE = 12;
+  TYPE_WET_MODE = 13;
+  TYPE_SCREEN_LOCK = 14;
+  TYPE_THERMAL = 15;
+  TYPE_UNTETHERED_SAFETY = 16;
+}
