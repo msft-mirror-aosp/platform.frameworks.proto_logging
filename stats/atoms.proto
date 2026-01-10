@@ -1592,6 +1592,11 @@ message Atom {
     extensions 1258; // WearNotificationFullViewEventReported wear_notification_full_view_event_reported
     extensions 1259; // WearNotificationTrayEventReported wear_notification_tray_event_reported
     extensions 1260; // BluetoothGattOffloadSessionStateChanged bluetooth_gatt_offload_session_state_changed
+    extensions 1261; // RemoteRouteInfoReported remote_route_info_reported
+    extensions 1262; // MediaOutputClicked media_output_clicked
+    extensions 1263; // OutputSwitcherEntryClicked output_switcher_entry_clicked
+
+
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
