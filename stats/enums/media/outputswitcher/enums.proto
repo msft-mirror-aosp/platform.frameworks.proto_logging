@@ -71,4 +71,12 @@ enum MediaDeviceType {
   MEDIADEVICETYPE_FASTPAIR = 1;
   MEDIADEVICETYPE_BUILTIN_SPEAKER = 2;
   MEDIADEVICETYPE_SASS = 3;
+  MEDIADEVICETYPE_CUSTOM_ROUTE = 4;
+}
+
+// Indicates source devices from which media originates.
+enum MediaSource {
+  MEDIASOURCE_UNSPECIFIED = 0;
+  MEDIASOURCE_WATCH = 1;
+  MEDIASOURCE_PHONE = 2;
 }

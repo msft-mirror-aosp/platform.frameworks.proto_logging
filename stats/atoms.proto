@@ -107,6 +107,7 @@ import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
 import "frameworks/proto_logging/stats/enums/transparency/enums.proto";
 import "frameworks/proto_logging/stats/enums/uwb/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
+import "frameworks/proto_logging/stats/enums/wear/media/enums.proto";
 import "frameworks/proto_logging/stats/enums/wifi/enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/textclassifier/textclassifier_enums.proto";
 import "frameworks/proto_logging/stats/enums/stats/otaupdate/updateengine_enums.proto";
@@ -25312,6 +25313,9 @@ message WearMediaOutputSwitcherLaunched {
 
     // The result of OutputSwticher launch.
     optional com.google.android.wearable.media.routing.LaunchResult result = 3;
+
+    // The source of media for which OutputSwticher is launched.
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 4;
 }
 
 /**
@@ -25323,6 +25327,7 @@ message WearMediaOutputSwitcherLaunched {
 message WearMediaOutputSwitcherFinished {
     optional bool user_did_some_activity = 1;
     optional bool is_device_connected = 2;
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 3;
 }
 
 /**
@@ -25354,6 +25359,12 @@ message WearMediaOutputSwitcherConnectionReported {
     // For differentiating if the bluetooth device is connected from already
     // paired device list or from the bluetooth settings flow.
     optional bool is_already_paired = 8;
+
+    // The media source for which the output switching is being done.
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 9;
+
+    // The custom route type if the playback is happening on a custom route.
+    optional com.google.android.wearable.media.sessions.CustomRouteType custom_route_type = 10;
 }
 
 /**
@@ -25371,6 +25382,9 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
     optional string triggering_package_name = 2;
 
     optional com.google.android.wearable.media.routing.OpType op_type = 3;
+
+    // The media source for which the outputs will be scanned.
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 4;
 }
 
 /**
@@ -25382,6 +25396,9 @@ message WearMediaOutputSwitcherDeviceScanTriggered {
 message WearMediaOutputSwitcherFirstDeviceScanLatency {
     // The latency of scanning the first device
     optional int32 latency_in_millis = 1;
+
+    // The media source for which the outputs are being scanned.
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 2;
 }
 
 /**
@@ -25396,6 +25413,9 @@ message WearMediaOutputSwitcherAllDevicesScanLatency {
 
     // Type of target device.
     optional com.google.android.wearable.media.routing.MediaDeviceType target_device_type = 2;
+
+    // The media source for which the outputs are being scanned.
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 3;
 }
 
 /**
@@ -25413,6 +25433,9 @@ message WearMediaOutputSwitcherConnectDeviceLatency {
 
     // Type of target device.
     optional com.google.android.wearable.media.routing.MediaDeviceType target_device_type = 3;
+
+    // The media source for which the output switching was done.
+    optional com.google.android.wearable.media.routing.MediaSource media_source = 4;
 }
 
 /**
