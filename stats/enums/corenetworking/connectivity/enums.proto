@@ -173,6 +173,10 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_NETD_SET_PERMISSION_INTERNET = 6;
   // Counts the number of app ids with permission UPDATE_DEVICE_STATS sent to netd.
   CRITICAL_COUNTS_EVENT_TYPE_NETD_SET_PERMISSION_UPDATE_DEVICE_STATS = 7;
+  // Counts the number of times the long-deprecated requestRouteToHost* methods succeeded.
+  CRITICAL_COUNTS_EVENT_TYPE_REQUESTROUTETOHOST_OK = 8;
+  // Counts the number of times the long-deprecated requestRouteToHost* methods fails.
+  CRITICAL_COUNTS_EVENT_TYPE_REQUESTROUTETOHOST_FAIL = 9;
 }
 
 // Type of critical duration event.
