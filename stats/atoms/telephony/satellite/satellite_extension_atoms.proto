@@ -341,6 +341,12 @@ message SatelliteSosMessageRecommender {
   optional android.telephony.SatelliteSessionConnectType session_connection_mode = 13;
   // Satellite PLMN
   optional string plmn = 14;
+  // Whether device is connected to carrier roaming non-terrestrial network
+  optional bool is_in_carrier_roaming_ntn_mode = 15;
+  // The provider used by carrier for satellite emergency messaging
+  optional int32 carrier_roaming_satellite_emergency_messaging_provider = 16;
+  // The source of emergency number added in the handover intent by framework
+  optional android.telephony.EmergencyNumberSource emergency_number_source_used_in_handover_intent = 17;
 }
 
 /**

@@ -226,3 +226,13 @@ enum SatelliteEligibilitySource {
   // Service is available based on a carrier configuration.
   SATELLITE_ELIGIBILITY_SOURCE_CARRIER_CONFIG = 2;
 }
+
+// Defines the source of emergency number used in emergency call handover intent
+enum EmergencyNumberSource {
+  // Emergency number source is unknown
+  EMERGENCY_NUMBER_SOURCE_UNKNOWN = 0;
+  // Emergency number source is the number manually dialed by user
+  EMERGENCY_NUMBER_SOURCE_USER_DIALED = 1;
+  // Emergency number source is the redirection number provided by carrier
+  EMERGENCY_NUMBER_SOURCE_CARRIER_REDIRECTION = 2;
+}
