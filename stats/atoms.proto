@@ -8075,7 +8075,7 @@ message BootTimeEventElapsedTime {
         LAUNCHER_START = 21;
         // Represents the completion of launcher's initial rendering. User can use other apps from
         // launcher from this point.
-        // TODO: add logging
+        // Logged from Desktop Login app. TODO: add logging in Launcher.
         LAUNCHER_SHOWN = 22;
     }
 
