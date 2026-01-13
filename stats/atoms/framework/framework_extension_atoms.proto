@@ -1968,6 +1968,8 @@ message TimeZoneDetectionDiscrepancyReported {
   optional string tzdb_version = 8;
   // The package uid of the location time zone provider.
   optional int32 location_time_zone_provider_uid = 9 [(is_uid) = true];
+  // Device time zone.
+  optional string device_time_zone_id = 10;
 }
 
 // Logs when a device transitions from one time zone to another.
