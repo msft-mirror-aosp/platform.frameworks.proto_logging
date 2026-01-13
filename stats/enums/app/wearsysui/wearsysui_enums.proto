@@ -72,20 +72,35 @@ enum LiveUpdateSettingEntrySource {
 }
 
 /**
- * Surface hosting the full view notification
- * Next ID: 5
+ * Surface hosting the notification
+ * Next ID: 6
 */
 enum NotificationSurface {
   // Surface unspecified
   SURFACE_UNSPECIFIED = 0;
-  // Notification tray surface
-  SURFACE_TRAY = 1;
+  // Notification tray surface containing chips
+  SURFACE_TRAY_CHIP = 1;
+  // Notification tray surface containing cards
+  SURFACE_TRAY_CARD = 2;
   // Glanceable full view surface
-  SURFACE_GLANCEABLE_FV = 2;
+  SURFACE_GLANCEABLE_FV = 3;
   // Heads up notification full view surface
-  SURFACE_HUN_FV = 3;
+  SURFACE_HUN_FV = 4;
   // Live update full view surface
-  SURFACE_LIVE_UPDATE_FV = 4;
+  SURFACE_LIVE_UPDATE_FV = 5;
+}
+
+/**
+ * State of the notification
+ * Next ID: 3
+ */
+enum NotificationState {
+  // State unspecified
+  NOTIFICATION_STATE_UNSPECIFIED = 0;
+  // Notification is expanded
+  STATE_EXPANDED = 1;
+  // Notification is collapsed
+  STATE_COLLAPSED = 2;
 }
 
 /**

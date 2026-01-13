@@ -1590,7 +1590,7 @@ message Atom {
     extensions 1255; // TimeZoneTransition
     extensions 1256; // MemcgMemoryProcessKillEvent memcg_memory_process_kill_event
     extensions 1257; // WearTrayOpenKeyEventOccured wear_tray_open_key_event_occurred
-    extensions 1258; // WearNotificationFullViewEventReported wear_notification_full_view_event_reported
+    extensions 1258; // WearNotificationUiEventReported wear_notification_ui_event_reported
     extensions 1259; // WearNotificationTrayEventReported wear_notification_tray_event_reported
     extensions 1260; // BluetoothGattOffloadSessionStateChanged bluetooth_gatt_offload_session_state_changed
     extensions 1261; // RemoteRouteInfoReported remote_route_info_reported
