@@ -1,0 +1,108 @@
+/*
+ * Copyright (C) 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.contactspicker;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/contactspicker/contacts_picker_enums.proto";
+
+option java_package = "com.android.contactspicker";
+option java_multiple_files = true;
+
+extend Atom {
+  optional ContactsPickerSessionStartedReported contacts_picker_session_started_reported = 1265
+      [(module) = "contactspicker"];
+  optional ContactsPickerSessionFinishedReported contacts_picker_session_finished_reported = 1266
+      [(module) = "contactspicker"];
+}
+
+/**
+ * Reported when the Contacts Picker is opened.
+
+ * Logged (or Pulled) from:
+ * packages/apps/ContactsPicker/src/com/android/contacts/picker/ContactsPickerActivity.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 2 times in 1 minute | Avg: 1 per device per day
+ */
+message ContactsPickerSessionStartedReported {
+  // The UID of the app that called the Contacts Picker.
+  optional int32 calling_app_package_uid = 1 [(is_uid) = true];
+  // The target SDK of the app that called the Contacts Picker.
+  optional int32 calling_app_target_sdk = 2;
+  // The Intent action used to launch the Contacts Picker.
+  optional IntentActionType intent_action = 3;
+  // The mime types requested by the calling app.
+  repeated ContactMimeType requested_mimetypes = 4;
+  // Whether the USE_SYSTEM_CONTACTS_PICKER extra is set.
+  optional bool intent_extra_use_system_contacts_picker = 5;
+  // Whether the PICK_CONTACTS_MATCH_ALL_DATA_FIELDS extra is set to true.
+  optional bool intent_extra_pick_contacts_match_all_data_fields = 6;
+}
+
+/**
+ * Reported when the Contacts Picker session is finished.
+ *
+ * Logged (or Pulled) from:
+ * packages/apps/ContactsPicker/src/com/android/contacts/picker/ContactsPickerActivity.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 2 times in 1 minute | Avg: 1 per device per day
+ */
+message ContactsPickerSessionFinishedReported {
+    // The UID of the app that called the Contacts Picker.
+  optional int32 calling_app_package_uid = 1 [(is_uid) = true];
+  // The target SDK of the app that called the Contacts Picker.
+  optional int32 calling_app_target_sdk = 2;
+  // The Intent action used to launch the Contacts Picker.
+  optional IntentActionType intent_action = 3;
+  // The mime types requested by the calling app.
+  repeated ContactMimeType requested_mimetypes = 4;
+  // Whether the USE_SYSTEM_CONTACTS_PICKER extra is set.
+  optional bool intent_extra_use_system_contacts_picker = 5;
+  // Whether the PICK_CONTACTS_MATCH_ALL_DATA_FIELDS extra is set to true.
+  optional bool intent_extra_pick_contacts_match_all_data_fields = 6;
+  // The result of the picker session.
+  optional ContactsPickerSessionResult session_result = 7;
+  // The error type if the session result is SESSION_RESULT_FAILED.
+  optional ContactsPickerErrorType error_type = 8;
+  // The duration of the picker session in milliseconds.
+  optional int64 session_duration_ms = 9;
+  // The duration of the initial loading of data and UI in milliseconds.
+  optional int64 startup_loading_time_ms = 10;
+  // The number of contacts selected by the user.
+  optional int32 num_contacts_selected = 11;
+  // Whether any contact was selected from the favorite section.
+  optional bool contacts_selected_from_favorites = 12;
+  // Whether any contact was selected from the search feature.
+  optional bool contacts_selected_from_search_results = 13;
+  // Whether the user opened the preview page.
+  optional bool preview_opened = 14;
+  // Whether the user used the search feature.
+  optional bool search_used = 15;
+  // The number of times search results loading time was above the expected time.
+  // TODO(b/441482576): specify and document the tolerance value
+  optional int32 count_search_load_time_above_tolerance_ms = 16;
+  // Whether the user opened the "More details" page in the privacy banner.
+  optional bool privacy_banner_more_details_opened_by_user = 17;
+  // Whether the user clicked on the "Dismiss" button on the privacy banner.
+  optional bool privacy_banner_dismissed_by_user = 18;
+  // Whether the user opened the privacy details from the "overflow menu"
+  optional bool privacy_banner_opened_from_overflow_menu = 19;
+}
