@@ -1155,8 +1155,8 @@ message WifiPowerStatsReported {
     // duration of the radio is in receiving data state (unit: ms)
     optional int32 rx_time_ms = 4;
 
-    // Rx packets for my BSS data. (unit: ms)
-    optional int32 mybss_ucastrx_time_ms = 5;
+    // Reserved field for future use
+    optional int32 reserved_field = 5 [deprecated = true];
 
     // The number of receiving idle/listening levels which is basically defined by band and bandwidth combinations of the chip capability
     optional int32 rx_listening_levels_num = 6;
