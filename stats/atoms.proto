@@ -1597,8 +1597,8 @@ message Atom {
     extensions 1262; // MediaOutputClicked media_output_clicked
     extensions 1263; // OutputSwitcherEntryClicked output_switcher_entry_clicked
     extensions 1264; // WearSystemTrayIconUpdated wear_system_tray_icon_updated
-
-
+    extensions 1265; // ContactsPickerSessionStartedReported contacts_picker_session_started_reported
+    extensions 1266; // ContactsPickerSessionFinishedReported contacts_picker_session_finished_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -5393,7 +5393,7 @@ message StyleUIChanged {
     optional string shortcut_slot_id = 31;
     optional int32 lock_effect_id_hash = 32;
     optional int32 clock_seed_color = 33;
-    optional android.stats.style.CustomizationPickerSrceen customization_picker_screen = 34;
+    optional android.stats.style.CustomizationPickerScreen customization_picker_screen = 34;
     optional android.stats.style.AppIconStyle app_icon_style = 35;
     optional bool use_clock_customization = 36;
 }
@@ -8075,7 +8075,7 @@ message BootTimeEventElapsedTime {
         LAUNCHER_START = 21;
         // Represents the completion of launcher's initial rendering. User can use other apps from
         // launcher from this point.
-        // TODO: add logging
+        // Logged from Desktop Login app. TODO: add logging in Launcher.
         LAUNCHER_SHOWN = 22;
     }
 

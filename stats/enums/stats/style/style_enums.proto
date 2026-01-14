@@ -136,7 +136,7 @@ enum ClockSize {
     CLOCK_SIZE_SMALL = 2;
 }
 
-enum CustomizationPickerSrceen {
+enum CustomizationPickerScreen {
     SCREEN_UNSPECIFIED = 0;
     SCREEN_COLORS = 1;
     SCREEN_ICONS = 2;

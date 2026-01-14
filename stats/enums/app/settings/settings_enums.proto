@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2134
+// Next ID: 2136
 enum Action {
 
     // Reserved for biometrics
@@ -2710,17 +2710,27 @@ enum Action {
     // CATEGORY: SETTINGS
     ACTION_SUPERVISION_MULTIPLE_PROVIDERS_DELETE_PIN = 2131;
 
-  // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
-  //         > Confirm location settings > Set up Transit mode
-  // Tracks the user's sound setting when exiting the page
-  // CATEGORY: SETTINGS
-  ACTION_TRANSIT_ONBOARDING_TRANSIT_SOUND_EXIT = 2132;
+    // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
+    //         > Confirm location settings > Set up Transit mode
+    // Tracks the user's sound setting when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_TRANSIT_SOUND_EXIT = 2132;
 
-  // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
-  //         > Confirm location settings > Set up Transit mode
-  // Tracks the user's bluetooth setting when exiting the page
-  // CATEGORY: SETTINGS
-  ACTION_TRANSIT_ONBOARDING_TRANSIT_BLUETOOTH_EXIT = 2133;
+    // ACTION: TRANSIT onboarding > Introduction > Set home & work locations
+    //         > Confirm location settings > Set up Transit mode
+    // Tracks the user's bluetooth setting when exiting the page
+    // CATEGORY: SETTINGS
+    ACTION_TRANSIT_ONBOARDING_TRANSIT_BLUETOOTH_EXIT = 2133;
+
+    // ACTION: Settings > System > Reset Options
+    //         > Erase all data (factory reset) > Erase emoney services
+    // CATEGORY: SETTINGS
+    ACTION_FACTORY_RESET_ERASE_EMONEY_SERVICES = 2134;
+
+    // Custom tag to log the result of erasing emoney services
+    // in factory reset flow
+    // CATEGORY: SETTINGS
+    ACTION_FACTORY_RESET_ERASE_EMONEY_SERVICES_RESULT = 2135;
 }
 
 /**
@@ -6271,10 +6281,13 @@ enum PageId {
     // OPEN: Intent: android.settings.VPN_APP_EXCLUSION_SETTINGS
     // CATEGORY: SETTINGS
     VPN_APP_EXCLUSION = 2193;
-
     // OPEN: Settings > Network & internet > Mobile network security
     // CATEGORY: SETTINGS
     DIALOG_NETWORK_PROTECTION = 2194;
+
+    // OPEN: Settings > System > Light Animations
+    // CATEGORY: SETTINGS
+    LIGHT_ANIMATIONS_FRAGMENT = 2195;
 }
 
 // Battery Saver schedule types.
