@@ -25,12 +25,12 @@ option java_multiple_files = true;
 option java_package = "com.android.os.webapp";
 
 extend Atom {
-  optional WebappTwaInstallerAppInstalled webapp_twa_installer_app_installed = 1250 [(module) = "webapp"];
+  optional WebappInstallerAppInstalled webapp_installer_app_installed = 1250 [(module) = "webapp"];
   optional WebappUsageReported webapp_usage_reported = 1251 [(module) = "webapp"];
 }
 
 /**
- * Logged when a TWA is installed via TWA Installer.
+ * Logged when a webapp is installed via the installer.
  *
  * Logged from:
  *   service/java/com/android/webapp/service/
@@ -38,7 +38,7 @@ extend Atom {
  * Estimated Logging Rate:
  *   Avg: less than 1 per device per day
  */
-message WebappTwaInstallerAppInstalled {
+message WebappInstallerAppInstalled {
   // The installation can be cancelled by the user manually in the UI, so we are
   // also reporting it on top of just success or failure.
   enum InstallStatus {
@@ -54,7 +54,11 @@ message WebappTwaInstallerAppInstalled {
     UNKNOWN = 0;
     MANIFEST_FETCH_FAILURE = 1;
     MANIFEST_PARSE_FAILURE = 2;
-    APP_MINTING_FAILURE = 3;
+    APK_MINTING_FAILURE = 3;
+    APK_INSTALL_FAILURE = 4;
+    WORKING_DIR_CREATION_FAILURE = 5;
+    WORKING_DIR_DELETION_FAILURE = 6;
+    PACKAGE_MANAGER_FAILURE = 7;
   }
   optional FailureReason failure_reason = 2;
 
@@ -69,7 +73,7 @@ message WebappTwaInstallerAppInstalled {
 }
 
 /**
- * Logged when a TWA installed by TWA Installer is used.
+ * Logged when a webapp installed by the installer is used.
  *
  * Logged from:
  *   service/java/com/android/webapp/service/
