@@ -52,6 +52,8 @@ enum NotificationEvent {
   EVENT_PROCESSED_BY_USER_GAZE = 11;
   // User did not gaze within window and timed out
   EVENT_USER_GAZE_TIMED_OUT = 19;
+  // Heads Up Notification preview shown
+  EVENT_HUN_PREVIEW_SHOWN = 20;
   // Glanceable skipped due to being muted
   EVENT_GLANCEABLE_SKIPPED_MUTED = 16;
   // Glanceable skipped due to sound and vibration off
