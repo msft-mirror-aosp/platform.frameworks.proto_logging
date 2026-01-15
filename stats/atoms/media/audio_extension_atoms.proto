@@ -24,6 +24,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 extend Atom {
   optional AudioRoutingTransitionReported audio_routing_transition_reported = 1232 [(module) = "audio"];
   optional AudioModeStateChanged audio_mode_state_changed = 1233 [(module) = "audio"];
+  optional AudioHardeningReported audio_hardening_reported = 1268 [(module) = "audio"];
 }
 
 /*
@@ -51,4 +52,18 @@ message AudioModeStateChanged {
   optional int32 owner_uid = 1 [(is_uid) = true];
   optional android.media.audio.AudioMode mode = 2;
   optional int64 latency_ms = 3;
+}
+
+/*
+ * Logs audio hardening events.
+ * From f/b/services/core/java/com/android/server/audio/AudioService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 1/min | Avg: < 10/day
+ */
+message AudioHardeningReported {
+  optional int32 uid = 1 [(is_uid) = true];
+  optional android.media.audio.AudioHardeningApiType api_type = 2;
+  optional bool is_strict = 3;
+  optional bool is_enforced = 4;
 }
