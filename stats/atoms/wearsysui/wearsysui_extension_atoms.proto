@@ -53,8 +53,8 @@ extend Atom {
       [(module) = "wearsysui"];
   optional WearTrayOpenKeyEventOccurred wear_tray_open_key_event_occurred = 1257
       [(module) = "wearsysui"];
-  optional WearNotificationFullViewEventReported
-      wear_notification_full_view_event_reported = 1258
+  optional WearNotificationUiEventReported
+      wear_notification_ui_event_reported = 1258
       [(module) = "wearsysui"];
   optional WearNotificationTrayEventReported wear_notification_tray_event_reported = 1259
       [(module) = "wearsysui"];
@@ -175,7 +175,7 @@ message WearTileTapReported {
 // 2. User interacts with live entry item.
 message WearLiveEntryEventReported {
   // UiEvent ID associated with this event like UI_UPDATED, TAPPED, DISMISSED, OHG_INTERACTED, LONG_PRESS etc.
-  optional int64 ui_event_id = 1;
+  optional int32 event_id = 1;
 
   // The package name of the app that is providing the content. Note this includes
   // packages not installed on the watch, so it cannot be UID.
@@ -198,7 +198,7 @@ message WearLiveEntryEventReported {
  */
 message WearLiveUpdateSettingEventReported{
   // UiEvent for the interaction that happened ex. LIVE_UPDATE_SETTING_SHOWN, SELECTED etc.
-  optional int64 ui_event_id = 1;
+  optional int32 event_id = 1;
 
   // Package name of the app for which settings is shown. Note this includes
   // packages not installed on the watch, so it cannot be UID.
@@ -293,12 +293,12 @@ message WearTrayOpenKeyEventOccurred {
 }
 
 /**
- * Atom containing user interaction associated with the full view.
+ * Atom containing user interaction associated with a notification.
  *
  * Logged from: google3/java/com/google/android/clockwork/sysui/common/logging/NotificationLogger.java
  *
  */
-message WearNotificationFullViewEventReported {
+message WearNotificationUiEventReported {
   // UiEvent of the event reported including UI shown, UI removed, touch, scrolled, RSB scrolled, open on phone, open on watch etc.
   optional int32 event_id = 1;
   // Package identifier. An integer index assigned to each distinct package generated on the device to distinguish apps on a single device.
@@ -306,9 +306,11 @@ message WearNotificationFullViewEventReported {
   optional int32 package_id = 2;
   // Surface where full view is being shown
   optional android.app.wearsysui.NotificationSurface surface = 3;
-  // Instance of the notificationf or a given surface. This is needed since we
+  // State of the notification
+  optional android.app.wearsysui.NotificationState state = 4;
+  // Instance of the notification or a given surface. This is needed since we
   // can have 1+ instances of HUN on top of each other from same app.
-  optional int32 instance = 4;
+  optional int32 instance = 5;
 }
 
 /**
