@@ -97,6 +97,7 @@ extend Atom {
     optional AutomaticTimeZoneChangeRevertedByUserReported automatic_time_zone_change_reverted_by_user_reported = 1253 [(module) = "framework"];
     optional TimeZoneDetectionDiscrepancyReported  time_zone_detection_discrepancy_reported = 1254 [(module) = "framework"];
     optional TimeZoneTransitionStateChanged time_zone_transition_state_changed = 1255 [(module) = "framework"];
+    optional NativeZygoteStarted native_zygote_started = 1267 [(module) = "framework"];
 }
 
 /**
@@ -2010,4 +2011,15 @@ message TimeZoneTransitionStateChanged {
   optional string tzdb_version = 12;
   // The package uid of the location time zone provider.
   optional int32 location_time_zone_provider_uid = 13 [(is_uid) = true];
+}
+
+/**
+ * Logged when the Native Zygote process (zygote_next) starts.
+ * Logged from: system/zygote/zygote/src/bin/zygote.rs
+ *
+ * Estimated Logging Rate:
+ *  Peak: 1 time per system boot.
+ *  Avg: 1 time per system boot.
+ */
+message NativeZygoteStarted {
 }

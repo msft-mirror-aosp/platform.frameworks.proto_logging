@@ -59,6 +59,7 @@ message WebappInstallerAppInstalled {
     WORKING_DIR_CREATION_FAILURE = 5;
     WORKING_DIR_DELETION_FAILURE = 6;
     PACKAGE_MANAGER_FAILURE = 7;
+    ICON_DOWNLOAD_FAILURE = 8;
   }
   optional FailureReason failure_reason = 2;
 
