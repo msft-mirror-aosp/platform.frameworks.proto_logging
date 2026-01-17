@@ -1600,8 +1600,10 @@ message Atom {
     extensions 1265; // ContactsPickerSessionStartedReported contacts_picker_session_started_reported
     extensions 1266; // ContactsPickerSessionFinishedReported contacts_picker_session_finished_reported
     extensions 1267; // NativeZygoteStarted native_zygote_started
-
-
+    extensions 1268; // AudioHardeningReported audio_hardening_reported
+    extensions 1269; // NpuAppBlocked npu_app_blocked
+    extensions 1270; // CarrierServiceConfigOverridesReported carrier_service_config_overrides_reported
+    extensions 1271; // CredentialManagerSettingsEventReported credential_manager_settings_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

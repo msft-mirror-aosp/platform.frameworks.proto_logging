@@ -23,6 +23,7 @@ import "frameworks/proto_logging/stats/atoms.proto";
 
 extend Atom {
   optional NpuWorkEventOccurred npu_work_event_occurred = 1247 [(module) = "npu"];
+  optional NpuAppBlocked npu_app_blocked = 1269 [(module) = "npu"];
 }
 
 /**
@@ -64,4 +65,19 @@ message NpuWorkEventOccurred {
   optional int32 device_number = 7;
   optional EventType type = 8;
   optional Reason reason = 9;
+}
+
+/**
+ * Logged when NpuManager blocks an app from accessing the NPU. This is generally only
+ * done once when the first request from an app is observed.
+ *
+ * Logged from:
+ *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
+ *
+ * Estimaged Logging Rate:
+ *     Depends on NPU utilization and the presence of misbehaving apps, but the upper
+ *     bound would be one event per blocked app per boot.
+ */
+message NpuAppBlocked {
+  optional int32 uid = 1 [(is_uid) = true];
 }
