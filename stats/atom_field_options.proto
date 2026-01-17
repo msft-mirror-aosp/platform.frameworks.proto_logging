@@ -151,6 +151,40 @@ message HistogramBinOption {
     }
 }
 
+
+// Measurement units usable by performance monitoring tools.
+// Atom fields annotated with the unit will have proper axis labels (and for
+// some units auto-scaled values) when visualized.
+enum Unit {
+  UNIT_UNKNOWN = 0;
+
+  // --------- Time ---------
+  UNIT_NANOSECONDS = 1;
+  UNIT_MICROSECONDS = 2;
+  UNIT_MILLISECONDS = 3;
+  UNIT_SECONDS = 4;
+  UNIT_MINUTES = 5;
+  UNIT_HOURS = 6;
+
+  // --------- Data ---------
+  UNIT_BYTES = 100;
+  UNIT_KILOBYTES = 101;
+  UNIT_MEGABYTES = 102;
+  UNIT_GIGABYTES = 103;
+
+  // --------- Power ---------
+  UNIT_MILLI_AMPS = 200;
+  UNIT_MILL_AMP_HOURS = 201;
+
+  UNIT_MILLI_WATTS = 210;
+  UNIT_MILLI_WATT_HOURS = 211;
+
+  // --------- Other ---------
+  UNIT_COUNT = 10000;
+  // This should be used for data in the range [0..1] meaning 0.1 = 10%.
+  UNIT_PERCENTAGE = 10001;
+}
+
 extend google.protobuf.FieldOptions {
     // Flags to decorate an atom that presents a state change.
     optional StateAtomFieldOption state_field_option = 50000;
@@ -169,4 +203,9 @@ extend google.protobuf.FieldOptions {
     optional FieldRestrictionOption field_restriction_option = 50007;
 
     optional HistogramBinOption histogram_bin_option = 50008;
+
+    // Measurement units usable by performance monitoring tools.
+    // Atom fields with the unit annotated will have proper axis labels (and for
+    // some units auto-scaled values) when visualized.
+    optional Unit unit = 50009;
 }

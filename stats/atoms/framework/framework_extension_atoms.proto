@@ -98,6 +98,7 @@ extend Atom {
     optional TimeZoneDetectionDiscrepancyReported  time_zone_detection_discrepancy_reported = 1254 [(module) = "framework"];
     optional TimeZoneTransitionStateChanged time_zone_transition_state_changed = 1255 [(module) = "framework"];
     optional NativeZygoteStarted native_zygote_started = 1267 [(module) = "framework"];
+    optional MemoryLimiterOverLimitEvent memory_limiter_over_limit_event = 1272 [(module) = "framework"];
 }
 
 /**
@@ -2022,4 +2023,27 @@ message TimeZoneTransitionStateChanged {
  *  Avg: 1 time per system boot.
  */
 message NativeZygoteStarted {
+}
+
+/**
+ * Logs when a MemoryLimiter over-limit event occurs.
+ * An event means that a process exceeded its memory allocation.
+ *
+ * Estimated logging rate:
+ *   On average, there should be less than one event per day.  Logging is throttled
+ *   at 28 events per day.
+ */
+message MemoryLimiterOverLimitEvent {
+  // The package UID of the process that exceeded its limit.
+  optional int32 uid = 1 [(is_uid) = true];
+  // The limit that was exceeded.
+  enum Type {
+    // A placeholder for unknown values.
+    UNKNOWN = 0;
+    // The memory.high limit.
+    HIGH = 1;
+  }
+  optional Type type = 2;
+  // The absolute memory limit (in bytes) at the time of the event.
+  optional int64 limit_bytes = 3;
 }
