@@ -496,6 +496,9 @@ enum CodePathCounterKeyEnum {
     BOND_REPAIR_SUCCESS = 122000;
     BOND_REPAIR_FAILURE = 122001;
     BOND_LOSS_DETECTED = 122002;
+
+  // [122,100 - 122,200) DM related
+    BTA_DM_MAX_LINKS_REACHED = 122100;
 }
 
 enum AddressTypeEnum {
