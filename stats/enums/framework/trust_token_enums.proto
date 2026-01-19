@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package android.os.statsd.framework;
+
+option java_package = "com.android.os.framework";
+option java_outer_classname = "TrustTokenEnumsProto";
+option java_multiple_files = true;
+
+enum TrustTokenType {
+  TRUST_TOKEN_TYPE_UNKNOWN = 0;
+  TRUST_TOKEN_TYPE_DEVICE = 1;
+  TRUST_TOKEN_TYPE_IDENTITIES = 2;
+}
+
+enum TrustTokenRefreshType {
+  TRUST_TOKEN_REFRESH_TYPE_UNKNOWN = 0;
+  TRUST_TOKEN_REFRESH_TYPE_REGULAR = 1;
+  TRUST_TOKEN_REFRESH_TYPE_URGENT = 2;
+}

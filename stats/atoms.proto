@@ -1614,6 +1614,10 @@ message Atom {
     extensions 1279; // MediaProcessingEventReported media_processing_event_reported
     extensions 1280; // HfpAudioDisconnectReported hfp_audio_disconnect_reported
     extensions 1281; // SignInDuration sign_in_duration
+    extensions 1282; // AcquireTrustTokenCalled acquire_trust_token_called
+    extensions 1283; // VerifyTrustTokenCalled verify_trust_token_called
+    extensions 1284; // RefreshTrustTokenStarted refresh_trust_token_started
+    extensions 1285; // RefreshTrustTokenFinished refresh_trust_token_finished
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1939,6 +1943,7 @@ message Atom {
     extensions 10260; // AppUsageQueryEventStats app_usage_query_event_stats
     extensions 10261; // WsPhoneMetadataSnapshot ws_phone_metadata_snapshot
     extensions 10262; // UsageEventReportedStats usage_event_reported_stats;
+    extensions 10263; // TrustTokenState trust_token_state
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
