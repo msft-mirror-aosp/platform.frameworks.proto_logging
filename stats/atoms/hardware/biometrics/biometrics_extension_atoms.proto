@@ -165,6 +165,9 @@ message BiometricPromptEvent {
 
     // The event being logged
     optional EventType event = 2;
+
+    //Watch ranging error code if event type is EVENT_TYPE_WATCH_RANGING_ENDED
+    optional int32 watch_ranging_ended_error_code = 3;
 }
 
 /**
