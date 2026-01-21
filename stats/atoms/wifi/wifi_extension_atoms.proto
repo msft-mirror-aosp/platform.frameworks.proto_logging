@@ -1149,10 +1149,10 @@ message WifiPowerStatsReported {
     // duration of the radio is on (unit: ms)
     optional int32 radio_on_time_ms = 2;
 
-    // duration of the radio is in transmit state (unit: ms), all packets including mgnt/data/action frame.
+    // Tx time (unit: ms) within reporting_event, all packets including mgnt/data/action frame.
     optional int32 tx_time_ms = 3;
 
-    // duration of the radio is in receiving data state (unit: ms)
+    // Rx timne (unit: ms) within reporting_event, all packets including mgnt/data/action frame.
     optional int32 rx_time_ms = 4;
 
     // Reserved field for future use
@@ -1176,7 +1176,7 @@ message WifiPowerStatsReported {
     // Tx number of spatial streams
     repeated int32 tx_nss = 11;
 
-    // Tx number of times a transmit/reception occurred with this rate combination
+    // Tx number of times a transmit occurred. Need to analyze with tx_rate_index.
     repeated int32 tx_count = 12;
 
      // Rx index representing a specific data rate
@@ -1191,10 +1191,10 @@ message WifiPowerStatsReported {
     // Rx number of spatial streams
     repeated int32 rx_nss = 16;
 
-    // Rx number of times a transmit/reception occurred with this rate combination
+    // Rx number of times a reception occurred. Need to analyze with rx_rate_index.
     repeated int32 rx_count = 17;
 
-    // The total time the chip is powered on (unit: ms)
+    // The total time the chip is powered on (unit: ms) during reporting_event.
     optional int32 wlan_pwr_on_time_ms = 18;
 
     // The number of sleep levels.
@@ -1208,6 +1208,9 @@ message WifiPowerStatsReported {
 
     // The working wifi role(s) while reporting
     optional int32 wifi_role = 22;
+
+    // Event that triggers reporting
+    optional android.net.wifi.WifiPowerStatsReportedEvent reporting_event = 23;
 }
 
 /**

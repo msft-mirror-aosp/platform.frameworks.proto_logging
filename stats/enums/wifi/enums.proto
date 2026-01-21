@@ -682,3 +682,21 @@ enum Nl80211CommandReasonCode {
         // Complete single response
         RESPONSE_DONE_NO_MULTI = 8;
 }
+
+enum WifiPowerStatsReportedEvent {
+    EVENT_UNKNOWN = 0;
+    EVENT_BATTERY_DROP = 1;
+    EVENT_STA_CONNECTED = 2;
+    EVENT_STA_DISCONNECTED = 3;
+    EVENT_SAP_ON = 4;
+    EVENT_SAP_OFF = 5;
+    EVENT_P2P_ON = 6;
+    EVENT_P2P_OFF = 7;
+    EVENT_AWARE_ON = 8;
+    EVENT_AWARE_OFF = 9;
+    EVENT_P2P_GO_CREATED = 10;
+    EVENT_P2P_GO_REMOVED = 11;
+    EVENT_P2P_GC_CREATED = 12;
+    EVENT_P2P_GC_REMOVED = 13;
+}
+
