@@ -31,4 +31,5 @@ extend Atom {
 message CrossDeviceSyncEvent {
   optional android.stats.crossdevicesync.SyncEvent event = 1;
   optional android.stats.crossdevicesync.SyncFeature feature = 2;
+  optional int64 duration_ms = 3;
 }
