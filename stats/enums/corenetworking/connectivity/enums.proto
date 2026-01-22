@@ -142,6 +142,26 @@ enum TerribleErrorType {
   TYPE_TOO_MANY_LOW_POWER_STANDBY_PORTS = 19;
   // Indicate invalid network permission is sent to netd
   TYPE_INVALID_NET_PERM_SENT_TO_NETD = 20;
+  // Failed to read network stats from storage.
+  TYPE_NETWORK_STATS_READ_ERROR = 21;
+  // Failed to write network stats to storage.
+  TYPE_NETWORK_STATS_WRITE_ERROR = 22;
+  // Failed to remove UID stats from storage.
+  TYPE_NETWORK_STATS_REMOVE_UID_ERROR = 23;
+  // Failed to remove old data from network stats storage.
+  TYPE_NETWORK_STATS_REMOVE_DATA_ERROR = 24;
+  // Failed to create persistent counters for FastDataInput feature.
+  TYPE_NETWORK_STATS_FAST_DATA_INPUT_COUNTERS_CREATE_ERROR = 25;
+  // Failed to read persistent counters for FastDataInput feature.
+  TYPE_NETWORK_STATS_FAST_DATA_INPUT_COUNTERS_READ_ERROR = 26;
+  // Failed to load collection for FastDataInput feature.
+  TYPE_NETWORK_STATS_FAST_DATA_INPUT_COLLECTION_LOAD_ERROR = 27;
+  // Failed to update persistent counters for FastDataInput feature.
+  TYPE_NETWORK_STATS_FAST_DATA_INPUT_COUNTERS_UPDATE_ERROR = 28;
+  // Failed to read legacy stats for data migration.
+  TYPE_NETWORK_STATS_LEGACY_STATS_READ_ERROR = 29;
+  // Comparison between imported and legacy stats failed.
+  TYPE_NETWORK_STATS_COMPARISON_ERROR = 30;
 }
 
 // Type of critical bytes event.
