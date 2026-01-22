@@ -301,9 +301,9 @@ message WearTrayOpenKeyEventOccurred {
 message WearNotificationUiEventReported {
   // UiEvent of the event reported including UI shown, UI removed, touch, scrolled, RSB scrolled, open on phone, open on watch etc.
   optional int32 event_id = 1;
-  // Package identifier. An integer index assigned to each distinct package generated on the device to distinguish apps on a single device.
-  // Not the app uid and cannot be translated to package name.
-  optional int32 package_id = 2;
+  // The package name of the app that is providing the content. Note this includes
+  // packages not installed on the watch, so it cannot be UID.
+  optional string package_name = 2;
   // Surface where full view is being shown
   optional android.app.wearsysui.NotificationSurface surface = 3;
   // State of the notification
