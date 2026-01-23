@@ -177,6 +177,8 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_REQUESTROUTETOHOST_OK = 8;
   // Counts the number of times the long-deprecated requestRouteToHost* methods fails.
   CRITICAL_COUNTS_EVENT_TYPE_REQUESTROUTETOHOST_FAIL = 9;
+  // Counts the number of times captive portal app is not found by NetworkMonitor.
+  CRITICAL_COUNTS_EVENT_TYPE_CAPTIVE_APP_NOT_FOUND = 10;
 }
 
 // Type of critical duration event.
