@@ -1899,14 +1899,20 @@ message UsageEventReportedStats {
     optional int32 event_count = 2;
 }
 
-/** Logs when an automatic time zone change is reverted by the user.
+/**
+ * Logs when an automatic time zone change is reverted by the user.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/TimeZoneDetectorStatsdLogger.java
  *
  * Estimated logging rate:
- *  The event collected when the user changes the time zone manually after it was
- * changed automatically. This is a rare event, but it can happen when the user notices the time zone
- * changed unexpectedly. In most cases if user changes the time zone manually, further automatic time zone
- * changes will not happen, unless user changes the time zone back to the automatic time zone.
- * Atom is expected to be logged on average significantly less than once per day.
+ *  The event collected when the user changes the time zone manually after it
+ * was changed automatically. This is a rare event, but it can happen when the
+ * user notices the time zone changed unexpectedly. In most cases if user
+ * changes the time zone manually, further automatic time zone changes will not
+ * happen, unless user changes the time zone back to the automatic time zone.
+ * Atom is expected to be logged on average significantly less than once per
+ * day.
  */
 message AutomaticTimeZoneChangeRevertedByUserReported {
   enum Source {
@@ -1926,9 +1932,9 @@ message AutomaticTimeZoneChangeRevertedByUserReported {
   optional string mnc = 3;
   // The NITZ (Network Identity and Time Zone) offset from the telephony signal.
   optional int32 nitz_offset_seconds = 4;
-  // The time zone before the automatic time zone change.
+  // The NITZ Daylight Saving Time (DST) offset from the telephony signal.
   optional int32 nitz_dst_offset_seconds = 5;
-  // The package uid of the location time zone provider.
+  // The time zone before the automatic time zone change.
   optional string previous_time_zone_id = 6;
   // The time zone after the automatic time zone change.
   optional string rejected_automatic_time_zone_id = 7;
@@ -1943,14 +1949,19 @@ message AutomaticTimeZoneChangeRevertedByUserReported {
 }
 
 /**
- * Logs when there is a discrepancy between the time zone suggested by the geolocation provider and
- * the telephony provider.
-
+ * Logs when there is a discrepancy between the time zone suggested by the
+ * geolocation provider and the telephony provider.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/TimeZoneDetectorStatsdLogger.java
+ *
  * Estimated logging rate:
- * This event is logged when for a specific period of time there is a discrepancy between the time
- * zone suggested by the geolocation provider and the telephony provider. Atom is expected to be
- * logged on average significantly less than once per day.
+ * This event is logged when for a specific period of time there is a
+ * discrepancy between the time zone suggested by the geolocation provider and
+ * the telephony provider. Atom is expected to be logged on average
+ * significantly less than once per day.
  */
+
 message TimeZoneDetectionDiscrepancyReported {
   // The time zone suggested by the geolocation provider.
   optional string geolocation_time_zone_id = 1;
@@ -1974,14 +1985,21 @@ message TimeZoneDetectionDiscrepancyReported {
   optional string device_time_zone_id = 10;
 }
 
-// Logs when a device transitions from one time zone to another.
-// A transition is when telephony and geolocation signals agree on a time zone, then one changes,
-// and then the other changes to match the first.
-//
-// Estimated logging rate:
-//   This event is logged when telephone transitions to a new time zone or when there is a
-//   geolocation or telephony erroneous  signal change between the time. Atom is expected to be
-//   logged on average significantly less than once per day.
+/**
+ * Logs when a device transitions from one time zone to another.
+ * A transition is when telephony and geolocation signals agree on a time zone,
+ * then one changes, and then the other changes to match the first.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/timezonedetector/TimeZoneDetectorStatsdLogger.java
+ *
+ * Estimated logging rate:
+ *   This event is logged when telephone transitions to a new time zone or when
+ * there is a geolocation or telephony erroneous signal change while device
+ * stays in the same time zone. Atom is expected to be logged on average
+ * significantly less than once per day.
+ */
+
 message TimeZoneTransitionStateChanged {
   // The time zone before the transition started.
   optional string previous_time_zone_id = 1;
