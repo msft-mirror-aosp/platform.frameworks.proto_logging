@@ -314,6 +314,7 @@ message ModuleAtoms {
                 (android.os.statsd.module) = "module1", (android.os.statsd.module) = "module2"
         ];
         NoModuleAtom no_module_atom = 4;
+        ModuleOneAtom module_name_one_atom = 5 [(android.os.statsd.module_name) = "module1"];
     }
 }
 

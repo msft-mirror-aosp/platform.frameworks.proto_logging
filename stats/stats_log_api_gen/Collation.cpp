@@ -623,29 +623,38 @@ static AtomType getAtomType(const FieldDescriptor& atomField) {
     }
 }
 
+static bool is_atom_in_module(const FieldDescriptor& atomField, const string& moduleName) {
+    if (moduleName == DEFAULT_MODULE_NAME) {
+        return true;
+    }
+
+    const int moduleNameCount = atomField.options().ExtensionSize(os::statsd::module_name);
+    for (int j = 0; j < moduleNameCount; ++j) {
+        if (atomField.options().GetExtension(os::statsd::module_name, j) == moduleName) {
+            return true;
+        }
+    }
+
+    const int moduleCount = atomField.options().ExtensionSize(os::statsd::module);
+    for (int j = 0; j < moduleCount; ++j) {
+        if (atomField.options().GetExtension(os::statsd::module, j) == moduleName) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 static int collate_from_field_descriptor(const FieldDescriptor& atomField, const string& moduleName,
                                          Atoms& atoms) {
     int errorCount = 0;
 
-    if (moduleName != DEFAULT_MODULE_NAME) {
-        const int moduleCount = atomField.options().ExtensionSize(os::statsd::module);
-        bool moduleFound = false;
-        for (int j = 0; j < moduleCount; ++j) {
-            const string atomModuleName = atomField.options().GetExtension(os::statsd::module, j);
-            if (atomModuleName == moduleName) {
-                moduleFound = true;
-                break;
-            }
+    if (!is_atom_in_module(atomField, moduleName)) {
+        if (dbg) {
+            printf("   Skipping %s (%d)\n", std::string(atomField.name()).c_str(),
+                   atomField.number());
         }
-
-        // This atom is not in the module we're interested in; skip it.
-        if (!moduleFound) {
-            if (dbg) {
-                printf("   Skipping %s (%d)\n", std::string(atomField.name()).c_str(),
-                       atomField.number());
-            }
-            return errorCount;
-        }
+        return errorCount;
     }
 
     if (dbg) {

@@ -26,8 +26,9 @@ namespace stats_log_api_gen {
 TEST(ApiGenAtomTest, AtomIdConstantsTest) {
     // For reference from the atoms.proto
     // BleScanStateChanged ble_scan_state_changed = 2
-    //         [(module) = "bluetooth", (module) = "statsdtest"];
-    // ProcessStateChanged process_state_changed = 3 [(module) = "framework", deprecated = true];
+    //         [(module_name) = "bluetooth", (module_name) = "statsdtest"];
+    // ProcessStateChanged process_state_changed = 3
+    //         [(module_name) = "framework", deprecated = true];
     EXPECT_EQ(android::util::BLE_SCAN_STATE_CHANGED, 2);
     EXPECT_EQ(android::util::PROCESS_STATE_CHANGED, 3);
     EXPECT_EQ(android::util::BOOT_SEQUENCE_REPORTED, 57);
