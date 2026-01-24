@@ -30,7 +30,7 @@ extend Atom {
     optional NetworkRequestStateChanged network_request_state_changed = 779 [(module) = "connectivity"];
     optional TetheringActiveSessionsReported tethering_active_sessions_reported = 925 [(module) = "connectivity"];
     optional ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported = 1138 [(module) = "connectivity"];
-    optional LoopbackUsageReported loopback_usage_reported = 1216 [(module) = "connectivity"];
+    optional LoopbackUsageReported loopback_usage_reported = 1216 [(module) = "connectivity_sdk30"];
     optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests = 10247 [(module) = "connectivity"];
 }
 
