@@ -18719,6 +18719,15 @@ message MediametricsAudioTrackDeviceUsageReported {
     // Metric log session id, a Base64Url encoded string of a randomly generated 128-bit integer.
     // An empty string means no session id is set.
     optional string log_session_id = 20;
+
+    // The media type of the original codec used for audio in this AudioTrack.
+    // Media types ('MIMETYPE_AUDIO_...' constants) from android.media.MediaFormat class are
+    // preferred, however it can be any string from the IANA list:
+    //   https://www.iana.org/assignments/media-types/media-types.xhtml#audio
+    // for example, 'audio/opus', or even unlisted vendor extensions, typically starting
+    // with 'x-' prefix, for example 'audio/x-immersive-1'.
+    // In any case, if this string is specified, it must start with 'audio/' prefix.
+    optional string codec_provenance = 21;
 }
 
 /**
