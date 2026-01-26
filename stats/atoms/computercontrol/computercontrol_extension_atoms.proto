@@ -132,6 +132,15 @@ message ComputerControlSessionReported {
   // actions like ACTION_GO_BACK.
   // This is the length of the performed_actions list.
   optional int32 performed_action_count = 17;
+
+  // The total duration a MirrorView was actively associated with this session.
+  // This is the sum of the time between MirrorView#setComputerControlSession
+  // until the MirrorView is detached (from the UI or the session).
+  //
+  // If multiple MirrorViews are associated with this session concurrently,
+  // the duration is from the time the first one was associated until the last
+  // one was disassociated.
+  optional int64 mirroring_total_duration_millis = 18;
 }
 
 /**
