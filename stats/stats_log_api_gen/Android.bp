@@ -135,6 +135,11 @@ cc_library_static {
     export_include_dirs: ["include_cc_hdrs"],
     host_supported: true,
     vendor_available: true,
+    min_sdk_version: "30",
+    apex_available: [
+        "//apex_available:anyapex",
+        "//apex_available:platform",
+    ],
 }
 
 // ==========================================================
