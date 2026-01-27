@@ -360,14 +360,14 @@ TEST_P(CollationTest, PassOnLogFromModuleAtom) {
     Atoms atoms;
     const int errorCount = collate_atoms(*mModuleAtoms, DEFAULT_MODULE_NAME, atoms);
     EXPECT_EQ(errorCount, 0);
-    EXPECT_EQ(atoms.decls.size(), 4ul);
+    EXPECT_EQ(atoms.decls.size(), 5ul);
 }
 
 TEST_P(CollationTest, RecognizeModuleAtom) {
     Atoms atoms;
     const int errorCount = collate_atoms(*mModuleAtoms, DEFAULT_MODULE_NAME, atoms);
     EXPECT_EQ(errorCount, 0);
-    EXPECT_EQ(atoms.decls.size(), 4ul);
+    EXPECT_EQ(atoms.decls.size(), 5ul);
     EXPECT_EQ(atoms.signatureInfoMap.size(), 2u);
     EXPECT_MAP_CONTAINS_SIGNATURE(atoms.signatureInfoMap, JAVA_TYPE_INT);
     EXPECT_MAP_CONTAINS_SIGNATURE(atoms.signatureInfoMap, JAVA_TYPE_STRING);
@@ -394,7 +394,7 @@ TEST_P(CollationTest, RecognizeModuleAtom) {
     fieldNumberToAtomDeclSetIt = fieldNumberToAtomDeclSet->begin();
     EXPECT_EQ(1, fieldNumberToAtomDeclSetIt->first);
     atomDeclSet = &fieldNumberToAtomDeclSetIt->second;
-    EXPECT_EQ(2ul, atomDeclSet->size());
+    EXPECT_EQ(3ul, atomDeclSet->size());
     atomDeclSetIt = atomDeclSet->begin();
     atomDecl = atomDeclSetIt->get();
     EXPECT_EQ(1, atomDecl->code);
@@ -438,7 +438,7 @@ TEST_P(CollationTest, RecognizeModule1Atom) {
     const string moduleName = "module1";
     const int errorCount = collate_atoms(*mModuleAtoms, moduleName, atoms);
     EXPECT_EQ(errorCount, 0);
-    EXPECT_EQ(atoms.decls.size(), 2ul);
+    EXPECT_EQ(atoms.decls.size(), 3ul);
     EXPECT_EQ(atoms.signatureInfoMap.size(), 1u);
     EXPECT_MAP_CONTAINS_SIGNATURE(atoms.signatureInfoMap, JAVA_TYPE_INT);
 
@@ -464,7 +464,7 @@ TEST_P(CollationTest, RecognizeModule1Atom) {
     fieldNumberToAtomDeclSetIt = fieldNumberToAtomDeclSet->begin();
     EXPECT_EQ(1, fieldNumberToAtomDeclSetIt->first);
     atomDeclSet = &fieldNumberToAtomDeclSetIt->second;
-    EXPECT_EQ(2ul, atomDeclSet->size());
+    EXPECT_EQ(3ul, atomDeclSet->size());
     atomDeclSetIt = atomDeclSet->begin();
     atomDecl = atomDeclSetIt->get();
     EXPECT_EQ(1, atomDecl->code);
