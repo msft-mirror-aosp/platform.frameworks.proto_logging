@@ -466,6 +466,8 @@ message CarrierRoamingSatelliteSession {
   optional int64 energy_consumed_nwh = 45;
   // The source of satellite service eligibility for this session.
   optional android.telephony.SatelliteEligibilitySource eligibility_source = 46;
+  // Whether wifi was connected during the session
+  optional bool is_wifi_connected = 47;
 }
 
 /**
