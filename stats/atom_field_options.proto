@@ -194,7 +194,7 @@ extend google.protobuf.FieldOptions {
 
     optional LogMode log_mode = 50002 [default = MODE_AUTOMATIC];
 
-    repeated string module = 50004;
+    repeated string module = 50004 [deprecated = true];
 
     optional bool truncate_timestamp = 50005 [default = false];
 
@@ -208,4 +208,6 @@ extend google.protobuf.FieldOptions {
     // Atom fields with the unit annotated will have proper axis labels (and for
     // some units auto-scaled values) when visualized.
     optional Unit unit = 50009;
+
+    repeated string module_name = 50010;
 }
