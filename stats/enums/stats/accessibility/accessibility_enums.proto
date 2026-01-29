@@ -31,6 +31,7 @@ enum ShortcutType {
   TWO_FINGER_TRIPLE_TAP = 8;
   QUICK_SETTINGS = 9;
   TOP_ROW_KEY = 10;
+  QUICK_ACCESS = 11;
 }
 
 // The service status code.
