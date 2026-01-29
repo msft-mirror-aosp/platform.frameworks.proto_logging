@@ -1619,6 +1619,17 @@ message Atom {
     extensions 1284; // RefreshTrustTokenStarted refresh_trust_token_started
     extensions 1285; // RefreshTrustTokenFinished refresh_trust_token_finished
     extensions 1286; // AnomalyStatsBinderSpam anomaly_stats_binder_spam
+    extensions 1287; // PccUidAssignmentReported pcc_uid_assignment_reported
+    extensions 1288; // PccAssociationDecisionReported pcc_association_decision_reported
+    extensions 1289; // PccAssociationAllowTypeReported pcc_association_allow_type_reported
+    extensions 1290; // PccAssociationDecisionLatencyReported pcc_association_decision_latency_reported
+    extensions 1291; // PccBackupAgentStarted pcc_backup_agent_started
+    extensions 1292; // PccDataMigrationStateChanged pcc_data_migration_state_changed
+    extensions 1293; // PccBinderProxyTransactionReported pcc_binder_proxy_transaction_reported
+    extensions 1294; // PccWriteToAuditLog pcc_write_to_audit_log
+    extensions 1295; // PccPermissionCheckResult pcc_permission_check_result
+    extensions 1296; // PccInputSanitizationReported pcc_input_sanitization_reported
+    extensions 1297; // RegularAppAssociationLatencyReported regular_app_association_latency_reported
 
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
