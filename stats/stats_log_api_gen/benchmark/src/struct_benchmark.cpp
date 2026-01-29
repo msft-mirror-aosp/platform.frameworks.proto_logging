@@ -1172,18 +1172,18 @@ BENCHMARK(BM_StatsWriteStructWithBuilderMedium);
 
 static void BM_StatsWriteStructWithInitSmall(benchmark::State& state) {
     while (state.KeepRunning()) {
-        AtomSmall atom = {.string_field_1 = "value1",
-                          .string_field_2 = "value2",
-                          .int32_field_1 = 1,
-                          .int32_field_2 = 2,
-                          .int64_field_1 = 1L,
-                          .int64_field_2 = 2L,
-                          .bool_field_1 = true,
-                          .bool_field_2 = false,
-                          .float_field_1 = 1.0f,
-                          .float_field_2 = 2.0f,
-                          .enum_field_1 = EnumSmall::VALUE_1,
-                          .enum_field_2 = EnumSmall::VALUE_2};
+        AtomSmall atom{.string_field_1 = "value1",
+                       .string_field_2 = "value2",
+                       .int32_field_1 = 1,
+                       .int32_field_2 = 2,
+                       .int64_field_1 = 1L,
+                       .int64_field_2 = 2L,
+                       .bool_field_1 = true,
+                       .bool_field_2 = false,
+                       .float_field_1 = 1.0f,
+                       .float_field_2 = 2.0f,
+                       .enum_field_1 = EnumSmall::VALUE_1,
+                       .enum_field_2 = EnumSmall::VALUE_2};
         benchmark::DoNotOptimize(writeAtom(atom));
     }
 }
