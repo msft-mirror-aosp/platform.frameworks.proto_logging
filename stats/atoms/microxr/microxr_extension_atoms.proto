@@ -38,15 +38,18 @@ extend Atom {
   // Pushed atoms (generic vendor extensions).
   optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 300001
       [(module) = "microxr-vendor"];
-  optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed = 300002
-      [(module) = "microxr-vendor"];
+  optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed =
+      300002 [(module) = "microxr-vendor"];
   optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
       [(module) = "microxr-vendor"];
-  optional MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info = 300003
-      [(module) = "microxr-vendor"];
+  optional MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info =
+      300003 [(module) = "microxr-vendor"];
   optional MicroXrMcuBootTimeReported micro_xr_mcu_boot_time_reported = 300004
       [(module) = "microxr-vendor"];
-  optional MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported = 300005
+  optional MicroXrMcuMemorySnapshotReported
+      micro_xr_mcu_memory_snapshot_reported = 300005
+      [(module) = "microxr-vendor"];
+  optional MicroXrApWakeupReported micro_xr_ap_wakeup_reported = 300006
       [(module) = "microxr-vendor"];
 }
 
@@ -79,7 +82,8 @@ enum DonDoffState {
  *   Average on the order of tens per day at most
  */
 message MicroXrDonDoffStateChanged {
-  optional DonDoffState don_doff_new_state = 1 [(state_field_option).exclusive_state = true];
+  optional DonDoffState don_doff_new_state = 1
+      [(state_field_option).exclusive_state = true];
 }
 
 /**
@@ -270,29 +274,31 @@ message MicroXrAudioPlaybackCompleted {
 
   // Histogram of underflow durations. Underflows cannot be shorter than the
   // packet duration, which is expected to be about 20ms. Standard advice is to
-  // use fewer than 20 bins. Empirically, we expect most underflows are less than
-  // 1 second.
-  repeated int32 underflows_duration_histogram_ms = 7 [(histogram_bin_option).explicit_bins = {
-    bin: 25
-    bin: 50
-    bin: 100
-    bin: 250
-    bin: 500
-    bin: 1000
-  }];
+  // use fewer than 20 bins. Empirically, we expect most underflows are less
+  // than 1 second.
+  repeated int32 underflows_duration_histogram_ms = 7
+      [(histogram_bin_option).explicit_bins = {
+        bin: 25
+        bin: 50
+        bin: 100
+        bin: 250
+        bin: 500
+        bin: 1000
+      }];
 
   // Total (cumulative) lateness of all underflows.
   optional int64 underflows_total_lateness_ms = 8;
 
   // Histogram of underflow lateness.
-  repeated int32 underflows_lateness_histogram_ms = 9 [(histogram_bin_option).explicit_bins = {
-    bin: 25
-    bin: 50
-    bin: 100
-    bin: 250
-    bin: 500
-    bin: 1000
-  }];
+  repeated int32 underflows_lateness_histogram_ms = 9
+      [(histogram_bin_option).explicit_bins = {
+        bin: 25
+        bin: 50
+        bin: 100
+        bin: 250
+        bin: 500
+        bin: 1000
+      }];
 
   // Maximum size of the jitter buffer during playback.
   optional int32 max_jitter_buffer_ms = 10;
@@ -310,21 +316,20 @@ message MicroXrMcuPowerDeepSleepInfo {
   optional string reverse_domain_name = 1;
 
   // Histogram of MCU Sleep Durations.
-  repeated int32 duration_ms_histogram_counts = 2 [
-    (histogram_bin_option).explicit_bins = {
-      bin: 1
-      bin: 64
-      bin: 128
-      bin: 256
-      bin: 512
-      bin: 1024
-      bin: 2048
-      bin: 4096
-      bin: 8192
-      bin: 16384
-      bin: 32768
-    }
-  ];
+  repeated int32 duration_ms_histogram_counts = 2
+      [(histogram_bin_option).explicit_bins = {
+        bin: 1
+        bin: 64
+        bin: 128
+        bin: 256
+        bin: 512
+        bin: 1024
+        bin: 2048
+        bin: 4096
+        bin: 8192
+        bin: 16384
+        bin: 32768
+      }];
 
   // Wakeup triggered by Bluetooth activity.
   optional int32 wakeup_reason_bluetooth = 3;
@@ -333,8 +338,9 @@ message MicroXrMcuPowerDeepSleepInfo {
   optional int32 wakeup_reason_crash_request = 4;
 
   // Deep sleep entry was preempted, system did not fully sleep.
-  // Example: If any interrupt is already pending, the WFI(Wait for intterupt) instruction
-  // executed by POWER_EnterDeepSleep() will return immediately and we won't actually enter deep sleep.
+  // Example: If any interrupt is already pending, the WFI(Wait for intterupt)
+  // instruction executed by POWER_EnterDeepSleep() will return immediately and
+  // we won't actually enter deep sleep.
   optional int32 wakeup_reason_preempted = 5;
 
   // Wakeup due to a DMA transfer completion or event.
@@ -360,7 +366,8 @@ message MicroXrMcuPowerDeepSleepInfo {
   // The number of deep sleep entries within the reporting period.
   optional int32 num_sleeps = 12;
 
-  // The total accumulated deep sleep duration in ms within the reporting period.
+  // The total accumulated deep sleep duration in ms within the reporting
+  // period.
   optional int64 total_sleep_duration_ms = 13;
 }
 
@@ -392,4 +399,63 @@ message MicroXrMcuMemorySnapshotReported {
 
   // The total heap size currently available, in kilobytes.
   optional int32 heap_available_kb = 2;
+}
+
+/**
+ * Reasons for the MCU to wake up the AP.
+ */
+enum ApWakeupReason {
+  AP_WAKEUP_REASON_UNSPECIFIED = 0;
+  // Generic RPC traffic (endpoints, resource-lock).
+  AP_WAKEUP_REASON_RPC = 1;
+  // Ambient Perception service events.
+  AP_WAKEUP_REASON_AMBIENT = 2;
+  // Audio service events.
+  AP_WAKEUP_REASON_AUDIO = 3;
+  // Bluetooth service events (including virtual uart).
+  AP_WAKEUP_REASON_BLUETOOTH = 4;
+  // Display service events.
+  AP_WAKEUP_REASON_DISPLAY = 5;
+  // Input service events (buttons, touch).
+  AP_WAKEUP_REASON_INPUT = 6;
+  // Lights service events.
+  AP_WAKEUP_REASON_LIGHTS = 7;
+  // Log transfer (log service).
+  AP_WAKEUP_REASON_LOGGING = 8;
+  // Peripherals service events.
+  AP_WAKEUP_REASON_PERIPHERALS = 9;
+  // Projection tunnel events.
+  AP_WAKEUP_REASON_PROJECTION = 10;
+  // Sensors service events.
+  AP_WAKEUP_REASON_SENSORS = 11;
+  // Socket offload / Network events.
+  AP_WAKEUP_REASON_NETWORK = 12;
+  // Sound trigger (hotword) validation.
+  AP_WAKEUP_REASON_SOUND_TRIGGER = 13;
+  // Stats transfer.
+  AP_WAKEUP_REASON_STATS = 14;
+  // Thermal service events.
+  AP_WAKEUP_REASON_THERMAL = 15;
+  // System management (Lifecycle, Time, Boot params, Build info).
+  AP_WAKEUP_REASON_SYSTEM = 16;
+  // MCU Crash reporting.
+  AP_WAKEUP_REASON_CRASH = 17;
+  // Other reasons not specified above.
+  AP_WAKEUP_REASON_OTHER = 18;
+}
+
+/**
+ * Logged when the MCU wakes up the AP.
+ *
+ * Estimated Logging Rate:
+ *   Highly variable. Can be multiple times per hour during active use
+ *   or less than once per hour during idle.
+ */
+message MicroXrApWakeupReported {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  // The reason why the MCU woke up the AP.
+  optional ApWakeupReason reason = 2;
 }
