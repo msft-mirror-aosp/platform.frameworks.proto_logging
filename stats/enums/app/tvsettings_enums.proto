@@ -953,6 +953,9 @@ enum ItemId {
     // TvSettings > System > Accessibility > Captions > Custom > Window opacity
     SYSTEM_A11Y_CAPTIONS_WINDOW_OPACITY = 0x17818B00;
 
+    // TvSettings > System > Accessibility > Captions > Easy Reader
+    SYSTEM_A11Y_CAPTIONS_EASY_READER = 0x17819000;
+
     // TvSettings > System > Accessibility > High contrast text (toggle)
     SYSTEM_A11Y_HIGH_CONTRAST_TEXT = 0x17820000;
 
