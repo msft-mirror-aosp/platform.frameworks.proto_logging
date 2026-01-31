@@ -38,6 +38,10 @@ extend Atom {
   optional AndroidGraphicsBitmapScaled android_graphics_bitmap_scaled =
           1190 [(module) = "uprobestats"];
   optional AccessibilityRuntimePermissionGrantReported accessibility_runtime_permission_grant_reported = 1217 [(module) = "uprobestats"];
+  optional UprobeStatsInternalError uprobe_stats_internal_error = 1274 [(module) = "uprobestats"];
+  optional UprobeStatsInvocation uprobe_stats_invocation = 1275 [(module) = "uprobestats"];
+  optional UprobeStatsBpfAttached uprobe_stats_bpf_attached = 1276 [(module) = "uprobestats"];
+  optional UprobeStatsBpfMapPolled uprobe_stats_bpf_map_polled = 1277 [(module) = "uprobestats"];
 }
 
 /* Test atom, specifically for UprobeStats tests, not logged anywhere */
@@ -269,4 +273,120 @@ message AccessibilityRuntimePermissionGrantReported {
     optional int64 timestamp_millis = 3;
     repeated int32 preceding_accessibility_service_connection_code = 4;
     repeated int64 preceding_accessibility_service_connection_timestamps_millis = 5;
+}
+
+/**
+ * Logged by UprobeStats to report various internal errors.
+ *
+ * Logged from:
+ * packages/modules/UprobeStats
+ *
+ * Estimated Logging Rate:
+ * Peak: 10 times in 1 min | Avg: O(1) per device per day
+ */
+message UprobeStatsInternalError {
+  enum ErrorType {
+    ERROR_TYPE_UNSPECIFIED = 0;
+    ERROR_TYPE_SERVICE_STARTUP_FAILED = 1;
+    ERROR_TYPE_CONFIG_PARSE_FAILED = 2;
+    ERROR_TYPE_TASK_CONFLICT = 3;
+    ERROR_TYPE_TASK_EXECUTION_FAILED = 4;
+    ERROR_TYPE_BINDER_FILTER_SETUP_FAILED = 5;
+    ERROR_TYPE_BINDER_FILTER_CLEANUP_FAILED = 6;
+  }
+  optional ErrorType error_type = 1;
+  optional int64 task_id = 2;
+}
+
+/**
+ * Logged by UprobeStats for key invocation milestones.
+ *
+ * Logged from:
+ * packages/modules/UprobeStats
+ *
+ * Estimated Logging Rate:
+ * Peak: 1 times in 1 min | Avg: O(1) per device per day
+ */
+message UprobeStatsInvocation {
+  enum InvocationType {
+    INVOCATION_TYPE_UNSPECIFIED = 0;
+    INVOCATION_TYPE_SERVICE_STARTED = 1;
+    INVOCATION_TYPE_START_TASKS_RECEIVED = 2;
+  }
+  optional InvocationType invocation_type = 1;
+}
+
+/**
+ * Logged by UprobeStats when a BPF program is successfully attached.
+ *
+ * Logged from:
+ * packages/modules/UprobeStats
+ *
+ * Estimated Logging Rate:
+ * Peak: 10 times in 1 min | Avg: O(tens) per device per day
+ */
+message UprobeStatsBpfAttached {
+  enum BpfProgram {
+    BPF_PROGRAM_UNSPECIFIED = 0;
+    PROG_ACCESSIBILITY_UPROBE_ACCESSIBILITY_SERVICE_CONNECTION = 1;
+    PROG_ACCESSIBILITY_UPROBE_GRANT_RUNTIME_PERMISSION = 2;
+    PROG_BINDER_UPROBE_EXEC_TRANSACT_INTERNAL = 3;
+    PROG_BITMAP_ALLOCATION_OUTPUT = 4;
+    PROG_BITMAP_ALLOCATION_UPROBE_ACTIVITY_PERFORM_START = 5;
+    PROG_BITMAP_ALLOCATION_UPROBE_APPLY_FREE_FUNCTION = 6;
+    PROG_BITMAP_ALLOCATION_UPROBE_BITMAP_CREATION_FOR_SNAPSHOT = 7;
+    PROG_BITMAP_ALLOCATION_UPROBE_CREATE_SCALED_BITMAP = 8;
+    PROG_DISRUPTIVE_APP_UPROBE_BIND_SERVICE_LOCKED = 9;
+    PROG_DISRUPTIVE_APP_UPROBE_SET_COMPONENT_ENABLED_SETTING = 10;
+    PROG_GENERIC_INSTRUMENTATION_UPROBE_CALL_DETAIL = 11;
+    PROG_GENERIC_INSTRUMENTATION_UPROBE_CALL_TIMESTAMP = 12;
+  }
+  // Name of the BPF program that was attached.
+  optional BpfProgram bpf_program = 1;
+  // Fully qualified class name of the method being targeted.
+  // This is hard coded in the config pushed from Google.
+  // Example: "android.graphics.Bitmap"
+  optional string probed_class = 2;
+  // Method name of the method being targeted.
+  // This is hard coded in the config pushed from Google.
+  // Example: "createBitmap"
+  optional string probed_method = 3;
+  // Name of the process that was probed.
+  // Example: "system_server"
+  optional string probed_process_name = 4;
+  // ID of the task that attached this probe.
+  optional int64 task_id = 5;
+}
+
+/**
+ * Logged by UprobeStats when a BPF map is polled.
+ *
+ * Logged from:
+ * packages/modules/UprobeStats
+ *
+ * Estimated Logging Rate:
+ * Peak: 10 times in 1 min | Avg: O(tens) per device per day
+ */
+message UprobeStatsBpfMapPolled {
+  // The absolute path of the BPF map that was polled.
+  // The path is determined by the BPF map definition and does not contain
+  // unique identifiers (like a hash) per session.
+  // Example: "/sys/fs/bpf/uprobestats/map_BitmapAllocation_active_bitmaps"
+  enum BpfMapPath {
+    BPF_MAP_PATH_UNSPECIFIED = 0;
+    BPF_MAP_PATH_ACCESSIBILITY_OUTPUT_BUF = 1;
+    BPF_MAP_PATH_BINDER_OUTPUT_BUF = 2;
+    BPF_MAP_PATH_BITMAP_ALLOCATION_OUTPUT = 3;
+    BPF_MAP_PATH_DISRUPTIVE_APP_BIND_SERVICE_LOCKED_OUTPUT_BUF = 4;
+    BPF_MAP_PATH_DISRUPTIVE_APP_COMPONENT_ENABLED_SETTING_OUTPUT_BUF = 5;
+    BPF_MAP_PATH_GENERIC_INSTRUMENTATION_CALL_DETAIL_BUF = 6;
+    BPF_MAP_PATH_GENERIC_INSTRUMENTATION_CALL_TIMESTAMP_BUF = 7;
+  }
+  optional BpfMapPath map_path = 1;
+  // Duration that we polled that map path in milliseconds.
+  optional int64 poll_duration_millis = 2;
+  // Total # of events that were emitted over that duration.
+  optional int64 events_count = 3;
+  // ID of the task that polled this map.
+  optional int64 task_id = 4;
 }

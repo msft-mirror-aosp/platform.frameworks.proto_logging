@@ -1606,7 +1606,10 @@ message Atom {
     extensions 1271; // CredentialManagerSettingsEventReported credential_manager_settings_event_reported
     extensions 1272; // MemoryLimiter memory_limiter_over_limit_event
     extensions 1273; // CrossDeviceSyncEvent cross_device_sync_event
-
+    extensions 1274; // UprobeStatsInternalError uprobe_stats_internal_error
+    extensions 1275; // UprobeStatsInvocation uprobe_stats_invocation
+    extensions 1276; // UprobeStatsBpfAttached uprobe_stats_bpf_attached
+    extensions 1277; // UprobeStatsBpfMapPolled uprobe_stats_bpf_map_polled
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -1621,6 +1624,7 @@ message Atom {
     extensions 300003; // MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info
     extensions 300004; // MicroXrMcuBootTimeReported micro_xr_mcu_boot_time_reported
     extensions 300005; // MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported
+    extensions 300006; // MicroXrApWakeupReported micro_xr_ap_wakeup_reported
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 
