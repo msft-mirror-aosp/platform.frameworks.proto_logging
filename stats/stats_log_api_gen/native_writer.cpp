@@ -18,6 +18,7 @@
 
 #include <cstdint>
 #include <stdio.h>
+#include <string>
 
 #include "Collation.h"
 #include "utils.h"

@@ -20,6 +20,8 @@
 
 #include <filesystem>
 
+#include "absl/strings/string_view.h"
+
 #include "Collation.h"
 #include "frameworks/proto_logging/stats/stats_log_api_gen/test.pb.h"
 
