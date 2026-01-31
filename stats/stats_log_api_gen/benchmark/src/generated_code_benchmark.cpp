@@ -60,6 +60,29 @@ int stats_write_baseline_simplified(int32_t code, int32_t arg1, int32_t arg2, in
     return ret;
 }
 
+int stats_write_baseline_simplified_small(int32_t code, const std::string& arg1,
+                                          const std::string& arg2, int32_t arg3, int32_t arg4,
+                                          int64_t arg5, int64_t arg6, bool arg7, bool arg8,
+                                          float arg9, float arg10, int32_t arg11, int32_t arg12) {
+    AStatsEvent* statsEvent = AStatsEvent_obtain();
+    AStatsEvent_setAtomId(statsEvent, code);
+    AStatsEvent_writeString(statsEvent, arg1.c_str());
+    AStatsEvent_writeString(statsEvent, arg2.c_str());
+    AStatsEvent_writeInt32(statsEvent, arg3);
+    AStatsEvent_writeInt32(statsEvent, arg4);
+    AStatsEvent_writeInt64(statsEvent, arg5);
+    AStatsEvent_writeInt64(statsEvent, arg6);
+    AStatsEvent_writeBool(statsEvent, arg7);
+    AStatsEvent_writeBool(statsEvent, arg8);
+    AStatsEvent_writeFloat(statsEvent, arg9);
+    AStatsEvent_writeFloat(statsEvent, arg10);
+    AStatsEvent_writeInt32(statsEvent, arg11);
+    AStatsEvent_writeInt32(statsEvent, arg12);
+    const int ret = AStatsEvent_write(statsEvent);
+    AStatsEvent_release(statsEvent);
+    return ret;
+}
+
 struct IsolatedUidChanged final {
     int32_t parent_uid;
     int32_t isolated_uid;
@@ -115,6 +138,28 @@ static void BM_StatsWriteDirect(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_StatsWriteDirect);
+
+static void BM_StatsWriteDirectSmall(benchmark::State& state) {
+    while (state.KeepRunning()) {
+        std::string string_field_1 = "value1";
+        std::string string_field_2 = "value2";
+        int32_t int32_field_1 = 1;
+        int32_t int32_field_2 = 2;
+        int64_t int64_field_1 = 1L;
+        int64_t int64_field_2 = 2L;
+        bool bool_field_1 = true;
+        bool bool_field_2 = false;
+        float float_field_1 = 1.0f;
+        float float_field_2 = 2.0f;
+        int32_t enum_field_1 = 1;
+        int32_t enum_field_2 = 2;
+        benchmark::DoNotOptimize(stats_write_baseline_simplified_small(
+                ISOLATED_UID_CHANGED, string_field_1, string_field_2, int32_field_1, int32_field_2,
+                int64_field_1, int64_field_2, bool_field_1, bool_field_2, float_field_1,
+                float_field_2, enum_field_1, enum_field_2));
+    }
+}
+BENCHMARK(BM_StatsWriteDirectSmall);
 
 static void BM_StatsWriteStruct(benchmark::State& state) {
     while (state.KeepRunning()) {
