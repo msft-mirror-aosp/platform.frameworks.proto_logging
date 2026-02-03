@@ -1,0 +1,83 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.media;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/media/enums.proto";
+import "frameworks/proto_logging/stats/enums/media/processing/enums.proto";
+
+extend Atom {
+  optional MediaProcessingEventReported media_processing_event_reported = 1279
+      [(module) = "media_metrics"];
+}
+
+// Since Android 26Q2.
+//
+// Media Metric for some form of media processing having occurred.
+//
+// Logged from: frameworks/base/services/core/j/c/a/server/media/metrics/MediaMetricsManagerService
+message MediaProcessingEventReported {
+  // Randomly generated log session ID. A Base64 encoded hex string representing
+  // a 128-bit integer.
+  optional string log_session_id = 1;
+
+  // The UID of the application that requested the processing operation.
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // The name of the processor that performed the processing operation, or an
+  // empty string if unknown or not applicable. This is sanitized by the
+  // MediaMetricsManagerService.
+  optional string processor_name = 3;
+
+  // The event that triggered the logging of the MediaProcessingEventReported
+  // atom, see android.media.processing.Event for possible values.
+  optional android.media.processing.Event event = 4;
+
+  // The status of the processing operation, see android.media.Status for
+  // possible values.
+  optional android.media.Status status = 5;
+
+  // The components that were used in the processing operation. A processing
+  // operation must involve at least one component, but can involve multiple
+  // components. See android.media.processing.Component for possible values.
+  repeated android.media.processing.Component components = 6;
+
+  // The scopes of each component used in the processing operation. The order
+  // of the scopes corresponds to the order of the components used.
+  //
+  // 0: Global Scope (all media being processed)
+  // 1: First Item Scope  (the first media item being processed)
+  // 2: Second Item Scope (the second media item being processed)
+  // ...
+  repeated int32 component_scopes = 7;
+
+  // Bit-flags that are implementation dependent, and can be used to define
+  // specific details about the processing operation.
+  optional int64 flags = 8;
+
+  // The metrics that were logged with the processing operation.
+  repeated android.media.processing.Metric metrics = 9;
+
+  // The values of the metrics that were logged with the processing operation.
+  // The order of the values corresponds to the order of the metrics.
+  //
+  // See the Metric enum for the type of the metric and its semantics.
+  repeated int64 metric_values = 10;
+}

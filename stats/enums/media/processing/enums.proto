@@ -1,0 +1,96 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.media.processing;
+
+// The event that triggered the logging of the MediaProcessingEventReported
+// atom.
+enum Event {
+  // Default value. Should not be used.
+  EVENT_UNSPECIFIED = 0;
+
+  // --- Feature Lifecycle & State ---
+
+  // The feature or its components have finished initialization.
+  EVENT_INITIALIZE = 1;
+
+  // The processing feature has been enabled (e.g., by user setting or system).
+  EVENT_ENABLE = 2;
+
+  // The processing feature has been disabled.
+  EVENT_DISABLE = 3;
+
+  // The processing feature's configuration has been changed.
+  EVENT_CONFIGURE = 4;
+
+  // --- Session-Based Usage (for long-running operations) ---
+
+  // A processing session has started.
+  EVENT_SESSION_START = 5;
+
+  // The processing session has ended.
+  EVENT_SESSION_END = 6;
+
+  // --- Discrete Execution Usage (for one-shot operations) ---
+
+  // A discrete media processing operation has started.
+  EVENT_EXECUTE = 7;
+
+  // The discrete media processing operation has completed.
+  EVENT_FINISH = 8;
+
+  // --- Activity Periods (for features that are on/off within an enabled state) ---
+
+  // A period of the feature being actively engaged has ended.
+  EVENT_ACTIVE_PERIOD_END = 9;
+
+  // --- User Interaction ---
+
+  // The user interacted with the feature in a way not covered by
+  // ENABLE/DISABLE/CONFIGURE.
+  EVENT_INTERACT = 10;
+}
+
+// The component that was used in the processing operation. A processing
+// operation may involve one or more components.
+enum Component {
+  COMPONENT_UNSPECIFIED = 0;
+
+  // Component that applies a fixed speed adjustment to the audio being
+  // processed.
+  COMPONENT_AUDIO_SPEED_ADJUSTMENT = 1;
+}
+
+// Enumeration of the metrics that can be logged with a processing operation.
+//
+// All metrics are logged as long (int64) values. Floating point values should
+// be converted to a representation that preserves precision before logging and
+// then converted back when analyzing.
+//
+// Each metric below should be documented with the type of the metric value and
+// how it should be interpreted.
+enum Metric {
+  // Default value. Should not be used.
+  METRIC_UNSPECIFIED = 0;
+
+  // The speed adjustment factor applied to the audio being processed.
+  //
+  // Value type: fixed-float (4-decimal precision), divide by 1e4 to get the
+  // speed adjustment factor from the logged value.
+  METRIC_AUDIO_SPEED_ADJUSTMENT_FACTOR = 1;
+}
