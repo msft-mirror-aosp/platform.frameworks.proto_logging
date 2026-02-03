@@ -232,12 +232,10 @@ message InputEventLatencyReported {
  *     Avg: < 1 time per device per day.
  */
 message InputUnfinishedMotionEventReported {
-    // The input device Vendor ID
-    optional int32 vendor_id = 1;
     // The input source type
-    optional int32 source = 2;
+    optional int32 source = 1;
     // The action of the motion event
-    optional int32 action = 3;
+    optional int32 action = 2;
     // The error status of sendFinishedSignal
-    optional int32 status = 4;
+    optional int32 status = 3;
 }
