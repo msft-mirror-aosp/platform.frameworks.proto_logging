@@ -1,0 +1,40 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.users;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/users/enums.proto";
+
+extend Atom {
+    optional SignInDuration sign_in_duration = 1281 [(module) = "framework"];
+}
+
+/**
+ * Logs sign-in duration and its breakdown.
+ *
+ * Logged from:
+ *  services/core/java/com/android/server/uilatencystats/
+ */
+message SignInDuration {
+  // The type of sign-in duration being reported.
+  optional SignInDurationType type = 1;
+  // The duration of the event in milliseconds.
+  optional int64 duration_ms = 2;
+}
