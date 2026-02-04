@@ -32,6 +32,8 @@ extend Atom {
             686 [(module) = "framework", (module) = "input"];
     optional InputEventLatencyReported input_event_latency_reported =
             932 [(module) = "framework", (module) = "input"];
+    optional InputUnfinishedMotionEventReported input_unfinished_motion_event_reported =
+            1278 [(module) = "framework", (module) = "input"];
 
     optional TouchpadUsage touchpad_usage =
             10191 [(module) = "framework", (module) = "input"];
@@ -218,4 +220,24 @@ message InputEventLatencyReported {
     // The latency value counts for each of the histogram bins
     // Expected number of fields: 20
     repeated int32 histogram_counts = 7;
+}
+
+/**
+ * Logs whenever a finished message fails to be sent for a motion event.
+ *
+ * Logged from:
+ *     frameworks/native/libs/input/InputConsumer.cpp
+ *
+ * Estimated Logging Rate:
+ *     Avg: < 1 time per device per day.
+ */
+message InputUnfinishedMotionEventReported {
+    // The input device Vendor ID
+    optional int32 vendor_id = 1;
+    // The input source type
+    optional int32 source = 2;
+    // The action of the motion event
+    optional int32 action = 3;
+    // The error status of sendFinishedSignal
+    optional int32 status = 4;
 }

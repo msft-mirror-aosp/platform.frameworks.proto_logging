@@ -18,7 +18,6 @@
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/stubs/common.h>
 
-//#include <stdlib.h>
 #include <algorithm>
 #include <cctype>
 #include <cstdint>

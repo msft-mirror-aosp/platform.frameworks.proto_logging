@@ -501,6 +501,8 @@ message WifiSettingInfo {
         QOS_APPLICATION_CENTRIC = 11;
         // Whether mobility state is set
         MOBILITY_STATE_AVAILABLE = 12;
+        // Whether the wificond migration enabled overlay is set
+        WIFICOND_MIGRATION_ENABLED = 13;
     }
 
     // Name of the Wifi setting
