@@ -2060,7 +2060,7 @@ message Atom {
     // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
-    // Next: 10246
+    // Next: 10266
     oneof pulled {
       WifiBytesTransfer wifi_bytes_transfer = 10000
           [(module_name) = "framework"];
@@ -2453,9 +2453,10 @@ message Atom {
     extensions 10259; // AdaptiveSuspendStats adaptive_suspend_stats
     extensions 10260; // AppUsageQueryEventStats app_usage_query_event_stats
     extensions 10261; // WsPhoneMetadataSnapshot ws_phone_metadata_snapshot
-    extensions 10262; // UsageEventReportedStats usage_event_reported_stats;
+    extensions 10262; // UsageEventReportedStats usage_event_reported_stats
     extensions 10263; // TrustTokenState trust_token_state
     extensions 10264; // WearKeyguardLockState wear_keyguard_lock_state
+    extensions 10265; // CredentialManagerSettingsSnapshot credential_manager_settings_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
