@@ -26,3 +26,5 @@ per-file stats/enums/healthfitness/api/enums.proto=mridulagarwal@google.com
 # Accessibility
 per-file stats/enums/stats/accessibility/accessibility_enums.proto = danielnorman@google.com, chunkulin@google.com
 
+# Cross Device Identity
+per-file stats/enums/framework/trust_token_enums.proto = file:platform/frameworks/base:/core/java/android/security/trusttoken/OWNERS
