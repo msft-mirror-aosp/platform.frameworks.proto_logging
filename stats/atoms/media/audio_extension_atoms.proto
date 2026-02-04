@@ -25,6 +25,7 @@ extend Atom {
   optional AudioRoutingTransitionReported audio_routing_transition_reported = 1232 [(module) = "audio"];
   optional AudioModeStateChanged audio_mode_state_changed = 1233 [(module) = "audio"];
   optional AudioHardeningReported audio_hardening_reported = 1268 [(module) = "audio"];
+  optional HfpAudioDisconnectReported hfp_audio_disconnect_reported = 1280 [(module) = "audio"];
 }
 
 /*
@@ -66,4 +67,16 @@ message AudioHardeningReported {
   optional android.media.audio.AudioHardeningApiType api_type = 2;
   optional bool is_strict = 3;
   optional bool is_enforced = 4;
+}
+
+/*
+ * Logs when a HFP audio disconnect occurs.
+ *
+ * Estimated Logging Rate:
+ * Peak: 10/day | Avg: < 1/day
+ */
+message HfpAudioDisconnectReported {
+  optional int32 uid = 1 [(is_uid) = true];
+  optional android.media.audio.HfpAudioDisconnectReason reason = 2;
+  optional bool is_sco_selected = 3;
 }
