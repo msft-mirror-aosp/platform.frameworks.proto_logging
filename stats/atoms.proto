@@ -12014,6 +12014,12 @@ message ProcessStartTime {
     }
 
     optional TriggerType trigger_type = 12;
+
+    // The uid of the process that triggered this process start.
+    optional int32 caller_uid = 13 [(is_uid) = true];
+
+    // The name of the process that triggered this process start.
+    optional string caller_process_name = 14;
 }
 
 /**
