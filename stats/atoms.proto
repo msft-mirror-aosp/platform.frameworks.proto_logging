@@ -1611,7 +1611,9 @@ message Atom {
     extensions 1276; // UprobeStatsBpfAttached uprobe_stats_bpf_attached
     extensions 1277; // UprobeStatsBpfMapPolled uprobe_stats_bpf_map_polled
     extensions 1278; // InputUnfinishedMotionEventReported input_unfinished_motion_event_reported
-
+    extensions 1279; // MediaProcessingEventReported media_processing_event_reported
+    extensions 1280; // HfpAudioDisconnectReported hfp_audio_disconnect_reported
+    extensions 1281; // SignInDuration sign_in_duration
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
