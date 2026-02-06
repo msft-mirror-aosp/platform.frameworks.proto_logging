@@ -32,7 +32,8 @@ extend Atom {
             (module) = "resolv", (module) = "network_tethering"];
     optional CoreNetworkingCriticalCountsEventOccurred core_networking_critical_counts_event_occurred =
         1131 [(module) = "connectivity", (module) = "network_stack",
-            (module) = "resolv", (module) = "network_tethering"];
+            (module) = "resolv", (module) = "network_tethering",
+            (module) = "connectivity_sdk30"];
     optional CoreNetworkingCriticalDurationEventOccurred core_networking_critical_duration_event_occurred =
         1191 [(module) = "connectivity", (module) = "network_stack",
             (module) = "resolv", (module) = "network_tethering"];
