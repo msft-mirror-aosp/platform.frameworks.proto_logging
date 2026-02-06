@@ -15,12 +15,11 @@
  */
 
 #include <aidl/android/frameworks/stats/VendorAtom.h>
+#include <frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.pb.h>
 #include <gtest/gtest.h>
 #include <test_vendor_atoms.h>
 
 #include <limits>
-
-#include "frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.pb.h"
 
 namespace android {
 namespace api_gen_vendor_tests {
