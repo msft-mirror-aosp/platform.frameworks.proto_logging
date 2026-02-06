@@ -2731,12 +2731,41 @@ enum Action {
     // in factory reset flow
     // CATEGORY: SETTINGS
     ACTION_FACTORY_RESET_ERASE_EMONEY_SERVICES_RESULT = 2135;
+
+    // ACTION: User added the Satellite Quick Settings tile
+    // CATEGORY: SETTINGS
+    QS_SATELLITE_TILE_ADDED = 2136;
+
+    // ACTION: User removed the Satellite Quick Settings tile
+    // CATEGORY: SETTINGS
+    QS_SATELLITE_TILE_REMOVED = 2137;
+
+    // ACTION: A notification prompting the user to add the satellite tile was shown
+    // CATEGORY: SETTINGS
+    ACTION_SATELLITE_NOTIFICATION_SHOWN = 2138;
+
+    // ACTION: User clicked 'Add Tile' from the satellite onboarding notification
+    // CATEGORY: SETTINGS
+    ACTION_SATELLITE_NOTIFICATION_ADD_TILE = 2139;
+
+    // ACTION: User clicked a satellite-enabled app from the landing page app list
+    // CATEGORY: SETTINGS
+    ACTION_SATELLITE_APP_CLICK = 2140;
+
+    // ACTION: User clicked 'Try a demo' on the satellite landing page
+    // CATEGORY: SETTINGS
+    ACTION_SATELLITE_DEMO_CLICK = 2141;
+
+    // ACTION: Logged when the satellite landing page loads, indicating the variant
+    // CATEGORY: SETTINGS
+    // SUBTYPE: 1 for NB-NTN, 2 for LTE
+    ACTION_SATELLITE_LANDING_PAGE_VARIANT = 2142;
 }
 
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2194
+// Next ID: 2198
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -6293,6 +6322,10 @@ enum PageId {
     // OPEN: Settings > Security and privacy > More security and privacy > Protect SIM card
     // CATEGORY: Settings
     AUTOMATIC_SIM_PIN_MANAGEMENT = 2196;
+
+    // OPEN: Satellite Quick Settings Tile (clicked) > Satellite Landing Page
+    // CATEGORY: SETTINGS
+    SATELLITE_LANDING_PAGE = 2197;
 }
 
 // Battery Saver schedule types.
