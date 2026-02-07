@@ -22,10 +22,13 @@ package {
 cc_test {
     name: "stats_code_gen_cc_test",
     srcs: [
+        ":stats_log_api_gen_vendor_test_protos",
         "AtomCodeGen_bootstrap_test.cpp",
         "AtomCodeGen_bootstrap_typesafe.cpp",
         "AtomCodeGen_platform_test.cpp",
         "AtomCodeGen_platform_typesafe.cpp",
+        "AtomCodeGen_vendor_generic.cpp",
+        "AtomCodeGen_vendor.cpp",
     ],
     generated_headers: [
         "bootstrap_atom_cc_gen_typesafe_hdrs",
@@ -41,16 +44,26 @@ cc_test {
         "-Wno-deprecated-declarations",
     ],
     shared_libs: [
+        "android.frameworks.stats-V2-ndk",
         "android.os.statsbootstrap_aidl-cpp",
+        "libprotobuf-cpp-full",
         "libstatsbootstrap",
     ],
     static_libs: [
         "libgmock",
         "libstatslog_bootstrap_test",
         "libstatslog_cts",
+        "libstatslog_test_generic_vendor",
+        "libstatslog_test_vendor",
         "libstatslog_test",
         "libstatslog_typesafe_test",
     ],
+    proto: {
+        type: "full",
+        include_dirs: [
+            "external/protobuf/src",
+        ],
+    },
 }
 
 cc_test_host {
@@ -136,4 +149,25 @@ cc_atomslog_library_static {
         "libstatspull-fake",
         "libstatssocket-fake",
     ],
+}
+
+cc_atomslog_library_static {
+    name: "libstatslog_test_vendor",
+    atoms_module: "test",
+    basename: "test_vendor_atoms",
+    namespace: "android::VendorAtoms",
+    interface: "vendor",
+    proto_srcs: [
+        ":stats_log_api_gen_vendor_test_protos",
+    ],
+    host_supported: true,
+}
+
+cc_atomslog_library_static {
+    name: "libstatslog_test_generic_vendor",
+    atoms_module: "generic-vendor-test",
+    basename: "test_generic_vendor_atoms",
+    namespace: "android::GenericVendorAtoms",
+    interface: "vendor",
+    host_supported: true,
 }
