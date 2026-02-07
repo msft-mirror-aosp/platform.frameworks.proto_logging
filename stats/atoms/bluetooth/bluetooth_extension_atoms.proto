@@ -1057,6 +1057,14 @@ message BluetoothEnergyMonitorReported {
   // The time duration of external TX active in two chain
   // Original type: uint32_t
   optional int64 tx_epa_active_two_chain_time = 24;
+  // The time duration of the total RX active time on BR/EDR scan (ms)
+  // Original type: uint32_t
+  optional int64 bredr_rx_active_scan_total_time_millis = 25
+      [(unit) = UNIT_MILLISECONDS];
+  // The time duration of the total RX active time on LE scan (ms)
+  // Original type: uint32_t
+  optional int64 le_rx_active_scan_total_time_millis = 26
+      [(unit) = UNIT_MILLISECONDS];
 }
 
 /**

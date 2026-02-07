@@ -158,8 +158,6 @@ cc_test_host {
     ],
     srcs: [
         "test_api_gen_external_atom.cpp",
-        "test_api_gen_generic_vendor.cpp",
-        "test_api_gen_vendor.cpp",
         "test_api_gen.cpp",
         "test_collation.cpp",
         "test_feature_atoms.proto",
@@ -171,8 +169,6 @@ cc_test_host {
     static_libs: [
         "libgmock_host",
         "libstatslog_test_external",
-        "libstatslog_test_generic_vendor",
-        "libstatslog_test_vendor",
         "libstatspull-fake",
         "libstatssocket-fake",
     ],
@@ -220,6 +216,7 @@ filegroup {
 filegroup {
     name: "stats_log_api_gen_vendor_test_protos",
     srcs: [
+        ":libstats_atom_options_protos",
         "test_vendor_extension_atoms.proto",
         // Intentionally out of order to ensure atom is loaded properly.
         "test_vendor_atoms.proto",
@@ -234,28 +231,6 @@ cc_atomslog_library_static {
     proto_srcs: [
         "test_vendor_atoms.proto",
     ],
-    host_supported: true,
-}
-
-cc_atomslog_library_static {
-    name: "libstatslog_test_vendor",
-    atoms_module: "test",
-    basename: "test_vendor_atoms",
-    namespace: "android::VendorAtoms",
-    interface: "vendor",
-    proto_srcs: [
-        "test_vendor_atoms.proto",
-        "test_vendor_extension_atoms.proto",
-    ],
-    host_supported: true,
-}
-
-cc_atomslog_library_static {
-    name: "libstatslog_test_generic_vendor",
-    atoms_module: "generic-vendor-test",
-    basename: "test_generic_vendor_atoms",
-    namespace: "android::GenericVendorAtoms",
-    interface: "vendor",
     host_supported: true,
 }
 

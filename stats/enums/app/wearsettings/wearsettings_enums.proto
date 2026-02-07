@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 556
+// Next ID: 557
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -139,6 +139,7 @@ enum ItemId {
   CELLULAR_LOCK_SIM_TOGGLE = 290;
   CELLULAR_PHONE_NUMBER = 224;
   CELLULAR_RESUME_DATA = 232;
+  CELLULAR_SATELLITE_TOGGLE = 556;
   CELLULAR_SIM_STATUS = 241;
   CELLULAR_SIM_STATUS_ICCID = 242;
   CELLULAR_SIM_STATUS_IMEI = 243;
