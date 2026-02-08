@@ -653,6 +653,8 @@ message WifiApCapabilitiesReported {
     optional android.net.wifi.TriState is_secure_he_ltf_supported = 29;
     // Whether AP requires ranging frame protection
     optional android.net.wifi.TriState is_ranging_frame_protection_required = 30;
+    // Whether AP supports BSS color
+    optional bool is_bss_color_enabled = 31;
 }
 
 /*
