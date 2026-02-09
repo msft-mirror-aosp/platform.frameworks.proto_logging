@@ -201,6 +201,8 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_CAPTIVE_APP_NOT_FOUND = 10;
   // The NsdManager picker sent back a service type with invalid format
   CRITICAL_COUNTS_EVENT_TYPE_INVALID_SERVICE_TYPE_FROM_NSD_PICKER = 11;
+  // Counts the number of times an app accessed the local network.
+  CRITICAL_COUNTS_EVENT_TYPE_LOCAL_NETWORK_ACCESS = 12;
 }
 
 // Type of critical duration event.
