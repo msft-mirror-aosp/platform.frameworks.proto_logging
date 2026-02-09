@@ -392,6 +392,11 @@ static int run(int argc, char const* const* argv) {
         return 1;
     }
 
+    if (atoms.decls.empty()) {
+        fprintf(stderr, "Empty atoms list - check module_name option or proto file content");
+        return 1;
+    }
+
     AtomDecl attributionDecl;
     vector<java_type_t> attributionSignature;
     collate_atom(*android::os::statsd::AttributionNode::descriptor(), attributionDecl,
