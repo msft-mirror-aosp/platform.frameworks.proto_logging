@@ -8406,7 +8406,7 @@ message BlobOpened{
  * Logged from:
  *  frameworks/base/core/java/com/android/internal/jank/FrameTracker.java
  *
- * Next Tag: 10
+ * Next Tag: 14
  */
 message UIInteractionFrameInfoReported {
     optional android.jank.InteractionType interaction_type = 1;
@@ -8423,6 +8423,9 @@ message UIInteractionFrameInfoReported {
 
     // Number of frames that were skipped in rendering during the interaction.
     optional int64 missed_frames = 3;
+
+    // Total weighted number of janks during the interaction.
+    optional float weighted_jank = 13;
 
     // Number of frames that were missed in Surface Flinger during the interaction.
     optional int64 sf_missed_frames = 5;
