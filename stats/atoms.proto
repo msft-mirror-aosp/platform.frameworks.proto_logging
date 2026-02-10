@@ -1630,6 +1630,7 @@ message Atom {
     extensions 1295; // PccPermissionCheckResult pcc_permission_check_result
     extensions 1296; // PccInputSanitizationReported pcc_input_sanitization_reported
     extensions 1297; // RegularAppAssociationLatencyReported regular_app_association_latency_reported
+    extensions 1298; // ApkSignatureVerificationReported apk_signature_verification_reported
 
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
