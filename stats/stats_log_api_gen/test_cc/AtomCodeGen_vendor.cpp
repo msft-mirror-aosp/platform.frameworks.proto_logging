@@ -227,7 +227,7 @@ TEST(ApiGenVendorAtomTest, buildVendorAtom5ApiTest) {
 
 TEST(ApiGenVendorAtomTest, buildAtomWithTruncateTimestampTest) {
     /**
-     * Expected signature equal to VendorAtomWithTrancateTimestampCreateFunc to log
+     * Expected signature equal to VendorAtomWithTruncateTimestampCreateFunc to log
      * 3 different atoms with truncate_timestamp
      *      VendorAtomWithTruncateTimestamp truncateTimestampAtom1 = 105510 [
      *          (android.os.statsd.truncate_timestamp) = true
@@ -240,9 +240,9 @@ TEST(ApiGenVendorAtomTest, buildAtomWithTruncateTimestampTest) {
      *      ];
      *
      */
-    typedef VendorAtom (*VendorAtomWithTrancateTimestampCreateFunc)(
+    typedef VendorAtom (*VendorAtomWithTruncateTimestampCreateFunc)(
             int32_t code, char const* reverse_domain_name, int32_t state);
-    VendorAtomWithTrancateTimestampCreateFunc func = &createVendorAtom;
+    VendorAtomWithTruncateTimestampCreateFunc func = &createVendorAtom;
 
     EXPECT_NE(func, nullptr);
 

@@ -823,18 +823,19 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
         fprintf(out, "#include <StatsHistogram.h>\n");
     }
 
-    if (isVendorAtomLogging) {
-        fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
-    }
-    if (!bootstrap && !isVendorAtomLogging) {
-        fprintf(out, "#include <stddef.h>\n");
-        fprintf(out, "\n");
-        fprintf(out, "#ifndef __ANDROID_API_T__\n");
-        fprintf(out, "#define __ANDROID_API_T__ 33\n");
-        fprintf(out, "#endif\n");
-        fprintf(out, "#ifndef __INTRODUCED_IN\n");
-        fprintf(out, "#define __INTRODUCED_IN(api_level)\n");
-        fprintf(out, "#endif\n");
+    if (!bootstrap) {
+        if( isVendorAtomLogging) {
+            fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
+        } else {
+            fprintf(out, "#include <stddef.h>\n");
+            fprintf(out, "\n");
+            fprintf(out, "#ifndef __ANDROID_API_T__\n");
+            fprintf(out, "#define __ANDROID_API_T__ 33\n");
+            fprintf(out, "#endif\n");
+            fprintf(out, "#ifndef __INTRODUCED_IN\n");
+            fprintf(out, "#define __INTRODUCED_IN(api_level)\n");
+            fprintf(out, "#endif\n");
+        }
     }
     fprintf(out, "\n");
 
