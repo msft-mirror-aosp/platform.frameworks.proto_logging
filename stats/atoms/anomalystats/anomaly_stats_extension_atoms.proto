@@ -1,0 +1,52 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ syntax = "proto2";
+
+package android.os.statsd.anomalystats;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+option java_package = "com.android.os.anomalystats";
+option java_multiple_files = true;
+
+extend Atom {
+  optional AnomalyStatsBinderSpam anomaly_stats_binder_spam = 1286 [(module) = "anomalystats"];
+}
+
+/**
+ * This atom is used to log when an anomaly is detected by the
+ * AnomalyStatsHandler.
+ *
+ * This atom differs from the existing BinderSpamReported atom in that it is
+ * logged at fine-grained (per-binder interface and method) level
+ * instead of a flat rate threshold.
+ *
+ * Logged from:
+ *   packages/modules/Profiling/anomaly-detector/service/java/com/android/os/profiling/anomaly/handler/AnomalyStatsHandler.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: Every second | Avg: 2 times per device per day
+**/
+// Next ID: 6
+message AnomalyStatsBinderSpam {
+  optional int32 uid = 1 [(is_uid) = true];
+  optional string binder_interface = 2;
+  optional string binder_method = 3;
+  optional int32 call_count = 4;
+  optional int64 timespan_ms = 5;
+}

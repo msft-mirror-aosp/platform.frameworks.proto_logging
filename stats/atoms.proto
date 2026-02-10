@@ -1618,6 +1618,8 @@ message Atom {
     extensions 1283; // VerifyTrustTokenCalled verify_trust_token_called
     extensions 1284; // RefreshTrustTokenStarted refresh_trust_token_started
     extensions 1285; // RefreshTrustTokenFinished refresh_trust_token_finished
+    extensions 1286; // AnomalyStatsBinderSpam anomaly_stats_binder_spam
+
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
