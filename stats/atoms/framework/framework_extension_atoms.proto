@@ -148,6 +148,7 @@ message BalAllowed {
         BAL_ALLOW_BOUND_BY_FOREGROUND = 13;
         BAL_ALLOW_NOTIFICATION_TOKEN = 14;
         BAL_ALLOW_WALLPAPER = 15;
+        BAL_ALLOW_PCC = 16;
         BAL_BLOCKED = 127; // largest int32 serializable as 1 byte
     }
 
