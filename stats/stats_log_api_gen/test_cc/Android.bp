@@ -29,6 +29,7 @@ cc_test {
         "AtomCodeGen_platform_typesafe.cpp",
         "AtomCodeGen_vendor_generic.cpp",
         "AtomCodeGen_vendor.cpp",
+        "AtomCodeGen_vendor_typesafe.cpp",
     ],
     generated_headers: [
         "bootstrap_atom_cc_gen_typesafe_hdrs",
@@ -55,6 +56,7 @@ cc_test {
         "libstatslog_cts",
         "libstatslog_test_generic_vendor",
         "libstatslog_test_vendor",
+        "libstatslog_test_vendor_typesafe",
         "libstatslog_test",
         "libstatslog_typesafe_test",
     ],
@@ -160,7 +162,20 @@ cc_atomslog_library_static {
     proto_srcs: [
         ":stats_log_api_gen_vendor_test_protos",
     ],
-    host_supported: true,
+    include_default_libs: "none",
+}
+
+cc_atomslog_library_static {
+    name: "libstatslog_test_vendor_typesafe",
+    atoms_module: "test",
+    basename: "test_vendor_atoms_typesafe",
+    namespace: "android::VendorAtoms::typesafe",
+    interface: "vendor",
+    proto_srcs: [
+        ":stats_log_api_gen_vendor_test_protos",
+    ],
+    include_default_libs: "none",
+    gen_type: "typesafe",
 }
 
 cc_atomslog_library_static {
@@ -169,5 +184,4 @@ cc_atomslog_library_static {
     basename: "test_generic_vendor_atoms",
     namespace: "android::GenericVendorAtoms",
     interface: "vendor",
-    host_supported: true,
 }

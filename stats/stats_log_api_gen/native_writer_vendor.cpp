@@ -392,27 +392,50 @@ int write_stats_log_cpp_vendor_typesafe(FILE* out, const Atoms& atoms,
     (void)importHeader;
     (void)includeExtraSrcs;
 
-    fprintf(stderr,
-            "Type-safe APIs generation for vendor atoms is not supported (vote up "
-            "http://b/459894155)");
-
-    return 1;
+    return 0;
 }
 
 int write_stats_log_header_vendor_typesafe(FILE* out, const Atoms& atoms,
                                            const AtomDecl& attributionDecl,
                                            const string& cppNamespace, bool includeExtraSrcs) {
-    (void)out;
-    (void)atoms;
     (void)attributionDecl;
-    (void)cppNamespace;
-    (void)includeExtraSrcs;
 
-    fprintf(stderr,
-            "Type-safe APIs generation for vendor atoms is not supported (vote up "
-            "http://b/459894155)");
+    write_native_header_preamble(out, atoms, cppNamespace, /*bootstrap=*/false, includeExtraSrcs,
+                                 /*isVendorAtomLogging=*/true);
 
-    return 1;
+    // Print Atom classes definition
+    fprintf(out, "//\n");
+    fprintf(out, "// Atom definitions\n");
+    fprintf(out, "//\n");
+
+    if (write_native_atom_types(out, atoms) != 0) {
+        return 1;
+    };
+
+
+    fprintf(out, "using ::aidl::android::frameworks::stats::VendorAtom;\n");
+
+    // Print write methods
+    fprintf(out, "//\n");
+    fprintf(out, "// Write methods\n");
+    fprintf(out, "//\n");
+
+    for (auto& atomDecl : atoms.decls) {
+        const string closer = contains_repeated_field(atomDecl->fields)
+                                      ? " __INTRODUCED_IN(__ANDROID_API_T__)"
+                                      : "";
+
+        if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
+            fprintf(out, "VendorAtom createVendorAtom(const %s& atom)%s;\n",
+                    atomDecl->message.c_str(), closer.c_str());
+        } else {
+            fprintf(stderr, "Found Vendor pulled atom - not supported. Vote up b/447079434\n");
+        }
+    }
+
+    write_native_header_epilogue(out, cppNamespace);
+
+    return 0;
 }
 
 }  // namespace stats_log_api_gen
