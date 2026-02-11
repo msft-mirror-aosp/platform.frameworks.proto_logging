@@ -36,6 +36,9 @@ extend Atom {
   optional WearHardwareButtonInteractionReported
       wear_hardware_button_interaction_reported = 1244
       [(module_name) = "framework"];
+  optional WearGestureExperienceEventReported
+      wear_gesture_experience_event_reported = 1304
+      [(module_name) = "framework"];
 }
 
 // This file contains atom related to Gestures in Wear.
@@ -81,6 +84,23 @@ message WearGestureReported {
     repeated int32 local_background_uids = 7 [(is_uid) = true];
     // The UIDs of remote background subscribers who received the event.
     repeated int32 remote_background_uids = 8 [(is_uid) = true];
+}
+
+/**
+ * Logged when there is an event related to a gesture experience.
+ *
+ * Logged from:
+ * package: frameworks/opt/wear/src/com/android/clockwork/gesture
+ */
+message WearGestureExperienceEventReported {
+    // The UID that owns the gesture experience.
+    optional int32 uid = 1 [(is_uid) = true];
+    // The ID of the gesture experience.
+    // A string that has no meaning in and of itself, and serves only as a unique identifier of a
+    // certain gesture experience.
+    optional string experience_id = 2;
+    // The gesture experience event that happened.
+    optional com.google.android.clockwork.physicalux.GestureExperienceEvent event = 3;
 }
 
 /**
