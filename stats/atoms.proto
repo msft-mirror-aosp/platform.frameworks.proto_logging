@@ -16069,6 +16069,16 @@ message CameraActionEvent {
 
     // Is shared mode enabled
     optional bool shared_mode = 32;
+
+    // MultiResolutionImageReader metrics
+    enum MultiResolutionImageReaderType {
+        MRIR_UNKNOWN = 0;
+        MRIR_OFF = 1;
+        MRIR_SINGLE = 2;
+        MRIR_CONCURRENT = 3;
+    }
+
+    optional MultiResolutionImageReaderType mrir_type = 33;
 }
 
 /**
