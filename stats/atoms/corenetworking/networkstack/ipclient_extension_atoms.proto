@@ -25,7 +25,8 @@ option java_package = "com.android.os.corenetworking.networkstack";
 option java_multiple_files = true;
 
 extend Atom {
-    optional IpClientRaInfoReported ip_client_ra_info_reported = 778 [(module) = "network_stack"];
+  optional IpClientRaInfoReported ip_client_ra_info_reported = 778
+      [(module_name) = "network_stack"];
 }
 
 /**

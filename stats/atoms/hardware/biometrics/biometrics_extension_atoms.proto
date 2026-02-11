@@ -26,11 +26,16 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/hardware/biometrics/enums.proto";
 
 extend Atom {
-  optional BiometricUnenrolled biometric_unenrolled = 944 [(module) = "framework"];
-  optional BiometricEnumerated biometric_enumerated = 945 [(module) = "framework"];
-  optional BiometricPromptStarted biometric_prompt_started = 1154 [(module) = "sysui"];
-  optional BiometricPromptEvent biometric_prompt_event = 1155 [(module) = "sysui"];
-  optional BiometricPromptEnded biometric_prompt_ended = 1156 [(module) = "sysui"];
+  optional BiometricUnenrolled biometric_unenrolled = 944
+      [(module_name) = "framework"];
+  optional BiometricEnumerated biometric_enumerated = 945
+      [(module_name) = "framework"];
+  optional BiometricPromptStarted biometric_prompt_started = 1154
+      [(module_name) = "sysui"];
+  optional BiometricPromptEvent biometric_prompt_event = 1155
+      [(module_name) = "sysui"];
+  optional BiometricPromptEnded biometric_prompt_ended = 1156
+      [(module_name) = "sysui"];
 }
 
 /**

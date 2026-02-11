@@ -7,7 +7,7 @@ import "frameworks/proto_logging/stats/stats_log_api_gen/test_vendor_atoms.proto
 
 extend Atom {
     optional VendorPulledExtension vendor_pulled_extension = 150001
-            [(android.os.statsd.module) = "test"];
+            [(android.os.statsd.module_name) = "test"];
 }
 
 message VendorPulledExtension {

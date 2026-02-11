@@ -10,9 +10,9 @@ option java_multiple_files = true;
 
 extend Atom {
   optional WearKeyguardLockStateChanged wear_keyguard_lock_state_changed = 1218
-      [(android.os.statsd.module) = "framework"];
+      [(android.os.statsd.module_name) = "framework"];
   optional WearKeyguardLockState wear_keyguard_lock_state = 10264
-      [(android.os.statsd.module) = "framework"];
+      [(android.os.statsd.module_name) = "framework"];
 }
 
 /**

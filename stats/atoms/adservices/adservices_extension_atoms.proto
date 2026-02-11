@@ -34,227 +34,263 @@ option java_multiple_files = true;
 
 extend Atom {
   optional JSScriptEngineLatencyReported jsscriptengine_latency_reported = 483
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesApiCalled ad_services_api_called = 435
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesMeasurementReportsUploaded ad_services_mesurement_reports_uploaded = 436
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementReportsUploaded
+      ad_services_mesurement_reports_uploaded = 436
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional MobileDataDownloadFileGroupDownloadStatusReported mobile_data_download_file_group_status_reported = 490
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional MobileDataDownloadFileGroupDownloadStatusReported
+      mobile_data_download_file_group_status_reported = 490
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional MobileDataDownloadDownloadResultReported mobile_data_download_download_result_reported = 502
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional MobileDataDownloadDownloadResultReported
+      mobile_data_download_download_result_reported = 502
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesSettingsUsageReported ad_services_settings_usage_reported = 493
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesSettingsUsageReported ad_services_settings_usage_reported =
+      493 [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional BackgroundFetchProcessReported background_fetch_process_reported = 496
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional BackgroundFetchProcessReported background_fetch_process_reported =
+      496 [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional UpdateCustomAudienceProcessReported update_custom_audience_process_reported = 497
-  [(module) = "adservices"];
+  optional UpdateCustomAudienceProcessReported
+      update_custom_audience_process_reported = 497
+      [(module_name) = "adservices"];
 
   optional RunAdBiddingProcessReported run_ad_bidding_process_reported = 498
-  [(module) = "adservices"];
+      [(module_name) = "adservices"];
   optional RunAdScoringProcessReported run_ad_scoring_process_reported = 499
-  [(module) = "adservices"];
+      [(module_name) = "adservices"];
   optional RunAdSelectionProcessReported run_ad_selection_process_reported = 500
-  [(module) = "adservices"];
-  optional RunAdBiddingPerCAProcessReported run_ad_bidding_per_ca_process_reported = 501
-  [(module) = "adservices"];
+      [(module_name) = "adservices"];
+  optional RunAdBiddingPerCAProcessReported
+      run_ad_bidding_per_ca_process_reported = 501
+      [(module_name) = "adservices"];
 
-  optional MobileDataDownloadFileGroupStorageStatsReported mobile_data_download_file_group_storage_stats_reported = 503
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional MobileDataDownloadFileGroupStorageStatsReported
+      mobile_data_download_file_group_storage_stats_reported = 503
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesMeasurementRegistrations ad_services_measurement_registrations =
-      512 [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementRegistrations
+      ad_services_measurement_registrations = 512
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesGetTopicsReported ad_services_get_topics_reported = 535
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesEpochComputationGetTopTopicsReported ad_services_epoch_computation_get_top_topics_reported = 536
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesEpochComputationClassifierReported ad_services_epoch_computation_classifier_reported = 537
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEpochComputationGetTopTopicsReported
+      ad_services_epoch_computation_get_top_topics_reported = 536
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEpochComputationClassifierReported
+      ad_services_epoch_computation_classifier_reported = 537
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesBackCompatGetTopicsReported
       ad_services_back_compat_get_topics_reported = 598
-        [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesBackCompatEpochComputationClassifierReported
       ad_services_back_compat_epoch_computation_classifier_reported = 599
-          [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesMeasurementDebugKeys
-      ad_services_measurement_debug_keys = 640
-        [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesErrorReported
-      ad_services_error_reported = 662
-        [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementDebugKeys ad_services_measurement_debug_keys =
+      640 [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesErrorReported ad_services_error_reported = 662
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AdServicesBackgroundJobsExecutionReported
       ad_services_background_jobs_execution_reported = 663
-        [(module) = "adservices"];
+      [(module_name) = "adservices"];
 
   optional AdServicesMeasurementDelayedSourceRegistration
       ad_services_measurement_delayed_source_registration = 673
-        [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AdServicesMeasurementAttribution
       ad_services_measurement_attribution = 674
-        [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesMeasurementJobs
-      ad_services_measurement_jobs = 675
-        [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesMeasurementWipeout
-      ad_services_measurement_wipeout = 676
-        [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementJobs ad_services_measurement_jobs = 675
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementWipeout ad_services_measurement_wipeout = 676
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AdServicesMeasurementAdIdMatchForDebugKeys
       ad_services_measurement_ad_id_match_for_debug_keys = 695
-        [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesEnrollmentDataStored ad_services_enrollment_data_stored = 697
-      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentDataStored ad_services_enrollment_data_stored =
+      697 [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AdServicesEnrollmentFileDownloaded
       ad_services_enrollment_file_downloaded = 698
-      [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AdServicesEnrollmentMatched ad_services_enrollment_matched = 699
-      [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesConsentMigrated ad_services_consent_migrated = 702
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesEnrollmentFailed ad_services_enrollment_failed = 714
-      [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesMeasurementClickVerification ad_services_measurement_click_verification = 756
-      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementClickVerification
+      ad_services_measurement_click_verification = 756
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched = 765
-      [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesEncryptionKeyDbTransactionEnded ad_services_encryption_key_db_transaction_ended = 766
-      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEncryptionKeyFetched ad_services_encryption_key_fetched =
+      765 [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEncryptionKeyDbTransactionEnded
+      ad_services_encryption_key_db_transaction_ended = 766
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional DestinationRegisteredBeacons destination_registered_beacons = 767
-      [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional ReportInteractionApiCalled report_interaction_api_called = 768
-      [(module) = "adservices", (truncate_timestamp) = true];
-  optional InteractionReportingTableCleared interaction_reporting_table_cleared = 769
-      [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional InteractionReportingTableCleared
+      interaction_reporting_table_cleared = 769
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AppManifestConfigHelperCalled app_manifest_config_helper_called = 788
-      [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdFilteringProcessJoinCAReported ad_filtering_process_join_ca_reported = 793
-      [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdFilteringProcessAdSelectionReported ad_filtering_process_ad_selection_reported = 794
-      [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdCounterHistogramUpdaterReported ad_counter_histogram_updater_reported = 795
-      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdFilteringProcessJoinCAReported
+      ad_filtering_process_join_ca_reported = 793
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdFilteringProcessAdSelectionReported
+      ad_filtering_process_ad_selection_reported = 794
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdCounterHistogramUpdaterReported
+      ad_counter_histogram_updater_reported = 795
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional SignatureVerification signature_verification = 807
-        [(module) = "adservices", (truncate_timestamp) = true];
-  optional KAnonImmediateSignJoinStatusReported k_anon_immediate_sign_join_status_reported = 808
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional KAnonBackgroundJobStatusReported k_anon_background_job_status_reported = 809
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional KAnonImmediateSignJoinStatusReported
+      k_anon_immediate_sign_join_status_reported = 808
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional KAnonBackgroundJobStatusReported
+      k_anon_background_job_status_reported = 809
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional KAnonInitializeStatusReported k_anon_initialize_status_reported = 810
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional KAnonSignStatusReported k_anon_sign_status_reported = 811
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional KAnonJoinStatusReported k_anon_join_status_reported= 812
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional KAnonKeyAttestationStatusReported k_anon_key_attestation_status_reported = 813
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional KAnonJoinStatusReported k_anon_join_status_reported = 812
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional KAnonKeyAttestationStatusReported
+      k_anon_key_attestation_status_reported = 813
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional GetAdSelectionDataApiCalled get_ad_selection_data_api_called = 814
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional GetAdSelectionDataBuyerInputGenerated get_ad_selection_data_buyer_input_generated = 815
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional GetAdSelectionDataBuyerInputGenerated
+      get_ad_selection_data_buyer_input_generated = 815
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional BackgroundJobSchedulingReported background_job_scheduling_reported = 834
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional BackgroundJobSchedulingReported background_job_scheduling_reported =
+      834 [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional TopicsEncryptionEpochComputationReported topics_encryption_epoch_computation_reported = 840
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional TopicsEncryptionGetTopicsReported topics_encryption_get_topics_reported = 841
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional TopicsEncryptionEpochComputationReported
+      topics_encryption_epoch_computation_reported = 840
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional TopicsEncryptionGetTopicsReported
+      topics_encryption_get_topics_reported = 841
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional AdServicesShellCommandCalled adservices_shell_command_called = 842
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional UpdateSignalsApiCalled update_signals_api_called = 843
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional EncodingJobRun encoding_job_run = 844
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional EncodingJsFetch encoding_js_fetch = 845
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional EncodingJsExecution encoding_js_execution = 846
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional PersistAdSelectionResultCalled persist_ad_selection_result_called = 847
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional PersistAdSelectionResultCalled persist_ad_selection_result_called =
+      847 [(module_name) = "adservices", (truncate_timestamp) = true];
   optional ServerAuctionKeyFetchCalled server_auction_key_fetch_called = 848
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional ServerAuctionBackgroundKeyFetchScheduled server_auction_background_key_fetch_enabled = 849
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional ServerAuctionBackgroundKeyFetchScheduled
+      server_auction_background_key_fetch_enabled = 849
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesMeasurementProcessOdpRegistration ad_services_measurement_process_odp_registration = 864
-      [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesMeasurementNotifyRegistrationToOdp ad_services_measurement_notify_registration_to_odp = 865
-      [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementProcessOdpRegistration
+      ad_services_measurement_process_odp_registration = 864
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementNotifyRegistrationToOdp
+      ad_services_measurement_notify_registration_to_odp = 865
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called = 876
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional SelectAdsFromOutcomesApiCalled select_ads_from_outcomes_api_called =
+      876 [(module_name) = "adservices", (truncate_timestamp) = true];
   optional ReportImpressionApiCalled report_impression_api_called = 877
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesEnrollmentTransactionStats ad_services_enrollment_transaction_stats = 885
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesCobaltLoggerEventReported ad_services_cobalt_logger_event_reported = 902
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesCobaltPeriodicJobEventReported ad_services_cobalt_periodic_job_event_reported = 903
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesEnrollmentTransactionStats
+      ad_services_enrollment_transaction_stats = 885
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltLoggerEventReported
+      ad_services_cobalt_logger_event_reported = 902
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesCobaltPeriodicJobEventReported
+      ad_services_cobalt_periodic_job_event_reported = 903
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional UpdateSignalsProcessReported update_signals_process_reported = 905
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional TopicsScheduleEpochJobSettingReported topics_schedule_epoch_job_setting_reported = 930
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional TopicsScheduleEpochJobSettingReported
+      topics_schedule_epoch_job_setting_reported = 930
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional ScheduledCustomAudienceUpdateScheduleAttempted scheduled_custom_audience_update_schedule_attempted = 967
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional ScheduledCustomAudienceUpdatePerformed scheduled_custom_audience_update_performed = 968
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported scheduled_custom_audience_update_performed_attempted_failure_reported = 969
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional ScheduledCustomAudienceUpdateBackgroundJobRan scheduled_custom_audience_update_background_job_ran = 970
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdateScheduleAttempted
+      scheduled_custom_audience_update_schedule_attempted = 967
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdatePerformed
+      scheduled_custom_audience_update_performed = 968
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdatePerformedAttemptedFailureReported
+      scheduled_custom_audience_update_performed_attempted_failure_reported =
+          969 [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional ScheduledCustomAudienceUpdateBackgroundJobRan
+      scheduled_custom_audience_update_background_job_ran = 970
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesProcessLifecycleReported ad_services_process_lifecycle_reported = 1006
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional AdServicesProcessStableFlagsReported ad_services_process_stable_flags_reported = 1007
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesProcessLifecycleReported
+      ad_services_process_lifecycle_reported = 1006
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesProcessStableFlagsReported
+      ad_services_process_stable_flags_reported = 1007
+      [(module_name) = "adservices", (truncate_timestamp) = true];
   optional AdServicesFlagUpdateReported ad_services_flag_update_reported = 1008
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional ReportingWithDestinationPerformed reporting_with_destination_performed = 1013
-  [(module) = "adservices", (truncate_timestamp) = true];
-  optional NumberOfTypesOfReportingUrlsReceived number_of_types_of_reporting_url_received = 1014
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional ReportingWithDestinationPerformed
+      reporting_with_destination_performed = 1013
+      [(module_name) = "adservices", (truncate_timestamp) = true];
+  optional NumberOfTypesOfReportingUrlsReceived
+      number_of_types_of_reporting_url_received = 1014
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional MobileDataDownloadLatencyReported mobile_data_download_latency_reported = 1031
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional MobileDataDownloadLatencyReported
+      mobile_data_download_latency_reported = 1031
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdservicesMeasurementBackgroundJobInfo adservices_measurement_background_job_info = 1046
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdservicesMeasurementBackgroundJobInfo
+      adservices_measurement_background_job_info = 1046
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional UnifiedTableEnabledReported unified_table_enable_reported = 1058
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
   optional ProdDebugEnabledReported prod_debug_enabled_reported = 1059
-  [(module) = "adservices", (truncate_timestamp) = true];
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesMeasurementReportingOriginsPerEnrollmentCounted adservices_measurement_reporting_origins_per_enrollment_counted = 1062
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementReportingOriginsPerEnrollmentCounted
+      adservices_measurement_reporting_origins_per_enrollment_counted = 1062
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 
-  optional AdServicesMeasurementReportingOriginsPerEnrllXDestCounted adservices_measurement_reporting_origins_per_enrll_x_dest_counted = 1063
-  [(module) = "adservices", (truncate_timestamp) = true];
+  optional AdServicesMeasurementReportingOriginsPerEnrllXDestCounted
+      adservices_measurement_reporting_origins_per_enrll_x_dest_counted = 1063
+      [(module_name) = "adservices", (truncate_timestamp) = true];
 }
 
 /**

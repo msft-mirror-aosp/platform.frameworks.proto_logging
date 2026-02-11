@@ -29,46 +29,70 @@ option java_multiple_files = true;
 
 extend Atom {
     // Push metrics
-    optional WifiAwareNdpReported wifi_aware_ndp_reported = 638 [(module) = "wifi"];
-    optional WifiAwareAttachReported wifi_aware_attach_reported = 639 [(module) = "wifi"];
-    optional WifiSelfRecoveryTriggered wifi_self_recovery_triggered = 661 [(module) = "wifi"];
-    optional SoftApStarted soft_ap_started = 680 [(module) = "wifi"];
-    optional SoftApStopped soft_ap_stopped = 681 [(module) = "wifi"];
-    optional WifiLockReleased wifi_lock_released = 687 [(module) = "wifi"];
-    optional WifiLockDeactivated wifi_lock_deactivated = 688 [(module) = "wifi"];
-    optional WifiConfigSaved wifi_config_saved = 689 [(module) = "wifi"];
-    optional WifiAwareResourceUsingChanged wifi_aware_resource_using_changed
-        = 690 [(module) = "wifi"];
-    optional WifiAwareHalApiCalled wifi_aware_hal_api_called = 691 [(module) = "wifi"];
-    optional WifiLocalOnlyRequestReceived wifi_local_only_request_received
-        = 692 [(module) = "wifi"];
-    optional WifiLocalOnlyRequestScanTriggered wifi_local_only_request_scan_triggered
-        = 693 [(module) = "wifi"];
-    optional WifiThreadTaskExecuted wifi_thread_task_executed = 694 [(module) = "wifi"];
-    optional WifiStateChanged wifi_state_changed = 700 [(module) = "wifi"];
-    optional PnoScanStarted pno_scan_started = 719 [(module) = "wifi"];
-    optional PnoScanStopped pno_scan_stopped = 720 [(module) = "wifi"];
-    optional WifiIsUnusableReported wifi_is_unusable_reported = 722 [(module) = "wifi"];
-    optional WifiApCapabilitiesReported wifi_ap_capabilities_reported= 723 [(module) = "wifi"];
-    optional SoftApStateChanged soft_ap_state_changed = 805 [(module) = "wifi"];
-    optional ScorerPredictionResultReported scorer_prediction_result_reported = 884 [(module) = "wifi"];
-    optional WifiSoftApCallbackOnClientsDisconnected wifi_soft_ap_callback_on_clients_disconnected
-        = 1010 [(module) = "wifi"];
-    optional WifiNetworkValidationReport wifi_network_validation_report = 1057 [(module) = "wifi"];
-    optional WifiPeriodicScanReport wifi_periodic_scan_report = 1128 [(module) = "wifi"];
-    optional WifiQosPoliciesFromAccessPointRequested wifi_qos_policies_from_access_point_requested = 1148 [(module) = "wifi"];
-    optional WifiQosPoliciesFromApplicationRequested wifi_qos_policies_from_application_requested = 1158 [(module) = "wifi"];
-    optional SoftApInfoChanged soft_ap_info_changed = 1166 [(module) = "wifi"];
-    optional WifiPowerStatsReported wifi_power_stats_reported = 1194 [(module) = "wifi"];
-    optional WifiNl80211CommandResultReported wifi_nl80211_command_result_reported = 1198 [(module) = "wifi"];
-    optional WifiAwarePeerFoundReported wifi_aware_peer_found_reported = 1222 [(module) = "wifi"];
+    optional WifiAwareNdpReported wifi_aware_ndp_reported = 638
+        [(module_name) = "wifi"];
+    optional WifiAwareAttachReported wifi_aware_attach_reported = 639
+        [(module_name) = "wifi"];
+    optional WifiSelfRecoveryTriggered wifi_self_recovery_triggered = 661
+        [(module_name) = "wifi"];
+    optional SoftApStarted soft_ap_started = 680 [(module_name) = "wifi"];
+    optional SoftApStopped soft_ap_stopped = 681 [(module_name) = "wifi"];
+    optional WifiLockReleased wifi_lock_released = 687 [(module_name) = "wifi"];
+    optional WifiLockDeactivated wifi_lock_deactivated = 688
+        [(module_name) = "wifi"];
+    optional WifiConfigSaved wifi_config_saved = 689 [(module_name) = "wifi"];
+    optional WifiAwareResourceUsingChanged wifi_aware_resource_using_changed =
+        690 [(module_name) = "wifi"];
+    optional WifiAwareHalApiCalled wifi_aware_hal_api_called = 691
+        [(module_name) = "wifi"];
+    optional WifiLocalOnlyRequestReceived wifi_local_only_request_received = 692
+        [(module_name) = "wifi"];
+    optional WifiLocalOnlyRequestScanTriggered
+        wifi_local_only_request_scan_triggered = 693 [(module_name) = "wifi"];
+    optional WifiThreadTaskExecuted wifi_thread_task_executed = 694
+        [(module_name) = "wifi"];
+    optional WifiStateChanged wifi_state_changed = 700 [(module_name) = "wifi"];
+    optional PnoScanStarted pno_scan_started = 719 [(module_name) = "wifi"];
+    optional PnoScanStopped pno_scan_stopped = 720 [(module_name) = "wifi"];
+    optional WifiIsUnusableReported wifi_is_unusable_reported = 722
+        [(module_name) = "wifi"];
+    optional WifiApCapabilitiesReported wifi_ap_capabilities_reported = 723
+        [(module_name) = "wifi"];
+    optional SoftApStateChanged soft_ap_state_changed = 805
+        [(module_name) = "wifi"];
+    optional ScorerPredictionResultReported scorer_prediction_result_reported =
+        884 [(module_name) = "wifi"];
+    optional WifiSoftApCallbackOnClientsDisconnected
+        wifi_soft_ap_callback_on_clients_disconnected = 1010
+        [(module_name) = "wifi"];
+    optional WifiNetworkValidationReport wifi_network_validation_report = 1057
+        [(module_name) = "wifi"];
+    optional WifiPeriodicScanReport wifi_periodic_scan_report = 1128
+        [(module_name) = "wifi"];
+    optional WifiQosPoliciesFromAccessPointRequested
+        wifi_qos_policies_from_access_point_requested = 1148
+        [(module_name) = "wifi"];
+    optional WifiQosPoliciesFromApplicationRequested
+        wifi_qos_policies_from_application_requested = 1158
+        [(module_name) = "wifi"];
+    optional SoftApInfoChanged soft_ap_info_changed = 1166
+        [(module_name) = "wifi"];
+    optional WifiPowerStatsReported wifi_power_stats_reported = 1194
+        [(module_name) = "wifi"];
+    optional WifiNl80211CommandResultReported
+        wifi_nl80211_command_result_reported = 1198 [(module_name) = "wifi"];
+    optional WifiAwarePeerFoundReported wifi_aware_peer_found_reported = 1222
+        [(module_name) = "wifi"];
 
     // Pull metrics
-    optional WifiAwareCapabilities wifi_aware_capabilities = 10190 [(module) = "wifi"];
-    optional WifiModuleInfo wifi_module_info = 10193 [(module) = "wifi"];
-    optional WifiSettingInfo wifi_setting_info = 10194 [(module) = "wifi"];
-    optional WifiComplexSettingInfo wifi_complex_setting_info = 10195 [(module) = "wifi"];
-    optional WifiConfiguredNetworkInfo wifi_configured_network_info = 10198 [(module) = "wifi"];
+    optional WifiAwareCapabilities wifi_aware_capabilities = 10190
+        [(module_name) = "wifi"];
+    optional WifiModuleInfo wifi_module_info = 10193 [(module_name) = "wifi"];
+    optional WifiSettingInfo wifi_setting_info = 10194 [(module_name) = "wifi"];
+    optional WifiComplexSettingInfo wifi_complex_setting_info = 10195
+        [(module_name) = "wifi"];
+    optional WifiConfiguredNetworkInfo wifi_configured_network_info = 10198
+        [(module_name) = "wifi"];
 }
 
 /**

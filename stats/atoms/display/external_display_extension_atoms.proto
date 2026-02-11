@@ -25,7 +25,8 @@ import "frameworks/proto_logging/stats/enums/server/display/enums.proto";
 // This file contains extension atoms for external displays.
 
 extend Atom {
-    optional ExternalDisplayStateChanged external_display_state_changed = 806 [(module) = "framework"];
+  optional ExternalDisplayStateChanged external_display_state_changed = 806
+      [(module_name) = "framework"];
 }
 
 /**

@@ -9,20 +9,20 @@ option java_package = "com.android.os.aiwallpapers";
 option java_multiple_files = true;
 
 extend Atom {
-    optional AiWallpapersButtonPressed ai_wallpapers_button_pressed = 706
-        [(module) = "aiwallpapers"];
+  optional AiWallpapersButtonPressed ai_wallpapers_button_pressed = 706
+      [(module_name) = "aiwallpapers"];
 
-    optional AiWallpapersTemplateSelected ai_wallpapers_template_selected = 707
-         [(module) = "aiwallpapers"];
+  optional AiWallpapersTemplateSelected ai_wallpapers_template_selected = 707
+      [(module_name) = "aiwallpapers"];
 
-    optional AiWallpapersTermSelected ai_wallpapers_term_selected = 708
-        [(module) = "aiwallpapers"];
+  optional AiWallpapersTermSelected ai_wallpapers_term_selected = 708
+      [(module_name) = "aiwallpapers"];
 
-    optional AiWallpapersWallpaperSet ai_wallpapers_wallpaper_set = 709
-        [(module) = "aiwallpapers"];
+  optional AiWallpapersWallpaperSet ai_wallpapers_wallpaper_set = 709
+      [(module_name) = "aiwallpapers"];
 
-    optional AiWallpapersSessionSummary ai_wallpapers_session_summary = 710
-        [(module) = "aiwallpapers"];
+  optional AiWallpapersSessionSummary ai_wallpapers_session_summary = 710
+      [(module_name) = "aiwallpapers"];
 }
 
 enum AiWallpapersButton {

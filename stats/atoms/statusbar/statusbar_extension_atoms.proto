@@ -23,7 +23,8 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/statusbar/enums.proto";
 
 extend Atom {
-  optional StatusBarChipReported status_bar_chip_reported = 1092 [(module) = "sysui"];
+  optional StatusBarChipReported status_bar_chip_reported = 1092
+      [(module_name) = "sysui"];
 }
 
 /**

@@ -26,16 +26,25 @@ option java_package = "com.android.os.telephony";
 option java_multiple_files = true;
 
 extend Atom {
-    optional CellularRadioPowerStateChanged cellular_radio_power_state_changed = 713 [(module) = "telephony"];
-    optional EmergencyNumbersInfo emergency_numbers_info = 10180 [(module) = "telephony"];
-    optional DataNetworkValidation data_network_validation = 10207 [(module) = "telephony"];
-    optional DataRatStateChanged data_rat_state_changed = 854 [(module) = "telephony"];
-    optional ConnectedChannelChanged connected_channel_changed = 882 [(module) = "telephony"];
-    optional SmsOtpRedacted sms_otp_redacted = 1136 [(module) = "telephony"];
-    optional SmsOtpEvaluation sms_otp_evaluation = 1137 [(module) = "telephony"];
-    optional CarrierPrivilegesReported carrier_privileges_reported = 1252 [(module) = "telephony"];
-    optional CarrierServiceConfigOverridesReported carrier_service_config_overrides_reported = 1270 [(module) = "telephony"];
-    // 10208 is reserved due to removing the old atom.
+  optional CellularRadioPowerStateChanged cellular_radio_power_state_changed =
+      713 [(module_name) = "telephony"];
+  optional EmergencyNumbersInfo emergency_numbers_info = 10180
+      [(module_name) = "telephony"];
+  optional DataNetworkValidation data_network_validation = 10207
+      [(module_name) = "telephony"];
+  optional DataRatStateChanged data_rat_state_changed = 854
+      [(module_name) = "telephony"];
+  optional ConnectedChannelChanged connected_channel_changed = 882
+      [(module_name) = "telephony"];
+  optional SmsOtpRedacted sms_otp_redacted = 1136 [(module_name) = "telephony"];
+  optional SmsOtpEvaluation sms_otp_evaluation = 1137
+      [(module_name) = "telephony"];
+  optional CarrierPrivilegesReported carrier_privileges_reported = 1252
+      [(module_name) = "telephony"];
+  optional CarrierServiceConfigOverridesReported
+      carrier_service_config_overrides_reported = 1270
+      [(module_name) = "telephony"];
+  // 10208 is reserved due to removing the old atom.
 }
 
 message CarrierPrivilegesReported {

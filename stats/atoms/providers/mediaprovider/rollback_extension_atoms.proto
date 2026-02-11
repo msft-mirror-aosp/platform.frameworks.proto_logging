@@ -25,9 +25,11 @@ option java_package = "com.android.os.providers.mediaprovider";
 option java_multiple_files = true;
 
 extend Atom {
-
-    optional MediaProviderDatabaseRollbackReported media_provider_database_rollback_reported = 784 [(module) = "mediaprovider"];
-    optional BackupSetupStatusReported backup_setup_status_reported = 785 [(module) = "mediaprovider"];
+  optional MediaProviderDatabaseRollbackReported
+      media_provider_database_rollback_reported = 784
+      [(module_name) = "mediaprovider"];
+  optional BackupSetupStatusReported backup_setup_status_reported = 785
+      [(module_name) = "mediaprovider"];
 }
 
 /**

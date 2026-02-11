@@ -26,14 +26,17 @@ option java_package = "com.android.os.federatedcompute";
 option java_multiple_files = true;
 
 extend Atom {
-  optional FederatedComputeApiCalled federated_compute_api_called =
-            712 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
-  optional FederatedComputeTrainingEventReported federated_compute_training_event_reported =
-            771 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
-  optional ExampleIteratorNextLatencyReported example_iterator_next_latency_reported =
-            838 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
-  optional FederatedComputeTraceEventReported federated_compute_trace_event_reported =
-            992 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional FederatedComputeApiCalled federated_compute_api_called = 712
+      [(module_name) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional FederatedComputeTrainingEventReported
+      federated_compute_training_event_reported = 771
+      [(module_name) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional ExampleIteratorNextLatencyReported
+      example_iterator_next_latency_reported = 838
+      [(module_name) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional FederatedComputeTraceEventReported
+      federated_compute_trace_event_reported = 992
+      [(module_name) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
 
 /**

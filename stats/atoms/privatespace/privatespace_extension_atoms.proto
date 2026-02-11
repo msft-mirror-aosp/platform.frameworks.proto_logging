@@ -27,9 +27,9 @@ option java_multiple_files = true;
 
 extend Atom {
   optional PrivateSpaceAddButtonEvent private_space_add_button_event = 1116
-      [(module) = "privatespace"];
+      [(module_name) = "privatespace"];
   optional PrivateSpaceMoveContentEvent private_space_move_content_event = 1117
-      [(module) = "privatespace"];
+      [(module_name) = "privatespace"];
 }
 
 // Atom for PrivateSpace app shortcut clicks.

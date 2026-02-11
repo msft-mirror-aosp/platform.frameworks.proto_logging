@@ -8,11 +8,16 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 
 extend Atom {
-  optional WearAdaptiveSuspendStatsReported wear_adaptive_suspend_stats_reported = 619 [(module) = "wearpas"];
+  optional WearAdaptiveSuspendStatsReported
+      wear_adaptive_suspend_stats_reported = 619 [(module_name) = "wearpas"];
 
-  optional WearPowerAnomalyServiceOperationalStatsReported wear_power_anomaly_service_operational_stats_reported = 620 [(module) = "wearpas"];
+  optional WearPowerAnomalyServiceOperationalStatsReported
+      wear_power_anomaly_service_operational_stats_reported = 620
+      [(module_name) = "wearpas"];
 
-  optional WearPowerAnomalyServiceEventStatsReported wear_power_anomaly_service_event_stats_reported = 621 [(module) = "wearpas"];
+  optional WearPowerAnomalyServiceEventStatsReported
+      wear_power_anomaly_service_event_stats_reported = 621
+      [(module_name) = "wearpas"];
 }
 
 /**

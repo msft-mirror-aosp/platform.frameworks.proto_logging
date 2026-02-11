@@ -24,7 +24,9 @@ option java_package = "com.android.os.automotive.carsystemui";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CarSystemUiDataSubscriptionEventReported car_system_ui_data_subscription_event_reported = 974 [(module) = "carsystemui"];
+  optional CarSystemUiDataSubscriptionEventReported
+      car_system_ui_data_subscription_event_reported = 974
+      [(module_name) = "carsystemui"];
 }
 
 /**

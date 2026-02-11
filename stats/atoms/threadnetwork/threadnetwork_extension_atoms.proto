@@ -25,12 +25,13 @@ option java_package = "com.android.os.threadnetwork";
 option java_multiple_files = true;
 
 extend Atom {
-    optional ThreadnetworkTelemetryDataReported threadnetwork_telemetry_data_reported = 738
-    [(module) = "threadnetwork"];
-    optional ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated = 739
-    [(module) = "threadnetwork"];
-    optional ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported = 740
-    [(module) = "threadnetwork"];
+  optional ThreadnetworkTelemetryDataReported
+      threadnetwork_telemetry_data_reported = 738
+      [(module_name) = "threadnetwork"];
+  optional ThreadnetworkTopoEntryRepeated threadnetwork_topo_entry_repeated =
+      739 [(module_name) = "threadnetwork"];
+  optional ThreadnetworkDeviceInfoReported threadnetwork_device_info_reported =
+      740 [(module_name) = "threadnetwork"];
 }
 
 // Thread Telemetry data definition.

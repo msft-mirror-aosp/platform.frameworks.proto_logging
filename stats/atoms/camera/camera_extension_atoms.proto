@@ -25,7 +25,9 @@ option java_package = "com.android.server.camera";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CameraFeatureCombinationQueryEvent camera_feature_combination_query_event = 900 [(module) = "framework"];
+  optional CameraFeatureCombinationQueryEvent
+      camera_feature_combination_query_event = 900
+      [(module_name) = "framework"];
 }
 
 /**

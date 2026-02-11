@@ -24,9 +24,12 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/desktopmode/enums.proto";
 
 extend Atom {
-  optional DesktopModeUIChanged desktop_mode_ui_changed = 818 [(module) = "framework"];
-  optional DesktopModeSessionTaskUpdate desktop_mode_session_task_update = 819 [(module) = "framework"];
-  optional DesktopModeTaskSizeUpdated desktop_mode_task_size_updated = 935 [(module) = "framework"];
+  optional DesktopModeUIChanged desktop_mode_ui_changed = 818
+      [(module_name) = "framework"];
+  optional DesktopModeSessionTaskUpdate desktop_mode_session_task_update = 819
+      [(module_name) = "framework"];
+  optional DesktopModeTaskSizeUpdated desktop_mode_task_size_updated = 935
+      [(module_name) = "framework"];
 }
 
 /**

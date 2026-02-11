@@ -26,7 +26,8 @@ option java_package = "com.android.os.corenetworking.captiveportallogin";
 option java_multiple_files = true;
 
 extend Atom {
-    optional CaptivePortalLoginReported captive_portal_login_reported = 1145 [(module) = "captive_portal_login"];
+  optional CaptivePortalLoginReported captive_portal_login_reported = 1145
+      [(module_name) = "captive_portal_login"];
 }
 
 /**

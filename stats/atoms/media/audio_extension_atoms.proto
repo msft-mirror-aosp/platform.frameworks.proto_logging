@@ -22,10 +22,14 @@ import "frameworks/proto_logging/stats/enums/media/audio/enums.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 
 extend Atom {
-  optional AudioRoutingTransitionReported audio_routing_transition_reported = 1232 [(module) = "audio"];
-  optional AudioModeStateChanged audio_mode_state_changed = 1233 [(module) = "audio"];
-  optional AudioHardeningReported audio_hardening_reported = 1268 [(module) = "audio"];
-  optional HfpAudioDisconnectReported hfp_audio_disconnect_reported = 1280 [(module) = "audio"];
+  optional AudioRoutingTransitionReported audio_routing_transition_reported =
+      1232 [(module_name) = "audio"];
+  optional AudioModeStateChanged audio_mode_state_changed = 1233
+      [(module_name) = "audio"];
+  optional AudioHardeningReported audio_hardening_reported = 1268
+      [(module_name) = "audio"];
+  optional HfpAudioDisconnectReported hfp_audio_disconnect_reported = 1280
+      [(module_name) = "audio"];
 }
 
 /*

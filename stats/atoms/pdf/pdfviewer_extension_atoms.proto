@@ -26,11 +26,14 @@ option java_package = "com.android.os.pdf";
 option java_multiple_files = true;
 
 extend Atom {
-  optional PdfLoadReported pdf_load_reported = 859 [(module) = "mediaprovider"];
+  optional PdfLoadReported pdf_load_reported = 859
+      [(module_name) = "mediaprovider"];
 
-  optional PdfApiUsageReported pdf_api_usage_reported = 860 [(module) = "mediaprovider"];
+  optional PdfApiUsageReported pdf_api_usage_reported = 860
+      [(module_name) = "mediaprovider"];
 
-  optional PdfSearchReported pdf_search_reported = 861 [(module) = "mediaprovider"];
+  optional PdfSearchReported pdf_search_reported = 861
+      [(module_name) = "mediaprovider"];
 }
 /**
  * Logs when client app calls the PDFViewer to load the pdf.

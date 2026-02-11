@@ -26,10 +26,10 @@ option java_package = "com.android.os.computercontrol";
 
 extend Atom {
   optional ComputerControlSessionReported computer_control_session_reported =
-      1223 [(module) = "computercontrol"];
+      1223 [(module_name) = "computercontrol"];
   optional ComputerControlFailedSessionReported
       computer_control_failed_session_reported = 1224
-      [(module) = "computercontrol"];
+      [(module_name) = "computercontrol"];
 }
 
 /**

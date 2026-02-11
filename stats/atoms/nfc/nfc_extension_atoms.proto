@@ -25,12 +25,17 @@ import "frameworks/proto_logging/stats/enums/nfc/enums.proto";
 option java_package = "com.android.nfc";
 
 extend Atom {
-    optional NfcObserveModeStateChanged nfc_observe_mode_state_changed = 855 [(module) = "nfc"];
-    optional NfcFieldChanged nfc_field_changed = 856 [(module) = "nfc"];
-    optional NfcPollingLoopNotificationReported  nfc_polling_loop_notification_reported = 857 [(module) = "nfc"];
-    optional NfcProprietaryCapabilitiesReported  nfc_proprietary_capabilities_reported = 858 [(module) = "nfc"];
-    optional NfcExitFrameTableChanged nfc_exit_frame_table_changed = 1036 [(module) = "nfc"];
-    optional NfcAutoTransactReported nfc_auto_transact_reported = 1038 [(module) = "nfc"];
+  optional NfcObserveModeStateChanged nfc_observe_mode_state_changed = 855
+      [(module_name) = "nfc"];
+  optional NfcFieldChanged nfc_field_changed = 856 [(module_name) = "nfc"];
+  optional NfcPollingLoopNotificationReported
+      nfc_polling_loop_notification_reported = 857 [(module_name) = "nfc"];
+  optional NfcProprietaryCapabilitiesReported
+      nfc_proprietary_capabilities_reported = 858 [(module_name) = "nfc"];
+  optional NfcExitFrameTableChanged nfc_exit_frame_table_changed = 1036
+      [(module_name) = "nfc"];
+  optional NfcAutoTransactReported nfc_auto_transact_reported = 1038
+      [(module_name) = "nfc"];
 }
 
 message NfcObserveModeStateChanged {

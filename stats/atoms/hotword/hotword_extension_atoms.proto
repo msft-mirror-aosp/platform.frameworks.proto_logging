@@ -26,7 +26,8 @@ option java_package = "com.android.os.hotword";
 option java_multiple_files = true;
 
 extend Atom {
-  optional HotwordEventEgressSize hotword_egress_size_atom_reported = 761 [(module) = "framework"];
+  optional HotwordEventEgressSize hotword_egress_size_atom_reported = 761
+      [(module_name) = "framework"];
 }
 
 /**

@@ -26,15 +26,23 @@ option java_package = "com.android.os.telecom";
 option java_multiple_files = true;
 
 extend Atom {
-    optional EmergencyNumberDialed emergency_number_dialed = 637 [(module) = "telecom"];
-    optional CallStats call_stats = 10221 [(module) = "telecom"];
-    optional CallAudioRouteStats call_audio_route_stats = 10222 [(module) = "telecom"];
-    optional TelecomApiStats telecom_api_stats = 10223 [(module) = "telecom"];
-    optional TelecomErrorStats telecom_error_stats = 10224 [(module) = "telecom"];
-    optional TelecomEventStats telecom_event_stats = 10235 [(module) = "telecom"];
-    optional CallSequencingStats call_sequencing_stats = 10242 [(module) = "telecom"];
-    optional CallSequencingOperationStats call_sequencing_operation_stats = 10243 [(module) = "telecom"];
-    optional CallEndPointStats call_end_point_stats = 10255 [(module) = "telecom"];
+  optional EmergencyNumberDialed emergency_number_dialed = 637
+      [(module_name) = "telecom"];
+  optional CallStats call_stats = 10221 [(module_name) = "telecom"];
+  optional CallAudioRouteStats call_audio_route_stats = 10222
+      [(module_name) = "telecom"];
+  optional TelecomApiStats telecom_api_stats = 10223
+      [(module_name) = "telecom"];
+  optional TelecomErrorStats telecom_error_stats = 10224
+      [(module_name) = "telecom"];
+  optional TelecomEventStats telecom_event_stats = 10235
+      [(module_name) = "telecom"];
+  optional CallSequencingStats call_sequencing_stats = 10242
+      [(module_name) = "telecom"];
+  optional CallSequencingOperationStats call_sequencing_operation_stats = 10243
+      [(module_name) = "telecom"];
+  optional CallEndPointStats call_end_point_stats = 10255
+      [(module_name) = "telecom"];
 }
 
 /**

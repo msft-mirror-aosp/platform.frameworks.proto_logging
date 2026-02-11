@@ -25,8 +25,10 @@ option java_multiple_files = true;
 option java_package = "com.android.os.webapp";
 
 extend Atom {
-  optional WebappInstallerAppInstalled webapp_installer_app_installed = 1250 [(module) = "webapp"];
-  optional WebappUsageReported webapp_usage_reported = 1251 [(module) = "webapp"];
+  optional WebappInstallerAppInstalled webapp_installer_app_installed = 1250
+      [(module_name) = "webapp"];
+  optional WebappUsageReported webapp_usage_reported = 1251
+      [(module_name) = "webapp"];
 }
 
 /**

@@ -25,10 +25,10 @@ option java_package = "com.android.os.kernel";
 option java_multiple_files = true;
 
 extend Atom {
-    optional KernelOomKillOccurred kernel_oom_kill_occurred = 754
-        [(module) = "framework"];
-    optional AggregatedKernelWakelockInfo aggregated_kernel_wakelock_info = 10253
-        [(module) = "framework"];
+  optional KernelOomKillOccurred kernel_oom_kill_occurred = 754
+      [(module_name) = "framework"];
+  optional AggregatedKernelWakelockInfo aggregated_kernel_wakelock_info = 10253
+      [(module_name) = "framework"];
 }
 
 /**

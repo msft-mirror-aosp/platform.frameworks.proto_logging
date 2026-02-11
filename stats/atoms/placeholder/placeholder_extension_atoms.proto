@@ -25,9 +25,9 @@ import "frameworks/proto_logging/stats/attribution_node.proto";
 // This file contains sample extension atoms for reference.
 
 extend Atom {
-    optional Atom9999 atom_9999 = 9999 [(module) = "placeholder"];
+  optional Atom9999 atom_9999 = 9999 [(module_name) = "placeholder"];
 
-    optional Atom99999 atom_99999 = 99999 [(module) = "placeholder"];
+  optional Atom99999 atom_99999 = 99999 [(module_name) = "placeholder"];
 }
 
 message Atom9999 {

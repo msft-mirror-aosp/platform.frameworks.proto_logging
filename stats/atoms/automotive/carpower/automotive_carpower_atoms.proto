@@ -25,7 +25,8 @@ option java_package = "com.android.os.car";
 option java_multiple_files = true;
 
 extend Atom {
-    optional CarWakeupFromSuspendReported car_wakeup_from_suspend_reported = 852 [(module) = "car"];
+  optional CarWakeupFromSuspendReported car_wakeup_from_suspend_reported = 852
+      [(module_name) = "car"];
 }
 
 /**

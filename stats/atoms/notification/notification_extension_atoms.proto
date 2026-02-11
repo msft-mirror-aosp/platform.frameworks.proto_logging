@@ -26,9 +26,14 @@ option java_package = "com.android.os.notification";
 option java_multiple_files = true;
 
 extend Atom {
-  optional NotificationAdjustmentPreferences notification_adjustment_preferences = 10231 [(module) = "framework"];
-  optional NotificationAssistantEventReported notification_assistant_event_reported = 1055 [(module) = "extservices"];
-  optional NotificationAssistantDurationReceived notification_assistant_duration_received = 1056 [(module) = "extservices"];
+  optional NotificationAdjustmentPreferences
+      notification_adjustment_preferences = 10231 [(module_name) = "framework"];
+  optional NotificationAssistantEventReported
+      notification_assistant_event_reported = 1055
+      [(module_name) = "extservices"];
+  optional NotificationAssistantDurationReceived
+      notification_assistant_duration_received = 1056
+      [(module_name) = "extservices"];
 }
 
 /**

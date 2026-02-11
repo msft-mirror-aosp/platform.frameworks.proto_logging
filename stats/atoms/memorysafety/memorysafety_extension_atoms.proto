@@ -25,7 +25,7 @@ option java_package = "com.android.os.memorysafety";
 option java_multiple_files = true;
 
 extend Atom {
-    optional MteState mte_state = 10181 [(module) = "framework"];
+  optional MteState mte_state = 10181 [(module_name) = "framework"];
 }
 
 message MteState {

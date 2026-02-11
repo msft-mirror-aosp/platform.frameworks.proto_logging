@@ -26,55 +26,102 @@ option java_multiple_files = true;
 option java_package = "com.android.os.healthfitness.api";
 
 extend Atom {
-  optional HealthConnectApiCalled health_connect_api_called = 616 [(module) = "healthfitness"];
+  optional HealthConnectApiCalled health_connect_api_called = 616
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectUsageStats health_connect_usage_stats = 617 [(module) = "healthfitness"];
+  optional HealthConnectUsageStats health_connect_usage_stats = 617
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectStorageStats health_connect_storage_stats = 618 [(module) = "healthfitness"];
+  optional HealthConnectStorageStats health_connect_storage_stats = 618
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectApiInvoked health_connect_api_invoked = 643 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional HealthConnectApiInvoked health_connect_api_invoked = 643 [
+    (module_name) = "healthfitness",
+    (restriction_category) = RESTRICTION_DIAGNOSTIC
+  ];
 
-  optional ExerciseRouteApiCalled exercise_route_api_called = 654 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional ExerciseRouteApiCalled exercise_route_api_called = 654 [
+    (module_name) = "healthfitness",
+    (restriction_category) = RESTRICTION_DIAGNOSTIC
+  ];
 
-  optional HealthConnectExportInvoked health_connect_export_invoked = 907 [(module) = "healthfitness"];
+  optional HealthConnectExportInvoked health_connect_export_invoked = 907
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectImportInvoked health_connect_import_invoked = 918 [(module) = "healthfitness"];
+  optional HealthConnectImportInvoked health_connect_import_invoked = 918
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectExportImportStatsReported health_connect_export_import_stats_reported = 919 [(module) = "healthfitness"];
+  optional HealthConnectExportImportStatsReported
+      health_connect_export_import_stats_reported = 919
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectPermissionStats health_connect_permission_stats = 963 [(module) = "healthfitness"];
+  optional HealthConnectPermissionStats health_connect_permission_stats = 963
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional HealthConnectPhrApiInvoked health_connect_phr_api_invoked = 980 [
+    (module_name) = "healthfitness",
+    (restriction_category) = RESTRICTION_DIAGNOSTIC
+  ];
 
-  optional HealthConnectPhrUsageStats health_connect_phr_usage_stats = 981 [(module) = "healthfitness"];
+  optional HealthConnectPhrUsageStats health_connect_phr_usage_stats = 981
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectPhrStorageStats health_connect_phr_storage_stats = 984 [(module) = "healthfitness"];
+  optional HealthConnectPhrStorageStats health_connect_phr_storage_stats = 984
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectRestrictedEcosystemStats health_connect_restricted_ecosystem_stats = 985 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional HealthConnectRestrictedEcosystemStats
+      health_connect_restricted_ecosystem_stats = 985 [
+        (module_name) = "healthfitness",
+        (restriction_category) = RESTRICTION_DIAGNOSTIC
+      ];
 
-  optional HealthConnectEcosystemStats health_connect_ecosystem_stats = 986 [(module) = "healthfitness"];
+  optional HealthConnectEcosystemStats health_connect_ecosystem_stats = 986
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectDataBackupInvoked health_connect_data_backup_invoked = 1023 [(module) = "healthfitness"];
+  optional HealthConnectDataBackupInvoked health_connect_data_backup_invoked =
+      1023 [(module_name) = "healthfitness"];
 
-  optional HealthConnectMetadataBackupInvoked health_connect_metadata_backup_invoked = 1024 [(module) = "healthfitness"];
+  optional HealthConnectMetadataBackupInvoked
+      health_connect_metadata_backup_invoked = 1024
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectDataRestoreInvoked health_connect_data_restore_invoked = 1025 [(module) = "healthfitness"];
+  optional HealthConnectDataRestoreInvoked health_connect_data_restore_invoked =
+      1025 [(module_name) = "healthfitness"];
 
-  optional HealthConnectMetadataRestoreInvoked health_connect_metadata_restore_invoked = 1026 [(module) = "healthfitness"];
+  optional HealthConnectMetadataRestoreInvoked
+      health_connect_metadata_restore_invoked = 1026
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectRestoreEligibilityChecked health_connect_restore_eligibility_checked = 1027 [(module) = "healthfitness"];
+  optional HealthConnectRestoreEligibilityChecked
+      health_connect_restore_eligibility_checked = 1027
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectLatencyStats health_connect_latency_stats = 1140 [(module) = "healthfitness"];
+  optional HealthConnectLatencyStats health_connect_latency_stats = 1140
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectRecordingMethodStats health_connect_recording_method_stats = 1157 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional HealthConnectRecordingMethodStats
+      health_connect_recording_method_stats = 1157 [
+        (module_name) = "healthfitness",
+        (restriction_category) = RESTRICTION_DIAGNOSTIC
+      ];
 
-  optional HealthConnectDeviceInfoStats health_connect_device_info_stats = 1160 [(module) = "healthfitness", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional HealthConnectDeviceInfoStats health_connect_device_info_stats = 1160
+      [
+        (module_name) = "healthfitness",
+        (restriction_category) = RESTRICTION_DIAGNOSTIC
+      ];
 
-  optional HealthConnectDataGranularityStats health_connect_data_granularity_stats = 1165 [(module) = "healthfitness"];
+  optional HealthConnectDataGranularityStats
+      health_connect_data_granularity_stats = 1165
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectNativeTrackingStatsReported health_connect_native_tracking_stats_reported = 1167 [(module) = "healthfitness"];
+  optional HealthConnectNativeTrackingStatsReported
+      health_connect_native_tracking_stats_reported = 1167
+      [(module_name) = "healthfitness"];
 
-  optional HealthConnectBackupAgentEventReported health_connect_backup_agent_event_reported = 1203 [(module) = "healthfitness"];
+  optional HealthConnectBackupAgentEventReported
+      health_connect_backup_agent_event_reported = 1203
+      [(module_name) = "healthfitness"];
 }
 
 // Track HealthDataService API operations.

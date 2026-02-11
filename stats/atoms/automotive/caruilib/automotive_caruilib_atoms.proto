@@ -24,7 +24,8 @@ option java_package = "com.android.os.automotive.caruilib";
 option java_multiple_files = true;
 
 extend Atom {
-  optional PluginInitialized plugin_initialized = 655 [(module) = "caruilib"];
+  optional PluginInitialized plugin_initialized = 655
+      [(module_name) = "caruilib"];
 }
 
 /**

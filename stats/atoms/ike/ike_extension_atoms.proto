@@ -26,11 +26,12 @@ option java_package = "com.android.os.ike";
 option java_multiple_files = true;
 
 extend Atom {
-    optional IkeSessionTerminated ike_session_terminated = 678 [(module) = "ike"];
-    optional IkeLivenessCheckSessionValidated ike_liveness_check_session_validated =
-            760 [(module) = "ike"];
-    optional NegotiatedSecurityAssociation negotiated_security_association =
-            821 [(module) = "ike"];
+  optional IkeSessionTerminated ike_session_terminated = 678
+      [(module_name) = "ike"];
+  optional IkeLivenessCheckSessionValidated
+      ike_liveness_check_session_validated = 760 [(module_name) = "ike"];
+  optional NegotiatedSecurityAssociation negotiated_security_association = 821
+      [(module_name) = "ike"];
 }
 
 /**

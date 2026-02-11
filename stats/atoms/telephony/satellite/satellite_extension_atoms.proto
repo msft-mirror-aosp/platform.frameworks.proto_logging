@@ -28,29 +28,30 @@ option java_multiple_files = true;
 
 extend Atom {
   optional SatelliteController satellite_controller = 10182
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteSession satellite_session = 10183
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteIncomingDatagram satellite_incoming_datagram = 10184
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteOutgoingDatagram satellite_outgoing_datagram = 10185
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteProvision satellite_provision = 10186
-  [(module) = "telephony"];
-  optional SatelliteSosMessageRecommender satellite_sos_message_recommender = 10187
-  [(module) = "telephony"];
-  optional CarrierRoamingSatelliteSession carrier_roaming_satellite_session = 10211
-  [(module) = "telephony"];
-  optional CarrierRoamingSatelliteControllerStats carrier_roaming_satellite_controller_stats = 10212
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
+  optional SatelliteSosMessageRecommender satellite_sos_message_recommender =
+      10187 [(module_name) = "telephony"];
+  optional CarrierRoamingSatelliteSession carrier_roaming_satellite_session =
+      10211 [(module_name) = "telephony"];
+  optional CarrierRoamingSatelliteControllerStats
+      carrier_roaming_satellite_controller_stats = 10212
+      [(module_name) = "telephony"];
   optional ControllerStatsPerPackage controller_stats_per_package = 10213
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteEntitlement satellite_entitlement = 10214
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteConfigUpdater satellite_config_updater = 10215
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
   optional SatelliteAccessController satellite_access_controller = 10219
-  [(module) = "telephony"];
+      [(module_name) = "telephony"];
 }
 
 /**

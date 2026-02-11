@@ -27,30 +27,30 @@ option java_multiple_files = true;
 extend Atom {
   // Pushed atoms (platform).
   optional MicroXrDeviceBootCompleteReported
-      micro_xr_device_boot_complete_reported = 901 [(module) = "microxr"];
+      micro_xr_device_boot_complete_reported = 901 [(module_name) = "microxr"];
   optional MicroXrDonDoffStateChanged micro_xr_don_doff_state_changed = 1182
-      [(module) = "microxr"];
+      [(module_name) = "microxr"];
   optional MicroXrPhotoCaptured micro_xr_photo_captured = 1196
-      [(module) = "microxr"];
+      [(module_name) = "microxr"];
   optional MicroXrVideoCaptured micro_xr_video_captured = 1197
-      [(module) = "microxr"];
+      [(module_name) = "microxr"];
 
   // Pushed atoms (generic vendor extensions).
   optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 300001
-      [(module) = "microxr-vendor"];
+      [(module_name) = "microxr-vendor"];
   optional MicroXrAudioPlaybackCompleted micro_xr_audio_playback_completed =
-      300002 [(module) = "microxr-vendor"];
+      300002 [(module_name) = "microxr-vendor"];
   optional MicroXrMcuCrashOccurred micro_xr_mcu_crash_occurred = 300000
-      [(module) = "microxr-vendor"];
+      [(module_name) = "microxr-vendor"];
   optional MicroXrMcuPowerDeepSleepInfo micro_xr_mcu_power_deep_sleep_info =
-      300003 [(module) = "microxr-vendor"];
+      300003 [(module_name) = "microxr-vendor"];
   optional MicroXrMcuBootTimeReported micro_xr_mcu_boot_time_reported = 300004
-      [(module) = "microxr-vendor"];
+      [(module_name) = "microxr-vendor"];
   optional MicroXrMcuMemorySnapshotReported
       micro_xr_mcu_memory_snapshot_reported = 300005
-      [(module) = "microxr-vendor"];
+      [(module_name) = "microxr-vendor"];
   optional MicroXrApWakeupReported micro_xr_ap_wakeup_reported = 300006
-      [(module) = "microxr-vendor"];
+      [(module_name) = "microxr-vendor"];
 }
 
 /**

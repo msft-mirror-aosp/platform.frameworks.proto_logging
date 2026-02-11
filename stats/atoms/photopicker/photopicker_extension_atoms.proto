@@ -27,40 +27,49 @@ option java_package = "com.android.os.photopicker";
 option java_multiple_files = true;
 
 extend Atom {
-  optional PhotopickerSessionInfoReported photopicker_session_info_reported = 886
-  [(module) = "mediaprovider"];
+  optional PhotopickerSessionInfoReported photopicker_session_info_reported =
+      886 [(module_name) = "mediaprovider"];
   optional PhotopickerApiInfoReported photopicker_api_info_reported = 887
-  [(module) = "mediaprovider"];
+      [(module_name) = "mediaprovider"];
   optional PhotopickerUIEventLogged photopicker_ui_event_logged = 888
-  [(module) = "mediaprovider"];
-  optional PhotopickerMediaItemStatusReported photopicker_media_item_status_reported = 889
-  [(module) = "mediaprovider"];
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerMediaItemStatusReported
+      photopicker_media_item_status_reported = 889
+      [(module_name) = "mediaprovider"];
   optional PhotopickerPreviewInfoLogged photopicker_preview_info_logged = 890
-  [(module) = "mediaprovider"];
-  optional PhotopickerMenuInteractionLogged photopicker_menu_interaction_logged = 891
-  [(module) = "mediaprovider"];
-  optional PhotopickerBannerInteractionLogged photopicker_banner_interaction_logged = 892
-  [(module) = "mediaprovider"];
-  optional PhotopickerMediaLibraryInfoLogged photopicker_media_library_info_logged = 893
-  [(module) = "mediaprovider"];
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerMenuInteractionLogged
+      photopicker_menu_interaction_logged = 891
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerBannerInteractionLogged
+      photopicker_banner_interaction_logged = 892
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerMediaLibraryInfoLogged
+      photopicker_media_library_info_logged = 893
+      [(module_name) = "mediaprovider"];
   optional PhotopickerPageInfoLogged photopicker_page_info_logged = 894
-  [(module) = "mediaprovider"];
-  optional PhotopickerMediaGridSyncInfoReported photopicker_media_grid_sync_info_reported = 895
-  [(module) = "mediaprovider"];
-  optional PhotopickerAlbumSyncInfoReported photopicker_album_sync_info_reported = 896
-  [(module) = "mediaprovider"];
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerMediaGridSyncInfoReported
+      photopicker_media_grid_sync_info_reported = 895
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerAlbumSyncInfoReported
+      photopicker_album_sync_info_reported = 896
+      [(module_name) = "mediaprovider"];
   optional PhotopickerSearchInfoReported photopicker_search_info_reported = 897
-  [(module) = "mediaprovider"];
-  optional SearchDataExtractionDetailsReported search_data_extraction_details_reported = 898
-  [(module) = "mediaprovider"];
-  optional EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported = 899
-  [(module) = "mediaprovider"];
-  optional PhotopickerAppMediaCapabilitiesReported photopicker_app_media_capabilities_reported = 1043
-  [(module) = "mediaprovider"];
-  optional PhotopickerVideoTranscodingDetailsLogged photopicker_video_transcoding_details_logged = 1044
-  [(module) = "mediaprovider"];
+      [(module_name) = "mediaprovider"];
+  optional SearchDataExtractionDetailsReported
+      search_data_extraction_details_reported = 898
+      [(module_name) = "mediaprovider"];
+  optional EmbeddedPhotopickerInfoReported embedded_photopicker_info_reported =
+      899 [(module_name) = "mediaprovider"];
+  optional PhotopickerAppMediaCapabilitiesReported
+      photopicker_app_media_capabilities_reported = 1043
+      [(module_name) = "mediaprovider"];
+  optional PhotopickerVideoTranscodingDetailsLogged
+      photopicker_video_transcoding_details_logged = 1044
+      [(module_name) = "mediaprovider"];
   optional PhotopickerSearchBarDisplayed photopicker_search_bar_displayed = 1130
-  [(module) = "mediaprovider"];
+      [(module_name) = "mediaprovider"];
 }
 
 /*

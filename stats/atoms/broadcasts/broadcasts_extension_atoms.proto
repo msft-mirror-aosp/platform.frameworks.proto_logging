@@ -26,8 +26,9 @@ option java_package = "com.android.os.broadcasts";
 option java_multiple_files = true;
 
 extend Atom {
-  optional BroadcastSent broadcast_sent = 922 [(module) = "framework"];
-  optional BroadcastProcessed broadcast_processed = 1028 [(module) = "framework"];
+  optional BroadcastSent broadcast_sent = 922 [(module_name) = "framework"];
+  optional BroadcastProcessed broadcast_processed = 1028
+      [(module_name) = "framework"];
 }
 
 /**

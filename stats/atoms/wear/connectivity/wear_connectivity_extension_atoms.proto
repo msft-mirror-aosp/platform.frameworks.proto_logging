@@ -26,20 +26,21 @@ option java_package = "com.android.os.wear.connectivity";
 option java_multiple_files = true;
 
 extend Atom {
-  optional MediatorUpdated mediator_updated = 721 [(module) = "wearconnectivity"];
+  optional MediatorUpdated mediator_updated = 721
+      [(module_name) = "wearconnectivity"];
   // Deprecated, use proxy_bytes_transfer_by_fg_bg (10200) instead.
-  optional SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer = 10196
-      [(module) = "wearconnectivity", deprecated = true];
+  optional SysproxyBluetoothBytesTransfer sysproxy_bluetooth_bytes_transfer =
+      10196 [(module_name) = "wearconnectivity", deprecated = true];
   optional SysproxyConnectionUpdated sysproxy_connection_updated = 786
-      [(module) = "wearconnectivity"];
+      [(module_name) = "wearconnectivity"];
   optional WearCompanionConnectionState wear_companion_connection_state = 921
-      [(module) = "wearconnectivity"];
+      [(module_name) = "wearconnectivity"];
   optional SysproxyServiceStateUpdated sysproxy_service_state_updated = 949
-      [(module) = "wearconnectivity"];
+      [(module_name) = "wearconnectivity"];
   optional WearBleMigrationStateChanged wear_ble_migration_state_changed = 1081
-      [(module) = 'wearconnectivity'];
+      [(module_name) = 'wearconnectivity'];
   optional WearNetworkStateChanged wear_network_state_changed = 1139
-      [(module) = 'wearconnectivity'];
+      [(module_name) = 'wearconnectivity'];
 }
 
 /**

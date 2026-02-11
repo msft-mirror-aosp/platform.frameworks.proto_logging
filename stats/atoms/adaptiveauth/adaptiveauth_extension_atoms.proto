@@ -25,7 +25,9 @@ option java_package = "com.android.os.adaptiveauth";
 option java_multiple_files = true;
 
 extend Atom {
-  optional AdaptiveAuthUnlockAfterLockReported adaptive_auth_unlock_after_lock_reported = 820 [(module) = "framework"];
+  optional AdaptiveAuthUnlockAfterLockReported
+      adaptive_auth_unlock_after_lock_reported = 820
+      [(module_name) = "framework"];
 }
 
 /**

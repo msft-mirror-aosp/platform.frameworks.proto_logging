@@ -24,7 +24,7 @@ import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 extend Atom {
   optional BackportedFixStatusReported backported_fix_status_reported = 987
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 }
 /**
  * Logs the response of a call to Build.getBackportedFixStatus()

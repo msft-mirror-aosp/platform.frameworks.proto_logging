@@ -22,11 +22,13 @@ option java_package = "com.android.os.ondevicepersonalization";
 option java_multiple_files = true;
 extend Atom {
   optional OnDevicePersonalizationApiCalled ondevicepersonalization_api_called =
-            711 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
+      711
+      [(module_name) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
 extend Atom {
-    optional OnDevicePersonalizationTraceEvent ondevicepersonalization_trace_event =
-      952 [(module) = "ondevicepersonalization", (truncate_timestamp) = true];
+  optional OnDevicePersonalizationTraceEvent
+      ondevicepersonalization_trace_event = 952
+      [(module_name) = "ondevicepersonalization", (truncate_timestamp) = true];
 }
 /**
  * Logs when a public ODP api is called.

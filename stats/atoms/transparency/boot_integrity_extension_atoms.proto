@@ -9,7 +9,8 @@ option java_package = "com.android.os.transparency";
 option java_multiple_files = true;
 
 extend Atom {
-    optional BootIntegrityInfoReported boot_integrity_info_reported = 775 [(module) = "framework"];
+  optional BootIntegrityInfoReported boot_integrity_info_reported = 775
+      [(module_name) = "framework"];
 }
 
 /**

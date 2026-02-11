@@ -26,10 +26,12 @@ option java_package = "com.android.contactspicker";
 option java_multiple_files = true;
 
 extend Atom {
-  optional ContactsPickerSessionStartedReported contacts_picker_session_started_reported = 1265
-      [(module) = "contactspicker"];
-  optional ContactsPickerSessionFinishedReported contacts_picker_session_finished_reported = 1266
-      [(module) = "contactspicker"];
+  optional ContactsPickerSessionStartedReported
+      contacts_picker_session_started_reported = 1265
+      [(module_name) = "contactspicker"];
+  optional ContactsPickerSessionFinishedReported
+      contacts_picker_session_finished_reported = 1266
+      [(module_name) = "contactspicker"];
 }
 
 /**

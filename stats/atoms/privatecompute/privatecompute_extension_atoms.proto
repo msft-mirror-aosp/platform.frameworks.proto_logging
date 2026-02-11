@@ -25,17 +25,31 @@ option java_package = "com.android.os.privatecompute";
 option java_multiple_files = true;
 
 extend Atom {
-    optional PccUidAssignmentReported pcc_uid_assignment_reported = 1287 [(module) = "privatecompute"];
-    optional PccAssociationDecisionReported pcc_association_decision_reported = 1288 [(module) = "privatecompute"];
-    optional PccAssociationAllowTypeReported pcc_association_allow_type_reported = 1289 [(module) = "privatecompute"];
-    optional PccAssociationDecisionLatencyReported pcc_association_decision_latency_reported = 1290 [(module) = "privatecompute"];
-    optional PccBackupAgentStarted pcc_backup_agent_started = 1291 [(module) = "privatecompute"];
-    optional PccDataMigrationStateChanged pcc_data_migration_state_changed = 1292 [(module) = "privatecompute"];
-    optional PccBinderProxyTransactionReported pcc_binder_proxy_transaction_reported = 1293 [(module) = "privatecompute"];
-    optional PccWriteToAuditLog pcc_write_to_audit_log = 1294 [(module) = "privatecompute"];
-    optional PccPermissionCheckResult pcc_permission_check_result = 1295 [(module) = "privatecompute"];
-    optional PccInputSanitizationReported pcc_input_sanitization_reported = 1296 [(module) = "privatecompute"];
-    optional RegularAppAssociationLatencyReported regular_app_association_latency_reported = 1297 [(module) = "privatecompute"];
+  optional PccUidAssignmentReported pcc_uid_assignment_reported = 1287
+      [(module_name) = "privatecompute"];
+  optional PccAssociationDecisionReported pcc_association_decision_reported =
+      1288 [(module_name) = "privatecompute"];
+  optional PccAssociationAllowTypeReported pcc_association_allow_type_reported =
+      1289 [(module_name) = "privatecompute"];
+  optional PccAssociationDecisionLatencyReported
+      pcc_association_decision_latency_reported = 1290
+      [(module_name) = "privatecompute"];
+  optional PccBackupAgentStarted pcc_backup_agent_started = 1291
+      [(module_name) = "privatecompute"];
+  optional PccDataMigrationStateChanged pcc_data_migration_state_changed = 1292
+      [(module_name) = "privatecompute"];
+  optional PccBinderProxyTransactionReported
+      pcc_binder_proxy_transaction_reported = 1293
+      [(module_name) = "privatecompute"];
+  optional PccWriteToAuditLog pcc_write_to_audit_log = 1294
+      [(module_name) = "privatecompute"];
+  optional PccPermissionCheckResult pcc_permission_check_result = 1295
+      [(module_name) = "privatecompute"];
+  optional PccInputSanitizationReported pcc_input_sanitization_reported = 1296
+      [(module_name) = "privatecompute"];
+  optional RegularAppAssociationLatencyReported
+      regular_app_association_latency_reported = 1297
+      [(module_name) = "privatecompute"];
 }
 
 /**

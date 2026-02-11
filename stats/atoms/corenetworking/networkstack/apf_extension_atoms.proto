@@ -26,7 +26,8 @@ option java_package = "com.android.os.corenetworking.networkstack";
 option java_multiple_files = true;
 
 extend Atom {
-    optional ApfSessionInfoReported apf_session_info_reported = 777 [(module) = "network_stack"];
+  optional ApfSessionInfoReported apf_session_info_reported = 777
+      [(module_name) = "network_stack"];
 }
 
 /**

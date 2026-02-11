@@ -26,14 +26,26 @@ option java_package = "com.android.os.providers.mediaprovider";
 option java_multiple_files = true;
 
 extend Atom {
-    optional MediaProviderVolumeRecoveryReported media_provider_volume_recovery_reported = 586 [(module) = "mediaprovider"];
-    optional FileAccessAttributesQueryReported file_access_attributes_query_reported = 1061 [(module) = "mediaprovider"];
-    optional OwnedPhotosRevokedFromAppReported owned_photos_revoked_from_app_reported = 1065 [(module) = "mediaprovider"];
-    optional MediaMetadataExtractionReported media_metadata_extraction_reported = 1066 [(module) = "mediaprovider"];
-    optional MediaProviderOpReported media_provider_op_reported = 1112 [(module) = "mediaprovider"];
-    optional FuseOpReported fuse_op_reported = 1113 [(module) = "mediaprovider_jni"];
-    optional DeviceStorageStateReported device_storage_state_reported = 1114 [(module) = "mediaprovider"];
-    optional DeviceStorageStatePerUidReported device_storage_state_per_uid_reported = 1115 [(module) = "mediaprovider"];
+  optional MediaProviderVolumeRecoveryReported
+      media_provider_volume_recovery_reported = 586
+      [(module_name) = "mediaprovider"];
+  optional FileAccessAttributesQueryReported
+      file_access_attributes_query_reported = 1061
+      [(module_name) = "mediaprovider"];
+  optional OwnedPhotosRevokedFromAppReported
+      owned_photos_revoked_from_app_reported = 1065
+      [(module_name) = "mediaprovider"];
+  optional MediaMetadataExtractionReported media_metadata_extraction_reported =
+      1066 [(module_name) = "mediaprovider"];
+  optional MediaProviderOpReported media_provider_op_reported = 1112
+      [(module_name) = "mediaprovider"];
+  optional FuseOpReported fuse_op_reported = 1113
+      [(module_name) = "mediaprovider_jni"];
+  optional DeviceStorageStateReported device_storage_state_reported = 1114
+      [(module_name) = "mediaprovider"];
+  optional DeviceStorageStatePerUidReported
+      device_storage_state_per_uid_reported = 1115
+      [(module_name) = "mediaprovider"];
 }
 
 /**

@@ -26,7 +26,9 @@ option java_package = "com.android.os.corenetworking.connectivity";
 option java_multiple_files = true;
 
 extend Atom {
-    optional NetworkStatsRecorderFileOperated network_stats_recorder_file_operated = 783 [(module) = "connectivity"];
+  optional NetworkStatsRecorderFileOperated
+      network_stats_recorder_file_operated = 783
+      [(module_name) = "connectivity"];
 }
 
 /**

@@ -11,7 +11,7 @@ option java_package = "com.android.os.corenetworking.certificatetransparency";
 extend Atom {
   optional CertificateTransparencyLogListUpdateStateChanged
       certificate_transparency_log_list_update_state_changed = 972
-      [(module) = "certificate_transparency"];
+      [(module_name) = "certificate_transparency"];
 }
 
 /*

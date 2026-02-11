@@ -26,12 +26,14 @@ option java_package = "com.android.os.memory";
 option java_multiple_files = true;
 
 extend Atom {
-    optional ZramMaintenanceExecuted zram_maintenance_executed = 1015 [(module) = "framework"];
-    optional ZramSetupExecuted zram_setup_executed = 1029 [(module) = "framework"];
+  optional ZramMaintenanceExecuted zram_maintenance_executed = 1015
+      [(module_name) = "framework"];
+  optional ZramSetupExecuted zram_setup_executed = 1029
+      [(module_name) = "framework"];
 
-    optional ZramMmStatMmd zram_mm_stat_mmd = 10232 [(module) = "framework"];
-    optional ZramBdStatMmd zram_bd_stat_mmd = 10233 [(module) = "framework"];
-    optional ZramIoStatMmd zram_io_stat_mmd = 10240 [(module) = "framework"];
+  optional ZramMmStatMmd zram_mm_stat_mmd = 10232 [(module_name) = "framework"];
+  optional ZramBdStatMmd zram_bd_stat_mmd = 10233 [(module_name) = "framework"];
+  optional ZramIoStatMmd zram_io_stat_mmd = 10240 [(module_name) = "framework"];
 }
 
 /**

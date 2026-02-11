@@ -24,17 +24,28 @@ import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
 import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 extend Atom {
-  optional LockscreenShortcutSelected lockscreen_shortcut_selected = 611 [(module) = "sysui"];
-  optional LockscreenShortcutTriggered lockscreen_shortcut_triggered = 612 [(module) = "sysui"];
-  optional LauncherImpressionEventV2 launcher_impression_event_v2 = 716 [(module) = "sysui"];
-  optional DisplaySwitchLatencyTracked display_switch_latency_tracked = 753 [(module) = "sysui"];
-  optional NotificationListenerService notification_listener_service = 829 [(module) = "sysui"];
-  optional NavHandleTouchPoints nav_handle_touch_points = 869 [(module) = "sysui"];
-  optional CommunalHubWidgetEventReported communal_hub_widget_event_reported = 908 [(module) = "sysui"];
-  optional PeripheralTutorialLaunched peripheral_tutorial_launched = 942 [(module) = "sysui"];
-  optional ContextualEducationTriggered contextual_education_triggered = 971 [(module) = "sysui"];
-  optional OtpNotificationDisplayed otp_notification_displayed = 1032 [(module) = "sysui"];
-  optional CommunalHubSnapshot communal_hub_snapshot = 10226 [(module) = "sysui"];
+  optional LockscreenShortcutSelected lockscreen_shortcut_selected = 611
+      [(module_name) = "sysui"];
+  optional LockscreenShortcutTriggered lockscreen_shortcut_triggered = 612
+      [(module_name) = "sysui"];
+  optional LauncherImpressionEventV2 launcher_impression_event_v2 = 716
+      [(module_name) = "sysui"];
+  optional DisplaySwitchLatencyTracked display_switch_latency_tracked = 753
+      [(module_name) = "sysui"];
+  optional NotificationListenerService notification_listener_service = 829
+      [(module_name) = "sysui"];
+  optional NavHandleTouchPoints nav_handle_touch_points = 869
+      [(module_name) = "sysui"];
+  optional CommunalHubWidgetEventReported communal_hub_widget_event_reported =
+      908 [(module_name) = "sysui"];
+  optional PeripheralTutorialLaunched peripheral_tutorial_launched = 942
+      [(module_name) = "sysui"];
+  optional ContextualEducationTriggered contextual_education_triggered = 971
+      [(module_name) = "sysui"];
+  optional OtpNotificationDisplayed otp_notification_displayed = 1032
+      [(module_name) = "sysui"];
+  optional CommunalHubSnapshot communal_hub_snapshot = 10226
+      [(module_name) = "sysui"];
 }
 
 /**

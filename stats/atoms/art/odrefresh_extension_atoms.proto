@@ -11,8 +11,8 @@ option java_package = "com.android.os.art";
 option java_multiple_files = true;
 
 extend Atom {
-    optional OdrefreshReported odrefresh_reported = 366 [(module) = "art"];
-    optional OdsignReported odsign_reported = 548 [(module) = "art"];
+  optional OdrefreshReported odrefresh_reported = 366 [(module_name) = "art"];
+  optional OdsignReported odsign_reported = 548 [(module_name) = "art"];
 }
 
 /*

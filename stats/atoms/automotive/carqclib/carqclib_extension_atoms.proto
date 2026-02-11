@@ -24,7 +24,8 @@ option java_package = "com.android.os.automotive.carqclib";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CarQcLibEventReported car_qc_lib_event_reported = 976 [(module) = "carqclib"];
+  optional CarQcLibEventReported car_qc_lib_event_reported = 976
+      [(module_name) = "carqclib"];
 }
 
 /**

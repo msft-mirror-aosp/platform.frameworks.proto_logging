@@ -27,16 +27,28 @@ option java_package = "com.android.os.corenetworking.connectivity";
 option java_multiple_files = true;
 
 extend Atom {
-    optional CoreNetworkingCriticalBytesEventOccurred core_networking_critical_bytes_event_occurred =
-        1102 [(module) = "connectivity", (module) = "network_stack",
-            (module) = "resolv", (module) = "network_tethering"];
-    optional CoreNetworkingCriticalCountsEventOccurred core_networking_critical_counts_event_occurred =
-        1131 [(module) = "connectivity", (module) = "network_stack",
-            (module) = "resolv", (module) = "network_tethering",
-            (module) = "connectivity_sdk30"];
-    optional CoreNetworkingCriticalDurationEventOccurred core_networking_critical_duration_event_occurred =
-        1191 [(module) = "connectivity", (module) = "network_stack",
-            (module) = "resolv", (module) = "network_tethering"];
+  optional CoreNetworkingCriticalBytesEventOccurred
+      core_networking_critical_bytes_event_occurred = 1102 [
+        (module_name) = "connectivity",
+        (module_name) = "network_stack",
+        (module_name) = "resolv",
+        (module_name) = "network_tethering"
+      ];
+  optional CoreNetworkingCriticalCountsEventOccurred
+      core_networking_critical_counts_event_occurred = 1131 [
+        (module_name) = "connectivity",
+        (module_name) = "network_stack",
+        (module_name) = "resolv",
+        (module_name) = "network_tethering",
+        (module_name) = "connectivity_sdk30"
+      ];
+  optional CoreNetworkingCriticalDurationEventOccurred
+      core_networking_critical_duration_event_occurred = 1191 [
+        (module_name) = "connectivity",
+        (module_name) = "network_stack",
+        (module_name) = "resolv",
+        (module_name) = "network_tethering"
+      ];
 }
 
 /**

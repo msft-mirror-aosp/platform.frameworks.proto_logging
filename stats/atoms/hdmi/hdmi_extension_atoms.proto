@@ -26,11 +26,13 @@ option java_package = "com.android.os.hdmi";
 option java_multiple_files = true;
 
 extend Atom {
-  optional HdmiEarcStatusReported hdmi_earc_status_reported = 701 [(module) = "framework"];
-  optional HdmiSoundbarModeStatusReported hdmi_soundbar_mode_status_reported
-      = 724 [(module) = "framework"];
+  optional HdmiEarcStatusReported hdmi_earc_status_reported = 701
+      [(module_name) = "framework"];
+  optional HdmiSoundbarModeStatusReported hdmi_soundbar_mode_status_reported =
+      724 [(module_name) = "framework"];
   optional HdmiPowerStateChangeOnActiveSourceLostToggled
-      hdmi_power_state_change_on_active_source_lost_toggled = 991 [(module) = "framework"];
+      hdmi_power_state_change_on_active_source_lost_toggled = 991
+      [(module_name) = "framework"];
 }
 /**
 * Push atom that logs the status of the eARC feature in 3 dimensions: whether the

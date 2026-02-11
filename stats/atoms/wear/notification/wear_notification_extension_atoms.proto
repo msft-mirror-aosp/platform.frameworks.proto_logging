@@ -28,9 +28,10 @@ option java_multiple_files = true;
 
 extend Atom {
   optional WearNotificationEventReported wear_notification_event_reported = 1132
-      [(module) = "wearsysui", (module) = "wearservices"];
-  optional WearNotificationMetadataReported wear_notification_metadata_reported = 1133
-      [(module) = "wearsysui", (module) = "wearservices"];
+      [(module_name) = "wearsysui", (module_name) = "wearservices"];
+  optional WearNotificationMetadataReported
+      wear_notification_metadata_reported = 1133
+      [(module_name) = "wearsysui", (module_name) = "wearservices"];
 }
 
 /**

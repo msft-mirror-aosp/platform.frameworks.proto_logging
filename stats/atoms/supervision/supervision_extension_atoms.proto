@@ -22,7 +22,8 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 
 extend Atom {
-  optional SupervisionState supervision_state = 10258 [(module) = "framework"];
+  optional SupervisionState supervision_state = 10258
+      [(module_name) = "framework"];
 }
 
 message SupervisionState {

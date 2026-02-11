@@ -25,10 +25,11 @@ option java_package = "com.android.os.grammaticalinflection";
 option java_multiple_files = true;
 
 extend Atom {
-  optional ApplicationGrammaticalInflectionChanged application_grammatical_inflection_changed
-      = 584 [(module) = "framework"];
-  optional SystemGrammaticalInflectionChanged system_grammatical_inflection_changed
-      = 816 [(module) = "framework"];
+  optional ApplicationGrammaticalInflectionChanged
+      application_grammatical_inflection_changed = 584
+      [(module_name) = "framework"];
+  optional SystemGrammaticalInflectionChanged
+      system_grammatical_inflection_changed = 816 [(module_name) = "framework"];
 }
 
 /**

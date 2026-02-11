@@ -27,17 +27,17 @@ option java_multiple_files = true;
 
 extend Atom {
   optional QualifiedRatListChanged qualified_rat_list_changed = 634
-          [(module) = "qns"];
+      [(module_name) = "qns"];
   optional QnsImsCallDropStats qns_ims_call_drop_stats = 635
-          [(module) = "qns"];
+      [(module_name) = "qns"];
   optional QnsFallbackRestrictionChanged qns_fallback_restriction_changed = 636
-          [(module) = "qns"];
+      [(module_name) = "qns"];
   optional QnsRatPreferenceMismatchInfo qns_rat_preference_mismatch_info = 10177
-          [(module) = "qns"];
+      [(module_name) = "qns"];
   optional QnsHandoverTimeMillis qns_handover_time_millis = 10178
-          [(module) = "qns"];
+      [(module_name) = "qns"];
   optional QnsHandoverPingpong qns_handover_pingpong = 10179
-          [(module) = "qns"];
+      [(module_name) = "qns"];
 }
 
 

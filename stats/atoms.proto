@@ -137,773 +137,1180 @@ message Atom {
     oneof pushed {
         // For StatsLog reasons, 1 is illegal and will not work. Must start at 2.
         BleScanStateChanged ble_scan_state_changed = 2
-                [(module) = "bluetooth", (module) = "statsdtest"];
-        ProcessStateChanged process_state_changed = 3 [(module) = "framework", deprecated = true];
+            [(module_name) = "bluetooth", (module_name) = "statsdtest"];
+        ProcessStateChanged process_state_changed = 3
+            [(module_name) = "framework", deprecated = true];
         BleScanResultReceived ble_scan_result_received = 4
-            [(module) = "bluetooth", (module) = "statsdtest"];
-        SensorStateChanged sensor_state_changed =
-                5 [(module) = "framework", (module) = "statsdtest"];
-        gps.GpsScanStateChanged gps_scan_state_changed = 6 [(module) = "framework"];
-        SyncStateChanged sync_state_changed = 7 [(module) = "framework", (module) = "statsdtest"];
-        ScheduledJobStateChanged scheduled_job_state_changed =
-                8 [(module) = "framework", (module) = "statsdtest"];
-        ScreenBrightnessChanged screen_brightness_changed =
-                9 [(module) = "framework", (module) = "statsdtest"];
-        WakelockStateChanged wakelock_state_changed =
-                10 [(module) = "framework", (module) = "statsdtest"];
-        LongPartialWakelockStateChanged long_partial_wakelock_state_changed =
-                11 [(module) = "framework"];
-        MobileRadioPowerStateChanged mobile_radio_power_state_changed =
-                12 [(module) = "framework", (truncate_timestamp) = true];
-        WifiRadioPowerStateChanged wifi_radio_power_state_changed = 13 [(module) = "framework"];
+            [(module_name) = "bluetooth", (module_name) = "statsdtest"];
+        SensorStateChanged sensor_state_changed = 5
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        gps.GpsScanStateChanged gps_scan_state_changed = 6
+            [(module_name) = "framework"];
+        SyncStateChanged sync_state_changed = 7
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ScheduledJobStateChanged scheduled_job_state_changed = 8
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ScreenBrightnessChanged screen_brightness_changed = 9
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        WakelockStateChanged wakelock_state_changed = 10
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        LongPartialWakelockStateChanged long_partial_wakelock_state_changed = 11
+            [(module_name) = "framework"];
+        MobileRadioPowerStateChanged mobile_radio_power_state_changed = 12
+            [(module_name) = "framework", (truncate_timestamp) = true];
+        WifiRadioPowerStateChanged wifi_radio_power_state_changed = 13
+            [(module_name) = "framework"];
         ActivityManagerSleepStateChanged activity_manager_sleep_state_changed =
-                14 [(module) = "framework"];
-        MemoryFactorStateChanged memory_factor_state_changed = 15 [(module) = "framework"];
-        ExcessiveCpuUsageReported excessive_cpu_usage_reported = 16 [(module) = "framework"];
-        CachedKillReported cached_kill_reported = 17 [(module) = "framework", deprecated = true];
-        ProcessMemoryStatReported process_memory_stat_reported =
-                18 [(module) = "framework", deprecated = true];
-        sysui.LauncherUIChanged launcher_event = 19 [(module) = "sysui"];
-        BatterySaverModeStateChanged battery_saver_mode_state_changed =
-                20 [(module) = "framework", (module) = "statsdtest"];
-        DeviceIdleModeStateChanged device_idle_mode_state_changed = 21 [(module) = "framework"];
-        DeviceIdlingModeStateChanged device_idling_mode_state_changed = 22 [(module) = "framework"];
-        AudioStateChanged audio_state_changed =
-                23 [(module) = "framework", (truncate_timestamp) = true];
-        MediaCodecStateChanged media_codec_state_changed = 24 [(module) = "framework"];
-        CameraStateChanged camera_state_changed = 25 [(module) = "framework"];
-        FlashlightStateChanged flashlight_state_changed = 26 [(module) = "framework"];
-        UidProcessStateChanged uid_process_state_changed =
-                27 [(module) = "framework", (module) = "statsdtest"];
-        ProcessLifeCycleStateChanged process_life_cycle_state_changed =
-                28 [(module) = "framework", (module) = "statsdtest"];
-        ScreenStateChanged screen_state_changed =
-                29 [(module) = "framework", (module) = "statsdtest"];
-        BatteryLevelChanged battery_level_changed =
-                30 [(module) = "framework", (module) = "statsdtest"];
-        ChargingStateChanged charging_state_changed = 31 [(module) = "framework"];
+            14 [(module_name) = "framework"];
+        MemoryFactorStateChanged memory_factor_state_changed = 15
+            [(module_name) = "framework"];
+        ExcessiveCpuUsageReported excessive_cpu_usage_reported = 16
+            [(module_name) = "framework"];
+        CachedKillReported cached_kill_reported = 17
+            [(module_name) = "framework", deprecated = true];
+        ProcessMemoryStatReported process_memory_stat_reported = 18
+            [(module_name) = "framework", deprecated = true];
+        sysui.LauncherUIChanged launcher_event = 19 [(module_name) = "sysui"];
+        BatterySaverModeStateChanged battery_saver_mode_state_changed = 20
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        DeviceIdleModeStateChanged device_idle_mode_state_changed = 21
+            [(module_name) = "framework"];
+        DeviceIdlingModeStateChanged device_idling_mode_state_changed = 22
+            [(module_name) = "framework"];
+        AudioStateChanged audio_state_changed = 23
+            [(module_name) = "framework", (truncate_timestamp) = true];
+        MediaCodecStateChanged media_codec_state_changed = 24
+            [(module_name) = "framework"];
+        CameraStateChanged camera_state_changed = 25
+            [(module_name) = "framework"];
+        FlashlightStateChanged flashlight_state_changed = 26
+            [(module_name) = "framework"];
+        UidProcessStateChanged uid_process_state_changed = 27
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ProcessLifeCycleStateChanged process_life_cycle_state_changed = 28
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ScreenStateChanged screen_state_changed = 29
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        BatteryLevelChanged battery_level_changed = 30
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ChargingStateChanged charging_state_changed = 31
+            [(module_name) = "framework"];
         PluggedStateChanged plugged_state_changed = 32
-                [(module) = "framework", (module) = "statsdtest"];
-        InteractiveStateChanged interactive_state_changed = 33 [(module) = "framework"];
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        InteractiveStateChanged interactive_state_changed = 33
+            [(module_name) = "framework"];
         input.TouchEventReported touch_event_reported = 34;
-        WakeupAlarmOccurred wakeup_alarm_occurred = 35 [(module) = "framework"];
-        KernelWakeupReported kernel_wakeup_reported = 36 [(module) = "framework"];
-        WifiLockStateChanged wifi_lock_state_changed = 37 [(module) = "wifi"];
-        WifiSignalStrengthChanged wifi_signal_strength_changed = 38 [(module) = "wifi"];
-        WifiScanStateChanged wifi_scan_state_changed = 39 [(module) = "wifi"];
-        PhoneSignalStrengthChanged phone_signal_strength_changed =
-                40 [(module) = "framework", (module) = "statsdtest", (truncate_timestamp) = true];
-        SettingChanged setting_changed = 41 [(module) = "framework"];
-        ActivityForegroundStateChanged activity_foreground_state_changed =
-                42 [(module) = "framework", (module) = "statsdtest"];
-        IsolatedUidChanged isolated_uid_changed =
-                43 [(module) = "framework", (module) = "statsd", (module) = "statsdtest"];
-        PacketWakeupOccurred packet_wakeup_occurred = 44 [(module) = "framework", deprecated = true];
-        WallClockTimeShifted wall_clock_time_shifted = 45 [(module) = "framework"];
-        AnomalyDetected anomaly_detected = 46 [(module) = "statsd"];
-        AppBreadcrumbReported app_breadcrumb_reported = 47
-            [(module) = "statsd", (module) = "statsdtest"];
-        AppStartOccurred app_start_occurred = 48 [(module) = "framework", (module) = "statsdtest"];
-        AppStartCanceled app_start_canceled = 49 [(module) = "framework"];
-        AppStartFullyDrawn app_start_fully_drawn = 50 [(module) = "framework"];
-        LmkKillOccurred lmk_kill_occurred = 51 [(module) = "framework"];
-        PictureInPictureStateChanged picture_in_picture_state_changed = 52 [(module) = "framework"];
-        WifiMulticastLockStateChanged wifi_multicast_lock_state_changed = 53 [(module) = "wifi"];
-        AppStartMemoryStateCaptured app_start_memory_state_captured = 55 [(module) = "framework"];
-        ShutdownSequenceReported shutdown_sequence_reported = 56 [(module) = "framework"];
-        BootSequenceReported boot_sequence_reported = 57 [(module) = "bootstats"];
-        OverlayStateChanged overlay_state_changed =
-                59 [(module) = "framework", (module) = "statsdtest"];
-        ForegroundServiceStateChanged foreground_service_state_changed
-                = 60 [(module) = "framework"];
-        CallStateChanged call_state_changed =
-                61 [(module) = "telecom", (truncate_timestamp) = true];
-        sysui.KeyguardStateChanged keyguard_state_changed = 62 [(module) = "sysui"];
-        sysui.KeyguardBouncerStateChanged keyguard_bouncer_state_changed = 63 [(module) = "sysui"];
-        sysui.KeyguardBouncerPasswordEntered keyguard_bouncer_password_entered =
-                64 [(module) = "sysui"];
-        AppDied app_died = 65 [(module) = "framework"];
-        ResourceConfigurationChanged resource_configuration_changed = 66 [(module) = "framework"];
-        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67 [(module) = "bluetooth"];
-        BluetoothConnectionStateChanged bluetooth_connection_state_changed =
-                68 [(module) = "bluetooth"];
-        GpsSignalQualityChanged gps_signal_quality_changed = 69 [(module) = "framework"];
-        UsbConnectorStateChanged usb_connector_state_changed = 70 [(module) = "framework"];
-        SpeakerImpedanceReported speaker_impedance_reported = 71 [(module) = "statshidl"];
-        HardwareFailed hardware_failed = 72 [(module) = "statshidl"];
-        PhysicalDropDetected physical_drop_detected = 73 [(module) = "statshidl"];
-        ChargeCyclesReported charge_cycles_reported = 74 [(module) = "statshidl"];
-        MobileConnectionStateChanged mobile_connection_state_changed = 75 [(module) = "telephony"];
-        MobileRadioTechnologyChanged mobile_radio_technology_changed = 76 [(module) = "telephony"];
-        UsbDeviceAttached usb_device_attached = 77 [(module) = "framework"];
-        AppCrashOccurred app_crash_occurred = 78 [(module) = "framework", (module) = "statsdtest"];
-        ANROccurred anr_occurred = 79 [(module) = "framework"];
-        WTFOccurred wtf_occurred = 80 [(module) = "framework"];
-        LowMemReported low_mem_reported = 81 [(module) = "framework"];
-        GenericAtom generic_atom = 82;
-        VibratorStateChanged vibrator_state_changed = 84 [(module) = "framework"];
-        DeferredJobStatsReported deferred_job_stats_reported = 85 [(module) = "framework"];
-        ThermalThrottlingStateChanged thermal_throttling = 86 [deprecated=true];
-        BiometricAcquired biometric_acquired = 87 [(module) = "framework"];
-        BiometricAuthenticated biometric_authenticated = 88 [(module) = "framework"];
-        BiometricErrorOccurred biometric_error_occurred = 89 [(module) = "framework"];
-        UiEventReported ui_event_reported = 90 [
-            (module) = "framework",
-            (module) = "sysui",
-            (module) = "mediaprovider"
+        WakeupAlarmOccurred wakeup_alarm_occurred = 35
+            [(module_name) = "framework"];
+        KernelWakeupReported kernel_wakeup_reported = 36
+            [(module_name) = "framework"];
+        WifiLockStateChanged wifi_lock_state_changed = 37
+            [(module_name) = "wifi"];
+        WifiSignalStrengthChanged wifi_signal_strength_changed = 38
+            [(module_name) = "wifi"];
+        WifiScanStateChanged wifi_scan_state_changed = 39
+            [(module_name) = "wifi"];
+        PhoneSignalStrengthChanged phone_signal_strength_changed = 40 [
+          (module_name) = "framework",
+          (module_name) = "statsdtest",
+          (truncate_timestamp) = true
         ];
-        BatteryHealthSnapshot battery_health_snapshot = 91 [(module) = "statshidl"];
-        SlowIo slow_io = 92 [(module) = "statshidl"];
-        BatteryCausedShutdown battery_caused_shutdown = 93 [(module) = "statshidl"];
-        PhoneServiceStateChanged phone_service_state_changed = 94 [(module) = "framework"];
-        PhoneStateChanged phone_state_changed = 95 [(module) = "framework"];
+        SettingChanged setting_changed = 41 [(module_name) = "framework"];
+        ActivityForegroundStateChanged activity_foreground_state_changed = 42
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        IsolatedUidChanged isolated_uid_changed = 43 [
+          (module_name) = "framework",
+          (module_name) = "statsd",
+          (module_name) = "statsdtest"
+        ];
+        PacketWakeupOccurred packet_wakeup_occurred = 44
+            [(module_name) = "framework", deprecated = true];
+        WallClockTimeShifted wall_clock_time_shifted = 45
+            [(module_name) = "framework"];
+        AnomalyDetected anomaly_detected = 46 [(module_name) = "statsd"];
+        AppBreadcrumbReported app_breadcrumb_reported = 47
+            [(module_name) = "statsd", (module_name) = "statsdtest"];
+        AppStartOccurred app_start_occurred = 48
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        AppStartCanceled app_start_canceled = 49 [(module_name) = "framework"];
+        AppStartFullyDrawn app_start_fully_drawn = 50
+            [(module_name) = "framework"];
+        LmkKillOccurred lmk_kill_occurred = 51 [(module_name) = "framework"];
+        PictureInPictureStateChanged picture_in_picture_state_changed = 52
+            [(module_name) = "framework"];
+        WifiMulticastLockStateChanged wifi_multicast_lock_state_changed = 53
+            [(module_name) = "wifi"];
+        AppStartMemoryStateCaptured app_start_memory_state_captured = 55
+            [(module_name) = "framework"];
+        ShutdownSequenceReported shutdown_sequence_reported = 56
+            [(module_name) = "framework"];
+        BootSequenceReported boot_sequence_reported = 57
+            [(module_name) = "bootstats"];
+        OverlayStateChanged overlay_state_changed = 59
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ForegroundServiceStateChanged foreground_service_state_changed = 60
+            [(module_name) = "framework"];
+        CallStateChanged call_state_changed = 61
+            [(module_name) = "telecom", (truncate_timestamp) = true];
+        sysui.KeyguardStateChanged keyguard_state_changed = 62
+            [(module_name) = "sysui"];
+        sysui.KeyguardBouncerStateChanged keyguard_bouncer_state_changed = 63
+            [(module_name) = "sysui"];
+        sysui.KeyguardBouncerPasswordEntered keyguard_bouncer_password_entered =
+            64 [(module_name) = "sysui"];
+        AppDied app_died = 65 [(module_name) = "framework"];
+        ResourceConfigurationChanged resource_configuration_changed = 66
+            [(module_name) = "framework"];
+        BluetoothEnabledStateChanged bluetooth_enabled_state_changed = 67
+            [(module_name) = "bluetooth"];
+        BluetoothConnectionStateChanged bluetooth_connection_state_changed = 68
+            [(module_name) = "bluetooth"];
+        GpsSignalQualityChanged gps_signal_quality_changed = 69
+            [(module_name) = "framework"];
+        UsbConnectorStateChanged usb_connector_state_changed = 70
+            [(module_name) = "framework"];
+        SpeakerImpedanceReported speaker_impedance_reported = 71
+            [(module_name) = "statshidl"];
+        HardwareFailed hardware_failed = 72 [(module_name) = "statshidl"];
+        PhysicalDropDetected physical_drop_detected = 73
+            [(module_name) = "statshidl"];
+        ChargeCyclesReported charge_cycles_reported = 74
+            [(module_name) = "statshidl"];
+        MobileConnectionStateChanged mobile_connection_state_changed = 75
+            [(module_name) = "telephony"];
+        MobileRadioTechnologyChanged mobile_radio_technology_changed = 76
+            [(module_name) = "telephony"];
+        UsbDeviceAttached usb_device_attached = 77
+            [(module_name) = "framework"];
+        AppCrashOccurred app_crash_occurred = 78
+            [(module_name) = "framework", (module_name) = "statsdtest"];
+        ANROccurred anr_occurred = 79 [(module_name) = "framework"];
+        WTFOccurred wtf_occurred = 80 [(module_name) = "framework"];
+        LowMemReported low_mem_reported = 81 [(module_name) = "framework"];
+        GenericAtom generic_atom = 82;
+        VibratorStateChanged vibrator_state_changed = 84
+            [(module_name) = "framework"];
+        DeferredJobStatsReported deferred_job_stats_reported = 85
+            [(module_name) = "framework"];
+        ThermalThrottlingStateChanged thermal_throttling = 86 [deprecated=true];
+        BiometricAcquired biometric_acquired = 87 [(module_name) = "framework"];
+        BiometricAuthenticated biometric_authenticated = 88
+            [(module_name) = "framework"];
+        BiometricErrorOccurred biometric_error_occurred = 89
+            [(module_name) = "framework"];
+        UiEventReported ui_event_reported = 90 [
+          (module_name) = "framework",
+          (module_name) = "sysui",
+          (module_name) = "mediaprovider"
+        ];
+        BatteryHealthSnapshot battery_health_snapshot = 91
+            [(module_name) = "statshidl"];
+        SlowIo slow_io = 92 [(module_name) = "statshidl"];
+        BatteryCausedShutdown battery_caused_shutdown = 93
+            [(module_name) = "statshidl"];
+        PhoneServiceStateChanged phone_service_state_changed = 94
+            [(module_name) = "framework"];
+        PhoneStateChanged phone_state_changed = 95
+            [(module_name) = "framework"];
         UserRestrictionChanged user_restriction_changed = 96;
-        SettingsUIChanged settings_ui_changed = 97 [(module) = "settings"];
+        SettingsUIChanged settings_ui_changed = 97 [(module_name) = "settings"];
         // TODO: service state change is very noisy shortly after boot, as well
         // as at other transitions - coming out of doze, device plugged in, etc.
         // Consider removing this if it becomes a problem
-        ServiceStateChanged service_state_changed = 99 [(module) = "framework"];
-        ServiceLaunchReported service_launch_reported = 100 [(module) = "framework"];
-        FlagFlipUpdateOccurred flag_flip_update_occurred = 101 [(module) = "framework"];
-        BinaryPushStateChanged binary_push_state_changed = 102 [(module) = "statsd"];
-        DevicePolicyEvent device_policy_event = 103 [(module) = "framework"];
-        DocsUIFileOperationCanceledReported docs_ui_file_op_canceled = 104 [(module) = "docsui"];
-        DocsUIFileOperationCopyMoveModeReported docs_ui_file_op_copy_move_mode_reported =
-            105 [(module) = "docsui"];
-        DocsUIFileOperationFailureReported docs_ui_file_op_failure = 106 [(module) = "docsui"];
-        DocsUIFileOperationReported docs_ui_provider_file_op = 107 [(module) = "docsui"];
-        DocsUIInvalidScopedAccessRequestReported docs_ui_invalid_scoped_access_request =
-            108 [(module) = "docsui"];
-        DocsUILaunchReported docs_ui_launch_reported = 109 [(module) = "docsui"];
-        DocsUIRootVisitedReported docs_ui_root_visited = 110 [(module) = "docsui"];
-        DocsUIStartupMsReported docs_ui_startup_ms = 111 [(module) = "docsui"];
-        DocsUIUserActionReported docs_ui_user_action_reported = 112 [(module) = "docsui"];
-        WifiEnabledStateChanged wifi_enabled_state_changed = 113 [(module) = "framework"];
+        ServiceStateChanged service_state_changed = 99
+            [(module_name) = "framework"];
+        ServiceLaunchReported service_launch_reported = 100
+            [(module_name) = "framework"];
+        FlagFlipUpdateOccurred flag_flip_update_occurred = 101
+            [(module_name) = "framework"];
+        BinaryPushStateChanged binary_push_state_changed = 102
+            [(module_name) = "statsd"];
+        DevicePolicyEvent device_policy_event = 103
+            [(module_name) = "framework"];
+        DocsUIFileOperationCanceledReported docs_ui_file_op_canceled = 104
+            [(module_name) = "docsui"];
+        DocsUIFileOperationCopyMoveModeReported
+            docs_ui_file_op_copy_move_mode_reported = 105
+            [(module_name) = "docsui"];
+        DocsUIFileOperationFailureReported docs_ui_file_op_failure = 106
+            [(module_name) = "docsui"];
+        DocsUIFileOperationReported docs_ui_provider_file_op = 107
+            [(module_name) = "docsui"];
+        DocsUIInvalidScopedAccessRequestReported
+            docs_ui_invalid_scoped_access_request = 108
+            [(module_name) = "docsui"];
+        DocsUILaunchReported docs_ui_launch_reported = 109
+            [(module_name) = "docsui"];
+        DocsUIRootVisitedReported docs_ui_root_visited = 110
+            [(module_name) = "docsui"];
+        DocsUIStartupMsReported docs_ui_startup_ms = 111
+            [(module_name) = "docsui"];
+        DocsUIUserActionReported docs_ui_user_action_reported = 112
+            [(module_name) = "docsui"];
+        WifiEnabledStateChanged wifi_enabled_state_changed = 113
+            [(module_name) = "framework"];
         WifiRunningStateChanged wifi_running_state_changed = 114
-                [(module) = "framework", deprecated = true];
-        AppCompacted app_compacted = 115 [(module) = "framework", deprecated = true];
-        NetworkDnsEventReported network_dns_event_reported = 116 [(module) = "resolv"];
+            [(module_name) = "framework", deprecated = true];
+        AppCompacted app_compacted = 115
+            [(module_name) = "framework", deprecated = true];
+        NetworkDnsEventReported network_dns_event_reported = 116
+            [(module_name) = "resolv"];
         DocsUIPickerLaunchedFromReported docs_ui_picker_launched_from_reported =
-            117 [(module) = "docsui"];
-        DocsUIPickResultReported docs_ui_pick_result_reported = 118 [(module) = "docsui"];
-        DocsUISearchModeReported docs_ui_search_mode_reported = 119 [(module) = "docsui"];
-        DocsUISearchTypeReported docs_ui_search_type_reported = 120 [(module) = "docsui"];
-        DataStallEvent data_stall_event = 121 [(module) = "network_stack"];
-        RescuePartyResetReported rescue_party_reset_reported = 122 [(module) = "crashrecovery", (module) = "framework"];
-        SignedConfigReported signed_config_reported = 123 [(module) = "framework"];
-        GnssNiEventReported gnss_ni_event_reported = 124 [(module) = "framework"];
-        BluetoothLinkLayerConnectionEvent bluetooth_link_layer_connection_event =
-                125 [(module) = "bluetooth"];
-        BluetoothAclConnectionStateChanged bluetooth_acl_connection_state_changed =
-                126 [(module) = "bluetooth"];
-        BluetoothScoConnectionStateChanged bluetooth_sco_connection_state_changed =
-                127 [(module) = "bluetooth"];
-        AppDowngraded app_downgraded = 128 [(module) = "framework"];
+            117 [(module_name) = "docsui"];
+        DocsUIPickResultReported docs_ui_pick_result_reported = 118
+            [(module_name) = "docsui"];
+        DocsUISearchModeReported docs_ui_search_mode_reported = 119
+            [(module_name) = "docsui"];
+        DocsUISearchTypeReported docs_ui_search_type_reported = 120
+            [(module_name) = "docsui"];
+        DataStallEvent data_stall_event = 121 [(module_name) = "network_stack"];
+        RescuePartyResetReported rescue_party_reset_reported = 122
+            [(module_name) = "crashrecovery", (module_name) = "framework"];
+        SignedConfigReported signed_config_reported = 123
+            [(module_name) = "framework"];
+        GnssNiEventReported gnss_ni_event_reported = 124
+            [(module_name) = "framework"];
+        BluetoothLinkLayerConnectionEvent
+            bluetooth_link_layer_connection_event = 125
+            [(module_name) = "bluetooth"];
+        BluetoothAclConnectionStateChanged
+            bluetooth_acl_connection_state_changed = 126
+            [(module_name) = "bluetooth"];
+        BluetoothScoConnectionStateChanged
+            bluetooth_sco_connection_state_changed = 127
+            [(module_name) = "bluetooth"];
+        AppDowngraded app_downgraded = 128 [(module_name) = "framework"];
         AppOptimizedAfterDowngraded app_optimized_after_downgraded = 129;
-        LowStorageStateChanged low_storage_state_changed = 130 [(module) = "framework"];
-        GnssNfwNotificationReported gnss_nfw_notification_reported = 131 [(module) = "framework"];
-        GnssConfigurationReported gnss_configuration_reported = 132 [(module) = "framework"];
-        UsbPortOverheatEvent usb_port_overheat_event_reported = 133 [(module) = "statshidl"];
-        NfcErrorOccurred nfc_error_occurred = 134 [(module) = "nfc"];
-        NfcStateChanged nfc_state_changed = 135 [(module) = "nfc"];
-        NfcBeamOccurred nfc_beam_occurred = 136 [(module) = "nfc"];
-        NfcCardemulationOccurred nfc_cardemulation_occurred = 137 [(module) = "nfc"];
-        NfcTagOccurred nfc_tag_occurred = 138 [(module) = "nfc"];
-        NfcHceTransactionOccurred nfc_hce_transaction_occurred = 139 [(module) = "nfc"];
-        SeStateChanged se_state_changed = 140 [(module) = "secure_element"];
-        SeOmapiReported se_omapi_reported = 141 [(module) = "secure_element"];
+        LowStorageStateChanged low_storage_state_changed = 130
+            [(module_name) = "framework"];
+        GnssNfwNotificationReported gnss_nfw_notification_reported = 131
+            [(module_name) = "framework"];
+        GnssConfigurationReported gnss_configuration_reported = 132
+            [(module_name) = "framework"];
+        UsbPortOverheatEvent usb_port_overheat_event_reported = 133
+            [(module_name) = "statshidl"];
+        NfcErrorOccurred nfc_error_occurred = 134 [(module_name) = "nfc"];
+        NfcStateChanged nfc_state_changed = 135 [(module_name) = "nfc"];
+        NfcBeamOccurred nfc_beam_occurred = 136 [(module_name) = "nfc"];
+        NfcCardemulationOccurred nfc_cardemulation_occurred = 137
+            [(module_name) = "nfc"];
+        NfcTagOccurred nfc_tag_occurred = 138 [(module_name) = "nfc"];
+        NfcHceTransactionOccurred nfc_hce_transaction_occurred = 139
+            [(module_name) = "nfc"];
+        SeStateChanged se_state_changed = 140
+            [(module_name) = "secure_element"];
+        SeOmapiReported se_omapi_reported = 141
+            [(module_name) = "secure_element"];
         BroadcastDispatchLatencyReported broadcast_dispatch_latency_reported =
-                142 [(module) = "framework"];
-        AttentionManagerServiceResultReported attention_manager_service_result_reported =
-                143 [(module) = "framework"];
-        AdbConnectionChanged adb_connection_changed = 144 [(module) = "framework"];
-        SpeechDspStatReported speech_dsp_stat_reported = 145 [(module) = "statshidl"];
-        UsbContaminantReported usb_contaminant_reported = 146 [(module) = "framework"];
-        WatchdogRollbackOccurred watchdog_rollback_occurred =
-                147 [(module) = "framework", (module) = "crashrecovery", (module) = "statsd"];
-        BiometricSystemHealthIssueDetected biometric_system_health_issue_detected =
-                148 [(module) = "framework"];
-        BubbleUIChanged bubble_ui_changed = 149 [(module) = "framework"];
-        ScheduledJobConstraintChanged scheduled_job_constraint_changed =
-                150 [(module) = "framework"];
-        BluetoothActiveDeviceChanged bluetooth_active_device_changed =
-                151 [(module) = "bluetooth"];
-        BluetoothA2dpPlaybackStateChanged bluetooth_a2dp_playback_state_changed =
-                152 [(module) = "bluetooth"];
+            142 [(module_name) = "framework"];
+        AttentionManagerServiceResultReported
+            attention_manager_service_result_reported = 143
+            [(module_name) = "framework"];
+        AdbConnectionChanged adb_connection_changed = 144
+            [(module_name) = "framework"];
+        SpeechDspStatReported speech_dsp_stat_reported = 145
+            [(module_name) = "statshidl"];
+        UsbContaminantReported usb_contaminant_reported = 146
+            [(module_name) = "framework"];
+        WatchdogRollbackOccurred watchdog_rollback_occurred = 147 [
+          (module_name) = "framework",
+          (module_name) = "crashrecovery",
+          (module_name) = "statsd"
+        ];
+        BiometricSystemHealthIssueDetected
+            biometric_system_health_issue_detected = 148
+            [(module_name) = "framework"];
+        BubbleUIChanged bubble_ui_changed = 149 [(module_name) = "framework"];
+        ScheduledJobConstraintChanged scheduled_job_constraint_changed = 150
+            [(module_name) = "framework"];
+        BluetoothActiveDeviceChanged bluetooth_active_device_changed = 151
+            [(module_name) = "bluetooth"];
+        BluetoothA2dpPlaybackStateChanged
+            bluetooth_a2dp_playback_state_changed = 152
+            [(module_name) = "bluetooth"];
         BluetoothA2dpCodecConfigChanged bluetooth_a2dp_codec_config_changed =
-                153 [(module) = "bluetooth"];
-        BluetoothA2dpCodecCapabilityChanged bluetooth_a2dp_codec_capability_changed =
-                154 [(module) = "bluetooth"];
-        BluetoothA2dpAudioUnderrunReported bluetooth_a2dp_audio_underrun_reported =
-                155 [(module) = "bluetooth"];
-        BluetoothA2dpAudioOverrunReported bluetooth_a2dp_audio_overrun_reported =
-                156 [(module) = "bluetooth"];
-        BluetoothDeviceRssiReported bluetooth_device_rssi_reported =
-                157 [(module) = "bluetooth"];
+            153 [(module_name) = "bluetooth"];
+        BluetoothA2dpCodecCapabilityChanged
+            bluetooth_a2dp_codec_capability_changed = 154
+            [(module_name) = "bluetooth"];
+        BluetoothA2dpAudioUnderrunReported
+            bluetooth_a2dp_audio_underrun_reported = 155
+            [(module_name) = "bluetooth"];
+        BluetoothA2dpAudioOverrunReported
+            bluetooth_a2dp_audio_overrun_reported = 156
+            [(module_name) = "bluetooth"];
+        BluetoothDeviceRssiReported bluetooth_device_rssi_reported = 157
+            [(module_name) = "bluetooth"];
         BluetoothDeviceFailedContactCounterReported
-                bluetooth_device_failed_contact_counter_reported = 158 [(module) = "bluetooth"];
-        BluetoothDeviceTxPowerLevelReported bluetooth_device_tx_power_level_reported =
-                159 [(module) = "bluetooth"];
-        BluetoothHciTimeoutReported bluetooth_hci_timeout_reported =
-                160 [(module) = "bluetooth"];
-        BluetoothQualityReportReported bluetooth_quality_report_reported =
-                161 [(module) = "bluetooth"];
-        BluetoothDeviceInfoReported bluetooth_device_info_reported =
-                162 [(module) = "bluetooth"];
-        BluetoothRemoteVersionInfoReported bluetooth_remote_version_info_reported =
-                163 [(module) = "bluetooth"];
-        BluetoothSdpAttributeReported bluetooth_sdp_attribute_reported =
-                164 [(module) = "bluetooth"];
-        BluetoothBondStateChanged bluetooth_bond_state_changed =
-                165 [(module) = "bluetooth"];
-        BluetoothClassicPairingEventReported bluetooth_classic_pairing_event_reported =
-                166 [(module) = "bluetooth"];
+            bluetooth_device_failed_contact_counter_reported = 158
+            [(module_name) = "bluetooth"];
+        BluetoothDeviceTxPowerLevelReported
+            bluetooth_device_tx_power_level_reported = 159
+            [(module_name) = "bluetooth"];
+        BluetoothHciTimeoutReported bluetooth_hci_timeout_reported = 160
+            [(module_name) = "bluetooth"];
+        BluetoothQualityReportReported bluetooth_quality_report_reported = 161
+            [(module_name) = "bluetooth"];
+        BluetoothDeviceInfoReported bluetooth_device_info_reported = 162
+            [(module_name) = "bluetooth"];
+        BluetoothRemoteVersionInfoReported
+            bluetooth_remote_version_info_reported = 163
+            [(module_name) = "bluetooth"];
+        BluetoothSdpAttributeReported bluetooth_sdp_attribute_reported = 164
+            [(module_name) = "bluetooth"];
+        BluetoothBondStateChanged bluetooth_bond_state_changed = 165
+            [(module_name) = "bluetooth"];
+        BluetoothClassicPairingEventReported
+            bluetooth_classic_pairing_event_reported = 166
+            [(module_name) = "bluetooth"];
         BluetoothSmpPairingEventReported bluetooth_smp_pairing_event_reported =
-                167 [(module) = "bluetooth"];
-        ScreenTimeoutExtensionReported screen_timeout_extension_reported =
-                168 [(module) = "framework"];
-        ProcessStartTime process_start_time = 169 [(module) = "framework"];
-        PermissionGrantRequestResultReported permission_grant_request_result_reported =
-                170 [(module) = "permissioncontroller"];
-        BluetoothSocketConnectionStateChanged bluetooth_socket_connection_state_changed =
-                171 [(module) = "bluetooth"];
-        DeviceIdentifierAccessDenied device_identifier_access_denied =
-                172 [(module) = "telephony_common"];
-        BubbleDeveloperErrorReported bubble_developer_error_reported = 173 [(module) = "framework"];
-        sysui.AssistGestureStageReported assist_gesture_stage_reported = 174 [(module) = "sysui"];
+            167 [(module_name) = "bluetooth"];
+        ScreenTimeoutExtensionReported screen_timeout_extension_reported = 168
+            [(module_name) = "framework"];
+        ProcessStartTime process_start_time = 169 [(module_name) = "framework"];
+        PermissionGrantRequestResultReported
+            permission_grant_request_result_reported = 170
+            [(module_name) = "permissioncontroller"];
+        BluetoothSocketConnectionStateChanged
+            bluetooth_socket_connection_state_changed = 171
+            [(module_name) = "bluetooth"];
+        DeviceIdentifierAccessDenied device_identifier_access_denied = 172
+            [(module_name) = "telephony_common"];
+        BubbleDeveloperErrorReported bubble_developer_error_reported = 173
+            [(module_name) = "framework"];
+        sysui.AssistGestureStageReported assist_gesture_stage_reported = 174
+            [(module_name) = "sysui"];
         sysui.AssistGestureFeedbackReported assist_gesture_feedback_reported =
-                175 [(module) = "sysui"];
+            175 [(module_name) = "sysui"];
         sysui.AssistGestureProgressReported assist_gesture_progress_reported =
-                176 [(module) = "sysui"];
-        input.TouchGestureClassified touch_gesture_classified = 177 [(module) = "framework"];
-        HiddenApiUsed hidden_api_used = 178 [(module) = "framework"];
-        StyleUIChanged style_ui_changed = 179 [(module) = "sysui", (module) = "wallpaper"];
-        PrivacyIndicatorsInteracted privacy_indicators_interacted =
-                180 [(module) = "permissioncontroller"];
-        AppInstallOnExternalStorageReported app_install_on_external_storage_reported =
-                181 [(module) = "framework"];
-        NetworkStackReported network_stack_reported = 182 [(module) = "network_stack"];
-        AppMovedStorageReported app_moved_storage_reported = 183 [(module) = "framework"];
-        BiometricEnrolled biometric_enrolled = 184 [(module) = "framework"];
-        SystemServerWatchdogOccurred system_server_watchdog_occurred = 185 [(module) = "framework"];
-        TombStoneOccurred tomb_stone_occurred = 186 [(module) = "framework"];
-        BluetoothClassOfDeviceReported bluetooth_class_of_device_reported =
-                187 [(module) = "bluetooth"];
-        IntelligenceEventReported intelligence_event_reported =
-                188 [(module) = "intelligence"];
-        ThermalThrottlingSeverityStateChanged thermal_throttling_severity_state_changed =
-                189 [(module) = "framework"];
-        RoleRequestResultReported role_request_result_reported =
-                190 [(module) = "permissioncontroller"];
-        MediametricsAudiopolicyReported mediametrics_audiopolicy_reported =
-                191 [(module) = "media_metrics"];
-        MediametricsAudiorecordReported mediametrics_audiorecord_reported =
-                192[(module) = "media_metrics"];
-        MediametricsAudiothreadReported mediametrics_audiothread_reported =
-                193 [(module) = "media_metrics"];
-        MediametricsAudiotrackReported mediametrics_audiotrack_reported =
-                194 [(module) = "media_metrics"];
-        MediametricsCodecReported mediametrics_codec_reported =
-                195 [(module) = "media_metrics"];
-        MediametricsDrmWidevineReported mediametrics_drm_widevine_reported =
-                196 [(module) = "media_metrics"];
-        MediametricsExtractorReported mediametrics_extractor_reported =
-                197 [(module) = "media_metrics"];
-        MediametricsMediadrmReported mediametrics_mediadrm_reported =
-                198 [(module) = "media_metrics"];
-        MediametricsNuPlayerReported mediametrics_nuplayer_reported =
-                199 [(module) = "media_metrics"];
-        MediametricsRecorderReported mediametrics_recorder_reported =
-                200 [(module) = "media_metrics"];
-        MediametricsDrmManagerReported mediametrics_drmmanager_reported =
-                201 [(module) = "media_metrics"];
-        CarPowerStateChanged car_power_state_changed = 203 [(module) = "car"];
-        GarageModeInfo garage_mode_info = 204 [(module) = "car"];
+            176 [(module_name) = "sysui"];
+        input.TouchGestureClassified touch_gesture_classified = 177
+            [(module_name) = "framework"];
+        HiddenApiUsed hidden_api_used = 178 [(module_name) = "framework"];
+        StyleUIChanged style_ui_changed = 179
+            [(module_name) = "sysui", (module_name) = "wallpaper"];
+        PrivacyIndicatorsInteracted privacy_indicators_interacted = 180
+            [(module_name) = "permissioncontroller"];
+        AppInstallOnExternalStorageReported
+            app_install_on_external_storage_reported = 181
+            [(module_name) = "framework"];
+        NetworkStackReported network_stack_reported = 182
+            [(module_name) = "network_stack"];
+        AppMovedStorageReported app_moved_storage_reported = 183
+            [(module_name) = "framework"];
+        BiometricEnrolled biometric_enrolled = 184
+            [(module_name) = "framework"];
+        SystemServerWatchdogOccurred system_server_watchdog_occurred = 185
+            [(module_name) = "framework"];
+        TombStoneOccurred tomb_stone_occurred = 186
+            [(module_name) = "framework"];
+        BluetoothClassOfDeviceReported bluetooth_class_of_device_reported = 187
+            [(module_name) = "bluetooth"];
+        IntelligenceEventReported intelligence_event_reported = 188
+            [(module_name) = "intelligence"];
+        ThermalThrottlingSeverityStateChanged
+            thermal_throttling_severity_state_changed = 189
+            [(module_name) = "framework"];
+        RoleRequestResultReported role_request_result_reported = 190
+            [(module_name) = "permissioncontroller"];
+        MediametricsAudiopolicyReported mediametrics_audiopolicy_reported = 191
+            [(module_name) = "media_metrics"];
+        MediametricsAudiorecordReported mediametrics_audiorecord_reported = 192
+            [(module_name) = "media_metrics"];
+        MediametricsAudiothreadReported mediametrics_audiothread_reported = 193
+            [(module_name) = "media_metrics"];
+        MediametricsAudiotrackReported mediametrics_audiotrack_reported = 194
+            [(module_name) = "media_metrics"];
+        MediametricsCodecReported mediametrics_codec_reported = 195
+            [(module_name) = "media_metrics"];
+        MediametricsDrmWidevineReported mediametrics_drm_widevine_reported = 196
+            [(module_name) = "media_metrics"];
+        MediametricsExtractorReported mediametrics_extractor_reported = 197
+            [(module_name) = "media_metrics"];
+        MediametricsMediadrmReported mediametrics_mediadrm_reported = 198
+            [(module_name) = "media_metrics"];
+        MediametricsNuPlayerReported mediametrics_nuplayer_reported = 199
+            [(module_name) = "media_metrics"];
+        MediametricsRecorderReported mediametrics_recorder_reported = 200
+            [(module_name) = "media_metrics"];
+        MediametricsDrmManagerReported mediametrics_drmmanager_reported = 201
+            [(module_name) = "media_metrics"];
+        CarPowerStateChanged car_power_state_changed = 203
+            [(module_name) = "car"];
+        GarageModeInfo garage_mode_info = 204 [(module_name) = "car"];
         TestAtomReported test_atom_reported = 205
-            [(module) = "cts", (module) = "statsdtest"];
-        ContentCaptureCallerMismatchReported content_capture_caller_mismatch_reported =
-                206 [(module) = "framework"];
-        ContentCaptureServiceEvents content_capture_service_events = 207 [(module) = "framework"];
-        ContentCaptureSessionEvents content_capture_session_events = 208 [(module) = "framework"];
-        ContentCaptureFlushed content_capture_flushed = 209 [(module) = "framework"];
+            [(module_name) = "cts", (module_name) = "statsdtest"];
+        ContentCaptureCallerMismatchReported
+            content_capture_caller_mismatch_reported = 206
+            [(module_name) = "framework"];
+        ContentCaptureServiceEvents content_capture_service_events = 207
+            [(module_name) = "framework"];
+        ContentCaptureSessionEvents content_capture_session_events = 208
+            [(module_name) = "framework"];
+        ContentCaptureFlushed content_capture_flushed = 209
+            [(module_name) = "framework"];
         LocationManagerApiUsageReported location_manager_api_usage_reported =
-                210 [(module) = "framework"];
-        ReviewPermissionsFragmentResultReported review_permissions_fragment_result_reported =
-                211 [(module) = "permissioncontroller"];
-        RuntimePermissionsUpgradeResult runtime_permissions_upgrade_result =
-                212 [(module) = "permissioncontroller"];
-        GrantPermissionsActivityButtonActions grant_permissions_activity_button_actions =
-                213 [(module) = "permissioncontroller"];
-        LocationAccessCheckNotificationAction location_access_check_notification_action =
-                214 [(module) = "permissioncontroller"];
-        AppPermissionFragmentActionReported app_permission_fragment_action_reported =
-                215 [(module) = "permissioncontroller"];
-        AppPermissionFragmentViewed app_permission_fragment_viewed =
-                216 [(module) = "permissioncontroller"];
-        AppPermissionsFragmentViewed app_permissions_fragment_viewed =
-                217 [(module) = "permissioncontroller"];
-        PermissionAppsFragmentViewed permission_apps_fragment_viewed =
-                218  [(module) = "permissioncontroller"];
-        TextSelectionEvent text_selection_event = 219  [(module) = "textclassifier"];
-        TextLinkifyEvent text_linkify_event = 220  [(module) = "textclassifier"];
-        ConversationActionsEvent conversation_actions_event = 221  [(module) = "textclassifier"];
-        LanguageDetectionEvent language_detection_event = 222  [(module) = "textclassifier"];
-        ExclusionRectStateChanged exclusion_rect_state_changed = 223 [(module) = "framework"];
-        sysui.BackGesture back_gesture_reported_reported = 224 [(module) = "sysui"];
-        UpdateEngineUpdateAttemptReported update_engine_update_attempt_reported =
-                225 [(module) = "update_engine"];
-        UpdateEngineSuccessfulUpdateReported update_engine_successful_update_reported =
-                226 [(module) = "update_engine"];
-        CameraActionEvent camera_action_event = 227 [(module) = "framework"];
-        AppCompatibilityChangeReported app_compatibility_change_reported =
-                228 [(module) = "framework"];
-        PerfettoUploaded perfetto_uploaded = 229 [(module) = "perfetto"];
+            210 [(module_name) = "framework"];
+        ReviewPermissionsFragmentResultReported
+            review_permissions_fragment_result_reported = 211
+            [(module_name) = "permissioncontroller"];
+        RuntimePermissionsUpgradeResult runtime_permissions_upgrade_result = 212
+            [(module_name) = "permissioncontroller"];
+        GrantPermissionsActivityButtonActions
+            grant_permissions_activity_button_actions = 213
+            [(module_name) = "permissioncontroller"];
+        LocationAccessCheckNotificationAction
+            location_access_check_notification_action = 214
+            [(module_name) = "permissioncontroller"];
+        AppPermissionFragmentActionReported
+            app_permission_fragment_action_reported = 215
+            [(module_name) = "permissioncontroller"];
+        AppPermissionFragmentViewed app_permission_fragment_viewed = 216
+            [(module_name) = "permissioncontroller"];
+        AppPermissionsFragmentViewed app_permissions_fragment_viewed = 217
+            [(module_name) = "permissioncontroller"];
+        PermissionAppsFragmentViewed permission_apps_fragment_viewed = 218
+            [(module_name) = "permissioncontroller"];
+        TextSelectionEvent text_selection_event = 219
+            [(module_name) = "textclassifier"];
+        TextLinkifyEvent text_linkify_event = 220
+            [(module_name) = "textclassifier"];
+        ConversationActionsEvent conversation_actions_event = 221
+            [(module_name) = "textclassifier"];
+        LanguageDetectionEvent language_detection_event = 222
+            [(module_name) = "textclassifier"];
+        ExclusionRectStateChanged exclusion_rect_state_changed = 223
+            [(module_name) = "framework"];
+        sysui.BackGesture back_gesture_reported_reported = 224
+            [(module_name) = "sysui"];
+        UpdateEngineUpdateAttemptReported
+            update_engine_update_attempt_reported = 225
+            [(module_name) = "update_engine"];
+        UpdateEngineSuccessfulUpdateReported
+            update_engine_successful_update_reported = 226
+            [(module_name) = "update_engine"];
+        CameraActionEvent camera_action_event = 227
+            [(module_name) = "framework"];
+        AppCompatibilityChangeReported app_compatibility_change_reported = 228
+            [(module_name) = "framework"];
+        PerfettoUploaded perfetto_uploaded = 229 [(module_name) = "perfetto"];
         VmsClientConnectionStateChanged vms_client_connection_state_changed =
-                230 [(module) = "car"];
-        MediaProviderScanOccurred media_provider_scan_occurred = 233 [(module) = "mediaprovider"];
-        MediaContentDeleted media_content_deleted = 234 [(module) = "mediaprovider"];
+            230 [(module_name) = "car"];
+        MediaProviderScanOccurred media_provider_scan_occurred = 233
+            [(module_name) = "mediaprovider"];
+        MediaContentDeleted media_content_deleted = 234
+            [(module_name) = "mediaprovider"];
         MediaProviderPermissionRequested media_provider_permission_requested =
-            235 [(module) = "mediaprovider"];
-        MediaProviderSchemaChanged media_provider_schema_changed = 236 [(module) = "mediaprovider"];
-        MediaProviderIdleMaintenanceFinished media_provider_idle_maintenance_finished =
-            237 [(module) = "mediaprovider"];
-        RebootEscrowRecoveryReported reboot_escrow_recovery_reported = 238 [(module) = "framework"];
-        BootTimeEventDuration boot_time_event_duration_reported =
-                239 [(module) = "framework", (module) = "bootstats"];
-        BootTimeEventElapsedTime boot_time_event_elapsed_time_reported =
-                240 [(module) = "framework", (module) = "bootstats"];
-        BootTimeEventUtcTime boot_time_event_utc_time_reported = 241 [(module) = "bootstats"];
-        BootTimeEventErrorCode boot_time_event_error_code_reported =
-                242 [(module) = "framework", (module) = "bootstats"];
-        UserspaceRebootReported userspace_reboot_reported = 243 [(module) = "framework"];
-        NotificationReported notification_reported = 244 [(module) = "framework"];
-        sysui.NotificationPanelReported notification_panel_reported = 245 [(module) = "sysui"];
-        NotificationChannelModified notification_channel_modified = 246 [(module) = "framework"];
-        IntegrityCheckResultReported integrity_check_result_reported = 247 [(module) = "framework"];
-        IntegrityRulesPushed integrity_rules_pushed = 248 [(module) = "framework"];
-        CellBroadcastMessageReported cb_message_reported =
-            249 [(module) = "cellbroadcast"];
-        CellBroadcastMessageError cb_message_error =
-            250 [(module) = "cellbroadcast"];
-        WifiHealthStatReported wifi_health_stat_reported = 251 [(module) = "wifi"];
-        WifiFailureStatReported wifi_failure_stat_reported = 252 [(module) = "wifi"];
-        WifiConnectionResultReported wifi_connection_result_reported = 253 [(module) = "wifi"];
-        AppFreezeChanged app_freeze_changed = 254 [(module) = "framework"];
-        SnapshotMergeReported snapshot_merge_reported =
-            255 [(module) = "update_engine"];
-        ForegroundServiceAppOpSessionEnded foreground_service_app_op_session_ended =
-            256  [(module) = "framework"];
+            235 [(module_name) = "mediaprovider"];
+        MediaProviderSchemaChanged media_provider_schema_changed = 236
+            [(module_name) = "mediaprovider"];
+        MediaProviderIdleMaintenanceFinished
+            media_provider_idle_maintenance_finished = 237
+            [(module_name) = "mediaprovider"];
+        RebootEscrowRecoveryReported reboot_escrow_recovery_reported = 238
+            [(module_name) = "framework"];
+        BootTimeEventDuration boot_time_event_duration_reported = 239
+            [(module_name) = "framework", (module_name) = "bootstats"];
+        BootTimeEventElapsedTime boot_time_event_elapsed_time_reported = 240
+            [(module_name) = "framework", (module_name) = "bootstats"];
+        BootTimeEventUtcTime boot_time_event_utc_time_reported = 241
+            [(module_name) = "bootstats"];
+        BootTimeEventErrorCode boot_time_event_error_code_reported = 242
+            [(module_name) = "framework", (module_name) = "bootstats"];
+        UserspaceRebootReported userspace_reboot_reported = 243
+            [(module_name) = "framework"];
+        NotificationReported notification_reported = 244
+            [(module_name) = "framework"];
+        sysui.NotificationPanelReported notification_panel_reported = 245
+            [(module_name) = "sysui"];
+        NotificationChannelModified notification_channel_modified = 246
+            [(module_name) = "framework"];
+        IntegrityCheckResultReported integrity_check_result_reported = 247
+            [(module_name) = "framework"];
+        IntegrityRulesPushed integrity_rules_pushed = 248
+            [(module_name) = "framework"];
+        CellBroadcastMessageReported cb_message_reported = 249
+            [(module_name) = "cellbroadcast"];
+        CellBroadcastMessageError cb_message_error = 250
+            [(module_name) = "cellbroadcast"];
+        WifiHealthStatReported wifi_health_stat_reported = 251
+            [(module_name) = "wifi"];
+        WifiFailureStatReported wifi_failure_stat_reported = 252
+            [(module_name) = "wifi"];
+        WifiConnectionResultReported wifi_connection_result_reported = 253
+            [(module_name) = "wifi"];
+        AppFreezeChanged app_freeze_changed = 254 [(module_name) = "framework"];
+        SnapshotMergeReported snapshot_merge_reported = 255
+            [(module_name) = "update_engine"];
+        ForegroundServiceAppOpSessionEnded
+            foreground_service_app_op_session_ended = 256
+            [(module_name) = "framework"];
         // DisplayJankReported was deprecated in Android 12+
         DisplayJankReported display_jank_reported = 257 [deprecated = true];
-        AppStandbyBucketChanged app_standby_bucket_changed = 258 [(module) = "framework"];
-        SharesheetStarted sharesheet_started = 259 [(module) = "framework"];
+        AppStandbyBucketChanged app_standby_bucket_changed = 258
+            [(module_name) = "framework"];
+        SharesheetStarted sharesheet_started = 259
+            [(module_name) = "framework"];
         RankingSelected ranking_selected = 260 [
-            (module) = "framework",
-            (module) = "sysui",
-            (module) = "mediaprovider"
+          (module_name) = "framework",
+          (module_name) = "sysui",
+          (module_name) = "mediaprovider"
         ];
-        TvSettingsUIInteracted tvsettings_ui_interacted = 261 [(module) = "tv_settings"];
-        sysui.LauncherStaticLayout launcher_snapshot = 262 [(module) = "sysui"];
-        PackageInstallerV2Reported package_installer_v2_reported = 263 [(module) = "framework"];
-        UserLifecycleJourneyReported user_lifecycle_journey_reported = 264 [(module) = "framework"];
-        UserLifecycleEventOccurred user_lifecycle_event_occurred = 265 [(module) = "framework"];
-        AccessibilityShortcutReported accessibility_shortcut_reported =
-            266 [(module) = "framework"];
-        AccessibilityServiceReported accessibility_service_reported = 267 [(module) = "settings"];
-        DocsUIDragAndDropReported docs_ui_drag_and_drop_reported = 268 [(module) = "docsui"];
-        AppUsageEventOccurred app_usage_event_occurred = 269 [(module) = "framework"];
-        AutoRevokeNotificationClicked auto_revoke_notification_clicked =
-            270 [(module) = "permissioncontroller"];
-        AutoRevokeFragmentAppViewed auto_revoke_fragment_app_viewed =
-            271 [(module) = "permissioncontroller"];
-        AutoRevokedAppInteraction auto_revoked_app_interaction =
-            272 [(module) = "permissioncontroller", (module) = "settings"];
+        TvSettingsUIInteracted tvsettings_ui_interacted = 261
+            [(module_name) = "tv_settings"];
+        sysui.LauncherStaticLayout launcher_snapshot = 262
+            [(module_name) = "sysui"];
+        PackageInstallerV2Reported package_installer_v2_reported = 263
+            [(module_name) = "framework"];
+        UserLifecycleJourneyReported user_lifecycle_journey_reported = 264
+            [(module_name) = "framework"];
+        UserLifecycleEventOccurred user_lifecycle_event_occurred = 265
+            [(module_name) = "framework"];
+        AccessibilityShortcutReported accessibility_shortcut_reported = 266
+            [(module_name) = "framework"];
+        AccessibilityServiceReported accessibility_service_reported = 267
+            [(module_name) = "settings"];
+        DocsUIDragAndDropReported docs_ui_drag_and_drop_reported = 268
+            [(module_name) = "docsui"];
+        AppUsageEventOccurred app_usage_event_occurred = 269
+            [(module_name) = "framework"];
+        AutoRevokeNotificationClicked auto_revoke_notification_clicked = 270
+            [(module_name) = "permissioncontroller"];
+        AutoRevokeFragmentAppViewed auto_revoke_fragment_app_viewed = 271
+            [(module_name) = "permissioncontroller"];
+        AutoRevokedAppInteraction auto_revoked_app_interaction = 272 [
+          (module_name) = "permissioncontroller",
+          (module_name) = "settings"
+        ];
         AppPermissionGroupsFragmentAutoRevokeAction
-            app_permission_groups_fragment_auto_revoke_action =
-            273 [(module) = "permissioncontroller"];
-        EvsUsageStatsReported evs_usage_stats_reported = 274 [(module) = "evs"];
-        AudioPowerUsageDataReported audio_power_usage_data_reported =
-            275 [(module) = "media_metrics"];
-        TvTunerStateChanged tv_tuner_state_changed = 276 [(module) = "framework"];
-        sysui.MediaOutputOpSwitchReported mediaoutput_op_switch_reported =
-            277 [(module) = "sysui"];
-        CellBroadcastMessageFiltered cb_message_filtered =
-            278 [(module) = "cellbroadcast"];
-        TvTunerDvrStatus tv_tuner_dvr_status = 279 [(module) = "framework"];
-        TvCasSessionOpenStatus tv_cas_session_open_status =
-            280 [(module) = "framework"];
-        AssistantInvocationReported assistant_invocation_reported = 281 [(module) = "framework"];
-        DisplayWakeReported display_wake_reported = 282 [(module) = "framework"];
-        CarUserHalModifyUserRequestReported car_user_hal_modify_user_request_reported =
-            283 [(module) = "car"];
-        CarUserHalModifyUserResponseReported car_user_hal_modify_user_response_reported =
-            284 [(module) = "car"];
-        CarUserHalPostSwitchResponseReported car_user_hal_post_switch_response_reported =
-            285 [(module) = "car"];
-        CarUserHalInitialUserInfoRequestReported car_user_hal_initial_user_info_request_reported =
-            286 [(module) = "car"];
-        CarUserHalInitialUserInfoResponseReported car_user_hal_initial_user_info_response_reported =
-            287 [(module) = "car"];
-        CarUserHalUserAssociationRequestReported car_user_hal_user_association_request_reported =
-            288 [(module) = "car"];
-        CarUserHalSetUserAssociationResponseReported car_user_hal_set_user_association_response_reported =
-            289 [(module) = "car"];
-        NetworkIpProvisioningReported network_ip_provisioning_reported =
-            290 [(module) = "network_stack"];
-        NetworkDhcpRenewReported network_dhcp_renew_reported = 291 [(module) = "network_stack"];
-        NetworkValidationReported network_validation_reported = 292 [(module) = "network_stack"];
-        NetworkStackQuirkReported network_stack_quirk_reported = 293 [(module) = "network_stack"];
-        MediametricsAudioRecordDeviceUsageReported mediametrics_audiorecorddeviceusage_reported =
-            294 [(module) = "media_metrics"];
-        MediametricsAudioThreadDeviceUsageReported mediametrics_audiothreaddeviceusage_reported =
-            295 [(module) = "media_metrics"];
-        MediametricsAudioTrackDeviceUsageReported mediametrics_audiotrackdeviceusage_reported =
-            296 [(module) = "media_metrics"];
-        MediametricsAudioDeviceConnectionReported mediametrics_audiodeviceconnection_reported =
-            297 [(module) = "media_metrics"];
-        BlobCommitted blob_committed = 298 [(module) = "framework"];
-        BlobLeased blob_leased = 299 [(module) = "framework"];
-        BlobOpened blob_opened = 300 [(module) = "framework"];
-        ContactsProviderStatusReported contacts_provider_status_reported = 301 [(module) = "contactsprovider"];
+            app_permission_groups_fragment_auto_revoke_action = 273
+            [(module_name) = "permissioncontroller"];
+        EvsUsageStatsReported evs_usage_stats_reported = 274
+            [(module_name) = "evs"];
+        AudioPowerUsageDataReported audio_power_usage_data_reported = 275
+            [(module_name) = "media_metrics"];
+        TvTunerStateChanged tv_tuner_state_changed = 276
+            [(module_name) = "framework"];
+        sysui.MediaOutputOpSwitchReported mediaoutput_op_switch_reported = 277
+            [(module_name) = "sysui"];
+        CellBroadcastMessageFiltered cb_message_filtered = 278
+            [(module_name) = "cellbroadcast"];
+        TvTunerDvrStatus tv_tuner_dvr_status = 279
+            [(module_name) = "framework"];
+        TvCasSessionOpenStatus tv_cas_session_open_status = 280
+            [(module_name) = "framework"];
+        AssistantInvocationReported assistant_invocation_reported = 281
+            [(module_name) = "framework"];
+        DisplayWakeReported display_wake_reported = 282
+            [(module_name) = "framework"];
+        CarUserHalModifyUserRequestReported
+            car_user_hal_modify_user_request_reported = 283
+            [(module_name) = "car"];
+        CarUserHalModifyUserResponseReported
+            car_user_hal_modify_user_response_reported = 284
+            [(module_name) = "car"];
+        CarUserHalPostSwitchResponseReported
+            car_user_hal_post_switch_response_reported = 285
+            [(module_name) = "car"];
+        CarUserHalInitialUserInfoRequestReported
+            car_user_hal_initial_user_info_request_reported = 286
+            [(module_name) = "car"];
+        CarUserHalInitialUserInfoResponseReported
+            car_user_hal_initial_user_info_response_reported = 287
+            [(module_name) = "car"];
+        CarUserHalUserAssociationRequestReported
+            car_user_hal_user_association_request_reported = 288
+            [(module_name) = "car"];
+        CarUserHalSetUserAssociationResponseReported
+            car_user_hal_set_user_association_response_reported = 289
+            [(module_name) = "car"];
+        NetworkIpProvisioningReported network_ip_provisioning_reported = 290
+            [(module_name) = "network_stack"];
+        NetworkDhcpRenewReported network_dhcp_renew_reported = 291
+            [(module_name) = "network_stack"];
+        NetworkValidationReported network_validation_reported = 292
+            [(module_name) = "network_stack"];
+        NetworkStackQuirkReported network_stack_quirk_reported = 293
+            [(module_name) = "network_stack"];
+        MediametricsAudioRecordDeviceUsageReported
+            mediametrics_audiorecorddeviceusage_reported = 294
+            [(module_name) = "media_metrics"];
+        MediametricsAudioThreadDeviceUsageReported
+            mediametrics_audiothreaddeviceusage_reported = 295
+            [(module_name) = "media_metrics"];
+        MediametricsAudioTrackDeviceUsageReported
+            mediametrics_audiotrackdeviceusage_reported = 296
+            [(module_name) = "media_metrics"];
+        MediametricsAudioDeviceConnectionReported
+            mediametrics_audiodeviceconnection_reported = 297
+            [(module_name) = "media_metrics"];
+        BlobCommitted blob_committed = 298 [(module_name) = "framework"];
+        BlobLeased blob_leased = 299 [(module_name) = "framework"];
+        BlobOpened blob_opened = 300 [(module_name) = "framework"];
+        ContactsProviderStatusReported contacts_provider_status_reported = 301
+            [(module_name) = "contactsprovider"];
         KeystoreKeyEventReported keystore_key_event_reported = 302 [deprecated = true];
-        NetworkTetheringReported  network_tethering_reported =
-            303 [(module) = "network_tethering"];
-        sysui.ImeTouchReported ime_touch_reported = 304 [(module) = "sysui"];
-        UIInteractionFrameInfoReported ui_interaction_frame_info_reported =
-            305 [(module) = "framework"];
-        UIActionLatencyReported ui_action_latency_reported = 306 [(module) = "framework"];
-        WifiDisconnectReported wifi_disconnect_reported = 307 [(module) = "wifi"];
-        WifiConnectionStateChanged wifi_connection_state_changed = 308 [(module) = "wifi"];
-        HdmiCecActiveSourceChanged hdmi_cec_active_source_changed = 309 [(module) = "framework"];
-        HdmiCecMessageReported hdmi_cec_message_reported = 310 [(module) = "framework"];
-        AirplaneMode airplane_mode = 311 [(module) = "telephony"];
-        ModemRestart modem_restart = 312 [(module) = "telephony"];
-        CarrierIdMismatchReported carrier_id_mismatch_reported = 313 [(module) = "telephony"];
-        CarrierIdTableUpdated carrier_id_table_updated = 314 [(module) = "telephony"];
-        DataStallRecoveryReported data_stall_recovery_reported = 315 [(module) = "telephony"];
-        MediametricsMediaParserReported mediametrics_mediaparser_reported =
-                316 [(module) = "media_metrics"];
-        TlsHandshakeReported tls_handshake_reported = 317 [(module) = "conscrypt"];
-        TextClassifierApiUsageReported text_classifier_api_usage_reported = 318  [(module) = "textclassifier"];
-        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319 [(module) = "car", (module) = "framework"];
-        MediametricsPlaybackReported mediametrics_playback_reported = 320 [(module) = "media_metrics"];
-        MediaNetworkInfoChanged media_network_info_changed = 321 [(module) = "media_metrics"];
-        MediaPlaybackStateChanged media_playback_state_changed = 322 [(module) = "media_metrics"];
-        MediaPlaybackErrorReported media_playback_error_reported = 323 [(module) = "media_metrics"];
-        MediaPlaybackTrackChanged media_playback_track_changed = 324 [(module) = "media_metrics"];
-        WifiScanReported wifi_scan_reported = 325 [(module) = "wifi"];
-        WifiPnoScanReported wifi_pno_scan_reported = 326  [(module) = "wifi"];
-        TifTuneStateChanged tif_tune_changed = 327 [(module) = "framework"];
-        AutoRotateReported auto_rotate_reported = 328 [(module) = "framework"];
-        PerfettoTrigger perfetto_trigger = 329 [(module) = "perfetto"];
-        TranscodingData transcoding_data = 330 [(module) = "mediaprovider"];
-        ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331 [(module) = "imsentitlement"];
-        DeviceRotated device_rotated = 333 [(module) = "framework"];
+        NetworkTetheringReported network_tethering_reported = 303
+            [(module_name) = "network_tethering"];
+        sysui.ImeTouchReported ime_touch_reported = 304
+            [(module_name) = "sysui"];
+        UIInteractionFrameInfoReported ui_interaction_frame_info_reported = 305
+            [(module_name) = "framework"];
+        UIActionLatencyReported ui_action_latency_reported = 306
+            [(module_name) = "framework"];
+        WifiDisconnectReported wifi_disconnect_reported = 307
+            [(module_name) = "wifi"];
+        WifiConnectionStateChanged wifi_connection_state_changed = 308
+            [(module_name) = "wifi"];
+        HdmiCecActiveSourceChanged hdmi_cec_active_source_changed = 309
+            [(module_name) = "framework"];
+        HdmiCecMessageReported hdmi_cec_message_reported = 310
+            [(module_name) = "framework"];
+        AirplaneMode airplane_mode = 311 [(module_name) = "telephony"];
+        ModemRestart modem_restart = 312 [(module_name) = "telephony"];
+        CarrierIdMismatchReported carrier_id_mismatch_reported = 313
+            [(module_name) = "telephony"];
+        CarrierIdTableUpdated carrier_id_table_updated = 314
+            [(module_name) = "telephony"];
+        DataStallRecoveryReported data_stall_recovery_reported = 315
+            [(module_name) = "telephony"];
+        MediametricsMediaParserReported mediametrics_mediaparser_reported = 316
+            [(module_name) = "media_metrics"];
+        TlsHandshakeReported tls_handshake_reported = 317
+            [(module_name) = "conscrypt"];
+        TextClassifierApiUsageReported text_classifier_api_usage_reported = 318
+            [(module_name) = "textclassifier"];
+        CarWatchdogKillStatsReported car_watchdog_kill_stats_reported = 319
+            [(module_name) = "car", (module_name) = "framework"];
+        MediametricsPlaybackReported mediametrics_playback_reported = 320
+            [(module_name) = "media_metrics"];
+        MediaNetworkInfoChanged media_network_info_changed = 321
+            [(module_name) = "media_metrics"];
+        MediaPlaybackStateChanged media_playback_state_changed = 322
+            [(module_name) = "media_metrics"];
+        MediaPlaybackErrorReported media_playback_error_reported = 323
+            [(module_name) = "media_metrics"];
+        MediaPlaybackTrackChanged media_playback_track_changed = 324
+            [(module_name) = "media_metrics"];
+        WifiScanReported wifi_scan_reported = 325 [(module_name) = "wifi"];
+        WifiPnoScanReported wifi_pno_scan_reported = 326
+            [(module_name) = "wifi"];
+        TifTuneStateChanged tif_tune_changed = 327
+            [(module_name) = "framework"];
+        AutoRotateReported auto_rotate_reported = 328
+            [(module_name) = "framework"];
+        PerfettoTrigger perfetto_trigger = 329 [(module_name) = "perfetto"];
+        TranscodingData transcoding_data = 330
+            [(module_name) = "mediaprovider"];
+        ImsServiceEntitlementUpdated ims_service_entitlement_updated = 331
+            [(module_name) = "imsentitlement"];
+        DeviceRotated device_rotated = 333 [(module_name) = "framework"];
         SimSpecificSettingsRestored sim_specific_settings_restored = 334
-            [(module) = "telephony"];
-        TextClassifierDownloadReported text_classifier_download_reported = 335 [(module) = "textclassifier"];
-        PinStorageEvent pin_storage_event = 336 [(module) = "telephony"];
-        FaceDownReported face_down_reported = 337 [(module) = "framework"];
+            [(module_name) = "telephony"];
+        TextClassifierDownloadReported text_classifier_download_reported = 335
+            [(module_name) = "textclassifier"];
+        PinStorageEvent pin_storage_event = 336 [(module_name) = "telephony"];
+        FaceDownReported face_down_reported = 337 [(module_name) = "framework"];
         BluetoothHALCrashReasonReported bluetooth_hal_crash_reason_reported =
-            338 [(module) = "bluetooth"];
-        RebootEscrowPreparationReported reboot_escrow_preparation_reported =
-            339 [(module) = "framework"];
+            338 [(module_name) = "bluetooth"];
+        RebootEscrowPreparationReported reboot_escrow_preparation_reported = 339
+            [(module_name) = "framework"];
         RebootEscrowLskfCaptureReported reboot_escrow_lskf_capture_reported =
-            340 [(module) = "framework"];
-        RebootEscrowRebootReported reboot_escrow_reboot_reported = 341 [(module) = "framework"];
-        BinderLatencyReported binder_latency_reported = 342 [(module) = "framework"];
+            340 [(module_name) = "framework"];
+        RebootEscrowRebootReported reboot_escrow_reboot_reported = 341
+            [(module_name) = "framework"];
+        BinderLatencyReported binder_latency_reported = 342
+            [(module_name) = "framework"];
         MediametricsAAudioStreamReported mediametrics_aaudiostream_reported =
-            343 [(module) = "media_metrics"];
+            343 [(module_name) = "media_metrics"];
         MediaTranscodingSessionEnded media_transcoding_session_ended = 344
-            [(module) = "media"];
-        MagnificationUsageReported magnification_usage_reported =
-            345 [(module) = "framework"];
-        MagnificationModeWithImeOnReported magnification_mode_with_ime_on_reported =
-            346 [(module) = "framework"];
-        AppSearchCallStatsReported app_search_call_stats_reported = 347 [(module) = "appsearch"];
-        AppSearchPutDocumentStatsReported app_search_put_document_stats_reported = 348 [(module) = "appsearch"];
-        sysui.DeviceControlChanged device_control_changed = 349 [(module) = "sysui"];
-        DeviceStateChanged device_state_changed = 350 [(module) = "framework"];
-        input.InputDeviceRegistered inputdevice_registered =
-            351 [(module) = "framework", (module) = "input"];
-        sysui.SmartSpaceCardReported smartspace_card_reported = 352 [(module) = "sysui"];
-        AuthPromptAuthenticateInvoked auth_prompt_authenticate_invoked = 353 [(module) = "framework"];
-        AuthManagerCanAuthenticateInvoked auth_manager_can_authenticate_invoked = 354 [(module) = "framework"];
-        AuthEnrollActionInvoked auth_enroll_action_invoked = 355 [(module) = "framework"];
-        AuthDeprecatedAPIUsed auth_deprecated_api_used = 356 [(module) = "framework"];
-        UnattendedRebootOccurred unattended_reboot_occurred = 357 [(module) = "scheduling"];
-        LongRebootBlockingReported long_reboot_blocking_reported = 358 [(module) = "scheduling"];
-        LocationTimeZoneProviderStateChanged location_time_zone_provider_state_changed =
-            359 [(module) = "framework"];
+            [(module_name) = "media"];
+        MagnificationUsageReported magnification_usage_reported = 345
+            [(module_name) = "framework"];
+        MagnificationModeWithImeOnReported
+            magnification_mode_with_ime_on_reported = 346
+            [(module_name) = "framework"];
+        AppSearchCallStatsReported app_search_call_stats_reported = 347
+            [(module_name) = "appsearch"];
+        AppSearchPutDocumentStatsReported
+            app_search_put_document_stats_reported = 348
+            [(module_name) = "appsearch"];
+        sysui.DeviceControlChanged device_control_changed = 349
+            [(module_name) = "sysui"];
+        DeviceStateChanged device_state_changed = 350
+            [(module_name) = "framework"];
+        input.InputDeviceRegistered inputdevice_registered = 351
+            [(module_name) = "framework", (module_name) = "input"];
+        sysui.SmartSpaceCardReported smartspace_card_reported = 352
+            [(module_name) = "sysui"];
+        AuthPromptAuthenticateInvoked auth_prompt_authenticate_invoked = 353
+            [(module_name) = "framework"];
+        AuthManagerCanAuthenticateInvoked
+            auth_manager_can_authenticate_invoked = 354
+            [(module_name) = "framework"];
+        AuthEnrollActionInvoked auth_enroll_action_invoked = 355
+            [(module_name) = "framework"];
+        AuthDeprecatedAPIUsed auth_deprecated_api_used = 356
+            [(module_name) = "framework"];
+        UnattendedRebootOccurred unattended_reboot_occurred = 357
+            [(module_name) = "scheduling"];
+        LongRebootBlockingReported long_reboot_blocking_reported = 358
+            [(module_name) = "scheduling"];
+        LocationTimeZoneProviderStateChanged
+            location_time_zone_provider_state_changed = 359
+            [(module_name) = "framework"];
         // 360-363 are reserved.
-        FdtrackEventOccurred fdtrack_event_occurred = 364 [(module) = "framework"];
+        FdtrackEventOccurred fdtrack_event_occurred = 364
+            [(module_name) = "framework"];
         TimeoutAutoExtendedReported timeout_auto_extended_reported = 365
-            [(module) = "framework"];
-        AlarmBatchDelivered alarm_batch_delivered = 367 [(module) = "framework"];
-        AlarmScheduled alarm_scheduled = 368 [(module) = "framework"];
-        CarWatchdogIoOveruseStatsReported car_watchdog_io_overuse_stats_reported = 369 [(module) = "car", (module) = "framework"];
-        UserLevelHibernationStateChanged user_level_hibernation_state_changed = 370 [(module) = "framework"];
-        AppSearchInitializeStatsReported app_search_initialize_stats_reported = 371 [(module) = "appsearch"];
-        AppSearchQueryStatsReported app_search_query_stats_reported = 372 [(module) = "appsearch"];
-        AppProcessDied app_process_died = 373 [(module) = "framework"];
-        NetworkIpReachabilityMonitorReported network_ip_reachability_monitor_reported =
-            374 [(module) = "network_stack"];
-        input.SlowInputEventReported slow_input_event_reported =
-            375 [(module) = "input"];
-        ANROccurredProcessingStarted anr_occurred_processing_started = 376 [(module) = "framework"];
-        AppSearchRemoveStatsReported app_search_remove_stats_reported = 377 [(module) = "appsearch"];
-        MediaCodecReported media_codec_reported =
-            378 [(module) = "framework", (module) = "media_metrics"];
-        PermissionUsageFragmentInteraction permission_usage_fragment_interaction = 379 [(module) = "permissioncontroller"];
-        PermissionDetailsInteraction permission_details_interaction = 380 [(module) = "permissioncontroller"];
-        PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381 [(module) = "framework"];
-        PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382 [(module) = "framework"];
-        AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383 [(module) = "appsearch"];
-        NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report = 384 [(module) = "framework"];
-        AppCompatStateChanged app_compat_state_changed = 386 [(module) = "framework"];
-        SizeCompatRestartButtonEventReported size_compat_restart_button_event_reported = 387 [(module) = "framework"];
-        SplitscreenUIChanged splitscreen_ui_changed = 388 [(module) = "framework"];
-        NetworkDnsHandshakeReported network_dns_handshake_reported = 389 [(module) = "resolv"];
-        BluetoothCodePathCounter bluetooth_code_path_counter =
-            390 [(module) = "bluetooth"];
+            [(module_name) = "framework"];
+        AlarmBatchDelivered alarm_batch_delivered = 367
+            [(module_name) = "framework"];
+        AlarmScheduled alarm_scheduled = 368 [(module_name) = "framework"];
+        CarWatchdogIoOveruseStatsReported
+            car_watchdog_io_overuse_stats_reported = 369
+            [(module_name) = "car", (module_name) = "framework"];
+        UserLevelHibernationStateChanged user_level_hibernation_state_changed =
+            370 [(module_name) = "framework"];
+        AppSearchInitializeStatsReported app_search_initialize_stats_reported =
+            371 [(module_name) = "appsearch"];
+        AppSearchQueryStatsReported app_search_query_stats_reported = 372
+            [(module_name) = "appsearch"];
+        AppProcessDied app_process_died = 373 [(module_name) = "framework"];
+        NetworkIpReachabilityMonitorReported
+            network_ip_reachability_monitor_reported = 374
+            [(module_name) = "network_stack"];
+        input.SlowInputEventReported slow_input_event_reported = 375
+            [(module_name) = "input"];
+        ANROccurredProcessingStarted anr_occurred_processing_started = 376
+            [(module_name) = "framework"];
+        AppSearchRemoveStatsReported app_search_remove_stats_reported = 377
+            [(module_name) = "appsearch"];
+        MediaCodecReported media_codec_reported = 378
+            [(module_name) = "framework", (module_name) = "media_metrics"];
+        PermissionUsageFragmentInteraction
+            permission_usage_fragment_interaction = 379
+            [(module_name) = "permissioncontroller"];
+        PermissionDetailsInteraction permission_details_interaction = 380
+            [(module_name) = "permissioncontroller"];
+        PrivacySensorToggleInteraction privacy_sensor_toggle_interaction = 381
+            [(module_name) = "framework"];
+        PrivacyToggleDialogInteraction privacy_toggle_dialog_interaction = 382
+            [(module_name) = "framework"];
+        AppSearchOptimizeStatsReported app_search_optimize_stats_reported = 383
+            [(module_name) = "appsearch"];
+        NonA11yToolServiceWarningReported non_a11y_tool_service_warning_report =
+            384 [(module_name) = "framework"];
+        AppCompatStateChanged app_compat_state_changed = 386
+            [(module_name) = "framework"];
+        SizeCompatRestartButtonEventReported
+            size_compat_restart_button_event_reported = 387
+            [(module_name) = "framework"];
+        SplitscreenUIChanged splitscreen_ui_changed = 388
+            [(module_name) = "framework"];
+        NetworkDnsHandshakeReported network_dns_handshake_reported = 389
+            [(module_name) = "resolv"];
+        BluetoothCodePathCounter bluetooth_code_path_counter = 390
+            [(module_name) = "bluetooth"];
         BluetoothLeBatchScanReportDelay bluetooth_le_batch_scan_report_delay =
-            392 [(module) = "bluetooth"];
-        sysui.AccessibilityFloatingMenuUIChanged accessibility_floating_menu_ui_changed =
-            393 [(module) = "sysui"];
-        NeuralNetworksCompilationCompleted neuralnetworks_compilation_completed = 394
-            [(module) = "neuralnetworks"];
-        NeuralNetworksExecutionCompleted neuralnetworks_execution_completed = 395
-            [(module) = "neuralnetworks"];
+            392 [(module_name) = "bluetooth"];
+        sysui.AccessibilityFloatingMenuUIChanged
+            accessibility_floating_menu_ui_changed = 393
+            [(module_name) = "sysui"];
+        NeuralNetworksCompilationCompleted
+            neuralnetworks_compilation_completed = 394
+            [(module_name) = "neuralnetworks"];
+        NeuralNetworksExecutionCompleted neuralnetworks_execution_completed =
+            395 [(module_name) = "neuralnetworks"];
         NeuralNetworksCompilationFailed neuralnetworks_compilation_failed = 396
-            [(module) = "neuralnetworks"];
+            [(module_name) = "neuralnetworks"];
         NeuralNetworksExecutionFailed neuralnetworks_execution_failed = 397
-            [(module) = "neuralnetworks"];
-        ContextHubBooted context_hub_booted = 398 [(module) = "contexthub"];
-        ContextHubRestarted context_hub_restarted = 399 [(module) = "contexthub"];
-        ContextHubLoadedNanoappSnapshotReported context_hub_loaded_nanoapp_snapshot_reported = 400
-            [(module) = "contexthub"];
-        ChreCodeDownloadTransacted chre_code_download_transacted = 401 [(module) = "contexthub"];
-        UwbSessionInitiated uwb_session_inited = 402 [(module) = "uwb"];
-        UwbSessionClosed uwb_session_closed = 403 [(module) = "uwb"];
-        UwbFirstRangingReceived uwb_first_ranging_received = 404 [(module) = "uwb"];
-        UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405 [(module) = "uwb"];
-        TextClassifierDownloadWorkScheduled text_classifier_download_work_scheduled = 406 [(module) = "textclassifier"];
-        TextClassifierDownloadWorkCompleted text_classifier_download_work_completed = 407 [(module) = "textclassifier"];
-        ClipboardCleared clipboard_cleared = 408 [(module) = "framework"];
-        VmCreationRequested vm_creation_requested = 409 [(module) = "virtualizationservice"];
-        NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410 [(module) = "nearby"];
+            [(module_name) = "neuralnetworks"];
+        ContextHubBooted context_hub_booted = 398
+            [(module_name) = "contexthub"];
+        ContextHubRestarted context_hub_restarted = 399
+            [(module_name) = "contexthub"];
+        ContextHubLoadedNanoappSnapshotReported
+            context_hub_loaded_nanoapp_snapshot_reported = 400
+            [(module_name) = "contexthub"];
+        ChreCodeDownloadTransacted chre_code_download_transacted = 401
+            [(module_name) = "contexthub"];
+        UwbSessionInitiated uwb_session_inited = 402 [(module_name) = "uwb"];
+        UwbSessionClosed uwb_session_closed = 403 [(module_name) = "uwb"];
+        UwbFirstRangingReceived uwb_first_ranging_received = 404
+            [(module_name) = "uwb"];
+        UwbRangingMeasurementReceived uwb_ranging_measurement_received = 405
+            [(module_name) = "uwb"];
+        TextClassifierDownloadWorkScheduled
+            text_classifier_download_work_scheduled = 406
+            [(module_name) = "textclassifier"];
+        TextClassifierDownloadWorkCompleted
+            text_classifier_download_work_completed = 407
+            [(module_name) = "textclassifier"];
+        ClipboardCleared clipboard_cleared = 408 [(module_name) = "framework"];
+        VmCreationRequested vm_creation_requested = 409
+            [(module_name) = "virtualizationservice"];
+        NearbyDeviceScanStateChanged nearby_device_scan_state_changed = 410
+            [(module_name) = "nearby"];
         // reserved 411 for a deprecated CameraCompatControlEventReported.
-        ApplicationLocalesChanged application_locales_changed = 412 [(module) = "framework"];
-        MediametricsAudioTrackStatusReported mediametrics_audiotrackstatus_reported =
-            413 [(module) = "media_metrics"];
-        FoldStateDurationReported fold_state_duration_reported = 414 [(module) = "framework"];
-        LocationTimeZoneProviderControllerStateChanged location_time_zone_provider_controller_state_changed =
-            415 [(module) = "framework"];
-        DisplayHbmStateChanged display_hbm_state_changed = 416 [(module) = "framework"];
-        DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417 [(module) = "framework"];
-        PersistentUriPermissionsFlushed persistent_uri_permissions_flushed =
-            418 [(module) = "framework"];
-        EarlyBootCompOsArtifactsCheckReported early_boot_comp_os_artifacts_check_reported = 419 [(module) = "art"];
-        VBMetaDigestReported vbmeta_digest_reported = 420 [(module) = "framework"];
-        ApexInfoGathered apex_info_gathered = 421 [(module) = "framework"];
-        PvmInfoGathered pvm_info_gathered = 422 [(module) = "framework"];
-        WearSettingsUIInteracted wear_settings_ui_interacted = 423 [(module) = "wear_settings"];
-        TracingServiceReportEvent tracing_service_report_event = 424 [(module) = "framework"];
-        MediametricsAudioRecordStatusReported mediametrics_audiorecordstatus_reported =
-            425 [(module) = "media_metrics"];
-        sysui.LauncherLatency launcher_latency = 426 [(module) = "sysui"];
-        DropboxEntryDropped dropbox_entry_dropped = 427 [(module) = "framework"];
-        WifiP2pConnectionReported wifi_p2p_connection_reported = 428 [(module) = "wifi"];
-        GameStateChanged game_state_changed = 429 [(module) = "framework"];
-        hotword.HotwordDetectorCreateRequested hotword_detector_create_requested = 430
-            [(module) = "framework"];
-        hotword.HotwordDetectionServiceInitResultReported hotword_detection_service_init_result_reported = 431
-            [(module) = "framework"];
-        hotword.HotwordDetectionServiceRestarted hotword_detection_service_restarted = 432
-            [(module) = "framework"];
-        hotword.HotwordDetectorKeyphraseTriggered hotword_detector_keyphrase_triggered = 433
-            [(module) = "framework"];
+        ApplicationLocalesChanged application_locales_changed = 412
+            [(module_name) = "framework"];
+        MediametricsAudioTrackStatusReported
+            mediametrics_audiotrackstatus_reported = 413
+            [(module_name) = "media_metrics"];
+        FoldStateDurationReported fold_state_duration_reported = 414
+            [(module_name) = "framework"];
+        LocationTimeZoneProviderControllerStateChanged
+            location_time_zone_provider_controller_state_changed = 415
+            [(module_name) = "framework"];
+        DisplayHbmStateChanged display_hbm_state_changed = 416
+            [(module_name) = "framework"];
+        DisplayHbmBrightnessChanged display_hbm_brightness_changed = 417
+            [(module_name) = "framework"];
+        PersistentUriPermissionsFlushed persistent_uri_permissions_flushed = 418
+            [(module_name) = "framework"];
+        EarlyBootCompOsArtifactsCheckReported
+            early_boot_comp_os_artifacts_check_reported = 419
+            [(module_name) = "art"];
+        VBMetaDigestReported vbmeta_digest_reported = 420
+            [(module_name) = "framework"];
+        ApexInfoGathered apex_info_gathered = 421 [(module_name) = "framework"];
+        PvmInfoGathered pvm_info_gathered = 422 [(module_name) = "framework"];
+        WearSettingsUIInteracted wear_settings_ui_interacted = 423
+            [(module_name) = "wear_settings"];
+        TracingServiceReportEvent tracing_service_report_event = 424
+            [(module_name) = "framework"];
+        MediametricsAudioRecordStatusReported
+            mediametrics_audiorecordstatus_reported = 425
+            [(module_name) = "media_metrics"];
+        sysui.LauncherLatency launcher_latency = 426 [(module_name) = "sysui"];
+        DropboxEntryDropped dropbox_entry_dropped = 427
+            [(module_name) = "framework"];
+        WifiP2pConnectionReported wifi_p2p_connection_reported = 428
+            [(module_name) = "wifi"];
+        GameStateChanged game_state_changed = 429 [(module_name) = "framework"];
+        hotword.HotwordDetectorCreateRequested
+            hotword_detector_create_requested = 430
+            [(module_name) = "framework"];
+        hotword.HotwordDetectionServiceInitResultReported
+            hotword_detection_service_init_result_reported = 431
+            [(module_name) = "framework"];
+        hotword.HotwordDetectionServiceRestarted
+            hotword_detection_service_restarted = 432
+            [(module_name) = "framework"];
+        hotword.HotwordDetectorKeyphraseTriggered
+            hotword_detector_keyphrase_triggered = 433
+            [(module_name) = "framework"];
         hotword.HotwordDetectorEvents hotword_detector_events = 434
-            [(module) = "framework"];
-        BootCompletedBroadcastCompletionLatencyReported boot_completed_broadcast_completion_latency_reported =
-                437 [(module) = "framework"];
-        ContactsIndexerUpdateStatsReported contacts_indexer_update_stats_reported = 440
-            [(module) = "appsearch"];
-        AppBackgroundRestrictionsInfo app_background_restrictions_info =
-            441 [(module) = "framework"];
-        MmsSmsProviderGetThreadIdFailed mms_sms_provider_get_thread_id_failed = 442 [(module) = "telephony"];
-        MmsSmsDatabaseHelperOnUpgradeFailed mms_sms_database_helper_on_upgrade_failed = 443 [(module) = "telephony"];
-        PermissionReminderNotificationInteracted permission_reminder_notification_interacted =
-            444 [(module) = "permissioncontroller"];
-        RecentPermissionDecisionsInteracted recent_permission_decisions_interacted =
-            445 [(module) = "permissioncontroller"];
-        GnssPsdsDownloadReported gnss_psds_download_reported = 446 [(module) = "framework"];
-        LeAudioConnectionSessionReported le_audio_connection_session_reported = 447 [(module) = "bluetooth"];
-        LeAudioBroadcastSessionReported le_audio_broadcast_session_reported = 448 [(module) = "bluetooth"];
-        DreamUiEventReported dream_ui_event_reported = 449 [(module) = "framework"];
-        sysui.TaskManagerEventReported task_manager_event_reported = 450 [(module) = "sysui"];
-        CdmAssociationAction cdm_association_action = 451 [(module) = "framework"];
-        MagnificationTripleTapAndHoldActivatedSessionReported magnification_triple_tap_and_hold_activated_session_reported =
-            452 [(module) = "framework"];
-        MagnificationFollowTypingFocusActivatedSessionReported magnification_follow_typing_focus_activated_session_reported =
-            453 [(module) = "framework"];
-        AccessibilityTextReadingOptionsChanged accessibility_text_reading_options_changed = 454 [(module) = "settings"];
-        WifiSetupFailureCrashReported wifi_setup_failure_crash_reported = 455 [(module) = "wifi"];
-        UwbDeviceErrorReported uwb_device_error_reported = 456 [(module) = "uwb"];
-        IsolatedCompilationScheduled isolated_compilation_scheduled = 457 [(module) = "art"];
-        IsolatedCompilationEnded isolated_compilation_ended = 458 [(module) = "art"];
-        OnsOpportunisticEsimProvisioningComplete ons_opportunistic_esim_provisioning_complete = 459 [(module) = "ons"];
-        SystemServerPreWatchdogOccurred system_server_pre_watchdog_occurred = 460 [(module) = "framework"];
-        TelephonyAnomalyDetected telephony_anomaly_detected = 461 [(module) = "telephony"];
-        LetterboxPositionChanged letterbox_position_changed = 462 [(module) = "framework"];
-        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463 [(module) = "rkpd"];
-        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info = 464 [(module) = "rkpd"];
-        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465 [(module) = "rkpd"];
-        sysui.MediaOutputOpInteractionReported mediaoutput_op_interaction_report =
-            466 [(module) = "sysui"];
-        SyncExemptionOccurred sync_exemption_occurred = 468 [(module) = "framework"];
-        AutofillPresentationEventReported autofill_presentation_event_reported = 469 [(module) = "framework"];
-        DockStateChanged dock_state_changed = 470 [(module) = "framework"];
-        SafetySourceStateCollected safety_source_state_collected = 471 [(module) = "permissioncontroller"];
-        SafetyCenterSystemEventReported safety_center_system_event_reported = 472 [(module) = "permissioncontroller"];
-        SafetyCenterInteractionReported safety_center_interaction_reported = 473 [(module) = "permissioncontroller", (module) = "settings"];
-        SettingsProviderSettingChanged settings_provider_setting_changed = 474 [(module) = "framework"];
-        BroadcastDeliveryEventReported broadcast_delivery_event_reported =
-                475 [(module) = "framework"];
-        ServiceRequestEventReported service_request_event_reported = 476 [(module) = "framework"];
+            [(module_name) = "framework"];
+        BootCompletedBroadcastCompletionLatencyReported
+            boot_completed_broadcast_completion_latency_reported = 437
+            [(module_name) = "framework"];
+        ContactsIndexerUpdateStatsReported
+            contacts_indexer_update_stats_reported = 440
+            [(module_name) = "appsearch"];
+        AppBackgroundRestrictionsInfo app_background_restrictions_info = 441
+            [(module_name) = "framework"];
+        MmsSmsProviderGetThreadIdFailed mms_sms_provider_get_thread_id_failed =
+            442 [(module_name) = "telephony"];
+        MmsSmsDatabaseHelperOnUpgradeFailed
+            mms_sms_database_helper_on_upgrade_failed = 443
+            [(module_name) = "telephony"];
+        PermissionReminderNotificationInteracted
+            permission_reminder_notification_interacted = 444
+            [(module_name) = "permissioncontroller"];
+        RecentPermissionDecisionsInteracted
+            recent_permission_decisions_interacted = 445
+            [(module_name) = "permissioncontroller"];
+        GnssPsdsDownloadReported gnss_psds_download_reported = 446
+            [(module_name) = "framework"];
+        LeAudioConnectionSessionReported le_audio_connection_session_reported =
+            447 [(module_name) = "bluetooth"];
+        LeAudioBroadcastSessionReported le_audio_broadcast_session_reported =
+            448 [(module_name) = "bluetooth"];
+        DreamUiEventReported dream_ui_event_reported = 449
+            [(module_name) = "framework"];
+        sysui.TaskManagerEventReported task_manager_event_reported = 450
+            [(module_name) = "sysui"];
+        CdmAssociationAction cdm_association_action = 451
+            [(module_name) = "framework"];
+        MagnificationTripleTapAndHoldActivatedSessionReported
+            magnification_triple_tap_and_hold_activated_session_reported = 452
+            [(module_name) = "framework"];
+        MagnificationFollowTypingFocusActivatedSessionReported
+            magnification_follow_typing_focus_activated_session_reported = 453
+            [(module_name) = "framework"];
+        AccessibilityTextReadingOptionsChanged
+            accessibility_text_reading_options_changed = 454
+            [(module_name) = "settings"];
+        WifiSetupFailureCrashReported wifi_setup_failure_crash_reported = 455
+            [(module_name) = "wifi"];
+        UwbDeviceErrorReported uwb_device_error_reported = 456
+            [(module_name) = "uwb"];
+        IsolatedCompilationScheduled isolated_compilation_scheduled = 457
+            [(module_name) = "art"];
+        IsolatedCompilationEnded isolated_compilation_ended = 458
+            [(module_name) = "art"];
+        OnsOpportunisticEsimProvisioningComplete
+            ons_opportunistic_esim_provisioning_complete = 459
+            [(module_name) = "ons"];
+        SystemServerPreWatchdogOccurred system_server_pre_watchdog_occurred =
+            460 [(module_name) = "framework"];
+        TelephonyAnomalyDetected telephony_anomaly_detected = 461
+            [(module_name) = "telephony"];
+        LetterboxPositionChanged letterbox_position_changed = 462
+            [(module_name) = "framework"];
+        RemoteKeyProvisioningAttempt remote_key_provisioning_attempt = 463
+            [(module_name) = "rkpd"];
+        RemoteKeyProvisioningNetworkInfo remote_key_provisioning_network_info =
+            464 [(module_name) = "rkpd"];
+        RemoteKeyProvisioningTiming remote_key_provisioning_timing = 465
+            [(module_name) = "rkpd"];
+        sysui.MediaOutputOpInteractionReported
+            mediaoutput_op_interaction_report = 466 [(module_name) = "sysui"];
+        SyncExemptionOccurred sync_exemption_occurred = 468
+            [(module_name) = "framework"];
+        AutofillPresentationEventReported autofill_presentation_event_reported =
+            469 [(module_name) = "framework"];
+        DockStateChanged dock_state_changed = 470 [(module_name) = "framework"];
+        SafetySourceStateCollected safety_source_state_collected = 471
+            [(module_name) = "permissioncontroller"];
+        SafetyCenterSystemEventReported safety_center_system_event_reported =
+            472 [(module_name) = "permissioncontroller"];
+        SafetyCenterInteractionReported safety_center_interaction_reported = 473
+            [
+              (module_name) = "permissioncontroller",
+              (module_name) = "settings"
+            ];
+        SettingsProviderSettingChanged settings_provider_setting_changed = 474
+            [(module_name) = "framework"];
+        BroadcastDeliveryEventReported broadcast_delivery_event_reported = 475
+            [(module_name) = "framework"];
+        ServiceRequestEventReported service_request_event_reported = 476
+            [(module_name) = "framework"];
         ProviderAcquisitionEventReported provider_acquisition_event_reported =
-                477 [(module) = "framework"];
-        BluetoothDeviceNameReported bluetooth_device_name_reported = 478 [(module) = "bluetooth"];
-        CellBroadcastConfigUpdated cb_config_updated = 479 [(module) = "cellbroadcast"];
-        CellBroadcastModuleErrorReported cb_module_error_reported = 480 [(module) = "cellbroadcast"];
-        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481 [(module) = "cellbroadcast"];
-        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482 [(module) = "cellbroadcast"];
-        PrivacySignalNotificationInteraction privacy_signal_notification_interaction = 484 [(module) = "permissioncontroller"];
-        PrivacySignalIssueCardInteraction privacy_signal_issue_card_interaction = 485 [(module) = "permissioncontroller"];
-        PrivacySignalsJobFailure privacy_signals_job_failure = 486 [(module) = "permissioncontroller"];
-        VibrationReported vibration_reported = 487 [(module) = "framework"];
-        UwbStartRanging uwb_ranging_start = 489 [(module) = "uwb"];
-        AppCompactedV2 app_compacted_v2 = 491 [(module) = "framework"];
+            477 [(module_name) = "framework"];
+        BluetoothDeviceNameReported bluetooth_device_name_reported = 478
+            [(module_name) = "bluetooth"];
+        CellBroadcastConfigUpdated cb_config_updated = 479
+            [(module_name) = "cellbroadcast"];
+        CellBroadcastModuleErrorReported cb_module_error_reported = 480
+            [(module_name) = "cellbroadcast"];
+        CellBroadcastServiceFeatureChanged cb_service_feature_changed = 481
+            [(module_name) = "cellbroadcast"];
+        CellBroadcastReceiverFeatureChanged cb_receiver_feature_changed = 482
+            [(module_name) = "cellbroadcast"];
+        PrivacySignalNotificationInteraction
+            privacy_signal_notification_interaction = 484
+            [(module_name) = "permissioncontroller"];
+        PrivacySignalIssueCardInteraction
+            privacy_signal_issue_card_interaction = 485
+            [(module_name) = "permissioncontroller"];
+        PrivacySignalsJobFailure privacy_signals_job_failure = 486
+            [(module_name) = "permissioncontroller"];
+        VibrationReported vibration_reported = 487
+            [(module_name) = "framework"];
+        UwbStartRanging uwb_ranging_start = 489 [(module_name) = "uwb"];
+        AppCompactedV2 app_compacted_v2 = 491 [(module_name) = "framework"];
         // reserved 492
-        DisplayBrightnessChanged display_brightness_changed = 494 [(module) = "framework"];
-        ActivityActionBlocked activity_action_blocked = 495 [(module) = "framework"];
-        NetworkDnsServerSupportReported network_dns_server_support_reported = 504 [(module) = "resolv"];
-        VmBooted vm_booted = 505 [(module) = "virtualizationservice"];
-        VmExited vm_exited = 506 [(module) = "virtualizationservice"];
-        AmbientBrightnessStatsReported ambient_brightness_stats_reported = 507 [(module) = "framework"];
-        MediametricsSpatializerCapabilitiesReported mediametrics_spatializercapabilities_reported =
-                508 [(module) = "media_metrics"];
-        MediametricsSpatializerDeviceEnabledReported mediametrics_spatializerdeviceenabled_reported =
-                509 [(module) = "media_metrics"];
-        MediametricsHeadTrackerDeviceEnabledReported mediametrics_headtrackerdeviceenabled_reported =
-                510 [(module) = "media_metrics"];
-        MediametricsHeadTrackerDeviceSupportedReported mediametrics_headtrackerdevicesupported_reported =
-                511 [(module) = "media_metrics"];
-        HearingAidInfoReported hearing_aid_info_reported = 513 [(module) = "framework"];
-        DeviceWideJobConstraintChanged device_wide_job_constraint_changed =
-            514 [(module) = "framework"];
-        AmbientModeChanged ambient_mode_changed = 515 [(module) = "framework"];
-        ANRLatencyReported anr_latency_reported = 516 [(module) = "framework"];
-        ResourceValueApiStatisticsReported resource_api_info = 517 [(module) = "framework"];
-        SystemDefaultNetworkChanged system_default_network_changed =
-            518 [(module) = "network_stack"];
-        IwlanSetupDataCallResultReported iwlan_setup_data_call_result_reported = 519 [(module) = "iwlan"];
-        IwlanPdnDisconnectedReasonReported iwlan_pdn_disconnected_reason_reported = 520 [(module) = "iwlan"];
-        AirplaneModeSessionReported airplane_mode_session_reported = 521 [(module) = "wifi", (module) = "bluetooth"];
-        VmCpuStatusReported vm_cpu_status_reported = 522 [(module) = "virtualizationservice", deprecated = true];
-        VmMemStatusReported vm_mem_status_reported = 523 [(module) = "virtualizationservice", deprecated = true];
-        PackageInstallationSessionReported package_installation_session_reported = 524 [(module) = "framework"];
-        DefaultNetworkRematch default_network_rematch = 525 [(module) = "connectivity"];
-        NetworkSelectionPerformance network_selection_performance = 526 [(module) = "connectivity"];
-        NetworkNsdReported network_nsd_reported = 527 [(module) = "connectivity"];
-        BluetoothDisconnectionReasonReported bluetooth_disconnection_reason_reported = 529 [(module) = "bluetooth"];
-        BluetoothLocalVersionsReported bluetooth_local_versions_reported = 530 [(module) = "bluetooth"];
-        BluetoothRemoteSupportedFeaturesReported bluetooth_remote_supported_features_reported = 531 [(module) = "bluetooth"];
-        BluetoothLocalSupportedFeaturesReported bluetooth_local_supported_features_reported = 532 [(module) = "bluetooth"];
-        BluetoothGattAppInfo bluetooth_gatt_app_info = 533 [(module) = "bluetooth"];
-        BrightnessConfigurationUpdated brightness_configuration_updated = 534 [(module) = "framework"];
+        DisplayBrightnessChanged display_brightness_changed = 494
+            [(module_name) = "framework"];
+        ActivityActionBlocked activity_action_blocked = 495
+            [(module_name) = "framework"];
+        NetworkDnsServerSupportReported network_dns_server_support_reported =
+            504 [(module_name) = "resolv"];
+        VmBooted vm_booted = 505 [(module_name) = "virtualizationservice"];
+        VmExited vm_exited = 506 [(module_name) = "virtualizationservice"];
+        AmbientBrightnessStatsReported ambient_brightness_stats_reported = 507
+            [(module_name) = "framework"];
+        MediametricsSpatializerCapabilitiesReported
+            mediametrics_spatializercapabilities_reported = 508
+            [(module_name) = "media_metrics"];
+        MediametricsSpatializerDeviceEnabledReported
+            mediametrics_spatializerdeviceenabled_reported = 509
+            [(module_name) = "media_metrics"];
+        MediametricsHeadTrackerDeviceEnabledReported
+            mediametrics_headtrackerdeviceenabled_reported = 510
+            [(module_name) = "media_metrics"];
+        MediametricsHeadTrackerDeviceSupportedReported
+            mediametrics_headtrackerdevicesupported_reported = 511
+            [(module_name) = "media_metrics"];
+        HearingAidInfoReported hearing_aid_info_reported = 513
+            [(module_name) = "framework"];
+        DeviceWideJobConstraintChanged device_wide_job_constraint_changed = 514
+            [(module_name) = "framework"];
+        AmbientModeChanged ambient_mode_changed = 515
+            [(module_name) = "framework"];
+        ANRLatencyReported anr_latency_reported = 516
+            [(module_name) = "framework"];
+        ResourceValueApiStatisticsReported resource_api_info = 517
+            [(module_name) = "framework"];
+        SystemDefaultNetworkChanged system_default_network_changed = 518
+            [(module_name) = "network_stack"];
+        IwlanSetupDataCallResultReported iwlan_setup_data_call_result_reported =
+            519 [(module_name) = "iwlan"];
+        IwlanPdnDisconnectedReasonReported
+            iwlan_pdn_disconnected_reason_reported = 520
+            [(module_name) = "iwlan"];
+        AirplaneModeSessionReported airplane_mode_session_reported = 521
+            [(module_name) = "wifi", (module_name) = "bluetooth"];
+        VmCpuStatusReported vm_cpu_status_reported = 522
+            [(module_name) = "virtualizationservice", deprecated = true];
+        VmMemStatusReported vm_mem_status_reported = 523
+            [(module_name) = "virtualizationservice", deprecated = true];
+        PackageInstallationSessionReported
+            package_installation_session_reported = 524
+            [(module_name) = "framework"];
+        DefaultNetworkRematch default_network_rematch = 525
+            [(module_name) = "connectivity"];
+        NetworkSelectionPerformance network_selection_performance = 526
+            [(module_name) = "connectivity"];
+        NetworkNsdReported network_nsd_reported = 527
+            [(module_name) = "connectivity"];
+        BluetoothDisconnectionReasonReported
+            bluetooth_disconnection_reason_reported = 529
+            [(module_name) = "bluetooth"];
+        BluetoothLocalVersionsReported bluetooth_local_versions_reported = 530
+            [(module_name) = "bluetooth"];
+        BluetoothRemoteSupportedFeaturesReported
+            bluetooth_remote_supported_features_reported = 531
+            [(module_name) = "bluetooth"];
+        BluetoothLocalSupportedFeaturesReported
+            bluetooth_local_supported_features_reported = 532
+            [(module_name) = "bluetooth"];
+        BluetoothGattAppInfo bluetooth_gatt_app_info = 533
+            [(module_name) = "bluetooth"];
+        BrightnessConfigurationUpdated brightness_configuration_updated = 534
+            [(module_name) = "framework"];
         WearMediaOutputSwitcherLaunched wear_media_output_switcher_launched =
-            538 [(module) = "MediaOutputSwitcher"];
+            538 [(module_name) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherFinished wear_media_output_switcher_finished =
-            539 [(module) = "MediaOutputSwitcher"];
+            539 [(module_name) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherConnectionReported
-            wear_media_output_switcher_connection_reported =
-                540 [(module) = "MediaOutputSwitcher"];
+            wear_media_output_switcher_connection_reported = 540
+            [(module_name) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherDeviceScanTriggered
-            wear_media_output_switcher_device_scan_triggered =
-                541 [(module) = "MediaOutputSwitcher"];
+            wear_media_output_switcher_device_scan_triggered = 541
+            [(module_name) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherFirstDeviceScanLatency
-            wear_media_output_switcher_first_device_scan_latency =
-                542 [(module) = "MediaOutputSwitcher"];
+            wear_media_output_switcher_first_device_scan_latency = 542
+            [(module_name) = "MediaOutputSwitcher"];
         WearMediaOutputSwitcherConnectDeviceLatency
-            wear_media_output_switcher_connect_device_latency =
-                543 [(module) = "MediaOutputSwitcher"];
-        PackageManagerSnapshotReported
-            package_manager_snapshot_reported = 544 [(module) = "framework"];
+            wear_media_output_switcher_connect_device_latency = 543
+            [(module_name) = "MediaOutputSwitcher"];
+        PackageManagerSnapshotReported package_manager_snapshot_reported = 544
+            [(module_name) = "framework"];
         PackageManagerAppsFilterCacheBuildReported
-            package_manager_apps_filter_cache_build_reported = 545 [(module) = "framework"];
+            package_manager_apps_filter_cache_build_reported = 545
+            [(module_name) = "framework"];
         PackageManagerAppsFilterCacheUpdateReported
-            package_manager_apps_filter_cache_update_reported = 546 [(module) = "framework"];
-        sysui.LauncherImpressionEvent launcher_impression_event = 547 [(module) = "sysui"];
+            package_manager_apps_filter_cache_update_reported = 546
+            [(module_name) = "framework"];
+        sysui.LauncherImpressionEvent launcher_impression_event = 547
+            [(module_name) = "sysui"];
         WearMediaOutputSwitcherAllDevicesScanLatency
-            wear_media_output_switcher_all_devices_scan_latency =
-                549 [(module) = "MediaOutputSwitcher"];
-        WsWatchFaceEdited ws_watch_face_edited = 551 [(module) = "wearservices"];
-        WsWatchFaceFavouriteActionReported ws_watch_face_favorite_action_reported = 552 [(module) = "wearservices"];
-        WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553 [(module) = "wearservices"];
-        PackageUninstallationReported package_uninstallation_reported = 554 [(module) = "framework"];
-        agif.GameModeChanged game_mode_changed = 555 [(module) = "framework"];
-        agif.GameModeConfigurationChanged game_mode_configuration_changed = 556 [(module) = "framework"];
-        BedtimeModeStateChanged bedtime_mode_state_changed = 557 [(module) = "framework"];
-        NetworkSliceSessionEnded network_slice_session_ended = 558 [(module) = "connectivity"];
-        NetworkSliceDailyDataUsageReported network_slice_daily_data_usage_reported = 559 [(module) = "connectivity"];
-        NfcTagTypeOccurred nfc_tag_type_occurred = 560 [(module) = "nfc"];
-        NfcAIDConflictOccurred nfc_aid_conflict_occurred = 561 [(module) = "nfc"];
-        NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562 [(module) = "nfc"];
-        WsTileListChanged ws_tile_list_changed = 563 [(module) = "wearservices"];
-        GetTypeAccessedWithoutPermission get_type_accessed_without_permission = 564[(module) = "framework"];
-        MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566 [(module) = "framework"];
-        WsWatchFaceComplicationSetChanged ws_watch_face_complication_set_changed = 567 [(module) = "wearservices"];
-        media.MediaDrmCreated media_drm_created = 568 [(module) = "media_metrics"];
-        media.MediaDrmErrored media_drm_errored = 569 [(module) = "media_metrics"];
+            wear_media_output_switcher_all_devices_scan_latency = 549
+            [(module_name) = "MediaOutputSwitcher"];
+        WsWatchFaceEdited ws_watch_face_edited = 551
+            [(module_name) = "wearservices"];
+        WsWatchFaceFavouriteActionReported
+            ws_watch_face_favorite_action_reported = 552
+            [(module_name) = "wearservices"];
+        WsWatchFaceSetActionReported ws_watch_face_set_action_reported = 553
+            [(module_name) = "wearservices"];
+        PackageUninstallationReported package_uninstallation_reported = 554
+            [(module_name) = "framework"];
+        agif.GameModeChanged game_mode_changed = 555
+            [(module_name) = "framework"];
+        agif.GameModeConfigurationChanged game_mode_configuration_changed = 556
+            [(module_name) = "framework"];
+        BedtimeModeStateChanged bedtime_mode_state_changed = 557
+            [(module_name) = "framework"];
+        NetworkSliceSessionEnded network_slice_session_ended = 558
+            [(module_name) = "connectivity"];
+        NetworkSliceDailyDataUsageReported
+            network_slice_daily_data_usage_reported = 559
+            [(module_name) = "connectivity"];
+        NfcTagTypeOccurred nfc_tag_type_occurred = 560 [(module_name) = "nfc"];
+        NfcAIDConflictOccurred nfc_aid_conflict_occurred = 561
+            [(module_name) = "nfc"];
+        NfcReaderConflictOccurred nfc_reader_conflict_occurred = 562
+            [(module_name) = "nfc"];
+        WsTileListChanged ws_tile_list_changed = 563
+            [(module_name) = "wearservices"];
+        GetTypeAccessedWithoutPermission get_type_accessed_without_permission =
+            564 [(module_name) = "framework"];
+        MobileBundledAppInfoGathered mobile_bundled_app_info_gathered = 566
+            [(module_name) = "framework"];
+        WsWatchFaceComplicationSetChanged
+            ws_watch_face_complication_set_changed = 567
+            [(module_name) = "wearservices"];
+        media.MediaDrmCreated media_drm_created = 568
+            [(module_name) = "media_metrics"];
+        media.MediaDrmErrored media_drm_errored = 569
+            [(module_name) = "media_metrics"];
         media.MediaDrmSessionOpened media_drm_session_opened = 570
-            [(module) = "media_metrics"];
+            [(module_name) = "media_metrics"];
         media.MediaDrmSessionClosed media_drm_session_closed = 571
-            [(module) = "media_metrics"];
-        UserSelectedResolution user_selected_resolution = 572 [(module) = "settings"];
-        UnsafeIntentEventReported unsafe_intent_event_reported = 573 [(module) = "framework"];
-        adpf.PerformanceHintSessionReported performance_hint_session_reported = 574 [(module) = "framework"];
-        MediametricsMidiDeviceCloseReported mediametrics_midi_device_close_reported =
-            576 [(module) = "media_metrics"];
-        hardware.biometrics.BiometricTouchReported biometric_touch_reported = 577 [(module) = "sysui"];
-        hotword.HotwordAudioEgressEventReported hotword_audio_egress_event_reported = 578
-            [(module) = "framework"];
-        location.LocationEnabledStateChanged location_enabled_state_changed = 580 [(module) = "framework"];
-        view.inputmethod.ImeRequestFinished ime_request_finished = 581 [(module) = "framework"];
-        usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582 [(module) = "framework"];
-        locale.AppSupportedLocalesChanged app_supported_locales_changed = 583 [(module) = "framework"];
+            [(module_name) = "media_metrics"];
+        UserSelectedResolution user_selected_resolution = 572
+            [(module_name) = "settings"];
+        UnsafeIntentEventReported unsafe_intent_event_reported = 573
+            [(module_name) = "framework"];
+        adpf.PerformanceHintSessionReported performance_hint_session_reported =
+            574 [(module_name) = "framework"];
+        MediametricsMidiDeviceCloseReported
+            mediametrics_midi_device_close_reported = 576
+            [(module_name) = "media_metrics"];
+        hardware.biometrics.BiometricTouchReported biometric_touch_reported =
+            577 [(module_name) = "sysui"];
+        hotword.HotwordAudioEgressEventReported
+            hotword_audio_egress_event_reported = 578
+            [(module_name) = "framework"];
+        location.LocationEnabledStateChanged location_enabled_state_changed =
+            580 [(module_name) = "framework"];
+        view.inputmethod.ImeRequestFinished ime_request_finished = 581
+            [(module_name) = "framework"];
+        usb.UsbComplianceWarningsReported usb_compliance_warnings_reported = 582
+            [(module_name) = "framework"];
+        locale.AppSupportedLocalesChanged app_supported_locales_changed = 583
+            [(module_name) = "framework"];
         hardware.biometrics.BiometricPropertiesCollected
-            biometric_properties_collected = 587 [(module) = "framework"];
-        kernel.KernelWakeupAttributed kernel_wakeup_attributed = 588 [(module) = "framework"];
-        display.ScreenStateChangedV2 screen_state_changed_v2 = 589 [(module) = "framework"];
+            biometric_properties_collected = 587 [(module_name) = "framework"];
+        kernel.KernelWakeupAttributed kernel_wakeup_attributed = 588
+            [(module_name) = "framework"];
+        display.ScreenStateChangedV2 screen_state_changed_v2 = 589
+            [(module_name) = "framework"];
         wearservices.WsBackupActionReported ws_backup_action_reported = 590
-            [(module) = "wearservices"];
+            [(module_name) = "wearservices"];
         wearservices.WsRestoreActionReported ws_restore_action_reported = 591
-            [(module) = "wearservices"];
-        devicelogs.DeviceLogAccessEventReported device_log_access_event_reported = 592 [(module) = "sysui"];
-        wear.media.MediaSessionUpdated media_session_updated = 594 [(module) = "wearmedia"];
-        wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595 [(module) = "framework"];
+            [(module_name) = "wearservices"];
+        devicelogs.DeviceLogAccessEventReported
+            device_log_access_event_reported = 592 [(module_name) = "sysui"];
+        wear.media.MediaSessionUpdated media_session_updated = 594
+            [(module_name) = "wearmedia"];
+        wearsysui.WearOobeStateChanged wear_oobe_state_changed = 595
+            [(module_name) = "framework"];
         wearservices.WsNotificationUpdated ws_notification_updated = 596
-            [(module) = "wearservices"];
+            [(module_name) = "wearservices"];
         // reserved 597
         corenetworking.connectivity.NetworkValidationFailureStatsDailyReported
-            network_validation_failure_stats_daily_reported = 601 [(module) = "connectivity"];
-        wearservices.WsComplicationTapped ws_complication_tapped = 602 [(module) = "wearservices"];
-        wearservices.WsNotificationBlocking ws_notification_blocking = 780 [(module) = "wearservices"];
-        wearservices.WsNotificationBridgemodeUpdated ws_notification_bridgemode_updated = 822 [(module) = "wearservices"];
-        wearservices.WsNotificationDismissalActioned ws_notification_dismissal_actioned = 823 [(module) = "wearservices"];
-        wearservices.WsNotificationActioned ws_notification_actioned = 824 [(module) = "wearservices"];
-        wearservices.WsNotificationLatency ws_notification_latency = 880 [(module) = "wearservices"];
+            network_validation_failure_stats_daily_reported = 601
+            [(module_name) = "connectivity"];
+        wearservices.WsComplicationTapped ws_complication_tapped = 602
+            [(module_name) = "wearservices"];
+        wearservices.WsNotificationBlocking ws_notification_blocking = 780
+            [(module_name) = "wearservices"];
+        wearservices.WsNotificationBridgemodeUpdated
+            ws_notification_bridgemode_updated = 822
+            [(module_name) = "wearservices"];
+        wearservices.WsNotificationDismissalActioned
+            ws_notification_dismissal_actioned = 823
+            [(module_name) = "wearservices"];
+        wearservices.WsNotificationActioned ws_notification_actioned = 824
+            [(module_name) = "wearservices"];
+        wearservices.WsNotificationLatency ws_notification_latency = 880
+            [(module_name) = "wearservices"];
     }
 
     // Pushed atom extensions.
@@ -1655,215 +2062,306 @@ message Atom {
     // Pulled events will start at field 10000.
     // Next: 10246
     oneof pulled {
-        WifiBytesTransfer wifi_bytes_transfer = 10000 [(module) = "framework"];
-        WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001 [(module) = "framework"];
-        MobileBytesTransfer mobile_bytes_transfer =
-                10002 [(module) = "framework", (truncate_timestamp) = true];
-        MobileBytesTransferByFgBg mobile_bytes_transfer_by_fg_bg =
-                10003 [(module) = "framework", (truncate_timestamp) = true];
-        BluetoothBytesTransfer bluetooth_bytes_transfer = 10006 [(module) = "framework"];
-        KernelWakelock kernel_wakelock = 10004 [(module) = "framework"];
-        SubsystemSleepState subsystem_sleep_state = 10005 [(module) = "framework", (module) = "statsdtest"];
-        CpuTimePerUid cpu_time_per_uid = 10009 [(module) = "framework", (module) = "statsdtest"];
-        CpuTimePerUidFreq cpu_time_per_uid_freq =
-                10010 [(module) = "framework", (module) = "statsd"];
-        WifiActivityInfo wifi_activity_info = 10011 [(module) = "framework"];
-        ModemActivityInfo modem_activity_info = 10012 [(module) = "framework"];
-        BluetoothActivityInfo bluetooth_activity_info = 10007 [(module) = "framework"];
-        ProcessMemoryState process_memory_state = 10013 [(module) = "framework"];
-        SystemElapsedRealtime system_elapsed_realtime = 10014 [(module) = "framework"];
-        SystemUptime system_uptime = 10015 [(module) = "framework"];
-        CpuActiveTime cpu_active_time = 10016 [(module) = "framework", (module) = "statsdtest"];
-        CpuClusterTime cpu_cluster_time = 10017 [(module) = "framework"];
-        DiskSpace disk_space = 10018 [deprecated=true, (module) = "statsdtest"];
-        RemainingBatteryCapacity remaining_battery_capacity = 10019 [(module) = "framework"];
-        FullBatteryCapacity full_battery_capacity = 10020 [(module) = "framework"];
-        Temperature temperature = 10021 [(module) = "framework", (module) = "statsdtest"];
-        BinderCalls binder_calls = 10022 [(module) = "framework", (module) = "statsd"];
-        BinderCallsExceptions binder_calls_exceptions = 10023 [(module) = "framework"];
-        LooperStats looper_stats = 10024 [(module) = "framework", (module) = "statsd"];
-        DiskStats disk_stats = 10025 [(module) = "framework"];
-        DirectoryUsage directory_usage = 10026 [(module) = "framework"];
-        AppSize app_size = 10027 [(module) = "framework"];
-        CategorySize category_size = 10028 [(module) = "framework"];
-        ProcStats proc_stats = 10029 [(module) = "framework"];
-        BatteryVoltage battery_voltage = 10030 [(module) = "framework"];
-        NumFingerprintsEnrolled num_fingerprints_enrolled = 10031 [(module) = "framework"];
-        DiskIo disk_io = 10032 [(module) = "framework"];
-        PowerProfile power_profile = 10033 [(module) = "framework"];
-        ProcStatsPkgProc proc_stats_pkg_proc = 10034 [(module) = "framework"];
-        ProcessCpuTime process_cpu_time = 10035 [(module) = "framework"];
-        CpuTimePerThreadFreq cpu_time_per_thread_freq = 10037 [(module) = "framework"];
-        OnDevicePowerMeasurement on_device_power_measurement = 10038 [(module) = "framework"];
-        DeviceCalculatedPowerUse device_calculated_power_use = 10039 [(module) = "framework"];
-        ProcessMemoryHighWaterMark process_memory_high_water_mark = 10042 [(module) = "framework"];
-        BatteryLevel battery_level = 10043 [(module) = "framework"];
-        BuildInformation build_information = 10044 [(module) = "framework"];
-        BatteryCycleCount battery_cycle_count = 10045 [(module) = "framework"];
-        DebugElapsedClock debug_elapsed_clock = 10046 [(module) = "framework"];
-        DebugFailingElapsedClock debug_failing_elapsed_clock = 10047 [(module) = "framework"];
-        NumFacesEnrolled num_faces_enrolled = 10048 [(module) = "framework"];
-        RoleHolder role_holder = 10049 [(module) = "framework"];
-        DangerousPermissionState dangerous_permission_state = 10050 [(module) = "framework"];
-        TrainInfo train_info = 10051 [(module) = "statsd"];
-        TimeZoneDataInfo time_zone_data_info = 10052 [(module) = "framework"];
-        ExternalStorageInfo external_storage_info = 10053 [(module) = "framework"];
-        GpuStatsGlobalInfo gpu_stats_global_info = 10054 [(module) = "gpustats"];
-        GpuStatsAppInfo gpu_stats_app_info = 10055 [(module) = "gpustats"];
-        SystemIonHeapSize system_ion_heap_size = 10056 [deprecated = true, (module) = "framework"];
-        AppsOnExternalStorageInfo apps_on_external_storage_info = 10057 [(module) = "framework"];
-        FaceSettings face_settings = 10058 [(module) = "framework"];
-        CoolingDevice cooling_device = 10059 [(module) = "framework"];
-        AppOps app_ops = 10060 [(module) = "framework"];
-        ProcessSystemIonHeapSize process_system_ion_heap_size = 10061 [(module) = "framework", deprecated = true];
-        SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info =
-                10062 [(module) = "surfaceflinger"];
-        SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info =
-                10063 [(module) = "surfaceflinger"];
-        ProcessMemorySnapshot process_memory_snapshot = 10064 [(module) = "framework"];
-        VmsClientStats vms_client_stats = 10065 [(module) = "car"];
-        NotificationRemoteViews notification_remote_views = 10066 [(module) = "framework"];
-        DangerousPermissionStateSampled dangerous_permission_state_sampled =
-                10067 [(module) = "framework"];
-        GraphicsStats graphics_stats = 10068 [(module) = "hwui"];
-        RuntimeAppOpAccess runtime_app_op_access = 10069 [(module) = "framework"];
-        IonHeapSize ion_heap_size = 10070 [(module) = "framework", deprecated = true];
-        PackageNotificationPreferences package_notification_preferences =
-                10071 [(module) = "framework"];
-        PackageNotificationChannelPreferences package_notification_channel_preferences =
-                10072 [(module) = "framework"];
-        PackageNotificationChannelGroupPreferences package_notification_channel_group_preferences =
-                10073 [(module) = "framework"];
-        GnssStats gnss_stats = 10074 [(module) = "framework"];
-        AttributedAppOps attributed_app_ops = 10075 [(module) = "framework"];
-        VoiceCallSession voice_call_session = 10076 [(module) = "telephony"];
-        VoiceCallRatUsage voice_call_rat_usage = 10077 [(module) = "telephony"];
-        SimSlotState sim_slot_state = 10078 [(module) = "telephony"];
-        SupportedRadioAccessFamily supported_radio_access_family = 10079 [(module) = "telephony"];
-        SettingSnapshot setting_snapshot = 10080 [(module) = "framework"];
-        BlobInfo blob_info = 10081 [(module) = "framework"];
-        DataUsageBytesTransfer data_usage_bytes_transfer =
-                10082 [(module) = "framework", (truncate_timestamp) = true];
-        BytesTransferByTagAndMetered bytes_transfer_by_tag_and_metered =
-                10083 [(module) = "framework", (truncate_timestamp) = true];
-        dnd.DNDModeProto dnd_mode_rule = 10084 [(module) = "framework"];
-        GeneralExternalStorageAccessStats general_external_storage_access_stats =
-            10085 [(module) = "mediaprovider"];
-        IncomingSms incoming_sms = 10086 [(module) = "telephony"];
-        OutgoingSms outgoing_sms = 10087 [(module) = "telephony"];
-        CarrierIdTableVersion carrier_id_table_version = 10088 [(module) = "telephony"];
-        DataCallSession data_call_session = 10089 [(module) = "telephony"];
-        CellularServiceState cellular_service_state = 10090 [(module) = "telephony"];
-        CellularDataServiceSwitch cellular_data_service_switch = 10091 [(module) = "telephony"];
-        SystemMemory system_memory = 10092 [(module) = "framework"];
-        ImsRegistrationTermination ims_registration_termination = 10093 [(module) = "telephony"];
-        ImsRegistrationStats ims_registration_stats = 10094 [(module) = "telephony"];
-        CpuTimePerClusterFreq cpu_time_per_cluster_freq = 10095 [(module) = "framework"];
-        CpuCyclesPerUidCluster cpu_cycles_per_uid_cluster = 10096 [(module) = "framework"];
-        DeviceRotatedData device_rotated_data = 10097 [(module) = "framework"];
-        CpuCyclesPerThreadGroupCluster cpu_cycles_per_thread_group_cluster = 10098 [(module) = "framework"];
-        MediaDrmActivityInfo media_drm_activity_info = 10099 [(module) = "media_metrics"];
-        OemManagedBytesTransfer oem_managed_bytes_transfer = 10100 [(module) = "framework"];
-        GnssPowerStats gnss_power_stats = 10101 [(module) = "framework"];
-        TimeZoneDetectorState time_zone_detector_state = 10102 [(module) = "framework"];
-        Keystore2StorageStats keystore2_storage_stats = 10103 [(module) = "framework"];
-        RkpPoolStats rkp_pool_stats = 10104 [deprecated = true];
-        ProcessDmabufMemory process_dmabuf_memory = 10105 [(module) = "framework"];
-        PendingAlarmInfo pending_alarm_info = 10106 [(module) = "framework"];
-        UserLevelHibernatedApps user_level_hibernated_apps = 10107 [(module) = "framework"];
-        sysui.LauncherLayoutSnapshot launcher_layout_snapshot = 10108
-            [(module) = "sysui"];
-        GlobalHibernatedApps global_hibernated_apps = 10109 [(module) = "framework"];
-        input.InputEventLatencySketch input_event_latency_sketch =
-            10110 [(module) = "input"];
-        BatteryUsageStatsBeforeReset battery_usage_stats_before_reset =
-            10111 [(module) = "framework"];
-        BatteryUsageStatsSinceReset battery_usage_stats_since_reset =
-            10112 [(module) = "framework"];
-        BatteryUsageStatsSinceResetUsingPowerProfileModel
-            battery_usage_stats_since_reset_using_power_profile_model =
-            10113 [(module) = "framework"];
-        InstalledIncrementalPackage installed_incremental_package = 10114 [(module) = "framework"];
-        TelephonyNetworkRequests telephony_network_requests =
-            10115 [(module) = "telephony", deprecated = true];
-        AppSearchStorageInfo app_search_storage_info = 10116 [(module) = "appsearch"];
-        VmStat vmstat = 10117 [(module) = "framework"];
-        Keystore2KeyCreationWithGeneralInfo keystore2_key_creation_with_general_info =
-                10118 [(module) = "framework"];
-        Keystore2KeyCreationWithAuthInfo keystore2_key_creation_with_auth_info =
-                10119 [(module) = "framework"];
-        Keystore2KeyCreationWithPurposeAndModesInfo
-                keystore2_key_creation_with_purpose_and_modes_info = 10120 [(module) = "framework"];
-        Keystore2AtomWithOverflow keystore2_atom_with_overflow = 10121 [(module) = "framework"];
-        Keystore2KeyOperationWithPurposeAndModesInfo
-                keystore2_key_operation_with_purpose_and_modes_info =
-                        10122 [(module) = "framework"];
-        Keystore2KeyOperationWithGeneralInfo keystore2_key_operation_with_general_info =
-                10123 [(module) = "framework"];
-        RkpErrorStats rkp_error_stats = 10124 [(module) = "framework"];
-        Keystore2CrashStats keystore2_crash_stats = 10125 [(module) = "framework"];
-        VendorApexInfo vendor_apex_info = 10126 [(module) = "framework"];
-        AccessibilityShortcutStats accessibility_shortcut_stats = 10127 [(module) = "framework"];
-        AccessibilityFloatingMenuStats accessibility_floating_menu_stats =
-            10128 [(module) = "framework"];
-        DataUsageBytesTransferV2 data_usage_bytes_transfer_v2 = 10129 [(module) = "framework",
-                (truncate_timestamp) = true];
-        MediaCapabilities media_capabilities = 10130 [(module) = "framework"];
-        CarWatchdogSystemIoUsageSummary car_watchdog_system_io_usage_summary =
-            10131 [(module) = "car", (module) = "framework"];
-        CarWatchdogUidIoUsageSummary car_watchdog_uid_io_usage_summary = 10132 [(module) = "car", (module) = "framework"];
-        ImsRegistrationFeatureTagStats ims_registration_feature_tag_stats =
-                10133 [(module) = "telephony"];
-        RcsClientProvisioningStats rcs_client_provisioning_stats =
-                10134 [(module) = "telephony"];
-        RcsAcsProvisioningStats rcs_acs_provisioning_stats =
-                10135 [(module) = "telephony"];
-        SipDelegateStats sip_delegate_stats = 10136 [(module) = "telephony"];
-        SipTransportFeatureTagStats sip_transport_feature_tag_stats =
-                10137 [(module) = "telephony"];
-        SipMessageResponse sip_message_response = 10138 [(module) = "telephony"];
-        SipTransportSession sip_transport_session = 10139 [(module) = "telephony"];
-        ImsDedicatedBearerListenerEvent ims_dedicated_bearer_listener_event =
-                10140 [(module) = "telephony"];
-        ImsDedicatedBearerEvent ims_dedicated_bearer_event = 10141 [(module) = "telephony"];
-        ImsRegistrationServiceDescStats ims_registration_service_desc_stats =
-                10142 [(module) = "telephony"];
-        UceEventStats uce_event_stats = 10143 [(module) = "telephony"];
-        PresenceNotifyEvent presence_notify_event = 10144 [(module) = "telephony"];
-        GbaEvent gba_event = 10145 [(module) = "telephony"];
-        PerSimStatus per_sim_status = 10146 [(module) = "telephony"];
-        GpuWorkPerUid gpu_work_per_uid = 10147 [(module) = "gpustats"];
-        PersistentUriPermissionsAmountPerPackage persistent_uri_permissions_amount_per_package =
-            10148 [(module) = "framework"];
-        SignedPartitionInfo signed_partition_info = 10149 [(module) = "framework"];
-        PinnedFileSizesPerPackage pinned_file_sizes_per_package = 10150
-            [(module) = "framework"];
-        PendingIntentsPerPackage pending_intents_per_package = 10151
-            [(module) = "framework"];
-        UserInfo user_info = 10152 [(module) = "framework"];
-        TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153 [(module) = "telephony"];
-        DeviceTelephonyProperties device_telephony_properties = 10154 [(module) = "telephony"];
-        RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts = 10155 [deprecated = true];
-        SafetyState safety_state = 10156 [(module) = "permissioncontroller"];
-        IncomingMms incoming_mms = 10157 [(module) = "mms"];
-        OutgoingMms outgoing_mms = 10158 [(module) = "mms"];
-        MultiUserInfo multi_user_info = 10160 [(module) = "framework"];
-        NetworkBpfMapInfo network_bpf_map_info = 10161 [(module) = "connectivity"];
-        OutgoingShortCodeSms outgoing_short_code_sms = 10162 [(module) = "telephony"];
-        ConnectivityStateSample connectivity_state_sample = 10163 [(module) = "connectivity"];
-        NetworkSelectionRematchReasonsInfo network_selection_rematch_reasons_info = 10164 [(module) = "connectivity"];
-        agif.GameModeInfo game_mode_info = 10165 [(module) = "framework"];
-        agif.GameModeConfiguration game_mode_configuration = 10166 [(module) = "framework"];
-        agif.GameModeListener game_mode_listener = 10167 [(module) = "framework"];
-        NetworkSliceRequestCountSample network_slice_request_count = 10168 [(module) = "connectivity"];
-        WsTileSnapshot ws_tile_snapshot = 10169 [(module) = "wearservices"];
-        WsActiveWatchFaceComplicationSetSnapshot ws_active_watch_face_complication_set_snapshot = 10170 [(module) = "wearservices"];
-        ProcessState process_state = 10171 [(module) = "framework"];
-        ProcessAssociation process_association = 10172 [(module) = "framework"];
-        adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173 [(module) = "framework"];
-        sysui.NotificationMemoryUse notification_memory_use = 10174 [(module) = "sysui"];
-        display.HdrCapabilities hdr_capabilities = 10175 [(module) = "framework"];
-        WsFavouriteWatchFaceListSnapshot ws_favourite_watch_face_list_snapshot = 10176 [(module) = "wearservices"];
+      WifiBytesTransfer wifi_bytes_transfer = 10000
+          [(module_name) = "framework"];
+      WifiBytesTransferByFgBg wifi_bytes_transfer_by_fg_bg = 10001
+          [(module_name) = "framework"];
+      MobileBytesTransfer mobile_bytes_transfer = 10002
+          [(module_name) = "framework", (truncate_timestamp) = true];
+      MobileBytesTransferByFgBg mobile_bytes_transfer_by_fg_bg = 10003
+          [(module_name) = "framework", (truncate_timestamp) = true];
+      BluetoothBytesTransfer bluetooth_bytes_transfer = 10006
+          [(module_name) = "framework"];
+      KernelWakelock kernel_wakelock = 10004 [(module_name) = "framework"];
+      SubsystemSleepState subsystem_sleep_state = 10005
+          [(module_name) = "framework", (module_name) = "statsdtest"];
+      CpuTimePerUid cpu_time_per_uid = 10009
+          [(module_name) = "framework", (module_name) = "statsdtest"];
+      CpuTimePerUidFreq cpu_time_per_uid_freq = 10010
+          [(module_name) = "framework", (module_name) = "statsd"];
+      WifiActivityInfo wifi_activity_info = 10011 [(module_name) = "framework"];
+      ModemActivityInfo modem_activity_info = 10012
+          [(module_name) = "framework"];
+      BluetoothActivityInfo bluetooth_activity_info = 10007
+          [(module_name) = "framework"];
+      ProcessMemoryState process_memory_state = 10013
+          [(module_name) = "framework"];
+      SystemElapsedRealtime system_elapsed_realtime = 10014
+          [(module_name) = "framework"];
+      SystemUptime system_uptime = 10015 [(module_name) = "framework"];
+      CpuActiveTime cpu_active_time = 10016
+          [(module_name) = "framework", (module_name) = "statsdtest"];
+      CpuClusterTime cpu_cluster_time = 10017 [(module_name) = "framework"];
+      DiskSpace disk_space = 10018
+          [deprecated = true, (module_name) = "statsdtest"];
+      RemainingBatteryCapacity remaining_battery_capacity = 10019
+          [(module_name) = "framework"];
+      FullBatteryCapacity full_battery_capacity = 10020
+          [(module_name) = "framework"];
+      Temperature temperature = 10021
+          [(module_name) = "framework", (module_name) = "statsdtest"];
+      BinderCalls binder_calls = 10022
+          [(module_name) = "framework", (module_name) = "statsd"];
+      BinderCallsExceptions binder_calls_exceptions = 10023
+          [(module_name) = "framework"];
+      LooperStats looper_stats = 10024
+          [(module_name) = "framework", (module_name) = "statsd"];
+      DiskStats disk_stats = 10025 [(module_name) = "framework"];
+      DirectoryUsage directory_usage = 10026 [(module_name) = "framework"];
+      AppSize app_size = 10027 [(module_name) = "framework"];
+      CategorySize category_size = 10028 [(module_name) = "framework"];
+      ProcStats proc_stats = 10029 [(module_name) = "framework"];
+      BatteryVoltage battery_voltage = 10030 [(module_name) = "framework"];
+      NumFingerprintsEnrolled num_fingerprints_enrolled = 10031
+          [(module_name) = "framework"];
+      DiskIo disk_io = 10032 [(module_name) = "framework"];
+      PowerProfile power_profile = 10033 [(module_name) = "framework"];
+      ProcStatsPkgProc proc_stats_pkg_proc = 10034
+          [(module_name) = "framework"];
+      ProcessCpuTime process_cpu_time = 10035 [(module_name) = "framework"];
+      CpuTimePerThreadFreq cpu_time_per_thread_freq = 10037
+          [(module_name) = "framework"];
+      OnDevicePowerMeasurement on_device_power_measurement = 10038
+          [(module_name) = "framework"];
+      DeviceCalculatedPowerUse device_calculated_power_use = 10039
+          [(module_name) = "framework"];
+      ProcessMemoryHighWaterMark process_memory_high_water_mark = 10042
+          [(module_name) = "framework"];
+      BatteryLevel battery_level = 10043 [(module_name) = "framework"];
+      BuildInformation build_information = 10044 [(module_name) = "framework"];
+      BatteryCycleCount battery_cycle_count = 10045
+          [(module_name) = "framework"];
+      DebugElapsedClock debug_elapsed_clock = 10046
+          [(module_name) = "framework"];
+      DebugFailingElapsedClock debug_failing_elapsed_clock = 10047
+          [(module_name) = "framework"];
+      NumFacesEnrolled num_faces_enrolled = 10048 [(module_name) = "framework"];
+      RoleHolder role_holder = 10049 [(module_name) = "framework"];
+      DangerousPermissionState dangerous_permission_state = 10050
+          [(module_name) = "framework"];
+      TrainInfo train_info = 10051 [(module_name) = "statsd"];
+      TimeZoneDataInfo time_zone_data_info = 10052
+          [(module_name) = "framework"];
+      ExternalStorageInfo external_storage_info = 10053
+          [(module_name) = "framework"];
+      GpuStatsGlobalInfo gpu_stats_global_info = 10054
+          [(module_name) = "gpustats"];
+      GpuStatsAppInfo gpu_stats_app_info = 10055 [(module_name) = "gpustats"];
+      SystemIonHeapSize system_ion_heap_size = 10056
+          [deprecated = true, (module_name) = "framework"];
+      AppsOnExternalStorageInfo apps_on_external_storage_info = 10057
+          [(module_name) = "framework"];
+      FaceSettings face_settings = 10058 [(module_name) = "framework"];
+      CoolingDevice cooling_device = 10059 [(module_name) = "framework"];
+      AppOps app_ops = 10060 [(module_name) = "framework"];
+      ProcessSystemIonHeapSize process_system_ion_heap_size = 10061
+          [(module_name) = "framework", deprecated = true];
+      SurfaceflingerStatsGlobalInfo surfaceflinger_stats_global_info = 10062
+          [(module_name) = "surfaceflinger"];
+      SurfaceflingerStatsLayerInfo surfaceflinger_stats_layer_info = 10063
+          [(module_name) = "surfaceflinger"];
+      ProcessMemorySnapshot process_memory_snapshot = 10064
+          [(module_name) = "framework"];
+      VmsClientStats vms_client_stats = 10065 [(module_name) = "car"];
+      NotificationRemoteViews notification_remote_views = 10066
+          [(module_name) = "framework"];
+      DangerousPermissionStateSampled dangerous_permission_state_sampled = 10067
+          [(module_name) = "framework"];
+      GraphicsStats graphics_stats = 10068 [(module_name) = "hwui"];
+      RuntimeAppOpAccess runtime_app_op_access = 10069
+          [(module_name) = "framework"];
+      IonHeapSize ion_heap_size = 10070
+          [(module_name) = "framework", deprecated = true];
+      PackageNotificationPreferences package_notification_preferences = 10071
+          [(module_name) = "framework"];
+      PackageNotificationChannelPreferences
+          package_notification_channel_preferences = 10072
+          [(module_name) = "framework"];
+      PackageNotificationChannelGroupPreferences
+          package_notification_channel_group_preferences = 10073
+          [(module_name) = "framework"];
+      GnssStats gnss_stats = 10074 [(module_name) = "framework"];
+      AttributedAppOps attributed_app_ops = 10075 [(module_name) = "framework"];
+      VoiceCallSession voice_call_session = 10076 [(module_name) = "telephony"];
+      VoiceCallRatUsage voice_call_rat_usage = 10077
+          [(module_name) = "telephony"];
+      SimSlotState sim_slot_state = 10078 [(module_name) = "telephony"];
+      SupportedRadioAccessFamily supported_radio_access_family = 10079
+          [(module_name) = "telephony"];
+      SettingSnapshot setting_snapshot = 10080 [(module_name) = "framework"];
+      BlobInfo blob_info = 10081 [(module_name) = "framework"];
+      DataUsageBytesTransfer data_usage_bytes_transfer = 10082
+          [(module_name) = "framework", (truncate_timestamp) = true];
+      BytesTransferByTagAndMetered bytes_transfer_by_tag_and_metered = 10083
+          [(module_name) = "framework", (truncate_timestamp) = true];
+      dnd.DNDModeProto dnd_mode_rule = 10084 [(module_name) = "framework"];
+      GeneralExternalStorageAccessStats general_external_storage_access_stats =
+          10085 [(module_name) = "mediaprovider"];
+      IncomingSms incoming_sms = 10086 [(module_name) = "telephony"];
+      OutgoingSms outgoing_sms = 10087 [(module_name) = "telephony"];
+      CarrierIdTableVersion carrier_id_table_version = 10088
+          [(module_name) = "telephony"];
+      DataCallSession data_call_session = 10089 [(module_name) = "telephony"];
+      CellularServiceState cellular_service_state = 10090
+          [(module_name) = "telephony"];
+      CellularDataServiceSwitch cellular_data_service_switch = 10091
+          [(module_name) = "telephony"];
+      SystemMemory system_memory = 10092 [(module_name) = "framework"];
+      ImsRegistrationTermination ims_registration_termination = 10093
+          [(module_name) = "telephony"];
+      ImsRegistrationStats ims_registration_stats = 10094
+          [(module_name) = "telephony"];
+      CpuTimePerClusterFreq cpu_time_per_cluster_freq = 10095
+          [(module_name) = "framework"];
+      CpuCyclesPerUidCluster cpu_cycles_per_uid_cluster = 10096
+          [(module_name) = "framework"];
+      DeviceRotatedData device_rotated_data = 10097
+          [(module_name) = "framework"];
+      CpuCyclesPerThreadGroupCluster cpu_cycles_per_thread_group_cluster = 10098
+          [(module_name) = "framework"];
+      MediaDrmActivityInfo media_drm_activity_info = 10099
+          [(module_name) = "media_metrics"];
+      OemManagedBytesTransfer oem_managed_bytes_transfer = 10100
+          [(module_name) = "framework"];
+      GnssPowerStats gnss_power_stats = 10101 [(module_name) = "framework"];
+      TimeZoneDetectorState time_zone_detector_state = 10102
+          [(module_name) = "framework"];
+      Keystore2StorageStats keystore2_storage_stats = 10103
+          [(module_name) = "framework"];
+      RkpPoolStats rkp_pool_stats = 10104 [deprecated = true];
+      ProcessDmabufMemory process_dmabuf_memory = 10105
+          [(module_name) = "framework"];
+      PendingAlarmInfo pending_alarm_info = 10106 [(module_name) = "framework"];
+      UserLevelHibernatedApps user_level_hibernated_apps = 10107
+          [(module_name) = "framework"];
+      sysui.LauncherLayoutSnapshot launcher_layout_snapshot = 10108
+          [(module_name) = "sysui"];
+      GlobalHibernatedApps global_hibernated_apps = 10109
+          [(module_name) = "framework"];
+      input.InputEventLatencySketch input_event_latency_sketch = 10110
+          [(module_name) = "input"];
+      BatteryUsageStatsBeforeReset battery_usage_stats_before_reset = 10111
+          [(module_name) = "framework"];
+      BatteryUsageStatsSinceReset battery_usage_stats_since_reset = 10112
+          [(module_name) = "framework"];
+      BatteryUsageStatsSinceResetUsingPowerProfileModel
+          battery_usage_stats_since_reset_using_power_profile_model = 10113
+          [(module_name) = "framework"];
+      InstalledIncrementalPackage installed_incremental_package = 10114
+          [(module_name) = "framework"];
+      TelephonyNetworkRequests telephony_network_requests = 10115
+          [(module_name) = "telephony", deprecated = true];
+      AppSearchStorageInfo app_search_storage_info = 10116
+          [(module_name) = "appsearch"];
+      VmStat vmstat = 10117 [(module_name) = "framework"];
+      Keystore2KeyCreationWithGeneralInfo
+          keystore2_key_creation_with_general_info = 10118
+          [(module_name) = "framework"];
+      Keystore2KeyCreationWithAuthInfo keystore2_key_creation_with_auth_info =
+          10119 [(module_name) = "framework"];
+      Keystore2KeyCreationWithPurposeAndModesInfo
+          keystore2_key_creation_with_purpose_and_modes_info = 10120
+          [(module_name) = "framework"];
+      Keystore2AtomWithOverflow keystore2_atom_with_overflow = 10121
+          [(module_name) = "framework"];
+      Keystore2KeyOperationWithPurposeAndModesInfo
+          keystore2_key_operation_with_purpose_and_modes_info = 10122
+          [(module_name) = "framework"];
+      Keystore2KeyOperationWithGeneralInfo
+          keystore2_key_operation_with_general_info = 10123
+          [(module_name) = "framework"];
+      RkpErrorStats rkp_error_stats = 10124 [(module_name) = "framework"];
+      Keystore2CrashStats keystore2_crash_stats = 10125
+          [(module_name) = "framework"];
+      VendorApexInfo vendor_apex_info = 10126 [(module_name) = "framework"];
+      AccessibilityShortcutStats accessibility_shortcut_stats = 10127
+          [(module_name) = "framework"];
+      AccessibilityFloatingMenuStats accessibility_floating_menu_stats = 10128
+          [(module_name) = "framework"];
+      DataUsageBytesTransferV2 data_usage_bytes_transfer_v2 = 10129
+          [(module_name) = "framework", (truncate_timestamp) = true];
+      MediaCapabilities media_capabilities = 10130
+          [(module_name) = "framework"];
+      CarWatchdogSystemIoUsageSummary car_watchdog_system_io_usage_summary =
+          10131 [(module_name) = "car", (module_name) = "framework"];
+      CarWatchdogUidIoUsageSummary car_watchdog_uid_io_usage_summary = 10132
+          [(module_name) = "car", (module_name) = "framework"];
+      ImsRegistrationFeatureTagStats ims_registration_feature_tag_stats = 10133
+          [(module_name) = "telephony"];
+      RcsClientProvisioningStats rcs_client_provisioning_stats = 10134
+          [(module_name) = "telephony"];
+      RcsAcsProvisioningStats rcs_acs_provisioning_stats = 10135
+          [(module_name) = "telephony"];
+      SipDelegateStats sip_delegate_stats = 10136 [(module_name) = "telephony"];
+      SipTransportFeatureTagStats sip_transport_feature_tag_stats = 10137
+          [(module_name) = "telephony"];
+      SipMessageResponse sip_message_response = 10138
+          [(module_name) = "telephony"];
+      SipTransportSession sip_transport_session = 10139
+          [(module_name) = "telephony"];
+      ImsDedicatedBearerListenerEvent ims_dedicated_bearer_listener_event =
+          10140 [(module_name) = "telephony"];
+      ImsDedicatedBearerEvent ims_dedicated_bearer_event = 10141
+          [(module_name) = "telephony"];
+      ImsRegistrationServiceDescStats ims_registration_service_desc_stats =
+          10142 [(module_name) = "telephony"];
+      UceEventStats uce_event_stats = 10143 [(module_name) = "telephony"];
+      PresenceNotifyEvent presence_notify_event = 10144
+          [(module_name) = "telephony"];
+      GbaEvent gba_event = 10145 [(module_name) = "telephony"];
+      PerSimStatus per_sim_status = 10146 [(module_name) = "telephony"];
+      GpuWorkPerUid gpu_work_per_uid = 10147 [(module_name) = "gpustats"];
+      PersistentUriPermissionsAmountPerPackage
+          persistent_uri_permissions_amount_per_package = 10148
+          [(module_name) = "framework"];
+      SignedPartitionInfo signed_partition_info = 10149
+          [(module_name) = "framework"];
+      PinnedFileSizesPerPackage pinned_file_sizes_per_package = 10150
+          [(module_name) = "framework"];
+      PendingIntentsPerPackage pending_intents_per_package = 10151
+          [(module_name) = "framework"];
+      UserInfo user_info = 10152 [(module_name) = "framework"];
+      TelephonyNetworkRequestsV2 telephony_network_requests_v2 = 10153
+          [(module_name) = "telephony"];
+      DeviceTelephonyProperties device_telephony_properties = 10154
+          [(module_name) = "telephony"];
+      RemoteKeyProvisioningErrorCounts remote_key_provisioning_error_counts =
+          10155 [deprecated = true];
+      SafetyState safety_state = 10156 [(module_name) = "permissioncontroller"];
+      IncomingMms incoming_mms = 10157 [(module_name) = "mms"];
+      OutgoingMms outgoing_mms = 10158 [(module_name) = "mms"];
+      MultiUserInfo multi_user_info = 10160 [(module_name) = "framework"];
+      NetworkBpfMapInfo network_bpf_map_info = 10161
+          [(module_name) = "connectivity"];
+      OutgoingShortCodeSms outgoing_short_code_sms = 10162
+          [(module_name) = "telephony"];
+      ConnectivityStateSample connectivity_state_sample = 10163
+          [(module_name) = "connectivity"];
+      NetworkSelectionRematchReasonsInfo
+          network_selection_rematch_reasons_info = 10164
+          [(module_name) = "connectivity"];
+      agif.GameModeInfo game_mode_info = 10165 [(module_name) = "framework"];
+      agif.GameModeConfiguration game_mode_configuration = 10166
+          [(module_name) = "framework"];
+      agif.GameModeListener game_mode_listener = 10167
+          [(module_name) = "framework"];
+      NetworkSliceRequestCountSample network_slice_request_count = 10168
+          [(module_name) = "connectivity"];
+      WsTileSnapshot ws_tile_snapshot = 10169 [(module_name) = "wearservices"];
+      WsActiveWatchFaceComplicationSetSnapshot
+          ws_active_watch_face_complication_set_snapshot = 10170
+          [(module_name) = "wearservices"];
+      ProcessState process_state = 10171 [(module_name) = "framework"];
+      ProcessAssociation process_association = 10172
+          [(module_name) = "framework"];
+      adpf.ADPFSystemComponentInfo adpf_system_component_info = 10173
+          [(module_name) = "framework"];
+      sysui.NotificationMemoryUse notification_memory_use = 10174
+          [(module_name) = "sysui"];
+      display.HdrCapabilities hdr_capabilities = 10175
+          [(module_name) = "framework"];
+      WsFavouriteWatchFaceListSnapshot ws_favourite_watch_face_list_snapshot =
+          10176 [(module_name) = "wearservices"];
     }
 
     // Pulled atom extensions.

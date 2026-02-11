@@ -26,11 +26,16 @@ option java_package = "com.android.os.vcn";
 option java_multiple_files = true;
 
 extend Atom {
-    optional VcnGatewayConnectionStateChanged vcn_gateway_connection_state_changed = 1176 [(module) = "vcn"];
-    optional VcnNetworkStateChanged vcn_network_state_changed = 1177 [(module) = "vcn"];
-    optional VcnUnderlyingNetworksStateChanged vcn_underlying_networks_state_changed = 1178 [(module) = "vcn"];
-    optional VcnUnderlyingNetworkSwitched vcn_underlying_network_switched = 1204 [(module) = "vcn"];
-    optional VcnNetworkValidationStatusReported vcn_network_validation_status_reported = 1234  [(module) = "vcn"];
+  optional VcnGatewayConnectionStateChanged
+      vcn_gateway_connection_state_changed = 1176 [(module_name) = "vcn"];
+  optional VcnNetworkStateChanged vcn_network_state_changed = 1177
+      [(module_name) = "vcn"];
+  optional VcnUnderlyingNetworksStateChanged
+      vcn_underlying_networks_state_changed = 1178 [(module_name) = "vcn"];
+  optional VcnUnderlyingNetworkSwitched vcn_underlying_network_switched = 1204
+      [(module_name) = "vcn"];
+  optional VcnNetworkValidationStatusReported
+      vcn_network_validation_status_reported = 1234 [(module_name) = "vcn"];
 }
 
 /**

@@ -25,28 +25,34 @@ option java_package = "com.android.os.devicelock";
 option java_multiple_files = true;
 
 extend Atom {
-  optional DeviceLockCheckInRequestReported device_lock_check_in_request_reported = 726
-          [(module) = "devicelock"];
-  optional DeviceLockProvisioningCompleteReported device_lock_provisioning_complete_reported = 727
-          [(module) = "devicelock"];
-  optional DeviceLockKioskAppRequestReported device_lock_kiosk_app_request_reported = 728
-          [(module) = "devicelock"];
+  optional DeviceLockCheckInRequestReported
+      device_lock_check_in_request_reported = 726
+      [(module_name) = "devicelock"];
+  optional DeviceLockProvisioningCompleteReported
+      device_lock_provisioning_complete_reported = 727
+      [(module_name) = "devicelock"];
+  optional DeviceLockKioskAppRequestReported
+      device_lock_kiosk_app_request_reported = 728
+      [(module_name) = "devicelock"];
   optional CheckInRetryReported device_lock_check_in_retry_reported = 789
-          [(module) = "devicelock"];
+      [(module_name) = "devicelock"];
   optional ProvisionFailureReported device_lock_provision_failure_reported = 790
-          [(module) = "devicelock"];
-  optional LockUnlockDeviceFailureReported device_lock_lock_unlock_device_failure_reported = 791
-          [(module) = "devicelock"];
-  optional DeviceLockKioskAppInstallationFailed device_lock_kiosk_app_installation_failed = 1087
-          [(module) = "devicelock"];
+      [(module_name) = "devicelock"];
+  optional LockUnlockDeviceFailureReported
+      device_lock_lock_unlock_device_failure_reported = 791
+      [(module_name) = "devicelock"];
+  optional DeviceLockKioskAppInstallationFailed
+      device_lock_kiosk_app_installation_failed = 1087
+      [(module_name) = "devicelock"];
   optional DeviceLockFcmMessageReceived device_lock_fcm_message_received = 1091
-          [(module) = "devicelock"];
-  optional DeviceLockProvisionStateEvent device_lock_provision_state_event = 1093
-          [(module) = "devicelock"];
+      [(module_name) = "devicelock"];
+  optional DeviceLockProvisionStateEvent device_lock_provision_state_event =
+      1093 [(module_name) = "devicelock"];
   optional DeviceLockDeviceStateEvent device_lock_device_state_event = 1094
-          [(module) = "devicelock"];
-  optional DeviceLockPotentialBypassSnapshot device_lock_potential_bypass_snapshot = 10244
-          [(module) = "devicelock"];
+      [(module_name) = "devicelock"];
+  optional DeviceLockPotentialBypassSnapshot
+      device_lock_potential_bypass_snapshot = 10244
+      [(module_name) = "devicelock"];
 }
 
 message DeviceLockCheckInRequestReported {

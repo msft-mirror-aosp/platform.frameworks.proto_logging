@@ -27,31 +27,40 @@ option java_multiple_files = true;
 
 extend Atom {
   // Pushed atoms
-  optional AppSearchSetSchemaStatsReported app_search_set_schema_stats_reported = 385 [(module) = "appsearch"];
+  optional AppSearchSetSchemaStatsReported
+      app_search_set_schema_stats_reported = 385 [(module_name) = "appsearch"];
   optional AppSearchSchemaMigrationStatsReported
-          app_search_schema_migration_stats_reported = 579 [(module) = "appsearch"];
+      app_search_schema_migration_stats_reported = 579
+      [(module_name) = "appsearch"];
 
   optional AppSearchUsageSearchIntentStatsReported
-          app_search_usage_search_intent_stats_reported = 825 [(module) = "appsearch"];
+      app_search_usage_search_intent_stats_reported = 825
+      [(module_name) = "appsearch"];
 
   optional AppSearchUsageSearchIntentRawQueryStatsReported
-          app_search_usage_search_intent_raw_query_stats_reported = 826
-          [(module) = "appsearch", (restriction_category) = RESTRICTION_SYSTEM_INTELLIGENCE];
+      app_search_usage_search_intent_raw_query_stats_reported = 826 [
+        (module_name) = "appsearch",
+        (restriction_category) = RESTRICTION_SYSTEM_INTELLIGENCE
+      ];
 
   optional AppSearchAppsIndexerStatsReported
-          app_search_apps_indexer_stats_reported = 909 [(module) = "appsearch"];
+      app_search_apps_indexer_stats_reported = 909
+      [(module_name) = "appsearch"];
 
   optional AppSearchAppOpenEventIndexerStatsReported
-          app_search_app_open_event_indexer_stats_reported = 1050 [(module) = "appsearch"];
+      app_search_app_open_event_indexer_stats_reported = 1050
+      [(module_name) = "appsearch"];
 
   optional AppSearchVmPayloadStatsReported
-          app_search_vm_payload_stats_reported = 1047 [(module) = "appsearch"];
+      app_search_vm_payload_stats_reported = 1047 [(module_name) = "appsearch"];
 
   optional AppSearchVmInitializationStatsReported
-          app_search_vm_initialization_stats_reported = 1127 [(module) = "appsearch"];
+      app_search_vm_initialization_stats_reported = 1127
+      [(module_name) = "appsearch"];
 
   optional AppSearchPersistToDiskStatsReported
-          app_search_persist_to_disk_stats_reported = 1153 [(module) = "appsearch"];
+      app_search_persist_to_disk_stats_reported = 1153
+      [(module_name) = "appsearch"];
 }
 
 // Keep in sync with

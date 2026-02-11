@@ -26,14 +26,17 @@ option java_multiple_files = true;
 option java_package = "com.android.os.healthfitness.ui";
 
 extend Atom {
-    optional HealthConnectUiImpression health_connect_ui_impression = 623 [(module) = "healthfitness"];
+  optional HealthConnectUiImpression health_connect_ui_impression = 623
+      [(module_name) = "healthfitness"];
 
-    optional HealthConnectUiInteraction health_connect_ui_interaction = 624 [(module) = "healthfitness"];
+  optional HealthConnectUiInteraction health_connect_ui_interaction = 624
+      [(module_name) = "healthfitness"];
 
-    optional HealthConnectAppOpenedReported health_connect_app_opened_reported = 625 [(module) = "healthfitness"];
+  optional HealthConnectAppOpenedReported health_connect_app_opened_reported =
+      625 [(module_name) = "healthfitness"];
 
-    optional HealthConnectNotification health_connect_notification = 1105 [(module) = "healthfitness"];
-
+  optional HealthConnectNotification health_connect_notification = 1105
+      [(module_name) = "healthfitness"];
 }
 
 message HealthConnectUiImpression {

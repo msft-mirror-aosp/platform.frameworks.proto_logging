@@ -27,7 +27,8 @@ import "frameworks/proto_logging/stats/enums/corenetworking/platform/enums.proto
 
 extend Atom {
     // pushed atom
-    optional VpnConnectionReported vpn_connection_reported = 851 [(module) = "framework"];
+    optional VpnConnectionReported vpn_connection_reported = 851
+        [(module_name) = "framework"];
 }
 
 
