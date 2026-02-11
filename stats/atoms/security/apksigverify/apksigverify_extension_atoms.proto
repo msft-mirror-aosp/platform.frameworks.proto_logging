@@ -27,7 +27,7 @@ option java_multiple_files = true;
 
 extend Atom {
     optional ApkSignatureVerificationReported apk_signature_verification_reported = 1298
-        [(module) = "framework"];
+        [(module_name) = "framework"];
 }
 
 /**
