@@ -1957,6 +1957,7 @@ message Atom {
     extensions 10261; // WsPhoneMetadataSnapshot ws_phone_metadata_snapshot
     extensions 10262; // UsageEventReportedStats usage_event_reported_stats;
     extensions 10263; // TrustTokenState trust_token_state
+    extensions 10264; // WearKeyguardLockState wear_keyguard_lock_state
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
