@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2197
+// Next ID: 2144
 enum Action {
 
     // Reserved for biometrics
@@ -2760,6 +2760,10 @@ enum Action {
     // CATEGORY: SETTINGS
     // SUBTYPE: 1 for NB-NTN, 2 for LTE
     ACTION_SATELLITE_LANDING_PAGE_VARIANT = 2142;
+
+    // ACTION: Dream reordered by drag-and-drop
+    // CATEGORY: SETTINGS
+    ACTION_DREAM_MOVE_ORDER = 2143;
 }
 
 /**
