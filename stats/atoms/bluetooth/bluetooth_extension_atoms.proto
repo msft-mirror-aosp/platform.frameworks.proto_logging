@@ -478,6 +478,14 @@ message LeScanResultReceived {
   // which could be missing in attribution_node due to incomplete attribution in
   // the Worksource. Missing tag leads to incomplete attribution data.
   optional string attribution_tag = 5;
+  // Whether the scan has at least one non-empty filter.
+  optional bool is_filtered = 6;
+  // Whether the scan has callback function or pending intent.
+  optional bool is_callback_scan = 7;
+  // The type of callback used for the scan.
+  optional android.bluetooth.le.LeScanCallbackType scan_callback_type = 8;
+  // The scan mode configured in the ScanSettings by the scanning app.
+  optional android.bluetooth.le.LeScanMode scan_mode = 9;
 }
 
 /**
