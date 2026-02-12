@@ -194,7 +194,7 @@ extend google.protobuf.FieldOptions {
 
     optional LogMode log_mode = 50002 [default = MODE_AUTOMATIC];
 
-    repeated string module = 50004 [deprecated = true];
+    // reserved 50004; module has been moved to module_name
 
     optional bool truncate_timestamp = 50005 [default = false];
 
