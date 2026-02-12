@@ -20,6 +20,7 @@ package android.os.statsd.microxr;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/microxr/enums.proto";
 
 option java_package = "com.android.os.statsd.microxr";
 option java_multiple_files = true;
@@ -34,6 +35,7 @@ extend Atom {
       [(module_name) = "microxr"];
   optional MicroXrVideoCaptured micro_xr_video_captured = 1197
       [(module_name) = "microxr"];
+  optional MicroXrOtaReported micro_xr_ota_reported = 1299 [(module_name) = "microxr"];
 
   // Pushed atoms (generic vendor extensions).
   optional MicroXrSoundTriggerDetected micro_xr_sound_trigger_detected = 300001
@@ -458,4 +460,24 @@ message MicroXrApWakeupReported {
 
   // The reason why the MCU woke up the AP.
   optional ApWakeupReason reason = 2;
+}
+
+/**
+ * Logged when OTA event is triggered.
+ */
+message MicroXrOtaReported {
+  // The version current OTA event is installed.
+  optional string version = 1;
+
+  // The size to update for current OTA event.
+  optional int64 update_size_bytes = 2;
+
+  // The companion device associated with the frame.
+  optional android.os.statsd.microxr.CompanionDevice companion_device = 3;
+
+  // The update status of current OTA event.
+  optional android.os.statsd.microxr.UpdateStatus update_status = 4;
+
+  // The update reason of current OTA event.
+  optional android.os.statsd.microxr.UpdateReason update_reason = 5;
 }
