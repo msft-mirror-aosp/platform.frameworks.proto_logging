@@ -2551,6 +2551,8 @@ message WifiDisconnectReported {
         DISCONNECT_FIRMWARE_ALERT = 10026;
         // Pre-evaluation failed for this network
         DISCONNECT_PRE_EVALUATION_FAIL = 10027;
+        // Current suggestion network is disallowed by app
+        DISCONNECT_DISALLOW_CURRENT_SUGGESTED_NETWORK = 10028;
     }
 
     // How long the session lasted from successful connection to disconnect.
