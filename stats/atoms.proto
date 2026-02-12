@@ -2621,6 +2621,7 @@ message ActivityActionBlocked {
     optional bool multi_window = 12;
     optional int32 bal_code = 13;
     optional string task_debug_info = 14;
+    optional bool enforce_block = 15;
 }
 
 /**
