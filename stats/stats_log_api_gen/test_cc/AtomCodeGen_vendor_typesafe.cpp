@@ -63,14 +63,14 @@ TEST(ApiGenVendorAtomTypesafeTest, AtomEnumFieldsValues) {
  */
 TEST(ApiGenVendorAtomTypesafeTest, AtomFieldNames) {
     ASSERT_EQ(offsetof(VendorAtom1, reverse_domain_name), 0U);
-    ASSERT_GT(offsetof(VendorAtom1, enumField1), 0U);
-    ASSERT_GT(offsetof(VendorAtom1, enumField2), 0U);
+    ASSERT_GT(offsetof(VendorAtom1, enum_field1), 0U);
+    ASSERT_GT(offsetof(VendorAtom1, enum_field2), 0U);
     ASSERT_GT(offsetof(VendorAtom1, int_value32), 0U);
     ASSERT_GT(offsetof(VendorAtom1, int_value64), 0U);
     ASSERT_GT(offsetof(VendorAtom1, float_value), 0U);
     ASSERT_GT(offsetof(VendorAtom1, bool_value), 0U);
-    ASSERT_GT(offsetof(VendorAtom1, enumField3), 0U);
-    ASSERT_GT(offsetof(VendorAtom1, enumField4), 0U);
+    ASSERT_GT(offsetof(VendorAtom1, enum_field3), 0U);
+    ASSERT_GT(offsetof(VendorAtom1, enum_field4), 0U);
 }
 
 TEST(ApiGenVendorAtomTypesafeTest, AtomWriteFunctions) {

@@ -22,31 +22,36 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 
 message Atom {
   oneof pushed {
-      VendorAtom1 vendorAtom1 = 105501 [(android.os.statsd.module_name) = "test"];
-      VendorAtom2 vendorAtom2 = 105502 [(android.os.statsd.module_name) = "test"];
-      VendorAtom3 vendorAtom3 = 105503 [(android.os.statsd.module_name) = "test"];
-      VendorAtom4 vendorAtom4 = 105504 [(android.os.statsd.module_name) = "test"];
-      VendorAtom5 vendorAtom5 = 105505 [(android.os.statsd.module_name) = "test"];
-      VendorAtom6 vendorAtom6 = 105513 [(android.os.statsd.module_name) = "test"];
-      VendorAtom5WithAnnotation vendorAtom5WithAnnotation = 105514
-              [(android.os.statsd.module_name) = "test"];
-      VendorAtom5WithState vendorAtom5WithState = 105515 [(android.os.statsd.module_name) = "test"];
-      VendorAtomWithState stateAtom1 = 105506 [(android.os.statsd.module_name) = "test"];
-      VendorAtomWithState2 stateAtom2 = 105507 [(android.os.statsd.module_name) = "test"];
-      VendorAtomWithState3 stateAtom3 = 105508 [(android.os.statsd.module_name) = "test"];
-      VendorAtomWithState4 stateAtom4 = 105509 [(android.os.statsd.module_name) = "test"];
-      VendorAtomWithTruncateTimestamp truncateTimestampAtom1 = 105510 [
-          (android.os.statsd.module_name) = "test",
-          (android.os.statsd.truncate_timestamp) = true
-      ];
-      VendorAtomWithTruncateTimestamp2 truncateTimestampAtom2 = 105511 [
-          (android.os.statsd.module_name) = "test",
-          (android.os.statsd.truncate_timestamp) = true
-      ];
-      VendorAtomWithTruncateTimestamp3 truncateTimestampAtom3 = 105512 [
-          (android.os.statsd.module_name) = "test",
-          (android.os.statsd.truncate_timestamp) = true
-      ];
+    VendorAtom1 vendor_atom1 = 105501 [(android.os.statsd.module_name) = "test"];
+    VendorAtom2 vendor_atom2 = 105502 [(android.os.statsd.module_name) = "test"];
+    VendorAtom3 vendor_atom3 = 105503 [(android.os.statsd.module_name) = "test"];
+    VendorAtom4 vendor_atom4 = 105504 [(android.os.statsd.module_name) = "test"];
+    VendorAtom5 vendor_atom5 = 105505 [(android.os.statsd.module_name) = "test"];
+    VendorAtom6 vendor_atom6 = 105513 [(android.os.statsd.module_name) = "test"];
+    VendorAtom5WithAnnotation vendor_atom5_with_annotation = 105514
+        [(android.os.statsd.module_name) = "test"];
+    VendorAtom5WithState vendor_atom5_with_state = 105515
+        [(android.os.statsd.module_name) = "test"];
+    VendorAtomWithState state_atom1 = 105506
+        [(android.os.statsd.module_name) = "test"];
+    VendorAtomWithState2 state_atom2 = 105507
+        [(android.os.statsd.module_name) = "test"];
+    VendorAtomWithState3 state_atom3 = 105508
+        [(android.os.statsd.module_name) = "test"];
+    VendorAtomWithState4 state_atom4 = 105509
+        [(android.os.statsd.module_name) = "test"];
+    VendorAtomWithTruncateTimestamp truncate_timestamp_atom1 = 105510 [
+      (android.os.statsd.module_name) = "test",
+      (android.os.statsd.truncate_timestamp) = true
+    ];
+    VendorAtomWithTruncateTimestamp2 truncate_timestamp_atom2 = 105511 [
+      (android.os.statsd.module_name) = "test",
+      (android.os.statsd.truncate_timestamp) = true
+    ];
+    VendorAtomWithTruncateTimestamp3 truncate_timestamp_atom3 = 105512 [
+      (android.os.statsd.module_name) = "test",
+      (android.os.statsd.truncate_timestamp) = true
+    ];
   }
 
   // Pulled atom extensions.
@@ -69,14 +74,14 @@ message VendorAtom1 {
   }
 
   optional string reverse_domain_name = 1;
-  optional EnumType enumField1 = 2;
-  optional EnumType enumField2 = 3;
+  optional EnumType enum_field1 = 2;
+  optional EnumType enum_field2 = 3;
   optional int32 int_value32 = 4;
   optional int64 int_value64 = 5;
   optional float float_value = 6;
   optional bool bool_value = 7;
-  optional EnumType2 enumField3 = 8;
-  optional EnumType2 enumField4 = 9;
+  optional EnumType2 enum_field3 = 8;
+  optional EnumType2 enum_field4 = 9;
 }
 
 message VendorAtom2 {
@@ -95,11 +100,11 @@ message VendorAtom2 {
   }
 
   optional string reverse_domain_name = 1;
-  optional int32 intField = 2;
-  optional EnumType enumField1 = 3;
-  optional EnumType enumField2 = 4;
-  optional EnumType2 enumField3 = 5;
-  optional EnumType2 enumField4 = 6;
+  optional int32 int_field = 2;
+  optional EnumType enum_field1 = 3;
+  optional EnumType enum_field2 = 4;
+  optional EnumType2 enum_field3 = 5;
+  optional EnumType2 enum_field4 = 6;
 }
 
 message VendorAtom3 {
@@ -124,7 +129,7 @@ message VendorAtom4 {
   optional int32 int_field = 3;
   optional int64 long_field = 4;
   optional bool bool_field = 5;
-  optional EnumType4 type4 = 6;
+  optional EnumType4 enum_field = 6;
 
   repeated bool bool_repeated = 7;
   repeated float float_repeated = 8;
