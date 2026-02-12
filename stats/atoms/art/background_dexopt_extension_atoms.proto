@@ -10,8 +10,10 @@ option java_package = "com.android.os.art";
 option java_multiple_files = true;
 
 extend Atom {
-    optional BackgroundDexoptJobEnded background_dexopt_job_ended = 467 [(module) = "art"];
-    optional PreRebootDexoptJobEnded prereboot_dexopt_job_ended = 883 [(module) = "art"];
+  optional BackgroundDexoptJobEnded background_dexopt_job_ended = 467
+      [(module_name) = "art"];
+  optional PreRebootDexoptJobEnded prereboot_dexopt_job_ended = 883
+      [(module_name) = "art"];
 }
 
 /**

@@ -26,12 +26,19 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/corenetworking/connectivity/enums.proto";
 
 extend Atom {
-    optional DailykeepaliveInfoReported daily_keepalive_info_reported = 650 [(module) = "connectivity"];
-    optional NetworkRequestStateChanged network_request_state_changed = 779 [(module) = "connectivity"];
-    optional TetheringActiveSessionsReported tethering_active_sessions_reported = 925 [(module) = "connectivity"];
-    optional ConnectivityPermissionChangeListenerLatencyReported connectivity_permission_change_listener_latency_reported = 1138 [(module) = "connectivity"];
-    optional LoopbackUsageReported loopback_usage_reported = 1216 [(module) = "connectivity_sdk30"];
-    optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests = 10247 [(module) = "connectivity"];
+  optional DailykeepaliveInfoReported daily_keepalive_info_reported = 650
+      [(module_name) = "connectivity"];
+  optional NetworkRequestStateChanged network_request_state_changed = 779
+      [(module_name) = "connectivity"];
+  optional TetheringActiveSessionsReported tethering_active_sessions_reported =
+      925 [(module_name) = "connectivity"];
+  optional ConnectivityPermissionChangeListenerLatencyReported
+      connectivity_permission_change_listener_latency_reported = 1138
+      [(module_name) = "connectivity"];
+  optional LoopbackUsageReported loopback_usage_reported = 1216
+      [(module_name) = "connectivity_sdk30"];
+  optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests =
+      10247 [(module_name) = "connectivity"];
 }
 
 /**

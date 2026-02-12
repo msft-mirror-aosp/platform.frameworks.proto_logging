@@ -25,14 +25,18 @@ option java_package = "com.android.os.expresslog";
 option java_multiple_files = true;
 
 extend Atom {
-    optional ExpressEventReported express_event_reported =
-            528 [(module) = "framework", (module) = "expresslog", (module) = "statsdtest"];
-    optional ExpressHistogramSampleReported express_histogram_sample_reported =
-            593 [(module) = "framework", (module) = "expresslog"];
-    optional ExpressUidEventReported express_uid_event_reported =
-            644 [(module) = "framework", (module) = "expresslog"];
-    optional ExpressUidHistogramSampleReported express_uid_histogram_sample_reported =
-            658 [(module) = "framework", (module) = "expresslog"];
+  optional ExpressEventReported express_event_reported = 528 [
+    (module_name) = "framework",
+    (module_name) = "expresslog",
+    (module_name) = "statsdtest"
+  ];
+  optional ExpressHistogramSampleReported express_histogram_sample_reported =
+      593 [(module_name) = "framework", (module_name) = "expresslog"];
+  optional ExpressUidEventReported express_uid_event_reported = 644
+      [(module_name) = "framework", (module_name) = "expresslog"];
+  optional ExpressUidHistogramSampleReported
+      express_uid_histogram_sample_reported = 658
+      [(module_name) = "framework", (module_name) = "expresslog"];
 }
 
 /*

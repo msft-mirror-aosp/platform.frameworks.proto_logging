@@ -30,53 +30,56 @@ option java_multiple_files = true;
 
 extend Atom {
   optional MediaActionReported media_action_reported = 608
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional MediaControlsLaunched media_controls_launched = 609
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional MediaSessionStateChanged media_session_state_changed = 677
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional MediaControlApiUsageReported media_control_api_usage_reported = 966
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional MediaSubscriptionChanged media_subscription_changed = 990
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional MediaScreenLaunched media_screen_launched = 1225
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional RemoteRouteInfoReported remote_route_info_reported = 1261
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional MediaOutputClicked media_output_clicked = 1262
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional OutputSwitcherEntryClicked output_switcher_entry_clicked = 1263
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 
   optional WearMediaOutputSwitcherDeviceScanApiLatency
-      wear_media_output_switcher_device_scan_api_latency = 757 [(module) = "MediaOutputSwitcher"];
+      wear_media_output_switcher_device_scan_api_latency = 757
+      [(module_name) = "MediaOutputSwitcher"];
 
   optional WearMediaOutputSwitcherSassDeviceUnavailable
-      wear_media_output_switcher_sass_device_unavailable = 758 [(module) = "MediaOutputSwitcher"];
+      wear_media_output_switcher_sass_device_unavailable = 758
+      [(module_name) = "MediaOutputSwitcher"];
 
   optional WearMediaOutputSwitcherFastPairApiTimeout
-      wear_media_output_switcher_fastpair_api_timeout = 759 [(module) = "MediaOutputSwitcher"];
+      wear_media_output_switcher_fastpair_api_timeout = 759
+      [(module_name) = "MediaOutputSwitcher"];
 
   optional MediaAutolaunchSettingChanged media_autolaunch_setting_changed = 1206
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
   optional MediaAutolaunchSettingsPageVisited
       media_autolaunch_settings_page_visited = 1207
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
   optional MediaAutolaunchTriggered media_autolaunch_triggered = 1208
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
   optional MediaAutolaunchDismissed media_autolaunch_dismissed = 1209
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
   optional MediaAutolaunchDailySettingStateReported
       media_autolaunch_daily_setting_state_reported = 1210
-      [(module) = "wearmedia"];
+      [(module_name) = "wearmedia"];
 }
 
 /**

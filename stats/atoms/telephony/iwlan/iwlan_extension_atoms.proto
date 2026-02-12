@@ -26,8 +26,9 @@ option java_package = "com.android.os.telephony.iwlan";
 option java_multiple_files = true;
 
 extend Atom {
-  optional IwlanUnderlyingNetworkValidationResultReported iwlan_underlying_network_validation_result_reported = 923
-  [(module) = "iwlan"];
+  optional IwlanUnderlyingNetworkValidationResultReported
+      iwlan_underlying_network_validation_result_reported = 923
+      [(module_name) = "iwlan"];
 }
 
 /**

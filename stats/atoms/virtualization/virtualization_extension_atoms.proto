@@ -25,11 +25,17 @@ option java_package = "com.android.os.virtualization";
 option java_multiple_files = true;
 
 extend Atom {
-  optional FsckFailedReported fsck_failed_reported = 1150 [(module) = "virtualizationservice"];
-  optional CgroupMemoryBreachReported cgroup_memory_breach_reported = 1151 [(module) = "virtualizationservice"];
-  optional GetOrCreateSkSecretFailedReported get_or_create_sk_secret_failed_reported = 1152 [(module) = "virtualizationservice"];
-  optional PsiMonitorFailedReported psi_monitor_failed_reported = 1159 [(module) = "virtualizationservice"];
-  optional StaleEncryptedstoreDetected stale_encryptedstore_detected = 1213 [(module) = "virtualizationservice"];
+  optional FsckFailedReported fsck_failed_reported = 1150
+      [(module_name) = "virtualizationservice"];
+  optional CgroupMemoryBreachReported cgroup_memory_breach_reported = 1151
+      [(module_name) = "virtualizationservice"];
+  optional GetOrCreateSkSecretFailedReported
+      get_or_create_sk_secret_failed_reported = 1152
+      [(module_name) = "virtualizationservice"];
+  optional PsiMonitorFailedReported psi_monitor_failed_reported = 1159
+      [(module_name) = "virtualizationservice"];
+  optional StaleEncryptedstoreDetected stale_encryptedstore_detected = 1213
+      [(module_name) = "virtualizationservice"];
 }
 
 /*

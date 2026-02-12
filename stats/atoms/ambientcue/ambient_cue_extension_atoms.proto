@@ -26,7 +26,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional AmbientCueEventReported ambient_cue_event_reported = 1119
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 }
 
 /**

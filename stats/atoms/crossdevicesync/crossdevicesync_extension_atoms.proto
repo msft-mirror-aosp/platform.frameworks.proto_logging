@@ -25,7 +25,8 @@ import "frameworks/proto_logging/stats/enums/crossdevicesync/enums.proto";
 option java_package = "com.android.os.crossdevicesync";
 
 extend Atom {
-  optional CrossDeviceSyncEvent cross_device_sync_event = 1273 [(module) = "framework"];
+  optional CrossDeviceSyncEvent cross_device_sync_event = 1273
+      [(module_name) = "framework"];
 }
 
 message CrossDeviceSyncEvent {

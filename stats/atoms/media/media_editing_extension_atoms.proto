@@ -25,7 +25,7 @@ import "frameworks/proto_logging/stats/enums/media/editing/enums.proto";
 
 extend Atom {
   optional MediaEditingEndedReported media_editing_ended_reported = 798
-      [(module) = "media_metrics"];
+      [(module_name) = "media_metrics"];
 }
 
 // Media metric for an editing operation having ended, since Android V.

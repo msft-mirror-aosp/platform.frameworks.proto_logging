@@ -32,28 +32,35 @@ option java_multiple_files = true;
  */
 
 extend Atom {
-  optional  WearSetupWizardDeviceStatusReported wear_setup_wizard_device_status_reported
-    = 953 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardPairingCompleted wear_setup_wizard_pairing_completed
-    = 954 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardConnectionEstablished wear_setup_wizard_connection_established
-    = 955 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardCheckinCompleted wear_setup_wizard_checkin_completed
-    = 956 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardCompanionTimeReported wear_setup_wizard_companion_time_reported
-    = 957 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardStatusReported wear_setup_wizard_status_reported
-    = 958 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardHeartbeatReported wear_setup_wizard_heartbeat_reported
-    = 959 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardFrpTriggered wear_setup_wizard_frp_triggered
-    = 960 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardSystemUpdateTriggered wear_setup_wizard_system_update_triggered
-    = 961 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardPhoneSwitchTriggered wear_setup_wizard_phone_switch_triggered
-    = 962 [(module) = "wear_setupwizard"];
-  optional  WearSetupWizardBlockingAppUpdateResultReported wear_setup_wizard_blocking_app_update_result_reported
-    = 1227 [(module) = "wear_setupwizard"];
+  optional WearSetupWizardDeviceStatusReported
+      wear_setup_wizard_device_status_reported = 953
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardPairingCompleted wear_setup_wizard_pairing_completed =
+      954 [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardConnectionEstablished
+      wear_setup_wizard_connection_established = 955
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardCheckinCompleted wear_setup_wizard_checkin_completed =
+      956 [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardCompanionTimeReported
+      wear_setup_wizard_companion_time_reported = 957
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardStatusReported wear_setup_wizard_status_reported = 958
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardHeartbeatReported
+      wear_setup_wizard_heartbeat_reported = 959
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardFrpTriggered wear_setup_wizard_frp_triggered = 960
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardSystemUpdateTriggered
+      wear_setup_wizard_system_update_triggered = 961
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardPhoneSwitchTriggered
+      wear_setup_wizard_phone_switch_triggered = 962
+      [(module_name) = "wear_setupwizard"];
+  optional WearSetupWizardBlockingAppUpdateResultReported
+      wear_setup_wizard_blocking_app_update_result_reported = 1227
+      [(module_name) = "wear_setupwizard"];
 }
 
 /**

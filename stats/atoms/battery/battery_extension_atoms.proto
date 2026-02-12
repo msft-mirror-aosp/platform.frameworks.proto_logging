@@ -24,7 +24,8 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 // This file contains all battery related atoms.
 
 extend Atom {
-    optional RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported = 1085 [(module) = "battery"];
+  optional RawBatteryGaugeStatsReported raw_battery_gauge_stats_reported = 1085
+      [(module_name) = "battery"];
 }
 /**
  * Logged from:

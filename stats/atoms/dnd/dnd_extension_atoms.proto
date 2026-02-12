@@ -27,7 +27,8 @@ option java_package = "com.android.os.dnd";
 option java_multiple_files = true;
 
 extend Atom {
-  optional DNDStateChanged dnd_state_changed = 657 [(module) = "framework"];
+  optional DNDStateChanged dnd_state_changed = 657
+      [(module_name) = "framework"];
 }
 
 /**

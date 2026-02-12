@@ -28,83 +28,91 @@ option java_multiple_files = true;
 extend Atom {
   // Pushed Atom
   optional WsWearTimeSession ws_wear_time_session = 610
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsIncomingCallActionReported ws_incoming_call_action_reported = 626
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsCallDisconnectionReported ws_call_disconnection_reported = 627
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsCallDurationReported ws_call_duration_reported = 628
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
-  optional WsCallUserExperienceLatencyReported ws_call_user_experience_latency_reported = 629
-      [(module) = "wearservices"];
+  optional WsCallUserExperienceLatencyReported
+      ws_call_user_experience_latency_reported = 629
+      [(module_name) = "wearservices"];
 
   optional WsCallInteractionReported ws_call_interaction_reported = 630
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsOnBodyStateChanged ws_on_body_state_changed = 787
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsWatchFaceRestrictedComplicationsImpacted
-    ws_watch_face_restricted_complications_impacted = 802
-      [(module) = "wearservices"];
+      ws_watch_face_restricted_complications_impacted = 802
+      [(module_name) = "wearservices"];
 
   optional WsWatchFaceDefaultRestrictedComplicationsRemoved
-    ws_watch_face_default_restricted_complications_removed = 803
-      [(module) = "wearservices"];
+      ws_watch_face_default_restricted_complications_removed = 803
+      [(module_name) = "wearservices"];
 
   optional WsComplicationsImpactedNotificationEventReported
-    ws_complications_impacted_notification_event_reported = 804
-      [(module) = "wearservices"];
+      ws_complications_impacted_notification_event_reported = 804
+      [(module_name) = "wearservices"];
 
   optional WsRemoteEventUsageReported ws_remote_event_usage_reported = 920
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
-  optional WsNotificationManagedDismissalSync ws_notification_managed_dismissal_sync = 941
-      [(module) = "wearservices"];
+  optional WsNotificationManagedDismissalSync
+      ws_notification_managed_dismissal_sync = 941
+      [(module_name) = "wearservices"];
 
   optional WsBugreportEventReported ws_bugreport_event_reported = 964
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
-  optional WsNotificationApiUsageReported ws_notification_api_usage_reported = 1005
-      [(module) = "wearservices"];
+  optional WsNotificationApiUsageReported ws_notification_api_usage_reported =
+      1005 [(module_name) = "wearservices"];
 
-  optional WsRemoteInteractionsApiUsageReported ws_remote_interactions_api_usage_reported = 1012
-      [(module) = "wearservices"];
+  optional WsRemoteInteractionsApiUsageReported
+      ws_remote_interactions_api_usage_reported = 1012
+      [(module_name) = "wearservices"];
 
   optional WsVisibleTileOutdated ws_visible_tile_outdated = 1144
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
-  optional WsBlockingAppUpdateNotificationShownStatusReported ws_blocking_app_update_notification_shown_status_reported = 1228
-      [(module) = "wearservices"];
+  optional WsBlockingAppUpdateNotificationShownStatusReported
+      ws_blocking_app_update_notification_shown_status_reported = 1228
+      [(module_name) = "wearservices"];
 
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsFavouriteWatchFaceSnapshot ws_favorite_watch_face_snapshot = 10206
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
-  optional WsPhotosWatchFaceFeatureSnapshot ws_photos_watch_face_feature_snapshot = 10225
-      [(module) = "wearservices"];
+  optional WsPhotosWatchFaceFeatureSnapshot
+      ws_photos_watch_face_feature_snapshot = 10225
+      [(module_name) = "wearservices"];
 
-  optional WsWatchFaceCustomizationSnapshot ws_watch_face_customization_snapshot = 10227
-      [(module) = "wearservices"];
+  optional WsWatchFaceCustomizationSnapshot
+      ws_watch_face_customization_snapshot = 10227
+      [(module_name) = "wearservices"];
 
   optional WsCompanionMetadataSnapshot ws_companion_metadata_snapshot = 10254
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
   optional WsPhoneMetadataSnapshot ws_phone_metadata_snapshot = 10261
-      [(module) = "wearservices"];
+      [(module_name) = "wearservices"];
 
-  optional WsNotificationSubscriptionRequested ws_notification_subscription_requested = 1248
-      [(module) = "wearservices"];
+  optional WsNotificationSubscriptionRequested
+      ws_notification_subscription_requested = 1248
+      [(module_name) = "wearservices"];
 
-  optional WsNotificationSubscriptionLatencyReported ws_notification_subscription_latency_reported = 1249
-      [(module) = "wearservices"];
+  optional WsNotificationSubscriptionLatencyReported
+      ws_notification_subscription_latency_reported = 1249
+      [(module_name) = "wearservices"];
 }
 
 /**

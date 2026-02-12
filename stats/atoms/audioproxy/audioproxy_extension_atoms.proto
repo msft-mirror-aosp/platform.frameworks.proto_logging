@@ -10,20 +10,25 @@ option java_multiple_files = true;
 
 extend Atom {
   optional AudioProxyConnectionStateChanged
-      audio_proxy_connection_state_changed = 1083 [(module) = "audioproxy"];
+      audio_proxy_connection_state_changed = 1083
+      [(module_name) = "audioproxy"];
   optional AudioProxyMultichannelGroupJoined
-      audio_proxy_multichannel_group_joined = 1106 [(module) = "audioproxy"];
+      audio_proxy_multichannel_group_joined = 1106
+      [(module_name) = "audioproxy"];
   optional AudioProxyMultichannelGroupDisbanded
-      audio_proxy_multichannel_group_disbanded = 1107 [(module) = "audioproxy"];
+      audio_proxy_multichannel_group_disbanded = 1107
+      [(module_name) = "audioproxy"];
   optional AudioProxyMultichannelConnectionErrorReported
       audio_proxy_multichannel_connection_error_reported = 1108
-      [(module) = "audioproxy"];
+      [(module_name) = "audioproxy"];
   optional AudioProxyCloudSettingsRpcRequested
-      audio_proxy_cloud_settings_rpc_requested = 1109 [(module) = "audioproxy"];
+      audio_proxy_cloud_settings_rpc_requested = 1109
+      [(module_name) = "audioproxy"];
   optional AudioProxySpatialAudioConfigUpdated
-      audio_proxy_spatial_audio_config_updated = 1110 [(module) = "audioproxy"];
+      audio_proxy_spatial_audio_config_updated = 1110
+      [(module_name) = "audioproxy"];
   optional AudioProxySetUpReported audio_proxy_set_up_reported = 1111
-      [(module) = "audioproxy"];
+      [(module_name) = "audioproxy"];
 }
 
 // The source that trigger the target events.

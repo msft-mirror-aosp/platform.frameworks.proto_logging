@@ -26,7 +26,8 @@ option java_package = "com.android.os.telephony.cellbroadcast";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CellbroadcastUxReported cellbroadcast_ux_reported = 1187 [(module) = "cellbroadcast"];
+  optional CellbroadcastUxReported cellbroadcast_ux_reported = 1187
+      [(module_name) = "cellbroadcast"];
 }
 
 /**

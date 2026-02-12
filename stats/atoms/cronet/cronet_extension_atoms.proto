@@ -26,12 +26,15 @@ option java_multiple_files = true;
 
 extend Atom {
   optional CronetEngineCreated cronet_engine_created = 703
-  [(module) = "cronet"];
+      [(module_name) = "cronet"];
   optional CronetTrafficReported cronet_traffic_reported = 704
-  [(module) = "cronet"];
-  optional CronetEngineBuilderInitialized cronet_engine_builder_initialized = 762 [(module) = "cronet"];
-  optional CronetHttpFlagsInitialized cronet_http_flags_initialized = 763 [(module) = "cronet"];
-  optional CronetInitialized cronet_initialized = 764 [(module) = "cronet"];
+      [(module_name) = "cronet"];
+  optional CronetEngineBuilderInitialized cronet_engine_builder_initialized =
+      762 [(module_name) = "cronet"];
+  optional CronetHttpFlagsInitialized cronet_http_flags_initialized = 763
+      [(module_name) = "cronet"];
+  optional CronetInitialized cronet_initialized = 764
+      [(module_name) = "cronet"];
 }
 
 // Logged every time CronetEngine.Builder#build() returns.

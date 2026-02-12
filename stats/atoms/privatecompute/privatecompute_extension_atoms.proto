@@ -1,0 +1,287 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.privatecompute;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+
+option java_package = "com.android.os.privatecompute";
+option java_multiple_files = true;
+
+extend Atom {
+  optional PccUidAssignmentReported pcc_uid_assignment_reported = 1287
+      [(module_name) = "privatecompute"];
+  optional PccAssociationDecisionReported pcc_association_decision_reported =
+      1288 [(module_name) = "privatecompute"];
+  optional PccAssociationAllowTypeReported pcc_association_allow_type_reported =
+      1289 [(module_name) = "privatecompute"];
+  optional PccAssociationDecisionLatencyReported
+      pcc_association_decision_latency_reported = 1290
+      [(module_name) = "privatecompute"];
+  optional PccBackupAgentStarted pcc_backup_agent_started = 1291
+      [(module_name) = "privatecompute"];
+  optional PccDataMigrationStateChanged pcc_data_migration_state_changed = 1292
+      [(module_name) = "privatecompute"];
+  optional PccBinderProxyTransactionReported
+      pcc_binder_proxy_transaction_reported = 1293
+      [(module_name) = "privatecompute"];
+  optional PccWriteToAuditLog pcc_write_to_audit_log = 1294
+      [(module_name) = "privatecompute"];
+  optional PccPermissionCheckResult pcc_permission_check_result = 1295
+      [(module_name) = "privatecompute"];
+  optional PccInputSanitizationReported pcc_input_sanitization_reported = 1296
+      [(module_name) = "privatecompute"];
+  optional RegularAppAssociationLatencyReported
+      regular_app_association_latency_reported = 1297
+      [(module_name) = "privatecompute"];
+}
+
+/**
+ * Logged when PCC UID assignment occurs.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/pm/Settings.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 1 time every 10 seconds (if the user is installing several apps at the same time)
+ *   Avg: 10 times per device.
+ */
+message PccUidAssignmentReported {
+    enum AssignmentStatus {
+        STATUS_UNKNOWN = 0;
+        SUCCESS_NEW = 1;
+        // Existing UID can be reassigned.
+        // Ref: https://source.corp.google.com/h/googleplex-android/platform/superproject/main/+/main:frameworks/base/services/core/java/com/android/server/pm/Settings.java;l=1402;drc=0f7cb2a49b8de77c9ca789ce6707b7b5add405ce
+        SUCCESS_EXISTING = 2;
+        FAILURE_HAS_SHARED_USER = 3;
+        FAILURE_INSUFFICIENT_STORAGE = 4;
+    }
+    optional AssignmentStatus assignment_status = 1;
+}
+
+/**
+ * Logged when association related decisions are made for PCC components.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *     frameworks/base/services/core/java/com/android/server/privatecompute/PccSandboxManagerInternal.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 20 times per minute when the device is booting.
+ *   Avg: 1 time in 10 minutes.
+ */
+message PccAssociationDecisionReported {
+    enum AssociationOutcome {
+        OUTCOME_UNKNOWN = 0;
+        ALLOWED = 1;
+        DISALLOWED = 2;
+    }
+    optional AssociationOutcome association_outcome = 1;
+
+    enum AssociationType {
+        TYPE_UNKNOWN = 0;
+        SAME_UID = 1;
+        SELF_ASSOCIATION = 2;
+        INTRA_SANDBOX = 3;
+        TRUSTED_PROVIDER = 4;
+        SAFE_BUNDLE = 5;
+        PCC_TO_TRUSTED_COMPONENT = 6;
+        ASSOCIATION_WITH_SYSTEM_UID = 7;
+        ASSOCIATION_FROM_SYSTEM_UID = 8;
+        PERMITTED_BY_ALLOW_ASSOCIATION = 9;
+        PERMITTED_PER_ALLOW_COMPONENT_ACCESS = 10;
+        NOT_PERMITTED_PER_ALLOW_COMPONENT_ACCESS = 11;
+        UNTRUSTED_PROVIDER = 12;
+        UNSAFE_BUNDLE = 13;
+        PCC_TO_UNTRUSTED_COMPONENT = 14;
+        NOT_PERMITTED_BY_ALLOW_ASSOCIATION = 15;
+        PACKAGE_ALLOW_ASSOCIATION_ABSENT = 16;
+    }
+    optional AssociationType association_type = 2;
+}
+
+/**
+ * Logged when various types of associations are allow for PCC components.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 20 times per minute when the device is booting.
+ *   Avg: 1 time in 10 minutes.
+ */
+message PccAssociationAllowTypeReported {
+    enum AllowType {
+        TYPE_UNKNOWN = 0;
+        ALLOWED_PER_MANIFEST = 1;
+        ALLOWED_BY_RULES = 2;
+    }
+    optional AllowType allow_type = 1;
+}
+
+/**
+ * Logged when allow association latency is calculated for PCC components.
+ *
+ * Logged from:
+ *     frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 20 times per minute when the device is booting.
+ *   Avg: 1 time in 10 minutes.
+ */
+message PccAssociationDecisionLatencyReported {
+    optional int64 latency_millis = 1;
+
+    optional bool app_declared_checked = 2;
+}
+
+/**
+ * Logged when PCC backup agent starts.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ * Estimated Logging Rate:
+ *   Avg: 50 times when moving from old device to a new device.
+ */
+message PccBackupAgentStarted {
+    enum BackupAgentProcessType {
+        TYPE_UNKNOWN = 0;
+        TYPE_PCC_PROCESS = 1;
+        TYPE_NON_PCC_PROCESS = 2;
+    }
+
+    optional BackupAgentProcessType backup_agent_process_type = 1;
+}
+
+/**
+ * Logged when PCC data migration state changes.
+ *
+ * Logged from: frameworks/base/services/files/java/com/android/server/files/FilesService.java
+ *
+ * Estimated Logging Rate:
+ *   Avg: 50 times when moving data from non-PCC to PCC.
+ */
+message PccDataMigrationStateChanged {
+    enum MigrationState {
+        STATE_UNKNOWN = 0;
+        NON_PCC_DATA_MIGRATION_SERVICE_STARTED = 1;
+        DATA_MIGRATION_COMPLETE = 2;
+    }
+    optional MigrationState migration_state = 1;
+}
+
+/**
+ * Logged when PCC binder proxy transaction occurs.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/privatecompute/PccSandboxManagerInternal.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 1 time every 10 seconds.
+ *   Avg: 1 time in 10 minutes.
+ */
+message PccBinderProxyTransactionReported {
+    enum TransactionStatus {
+        STATUS_UNKNOWN = 0;
+        STATUS_SUCCESS = 1;
+        STATUS_FAILED = 2;
+    }
+    optional TransactionStatus transaction_status = 1;
+
+    enum FailureReason {
+        REASON_UNKNOWN = 0;
+        REMOTE_SERVICE_TERMINATED = 1;
+        REMOTE_SERVICE_UNREACHABLE = 2;
+        UNSAFE_PARCEL = 3;
+        INCORRECT_PACKAGE_NAME = 4;
+    }
+    optional FailureReason failure_reason = 2;
+}
+
+/**
+ * Logged when writing to PCC audit log.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/privatecompute/PccSandboxManagerServiceImpl.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 2 times every 10 seconds.
+ *   Avg: 2 times in 10 minutes.
+ */
+message PccWriteToAuditLog {
+    enum WriteType {
+        TYPE_UNKNOWN = 0;
+        DIRECT = 1;
+        BATCHED = 2;
+    }
+    optional WriteType write_type = 1;
+}
+
+/**
+ * Logged when permission is checked for PCC components.
+ *
+ * Logged from: frameworks/base/services/permission/java/com/android/server/permission/access/permission/PermissionService.kt
+ *
+ * Estimated Logging Rate:
+ *   Peak: 1 time every 10 seconds.
+ *   Avg: 1 time in 10 minutes.
+ */
+message PccPermissionCheckResult {
+    enum Result {
+        RESULT_UNKNOWN = 0;
+        PCC_PERMISSION_CHECK_ATTEMPTED = 1;
+        PERMISSION_DENIED_NOT_IN_PCC_ALLOWLIST = 2;
+    }
+    optional Result result = 1;
+
+    optional string permission_name = 2;
+
+    optional int32 pcc_id = 3;
+}
+
+/**
+ * Logged when PCC input sanitization is performed.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/privatecompute/PccSandboxManagerInternal.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 1 time every 10 seconds.
+ *   Avg: 1 time in 10 minutes.
+ */
+message PccInputSanitizationReported {
+    optional int64 elapsed_time_millis = 1;
+
+    enum SanitizationResult {
+        RESULT_UNKNOWN = 0;
+        PERFORMED = 1;
+        SKIPPED = 2; // Early return due to null bundle or absence of active objects.
+        FAILED = 3;
+    }
+    optional SanitizationResult result = 2;
+}
+
+/**
+ * Logged to measure a regular app's association latency.
+ *
+ * Logged from: frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java
+ *
+ * Estimated Logging Rate:
+ *   Peak: 100 times per minute when the device is booting.
+ *   Avg: 1 time in 10 minutes.
+ */
+message RegularAppAssociationLatencyReported {
+    optional int64 latency_millis = 1;
+}

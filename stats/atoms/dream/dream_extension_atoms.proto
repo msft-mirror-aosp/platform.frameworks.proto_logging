@@ -22,9 +22,11 @@ import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 
 extend Atom {
-    optional DreamSettingChanged dream_setting_changed = 705 [(module) = "framework"];
+  optional DreamSettingChanged dream_setting_changed = 705
+      [(module_name) = "framework"];
 
-    optional DreamSettingSnapshot dream_setting_snapshot = 10192 [(module) = "framework"];
+  optional DreamSettingSnapshot dream_setting_snapshot = 10192
+      [(module_name) = "framework"];
 }
 
 // Pushed atom for logging dream setting changes.

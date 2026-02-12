@@ -25,12 +25,18 @@ option java_package = "com.android.os.memory";
 option java_multiple_files = true;
 
 extend Atom {
-    optional MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event = 1231 [(module) = "framework"];
-    optional MemcgMemoryProcessKillEvent memcg_memory_process_kill_event = 1256 [(module) = "framework"];
+  optional MemcgMemoryExceedThresholdEvent memcg_memory_exceed_threshold_event =
+      1231 [(module_name) = "framework"];
+  optional MemcgMemoryProcessKillEvent memcg_memory_process_kill_event = 1256
+      [(module_name) = "framework"];
 
-    optional MemcgMemorySnapshot memcg_memory_snapshot = 10251 [(module) = "framework"];
-    optional MemcgMemoryHighWaterMarkSnapshot memcg_memory_high_water_mark_snapshot = 10252 [(module) = "framework"];
-    optional MemcgMemoryStatSnapshot memcg_memory_stat_snapshot = 10257 [(module) = "framework"];
+  optional MemcgMemorySnapshot memcg_memory_snapshot = 10251
+      [(module_name) = "framework"];
+  optional MemcgMemoryHighWaterMarkSnapshot
+      memcg_memory_high_water_mark_snapshot = 10252
+      [(module_name) = "framework"];
+  optional MemcgMemoryStatSnapshot memcg_memory_stat_snapshot = 10257
+      [(module_name) = "framework"];
 }
 
 /*

@@ -28,7 +28,8 @@ option java_multiple_files = true;
  * All logs are logged from: frameworks/opt/wear
  */
 extend Atom {
-  optional WearWakeupMemoryCounters wear_wakeup_memory_counters = 1246 [(module) = "framework"];
+  optional WearWakeupMemoryCounters wear_wakeup_memory_counters = 1246
+      [(module_name) = "framework"];
 }
 
 /**

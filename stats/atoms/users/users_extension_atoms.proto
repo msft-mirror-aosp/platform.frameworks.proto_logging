@@ -23,7 +23,7 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/enums/users/enums.proto";
 
 extend Atom {
-    optional SignInDuration sign_in_duration = 1281 [(module) = "framework"];
+  optional SignInDuration sign_in_duration = 1281 [(module_name) = "framework"];
 }
 
 /**

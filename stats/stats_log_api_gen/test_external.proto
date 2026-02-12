@@ -331,14 +331,14 @@ message NoModuleAtom {
 
 message ModuleAtoms {
   oneof pushed {
-    ModuleOneAtom module_one_atom = 1 [(android.os.statsd.module) = "module1"];
-    ModuleTwoAtom module_two_atom = 2 [(android.os.statsd.module) = "module2"];
-    ModuleOneAndTwoAtom module_one_and_two_atom = 3 [
-      (android.os.statsd.module) = "module1",
-      (android.os.statsd.module) = "module2"
-    ];
-    NoModuleAtom no_module_atom = 4;
-    ModuleOneAtom module_name_one_atom = 5 [(android.os.statsd.module_name) = "module1"];
+      ModuleOneAtom module_one_atom = 1 [(android.os.statsd.module_name) = "module1"];
+      ModuleTwoAtom module_two_atom = 2 [(android.os.statsd.module_name) = "module2"];
+      ModuleOneAndTwoAtom module_one_and_two_atom = 3 [
+          (android.os.statsd.module_name) = "module1",
+          (android.os.statsd.module_name) = "module2"
+      ];
+      NoModuleAtom no_module_atom = 4;
+      ModuleOneAtom module_name_one_atom = 5 [(android.os.statsd.module_name) = "module1"];
   }
 }
 

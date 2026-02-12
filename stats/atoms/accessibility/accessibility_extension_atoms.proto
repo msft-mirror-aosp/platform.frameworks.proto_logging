@@ -10,20 +10,23 @@ option java_package = "com.android.os.accessibility";
 option java_multiple_files = true;
 
 extend Atom {
-    optional AccessibilityCheckResultReported accessibility_check_result_reported = 910
-    [(module) = "accessibility", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional AccessibilityCheckResultReported
+      accessibility_check_result_reported = 910 [
+        (module_name) = "accessibility",
+        (restriction_category) = RESTRICTION_DIAGNOSTIC
+      ];
 
-    optional AutoclickEventReported autoclick_event_reported = 1067
-    [(module) = "framework"];
+  optional AutoclickEventReported autoclick_event_reported = 1067
+      [(module_name) = "framework"];
 
-    optional AutoclickEnabledReported autoclick_enabled_reported = 1068
-    [(module) = "framework"];
+  optional AutoclickEnabledReported autoclick_enabled_reported = 1068
+      [(module_name) = "framework"];
 
-    optional AutoclickSessionDurationReported autoclick_session_duration_reported = 1069
-    [(module) = "framework"];
+  optional AutoclickSessionDurationReported
+      autoclick_session_duration_reported = 1069 [(module_name) = "framework"];
 
-    optional AutoclickSettingsStateReported autoclick_settings_state_reported = 1079
-    [(module) = "framework"];
+  optional AutoclickSettingsStateReported autoclick_settings_state_reported =
+      1079 [(module_name) = "framework"];
 }
 
 /** Logs the result of an AccessibilityCheck. */

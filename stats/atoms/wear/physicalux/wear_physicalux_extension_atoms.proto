@@ -27,10 +27,15 @@ option java_package = "com.android.os.wear.physicalux";
 option java_multiple_files = true;
 
 extend Atom {
-  optional WearGestureSubscriptionChanged wear_gesture_subscription_changed = 1095 [(module) = "framework"];
-  optional WearGestureReported wear_gesture_reported = 1096 [(module) = "framework"];
-  optional WearGestureDetectionStateChanged wear_gesture_detection_state_changed = 1097 [(module) = "framework"];
-  optional WearHardwareButtonInteractionReported wear_hardware_button_interaction_reported = 1244 [(module) = "framework"];
+  optional WearGestureSubscriptionChanged wear_gesture_subscription_changed =
+      1095 [(module_name) = "framework"];
+  optional WearGestureReported wear_gesture_reported = 1096
+      [(module_name) = "framework"];
+  optional WearGestureDetectionStateChanged
+      wear_gesture_detection_state_changed = 1097 [(module_name) = "framework"];
+  optional WearHardwareButtonInteractionReported
+      wear_hardware_button_interaction_reported = 1244
+      [(module_name) = "framework"];
 }
 
 // This file contains atom related to Gestures in Wear.

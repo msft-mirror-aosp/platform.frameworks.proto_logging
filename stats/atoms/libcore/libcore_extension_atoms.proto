@@ -24,7 +24,8 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 option java_package = "com.android.os.libcore";
 
 extend Atom {
-    optional RuntimeUnsafeDclReported runtime_unsafe_dcl_reported = 1179 [(module) = "libcore"];
+  optional RuntimeUnsafeDclReported runtime_unsafe_dcl_reported = 1179
+      [(module_name) = "libcore"];
 }
 
 /**

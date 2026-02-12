@@ -25,7 +25,8 @@ option java_package = "com.android.os.anomalystats";
 option java_multiple_files = true;
 
 extend Atom {
-  optional AnomalyStatsBinderSpam anomaly_stats_binder_spam = 1286 [(module) = "anomalystats"];
+  optional AnomalyStatsBinderSpam anomaly_stats_binder_spam = 1286
+      [(module_name) = "anomalystats"];
 }
 
 /**

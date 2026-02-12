@@ -26,8 +26,10 @@ option java_package = "com.android.os.telephony";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CellularIdentifierDisclosed cellular_identifier_disclosed = 800
-  [(module) = "telephony", (restriction_category) = RESTRICTION_FRAUD_AND_ABUSE];
+  optional CellularIdentifierDisclosed cellular_identifier_disclosed = 800 [
+    (module_name) = "telephony",
+    (restriction_category) = RESTRICTION_FRAUD_AND_ABUSE
+  ];
 }
 
 /**

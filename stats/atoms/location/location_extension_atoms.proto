@@ -27,22 +27,22 @@ option java_multiple_files = true;
 
 extend Atom {
   optional EmergencyStateChanged emergency_state_changed = 633
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 
- optional ChreSignificantMotionStateChanged
-      chre_significant_motion_state_changed = 868 [(module) = "chre"];
+  optional ChreSignificantMotionStateChanged
+      chre_significant_motion_state_changed = 868 [(module_name) = "chre"];
 
   optional PopulationDensityProviderLoadingReported
       population_density_provider_loading_reported = 1002
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 
   optional DensityBasedCoarseLocationsUsageReported
       density_based_coarse_locations_usage_reported = 1003
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 
   optional DensityBasedCoarseLocationsProviderQueryReported
       density_based_coarse_locations_provider_query_reported = 1004
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 }
 
 /**

@@ -30,75 +30,154 @@ import "frameworks/proto_logging/stats/enums/security/advancedprotection/enums.p
 option java_package = "com.android.os.framework";
 
 extend Atom {
-    optional FullScreenIntentLaunched full_screen_intent_launched = 631 [(module) = "framework"];
-    optional BalAllowed bal_allowed = 632 [(module) = "framework"];
-    optional InTaskActivityStarted in_task_activity_started = 685 [(module) = "framework"];
-    optional DeviceOrientationChanged device_orientation_changed = 906 [(module) = "framework"];
-    optional CachedAppsHighWaterMark cached_apps_high_watermark = 10189 [(module) = "framework"];
-    optional StylusPredictionMetricsReported stylus_prediction_metrics_reported = 718 [(module) = "libinput"];
-    optional UserRiskEventReported user_risk_event_reported = 725 [(module) = "framework"];
-    optional MediaProjectionStateChanged media_projection_state_changed = 729 [(module) = "framework"];
-    optional MediaProjectionTargetChanged media_projection_target_changed = 730 [(module) = "framework"];
-    optional ExcessiveBinderProxyCountReported excessive_binder_proxy_count_reported = 853
-            [(module) = "framework"];
-    optional ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg = 10200 [(module) = "framework"];
-    optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state = 10204
-            [(module) = "framework", (truncate_timestamp) = true];
-    optional BiometricFRRNotification biometric_frr_notification = 817 [(module) = "framework"];
-    optional SensitiveContentMediaProjectionSession sensitive_content_media_projection_session = 830 [(module) = "framework"];
-    optional SensitiveNotificationAppProtectionSession sensitive_notification_app_protection_session = 831 [(module) = "framework"];
-    optional SensitiveNotificationAppProtectionApplied sensitive_notification_app_protection_applied = 832 [(module) = "framework"];
-    optional SensitiveNotificationRedaction sensitive_notification_redaction = 833
-            [(module) = "framework"];
-    optional SensitiveContentAppProtection sensitive_content_app_protection = 835 [(module) = "framework"];
-    optional AppRestrictionStateChanged app_restriction_state_changed = 866 [(module) = "framework"];
-    optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209 [(module) = "framework"];
-    optional PostGCMemorySnapshot postgc_memory_snapshot = 924 [(module) = "framework"];
-    optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926 [(module) = "framework"];
-    optional AppOpAccessTracked app_op_access_tracked = 931 [(module) = "framework"];
-    optional ContentOrFileUriEventReported content_or_file_uri_event_reported = 933 [(module) = "framework"];
-    optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated = 940 [(module) = "framework"];
-    optional AppOpNoteOpOrCheckOpBinderApiCalled app_op_note_op_or_check_op_binder_api_called = 943 [(module) = "framework"];
-    optional FrameworkWakelockInfo framework_wakelock_info = 10230 [(module) = "framework"];
-    optional JankFrameCountByWidgetReported jank_frame_count_by_widget_reported = 950 [(module)="framework"];
-    optional IntentCreatorTokenAdded intent_creator_token_added = 978 [(module)="framework"];
-    optional NotificationChannelClassification notification_channel_classification = 983 [(module) = "framework"];
-    optional CameraStatusForCompatibilityChanged camera_status_for_compatibility_changed = 999 [(module) = "framework"];
-    optional NotificationBundleInteracted notification_bundle_interacted = 1000 [(module) = "framework"];
-    optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported = 1009 [(module) = "framework"];
-    optional DeviceStateAutoRotateSettingIssueReported device_state_auto_rotate_setting_issue_reported = 1011 [(module) = "framework"];
-    optional ProcessTextActionLaunchedReported process_text_action_launched_reported = 1016 [(module) = "framework"];
-    optional IntentRedirectBlocked intent_redirect_blocked = 1037 [(module) = "framework"];
-    optional WidgetMemoryStats widget_memory_stats = 10234 [(module) = "framework"];
-    optional AdvancedProtectionStateChanged advanced_protection_state_changed = 1040 [(module) = "framework"];
-    optional AdvancedProtectionSupportDialogDisplayed advanced_protection_support_dialog_displayed = 1041 [(module) = "framework"];
-    optional ExtraIntentKeysCollectedOnServer extra_intent_keys_collected_on_server = 1042 [(module) = "framework"];
-    optional ClipboardGetEventReported clipboard_get_event_reported = 1048 [(module) = "framework"];
-    optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236 [(module) = "framework"];
-    optional AdvancedProtectionUsbStateChangeErrorReported advanced_protection_usb_state_change_error_reported = 1054 [(module) = "framework"];
-    optional BinderSpamReported binder_spam_reported = 1064 [(module) = "framework"];
-    optional DevicePresenceChanged device_presence_changed = 1080 [(module) = "framework"];
-    optional ImplicitUriGrantEventReported implicit_uri_grant_event_reported = 1088 [(module) = "framework"];
-    optional AppRestartOccurred app_restart_occurred = 1089 [(module) = "framework"];
-    optional BinderCallsReported binder_calls_reported = 1090 [(module) = "framework"];
-    optional SqliteAppOpEventReported sqlite_app_op_event_reported = 1098 [(module) = "framework"];
-    optional PermissionOneTimeSessionEventReported permission_one_time_session_event_reported = 1100 [(module) = "framework"];
-    optional AggregatedAppOpAccessEventReported aggregated_app_op_access_event_reported = 1103 [(module) = "framework"];
-    optional DisplayCompatRestartMenuEventReported display_compat_restart_menu_event_reported = 1134 [(module) = "framework"];
-    optional AdvancedProtectionUsbNotificationDisplayed advanced_protection_usb_notification_displayed = 1141 [(module) = "framework"];
-    optional AdvancedProtectionUsbEventReported advanced_protection_usb_event_reported = 1193 [(module) = "framework"];
-    optional WidgetInteractionEvent widget_interaction_event = 1175 [(module) = "framework"];
-    optional EthernetBytesTransfer ethernet_bytes_transfer = 10249 [(module) = "framework"];
-    optional SatelliteBytesTransfer satellite_bytes_transfer = 10250 [(module) = "framework"];
-    optional CustomVibrationPatternReported custom_vibration_pattern_reported = 1173 [(module) = "framework"];
-    optional ZramWritebackEvent zram_writeback_event = 1202 [(module) = "framework"];
-    optional AppUsageQueryEventStats app_usage_query_event_stats = 10260 [(module) = "framework"];
-    optional UsageEventReportedStats usage_event_reported_stats = 10262 [(module) = "framework"];
-    optional AutomaticTimeZoneChangeRevertedByUserReported automatic_time_zone_change_reverted_by_user_reported = 1253 [(module) = "framework"];
-    optional TimeZoneDetectionDiscrepancyReported  time_zone_detection_discrepancy_reported = 1254 [(module) = "framework"];
-    optional TimeZoneTransitionStateChanged time_zone_transition_state_changed = 1255 [(module) = "framework"];
-    optional NativeZygoteStarted native_zygote_started = 1267 [(module) = "framework"];
-    optional MemoryLimiterOverLimitEvent memory_limiter_over_limit_event = 1272 [(module) = "framework"];
+  optional FullScreenIntentLaunched full_screen_intent_launched = 631
+      [(module_name) = "framework"];
+  optional BalAllowed bal_allowed = 632 [(module_name) = "framework"];
+  optional InTaskActivityStarted in_task_activity_started = 685
+      [(module_name) = "framework"];
+  optional DeviceOrientationChanged device_orientation_changed = 906
+      [(module_name) = "framework"];
+  optional CachedAppsHighWaterMark cached_apps_high_watermark = 10189
+      [(module_name) = "framework"];
+  optional StylusPredictionMetricsReported stylus_prediction_metrics_reported =
+      718 [(module_name) = "libinput"];
+  optional UserRiskEventReported user_risk_event_reported = 725
+      [(module_name) = "framework"];
+  optional MediaProjectionStateChanged media_projection_state_changed = 729
+      [(module_name) = "framework"];
+  optional MediaProjectionTargetChanged media_projection_target_changed = 730
+      [(module_name) = "framework"];
+  optional ExcessiveBinderProxyCountReported
+      excessive_binder_proxy_count_reported = 853 [(module_name) = "framework"];
+  optional ProxyBytesTransferByFgBg proxy_bytes_transfer_by_fg_bg = 10200
+      [(module_name) = "framework"];
+  optional MobileBytesTransferByProcState mobile_bytes_transfer_by_proc_state =
+      10204 [(module_name) = "framework", (truncate_timestamp) = true];
+  optional BiometricFRRNotification biometric_frr_notification = 817
+      [(module_name) = "framework"];
+  optional SensitiveContentMediaProjectionSession
+      sensitive_content_media_projection_session = 830
+      [(module_name) = "framework"];
+  optional SensitiveNotificationAppProtectionSession
+      sensitive_notification_app_protection_session = 831
+      [(module_name) = "framework"];
+  optional SensitiveNotificationAppProtectionApplied
+      sensitive_notification_app_protection_applied = 832
+      [(module_name) = "framework"];
+  optional SensitiveNotificationRedaction sensitive_notification_redaction = 833
+      [(module_name) = "framework"];
+  optional SensitiveContentAppProtection sensitive_content_app_protection = 835
+      [(module_name) = "framework"];
+  optional AppRestrictionStateChanged app_restriction_state_changed = 866
+      [(module_name) = "framework"];
+  optional BatteryUsageStatsPerUid battery_usage_stats_per_uid = 10209
+      [(module_name) = "framework"];
+  optional PostGCMemorySnapshot postgc_memory_snapshot = 924
+      [(module_name) = "framework"];
+  optional PowerSaveTempAllowlistChanged power_save_temp_allowlist_changed = 926
+      [(module_name) = "framework"];
+  optional AppOpAccessTracked app_op_access_tracked = 931
+      [(module_name) = "framework"];
+  optional ContentOrFileUriEventReported content_or_file_uri_event_reported =
+      933 [(module_name) = "framework"];
+  optional DeviceIdleTempAllowlistUpdated device_idle_temp_allowlist_updated =
+      940 [(module_name) = "framework"];
+  optional AppOpNoteOpOrCheckOpBinderApiCalled
+      app_op_note_op_or_check_op_binder_api_called = 943
+      [(module_name) = "framework"];
+  optional FrameworkWakelockInfo framework_wakelock_info = 10230
+      [(module_name) = "framework"];
+  optional JankFrameCountByWidgetReported jank_frame_count_by_widget_reported =
+      950 [(module_name) = "framework"];
+  optional IntentCreatorTokenAdded intent_creator_token_added = 978
+      [(module_name) = "framework"];
+  optional NotificationChannelClassification
+      notification_channel_classification = 983 [(module_name) = "framework"];
+  optional CameraStatusForCompatibilityChanged
+      camera_status_for_compatibility_changed = 999
+      [(module_name) = "framework"];
+  optional NotificationBundleInteracted notification_bundle_interacted = 1000
+      [(module_name) = "framework"];
+  optional SqliteDiscreteOpEventReported sqlite_discrete_op_event_reported =
+      1009 [(module_name) = "framework"];
+  optional DeviceStateAutoRotateSettingIssueReported
+      device_state_auto_rotate_setting_issue_reported = 1011
+      [(module_name) = "framework"];
+  optional ProcessTextActionLaunchedReported
+      process_text_action_launched_reported = 1016
+      [(module_name) = "framework"];
+  optional IntentRedirectBlocked intent_redirect_blocked = 1037
+      [(module_name) = "framework"];
+  optional WidgetMemoryStats widget_memory_stats = 10234
+      [(module_name) = "framework"];
+  optional AdvancedProtectionStateChanged advanced_protection_state_changed =
+      1040 [(module_name) = "framework"];
+  optional AdvancedProtectionSupportDialogDisplayed
+      advanced_protection_support_dialog_displayed = 1041
+      [(module_name) = "framework"];
+  optional ExtraIntentKeysCollectedOnServer
+      extra_intent_keys_collected_on_server = 1042
+      [(module_name) = "framework"];
+  optional ClipboardGetEventReported clipboard_get_event_reported = 1048
+      [(module_name) = "framework"];
+  optional AdvancedProtectionStateInfo advanced_protection_state_info = 10236
+      [(module_name) = "framework"];
+  optional AdvancedProtectionUsbStateChangeErrorReported
+      advanced_protection_usb_state_change_error_reported = 1054
+      [(module_name) = "framework"];
+  optional BinderSpamReported binder_spam_reported = 1064
+      [(module_name) = "framework"];
+  optional DevicePresenceChanged device_presence_changed = 1080
+      [(module_name) = "framework"];
+  optional ImplicitUriGrantEventReported implicit_uri_grant_event_reported =
+      1088 [(module_name) = "framework"];
+  optional AppRestartOccurred app_restart_occurred = 1089
+      [(module_name) = "framework"];
+  optional BinderCallsReported binder_calls_reported = 1090
+      [(module_name) = "framework"];
+  optional SqliteAppOpEventReported sqlite_app_op_event_reported = 1098
+      [(module_name) = "framework"];
+  optional PermissionOneTimeSessionEventReported
+      permission_one_time_session_event_reported = 1100
+      [(module_name) = "framework"];
+  optional AggregatedAppOpAccessEventReported
+      aggregated_app_op_access_event_reported = 1103
+      [(module_name) = "framework"];
+  optional DisplayCompatRestartMenuEventReported
+      display_compat_restart_menu_event_reported = 1134
+      [(module_name) = "framework"];
+  optional AdvancedProtectionUsbNotificationDisplayed
+      advanced_protection_usb_notification_displayed = 1141
+      [(module_name) = "framework"];
+  optional AdvancedProtectionUsbEventReported
+      advanced_protection_usb_event_reported = 1193
+      [(module_name) = "framework"];
+  optional WidgetInteractionEvent widget_interaction_event = 1175
+      [(module_name) = "framework"];
+  optional EthernetBytesTransfer ethernet_bytes_transfer = 10249
+      [(module_name) = "framework"];
+  optional SatelliteBytesTransfer satellite_bytes_transfer = 10250
+      [(module_name) = "framework"];
+  optional CustomVibrationPatternReported custom_vibration_pattern_reported =
+      1173 [(module_name) = "framework"];
+  optional ZramWritebackEvent zram_writeback_event = 1202
+      [(module_name) = "framework"];
+  optional AppUsageQueryEventStats app_usage_query_event_stats = 10260
+      [(module_name) = "framework"];
+  optional UsageEventReportedStats usage_event_reported_stats = 10262
+      [(module_name) = "framework"];
+  optional AutomaticTimeZoneChangeRevertedByUserReported
+      automatic_time_zone_change_reverted_by_user_reported = 1253
+      [(module_name) = "framework"];
+  optional TimeZoneDetectionDiscrepancyReported
+      time_zone_detection_discrepancy_reported = 1254
+      [(module_name) = "framework"];
+  optional TimeZoneTransitionStateChanged time_zone_transition_state_changed =
+      1255 [(module_name) = "framework"];
+  optional NativeZygoteStarted native_zygote_started = 1267
+      [(module_name) = "framework"];
+  optional MemoryLimiterOverLimitEvent memory_limiter_over_limit_event = 1272
+      [(module_name) = "framework"];
 }
 
 /**

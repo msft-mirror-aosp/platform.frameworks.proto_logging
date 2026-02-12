@@ -32,72 +32,75 @@ option java_multiple_files = true;
 
 extend Atom {
   optional BluetoothHashedDeviceNameReported
-      bluetooth_hashed_device_name_reported = 613 [(module) = "bluetooth"];
+      bluetooth_hashed_device_name_reported = 613 [(module_name) = "bluetooth"];
   optional BluetoothL2capCocClientConnection
-      bluetooth_l2cap_coc_client_connection = 614 [(module) = "bluetooth"];
+      bluetooth_l2cap_coc_client_connection = 614 [(module_name) = "bluetooth"];
   optional BluetoothL2capCocServerConnection
-      bluetooth_l2cap_coc_server_connection = 615 [(module) = "bluetooth"];
+      bluetooth_l2cap_coc_server_connection = 615 [(module_name) = "bluetooth"];
   optional BluetoothLeSessionConnected bluetooth_le_session_connected = 656
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional RestrictedBluetoothDeviceNameReported
       restricted_bluetooth_device_name_reported = 666 [
-        (module) = "bt_restricted",
+        (module_name) = "bt_restricted",
         (restriction_category) = RESTRICTION_DIAGNOSTIC
       ];
   optional BluetoothProfileConnectionAttempted
-      bluetooth_profile_connection_attempted = 696 [(module) = "bluetooth"];
+      bluetooth_profile_connection_attempted = 696
+      [(module_name) = "bluetooth"];
   optional BluetoothContentProfileErrorReported
-      bluetooth_content_profile_error_reported = 781 [(module) = "bluetooth"];
+      bluetooth_content_profile_error_reported = 781
+      [(module_name) = "bluetooth"];
   optional BluetoothRfcommConnectionAttempted
-      bluetooth_rfcomm_connection_attempted = 782 [(module) = "bluetooth"];
+      bluetooth_rfcomm_connection_attempted = 782 [(module_name) = "bluetooth"];
   optional RemoteDeviceInformationWithMetricId
-      remote_device_information_with_metric_id = 862 [(module) = "bluetooth"];
+      remote_device_information_with_metric_id = 862
+      [(module_name) = "bluetooth"];
   optional LeAppScanStateChanged le_app_scan_state_changed = 870
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional LeRadioScanStopped le_radio_scan_stopped = 871
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional LeScanResultReceived le_scan_result_received = 872
-      [(module) = "bluetooth"];
-  optional LeScanAbused le_scan_abused = 873 [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
+  optional LeScanAbused le_scan_abused = 873 [(module_name) = "bluetooth"];
   optional LeAdvStateChanged le_adv_state_changed = 874
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional LeAdvErrorReported le_adv_error_reported = 875
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional A2dpSessionReported a2dp_session_reported = 904
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothCrossLayerEventReported
-      bluetooth_cross_layer_event_reported = 916 [(module) = "bluetooth"];
+      bluetooth_cross_layer_event_reported = 916 [(module_name) = "bluetooth"];
   optional BroadcastAudioSessionReported broadcast_audio_session_reported = 927
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BroadcastAudioSyncReported broadcast_audio_sync_reported = 928
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothRfcommConnectionReportedAtClose
       bluetooth_rfcomm_connection_reported_at_close = 982
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothLeConnection bluetooth_le_connection = 988
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional HearingDeviceActiveEventReported
-      hearing_device_active_event_reported = 1021 [(module) = "bluetooth"];
+      hearing_device_active_event_reported = 1021 [(module_name) = "bluetooth"];
   optional ChannelSoundingTypesSupported channel_sounding_types_supported = 1070
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional ChannelSoundingRequesterSessionReported
       channel_sounding_requester_session_reported = 1084
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothPbapClientContactDownloadReported
       bluetooth_pbap_client_contact_download_reported = 1104
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothOppLauncherCreated bluetooth_opp_launcher_created = 1146
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothOppShareStatusCompleteReported
       bluetooth_opp_share_status_complete_reported = 1147
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothEnergyMonitorReported bluetooth_energy_monitor_reported =
-      1169 [(module) = "bluetooth"];
+      1169 [(module_name) = "bluetooth"];
   optional BluetoothRfStatsReported bluetooth_rf_stats_reported = 1170
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
   optional BluetoothGattOffloadSessionStateChanged
       bluetooth_gatt_offload_session_state_changed = 1260
-      [(module) = "bluetooth"];
+      [(module_name) = "bluetooth"];
 }
 
 /**

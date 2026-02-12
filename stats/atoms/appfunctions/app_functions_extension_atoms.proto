@@ -26,7 +26,8 @@ option java_package = "com.android.os.appfunctions";
 option java_multiple_files = true;
 
 extend Atom {
-  optional AppFunctionsRequestReported app_functions_request_reported = 998 [(module) = "appfunctions"];
+  optional AppFunctionsRequestReported app_functions_request_reported = 998
+      [(module_name) = "appfunctions"];
 }
 
 /** Logs information on AppFunction execution requests. */

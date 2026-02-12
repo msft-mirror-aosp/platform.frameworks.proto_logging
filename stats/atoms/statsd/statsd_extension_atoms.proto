@@ -25,14 +25,17 @@ import "frameworks/proto_logging/stats/attribution_node.proto";
 option java_package = "com.android.os.statsd";
 
 extend Atom {
-    optional TestExtensionAtomReported test_extension_atom_reported =
-            660 [(module) = "cts", (module) = "statsdtest"];
-    optional TestRestrictedAtomReported test_restricted_atom_reported = 672
-    [(module) = "cts", (restriction_category) = RESTRICTION_DIAGNOSTIC];
-    optional StatsSocketLossReported stats_socket_loss_reported =
-            752 [(module) = "statsdsocket", (module) = "statsd", (module) = "statsdtest"];
-    optional TestGenericVendorAtomReported test_generic_vendor_atom_reported = 349999
-                [(android.os.statsd.module) = "generic-vendor-test"];
+  optional TestExtensionAtomReported test_extension_atom_reported = 660
+      [(module_name) = "cts", (module_name) = "statsdtest"];
+  optional TestRestrictedAtomReported test_restricted_atom_reported = 672
+      [(module_name) = "cts", (restriction_category) = RESTRICTION_DIAGNOSTIC];
+  optional StatsSocketLossReported stats_socket_loss_reported = 752 [
+    (module_name) = "statsdsocket",
+    (module_name) = "statsd",
+    (module_name) = "statsdtest"
+  ];
+  optional TestGenericVendorAtomReported test_generic_vendor_atom_reported =
+      349999 [(android.os.statsd.module_name) = "generic-vendor-test"];
 }
 
 message TestExtensionAtomNestedMessage {

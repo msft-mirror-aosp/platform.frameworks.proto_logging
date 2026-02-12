@@ -27,9 +27,12 @@ import "frameworks/proto_logging/stats/enums/apex/enums.proto";
 option java_package = "com.android.os.apex";
 
 extend Atom {
-    optional ApexInstallationRequested apex_installation_requested = 732 [(module) = "apex"];
-    optional ApexInstallationStaged apex_installation_staged = 733 [(module) = "apex"];
-    optional ApexInstallationEnded apex_installation_ended = 734 [(module) = "apex"];
+  optional ApexInstallationRequested apex_installation_requested = 732
+      [(module_name) = "apex"];
+  optional ApexInstallationStaged apex_installation_staged = 733
+      [(module_name) = "apex"];
+  optional ApexInstallationEnded apex_installation_ended = 734
+      [(module_name) = "apex"];
 }
 
 /**

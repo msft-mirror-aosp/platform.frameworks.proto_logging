@@ -33,8 +33,8 @@ message ExtensionAtomPulled {
 
 extend ExtensionAtoms {
     optional ExtensionAtomPushed extension_atom_pushed = 9999
-        [(android.os.statsd.module) = "test_feature"];
+            [(android.os.statsd.module_name) = "test_feature"];
 
     optional ExtensionAtomPulled extension_atom_pulled = 99999
-        [(android.os.statsd.module) = "test_feature"];
+            [(android.os.statsd.module_name) = "test_feature"];
 }

@@ -25,32 +25,30 @@ option java_multiple_files = true;
 
 extend Atom {
   optional RendererInitialized renderer_initialized = 736
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional SchemaVersionReceived schema_version_received = 737
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional LayoutInspected layout_inspected = 741
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional LayoutExpressionsInspected layout_expression_inspected = 742
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional LayoutAnimationsInspected layout_animations_inspected = 743
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional MaterialComponentsInspected material_components_inspected = 744
-  [(module) = "prototiles"];
-  optional TileRequested tile_requested = 745
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
+  optional TileRequested tile_requested = 745 [(module_name) = "prototiles"];
   optional StateResponseReceived state_response_received = 746
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional TileResponseReceived tile_response_received = 747
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional InflationFinished inflation_finished = 748
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
   optional InflationFailed inflation_failed = 749
-  [(module) = "prototiles"];
-  optional IgnoredInflationFailuresReported ignored_inflation_failures_reported = 750
-  [(module) = "prototiles"];
+      [(module_name) = "prototiles"];
+  optional IgnoredInflationFailuresReported
+      ignored_inflation_failures_reported = 750 [(module_name) = "prototiles"];
   optional DrawableRendered drawable_rendered = 751
-  [(module) = "prototiles"];
-
+      [(module_name) = "prototiles"];
 }
 
 /**

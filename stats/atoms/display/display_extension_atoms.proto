@@ -26,15 +26,22 @@ option java_package = "com.android.os.display";
 option java_multiple_files = true;
 
 extend Atom {
-  optional DisplayModeDirectorVoteChanged display_mode_director_vote_changed = 792 [(module) = "framework"];
-  optional DisplayEventCallbackOccurred display_event_callback_occurred = 1149 [(module) = "framework"];
-  optional DisplayOffloadStateChanged display_offload_state_changed = 1161 [(module) = "framework"];
-  optional DisplayOffloadTransitionReported display_offload_transition_reported = 1162 [(module) = "framework"];
-  optional DisplayOffloadCycleStats display_offload_cycle_stats = 1163 [(module) = "framework"];
-  optional DisplayOffloadSessionStats display_offload_session_stats = 1164 [(module) = "framework"];
-  optional DisplayInfoChanged display_info_changed = 1174 [(module) = "framework"];
+  optional DisplayModeDirectorVoteChanged display_mode_director_vote_changed =
+      792 [(module_name) = "framework"];
+  optional DisplayEventCallbackOccurred display_event_callback_occurred = 1149
+      [(module_name) = "framework"];
+  optional DisplayOffloadStateChanged display_offload_state_changed = 1161
+      [(module_name) = "framework"];
+  optional DisplayOffloadTransitionReported
+      display_offload_transition_reported = 1162 [(module_name) = "framework"];
+  optional DisplayOffloadCycleStats display_offload_cycle_stats = 1163
+      [(module_name) = "framework"];
+  optional DisplayOffloadSessionStats display_offload_session_stats = 1164
+      [(module_name) = "framework"];
+  optional DisplayInfoChanged display_info_changed = 1174
+      [(module_name) = "framework"];
   optional DisplaySwitchToApIssued display_switch_to_ap_issued = 1245
-      [(android.os.statsd.module) = "framework"];
+      [(android.os.statsd.module_name) = "framework"];
 }
 
 /* Pushed atom for vote status change */

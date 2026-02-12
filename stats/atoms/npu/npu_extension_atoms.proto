@@ -22,8 +22,9 @@ import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 
 extend Atom {
-  optional NpuWorkEventOccurred npu_work_event_occurred = 1247 [(module) = "npu"];
-  optional NpuAppBlocked npu_app_blocked = 1269 [(module) = "npu"];
+  optional NpuWorkEventOccurred npu_work_event_occurred = 1247
+      [(module_name) = "npu"];
+  optional NpuAppBlocked npu_app_blocked = 1269 [(module_name) = "npu"];
 }
 
 /**

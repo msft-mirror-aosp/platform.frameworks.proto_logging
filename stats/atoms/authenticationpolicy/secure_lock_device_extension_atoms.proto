@@ -25,7 +25,8 @@ option java_package = "com.android.server.security.authenticationpolicy";
 option java_multiple_files = true;
 
 extend Atom {
-  optional SecureLockDeviceStateChanged secure_lock_device_state_changed = 1192 [(module) = "framework"];
+  optional SecureLockDeviceStateChanged secure_lock_device_state_changed = 1192
+      [(module_name) = "framework"];
 }
 
 /**

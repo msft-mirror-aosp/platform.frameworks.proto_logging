@@ -26,30 +26,40 @@ option java_package = "com.android.os.permissioncontroller";
 option java_multiple_files = true;
 
 extend Atom {
-    optional PermissionRationaleDialogViewed permission_rationale_dialog_viewed =
-        645 [(module) = "permissioncontroller"];
-    optional PermissionRationaleDialogActionReported permission_rationale_dialog_action_reported =
-        646 [(module) = "permissioncontroller"];
-    optional AppDataSharingUpdatesNotificationInteraction app_data_sharing_updates_notification_interaction =
-        647 [(module) = "permissioncontroller"];
-    optional AppDataSharingUpdatesFragmentViewed app_data_sharing_updates_fragment_viewed =
-        648 [(module) = "permissioncontroller"];
-    optional AppDataSharingUpdatesFragmentActionReported app_data_sharing_updates_fragment_action_reported =
-        649 [(module) = "permissioncontroller"];
-    optional EnhancedConfirmationDialogResultReported enhanced_confirmation_dialog_result_reported =
-        827 [(module) = "permissioncontroller"];
-    optional EnhancedConfirmationRestrictionCleared enhanced_confirmation_restriction_cleared =
-        828 [(module) = "permissioncontroller"];
-    optional RoleSettingsFragmentActionReported role_settings_fragment_action_reported =
-        1020 [(module) = "permissioncontroller"];
-    optional EcmRestrictionQueryInCallReported ecm_restriction_query_in_call_reported =
-        1034 [(module) = "permissioncontroller"];
-    optional CallWithEcmInteractionReported call_with_ecm_interaction_reported =
-        1035 [(module) = "permissioncontroller"];
-    optional PermissionManagerPageInteraction permission_manager_page_interaction =
-        1049 [(module) = "permissioncontroller"];
-    optional RoleSettingsConfirmationDialogActionReported role_settings_confirmation_dialog_action_reported =
-        1205 [(module) = "permissioncontroller"];
+  optional PermissionRationaleDialogViewed permission_rationale_dialog_viewed =
+      645 [(module_name) = "permissioncontroller"];
+  optional PermissionRationaleDialogActionReported
+      permission_rationale_dialog_action_reported = 646
+      [(module_name) = "permissioncontroller"];
+  optional AppDataSharingUpdatesNotificationInteraction
+      app_data_sharing_updates_notification_interaction = 647
+      [(module_name) = "permissioncontroller"];
+  optional AppDataSharingUpdatesFragmentViewed
+      app_data_sharing_updates_fragment_viewed = 648
+      [(module_name) = "permissioncontroller"];
+  optional AppDataSharingUpdatesFragmentActionReported
+      app_data_sharing_updates_fragment_action_reported = 649
+      [(module_name) = "permissioncontroller"];
+  optional EnhancedConfirmationDialogResultReported
+      enhanced_confirmation_dialog_result_reported = 827
+      [(module_name) = "permissioncontroller"];
+  optional EnhancedConfirmationRestrictionCleared
+      enhanced_confirmation_restriction_cleared = 828
+      [(module_name) = "permissioncontroller"];
+  optional RoleSettingsFragmentActionReported
+      role_settings_fragment_action_reported = 1020
+      [(module_name) = "permissioncontroller"];
+  optional EcmRestrictionQueryInCallReported
+      ecm_restriction_query_in_call_reported = 1034
+      [(module_name) = "permissioncontroller"];
+  optional CallWithEcmInteractionReported call_with_ecm_interaction_reported =
+      1035 [(module_name) = "permissioncontroller"];
+  optional PermissionManagerPageInteraction
+      permission_manager_page_interaction = 1049
+      [(module_name) = "permissioncontroller"];
+  optional RoleSettingsConfirmationDialogActionReported
+      role_settings_confirmation_dialog_action_reported = 1205
+      [(module_name) = "permissioncontroller"];
 }
 
 /**

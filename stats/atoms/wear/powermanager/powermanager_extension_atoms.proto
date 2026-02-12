@@ -10,7 +10,7 @@ option java_multiple_files = true;
 
 extend Atom {
   optional WearScreenOnRequestIssued wear_screen_on_request_issued = 1201
-      [(android.os.statsd.module) = "framework"];
+      [(android.os.statsd.module_name) = "framework"];
 }
 
 /**

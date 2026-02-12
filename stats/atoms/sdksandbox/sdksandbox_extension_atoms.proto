@@ -26,14 +26,17 @@ option java_multiple_files = true;
 
 extend Atom {
   // Pushed atoms
-  optional SandboxApiCalled sandbox_api_called = 488 [(module) = "sdksandbox"];
+  optional SandboxApiCalled sandbox_api_called = 488
+      [(module_name) = "sdksandbox"];
   optional SandboxActivityEventOccurred sandbox_activity_event_occurred = 735
-      [(module) = "sdksandbox", (truncate_timestamp) = true];
-  optional SdkSandboxRestrictedAccessInSession sdk_sandbox_restricted_access_in_session = 796
-      [(module) = "sdksandbox", (truncate_timestamp) = true];
+      [(module_name) = "sdksandbox", (truncate_timestamp) = true];
+  optional SdkSandboxRestrictedAccessInSession
+      sdk_sandbox_restricted_access_in_session = 796
+      [(module_name) = "sdksandbox", (truncate_timestamp) = true];
 
   // Pulled atoms
-  optional SandboxSdkStorage sandbox_sdk_storage = 10159 [(module) = "sdksandbox"];
+  optional SandboxSdkStorage sandbox_sdk_storage = 10159
+      [(module_name) = "sdksandbox"];
 }
 
 // Logs when an API call from app to sandbox process is made

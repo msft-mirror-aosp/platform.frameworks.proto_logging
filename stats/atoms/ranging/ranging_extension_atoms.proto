@@ -27,24 +27,25 @@ option java_multiple_files = true;
 
 extend Atom {
   optional RangingSessionConfigured ranging_session_configured = 993
-      [(module) = "ranging"];
+      [(module_name) = "ranging"];
   optional RangingSessionStarted ranging_session_started = 994
-      [(module) = "ranging"];
+      [(module_name) = "ranging"];
   optional RangingSessionClosed ranging_session_closed = 995
-      [(module) = "ranging"];
+      [(module_name) = "ranging"];
   optional RangingTechnologyStarted ranging_technology_started = 996
-      [(module) = "ranging"];
+      [(module_name) = "ranging"];
   optional RangingTechnologyStopped ranging_technology_stopped = 997
-      [(module) = "ranging"];
+      [(module_name) = "ranging"];
   optional RangingPeerDisconnectedAtRange ranging_peer_disconnected_at_range =
-      1215 [(module) = "ranging"];
+      1215 [(module_name) = "ranging"];
   optional RangingPeerDisconnectedWithRssi ranging_peer_disconnected_with_rssi =
-      1219 [(module) = "ranging"];
+      1219 [(module_name) = "ranging"];
   optional RangingPeerDisconnectedWithDelaySpread
-      ranging_peer_disconnected_with_delay_spread = 1220 [(module) = "ranging"];
+      ranging_peer_disconnected_with_delay_spread = 1220
+      [(module_name) = "ranging"];
   optional RangingPeerDisconnectedWithConfidenceLevel
       ranging_peer_disconnected_with_confidence_level = 1221
-      [(module) = "ranging"];
+      [(module_name) = "ranging"];
 }
 
 /*

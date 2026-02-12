@@ -26,17 +26,20 @@ option java_package = "com.android.os.input";
 option java_multiple_files = true;
 
 extend Atom {
-    optional KeyboardConfigured keyboard_configured = 682 [(module) = "framework"];
-    optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683 [(module) = "framework"];
-    optional InputDeviceUsageReported inputdevice_usage_reported =
-            686 [(module) = "framework", (module) = "input"];
-    optional InputEventLatencyReported input_event_latency_reported =
-            932 [(module) = "framework", (module) = "input"];
-    optional InputUnfinishedMotionEventReported input_unfinished_motion_event_reported =
-            1278 [(module) = "framework", (module) = "input"];
+  optional KeyboardConfigured keyboard_configured = 682
+      [(module_name) = "framework"];
+  optional KeyboardSystemsEventReported keyboard_systems_event_reported = 683
+      [(module_name) = "framework"];
+  optional InputDeviceUsageReported inputdevice_usage_reported = 686
+      [(module_name) = "framework", (module_name) = "input"];
+  optional InputEventLatencyReported input_event_latency_reported = 932
+      [(module_name) = "framework", (module_name) = "input"];
+  optional InputUnfinishedMotionEventReported
+      input_unfinished_motion_event_reported = 1278
+      [(module_name) = "framework", (module_name) = "input"];
 
-    optional TouchpadUsage touchpad_usage =
-            10191 [(module) = "framework", (module) = "input"];
+  optional TouchpadUsage touchpad_usage = 10191
+      [(module_name) = "framework", (module_name) = "input"];
 }
 
 // Keyboard layout configured when the device is connected

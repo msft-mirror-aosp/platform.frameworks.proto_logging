@@ -5,11 +5,14 @@ package android.os.statsd.wear.keyguard;
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
 
+option java_package = "com.android.os.wear.keyguard";
 option java_multiple_files = true;
 
 extend Atom {
   optional WearKeyguardLockStateChanged wear_keyguard_lock_state_changed = 1218
-      [(android.os.statsd.module) = "framework"];
+      [(android.os.statsd.module_name) = "framework"];
+  optional WearKeyguardLockState wear_keyguard_lock_state = 10264
+      [(android.os.statsd.module_name) = "framework"];
 }
 
 /**
@@ -60,4 +63,16 @@ message WearKeyguardLockStateChanged {
 
   // The reason for the lock state change
   optional WearKeyguardLockReason lock_reason = 3;
+}
+
+/**
+ * Pulls the current keyguard lock state.
+ * Logged from:
+ *   vendor/google_clockwork/packages/SystemUI/src/com/google/android/clockwork/systemui/keyguard/KeyguardStatePulledAtomRegistry.java
+ */
+message WearKeyguardLockState {
+  // Whether keyguard is enabled.
+  optional bool is_keyguard_enabled = 1;
+  // Whether keyguard is locked.
+  optional bool is_keyguard_locked = 2;
 }

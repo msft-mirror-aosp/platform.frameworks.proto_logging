@@ -25,8 +25,8 @@ option java_package = "com.android.os.locksettings";
 option java_multiple_files = true;
 
 extend Atom {
-    optional LskfAuthenticationAttempted lskf_authentication_attempted
-        = 1099 [(module) = "framework"];
+  optional LskfAuthenticationAttempted lskf_authentication_attempted = 1099
+      [(module_name) = "framework"];
 }
 
 /**

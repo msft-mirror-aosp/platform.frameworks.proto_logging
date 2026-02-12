@@ -24,7 +24,9 @@ option java_package = "com.android.os.automotive.carsettingss";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CarSettingsDataSubscriptionEventReported car_settings_data_subscription_event_reported = 975 [(module) = "carsettings"];
+  optional CarSettingsDataSubscriptionEventReported
+      car_settings_data_subscription_event_reported = 975
+      [(module_name) = "carsettings"];
 }
 
 /**

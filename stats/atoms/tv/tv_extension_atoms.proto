@@ -25,8 +25,10 @@ option java_package = "com.android.os.tv";
 option java_multiple_files = true;
 
 extend Atom {
-  optional TvLowPowerStandbyPolicy tv_low_power_standby_policy = 679 [(module) = "tv_settings"];
-  optional ExternalTvInputEvent external_tv_input_event = 717 [(module) = "framework"];
+  optional TvLowPowerStandbyPolicy tv_low_power_standby_policy = 679
+      [(module_name) = "tv_settings"];
+  optional ExternalTvInputEvent external_tv_input_event = 717
+      [(module_name) = "framework"];
 }
 
 /**

@@ -26,10 +26,12 @@ option java_multiple_files = true;
 option java_package = "com.android.os.coregraphics";
 
 extend Atom {
-  optional HardwareRendererEvent hardware_renderer_event = 946 [(module) = "hwui"];
-  optional TextureViewEvent texture_view_event = 947 [(module) = "hwui"];
-  optional SurfaceControlEvent surface_control_event = 948 [(module) = "surfaceflinger"];
-  optional ImageDecoded image_decoded = 977 [(module) = "hwui"];
+  optional HardwareRendererEvent hardware_renderer_event = 946
+      [(module_name) = "hwui"];
+  optional TextureViewEvent texture_view_event = 947 [(module_name) = "hwui"];
+  optional SurfaceControlEvent surface_control_event = 948
+      [(module_name) = "surfaceflinger"];
+  optional ImageDecoded image_decoded = 977 [(module_name) = "hwui"];
 }
 
 /**

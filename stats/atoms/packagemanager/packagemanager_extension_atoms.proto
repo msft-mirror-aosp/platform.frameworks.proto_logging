@@ -26,16 +26,16 @@ option java_multiple_files = true;
 
 extend Atom {
   optional ComponentStateChangedReported component_state_changed_reported = 863
-      [(module) = "framework"];
-  optional PackageInstallerSessionReported package_installer_session_reported = 1101
-      [(module) = "framework"];
-  optional PackageChangedBroadcastReported package_changed_broadcast_reported = 1129
-      [(module) = "framework"];
+      [(module_name) = "framework"];
+  optional PackageInstallerSessionReported package_installer_session_reported =
+      1101 [(module_name) = "framework"];
+  optional PackageChangedBroadcastReported package_changed_broadcast_reported =
+      1129 [(module_name) = "framework"];
   optional PackageManagerCacheInvalidationReported
       package_manager_cache_invalidation_reported = 1135
-      [(module) = "framework"];
+      [(module_name) = "framework"];
   optional InitAppScanReported init_app_scan_reported = 1171
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 }
 
 /**

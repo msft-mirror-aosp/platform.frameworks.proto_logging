@@ -9,12 +9,14 @@ option java_package = "com.android.os.wear.watchface";
 option java_multiple_files = true;
 
 extend Atom {
-  optional WearWatchFaceFirstFrameRendered wear_watch_face_first_frame_rendered = 1235
-      [(android.os.statsd.module) = "watchface"];
-  optional WearWatchFaceComplicationLoaded wear_watch_face_complication_loaded = 1236
-      [(android.os.statsd.module) = "watchface"];
-  optional WearWatchFaceAllComplicationsLoaded wear_watch_face_all_complications_loaded = 1237
-      [(android.os.statsd.module) = "watchface"];
+  optional WearWatchFaceFirstFrameRendered
+      wear_watch_face_first_frame_rendered = 1235
+      [(android.os.statsd.module_name) = "watchface"];
+  optional WearWatchFaceComplicationLoaded wear_watch_face_complication_loaded =
+      1236 [(android.os.statsd.module_name) = "watchface"];
+  optional WearWatchFaceAllComplicationsLoaded
+      wear_watch_face_all_complications_loaded = 1237
+      [(android.os.statsd.module_name) = "watchface"];
 }
 
 /**

@@ -25,7 +25,8 @@ option java_package = "com.android.os.uwb";
 option java_multiple_files = true;
 
 extend Atom {
-  optional UwbActivityInfo uwb_activity_info = 10188 [(module) = "framework"];
+  optional UwbActivityInfo uwb_activity_info = 10188
+      [(module_name) = "framework"];
 }
 
 /**

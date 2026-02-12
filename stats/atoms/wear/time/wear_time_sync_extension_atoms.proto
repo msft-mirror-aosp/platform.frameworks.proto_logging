@@ -31,10 +31,14 @@ option java_multiple_files = true;
  */
 
 extend Atom {
-  optional WearTimeSyncRequested wear_time_sync_requested = 911 [(module) = "wear_settings"];
-  optional WearTimeUpdateStarted wear_time_update_started = 912 [(module) = "wear_settings"];
-  optional WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed = 913 [(module) = "wear_settings"];
-  optional WearTimeChanged wear_time_changed = 914 [(module) = "wear_settings"];
+  optional WearTimeSyncRequested wear_time_sync_requested = 911
+      [(module_name) = "wear_settings"];
+  optional WearTimeUpdateStarted wear_time_update_started = 912
+      [(module_name) = "wear_settings"];
+  optional WearTimeSyncAttemptCompleted wear_time_sync_attempt_completed = 913
+      [(module_name) = "wear_settings"];
+  optional WearTimeChanged wear_time_changed = 914
+      [(module_name) = "wear_settings"];
 }
 
 /**

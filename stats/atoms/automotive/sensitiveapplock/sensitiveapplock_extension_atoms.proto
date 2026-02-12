@@ -24,8 +24,10 @@ option java_package = "com.android.os.automotive.sensitiveapplock";
 option java_multiple_files = true;
 
 extend Atom {
-  optional SensitiveAppLockStateChanged sensitive_app_lock_state_changed = 1030 [(module) = "sensitiveapplock"];
-  optional SensitiveAppLockEventReported sensitive_app_lock_event_reported = 1172 [(module) = "sensitiveapplock"];
+  optional SensitiveAppLockStateChanged sensitive_app_lock_state_changed = 1030
+      [(module_name) = "sensitiveapplock"];
+  optional SensitiveAppLockEventReported sensitive_app_lock_event_reported =
+      1172 [(module_name) = "sensitiveapplock"];
 }
 
 /**

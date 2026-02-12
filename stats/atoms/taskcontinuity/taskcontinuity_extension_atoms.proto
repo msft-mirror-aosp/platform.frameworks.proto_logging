@@ -26,12 +26,13 @@ option java_multiple_files = true;
 
 extend Atom {
   optional TaskContinuityMessageSent task_continuity_message_sent = 1240
-      [(module) = "framework"];
+      [(module_name) = "framework"];
   optional TaskContinuityMessageReceived task_continuity_message_received = 1241
-      [(module) = "framework"];
-  optional HandoffRequested handoff_requested = 1242 [(module) = "framework"];
+      [(module_name) = "framework"];
+  optional HandoffRequested handoff_requested = 1242
+      [(module_name) = "framework"];
   optional HandoffRequestFinished handoff_request_finished = 1243
-      [(module) = "framework"];
+      [(module_name) = "framework"];
 }
 
 /**

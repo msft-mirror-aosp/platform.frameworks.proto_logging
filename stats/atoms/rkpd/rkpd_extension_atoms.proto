@@ -25,8 +25,9 @@ option java_package = "com.android.os.rkpd";
 option java_multiple_files = true;
 
 extend Atom {
-  optional RkpdPoolStats rkpd_pool_stats = 664 [(module) = "rkpd"];
-  optional RkpdClientOperation rkpd_client_operation = 665 [(module) = "rkpd"];
+  optional RkpdPoolStats rkpd_pool_stats = 664 [(module_name) = "rkpd"];
+  optional RkpdClientOperation rkpd_client_operation = 665
+      [(module_name) = "rkpd"];
 }
 
 /**

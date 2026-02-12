@@ -28,14 +28,15 @@ option java_multiple_files = true;
 
 extend Atom {
   optional AcquireTrustTokenCalled acquire_trust_token_called = 1282
-      [(module) = "framework"];
+      [(module_name) = "framework"];
   optional VerifyTrustTokenCalled verify_trust_token_called = 1283
-      [(module) = "framework"];
+      [(module_name) = "framework"];
   optional RefreshTrustTokenStarted refresh_trust_token_started = 1284
-      [(module) = "framework"];
+      [(module_name) = "framework"];
   optional RefreshTrustTokenFinished refresh_trust_token_finished = 1285
-      [(module) = "framework"];
-  optional TrustTokenState trust_token_state = 10263 [(module) = "framework"];
+      [(module_name) = "framework"];
+  optional TrustTokenState trust_token_state = 10263
+      [(module_name) = "framework"];
 }
 
 /**

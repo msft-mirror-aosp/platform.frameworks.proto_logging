@@ -29,37 +29,39 @@ option java_multiple_files = true;
 extend Atom {
   // Pushed Atom
   optional WearPowerMenuOpened wear_power_menu_opened = 731
-  [(module) = "framework"];
+      [(module_name) = "framework"];
   optional WearAssistantOpened wear_assistant_opened = 755
-  [(module) = "framework"];
+      [(module_name) = "framework"];
   optional FirstOverlayStateChanged first_overlay_state_changed = 917
-  [(module) = "framework"];
+      [(module_name) = "framework"];
   optional WearTilePeekDurationReported wear_tile_peek_duration_reported = 1199
-      [(module) = "wearsysui"];
-  optional WearTileTapReported wear_tile_tap_reported = 1200 [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
+  optional WearTileTapReported wear_tile_tap_reported = 1200
+      [(module_name) = "wearsysui"];
   optional WearLiveEntryEventReported wear_live_entry_event_reported = 1212
-      [(module) = "wearsysui"];
-  optional WearLiveUpdateSettingEventReported wear_live_update_setting_event_reported =
-    1226 [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
+  optional WearLiveUpdateSettingEventReported
+      wear_live_update_setting_event_reported = 1226
+      [(module_name) = "wearsysui"];
   optional WearTrayAnimationStarted wear_tray_animation_started = 1229
-      [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
   optional WearTrayAnimationFinished wear_tray_animation_finished = 1230
-      [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
   optional WearSysUiCarouselAddTileButtonInteractionReported
       wear_sys_ui_carousel_add_tile_button_interaction_reported = 1238
-      [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
   optional WearSysUiCarouselTileManagementEditButtonTapped
       wear_sys_ui_carousel_tile_management_edit_button_tapped = 1239
-      [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
   optional WearTrayOpenKeyEventOccurred wear_tray_open_key_event_occurred = 1257
-      [(module) = "wearsysui"];
-  optional WearNotificationUiEventReported
-      wear_notification_ui_event_reported = 1258
-      [(module) = "wearsysui"];
-  optional WearNotificationTrayEventReported wear_notification_tray_event_reported = 1259
-      [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
+  optional WearNotificationUiEventReported wear_notification_ui_event_reported =
+      1258 [(module_name) = "wearsysui"];
+  optional WearNotificationTrayEventReported
+      wear_notification_tray_event_reported = 1259
+      [(module_name) = "wearsysui"];
   optional WearSystemTrayIconUpdated wear_system_tray_icon_updated = 1264
-      [(module) = "wearsysui"];
+      [(module_name) = "wearsysui"];
 }
 
 /**

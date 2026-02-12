@@ -26,7 +26,8 @@ option java_package = "com.android.os.wear.modes";
 option java_multiple_files = true;
 
 extend Atom {
-  optional WearModeStateChanged wear_mode_state_changed = 715 [(module) = "framework"];
+  optional WearModeStateChanged wear_mode_state_changed = 715
+      [(module_name) = "framework"];
 }
 
 // This file contains atom related to Modes in Wear.

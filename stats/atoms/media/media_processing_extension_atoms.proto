@@ -25,7 +25,7 @@ import "frameworks/proto_logging/stats/enums/media/processing/enums.proto";
 
 extend Atom {
   optional MediaProcessingEventReported media_processing_event_reported = 1279
-      [(module) = "media_metrics"];
+      [(module_name) = "media_metrics"];
 }
 
 // Since Android 26Q2.

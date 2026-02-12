@@ -25,13 +25,16 @@ option java_package = "com.android.os.power";
 option java_multiple_files = true;
 
 extend Atom {
-  optional ScreenOffReported screen_off_reported = 776 [(module) = "framework"];
-  optional ScreenTimeoutOverrideReported screen_timeout_override_reported
-      = 836 [(module) = "framework"];
-  optional ScreenInteractiveSessionReported screen_interactive_session_reported
-      = 837 [(module) = "framework"];
-  optional ScreenDimReported screen_dim_reported = 867 [(module) = "framework"];
-  optional AdaptiveSuspendStats adaptive_suspend_stats = 10259 [(module) = "framework"];
+  optional ScreenOffReported screen_off_reported = 776
+      [(module_name) = "framework"];
+  optional ScreenTimeoutOverrideReported screen_timeout_override_reported = 836
+      [(module_name) = "framework"];
+  optional ScreenInteractiveSessionReported
+      screen_interactive_session_reported = 837 [(module_name) = "framework"];
+  optional ScreenDimReported screen_dim_reported = 867
+      [(module_name) = "framework"];
+  optional AdaptiveSuspendStats adaptive_suspend_stats = 10259
+      [(module_name) = "framework"];
 }
 
 /**

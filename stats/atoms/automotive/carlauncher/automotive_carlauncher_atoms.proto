@@ -24,8 +24,10 @@ option java_package = "com.android.os.automotive.carlauncher";
 option java_multiple_files = true;
 
 extend Atom {
-  optional CarRecentsEventReported car_recents_event_reported = 770 [(module) = "carlauncher"];
-  optional CarCalmModeEventReported car_calm_mode_event_reported = 797 [(module) = "carlauncher"];
+  optional CarRecentsEventReported car_recents_event_reported = 770
+      [(module_name) = "carlauncher"];
+  optional CarCalmModeEventReported car_calm_mode_event_reported = 797
+      [(module_name) = "carlauncher"];
 }
 
 /**

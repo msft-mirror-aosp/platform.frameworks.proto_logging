@@ -26,7 +26,8 @@ option java_package = "com.android.os.accounts";
 option java_multiple_files = true;
 
 extend Atom {
-    optional AccountManagerEvent account_manager_event = 951 [(module) = "framework"];
+  optional AccountManagerEvent account_manager_event = 951
+      [(module_name) = "framework"];
 }
 /**
  * AccountManagerService logs.

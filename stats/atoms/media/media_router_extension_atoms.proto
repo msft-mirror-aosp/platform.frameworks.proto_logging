@@ -27,13 +27,14 @@ option java_multiple_files = true;
 
 extend Atom {
   optional MediaRouterEventReported media_router_event_reported = 1017
-      [(module) = "mediarouter"];
+      [(module_name) = "mediarouter"];
   optional RoutingChangeReported routing_change_reported = 1142
-      [(module) = "mediarouter"];
+      [(module_name) = "mediarouter"];
   optional RouteListingPreferenceUpdated route_listing_preference_updated = 1168
-      [(module) = "mediarouter"];
-  optional DeviceSuggestionsInteractionReported device_suggestions_interaction_reported = 1180
-      [(module) = "mediarouter"];
+      [(module_name) = "mediarouter"];
+  optional DeviceSuggestionsInteractionReported
+      device_suggestions_interaction_reported = 1180
+      [(module_name) = "mediarouter"];
 }
 
 /**
