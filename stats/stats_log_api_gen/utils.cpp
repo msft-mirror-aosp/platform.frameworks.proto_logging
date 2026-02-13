@@ -239,8 +239,8 @@ static int write_srcs_bodies(FILE* out, const char* path, int indent,
     return errors;
 }
 
-static int write_cpp_sources(FILE* out, const Atoms& atoms,
-                             const string& cppNamespace, bool includeExtraSrcs) {
+static int write_cpp_sources(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                             bool includeExtraSrcs) {
     const bool hasHistograms = has_histograms(atoms.decls);
 #ifdef CC_INCLUDE_SRCS_DIR
     const vector<string> excludeList =
@@ -250,7 +250,6 @@ static int write_cpp_sources(FILE* out, const Atoms& atoms,
     }
 #endif
 
-    fprintf(out, "\n");
     write_namespace(out, cppNamespace);
 
     int ret = 0;
@@ -580,7 +579,7 @@ bool is_primitive_field(java_type_t type) {
 void write_namespace(FILE* out, const string& cppNamespaces) {
     const vector<string> cppNamespaceVec = Split(cppNamespaces, ",");
     for (const string& cppNamespace : cppNamespaceVec) {
-        fprintf(out, "namespace %s {\n", cppNamespace.c_str());
+        fprintf(out, "namespace %s {\n\n", cppNamespace.c_str());
     }
 }
 
@@ -679,10 +678,11 @@ void write_native_atom_enums(FILE* out, const Atoms& atoms) {
     }
 }
 
-int write_native_atom_types(FILE* out, const Atoms& atoms) {
+int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApiName) {
     for (auto& atomDecl : atoms.decls) {
         if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
-            fprintf(out, "// Usage: stats_write(const %s& atom);\n", atomDecl->message.c_str());
+            fprintf(out, "// Usage: %s(const %s& atom);\n", pushedApiName,
+                    atomDecl->message.c_str());
         } else {
             fprintf(out,
                     "// Usage: addAStatsEvent(AStatsEventList* pulled_data, const %s& atom);\n",
@@ -702,8 +702,7 @@ int write_native_atom_types(FILE* out, const Atoms& atoms) {
             if (field.javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
                 fprintf(out, "  std::vector<AttributionNode> %s;\n", field.name.c_str());
             } else {
-                fprintf(out, "  %s %s;\n", to_cpp_typesafe_name(field).c_str(),
-                        field.name.c_str());
+                fprintf(out, "  %s %s;\n", to_cpp_typesafe_name(field).c_str(), field.name.c_str());
             }
         }
 
@@ -751,9 +750,9 @@ int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool
 }
 
 void write_native_method_signature(FILE* out, const string& signaturePrefix,
-                                          const vector<java_type_t>& signature,
-                                          const AtomDecl& attributionDecl, const string& closer,
-                                          bool isVendorAtomLogging) {
+                                   const vector<java_type_t>& signature,
+                                   const AtomDecl& attributionDecl, const string& closer,
+                                   bool isVendorAtomLogging) {
     fprintf(out, "%sint32_t code", signaturePrefix.c_str());
     int argIndex = 1;
     for (vector<java_type_t>::const_iterator arg = signature.begin(); arg != signature.end();
@@ -783,20 +782,20 @@ void write_native_method_signature(FILE* out, const string& signaturePrefix,
 }
 
 void write_native_method_header(FILE* out, const string& methodName,
-                                       const SignatureInfoMap& signatureInfoMap,
-                                       const AtomDecl& attributionDecl,
-                                       bool isVendorAtomLogging) {
+                                const SignatureInfoMap& signatureInfoMap,
+                                const AtomDecl& attributionDecl, bool isVendorAtomLogging) {
     for (const auto& [signature, _] : signatureInfoMap) {
-        string closer = contains_repeated_field(signature) ?
-                            "\n__INTRODUCED_IN(__ANDROID_API_T__);" : ";";
+        string closer =
+                contains_repeated_field(signature) ? "\n__INTRODUCED_IN(__ANDROID_API_T__);" : ";";
         write_native_method_signature(out, methodName, signature, attributionDecl, closer,
                                       isVendorAtomLogging);
     }
 }
 
 void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
-                                  bool bootstrap, bool includeExtraSrcs, bool isVendorAtomLogging) {
-    const bool includePull = !atoms.pulledAtomsSignatureInfoMap.empty() && !bootstrap;
+                                  InterfaceApi interfaceApi, bool includeExtraSrcs) {
+    const bool includePull =
+            !atoms.pulledAtomsSignatureInfoMap.empty() && interfaceApi != InterfaceApi::BOOTSTRAP;
     const bool includeHistogram = has_histograms(atoms.decls);
 
     // Print prelude
@@ -804,13 +803,34 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
     fprintf(out, "\n");
     fprintf(out, "#pragma once\n");
     fprintf(out, "\n");
-    fprintf(out, "#include <stdint.h>\n");
-    fprintf(out, "#include <vector>\n");
-    fprintf(out, "#include <map>\n");
-    fprintf(out, "#include <set>\n");
-    fprintf(out, "#include <memory>\n");
-    if (includePull && !isVendorAtomLogging) {
-        fprintf(out, "#include <stats_pull_atom_callback.h>\n");
+
+    if (interfaceApi != InterfaceApi::VENDOR) {
+        fprintf(out, "#include <stdint.h>\n");
+        fprintf(out, "#include <vector>\n");
+        fprintf(out, "#include <map>\n");
+        fprintf(out, "#include <set>\n");
+        fprintf(out, "#include <memory>\n");
+        if (includePull) {
+            fprintf(out, "#include <stats_pull_atom_callback.h>\n");
+        }
+    }
+
+    switch (interfaceApi) {
+        case InterfaceApi::PLATFORM:
+            fprintf(out, "#include <stddef.h>\n");
+            fprintf(out, "\n");
+            fprintf(out, "#ifndef __ANDROID_API_T__\n");
+            fprintf(out, "#define __ANDROID_API_T__ 33\n");
+            fprintf(out, "#endif\n");
+            fprintf(out, "#ifndef __INTRODUCED_IN\n");
+            fprintf(out, "#define __INTRODUCED_IN(api_level)\n");
+            fprintf(out, "#endif\n");
+            break;
+        case InterfaceApi::VENDOR:
+            fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
+            break;
+        default:
+            break;
     }
 
     if (includeExtraSrcs) {  // Inline headers from CC_INCLUDE_HDRS_DIR like StatsHistogram.h
@@ -823,20 +843,6 @@ void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& c
         fprintf(out, "#include <StatsHistogram.h>\n");
     }
 
-    if (!bootstrap) {
-        if( isVendorAtomLogging) {
-            fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n");
-        } else {
-            fprintf(out, "#include <stddef.h>\n");
-            fprintf(out, "\n");
-            fprintf(out, "#ifndef __ANDROID_API_T__\n");
-            fprintf(out, "#define __ANDROID_API_T__ 33\n");
-            fprintf(out, "#endif\n");
-            fprintf(out, "#ifndef __INTRODUCED_IN\n");
-            fprintf(out, "#define __INTRODUCED_IN(api_level)\n");
-            fprintf(out, "#endif\n");
-        }
-    }
     fprintf(out, "\n");
 
     write_namespace(out, cppNamespace);
@@ -852,33 +858,49 @@ void write_native_header_epilogue(FILE* out, const string& cppNamespace) {
     write_closing_namespace(out, cppNamespace);
 }
 
-int write_native_source_preamble(FILE* out, const Atoms& atoms,
-                                 const string& importHeader, const int minApiLevel,
-                                 const string& cppNamespace, bool bootstrap,
-                                 bool includeExtraSrcs) {
+int write_native_source_preamble(FILE* out, const Atoms& atoms, const string& importHeader,
+                                 const int minApiLevel, const string& cppNamespace,
+                                 InterfaceApi interfaceApi, bool includeExtraSrcs) {
     // Print prelude
     fprintf(out, "// This file is autogenerated\n");
     fprintf(out, "\n");
 
     fprintf(out, "#include <%s>\n", importHeader.c_str());
-    if (!bootstrap) {
-        if (minApiLevel == API_Q) {
-            fprintf(out, "#include <StatsEventCompat.h>\n");
-        } else {
-            fprintf(out, "#include <stats_event.h>\n");
-        }
+    switch (interfaceApi) {
+        case InterfaceApi::PLATFORM:
+            if (minApiLevel == API_Q) {
+                fprintf(out, "#include <StatsEventCompat.h>\n");
+            } else {
+                fprintf(out, "#include <stats_event.h>\n");
+            }
 
-        if (minApiLevel > API_R) {
-            fprintf(out, "#include <stats_annotations.h>\n");
-        }
+            if (minApiLevel > API_R) {
+                fprintf(out, "#include <stats_annotations.h>\n");
+            }
 
-        if (minApiLevel > API_Q && !atoms.pulledAtomsSignatureInfoMap.empty()) {
-            fprintf(out, "#include <stats_pull_atom_callback.h>\n");
-        }
-    } else {
-        fprintf(out, "#include <StatsBootstrapAtomClient.h>\n");
-        fprintf(out, "#include <android/os/StatsBootstrapAtom.h>\n");
-        fprintf(out, "#include <utils/String16.h>\n");
+            if (minApiLevel > API_Q && !atoms.pulledAtomsSignatureInfoMap.empty()) {
+                fprintf(out, "#include <stats_pull_atom_callback.h>\n");
+            }
+            break;
+        case InterfaceApi::BOOTSTRAP:
+            fprintf(out, "#include <StatsBootstrapAtomClient.h>\n");
+            fprintf(out, "#include <android/os/StatsBootstrapAtom.h>\n");
+            fprintf(out, "#include <utils/String16.h>\n");
+            break;
+        case InterfaceApi::VENDOR:
+            fprintf(out, "#include <aidl/android/frameworks/stats/VendorAtom.h>\n\n");
+
+            fprintf(out, "using namespace aidl::android::frameworks::stats;\n");
+            fprintf(out, "using std::make_optional;\n");
+            fprintf(out, "using std::optional;\n");
+            fprintf(out, "using std::vector;\n");
+            fprintf(out, "using std::string;\n\n");
+
+            break;
+        default:
+            fprintf(stderr, "Encountered unsupported InterfaceApi (%d)",
+                    static_cast<int>(interfaceApi));
+            return 1;
     }
 
     return write_cpp_sources(out, atoms, cppNamespace, includeExtraSrcs);
@@ -1124,12 +1146,12 @@ int get_max_requires_api_level(int minApiLevel, const AtomDeclSet* atomDeclSet,
     return 0;
 }
 
-AtomDeclSet get_annotations(int argIndex,
-                            const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet) {
+std::optional<AtomDeclSet> get_annotations(int fieldNumber,
+                                      const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet) {
     const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
-            fieldNumberToAtomDeclSet.find(argIndex);
+            fieldNumberToAtomDeclSet.find(fieldNumber);
     if (fieldNumberToAtomDeclSet.end() == fieldNumberToAtomDeclSetIt) {
-        return AtomDeclSet();
+        return std::nullopt;
     }
     return fieldNumberToAtomDeclSetIt->second;
 }

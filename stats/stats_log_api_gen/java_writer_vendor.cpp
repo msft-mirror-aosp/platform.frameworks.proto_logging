@@ -256,11 +256,11 @@ static int write_method_body_vendor(FILE* out, const vector<java_type_t>& signat
     }
 
     // check will be there an atom for this signature with atom level annotations
-    const AtomDeclSet atomAnnotations =
+    const auto& atomAnnotations =
             get_annotations(ATOM_ID_FIELD_NUMBER, fieldNumberToAtomDeclSet);
-    if (atomAnnotations.size()) {
+    if (atomAnnotations) {
         fprintf(out, "%sAnnotation[] atomAnnotations = null;\n", indent);
-        write_annotations_vendor_for_field(out, ATOM_ID_FIELD_NUMBER, atomAnnotations);
+        write_annotations_vendor_for_field(out, ATOM_ID_FIELD_NUMBER, *atomAnnotations);
         fprintf(out, "%sif (atomAnnotations != null && atomAnnotations.length > 0) {\n", indent);
         fprintf(out, "%s    atom.atomAnnotations = atomAnnotations;\n", indent);
         fprintf(out, "%s}\n", indent);
@@ -268,27 +268,31 @@ static int write_method_body_vendor(FILE* out, const vector<java_type_t>& signat
 
     // Create fieldsAnnotations instance only in case if there is an atom fields with annotation
     // for this signature
-    bool atomWithFieldsAnnotation = false;
+    bool atomHasFieldsAnnotation = false;
     for (int argIndex = 2; argIndex <= signature.size(); argIndex++) {
-        if (get_annotations(argIndex, fieldNumberToAtomDeclSet).size() > 0) {
-            atomWithFieldsAnnotation = true;
+        if (get_annotations(argIndex, fieldNumberToAtomDeclSet)) {
+            atomHasFieldsAnnotation = true;
             break;
         }
     }
 
-    if (atomWithFieldsAnnotation) {
+    if (atomHasFieldsAnnotation) {
         fprintf(out, "%sArrayList<AnnotationSet> fieldsAnnotations = null;\n", indent);
         set<string> processedAtomNames;
         for (int argIndex = 2; argIndex <= signature.size(); argIndex++) {
-            const AtomDeclSet fieldAnnotations =
+            const auto& fieldAnnotations =
                     get_annotations(argIndex, fieldNumberToAtomDeclSet);
-            write_value_annotations_array_init(out, fieldAnnotations, processedAtomNames);
+            if (fieldAnnotations) {
+                write_value_annotations_array_init(out, *fieldAnnotations, processedAtomNames);
+            }
         }
 
         for (int argIndex = 2; argIndex <= signature.size(); argIndex++) {
-            const AtomDeclSet fieldAnnotations =
+            const auto& fieldAnnotations =
                     get_annotations(argIndex, fieldNumberToAtomDeclSet);
-            write_annotations_vendor_for_field(out, argIndex, fieldAnnotations);
+            if (fieldAnnotations) {
+                write_annotations_vendor_for_field(out, argIndex, *fieldAnnotations);
+            }
         }
         fprintf(out, "%sif (fieldsAnnotations != null && fieldsAnnotations.size() > 0) {\n",
                 indent);
