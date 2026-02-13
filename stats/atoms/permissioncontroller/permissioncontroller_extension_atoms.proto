@@ -60,6 +60,15 @@ extend Atom {
   optional RoleSettingsConfirmationDialogActionReported
       role_settings_confirmation_dialog_action_reported = 1205
       [(module_name) = "permissioncontroller"];
+  optional RequestReadScreenContextDialogActionReported
+      request_read_screen_context_dialog_action_reported = 1300
+      [(module_name) = "permissioncontroller"];
+  optional DefaultAppSettingsViewed
+      default_app_settings_viewed = 1301
+      [(module_name) = "permissioncontroller"];
+  optional DefaultAssistantSettingsReadScreenContextToggleActionReported
+      default_assistant_settings_read_screen_context_toggle_action_reported = 1302
+      [(module_name) = "permissioncontroller"];
 }
 
 /**
@@ -323,4 +332,68 @@ message RoleSettingsConfirmationDialogActionReported {
 
   // Which button or action the user invoked to close the dialog
   optional Result result = 4;
+}
+
+/**
+ * Information about a Request Read Screen Context dialog actions by user.
+ * Logged from:
+ *   Logged from packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/role/ui/v37/RequestReadScreenContextActivity.kt
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message RequestReadScreenContextDialogActionReported {
+    // UID of application assigned the role
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Package name of application assigned the role
+    optional string package_name = 2;
+
+    enum Result {
+        RESULT_UNSPECIFIED = 0;
+        // request was ignored
+        RESULT_IGNORED = 1;
+        // request was ignored because it's already granted
+        RESULT_IGNORED_ALREADY_GRANTED = 2;
+        // request was ignored because access for app was determined to be unrequestable
+        RESULT_IGNORED_UNREQUESTABLE = 3;
+        // request was ignored because user denied max number of times
+        RESULT_IGNORED_UNREQUESTABLE_MAX_USER_DENIALS = 4;
+        // Request canceled by user
+        RESULT_CANCELED = 5;
+        // granted by user action
+        RESULT_USER_GRANTED = 6;
+        // denied by user action
+        RESULT_USER_DENIED = 7;
+    }
+    // The result of the request
+    optional Result result = 3;
+}
+
+/**
+ * Reports that User has viewed the default app for a role in settings.
+ * Logged from:
+ *   packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/role/ui/DefaultAppChildFragment.java
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message DefaultAppSettingsViewed {
+  optional string role_name = 1;
+}
+
+/**
+ * Information about a Request Read Screen Context setting toggle actions by user.
+ * Logged from:
+ *   Logged from packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/role/ui/DefaultAppChildFragment.java
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message DefaultAssistantSettingsReadScreenContextToggleActionReported {
+    // UID of application for which the read screen context setting was enabled
+    optional int32 uid = 1 [(is_uid) = true];
+
+    // Package name of application for which the read screen context setting was enabled
+    optional string package_name = 2;
+
+    // True if toggle is placed in allowed state
+    optional bool allowed = 3;
 }
