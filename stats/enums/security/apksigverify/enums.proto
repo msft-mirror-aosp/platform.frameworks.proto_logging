@@ -1,0 +1,108 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.security.apksigverify;
+
+option java_outer_classname = "ApkSigVerifyProtoEnums";
+option java_multiple_files = true;
+
+enum VerificationResult {
+    VERIFICATION_UNSPECIFIED = 0;
+    // General signature verification results: 1-29
+    // V3.2 results: 30-59
+    // The signature verification completed successfully.
+    VERIFICATION_SUCCESS = 1;
+    // The signature block was malformed and could not be parsed.
+    VERIFICATION_MALFORMED_BLOCK = 2;
+    // The signer was malformed and could not be parsed.
+    VERIFICATION_MALFORMED_SIGNER = 3;
+    // Too many signers were found targeting the current device SDK version.
+    VERIFICATION_TOO_MANY_SIGNERS = 4;
+    // The signature block did not contain any content digests to verify.
+    VERIFICATION_NO_CONTENT_DIGESTS = 5;
+    // The signature block successfully verified, but the content digest did not match the APK.
+    VERIFICATION_INTEGRITY_MISMATCH = 6;
+    // No signatures were found for the current signer.
+    VERIFICATION_NO_SIGNATURES = 7;
+    // No signatures were found for the current signer that are supported on the current device
+    // SDK version.
+    VERIFICATION_NO_SUPPORTED_SIGNATURES = 8;
+    // The platform reported that the signature algorithm is supported, but the security
+    // provider did not recognize the algorithm.
+    VERIFICATION_MISSING_SIGNATURE_ALGORITHM = 9;
+    // The signature over the signed data was malformed and could not be parsed.
+    VERIFICATION_MALFORMED_SIGNATURE = 10;
+    // The signature over signed data for the signer failed verification.
+    VERIFICATION_SIGNATURE_VERIFICATION_FAILED = 11;
+    // The signature algorithms specified outside and used to verify the signed data do not
+    // match the signature algorithms specified inside the signed data.
+    VERIFICATION_SIGNATURE_ALGORITHM_MISMATCH = 12;
+    // Multiple signers used the same content digest algorithm, but the values were different.
+    VERIFICATION_INCONSISTENT_DIGESTS = 13;
+    // A certificate within the signer block was malformed and could not be parsed.
+    VERIFICATION_MALFORMED_CERTIFICATE = 14;
+    // The signer block did not contain any certificates.
+    VERIFICATION_NO_CERTIFICATES = 15;
+    // The public key used to verify the signed data does not match the public key in the
+    // certificate within the signed data.
+    VERIFICATION_PUBLIC_KEY_MISMATCH = 16;
+    // The SDK values outside the signed data do not match the SDK values inside the signed
+    // data.
+    VERIFICATION_SIGNER_SDK_MISMATCH = 17;
+    // The additional attributes within the signer block are malformed and could not be parsed.
+    VERIFICATION_MALFORMED_ATTRIBUTES = 18;
+    // There were multiple additional attributes with the same proof of rotation struct
+    // attribute ID.
+    VERIFICATION_DUPLICATE_POR = 19;
+    // The proof of rotation struct in the additional attribute was malformed and could not be
+    // parsed.
+    VERIFICATION_MALFORMED_POR = 20;
+    // The proof of rotation struct in the additional attribute could be parsed, but it failed
+    // signature verification when parsing the lineage nodes.
+    VERIFICATION_POR_INTEGRITY_FAILURE = 21;
+    // The proof of rotation struct in the additional attribute was successfully parsed and
+    // passed signature verification, but the last signer in the lineage does not match the
+    // current signer of the APK.
+    VERIFICATION_POR_CERT_MISMATCH = 22;
+    // A PQC single signer config was used to sign an APK on a platform release that does not
+    // support this config.
+    VERIFICATION_PQC_SINGLE_SIGNER = 23;
+    // An invalid number of signers was found for the V3.2 signature scheme.
+    VERIFICATION_V32_INVALID_SIGNER_COUNT = 30;
+    // The V3.2 signature scheme should contain exactly one classical and one PQC algorithm
+    // type, but both signers were of the same algorithm type.
+    VERIFICATION_V32_ALGO_TYPE_COLLISION = 31;
+    // One of the signers in the V3.2 block contained a proof of rotation struct but the other
+    // signer did not.
+    VERIFICATION_V32_POR_MISSING = 32;
+    // A proof of rotation struct was found for both signers in the V3.2 block, but the signers
+    // do not have the same signing lineage.
+    VERIFICATION_V32_POR_MISMATCH = 33;
+    // Both signers have the same signing lineage in their proof of rotation struct, but one
+    // or more signers in the lineage have different capabilities.
+    VERIFICATION_V32_POR_CAPABILITY_MISMATCH = 34;
+    // The two signers in the hybrid block are targeting different SDK ranges.
+    VERIFICATION_V32_SDK_RANGE_MISMATCH = 35;
+    // The V3.0 or V3.1 signature block contains an additional attribute indicating a V3.2 block
+    // should be present, but a V3.2 block was not found.
+    VERIFICATION_V32_BLOCK_STRIPPED = 36;
+    // The V3.0 or V3.1 signature block contains an additional attribute indicating a V3.2 block
+    // should be targeting a particular minimum SDK version, but the V3.2 block is targeting a
+    // different minimum SDK version.
+    VERIFICATION_V32_SDK_ATTR_MISMATCH = 37;
+}

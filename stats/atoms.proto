@@ -2037,6 +2037,8 @@ message Atom {
     extensions 1295; // PccPermissionCheckResult pcc_permission_check_result
     extensions 1296; // PccInputSanitizationReported pcc_input_sanitization_reported
     extensions 1297; // RegularAppAssociationLatencyReported regular_app_association_latency_reported
+    extensions 1298; // ApkSignatureVerificationReported apk_signature_verification_reported
+    extensions 1299; // MicroXrOtaReported micro_xr_ota_reported
 
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
@@ -2060,7 +2062,7 @@ message Atom {
     // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
-    // Next: 10246
+    // Next: 10266
     oneof pulled {
       WifiBytesTransfer wifi_bytes_transfer = 10000
           [(module_name) = "framework"];
@@ -2453,9 +2455,10 @@ message Atom {
     extensions 10259; // AdaptiveSuspendStats adaptive_suspend_stats
     extensions 10260; // AppUsageQueryEventStats app_usage_query_event_stats
     extensions 10261; // WsPhoneMetadataSnapshot ws_phone_metadata_snapshot
-    extensions 10262; // UsageEventReportedStats usage_event_reported_stats;
+    extensions 10262; // UsageEventReportedStats usage_event_reported_stats
     extensions 10263; // TrustTokenState trust_token_state
     extensions 10264; // WearKeyguardLockState wear_keyguard_lock_state
+    extensions 10265; // CredentialManagerSettingsSnapshot credential_manager_settings_snapshot
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
@@ -12529,6 +12532,12 @@ message ProcessStartTime {
     }
 
     optional TriggerType trigger_type = 12;
+
+    // The uid of the process that triggered this process start.
+    optional int32 caller_uid = 13 [(is_uid) = true];
+
+    // The name of the process that triggered this process start.
+    optional string caller_process_name = 14;
 }
 
 /**

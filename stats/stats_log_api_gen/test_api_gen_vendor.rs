@@ -111,84 +111,84 @@ impl VendorAtomValueExt for VendorAtomValue {
 /// Tests native auto generated code for specific vendor atom contains proper ids
 #[test]
 fn atom_id_constants_test() {
-    assert_eq!(test_vendor_atoms::vendorAtom1::Vendoratom1::CODE, 105501);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Vendoratom2::CODE, 105502);
-    assert_eq!(test_vendor_atoms::vendorAtom4::Vendoratom4::CODE, 105504);
+    assert_eq!(test_vendor_atoms::vendor_atom1::VendorAtom1::CODE, 105501);
+    assert_eq!(test_vendor_atoms::vendor_atom2::VendorAtom2::CODE, 105502);
+    assert_eq!(test_vendor_atoms::vendor_atom4::VendorAtom4::CODE, 105504);
 }
 
 /// Tests native auto generated code for specific vendor atom contains proper enums
 #[test]
 fn atom_enum_test() {
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield1::TypeUnknown as i32, 0);
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield1::Type1 as i32, 1);
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield1::Type2 as i32, 2);
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield1::Type3 as i32, 3);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField1::TypeUnknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField1::Type1 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField1::Type2 as i32, 2);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField1::Type3 as i32, 3);
 
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield3::AnotherTypeUnknown as i32, 0);
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield3::AnotherType1 as i32, 1);
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield3::AnotherType2 as i32, 2);
-    assert_eq!(test_vendor_atoms::vendorAtom1::Enumfield3::AnotherType3 as i32, 3);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField3::AnotherTypeUnknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField3::AnotherType1 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField3::AnotherType2 as i32, 2);
+    assert_eq!(test_vendor_atoms::vendor_atom1::EnumField3::AnotherType3 as i32, 3);
 
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield1::TypeUnknown as i32, 0);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield1::Type1 as i32, 1);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield1::Type2 as i32, 2);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield1::Type3 as i32, 3);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField1::TypeUnknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField1::Type1 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField1::Type2 as i32, 2);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField1::Type3 as i32, 3);
 
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield3::AnotherTypeUnknown as i32, 0);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield3::AnotherType1 as i32, 1);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield3::AnotherType2 as i32, 2);
-    assert_eq!(test_vendor_atoms::vendorAtom2::Enumfield3::AnotherType3 as i32, 3);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField3::AnotherTypeUnknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField3::AnotherType1 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField3::AnotherType2 as i32, 2);
+    assert_eq!(test_vendor_atoms::vendor_atom2::EnumField3::AnotherType3 as i32, 3);
 
-    assert_eq!(test_vendor_atoms::vendorAtom4::Type4::TypeUnknown as i32, 0);
-    assert_eq!(test_vendor_atoms::vendorAtom4::Type4::Type1 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendor_atom4::EnumField::TypeUnknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendor_atom4::EnumField::Type1 as i32, 1);
 
-    assert_eq!(test_vendor_atoms::vendorAtom4::EnumRepeated::Type5Unknown as i32, 0);
-    assert_eq!(test_vendor_atoms::vendorAtom4::EnumRepeated::Type51 as i32, 1);
-    assert_eq!(test_vendor_atoms::vendorAtom4::EnumRepeated::Type52 as i32, 2);
+    assert_eq!(test_vendor_atoms::vendor_atom4::EnumRepeated::Type5Unknown as i32, 0);
+    assert_eq!(test_vendor_atoms::vendor_atom4::EnumRepeated::Type51 as i32, 1);
+    assert_eq!(test_vendor_atoms::vendor_atom4::EnumRepeated::Type52 as i32, 2);
 }
 
 #[test]
 fn build_vendor_atom1_api_test() {
-    use test_vendor_atoms::vendorAtom1;
+    use test_vendor_atoms::vendor_atom1;
 
-    let atom = vendorAtom1::Vendoratom1 {
+    let atom = vendor_atom1::VendorAtom1 {
         reverse_domain_name: TEST_STRING_VALUE,
-        enum_field1: vendorAtom1::Enumfield1::Type1,
-        enum_field2: vendorAtom1::Enumfield2::Type2,
+        enum_field1: vendor_atom1::EnumField1::Type1,
+        enum_field2: vendor_atom1::EnumField2::Type2,
         int_value32: TEST_INT_VALUE,
         int_value64: TEST_LONG_VALUE,
         float_value: TEST_FLOAT_VALUE,
         bool_value: TEST_BOOL_VALUE,
-        enum_field3: vendorAtom1::Enumfield3::AnotherType2,
-        enum_field4: vendorAtom1::Enumfield4::AnotherType3,
+        enum_field3: vendor_atom1::EnumField3::AnotherType2,
+        enum_field4: vendor_atom1::EnumField4::AnotherType3,
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, vendorAtom1::Vendoratom1::CODE);
+    assert_eq!(atom.atomId, vendor_atom1::VendorAtom1::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 8);
-    assert_eq!(atom.values[0].unwrap_int_value(), vendorAtom1::Enumfield1::Type1 as _);
-    assert_eq!(atom.values[1].unwrap_int_value(), vendorAtom1::Enumfield1::Type2 as _);
+    assert_eq!(atom.values[0].unwrap_int_value(), vendor_atom1::EnumField1::Type1 as _);
+    assert_eq!(atom.values[1].unwrap_int_value(), vendor_atom1::EnumField1::Type2 as _);
     assert_eq!(atom.values[2].unwrap_int_value(), TEST_INT_VALUE);
     assert_eq!(atom.values[3].unwrap_long_value(), TEST_LONG_VALUE);
     assert_eq!(atom.values[4].unwrap_float_value(), TEST_FLOAT_VALUE);
     assert_eq!(atom.values[5].unwrap_bool_value(), TEST_BOOL_VALUE);
-    assert_eq!(atom.values[6].unwrap_int_value(), vendorAtom1::Enumfield3::AnotherType2 as _);
-    assert_eq!(atom.values[7].unwrap_int_value(), vendorAtom1::Enumfield4::AnotherType3 as _);
+    assert_eq!(atom.values[6].unwrap_int_value(), vendor_atom1::EnumField3::AnotherType2 as _);
+    assert_eq!(atom.values[7].unwrap_int_value(), vendor_atom1::EnumField4::AnotherType3 as _);
     assert!(atom.atomAnnotations.is_none());
 }
 
 #[test]
 fn build_vendor_atom3_api_test() {
-    use test_vendor_atoms::vendorAtom3;
+    use test_vendor_atoms::vendor_atom3;
 
-    let atom = vendorAtom3::Vendoratom3 {
+    let atom = vendor_atom3::VendorAtom3 {
         reverse_domain_name: TEST_STRING_VALUE,
         int_field: TEST_INT_VALUE,
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, vendorAtom3::Vendoratom3::CODE);
+    assert_eq!(atom.atomId, vendor_atom3::VendorAtom3::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 1);
     assert_eq!(atom.values[0].unwrap_int_value(), TEST_INT_VALUE);
@@ -197,23 +197,23 @@ fn build_vendor_atom3_api_test() {
 
 #[test]
 fn build_vendor_atom4_api_test() {
-    use test_vendor_atoms::vendorAtom4;
+    use test_vendor_atoms::vendor_atom4;
 
     const TEST_REPEATED_BOOL_VALUE: &[bool] = &[true, false, true];
     const TEST_REPEATED_FLOAT_VALUE: &[f32] = &[1.0, 2.0, 3.0];
     const TEST_REPEATED_INT_VALUE: &[i32] = &[10, 20, 30];
     const TEST_REPEATED_LONG_VALUE: &[i64] = &[100, 200, 300];
     const TEST_REPEATED_STRING_VALUE: &[&str] = &["foo", "bar", "baz"];
-    const TEST_REPEATED_ENUM_VALUE: &[vendorAtom4::EnumRepeated] =
-        &[vendorAtom4::EnumRepeated::Type51, vendorAtom4::EnumRepeated::Type52];
+    const TEST_REPEATED_ENUM_VALUE: &[vendor_atom4::EnumRepeated] =
+        &[vendor_atom4::EnumRepeated::Type51, vendor_atom4::EnumRepeated::Type52];
 
-    let atom = vendorAtom4::Vendoratom4 {
+    let atom = vendor_atom4::VendorAtom4 {
         reverse_domain_name: TEST_STRING_VALUE,
         float_field: TEST_FLOAT_VALUE,
         int_field: TEST_INT_VALUE,
         long_field: TEST_LONG_VALUE,
         bool_field: TEST_BOOL_VALUE,
-        type4: vendorAtom4::Type4::Type1,
+        enum_field: vendor_atom4::EnumField::Type1,
         bool_repeated: TEST_REPEATED_BOOL_VALUE,
         float_repeated: TEST_REPEATED_FLOAT_VALUE,
         int_repeated: TEST_REPEATED_INT_VALUE,
@@ -223,14 +223,14 @@ fn build_vendor_atom4_api_test() {
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, vendorAtom4::Vendoratom4::CODE);
+    assert_eq!(atom.atomId, vendor_atom4::VendorAtom4::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 11);
     assert_eq!(atom.values[0].unwrap_float_value(), TEST_FLOAT_VALUE);
     assert_eq!(atom.values[1].unwrap_int_value(), TEST_INT_VALUE);
     assert_eq!(atom.values[2].unwrap_long_value(), TEST_LONG_VALUE);
     assert_eq!(atom.values[3].unwrap_bool_value(), TEST_BOOL_VALUE);
-    assert_eq!(atom.values[4].unwrap_int_value(), vendorAtom4::Type4::Type1 as _);
+    assert_eq!(atom.values[4].unwrap_int_value(), vendor_atom4::EnumField::Type1 as _);
     assert_eq!(atom.values[5].unwrap_repeated_bool_value(), TEST_REPEATED_BOOL_VALUE);
     assert_eq!(atom.values[6].unwrap_repeated_float_value(), TEST_REPEATED_FLOAT_VALUE);
     assert_eq!(atom.values[7].unwrap_repeated_int_value(), TEST_REPEATED_INT_VALUE);
@@ -249,12 +249,12 @@ fn build_vendor_atom4_api_test() {
 
 #[test]
 fn build_vendor_atom5_api_test() {
-    use test_vendor_atoms::vendorAtom5;
+    use test_vendor_atoms::vendor_atom5;
 
     // The C++ buildVendorAtom5ApiTest test uses a serialized TestNestedMessage.
     // Here we use raw bytes without protobuf.
     let nested_data = TEST_STRING_VALUE2.as_bytes();
-    let atom = vendorAtom5::Vendoratom5 {
+    let atom = vendor_atom5::VendorAtom5 {
         reverse_domain_name: TEST_STRING_VALUE,
         float_field: TEST_FLOAT_VALUE,
         int_field: TEST_INT_VALUE,
@@ -263,7 +263,7 @@ fn build_vendor_atom5_api_test() {
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, vendorAtom5::Vendoratom5::CODE);
+    assert_eq!(atom.atomId, vendor_atom5::VendorAtom5::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 4);
     assert_eq!(atom.values[0].unwrap_float_value(), TEST_FLOAT_VALUE);
@@ -277,18 +277,21 @@ fn build_vendor_atom5_api_test() {
 #[test]
 fn build_atom_with_truncate_timestamp_test() {
     use test_vendor_atoms::{
-        truncateTimestampAtom1, truncateTimestampAtom2, truncateTimestampAtom3,
+        truncate_timestamp_atom1, truncate_timestamp_atom2, truncate_timestamp_atom3,
     };
 
-    let atom1 = truncateTimestampAtom1::Truncatetimestampatom1 {
+    let atom1 = truncate_timestamp_atom1::TruncateTimestampAtom1 {
         reverse_domain_name: TEST_STRING_VALUE,
-        state: truncateTimestampAtom1::State::TestState1,
+        state: truncate_timestamp_atom1::State::TestState1,
     }
     .to_vendor_atom();
-    assert_eq!(atom1.atomId, truncateTimestampAtom1::Truncatetimestampatom1::CODE);
+    assert_eq!(atom1.atomId, truncate_timestamp_atom1::TruncateTimestampAtom1::CODE);
     assert_eq!(atom1.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom1.values.len(), 1);
-    assert_eq!(atom1.values[0].unwrap_int_value(), truncateTimestampAtom1::State::TestState1 as _);
+    assert_eq!(
+        atom1.values[0].unwrap_int_value(),
+        truncate_timestamp_atom1::State::TestState1 as _
+    );
     assert!(atom1.atomAnnotations.is_some());
     assert_eq!(atom1.atomAnnotations.as_ref().unwrap().len(), 1);
     assert!(atom1.atomAnnotations.as_ref().unwrap()[0].is_some());
@@ -301,15 +304,18 @@ fn build_atom_with_truncate_timestamp_test() {
         AnnotationValue::BoolValue(true)
     );
 
-    let atom2 = truncateTimestampAtom2::Truncatetimestampatom2 {
+    let atom2 = truncate_timestamp_atom2::TruncateTimestampAtom2 {
         reverse_domain_name: TEST_STRING_VALUE,
-        state: truncateTimestampAtom2::State::TestState2,
+        state: truncate_timestamp_atom2::State::TestState2,
     }
     .to_vendor_atom();
-    assert_eq!(atom2.atomId, truncateTimestampAtom2::Truncatetimestampatom2::CODE);
+    assert_eq!(atom2.atomId, truncate_timestamp_atom2::TruncateTimestampAtom2::CODE);
     assert_eq!(atom2.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom2.values.len(), 1);
-    assert_eq!(atom2.values[0].unwrap_int_value(), truncateTimestampAtom2::State::TestState2 as _);
+    assert_eq!(
+        atom2.values[0].unwrap_int_value(),
+        truncate_timestamp_atom2::State::TestState2 as _
+    );
     assert!(atom2.atomAnnotations.is_some());
     assert_eq!(atom2.atomAnnotations.as_ref().unwrap().len(), 1);
     assert!(atom2.atomAnnotations.as_ref().unwrap()[0].is_some());
@@ -322,12 +328,12 @@ fn build_atom_with_truncate_timestamp_test() {
         AnnotationValue::BoolValue(true)
     );
 
-    let atom3 = truncateTimestampAtom3::Truncatetimestampatom3 {
+    let atom3 = truncate_timestamp_atom3::TruncateTimestampAtom3 {
         reverse_domain_name: TEST_STRING_VALUE,
         int_value: TEST_INT_VALUE,
     }
     .to_vendor_atom();
-    assert_eq!(atom3.atomId, truncateTimestampAtom3::Truncatetimestampatom3::CODE);
+    assert_eq!(atom3.atomId, truncate_timestamp_atom3::TruncateTimestampAtom3::CODE);
     assert_eq!(atom3.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom3.values.len(), 1);
     assert_eq!(atom3.values[0].unwrap_int_value(), TEST_INT_VALUE);
@@ -346,18 +352,18 @@ fn build_atom_with_truncate_timestamp_test() {
 
 #[test]
 fn build_atom_with_exclusive_state_annotation_test() {
-    use test_vendor_atoms::stateAtom3;
+    use test_vendor_atoms::state_atom3;
 
-    let atom = stateAtom3::Stateatom3 {
+    let atom = state_atom3::StateAtom3 {
         reverse_domain_name: TEST_STRING_VALUE,
-        state: stateAtom3::State::TestState3,
+        state: state_atom3::State::TestState3,
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, stateAtom3::Stateatom3::CODE);
+    assert_eq!(atom.atomId, state_atom3::StateAtom3::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 1);
-    assert_eq!(atom.values[0].unwrap_int_value(), stateAtom3::State::TestState3 as _);
+    assert_eq!(atom.values[0].unwrap_int_value(), state_atom3::State::TestState3 as _);
     assert!(atom.valuesAnnotations.is_some());
     assert_eq!(atom.valuesAnnotations.as_ref().unwrap().len(), 1);
     assert!(atom.valuesAnnotations.as_ref().unwrap()[0].is_some());
@@ -376,20 +382,20 @@ fn build_atom_with_exclusive_state_annotation_test() {
 
 #[test]
 fn build_atom_with_exclusive_state_and_primary_field_annotation_test() {
-    use test_vendor_atoms::stateAtom1;
+    use test_vendor_atoms::state_atom1;
 
-    let atom = stateAtom1::Stateatom1 {
+    let atom = state_atom1::StateAtom1 {
         reverse_domain_name: TEST_STRING_VALUE,
         uid: TEST_UID_VALUE,
-        state: stateAtom1::State::TestState3,
+        state: state_atom1::State::TestState3,
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, stateAtom1::Stateatom1::CODE);
+    assert_eq!(atom.atomId, state_atom1::StateAtom1::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 2);
     assert_eq!(atom.values[0].unwrap_int_value(), TEST_UID_VALUE);
-    assert_eq!(atom.values[1].unwrap_int_value(), stateAtom1::State::TestState3 as _);
+    assert_eq!(atom.values[1].unwrap_int_value(), state_atom1::State::TestState3 as _);
     assert!(atom.valuesAnnotations.is_some());
     assert_eq!(atom.valuesAnnotations.as_ref().unwrap().len(), 2);
     assert!(atom.valuesAnnotations.as_ref().unwrap()[0].is_some());
@@ -419,22 +425,22 @@ fn build_atom_with_exclusive_state_and_primary_field_annotation_test() {
 
 #[test]
 fn build_atom_with_exclusive_state_and_two_primary_field_annotation_test() {
-    use test_vendor_atoms::stateAtom2;
+    use test_vendor_atoms::state_atom2;
 
-    let atom = stateAtom2::Stateatom2 {
+    let atom = state_atom2::StateAtom2 {
         reverse_domain_name: TEST_STRING_VALUE,
         uid: TEST_UID_VALUE,
         pid: TEST_PID_VALUE,
-        state: stateAtom2::State::TestState2,
+        state: state_atom2::State::TestState2,
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, stateAtom2::Stateatom2::CODE);
+    assert_eq!(atom.atomId, state_atom2::StateAtom2::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 3);
     assert_eq!(atom.values[0].unwrap_int_value(), TEST_UID_VALUE);
     assert_eq!(atom.values[1].unwrap_int_value(), TEST_PID_VALUE);
-    assert_eq!(atom.values[2].unwrap_int_value(), stateAtom2::State::TestState2 as _);
+    assert_eq!(atom.values[2].unwrap_int_value(), state_atom2::State::TestState2 as _);
 
     assert!(atom.valuesAnnotations.is_some());
     let annotations = atom.valuesAnnotations.as_ref().unwrap();
@@ -466,19 +472,19 @@ fn build_atom_with_exclusive_state_and_two_primary_field_annotation_test() {
 
 #[test]
 fn build_atom_with_multiple_annotations_per_value_test() {
-    use test_vendor_atoms::stateAtom4;
+    use test_vendor_atoms::state_atom4;
 
-    let atom = stateAtom4::Stateatom4 {
+    let atom = state_atom4::StateAtom4 {
         reverse_domain_name: TEST_STRING_VALUE,
-        state: stateAtom4::State::On,
+        state: state_atom4::State::On,
         some_flag: TEST_BOOL_VALUE,
     }
     .to_vendor_atom();
 
-    assert_eq!(atom.atomId, stateAtom4::Stateatom4::CODE);
+    assert_eq!(atom.atomId, state_atom4::StateAtom4::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 2);
-    assert_eq!(atom.values[0].unwrap_int_value(), stateAtom4::State::On as _);
+    assert_eq!(atom.values[0].unwrap_int_value(), state_atom4::State::On as _);
     assert_eq!(atom.values[1].unwrap_bool_value(), TEST_BOOL_VALUE);
 
     assert!(atom.valuesAnnotations.is_some());
@@ -506,21 +512,21 @@ fn build_atom_with_multiple_annotations_per_value_test() {
 
 #[test]
 fn build_atom_with_trigger_reset_annotation_test() {
-    use test_vendor_atoms::stateAtom4;
+    use test_vendor_atoms::state_atom4;
 
-    let atom = stateAtom4::Stateatom4 {
+    let atom = state_atom4::StateAtom4 {
         reverse_domain_name: TEST_STRING_VALUE,
-        state: stateAtom4::State::Reset,
+        state: state_atom4::State::Reset,
         some_flag: TEST_BOOL_VALUE,
     }
     .to_vendor_atom();
 
-    const DEFAULT_STATE_VALUE: i32 = stateAtom4::State::Off as i32;
+    const DEFAULT_STATE_VALUE: i32 = state_atom4::State::Off as i32;
 
-    assert_eq!(atom.atomId, stateAtom4::Stateatom4::CODE);
+    assert_eq!(atom.atomId, state_atom4::StateAtom4::CODE);
     assert_eq!(atom.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom.values.len(), 2);
-    assert_eq!(atom.values[0].unwrap_int_value(), stateAtom4::State::Reset as _);
+    assert_eq!(atom.values[0].unwrap_int_value(), state_atom4::State::Reset as _);
     assert_eq!(atom.values[1].unwrap_bool_value(), TEST_BOOL_VALUE);
 
     assert!(atom.valuesAnnotations.is_some());

@@ -1,0 +1,57 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.security;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/security/apksigverify/enums.proto";
+
+option java_package = "com.android.os.security";
+option java_multiple_files = true;
+
+extend Atom {
+    optional ApkSignatureVerificationReported apk_signature_verification_reported = 1298
+        [(module_name) = "framework"];
+}
+
+/**
+ * Logs the status of the signature verification for an APK during install or update.
+ *
+ * Logged from:
+ *      frameworks/base/core/java/android/util/apk/ApkSignatureVerifierMetrics.java
+ */
+message ApkSignatureVerificationReported {
+    // The ID of the APK's signature block that was used for verification. The ID to signature
+    // scheme version mapping can be found in the VxSchemeConstants classes in the apksig library.
+    optional int32 block_id = 1;
+    // The minimum SDK version targeted by the signature block.
+    optional int32 block_min_sdk = 2;
+    // The maximum SDK version targeted by the signature block.
+    optional int32 block_max_sdk = 3;
+    // The ID of the signature algorithm that was used to verify the signature block. The ID to
+    // signature algorithm mapping can be found in the SignatureAlgorithm class in the apksig
+    // library.
+    optional int32 signature_algorithm_id = 4;
+    // Whether the signature block is attempting to roll back the app's current signing key.
+    optional bool is_rollback = 5;
+    // Whether the signature block is a rotation to a new signing key.
+    optional bool is_rotation = 6;
+    // The result of the attempt to verify the APK's signature using the current signature block.
+    optional android.security.apksigverify.VerificationResult verification_result = 7;
+}

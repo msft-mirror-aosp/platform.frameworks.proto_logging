@@ -635,13 +635,6 @@ static bool is_atom_in_module(const FieldDescriptor& atomField, const string& mo
         }
     }
 
-    const int moduleCount = atomField.options().ExtensionSize(os::statsd::module);
-    for (int j = 0; j < moduleCount; ++j) {
-        if (atomField.options().GetExtension(os::statsd::module, j) == moduleName) {
-            return true;
-        }
-    }
-
     return false;
 }
 
