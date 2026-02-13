@@ -227,17 +227,13 @@ public class VendorAtomCodeGenTest {
          * atoms with similar definitions:
          *      VendorAtomWithState3 stateAtom3 = 105508
          * which has 1 exclusive_state field annotations associated
-         * and 3 different atoms with truncate_timestamp
+         * and 2 different atoms with truncate_timestamp
          *      VendorAtomWithTruncateTimestamp truncateTimestampAtom1 = 105510 [
          *          (android.os.statsd.truncate_timestamp) = true
          *      ];
          *      VendorAtomWithTruncateTimestamp2 truncateTimestampAtom2 = 105511 [
          *          (android.os.statsd.truncate_timestamp) = true
          *      ];
-         *      VendorAtomWithTruncateTimestamp3 truncateTimestampAtom3 = 105512 [
-         *          (android.os.statsd.truncate_timestamp) = true
-         *      ];
-         *
          */
         VendorAtom atom = funcWrapper.methodSignature(
                 VendorAtomsLog.TRUNCATE_TIMESTAMP_ATOM1, kTestStringValue,
@@ -254,18 +250,13 @@ public class VendorAtomCodeGenTest {
         assertThat(atom.atomAnnotations[0].annotationId).isEqualTo(AnnotationId.TRUNCATE_TIMESTAMP);
         assertThat(atom.atomAnnotations[0].value.getBoolValue()).isEqualTo(true);
 
-        final int kTestStateValue2 =
-                VendorAtomsLog
-                        .VENDOR_ATOM_WITH_TRUNCATE_TIMESTAMP2__TEST_STATE__TEST_STATE_1;
-
         VendorAtom atom2 = funcWrapper.methodSignature(
-                VendorAtomsLog.TRUNCATE_TIMESTAMP_ATOM2, kTestStringValue,
-                kTestStateValue2);
+                VendorAtomsLog.TRUNCATE_TIMESTAMP_ATOM2, kTestStringValue, kTestIntValue);
 
         assertThat(atom2.atomId).isEqualTo(VendorAtomsLog.TRUNCATE_TIMESTAMP_ATOM2);
         assertThat(atom2.reverseDomainName).isEqualTo(kTestStringValue);
         assertThat(atom2.values.length).isEqualTo(1);
-        assertThat(atom2.values[0].getIntValue()).isEqualTo(kTestStateValue2);
+        assertThat(atom2.values[0].getIntValue()).isEqualTo(kTestIntValue);
 
         assertThat(atom2.valuesAnnotations).isNull();
         assertThat(atom2.atomAnnotations).isNotNull();
@@ -273,22 +264,6 @@ public class VendorAtomCodeGenTest {
         assertThat(atom2.atomAnnotations[0].annotationId)
                 .isEqualTo(AnnotationId.TRUNCATE_TIMESTAMP);
         assertThat(atom2.atomAnnotations[0].value.getBoolValue()).isEqualTo(true);
-
-        VendorAtom atom3 = funcWrapper.methodSignature(
-                VendorAtomsLog.TRUNCATE_TIMESTAMP_ATOM3, kTestStringValue,
-                kTestIntValue);
-
-        assertThat(atom3.atomId).isEqualTo(VendorAtomsLog.TRUNCATE_TIMESTAMP_ATOM3);
-        assertThat(atom3.reverseDomainName).isEqualTo(kTestStringValue);
-        assertThat(atom3.values.length).isEqualTo(1);
-        assertThat(atom3.values[0].getIntValue()).isEqualTo(kTestIntValue);
-
-        assertThat(atom3.valuesAnnotations).isNull();
-        assertThat(atom3.atomAnnotations).isNotNull();
-        assertThat(atom3.atomAnnotations.length).isEqualTo(1);
-        assertThat(atom3.atomAnnotations[0].annotationId)
-                .isEqualTo(AnnotationId.TRUNCATE_TIMESTAMP);
-        assertThat(atom3.atomAnnotations[0].value.getBoolValue()).isEqualTo(true);
 
         final int kTestStateValue3 =
                 VendorAtomsLog.VENDOR_ATOM_WITH_STATE3__TEST_STATE__TEST_STATE_1;
