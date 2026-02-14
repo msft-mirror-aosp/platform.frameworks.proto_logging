@@ -552,5 +552,27 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithExclusiveStateAndPrimaryFieldAnn
     EXPECT_EQ(atom.atomAnnotations, std::nullopt);
 }
 
+TEST(ApiGenVendorAtomTypesafeTest, AtomFieldsDefaultValues) {
+    VendorAtom4 atomData;
+
+    EXPECT_EQ(atomData.reverse_domain_name, kTestStringValue);
+    EXPECT_EQ(atomData.float_field, -1.1f);
+    EXPECT_EQ(atomData.int_field, 15);
+    EXPECT_EQ(atomData.long_field, -67);
+    EXPECT_EQ(atomData.bool_field, true);
+    EXPECT_EQ(atomData.enum_field, VendorAtom4::EnumType4::TYPE_1);
+
+    VendorAtom4 atomData2{};
+    EXPECT_EQ(atomData2.reverse_domain_name, kTestStringValue);
+    EXPECT_EQ(atomData2.float_field, -1.1f);
+    EXPECT_EQ(atomData2.int_field, 15);
+    EXPECT_EQ(atomData2.long_field, -67);
+    EXPECT_EQ(atomData2.bool_field, true);
+    EXPECT_EQ(atomData.enum_field, VendorAtom4::EnumType4::TYPE_1);
+
+    VendorAtomWithState3 atomData3;
+    EXPECT_EQ(atomData3.state, VendorAtomWithState3::TestState::TEST_STATE_1);
+}
+
 }  // namespace api_gen_vendor_tests
 }  // namespace android

@@ -500,8 +500,7 @@ int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl&
         if (get_enum_fields(*atomDecl).empty()) {
             continue;
         }
-        fprintf(out, "class %s final {\n", atomDecl->message.c_str());
-        fprintf(out, "public:\n\n");
+        fprintf(out, "struct %s final {\n", atomDecl->message.c_str());
 
         // write enum definitions
         if (write_native_atom_enums_typesafe(out, *atomDecl,

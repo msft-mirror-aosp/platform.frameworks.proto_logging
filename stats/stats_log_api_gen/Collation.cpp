@@ -17,11 +17,11 @@
 #include "Collation.h"
 
 #include <google/protobuf/descriptor.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 #include <algorithm>
 #include <map>
-#include <stdarg.h>
-#include <stdio.h>
 #include <string_view>
 
 #include "frameworks/proto_logging/stats/atom_field_options.pb.h"
@@ -530,6 +530,39 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
 
         AtomField atField(std::string(field.name()), javaType);
         atField.fieldNumber = field.number();
+
+        if (field.has_default_value()) {
+            // user explicitly specified default value for field
+            switch (field.cpp_type()) {
+                case FieldDescriptor::CPPTYPE_INT32:
+                    atField.defaultValue = field.default_value_int32();
+                    break;
+                case FieldDescriptor::CPPTYPE_INT64:
+                    atField.defaultValue = field.default_value_int64();
+                    break;
+                case FieldDescriptor::CPPTYPE_FLOAT:
+                    atField.defaultValue = field.default_value_float();
+                    break;
+                case FieldDescriptor::CPPTYPE_BOOL:
+                    atField.defaultValue = field.default_value_bool();
+                    break;
+                case FieldDescriptor::CPPTYPE_ENUM:
+                    atField.defaultValue = AtomField::EnumValueConst{
+                            .number = field.default_value_enum()->number(),
+                            .name = std::string(field.default_value_enum()->name())};
+                    break;
+                case FieldDescriptor::CPPTYPE_STRING:
+                    atField.defaultValue = string(field.default_value_string());
+                    break;
+                default:
+                    print_error(field,
+                                "Unsupported type with default value: '%s::%s'. "
+                                "Vote-up for b/449793167\n",
+                                std::string(atom.name()).c_str(), atField.name.c_str());
+                    errorCount++;
+                    break;
+            }
+        }
 
         if (javaType == JAVA_TYPE_ENUM || javaType == JAVA_TYPE_ENUM_ARRAY) {
             atField.enumTypeName = field.enum_type()->name();

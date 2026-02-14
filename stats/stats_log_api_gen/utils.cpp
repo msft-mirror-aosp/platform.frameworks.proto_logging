@@ -16,6 +16,7 @@
 
 #include "utils.h"
 
+#include <inttypes.h>
 #include <stdio.h>
 
 #include <algorithm>
@@ -702,7 +703,31 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
             if (field.javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
                 fprintf(out, "  std::vector<AttributionNode> %s;\n", field.name.c_str());
             } else {
-                fprintf(out, "  %s %s;\n", to_cpp_typesafe_name(field).c_str(), field.name.c_str());
+                // printing field type & its name
+                fprintf(out, "  %s %s", to_cpp_typesafe_name(field).c_str(), field.name.c_str());
+
+                // printing field default value if provided & supported
+                if (field.defaultValue.index() != 0) {
+                    if (get_if<string>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = \"%s\"", get<string>(field.defaultValue).c_str());
+                    } else if (get_if<bool>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %s", get<bool>(field.defaultValue) ? "true" : "false");
+                    } else if (get_if<int32_t>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %d", get<int32_t>(field.defaultValue));
+                    } else if (get_if<int64_t>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %" PRId64, get<int64_t>(field.defaultValue));
+                    } else if (get_if<float>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %ff", get<float>(field.defaultValue));
+                    } else if (get_if<AtomField::EnumValueConst>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %s::%s", to_cpp_typesafe_name(field).c_str(),
+                                get<AtomField::EnumValueConst>(field.defaultValue).name.c_str());
+                    } else {
+                        fprintf(stderr, "[WARN] Unsupported default value type (%d)\n",
+                                (int)field.defaultValue.index());
+                        return 1;
+                    }
+                }
+                fprintf(out, ";\n");
             }
         }
 

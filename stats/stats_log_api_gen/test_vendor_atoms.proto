@@ -144,6 +144,7 @@ message VendorAtom4 {
   enum EnumType4 {
     TYPE_UNKNOWN = 0;
     TYPE_1 = 1;
+    TYPE_2 = 2;
   }
 
   enum EnumType5 {
@@ -152,12 +153,12 @@ message VendorAtom4 {
     TYPE_5_2 = 2;
   }
 
-  optional string reverse_domain_name = 1;
-  optional float float_field = 2;
-  optional int32 int_field = 3;
-  optional int64 long_field = 4;
-  optional bool bool_field = 5;
-  optional EnumType4 enum_field = 6;
+  optional string reverse_domain_name = 1 [default = "test_string"];
+  optional float float_field = 2 [default = -1.1];
+  optional int32 int_field = 3 [default = 15];
+  optional int64 long_field = 4 [default = -67];
+  optional bool bool_field = 5 [default = true];
+  optional EnumType4 enum_field = 6 [default = TYPE_1];
 
   repeated bool bool_repeated = 7;
   repeated float float_repeated = 8;
@@ -237,7 +238,8 @@ message VendorAtomWithState2 {
 message VendorAtomWithState3 {
   optional string reverse_domain_name = 1;
   optional TestState state = 2
-      [(android.os.statsd.state_field_option).exclusive_state = true];
+      [(android.os.statsd.state_field_option).exclusive_state = true,
+       default = TEST_STATE_1];
 }
 
 message VendorAtomWithState4 {
