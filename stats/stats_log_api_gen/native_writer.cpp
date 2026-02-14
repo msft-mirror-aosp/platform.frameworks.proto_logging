@@ -739,7 +739,7 @@ int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const string&
     fprintf(out, "// Atom definitions\n");
     fprintf(out, "//\n");
 
-    if (write_native_atom_types(out, atoms, "stats_write") != 0) {
+    if (write_native_atom_types(out, atoms, "stats_write", /*includeFields*/true) != 0) {
         return 1;
     };
 
