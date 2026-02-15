@@ -17,19 +17,18 @@
 #include <google/protobuf/compiler/importer.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/stubs/common.h>
+#include <stdio.h>
+#include <string.h>
 
 #include <algorithm>
 #include <cctype>
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
-#include <stdio.h>
-#include <string.h>
 #include <string>
 
-#include "absl/strings/match.h"
-
 #include "Collation.h"
+#include "absl/strings/match.h"
 #include "frameworks/proto_logging/stats/atoms.pb.h"
 #include "frameworks/proto_logging/stats/attribution_node.pb.h"
 #include "java_writer.h"
@@ -47,13 +46,6 @@ namespace stats_log_api_gen {
 
 namespace fs = std::filesystem;
 using android::os::statsd::Atom;
-
-enum class InterfaceApi : uint8_t{
-    INVALID,
-    PLATFORM,
-    VENDOR,
-    BOOTSTRAP,
-};
 
 static InterfaceApi string_to_interface_api(const std::string& value) {
     std::string upper_value = value;
@@ -107,7 +99,8 @@ static void print_usage() {
             "  --worksource         Include support for logging WorkSource "
             "objects.\n");
     fprintf(stderr, "                                        Default is \"current\".\n");
-    fprintf(stderr, "  --interface          The code gen API to use.\n"
+    fprintf(stderr,
+            "  --interface          The code gen API to use.\n"
             " Supported APIs are platform (default), vendor or bootstrap\n"
             " Bootstrap only supported for cpp. Do not use unless necessary.\n");
 #ifdef WITH_VENDOR
@@ -427,21 +420,20 @@ static int run(int argc, char const* const* argv) {
         if (!isVendor) {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp_typesafe(
-                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
+                        out, atoms, cppNamespace, cppHeaderImport, minApiLevel, interface,
+                        includeExtraSrcs);
 
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp(
                         out, atoms, attributionDecl, cppNamespace, cppHeaderImport, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
+                        interface, includeExtraSrcs);
             }
 
 #ifdef WITH_VENDOR
         } else {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor_typesafe(
-                        out, atoms, attributionDecl, cppNamespace, cppHeaderImport,
-                        includeExtraSrcs);
+                        out, atoms, cppNamespace, cppHeaderImport, includeExtraSrcs);
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_cpp_vendor(
                         out, atoms, attributionDecl, cppNamespace, cppHeaderImport,
@@ -466,18 +458,17 @@ static int run(int argc, char const* const* argv) {
         if (!isVendor) {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_header_typesafe(
-                        out, atoms, attributionDecl, cppNamespace, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
+                        out, atoms, cppNamespace, minApiLevel, interface, includeExtraSrcs);
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_header(
-                        out, atoms, attributionDecl, cppNamespace, minApiLevel,
-                        interface == InterfaceApi::BOOTSTRAP, includeExtraSrcs);
+                        out, atoms, attributionDecl, cppNamespace, minApiLevel, interface,
+                        includeExtraSrcs);
             }
 #ifdef WITH_VENDOR
         } else {
             if (typeSafe) {
                 errorCount = android::stats_log_api_gen::write_stats_log_header_vendor_typesafe(
-                        out, atoms, attributionDecl, cppNamespace, includeExtraSrcs);
+                        out, atoms, cppNamespace, includeExtraSrcs);
             } else {
                 errorCount = android::stats_log_api_gen::write_stats_log_header_vendor(
                         out, atoms, attributionDecl, cppNamespace, includeExtraSrcs);

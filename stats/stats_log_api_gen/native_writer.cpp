@@ -16,8 +16,9 @@
 
 #include "native_writer.h"
 
-#include <cstdint>
 #include <stdio.h>
+
+#include <cstdint>
 #include <string>
 
 #include "Collation.h"
@@ -332,8 +333,7 @@ static void write_native_method_call(FILE* out, const string& methodName,
 }
 
 static int write_native_stats_write_methods_typesafe(FILE* out, const Atoms& atoms,
-                                                     const AtomDecl& attributionDecl,
-                                                     const int minApiLevel, bool bootstrap) {
+                                                     const int minApiLevel) {
     for (auto& atomDecl : atoms.decls) {
         const bool atomHasRepeatedFields = contains_repeated_field(atomDecl->fields);
         if (minApiLevel < API_T && atomHasRepeatedFields) {
@@ -367,9 +367,6 @@ static int write_native_stats_write_methods_typesafe(FILE* out, const Atoms& ato
 
         fprintf(out, "}\n\n");
     }
-
-    (void)attributionDecl;
-    (void)bootstrap;
 
     return 0;
 }
@@ -616,19 +613,19 @@ static int write_native_build_stats_event_methods(FILE* out,
 
 int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                         const string& cppNamespace, const string& importHeader,
-                        const int minApiLevel, bool bootstrap, bool includeExtraSrcs) {
+                        const int minApiLevel, InterfaceApi interfaceApi, bool includeExtraSrcs) {
     int ret = write_native_source_preamble(out, atoms, importHeader, minApiLevel, cppNamespace,
-                                           bootstrap, includeExtraSrcs);
+                                           interfaceApi, includeExtraSrcs);
     if (ret != 0) {
         return ret;
     }
 
     ret = write_native_stats_write_methods(out, atoms.signatureInfoMap, attributionDecl,
-                                           minApiLevel, bootstrap);
+                                           minApiLevel, interfaceApi == InterfaceApi::BOOTSTRAP);
     if (ret != 0) {
         return ret;
     }
-    if (!bootstrap) {
+    if (interfaceApi == InterfaceApi::PLATFORM) {
         write_native_stats_write_non_chained_methods(out, atoms.nonChainedSignatureInfoMap,
                                                      attributionDecl);
         ret = write_native_build_stats_event_methods(out, atoms.pulledAtomsSignatureInfoMap,
@@ -646,9 +643,9 @@ int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributi
 }
 
 int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                           const string& cppNamespace, const int minApiLevel, bool bootstrap,
-                           bool includeExtraSrcs) {
-    write_native_header_preamble(out, atoms, cppNamespace, bootstrap, includeExtraSrcs);
+                           const string& cppNamespace, const int minApiLevel,
+                           InterfaceApi interfaceApi, bool includeExtraSrcs) {
+    write_native_header_preamble(out, atoms, cppNamespace, interfaceApi, includeExtraSrcs);
     write_native_atom_constants(out, atoms, attributionDecl);
     write_native_atom_enums(out, atoms);
 
@@ -673,7 +670,7 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
     fprintf(out, "\n");
 
     // Attribution chains and pulled atoms are not supported for bootstrap processes.
-    if (!bootstrap) {
+    if (interfaceApi != InterfaceApi::BOOTSTRAP) {
         fprintf(out, "//\n");
         fprintf(out, "// Write flattened methods\n");
         fprintf(out, "//\n");
@@ -695,10 +692,10 @@ int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attrib
     return 0;
 }
 
-int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                                 const string& cppNamespace, const string& importHeader,
-                                 const int minApiLevel, bool bootstrap, bool includeExtraSrcs) {
-    if (bootstrap) {
+int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                                 const string& importHeader, const int minApiLevel,
+                                 InterfaceApi interfaceApi, bool includeExtraSrcs) {
+    if (interfaceApi == InterfaceApi::BOOTSTRAP) {
         fprintf(stderr,
                 "Type-safe APIs generation for C++ bootstrap is not supported."
                 "Vote-up http://b/449793167 for support.\n");
@@ -706,13 +703,12 @@ int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& 
     }
 
     int ret = write_native_source_preamble(out, atoms, importHeader, minApiLevel, cppNamespace,
-                                           bootstrap, includeExtraSrcs);
+                                           interfaceApi, includeExtraSrcs);
     if (ret != 0) {
         return ret;
     }
 
-    ret = write_native_stats_write_methods_typesafe(out, atoms, attributionDecl, minApiLevel,
-                                                    bootstrap);
+    ret = write_native_stats_write_methods_typesafe(out, atoms, minApiLevel);
     if (ret != 0) {
         return ret;
     }
@@ -724,11 +720,10 @@ int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& 
     return 0;
 }
 
-int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                                    const string& cppNamespace, const int minApiLevel,
-                                    bool bootstrap, bool includeExtraSrcs) {
-    (void)attributionDecl;
-    write_native_header_preamble(out, atoms, cppNamespace, bootstrap, includeExtraSrcs);
+int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                                    const int minApiLevel, InterfaceApi interfaceApi,
+                                    bool includeExtraSrcs) {
+    write_native_header_preamble(out, atoms, cppNamespace, interfaceApi, includeExtraSrcs);
 
     if (has_attribution_node(atoms.decls)) {
         fprintf(out, "struct AttributionNode final {\n");
@@ -744,7 +739,7 @@ int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDec
     fprintf(out, "// Atom definitions\n");
     fprintf(out, "//\n");
 
-    if (write_native_atom_types(out, atoms) != 0) {
+    if (write_native_atom_types(out, atoms, "stats_write") != 0) {
         return 1;
     };
 

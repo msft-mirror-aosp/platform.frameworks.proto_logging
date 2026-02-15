@@ -21,25 +21,26 @@
 #include <string.h>
 
 #include "Collation.h"
+#include "utils.h"
 
 namespace android {
 namespace stats_log_api_gen {
 
 int write_stats_log_cpp(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                         const string& cppNamespace, const string& importHeader,
-                        const int minApiLevel, bool bootstrap, bool includeExtraSrcs);
+                        const int minApiLevel, InterfaceApi interfaceApi, bool includeExtraSrcs);
 
 int write_stats_log_header(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                           const string& cppNamespace, const int minApiLevel, bool bootstrap,
-                           bool includeExtraSrcs);
+                           const string& cppNamespace, const int minApiLevel,
+                           InterfaceApi interfaceApi, bool includeExtraSrcs);
 
-int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                                 const string& cppNamespace, const string& importHeader,
-                                 const int minApiLevel, bool bootstrap, bool includeExtraSrcs);
+int write_stats_log_cpp_typesafe(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                                 const string& importHeader, const int minApiLevel,
+                                 InterfaceApi interfaceApi, bool includeExtraSrcs);
 
-int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
-                                    const string& cppNamespace, const int minApiLevel,
-                                    bool bootstrap, bool includeExtraSrcs);
+int write_stats_log_header_typesafe(FILE* out, const Atoms& atoms, const string& cppNamespace,
+                                    const int minApiLevel, InterfaceApi interfaceApi,
+                                    bool includeExtraSrcs);
 
 }  // namespace stats_log_api_gen
 }  // namespace android

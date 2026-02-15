@@ -32,12 +32,10 @@ int write_stats_log_cpp_vendor(FILE* out, const Atoms& atoms, const AtomDecl& at
 int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl& attributionDecl,
                                   const string& cppNamespace, bool includeExtraSrcs);
 
-int write_stats_log_cpp_vendor_typesafe(FILE* out, const Atoms& atoms,
-                                        const AtomDecl& attributionDecl, const string& cppNamespace,
+int write_stats_log_cpp_vendor_typesafe(FILE* out, const Atoms& atoms, const string& cppNamespace,
                                         const string& importHeader, bool includeExtraSrcs);
 
 int write_stats_log_header_vendor_typesafe(FILE* out, const Atoms& atoms,
-                                           const AtomDecl& attributionDecl,
                                            const string& cppNamespace, bool includeExtraSrcs);
 
 }  // namespace stats_log_api_gen

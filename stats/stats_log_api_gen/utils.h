@@ -22,6 +22,7 @@
 #include <string.h>
 
 #include <map>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -56,6 +57,13 @@ struct AnnotationStruct {
         : name(std::move(name)), minApiLevel(minApiLevel) {};
 };
 
+enum class InterfaceApi : uint8_t {
+    INVALID,
+    PLATFORM,
+    VENDOR,
+    BOOTSTRAP,
+};
+
 void build_non_chained_decl_map(const Atoms& atoms,
                                 std::map<int, AtomDeclSet::const_iterator>* decl_map);
 
@@ -79,7 +87,8 @@ bool is_repeated_field(java_type_t type);
 
 bool is_primitive_field(java_type_t type);
 
-AtomDeclSet get_annotations(int argIndex, const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet);
+std::optional<AtomDeclSet> get_annotations(int argIndex,
+                                      const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet);
 
 vector<AtomField> get_enum_fields(const AtomDecl& atomDecl);
 
@@ -96,7 +105,7 @@ void write_native_atom_enums(FILE* out, const Atoms& atoms);
 
 int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool useScopedEnums);
 
-int write_native_atom_types(FILE* out, const Atoms& atoms);
+int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApiName);
 
 void write_native_method_signature(FILE* out, const string& signaturePrefix,
                                    const vector<java_type_t>& signature,
@@ -108,14 +117,13 @@ void write_native_method_header(FILE* out, const string& methodName,
                                 const AtomDecl& attributionDecl, bool isVendorAtomLogging = false);
 
 void write_native_header_preamble(FILE* out, const Atoms& atoms, const string& cppNamespace,
-                                  bool bootstrap, bool includeExtraSrcs,
-                                  bool isVendorAtomLogging = false);
+                                  InterfaceApi interfaceApi, bool includeExtraSrcs);
 
 void write_native_header_epilogue(FILE* out, const string& cppNamespace);
 
-int write_native_source_preamble(FILE* out, const Atoms& atoms,
-                                 const string& importHeader, const int minApiLevel,
-                                 const string& cppNamespace, bool bootstrap, bool includeExtraSrcs);
+int write_native_source_preamble(FILE* out, const Atoms& atoms, const string& importHeader,
+                                 const int minApiLevel, const string& cppNamespace,
+                                 InterfaceApi interfaceApi, bool includeExtraSrcs);
 
 // Common Java helpers.
 void write_java_atom_codes(FILE* out, const Atoms& atoms, const bool supportWorkSource);
