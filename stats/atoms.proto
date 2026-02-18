@@ -2042,6 +2042,7 @@ message Atom {
     extensions 1300; // RequestReadScreenContextDialogActionReported request_read_screen_context_dialog_action_reported
     extensions 1301; // DefaultAppSettingsViewed default_app_settings_viewed
     extensions 1302; // DefaultAssistantSettingsReadScreenContextToggleActionReported default_assistant_settings_read_screen_context_toggle_action_reported
+    extensions 1303; // LocationButtonRequestResultReported location_button_request_result_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

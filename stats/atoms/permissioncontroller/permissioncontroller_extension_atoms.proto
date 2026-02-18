@@ -69,6 +69,8 @@ extend Atom {
   optional DefaultAssistantSettingsReadScreenContextToggleActionReported
       default_assistant_settings_read_screen_context_toggle_action_reported = 1302
       [(module_name) = "permissioncontroller"];
+  optional LocationButtonRequestResultReported location_button_request_result_reported = 1303
+      [(module_name) = "permissioncontroller"];
 }
 
 /**
@@ -396,4 +398,46 @@ message DefaultAssistantSettingsReadScreenContextToggleActionReported {
 
     // True if toggle is placed in allowed state
     optional bool allowed = 3;
+}
+
+/**
+ * Reports precise location permission grant result initiated via the Location Button.
+ * Logged from:
+ *   packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v37/LocationButtonViewModel.kt
+ * Estimated Logging Rate:
+ *   Peak: few times per device per day | Avg: Between 0 and 1 times per device per day
+ */
+message LocationButtonRequestResultReported {
+  // Id which identifies single location button session across SystemUI and PC process.
+  optional int64 session_id = 1;
+  // UID of package requesting the location permission grant
+  optional int32 uid = 2 [(is_uid) = true];
+  // Name of package requesting the location permission grant.
+  optional string package_name = 3;
+
+  // Name of permissions, which can be granted by location button.
+  enum Permission {
+    PERMISSION_UNSPECIFIED = 0;
+    ACCESS_FINE_LOCATION = 1;
+  }
+  optional Permission permission = 4;
+
+  enum Result {
+    RESULT_UNSPECIFIED = 0;
+    // Permission was already granted before this request.
+    ALREADY_GRANTED = 1;
+    // Permission cannot be granted (e.g., user or policy fixed).
+    NOT_GRANTABLE = 2;
+    // Permission granted automatically by policy without user prompt.
+    POLICY_AUTO_GRANTED = 3;
+    // Permission denied automatically by policy without user prompt.
+    POLICY_AUTO_DENIED = 4;
+    // Permission granted directly without showing a consent dialog.
+    DIRECT_GRANT = 5;
+    // Permission granted after showing the consent dialog to the user.
+    PROMPT_GRANT = 6;
+    // Permission denied by the user via the consent dialog.
+    DENIED = 7;
+  }
+  optional Result result = 5;
 }
