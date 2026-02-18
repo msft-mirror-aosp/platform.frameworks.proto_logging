@@ -12540,6 +12540,12 @@ message ProcessStartTime {
 
     // The name of the process that triggered this process start.
     optional string caller_process_name = 14;
+
+    // The authority of the content provider that triggered the process start.
+    optional string content_provider_authority = 15;
+
+    // Whether the content provider is stable.
+    optional bool is_stable = 16;
 }
 
 /**
