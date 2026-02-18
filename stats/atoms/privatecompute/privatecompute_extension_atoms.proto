@@ -69,7 +69,7 @@ message PccUidAssignmentReported {
         // Ref: https://source.corp.google.com/h/googleplex-android/platform/superproject/main/+/main:frameworks/base/services/core/java/com/android/server/pm/Settings.java;l=1402;drc=0f7cb2a49b8de77c9ca789ce6707b7b5add405ce
         SUCCESS_EXISTING = 2;
         FAILURE_HAS_SHARED_USER = 3;
-        FAILURE_INSUFFICIENT_STORAGE = 4;
+        FAILURE_INTERNAL_ERROR = 4;
     }
     optional AssignmentStatus assignment_status = 1;
 }
@@ -183,6 +183,20 @@ message PccDataMigrationStateChanged {
         DATA_MIGRATION_COMPLETE = 2;
     }
     optional MigrationState migration_state = 1;
+
+    enum SourceType {
+        SOURCE_TYPE_UNKNOWN = 0;
+        APP_DATA_FILE_SOURCE = 1;
+    }
+
+    optional SourceType source_type = 2;
+
+    enum TargetType {
+        TARGET_TYPE_UNKNOWN = 0;
+        TARGET_PCC = 1;
+    }
+
+    optional TargetType target_type = 3;
 }
 
 /**
@@ -226,6 +240,7 @@ message PccWriteToAuditLog {
         TYPE_UNKNOWN = 0;
         DIRECT = 1;
         BATCHED = 2;
+        NATIVE = 3;
     }
     optional WriteType write_type = 1;
 }
