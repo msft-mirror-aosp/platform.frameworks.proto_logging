@@ -61,25 +61,8 @@ static bool isAtomIdInRange(int atomId, const AtomIdRange& range) {
 AtomDecl::AtomDecl() : code(0), name(), atomType(ATOM_TYPE_PUSHED) {
 }
 
-AtomDecl::AtomDecl(const AtomDecl& that)
-    : code(that.code),
-      name(that.name),
-      message(that.message),
-      fields(that.fields),
-      atomType(that.atomType),
-      fieldNumberToAnnotations(that.fieldNumberToAnnotations),
-      primaryFields(that.primaryFields),
-      exclusiveField(that.exclusiveField),
-      defaultState(that.defaultState),
-      triggerStateReset(that.triggerStateReset),
-      nested(that.nested) {
-}
-
 AtomDecl::AtomDecl(int c, const string& n, const string& m, AtomType a)
     : code(c), name(n), message(m), atomType(a) {
-}
-
-AtomDecl::~AtomDecl() {
 }
 
 /**
