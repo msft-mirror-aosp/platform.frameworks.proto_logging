@@ -276,9 +276,7 @@ fn build_vendor_atom5_api_test() {
 
 #[test]
 fn build_atom_with_truncate_timestamp_test() {
-    use test_vendor_atoms::{
-        truncate_timestamp_atom1, truncate_timestamp_atom2, truncate_timestamp_atom3,
-    };
+    use test_vendor_atoms::{truncate_timestamp_atom1, truncate_timestamp_atom2};
 
     let atom1 = truncate_timestamp_atom1::TruncateTimestampAtom1 {
         reverse_domain_name: TEST_STRING_VALUE,
@@ -306,16 +304,13 @@ fn build_atom_with_truncate_timestamp_test() {
 
     let atom2 = truncate_timestamp_atom2::TruncateTimestampAtom2 {
         reverse_domain_name: TEST_STRING_VALUE,
-        state: truncate_timestamp_atom2::State::TestState2,
+        int_value: TEST_INT_VALUE,
     }
     .to_vendor_atom();
     assert_eq!(atom2.atomId, truncate_timestamp_atom2::TruncateTimestampAtom2::CODE);
     assert_eq!(atom2.reverseDomainName, TEST_STRING_VALUE);
     assert_eq!(atom2.values.len(), 1);
-    assert_eq!(
-        atom2.values[0].unwrap_int_value(),
-        truncate_timestamp_atom2::State::TestState2 as _
-    );
+    assert_eq!(atom2.values[0].unwrap_int_value(), TEST_INT_VALUE);
     assert!(atom2.atomAnnotations.is_some());
     assert_eq!(atom2.atomAnnotations.as_ref().unwrap().len(), 1);
     assert!(atom2.atomAnnotations.as_ref().unwrap()[0].is_some());
@@ -325,27 +320,6 @@ fn build_atom_with_truncate_timestamp_test() {
     );
     assert_matches!(
         atom2.atomAnnotations.as_ref().unwrap()[0].as_ref().unwrap().value,
-        AnnotationValue::BoolValue(true)
-    );
-
-    let atom3 = truncate_timestamp_atom3::TruncateTimestampAtom3 {
-        reverse_domain_name: TEST_STRING_VALUE,
-        int_value: TEST_INT_VALUE,
-    }
-    .to_vendor_atom();
-    assert_eq!(atom3.atomId, truncate_timestamp_atom3::TruncateTimestampAtom3::CODE);
-    assert_eq!(atom3.reverseDomainName, TEST_STRING_VALUE);
-    assert_eq!(atom3.values.len(), 1);
-    assert_eq!(atom3.values[0].unwrap_int_value(), TEST_INT_VALUE);
-    assert!(atom3.atomAnnotations.is_some());
-    assert_eq!(atom3.atomAnnotations.as_ref().unwrap().len(), 1);
-    assert!(atom3.atomAnnotations.as_ref().unwrap()[0].is_some());
-    assert_eq!(
-        atom3.atomAnnotations.as_ref().unwrap()[0].as_ref().unwrap().annotationId,
-        AnnotationId::TRUNCATE_TIMESTAMP
-    );
-    assert_matches!(
-        atom3.atomAnnotations.as_ref().unwrap()[0].as_ref().unwrap().value,
         AnnotationValue::BoolValue(true)
     );
 }

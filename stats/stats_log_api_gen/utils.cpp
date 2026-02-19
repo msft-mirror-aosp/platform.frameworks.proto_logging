@@ -1146,16 +1146,6 @@ int get_max_requires_api_level(int minApiLevel, const AtomDeclSet* atomDeclSet,
     return 0;
 }
 
-std::optional<AtomDeclSet> get_annotations(int fieldNumber,
-                                      const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet) {
-    const FieldNumberToAtomDeclSet::const_iterator fieldNumberToAtomDeclSetIt =
-            fieldNumberToAtomDeclSet.find(fieldNumber);
-    if (fieldNumberToAtomDeclSet.end() == fieldNumberToAtomDeclSetIt) {
-        return std::nullopt;
-    }
-    return fieldNumberToAtomDeclSetIt->second;
-}
-
 bool has_histograms(const AtomDeclSet& decls) {
     return std::find_if_not(decls.begin(), decls.end(), [](const shared_ptr<AtomDecl>& decl) {
                return decl->fieldNameToHistBinOption.empty();

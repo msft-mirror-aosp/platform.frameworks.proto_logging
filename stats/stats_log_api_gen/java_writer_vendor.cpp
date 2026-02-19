@@ -257,7 +257,7 @@ static int write_method_body_vendor(FILE* out, const vector<java_type_t>& signat
 
     // check will be there an atom for this signature with atom level annotations
     const auto& atomAnnotations =
-            get_annotations(ATOM_ID_FIELD_NUMBER, fieldNumberToAtomDeclSet);
+            get_annotations<AtomDeclSet>(ATOM_ID_FIELD_NUMBER, fieldNumberToAtomDeclSet);
     if (atomAnnotations) {
         fprintf(out, "%sAnnotation[] atomAnnotations = null;\n", indent);
         write_annotations_vendor_for_field(out, ATOM_ID_FIELD_NUMBER, *atomAnnotations);
@@ -270,7 +270,7 @@ static int write_method_body_vendor(FILE* out, const vector<java_type_t>& signat
     // for this signature
     bool atomHasFieldsAnnotation = false;
     for (int argIndex = 2; argIndex <= signature.size(); argIndex++) {
-        if (get_annotations(argIndex, fieldNumberToAtomDeclSet)) {
+        if (get_annotations<AtomDeclSet>(argIndex, fieldNumberToAtomDeclSet)) {
             atomHasFieldsAnnotation = true;
             break;
         }
@@ -281,7 +281,7 @@ static int write_method_body_vendor(FILE* out, const vector<java_type_t>& signat
         set<string> processedAtomNames;
         for (int argIndex = 2; argIndex <= signature.size(); argIndex++) {
             const auto& fieldAnnotations =
-                    get_annotations(argIndex, fieldNumberToAtomDeclSet);
+                    get_annotations<AtomDeclSet>(argIndex, fieldNumberToAtomDeclSet);
             if (fieldAnnotations) {
                 write_value_annotations_array_init(out, *fieldAnnotations, processedAtomNames);
             }
@@ -289,7 +289,7 @@ static int write_method_body_vendor(FILE* out, const vector<java_type_t>& signat
 
         for (int argIndex = 2; argIndex <= signature.size(); argIndex++) {
             const auto& fieldAnnotations =
-                    get_annotations(argIndex, fieldNumberToAtomDeclSet);
+                    get_annotations<AtomDeclSet>(argIndex, fieldNumberToAtomDeclSet);
             if (fieldAnnotations) {
                 write_annotations_vendor_for_field(out, argIndex, *fieldAnnotations);
             }
