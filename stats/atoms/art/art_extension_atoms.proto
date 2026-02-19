@@ -25,6 +25,18 @@ extend Atom {
     optional ArtDeviceStatus art_device_status = 10205 [(module_name) = "art"];
 }
 
+// The state of a boolean flag.
+enum BooleanState {
+    // Unexpected. Never use it.
+    STATE_UNSPECIFIED = 0;
+    // Not set.
+    STATE_UNSET = 1;
+    // Set to true.
+    STATE_TRUE = 2;
+    // Set to false.
+    STATE_FALSE = 3;
+}
+
 message ArtDatumReported {
     // The session ID is used to correlate this report with others from the same ART instance.
     optional int64 session_id = 1;
@@ -161,4 +173,22 @@ message ArtDex2OatReported {
  */
 message ArtDeviceStatus {
     optional BootImageStatus boot_image_status = 1;
+    // Value of the `dalvik.vm.enable_time_based_gc_trigger` system property.
+    optional BooleanState enable_time_based_gc_trigger = 2;
+    // Value of the `dalvik.vm.heapgrowthlimit` system property, in kilobytes.
+    optional int32 heap_growth_limit_kib = 3;
+    // Value of the `dalvik.vm.heapmaxfree` system property, in kilobytes.
+    optional int32 heap_max_free_kib = 4;
+    // Value of the `dalvik.vm.heapminfree` system property, in kilobytes.
+    optional int32 heap_min_free_kib = 5;
+    // Value of the `dalvik.vm.heapsize` system property, in kilobytes.
+    optional int32 heap_size_kib = 6;
+    // Value of the `dalvik.vm.heapstartsize` system property, in kilobytes.
+    optional int32 heap_start_size_kib = 7;
+    // Value of the `dalvik.vm.heaptargetutilization` system property.
+    optional float heap_target_utilization = 8;
+    // Value of the `dalvik.vm.heap-memory-gc-cost-factor` system property.
+    optional float heap_memory_gc_cost_factor = 9;
+    // Value of the `dalvik.vm.foreground-heap-growth-multiplier` system property.
+    optional float foreground_heap_growth_multiplier = 10;
 }
