@@ -48,6 +48,8 @@ enum NotificationEvent {
   EVENT_FILTERED_IN_UI = 9;
   // Notification alerted to user
   EVENT_ALERTED_TO_USER = 10;
+  // Notification alerted and "Show Immediately" setting is enabled.
+  EVENT_ALERTED_SHOW_IMMEDIATELY_SETTING_ENABLED = 21;
   // User gazed and notification was processed
   EVENT_PROCESSED_BY_USER_GAZE = 11;
   // User did not gaze within window and timed out
