@@ -256,9 +256,9 @@ struct AtomDecl {
     bool restricted = false;
 
     AtomDecl();
-    AtomDecl(const AtomDecl& that);
+    AtomDecl(const AtomDecl& that) = default;
     AtomDecl(int code, const string& name, const string& message, AtomType atomType);
-    ~AtomDecl();
+    ~AtomDecl() = default;
 
     inline bool operator<(const AtomDecl& that) const {
         return (code == that.code) ? (name < that.name) : (code < that.code);
