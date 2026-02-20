@@ -1700,8 +1700,8 @@ message BinderCallsReported {
 
     // Low-rate spam: Seconds with at least N repreated calls. Whether these frequencies are
     // excessive depends on the particular API.
-    optional int32 seconds_with_at_least_10_calls = 7;
-    optional int32 seconds_with_at_least_50_calls = 8;
+    optional int32 seconds_with_at_least10_calls = 7;
+    optional int32 seconds_with_at_least50_calls = 8;
 
     // Sum of squared duration in microseconds for calls since last report.
     optional int64 call_duration_sum_squared_micros = 9;
@@ -1716,8 +1716,8 @@ message BinderCallsReported {
 
     // High-rate spam: Seconds with at least N repreated calls. Such frequency of calling is
     // usually excessive.
-    optional int32 seconds_with_at_least_125_calls = 13;
-    optional int32 seconds_with_at_least_250_calls = 14;
+    optional int32 seconds_with_at_least125_calls = 13;
+    optional int32 seconds_with_at_least250_calls = 14;
 }
 
 /**
