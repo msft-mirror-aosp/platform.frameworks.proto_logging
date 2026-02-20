@@ -140,7 +140,7 @@ enum IconType {
 /**
  * Enum to represent the reason why a notification was skipped while processing
  * (alerting or displaying).
- * Next ID: 12
+ * Next ID: 11
  */
 enum SkippedReason {
   SKIPPED_REASON_UNKNOWN = 0;
@@ -164,6 +164,4 @@ enum SkippedReason {
   SKIPPED_DISPLAY_REASON_HUN_SKIPPED_NOT_INTERACTIVE = 9;
   // HUN was skipped because a new HUN window could not be added.
   SKIPPED_DISPLAY_REASON_HUN_SKIPPED_CANNOT_ADD_WINDOW = 10;
-  // HUN display failed due to a window token exception.
-  SKIPPED_DISPLAY_REASON_HUN_WINDOW_TOKEN_EXCEPTION = 11;
 }
