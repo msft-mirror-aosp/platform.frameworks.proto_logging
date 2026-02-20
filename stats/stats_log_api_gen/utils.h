@@ -87,8 +87,14 @@ bool is_repeated_field(java_type_t type);
 
 bool is_primitive_field(java_type_t type);
 
-std::optional<AtomDeclSet> get_annotations(int argIndex,
-                                      const FieldNumberToAtomDeclSet& fieldNumberToAtomDeclSet);
+template <typename R, typename C>
+std::optional<R> get_annotations(int fieldIndex, const C& fieldToAnnotationMap) {
+    auto it = fieldToAnnotationMap.find(fieldIndex);
+    if (fieldToAnnotationMap.end() == it) {
+        return std::nullopt;
+    }
+    return it->second;
+}
 
 vector<AtomField> get_enum_fields(const AtomDecl& atomDecl);
 

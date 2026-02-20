@@ -167,7 +167,7 @@ cc_atomslog_library_static {
 
 cc_atomslog_library_static {
     name: "libstatslog_test_vendor_typesafe",
-    atoms_module: "test",
+    atoms_module: "test_typesafe",
     basename: "test_vendor_atoms_typesafe",
     namespace: "android::VendorAtoms::typesafe",
     interface: "vendor",
