@@ -1,0 +1,51 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.npu;
+
+// LINT.IfChange
+enum NpuModelSize {
+  SIZE_UNKNOWN = 0;
+  SIZE_LESS_THAN_ONE_GB = 1;
+  SIZE_BETWEEN_ONE_GB_AND_TWO_GB = 2;
+  SIZE_GREATER_THAN_TWO_G = 3;
+}
+// LINT.ThenChange(packages/modules/NpuManager/framework/java/android/npumanager/NpuManager.java)
+
+// LINT.IfChange
+enum NpuModelPriority {
+  PRIORITY_UNKNOWN = 0;
+  PRIORITY_NORMAL = 1;
+  PRIORITY_BACKGROUND = 2;
+}
+// LINT.ThenChange(packages/modules/NpuManager/framework/java/android/npumanager/NpuManager.java)
+
+// LINT.IfChange
+enum NpuModelLoadStatus {
+  STATUS_UNKNOWN = 0;
+  STATUS_CAN_LOAD_NOW = 1;
+  STATUS_WAIT_FOR_UNLOAD = 2;
+  STATUS_NOT_PRIORITIZED = 3;
+}
+// LINT.ThenChange(packages/modules/NpuManager/framework/java/android/npumanager/NpuManager.java)
+
+enum NpuModelLoadState {
+  STATE_UNSPECIFIED = 0;
+  STATE_LOADED = 1;
+  STATE_UNLOADED = 2;
+}
