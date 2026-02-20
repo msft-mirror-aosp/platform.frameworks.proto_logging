@@ -115,6 +115,18 @@ TEST(TypesafeCodeGenTest, PulledAtomWriteFunctions) {
     EXPECT_NE(writeCpuTimePerUidFunc, nullptr);
 }
 
+TEST(TypesafeCodeGenTest, SyncStateChangedWriteFunctions) {
+    using namespace android::stats::typesafe;
+
+    SyncStateChanged atom {
+        .attribution_node = { {100500, "testTag"}},
+        .sync_name = "testSyncName",
+        .state = SyncStateChanged::State::ON
+    };
+
+    stats_write(atom);
+}
+
 }  // namespace
 
 #else
