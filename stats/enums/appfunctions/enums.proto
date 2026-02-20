@@ -45,7 +45,7 @@ enum InteractionType {
 /**
  * The enum class of AppFunction function type.
  *
- * Next tag: 3
+ * Next tag: 4
  */
 enum FunctionType {
     FUNCTION_TYPE_UNSPECIFIED = 0;
@@ -55,6 +55,12 @@ enum FunctionType {
     FUNCTION_TYPE_STATIC = 1;
 
     // Indicates that the function implementation is provided by the app at
-    // runtime.
-    FUNCTION_TYPE_DYNAMIC = 2;
+    // runtime and is globally registered.
+    FUNCTION_TYPE_DYNAMIC_GLOBAL = 2;
+
+    // Indicates that the function implementation is provided by the app at
+    // runtime and is tied to a specific activity. There can multiple
+    // registrations of the same function identifier as long as they are tied to
+    // different activities.
+    FUNCTION_TYPE_DYNAMIC_ACTIVITY = 3;
 }
