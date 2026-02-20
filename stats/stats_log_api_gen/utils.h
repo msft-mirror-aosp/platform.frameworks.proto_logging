@@ -109,9 +109,8 @@ void write_native_atom_constants(FILE* out, const Atoms& atoms, const AtomDecl& 
 
 void write_native_atom_enums(FILE* out, const Atoms& atoms);
 
-int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool useScopedEnums);
-
-int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApiName);
+int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApiName,
+                            bool includeFields);
 
 void write_native_method_signature(FILE* out, const string& signaturePrefix,
                                    const vector<java_type_t>& signature,

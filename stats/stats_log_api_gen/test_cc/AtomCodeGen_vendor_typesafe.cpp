@@ -47,15 +47,17 @@ static const char* kTestStringValue2 = "test_string2";
  * Tests native auto generated code for specific vendor atom contains proper enums
  */
 TEST(ApiGenVendorAtomTypesafeTest, AtomEnumFieldsValues) {
+
+    // tests confirm scoped and non-scoped enum values access
     EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType::TYPE_UNKNOWN), 0);
     EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType::TYPE_1), 1);
-    EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType::TYPE_2), 2);
-    EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType::TYPE_3), 3);
+    EXPECT_EQ(static_cast<int>(VendorAtom1::TYPE_2), 2);
+    EXPECT_EQ(static_cast<int>(VendorAtom1::TYPE_3), 3);
 
     EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType2::ANOTHER_TYPE_UNKNOWN), 0);
     EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType2::ANOTHER_TYPE_1), 1);
-    EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType2::ANOTHER_TYPE_2), 2);
-    EXPECT_EQ(static_cast<int>(VendorAtom1::EnumType2::ANOTHER_TYPE_3), 3);
+    EXPECT_EQ(static_cast<int>(VendorAtom1::ANOTHER_TYPE_2), 2);
+    EXPECT_EQ(static_cast<int>(VendorAtom1::ANOTHER_TYPE_3), 3);
 
     EXPECT_EQ(static_cast<int>(VendorAtom2::EnumType::TYPE_UNKNOWN), 0);
     EXPECT_EQ(static_cast<int>(VendorAtom2::EnumType::TYPE_1), 1);
