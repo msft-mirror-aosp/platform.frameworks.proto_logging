@@ -2048,6 +2048,7 @@ message Atom {
     extensions 1306; // NpuModelLoadPolicyResponded npu_model_load_policy_responded
     extensions 1307; // NpuModelLoadRequestCancelled npu_model_load_request_cancelled
     extensions 1308; // NpuModelLoadStateChanged npu_model_load_state_changed
+    extensions 1309; // WearNotificationProcessingSkipped wear_notification_processing_skipped
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

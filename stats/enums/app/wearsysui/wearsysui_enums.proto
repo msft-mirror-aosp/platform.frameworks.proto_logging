@@ -136,3 +136,34 @@ enum IconType {
   TYPE_THERMAL = 15;
   TYPE_UNTETHERED_SAFETY = 16;
 }
+
+/**
+ * Enum to represent the reason why a notification was skipped while processing
+ * (alerting or displaying).
+ * Next ID: 12
+ */
+enum SkippedReason {
+  SKIPPED_REASON_UNKNOWN = 0;
+  // The notification was a group summary.
+  SKIPPED_ALERT_REASON_GROUP_SUMMARY = 1;
+  // The notification was considered stale.
+  SKIPPED_ALERT_REASON_STALE_NOTIFICATION = 2;
+  // Notification was filtered by a backend filter.
+  SKIPPED_ALERT_REASON_FILTERED_BY_BACKEND_FILTER = 3;
+  // Notification was hidden because it's for an ongoing activity.
+  SKIPPED_ALERT_REASON_HIDDEN_ONGOING_ACTIVITY = 4;
+  // No notification was found in the queue to display.
+  SKIPPED_DISPLAY_REASON_NOTIFICATION_NOT_FOUND = 5;
+  // Glanceable was skipped because a HUN was shown instead.
+  SKIPPED_DISPLAY_REASON_GLANCEABLE_SKIPPED_FOR_HUN = 6;
+  // The notification was muted.
+  SKIPPED_DISPLAY_REASON_NOTIFICATION_MUTED = 7;
+  // Ringer and vibration were turned off.
+  SKIPPED_DISPLAY_REASON_RINGER_AND_VIBRATION_OFF = 8;
+  // HUN was skipped because the device was not interactive (V1 only).
+  SKIPPED_DISPLAY_REASON_HUN_SKIPPED_NOT_INTERACTIVE = 9;
+  // HUN was skipped because a new HUN window could not be added.
+  SKIPPED_DISPLAY_REASON_HUN_SKIPPED_CANNOT_ADD_WINDOW = 10;
+  // HUN display failed due to a window token exception.
+  SKIPPED_DISPLAY_REASON_HUN_WINDOW_TOKEN_EXCEPTION = 11;
+}
