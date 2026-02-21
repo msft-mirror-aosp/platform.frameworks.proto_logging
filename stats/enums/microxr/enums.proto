@@ -81,5 +81,5 @@ enum CaptureMode {
     // Standard capture flow (non-HDR).
     CAPTURE_MODE_NON_HDR = 1;
     // HDR capture flow (also referred to as Darklight).
-    CAPTURE_MODE_HDR_PLUS = 2;
+    CAPTURE_MODE_HDR= 2;
   }
