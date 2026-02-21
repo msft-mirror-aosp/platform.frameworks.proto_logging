@@ -62,6 +62,8 @@ extend Atom {
       [(module_name) = "wearsysui"];
   optional WearSystemTrayIconUpdated wear_system_tray_icon_updated = 1264
       [(module_name) = "wearsysui"];
+  optional WearNotificationProcessingSkipped wear_notification_processing_skipped = 1309
+      [(module_name) = "wearsysui"];
 }
 
 /**
@@ -388,4 +390,15 @@ message WearSystemTrayIconUpdated {
   optional android.app.wearsysui.IconType icon_type = 1;
   // The new state of the icon.
   optional android.app.wearsysui.State state = 2;
+}
+
+/**
+ * Atom logged when a notification processing is skipped.
+ *
+ * Logged from: google3/java/com/google/android/clockwork/sysui/common/logging/NotificationLogger.java
+ *
+ */
+message WearNotificationProcessingSkipped {
+  // The reason why the notification processing was skipped.
+  optional android.app.wearsysui.SkippedReason reason = 1;
 }
