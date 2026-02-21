@@ -72,3 +72,14 @@ enum CompanionDevice {
     COMPANION_DEVICE_ANDROID_PHONE = 1;
     COMPANION_DEVICE_IOS_PHONE = 2;
 }
+
+/**
+* The type of MicroXr Photo Capture Mode
+*/
+enum CaptureMode {
+    CAPTURE_MODE_UNKNOWN = 0;
+    // Standard capture flow (non-HDR).
+    CAPTURE_MODE_NON_HDR = 1;
+    // HDR capture flow (also referred to as Darklight).
+    CAPTURE_MODE_HDR_PLUS = 2;
+  }

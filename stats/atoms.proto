@@ -2044,6 +2044,10 @@ message Atom {
     extensions 1302; // DefaultAssistantSettingsReadScreenContextToggleActionReported default_assistant_settings_read_screen_context_toggle_action_reported
     extensions 1303; // LocationButtonRequestResultReported location_button_request_result_reported
     extensions 1304; // WearGestureExperienceEventReported wear_gesture_experience_event_reported
+    extensions 1305; // NpuModelLoadRequested npu_model_load_requested
+    extensions 1306; // NpuModelLoadPolicyResponded npu_model_load_policy_responded
+    extensions 1307; // NpuModelLoadRequestCancelled npu_model_load_request_cancelled
+    extensions 1308; // NpuModelLoadStateChanged npu_model_load_state_changed
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2626,6 +2630,7 @@ message ActivityActionBlocked {
     optional bool multi_window = 12;
     optional int32 bal_code = 13;
     optional string task_debug_info = 14;
+    optional bool enforce_block = 15;
 }
 
 /**

@@ -16,6 +16,7 @@
 
 #include "utils.h"
 
+#include <inttypes.h>
 #include <stdio.h>
 
 #include <algorithm>
@@ -678,22 +679,33 @@ void write_native_atom_enums(FILE* out, const Atoms& atoms) {
     }
 }
 
-int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApiName) {
+static int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields);
+
+int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApiName,
+                            bool includeFields) {
     for (auto& atomDecl : atoms.decls) {
-        if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
-            fprintf(out, "// Usage: %s(const %s& atom);\n", pushedApiName,
-                    atomDecl->message.c_str());
-        } else {
-            fprintf(out,
-                    "// Usage: addAStatsEvent(AStatsEventList* pulled_data, const %s& atom);\n",
-                    atomDecl->message.c_str());
+        // skip struct definition if no fields needed and no enums
+        if (!includeFields && get_enum_fields(*atomDecl).empty()) {
+            continue;
+        }
+
+        if (includeFields && pushedApiName != nullptr) {
+            // generate usage comments only when there is going to be a generated API for
+            // the atom struct
+            if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
+                fprintf(out, "// Usage: %s(const %s& atom);\n", pushedApiName,
+                        atomDecl->message.c_str());
+            } else {
+                fprintf(out,
+                        "// Usage: addAStatsEvent(AStatsEventList* pulled_data, const %s& atom);\n",
+                        atomDecl->message.c_str());
+            }
         }
 
         fprintf(out, "struct %s final {\n", atomDecl->message.c_str());
 
         // write enum definitions
-        if (write_native_atom_enums_typesafe(out, *atomDecl,
-                                             /*useScopedEnums=*/true) != 0) {
+        if (write_native_atom_enums_typesafe(out, *atomDecl) != 0) {
             return 1;
         }
 
@@ -702,7 +714,31 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
             if (field.javaType == JAVA_TYPE_ATTRIBUTION_CHAIN) {
                 fprintf(out, "  std::vector<AttributionNode> %s;\n", field.name.c_str());
             } else {
-                fprintf(out, "  %s %s;\n", to_cpp_typesafe_name(field).c_str(), field.name.c_str());
+                // printing field type & its name
+                fprintf(out, "  %s %s", to_cpp_typesafe_name(field).c_str(), field.name.c_str());
+
+                // printing field default value if provided & supported
+                if (field.defaultValue.index() != 0) {
+                    if (get_if<string>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = \"%s\"", get<string>(field.defaultValue).c_str());
+                    } else if (get_if<bool>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %s", get<bool>(field.defaultValue) ? "true" : "false");
+                    } else if (get_if<int32_t>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %d", get<int32_t>(field.defaultValue));
+                    } else if (get_if<int64_t>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %" PRId64, get<int64_t>(field.defaultValue));
+                    } else if (get_if<float>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %ff", get<float>(field.defaultValue));
+                    } else if (get_if<AtomField::EnumValueConst>(&field.defaultValue) != nullptr) {
+                        fprintf(out, " = %s::%s", to_cpp_typesafe_name(field).c_str(),
+                                get<AtomField::EnumValueConst>(field.defaultValue).name.c_str());
+                    } else {
+                        fprintf(stderr, "[WARN] Unsupported default value type (%d)\n",
+                                (int)field.defaultValue.index());
+                        return 1;
+                    }
+                }
+                fprintf(out, ";\n");
             }
         }
 
@@ -711,7 +747,7 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
     return 0;
 }
 
-int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool useScopedEnums) {
+static int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields) {
     // maps proto enumType to its full type name
     map<string, string> processedEnums;
     for (auto& field : get_enum_fields(atomFields)) {
@@ -732,9 +768,7 @@ int write_native_atom_enums_typesafe(FILE* out, const AtomDecl& atomFields, bool
 
         processedEnums.insert(std::make_pair(field.enumTypeName, field.enumTypeNameFull));
 
-        const char* scopedEnumSpecifier = useScopedEnums ? "class " : "";
-
-        fprintf(out, "  enum %s%s {\n", scopedEnumSpecifier, field.enumTypeName.c_str());
+        fprintf(out, "  enum %s {\n", field.enumTypeName.c_str());
         size_t i = 0;
         for (map<int, string>::const_iterator value = field.enumValues.begin();
              value != field.enumValues.end(); value++) {

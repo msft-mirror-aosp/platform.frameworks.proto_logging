@@ -496,20 +496,15 @@ int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl&
     write_native_atom_constants(out, atoms, attributionDecl, "createVendorAtom(",
                                 /*isVendorAtomLogging=*/true);
 
-    for (auto& atomDecl : atoms.decls) {
-        if (get_enum_fields(*atomDecl).empty()) {
-            continue;
-        }
-        fprintf(out, "class %s final {\n", atomDecl->message.c_str());
-        fprintf(out, "public:\n\n");
+    // Print Atom classes definitions including enums
+    fprintf(out, "//\n");
+    fprintf(out, "// Atom definitions including enums\n");
+    fprintf(out, "//\n");
 
-        // write enum definitions
-        if (write_native_atom_enums_typesafe(out, *atomDecl,
-                                             /*useScopedEnums=*/false) != 0) {
-            return 1;
-        }
-        fprintf(out, "};\n");
-    }
+    if (write_native_atom_types(
+                out, atoms, /*pushedApiName*/ nullptr, /*includeFields*/ false) != 0) {
+        return 1;
+    };
 
     fprintf(out, "using ::aidl::android::frameworks::stats::VendorAtom;\n");
 
@@ -555,7 +550,7 @@ int write_stats_log_header_vendor_typesafe(FILE* out, const Atoms& atoms,
     fprintf(out, "// Atom definitions including enums\n");
     fprintf(out, "//\n");
 
-    if (write_native_atom_types(out, atoms, "createVendorAtom") != 0) {
+    if (write_native_atom_types(out, atoms, "createVendorAtom", /*includeFields*/ true) != 0) {
         return 1;
     };
 

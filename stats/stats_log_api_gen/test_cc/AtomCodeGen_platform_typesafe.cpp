@@ -16,7 +16,6 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
 #include <statslog_test_typesafe.h>
 
 #ifdef __ANDROID__
@@ -60,8 +59,6 @@ TEST(TypesafeCodeGenTest, AtomFieldsDefaultValues) {
     ScreenBrightnessChanged screenBrightnessChanged;
     EXPECT_EQ(screenBrightnessChanged.level, 0);
 
-    // TODO: AttributionNode field without default value
-
     // TODO: float field without default value
     // TODO: float field with default value
 
@@ -81,7 +78,7 @@ TEST(TypesafeCodeGenTest, AtomFieldsDefaultValues) {
     // TODO: enum field with default value
 }
 
-TEST(TypesafeCodeGenTest, AtomWriteFunctions) {
+TEST(TypesafeCodeGenTest, PushedAtomWriteFunctions) {
     using namespace android::stats::typesafe;
 
     typedef int (*WriteBleScanStateChangedFunc)(const BleScanStateChanged&);
@@ -103,6 +100,19 @@ TEST(TypesafeCodeGenTest, AtomWriteFunctions) {
     typedef int (*WriteScheduledJobStateChangedFunc)(const ScheduledJobStateChanged&);
     WriteScheduledJobStateChangedFunc writeScheduledJobStateChangedFunc = &stats_write;
     EXPECT_NE(writeScheduledJobStateChangedFunc, nullptr);
+}
+
+TEST(TypesafeCodeGenTest, PulledAtomWriteFunctions) {
+    using namespace android::stats::typesafe;
+
+    typedef void (*WriteSubsystemSleepStateFunc)(AStatsEventList* pulled_data,
+                                                 const SubsystemSleepState&);
+    WriteSubsystemSleepStateFunc writeSubsystemSleepStateFunc = &addAStatsEvent;
+    EXPECT_NE(writeSubsystemSleepStateFunc, nullptr);
+
+    typedef void (*WriteCpuTimePerUidFunc)(AStatsEventList* pulled_data, const CpuTimePerUid&);
+    WriteCpuTimePerUidFunc writeCpuTimePerUidFunc = &addAStatsEvent;
+    EXPECT_NE(writeCpuTimePerUidFunc, nullptr);
 }
 
 }  // namespace

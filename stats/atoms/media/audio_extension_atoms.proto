@@ -71,6 +71,8 @@ message AudioHardeningReported {
   optional android.media.audio.AudioHardeningApiType api_type = 2;
   optional bool is_strict = 3;
   optional bool is_enforced = 4;
+  optional android.media.audio.Usage usage = 5;
+  optional android.media.audio.HardeningExemption exemption_reason = 6;
 }
 
 /*

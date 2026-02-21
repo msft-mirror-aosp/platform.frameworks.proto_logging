@@ -22,6 +22,7 @@
 
 #include <map>
 #include <set>
+#include <variant>
 #include <vector>
 
 #include "frameworks/proto_logging/stats/atom_field_options.pb.h"
@@ -129,24 +130,42 @@ typedef enum {
 
 inline const char* java_type_to_string(java_type_t type) {
     switch (type) {
-        case JAVA_TYPE_UNKNOWN_OR_INVALID: return "JAVA_TYPE_UNKNOWN_OR_INVALID";
-        case JAVA_TYPE_ATTRIBUTION_CHAIN: return "JAVA_TYPE_ATTRIBUTION_CHAIN";
-        case JAVA_TYPE_BOOLEAN: return "JAVA_TYPE_BOOLEAN";
-        case JAVA_TYPE_INT: return "JAVA_TYPE_INT";
-        case JAVA_TYPE_LONG: return "JAVA_TYPE_LONG";
-        case JAVA_TYPE_FLOAT: return "JAVA_TYPE_FLOAT";
-        case JAVA_TYPE_DOUBLE: return "JAVA_TYPE_DOUBLE";
-        case JAVA_TYPE_STRING: return "JAVA_TYPE_STRING";
-        case JAVA_TYPE_ENUM: return "JAVA_TYPE_ENUM";
-        case JAVA_TYPE_BOOLEAN_ARRAY: return "JAVA_TYPE_BOOLEAN_ARRAY";
-        case JAVA_TYPE_INT_ARRAY: return "JAVA_TYPE_INT_ARRAY";
-        case JAVA_TYPE_LONG_ARRAY: return "JAVA_TYPE_LONG_ARRAY";
-        case JAVA_TYPE_FLOAT_ARRAY: return "JAVA_TYPE_FLOAT_ARRAY";
-        case JAVA_TYPE_DOUBLE_ARRAY: return "JAVA_TYPE_DOUBLE_ARRAY";
-        case JAVA_TYPE_STRING_ARRAY: return "JAVA_TYPE_STRING_ARRAY";
-        case JAVA_TYPE_ENUM_ARRAY: return "JAVA_TYPE_ENUM_ARRAY";
-        case JAVA_TYPE_OBJECT: return "JAVA_TYPE_OBJECT";
-        case JAVA_TYPE_BYTE_ARRAY: return "JAVA_TYPE_BYTE_ARRAY";
+        case JAVA_TYPE_UNKNOWN_OR_INVALID:
+            return "JAVA_TYPE_UNKNOWN_OR_INVALID";
+        case JAVA_TYPE_ATTRIBUTION_CHAIN:
+            return "JAVA_TYPE_ATTRIBUTION_CHAIN";
+        case JAVA_TYPE_BOOLEAN:
+            return "JAVA_TYPE_BOOLEAN";
+        case JAVA_TYPE_INT:
+            return "JAVA_TYPE_INT";
+        case JAVA_TYPE_LONG:
+            return "JAVA_TYPE_LONG";
+        case JAVA_TYPE_FLOAT:
+            return "JAVA_TYPE_FLOAT";
+        case JAVA_TYPE_DOUBLE:
+            return "JAVA_TYPE_DOUBLE";
+        case JAVA_TYPE_STRING:
+            return "JAVA_TYPE_STRING";
+        case JAVA_TYPE_ENUM:
+            return "JAVA_TYPE_ENUM";
+        case JAVA_TYPE_BOOLEAN_ARRAY:
+            return "JAVA_TYPE_BOOLEAN_ARRAY";
+        case JAVA_TYPE_INT_ARRAY:
+            return "JAVA_TYPE_INT_ARRAY";
+        case JAVA_TYPE_LONG_ARRAY:
+            return "JAVA_TYPE_LONG_ARRAY";
+        case JAVA_TYPE_FLOAT_ARRAY:
+            return "JAVA_TYPE_FLOAT_ARRAY";
+        case JAVA_TYPE_DOUBLE_ARRAY:
+            return "JAVA_TYPE_DOUBLE_ARRAY";
+        case JAVA_TYPE_STRING_ARRAY:
+            return "JAVA_TYPE_STRING_ARRAY";
+        case JAVA_TYPE_ENUM_ARRAY:
+            return "JAVA_TYPE_ENUM_ARRAY";
+        case JAVA_TYPE_OBJECT:
+            return "JAVA_TYPE_OBJECT";
+        case JAVA_TYPE_BYTE_ARRAY:
+            return "JAVA_TYPE_BYTE_ARRAY";
     }
     return "Unknown";
 }
@@ -203,7 +222,7 @@ using FieldNameToHistogramBinOption = map<std::string, os::statsd::HistogramBinO
  */
 struct AtomField {
     string name;
-    java_type_t javaType;
+    java_type_t javaType = JAVA_TYPE_UNKNOWN_OR_INVALID;
 
     int fieldNumber;
 
@@ -215,22 +234,27 @@ struct AtomField {
 
     // Will include the package/message type
     string enumTypeNameFull;
+    struct EnumValueConst {
+        // Numeric value of this enum constant.
+        int number;
 
-    inline AtomField() : name(), javaType(JAVA_TYPE_UNKNOWN_OR_INVALID) {
-    }
-    inline AtomField(const AtomField& that)
-        : name(that.name),
-          javaType(that.javaType),
-          fieldNumber(that.fieldNumber),
-          enumValues(that.enumValues),
-          enumTypeName(that.enumTypeName),
-          enumTypeNameFull(that.enumTypeNameFull) {
-    }
+        // Name of this enum constant.
+        string name;
+    };
+
+    using DefaultValue =
+            std::variant<std::monostate, int32_t, int64_t, float, bool, EnumValueConst, string>;
+
+    DefaultValue defaultValue;
+
+    inline AtomField() = default;
 
     inline AtomField(string n, java_type_t jt) : name(n), javaType(jt) {
     }
-    inline ~AtomField() {
-    }
+
+    inline AtomField(const AtomField& that) = default;
+
+    inline ~AtomField() = default;
 };
 
 /**
@@ -256,9 +280,9 @@ struct AtomDecl {
     bool restricted = false;
 
     AtomDecl();
-    AtomDecl(const AtomDecl& that);
+    AtomDecl(const AtomDecl& that) = default;
     AtomDecl(int code, const string& name, const string& message, AtomType atomType);
-    ~AtomDecl();
+    ~AtomDecl() = default;
 
     inline bool operator<(const AtomDecl& that) const {
         return (code == that.code) ? (name < that.name) : (code < that.code);

@@ -105,4 +105,21 @@ enum VerificationResult {
     // should be targeting a particular minimum SDK version, but the V3.2 block is targeting a
     // different minimum SDK version.
     VERIFICATION_V32_SDK_ATTR_MISMATCH = 37;
+    // A key rotation was attempted to / from the V3.2 hybrid block, but one of the signing keys was
+    // reused in the new signer config.
+    VERIFICATION_V32_KEY_REUSE_INSTALLED_DATA = 38;
+    // A rollback was attempted to / from the V3.2 hybrid block, but one of the signing keys was
+    // reused in the new signer config.
+    VERIFICATION_V32_KEY_REUSE_ROLLBACK = 39;
+    // Another signature based capability was requested with only one of the signers from the hybrid
+    // block in the requesting package's signer config.
+    VERIFICATION_V32_KEY_REUSE = 40;
+    // The PQC signer was in the lineage during an update, but the classical signer was missing.
+    VERIFICATION_V32_MISSING_CLASSICAL_INSTALLED_DATA = 41;
+    // The PQC signer was granted the capability for a rollback, but the classical signer was either
+    // missing or not granted the rollback capability.
+    VERIFICATION_V32_MISSING_CLASSICAL_ROLLBACK = 42;
+    // A signature based capability was requested and granted to the PQC signer, but the classical
+    // signer was either missing or not granted the capability.
+    VERIFICATION_V32_MISSING_CLASSICAL = 43;
 }

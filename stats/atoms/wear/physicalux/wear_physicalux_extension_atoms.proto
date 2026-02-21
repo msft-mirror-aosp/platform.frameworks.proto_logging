@@ -101,6 +101,8 @@ message WearGestureExperienceEventReported {
     optional string experience_id = 2;
     // The gesture experience event that happened.
     optional com.google.android.clockwork.physicalux.GestureExperienceEvent event = 3;
+    // The gesture action associated with the event.
+    optional com.google.android.clockwork.physicalux.GestureAction action = 4;
 }
 
 /**

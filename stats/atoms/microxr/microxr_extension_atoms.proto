@@ -135,18 +135,52 @@ enum McuReportCrashReasons {
  *   Average on the order of tens per day at most
  */
 message MicroXrPhotoCaptured {
+
   optional PhotoOrVideoTrigger trigger = 1;
   optional PhotoOrVideoStatus status = 2;
 
   // Time from when photo capture starts until the photo was captured, in
   // milliseconds. Includes ae_latency_ms. If there was a burst of captures
   // (such as for HDR), includes the time to capture all frames in the burst.
-  optional int32 latency_ms = 3;
+  optional int32 latency_ms = 3 [(unit) = UNIT_MILLISECONDS];
 
   // Time from when photo capture starts until Auto Exposure completes, in
   // milliseconds.
-  optional int32 ae_latency_ms = 4;
+  optional int32 ae_latency_ms = 4 [(unit) = UNIT_MILLISECONDS];
+
+  // The mode of capture used (HDR vs. non-HDR).
+  optional CaptureMode capture_mode = 5;
+
+  // Latency from Darklight initiation to camera session acquisition.
+  optional int32 capture_session_acquisition_latency_ms = 6 [(unit) = UNIT_MILLISECONDS];
+
+  // Size of the resulting binary file in KBs.
+  optional int64 darklight_capture_binary_file_size = 7 [(unit) = UNIT_KILOBYTES];
+
+  // Latency from button down to capturePhoto start.
+  // Note: Only applicable if trigger == PHOTO_OR_VIDEO_TRIGGER_BUTTON.
+  optional int32 button_to_capture_start_latency_ms = 8 [(unit) = UNIT_MILLISECONDS];
+
+  // Latency from capturePhoto start to base frame metadata.
+  optional int32 capture_start_to_base_frame_latency_ms = 9 [(unit) = UNIT_MILLISECONDS];
+
+  // Time from 3A convergence to first burst frame metadata.
+  optional int32 first_burst_frame_latency_ms = 10 [(unit) = UNIT_MILLISECONDS];
+
+  // Exposure time for the base frame.
+  optional int32 base_frame_exposure_ms = 11 [(unit) = UNIT_MILLISECONDS];
+
+  // Time taken for frame encoding.
+  optional int32 encoder_latency_ms = 12 [(unit) = UNIT_MILLISECONDS];
+
+  // Time taken for disk persistence.
+  optional int32 persistence_latency_ms = 13 [(unit) = UNIT_MILLISECONDS];
+
+  // Total User Perceived Latency
+  // Time from capture issued until the first frame is acquired
+  optional int32 shot_latency_ms = 14 [(unit) = UNIT_MILLISECONDS];
 }
+
 
 /**
  * Logged each time a video is captured.

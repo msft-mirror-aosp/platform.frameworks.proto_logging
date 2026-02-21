@@ -20,11 +20,16 @@ package android.os.statsd.npu;
 
 import "frameworks/proto_logging/stats/atom_field_options.proto";
 import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/enums/npu/enums.proto";
 
 extend Atom {
   optional NpuWorkEventOccurred npu_work_event_occurred = 1247
       [(module_name) = "npu"];
   optional NpuAppBlocked npu_app_blocked = 1269 [(module_name) = "npu"];
+  optional NpuModelLoadRequested npu_model_load_requested = 1305 [(module_name) = "npu"];
+  optional NpuModelLoadPolicyResponded npu_model_load_policy_responded = 1306 [(module_name) = "npu"];
+  optional NpuModelLoadRequestCancelled npu_model_load_request_cancelled = 1307 [(module_name) = "npu"];
+  optional NpuModelLoadStateChanged npu_model_load_state_changed = 1308 [(module_name) = "npu"];
 }
 
 /**
@@ -35,7 +40,7 @@ extend Atom {
  * Logged from:
  *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
  *
- * Estimaged Logging Rate:
+ * Estimated Logging Rate:
  *     Entirely dependent on utilization of the NPU
  */
 message NpuWorkEventOccurred {
@@ -75,10 +80,86 @@ message NpuWorkEventOccurred {
  * Logged from:
  *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
  *
- * Estimaged Logging Rate:
+ * Estimated Logging Rate:
  *     Depends on NPU utilization and the presence of misbehaving apps, but the upper
  *     bound would be one event per blocked app per boot.
  */
 message NpuAppBlocked {
   optional int32 uid = 1 [(is_uid) = true];
+}
+
+/**
+ * Logged when NpuManager receives an initial request to load a model from a client.
+
+ * Logged from:
+ *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
+ *
+ * Estimated Logging Rate:
+ *     Depends on NPU utilization.
+ */
+message NpuModelLoadRequested {
+  // UID of the application making the request.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // ID for the model load request. IDs will be unique for each request.
+  optional int32 request_id = 2;
+
+  // Requested model size.
+  optional android.npu.NpuModelSize model_size = 3;
+
+  // Requested model priority.
+  optional android.npu.NpuModelPriority model_priority = 4;
+}
+
+/**
+ * Logged when the NpuManager responds to the model load request, letting the application know if
+ * it can load the model.
+ *
+ * Logged from:
+ *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
+ *
+ * Estimated Logging Rate:
+ *     Depends on NPU utilization.
+ */
+message NpuModelLoadPolicyResponded {
+  optional int32 uid = 1 [(is_uid) = true];
+  optional int32 request_id = 2;
+  optional android.npu.NpuModelLoadStatus status = 3;
+}
+
+/**
+ * Logged when a pending model load request is cancelled.
+ *
+ * Logged from:
+ *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
+ *
+ * Estimated Logging Rate:
+ *     Depends on NPU utilization.
+ */
+message NpuModelLoadRequestCancelled {
+  // UID of the client application owning the request.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Client-provided ID for the model load request.
+  optional int32 request_id = 2;
+}
+
+/**
+ * Logged when a model has finished loading or unloading.
+ *
+ * Logged from:
+ *     modules/NpuManager/service/java/com/android/server/npumanager/MetricsLogger.java
+ *
+ * Estimated Logging Rate:
+ *     Depends on NPU utilization.
+ */
+message NpuModelLoadStateChanged {
+  // UID of the client application that owned the model.
+  optional int32 uid = 1 [(is_uid) = true];
+
+  // Client-provided ID for the original load request.
+  optional int32 request_id = 2;
+
+  // The new state of the model.
+  optional android.npu.NpuModelLoadState state = 3;
 }

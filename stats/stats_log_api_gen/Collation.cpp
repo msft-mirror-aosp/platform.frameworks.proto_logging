@@ -17,11 +17,11 @@
 #include "Collation.h"
 
 #include <google/protobuf/descriptor.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 #include <algorithm>
 #include <map>
-#include <stdarg.h>
-#include <stdio.h>
 #include <string_view>
 
 #include "frameworks/proto_logging/stats/atom_field_options.pb.h"
@@ -61,25 +61,8 @@ static bool isAtomIdInRange(int atomId, const AtomIdRange& range) {
 AtomDecl::AtomDecl() : code(0), name(), atomType(ATOM_TYPE_PUSHED) {
 }
 
-AtomDecl::AtomDecl(const AtomDecl& that)
-    : code(that.code),
-      name(that.name),
-      message(that.message),
-      fields(that.fields),
-      atomType(that.atomType),
-      fieldNumberToAnnotations(that.fieldNumberToAnnotations),
-      primaryFields(that.primaryFields),
-      exclusiveField(that.exclusiveField),
-      defaultState(that.defaultState),
-      triggerStateReset(that.triggerStateReset),
-      nested(that.nested) {
-}
-
 AtomDecl::AtomDecl(int c, const string& n, const string& m, AtomType a)
     : code(c), name(n), message(m), atomType(a) {
-}
-
-AtomDecl::~AtomDecl() {
 }
 
 /**
@@ -530,6 +513,39 @@ int collate_atom(const Descriptor& atom, AtomDecl& atomDecl, vector<java_type_t>
 
         AtomField atField(std::string(field.name()), javaType);
         atField.fieldNumber = field.number();
+
+        if (field.has_default_value()) {
+            // user explicitly specified default value for field
+            switch (field.cpp_type()) {
+                case FieldDescriptor::CPPTYPE_INT32:
+                    atField.defaultValue = field.default_value_int32();
+                    break;
+                case FieldDescriptor::CPPTYPE_INT64:
+                    atField.defaultValue = field.default_value_int64();
+                    break;
+                case FieldDescriptor::CPPTYPE_FLOAT:
+                    atField.defaultValue = field.default_value_float();
+                    break;
+                case FieldDescriptor::CPPTYPE_BOOL:
+                    atField.defaultValue = field.default_value_bool();
+                    break;
+                case FieldDescriptor::CPPTYPE_ENUM:
+                    atField.defaultValue = AtomField::EnumValueConst{
+                            .number = field.default_value_enum()->number(),
+                            .name = std::string(field.default_value_enum()->name())};
+                    break;
+                case FieldDescriptor::CPPTYPE_STRING:
+                    atField.defaultValue = string(field.default_value_string());
+                    break;
+                default:
+                    print_error(field,
+                                "Unsupported type with default value: '%s::%s'. "
+                                "Vote-up for b/449793167\n",
+                                std::string(atom.name()).c_str(), atField.name.c_str());
+                    errorCount++;
+                    break;
+            }
+        }
 
         if (javaType == JAVA_TYPE_ENUM || javaType == JAVA_TYPE_ENUM_ARRAY) {
             atField.enumTypeName = field.enum_type()->name();
