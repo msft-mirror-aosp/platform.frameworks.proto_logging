@@ -2147,6 +2147,6 @@ message MemoryLimiterOverLimitEvent {
     HIGH = 1;
   }
   optional Type type = 2;
-  // The absolute memory limit (in bytes) at the time of the event.
-  optional int64 limit_bytes = 3;
+  // The memory limit as a percentage of available memory.
+  optional int32 limit_percent = 3 [(unit) = UNIT_PERCENTAGE];
 }
