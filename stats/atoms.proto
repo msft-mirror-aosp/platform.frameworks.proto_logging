@@ -6930,9 +6930,11 @@ message ForegroundServiceStateChanged {
         PROCESS_CAPABILITY_USER_RESTRICTED_NETWORK = 32;
     }
 
+    // Note that ag/874223717 fixed to use the statsd process state enum values instead of the framework values.
     optional android.app.ProcessStateEnum service_uid_state = 24 [default = PROCESS_STATE_UNKNOWN];
     optional ProcessCapability service_uid_capabilities = 25;
 
+    // Note that ag/874223717 fixed to use the statsd process state enum values instead of the framework values.
     optional android.app.ProcessStateEnum calling_uid_state = 26 [default = PROCESS_STATE_UNKNOWN];
     optional ProcessCapability calling_uid_capabilities = 27;
 

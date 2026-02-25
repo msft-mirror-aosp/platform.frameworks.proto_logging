@@ -155,7 +155,7 @@ message MicroXrPhotoCaptured {
   optional int32 capture_session_acquisition_latency_ms = 6 [(unit) = UNIT_MILLISECONDS];
 
   // Size of the resulting binary file in KBs.
-  optional int64 darklight_capture_binary_file_size = 7 [(unit) = UNIT_KILOBYTES];
+  optional int32 darklight_capture_binary_file_size = 7 [(unit) = UNIT_KILOBYTES];
 
   // Latency from button down to capturePhoto start.
   // Note: Only applicable if trigger == PHOTO_OR_VIDEO_TRIGGER_BUTTON.
