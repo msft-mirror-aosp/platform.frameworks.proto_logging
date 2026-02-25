@@ -153,7 +153,7 @@ enum IconType {
 /**
  * Enum to represent the reason why a notification was skipped while processing
  * (alerting or displaying).
- * Next ID: 11
+ * Next ID: 14
  */
 enum SkippedReason {
   SKIPPED_REASON_UNKNOWN = 0;
@@ -163,8 +163,8 @@ enum SkippedReason {
   SKIPPED_ALERT_REASON_STALE_NOTIFICATION = 2;
   // Notification was filtered by a backend filter.
   SKIPPED_ALERT_REASON_FILTERED_BY_BACKEND_FILTER = 3;
-  // Notification was hidden because it's for an ongoing activity.
-  SKIPPED_ALERT_REASON_HIDDEN_ONGOING_ACTIVITY = 4;
+  // The notification was filtered due to being hidden.
+  SKIPPED_ALERT_REASON_HIDDEN = 4;
   // No notification was found in the queue to display.
   SKIPPED_DISPLAY_REASON_NOTIFICATION_NOT_FOUND = 5;
   // Glanceable was skipped because a HUN was shown instead.
@@ -177,4 +177,10 @@ enum SkippedReason {
   SKIPPED_DISPLAY_REASON_HUN_SKIPPED_NOT_INTERACTIVE = 9;
   // HUN was skipped because a new HUN window could not be added.
   SKIPPED_DISPLAY_REASON_HUN_SKIPPED_CANNOT_ADD_WINDOW = 10;
+    // The HUN display was skipped because it was shown in tray
+  SKIPPED_DISPLAY_REASON_SHOWN_IN_TRAY = 11;
+  // The HUN display was skipped because keyboard is being shown
+  SKIPPED_DISPLAY_REASON_KEYBOARD_SHOWING = 12;
+  // The HUN display was skipped because top activity is immersive
+  SKIPPED_DISPLAY_REASON_IMMERSIVE_TOP_ACTIVITY = 13;
 }
