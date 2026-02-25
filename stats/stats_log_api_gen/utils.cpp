@@ -737,6 +737,8 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
                                 (int)field.defaultValue.index());
                         return 1;
                     }
+                } else {
+                    fprintf(out, " = {}");
                 }
                 fprintf(out, ";\n");
             }
