@@ -162,10 +162,6 @@ extend Atom {
       1173 [(module_name) = "framework"];
   optional ZramWritebackEvent zram_writeback_event = 1202
       [(module_name) = "framework"];
-  optional AppUsageQueryEventStats app_usage_query_event_stats = 10260
-      [(module_name) = "framework"];
-  optional UsageEventReportedStats usage_event_reported_stats = 10262
-      [(module_name) = "framework"];
   optional AutomaticTimeZoneChangeRevertedByUserReported
       automatic_time_zone_change_reverted_by_user_reported = 1253
       [(module_name) = "framework"];
@@ -177,6 +173,10 @@ extend Atom {
   optional NativeZygoteStarted native_zygote_started = 1267
       [(module_name) = "framework"];
   optional MemoryLimiterOverLimitEvent memory_limiter_over_limit_event = 1272
+      [(module_name) = "framework"];
+  optional AppUsageQueryEventStats app_usage_query_event_stats = 1312
+      [(module_name) = "framework"];
+  optional UsageEventReportedStats usage_event_reported_stats = 1313
       [(module_name) = "framework"];
 }
 
@@ -1980,8 +1980,6 @@ message UsageEventReportedStats {
         LOCUS_ID_SET = 30;
     }
     optional EventType event_type = 1;
-    // Total count per event type, cumulative since boot.
-    optional int32 event_count = 2;
 }
 
 /**
