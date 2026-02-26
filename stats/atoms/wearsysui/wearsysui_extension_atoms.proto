@@ -172,7 +172,7 @@ message WearTileTapReported {
 
 // Atom logged when an event is reported for Live Entry UI.
 //
-// Logged from: java/com/google/android/wearable/sysui/mainui/module/contentmanager/liveentry/LiveEntryStatsLogger.java
+// Logged from: /java/com/google/android/clockwork/sysui/common/logging/LiveEntryLogger.kt
 //
 // Logged when:
 // 1. New content item is displayed on live entry UI from WF Overlay or Notifications.
@@ -190,6 +190,9 @@ message WearLiveEntryEventReported {
 
   // The type of the text being displayed.
   optional android.app.wearsysui.LiveEntryTextType text_type = 4;
+
+  // The type of content update.
+  optional android.app.wearsysui.LiveEntryUpdateType update_type = 5;
 }
 /**
  * Atom logged when an event is reported for Live Update Setting UI.

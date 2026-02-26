@@ -43,6 +43,19 @@ enum LiveEntryContentType {
   CONTENT_TYPE_ONGOING_ACTIVITY = 2;
 }
 
+// This enum depicts the type of content update in Live Entry UI.
+// Next ID: 4
+enum LiveEntryUpdateType {
+  // The content update type is not specified.
+  UPDATE_TYPE_UNSPECIFIED = 0;
+  // The content is new in the UI.
+  UPDATE_TYPE_NEW = 1;
+  // The existing content is updated in the UI.
+  UPDATE_TYPE_UPDATED = 2;
+  // The content is removed from the UI.
+  UPDATE_TYPE_REMOVED = 3;
+}
+
 /**
  * Live Update Setting option selected by the user
  * Next ID: 3

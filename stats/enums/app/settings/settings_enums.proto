@@ -2769,7 +2769,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2198
+// Next ID: 2200
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -2912,6 +2912,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: 6.0
     DATE_TIME = 38;
+
+    // OPEN: Settings > Date & time > Home time zone
+    // CATEGORY: SETTINGS
+    // OS: D
+    DATE_TIME_HOME_TIME_ZONE = 2199;
 
     // OPEN: Settings > Developer options
     // CATEGORY: SETTINGS
