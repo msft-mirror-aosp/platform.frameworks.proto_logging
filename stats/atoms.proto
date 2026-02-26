@@ -2050,6 +2050,7 @@ message Atom {
     extensions 1308; // NpuModelLoadStateChanged npu_model_load_state_changed
     extensions 1309; // WearNotificationProcessingSkipped wear_notification_processing_skipped
     extensions 1310; // IpSecPacketLossDetectorReported ip_sec_packet_loss_detector_reported
+    // reserved 1311
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2484,7 +2485,7 @@ message Atom {
     // Field numbers 200,000 - 299,999 are reserved for future use; do not use them at all.
     // Field numbers 300,000 - 399,999 are reserved for generic vendor atoms.
     // Field numbers 400,000 and above reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 1311, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
 }
 
 /*
