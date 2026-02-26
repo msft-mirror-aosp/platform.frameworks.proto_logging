@@ -48,3 +48,14 @@ enum ValidationStatus {
     VALIDATION_STATUS_VALID = 2;
     VALIDATION_STATUS_NOT_VALID = 3;
 }
+
+// Represents the result of the IPsec packet loss detection.
+// For each type's details, see packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/routeselection/IpSecPacketLossDetector.java
+enum IpSecPacketLossResultType {
+    IPSEC_PACKET_LOSS_RESULT_TYPE_UNSPECIFIED = 0;
+    IPSEC_PACKET_LOSS_RESULT_TYPE_VALID = 1;
+    IPSEC_PACKET_LOSS_RESULT_TYPE_SEQ_DIFF_TOO_SMALL = 2;
+    IPSEC_PACKET_LOSS_RESULT_TYPE_UNUSUAL_SEQ_NUM_LEAP = 3;
+    IPSEC_PACKET_LOSS_RESULT_TYPE_UNEXPECTED_ERROR = 4;
+    IPSEC_PACKET_LOSS_RESULT_TYPE_PACKETS_TOO_OLD = 5;
+}

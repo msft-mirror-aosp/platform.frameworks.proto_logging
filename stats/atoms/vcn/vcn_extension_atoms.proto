@@ -36,6 +36,7 @@ extend Atom {
       [(module_name) = "vcn"];
   optional VcnNetworkValidationStatusReported
       vcn_network_validation_status_reported = 1234 [(module_name) = "vcn"];
+  optional IpSecPacketLossDetectorReported ip_sec_packet_loss_detector_reported = 1310 [(module_name) = "vcn"];
 }
 
 /**
@@ -121,4 +122,24 @@ message VcnUnderlyingNetworkSwitched {
   optional android.stats.vcn.TransportMask old_network = 2;
   // Transports of the network we switched to.
   optional android.stats.vcn.TransportMask new_network = 3;
+}
+
+/**
+ * Log results of IPSec Packet Loss detector.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/routeselection/IpSecPacketLossDetector.java
+ * Estimated Logging Rate:
+ *   Peak: 1 time per 10s. Avg: ~300 times per device per day (1 VCN session of ~45min per device per day)
+ */
+message IpSecPacketLossDetectorReported {
+  // gw_id associated with the relevant VcnGatewayConnection.
+  optional int32 gw_id = 1;
+  // Transports of the network evaluated, mostly whether CELLULAR or WIFI.
+  optional android.stats.vcn.TransportMask transport_mask = 2;
+  optional int32 signal_strength = 3; // For TRANSPORT_MASK_WIFI, RSSI.
+  optional int32 packet_loss_percent = 4 [(unit) = UNIT_PERCENTAGE];
+  optional android.stats.vcn.IpSecPacketLossResultType result_type = 5;
+  // Configured packet loss % threshold at which detector will consider as lossy.
+  optional int32 configured_packet_loss_threshold = 6 [(unit) = UNIT_PERCENTAGE];
 }
