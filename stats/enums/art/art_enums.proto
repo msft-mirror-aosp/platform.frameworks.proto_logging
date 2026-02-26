@@ -22,7 +22,7 @@ option java_package = "com.android.os.art";
 option java_multiple_files = true;
 
 // Indicates which kind of measurement ART is reporting as increments / deltas.
-// Next ID: 40
+// Next ID: 42
 enum ArtDatumDeltaId {
   ART_DATUM_DELTA_INVALID = 0;
 
@@ -61,6 +61,13 @@ enum ArtDatumDeltaId {
 
   ART_DATUM_DELTA_GC_APP_SLOW_PATH_DURING_YOUNG_GENERATION_COLLECTION_DURATION_MILLIS = 38;
   ART_DATUM_DELTA_GC_APP_SLOW_PATH_DURING_FULL_HEAP_COLLECTION_DURATION_MILLIS = 39;
+
+  // Metrics capturing "static final" field modification attempts.
+
+  // Attempts to modify static final fields defined in a bootclasspath class.
+  ART_DATUM_DELTA_BCP_STATIC_FINAL_FIELD_OVERWRITE_COUNT = 40;
+  // Attempts to modify app defined static final fields.
+  ART_DATUM_DELTA_APP_STATIC_FINAL_FIELD_OVERWRITE_COUNT = 41;
 
   reserved 1, 2, 4, 7, 10, 11, 12, 13, 14, 15, 18, 19, 20, 22, 23, 24, 25, 26, 27;
 }
