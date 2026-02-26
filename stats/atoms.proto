@@ -22114,6 +22114,10 @@ message AppProcessDied {
 
     // Whether or not this process is hosting one or more foregound services.
     optional bool has_foreground_services = 8;
+
+    // The exit status argument of exit() if the application calls it, or the
+    // number if the application is signaled.
+    optional int32 exit_status = 9;
 }
 
 // Each pull creates multiple atoms. One for each incremental package.
