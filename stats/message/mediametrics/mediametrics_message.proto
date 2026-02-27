@@ -66,7 +66,6 @@ message AudioRecordData {
 /**
  * Track audio thread performance data
  * Logged from
- *   frameworks/av/media/libnblog/ReportPerformance.cpp
  *   frameworks/av/services/mediaanalytics/statsd_audiothread.cpp
  * Next Tag: 28
  */

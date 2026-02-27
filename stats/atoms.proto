@@ -12869,7 +12869,6 @@ message MediametricsAudiorecordReported {
 /**
  * Track how we arbitrate between microphone/input requests.
  * Logged from
- *   frameworks/av/media/libnblog/ReportPerformance.cpp
  *   frameworks/av/services/mediaanalytics/statsd_audiothread.cpp
  */
 message MediametricsAudiothreadReported {
