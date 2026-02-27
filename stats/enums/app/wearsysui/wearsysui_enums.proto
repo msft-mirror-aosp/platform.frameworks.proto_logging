@@ -57,10 +57,10 @@ enum LiveEntryUpdateType {
 }
 
 /**
- * Live Update Setting option selected by the user
+ * Live Entry Setting option selected by the user
  * Next ID: 3
  */
-enum LiveUpdateSettingOption {
+enum LiveEntrySettingOption {
   // Option unspecified
   OPTION_UNSPECIFIED = 0;
   // Icon and Text option selected
@@ -70,10 +70,10 @@ enum LiveUpdateSettingOption {
 }
 
 /**
- * The source from which Live Update Setting was entered
+ * The source from which Live Entry Setting was entered
  * Next ID: 4
  */
-enum LiveUpdateSettingEntrySource {
+enum LiveEntrySettingEntrySource {
   // Entry unspecified
   ENTRY_SOURCE_UNSPECIFIED = 0;
   // Entered from WFCO UI
