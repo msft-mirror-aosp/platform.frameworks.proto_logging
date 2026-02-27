@@ -122,4 +122,7 @@ enum VerificationResult {
     // A signature based capability was requested and granted to the PQC signer, but the classical
     // signer was either missing or not granted the capability.
     VERIFICATION_V32_MISSING_CLASSICAL = 43;
+    // A V3.0 or V3.1 signature block has a max SDK version stripping protection attribute for a
+    // V3.2 hybrid block, but a corresponding min SDK version attribute is not present.
+    VERIFICATION_V32_MAX_ATTR_WITHOUT_MIN_ATTR = 44;
 }
