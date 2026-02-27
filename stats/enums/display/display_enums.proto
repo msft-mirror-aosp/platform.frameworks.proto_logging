@@ -173,16 +173,6 @@ enum DisplayOffloadRendererType {
 }
 
 /**
- * Display offload session eligibility;
- */
-enum DisplayOffloadSessionEligibility {
-    DISPLAY_OFFLOAD_SESSION_ELIGIBILITY_UNSPECIFIED = 0;
-    DISPLAY_OFFLOAD_SESSION_ELIGIBILITY_ELIGIBLE = 1;
-    DISPLAY_OFFLOAD_SESSION_ELIGIBILITY_INELIGIBLE = 2;
-    DISPLAY_OFFLOAD_SESSION_ELIGIBILITY_IGNORED = 3;
-}
-
-/**
  * Display offload top-level states.
  */
 enum DisplayOffloadState {
