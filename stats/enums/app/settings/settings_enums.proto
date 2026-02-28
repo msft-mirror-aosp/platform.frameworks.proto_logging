@@ -22,7 +22,7 @@ option java_multiple_files = true;
 /**
  * The action performed in this event
  */
-// Next ID: 2199
+// Next ID: 2153
 enum Action {
 
     // Reserved for biometrics
@@ -2764,6 +2764,16 @@ enum Action {
     // ACTION: Dream reordered by drag-and-drop
     // CATEGORY: SETTINGS
     ACTION_DREAM_MOVE_ORDER = 2143;
+
+    // ACTION: Settings > Parental controls > Set up PIN through
+    //         SetupSupervisionActivity
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_PIN_SET_UP = 2144;
+
+    // ACTION: Settings > Parental controls > Set up PIN through
+    //         SetupSupervisionActivity > Skip recovery info setup
+    // CATEGORY: SETTINGS
+    ACTION_SUPERVISION_SKIP_PIN_RECOVERY = 2152;
 }
 
 /**

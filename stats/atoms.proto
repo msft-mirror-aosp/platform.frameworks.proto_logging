@@ -2050,6 +2050,9 @@ message Atom {
     extensions 1308; // NpuModelLoadStateChanged npu_model_load_state_changed
     extensions 1309; // WearNotificationProcessingSkipped wear_notification_processing_skipped
     extensions 1310; // IpSecPacketLossDetectorReported ip_sec_packet_loss_detector_reported
+    // reserved 1311
+    extensions 1312; // AppUsageQueryEventStats app_usage_query_event_stats
+    extensions 1313; // UsageEventReportedStats usage_event_reported_stats;
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2463,9 +2466,9 @@ message Atom {
     extensions 10257; // MemcgMemoryStatSnapshot memcg_memory_stat_snapshot
     extensions 10258; // SupervisionState supervision_state
     extensions 10259; // AdaptiveSuspendStats adaptive_suspend_stats
-    extensions 10260; // AppUsageQueryEventStats app_usage_query_event_stats
+    // 10260 is reserved due to moved atom to pushed atom
     extensions 10261; // WsPhoneMetadataSnapshot ws_phone_metadata_snapshot
-    extensions 10262; // UsageEventReportedStats usage_event_reported_stats
+    // 10262 is reserved due to moved atom to pushed atom
     extensions 10263; // TrustTokenState trust_token_state
     extensions 10264; // WearKeyguardLockState wear_keyguard_lock_state
     extensions 10265; // CredentialManagerSettingsSnapshot credential_manager_settings_snapshot
@@ -2484,7 +2487,7 @@ message Atom {
     // Field numbers 200,000 - 299,999 are reserved for future use; do not use them at all.
     // Field numbers 300,000 - 399,999 are reserved for generic vendor atoms.
     // Field numbers 400,000 and above reserved for future use; do not use them at all.
-    reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 10008, 10036, 10040, 10041, 10228, 21004, 21005;
+    reserved 54, 58, 83, 98, 360 to 363, 492, 597, 801, 850, 936, 937, 938, 939, 1311, 10008, 10036, 10040, 10041, 10228, 10260, 10262, 21004, 21005;
 }
 
 /*
@@ -12866,7 +12869,6 @@ message MediametricsAudiorecordReported {
 /**
  * Track how we arbitrate between microphone/input requests.
  * Logged from
- *   frameworks/av/media/libnblog/ReportPerformance.cpp
  *   frameworks/av/services/mediaanalytics/statsd_audiothread.cpp
  */
 message MediametricsAudiothreadReported {
@@ -22114,6 +22116,10 @@ message AppProcessDied {
 
     // Whether or not this process is hosting one or more foregound services.
     optional bool has_foreground_services = 8;
+
+    // The exit status argument of exit() if the application calls it, or the
+    // number if the application is signaled.
+    optional int32 exit_status = 9;
 }
 
 // Each pull creates multiple atoms. One for each incremental package.

@@ -88,6 +88,7 @@ enum MinimizeReason {
   MINIMIZE_BUTTON = 2;
   MINIMIZE_KEY_GESTURE = 3;
   MINIMIZE_MULTI_ACTIVITY_PIP = 4;
+  MINIMIZE_TASKBAR_ICON_TAP = 5;
 }
 
 // The reason a task was unminimized
