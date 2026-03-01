@@ -83,6 +83,11 @@ extend Atom {
         wifi_nl80211_command_result_reported = 1198 [(module_name) = "wifi"];
     optional WifiAwarePeerFoundReported wifi_aware_peer_found_reported = 1222
         [(module_name) = "wifi"];
+    optional WifiContinuousRangingStartReported wifi_continuous_ranging_start_reported = 1314
+        [(module_name) = "wifi"];
+    optional WifiContinuousRangingStopReported
+        wifi_continuous_ranging_stop_reported = 1315
+        [(module_name) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190
@@ -1307,4 +1312,85 @@ message WifiAwarePeerFoundReported {
 
     // has screen ever turned off since attach
     optional bool has_ever_screen_off = 10;
+}
+
+/**
+ * Logged when Wifi continuous ranging started
+ *
+ * Logged From: packages/modules/Wifi/service/java/com/android/server/wifi/rtt/RttServiceImpl.java
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 1 times per device per day.
+ */
+message WifiContinuousRangingStartReported {
+    enum Status {
+        FAILURE_REASON_UNKNOWN = 0;
+        SUCCESS = 1;
+        FAILURE_REASON_NOT_AVAILABLE = 3;
+        FAILURE_REASON_RTT_BUSY = 4;
+        FAILURE_REASON_RTT_PD_NEGOTIATION_FAILED = 5;
+    }
+
+    enum PreambleType {
+        UNKNOWN = 0;
+        LEGACY = 1;
+        HT = 2;
+        VHT = 3;
+        HE = 4;
+        EHT = 5;
+    }
+
+    // Start status of a continuous ranging session
+    optional Status status = 1;
+
+    // Is the responder supporting 802.11mc
+    repeated bool supports_80211mc = 2;
+
+    // Is the responder supporting 802.11az Non-TB
+    repeated bool supports_80211az_ntb = 3;
+
+    // Bandwidtg used for ranging
+    repeated android.net.wifi.WifiChannelWidth channel_width_mhz = 4;
+
+    // Frequency used for ranging
+    repeated int32 frequency = 5;
+
+    // Center frequency used for ranging
+    repeated int32 center_freq0 = 6;
+
+    // Another center frequency used for ranging
+    repeated int32 center_freq1 = 7;
+
+    // Preamble type
+    repeated PreambleType preamble = 8;
+
+    // RTT burst size per measurement
+    optional int32 rtt_burst_size = 9;
+
+    // Security mode used for ranging
+    optional int32 security_mode = 10;
+
+    // Is the responder discovered by Out-of-bound techonology
+    optional bool is_discovered_by_oob = 11;
+}
+
+/**
+ * Logged when Wifi continuous ranging stopped
+ *
+ * Logged From: packages/modules/Wifi/service/java/com/android/server/wifi/rtt/RttServiceImpl.java
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 1 times per device per day.
+ */
+message WifiContinuousRangingStopReported {
+    enum Reason {
+        UNKNOWN = 0;
+        TIMEOUT = 1;
+        USER_REQUEST = 2;
+        ABORT_CONCURRENCY = 3;
+        RECEIVED_RTT_TERMINATE = 4;
+    }
+
+    // Reason of stopping a continuous ranging session
+    optional Reason reason = 1;
 }
