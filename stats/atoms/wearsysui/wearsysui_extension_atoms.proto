@@ -40,8 +40,8 @@ extend Atom {
       [(module_name) = "wearsysui"];
   optional WearLiveEntryEventReported wear_live_entry_event_reported = 1212
       [(module_name) = "wearsysui"];
-  optional WearLiveUpdateSettingEventReported
-      wear_live_update_setting_event_reported = 1226
+  optional WearLiveEntrySettingEventReported
+      wear_live_entry_setting_event_reported = 1226
       [(module_name) = "wearsysui"];
   optional WearTrayAnimationStarted wear_tray_animation_started = 1229
       [(module_name) = "wearsysui"];
@@ -198,12 +198,12 @@ message WearLiveEntryEventReported {
  * Atom logged when an event is reported for Live Update Setting UI.
  *
  * Logged from :
- * java/com/google/android/wearable/sysui/mainui/module/watchfaceoverlay/penguin/settings/logging/LiveUpdateSettingStatsLogger.kt
+ * java/com/google/android/wearable/sysui/mainui/module/watchfaceoverlay/penguin/settings/logging/LiveEntrySettingStatsLogger.kt
  * Logged when:
- * 1. Live Update Setting is shown to the user.
- * 2. User interacts with the Live Update Setting.
+ * 1. Live Entry Setting is shown to the user.
+ * 2. User interacts with the Live Entry Setting.
  */
-message WearLiveUpdateSettingEventReported{
+message WearLiveEntrySettingEventReported {
   // UiEvent for the interaction that happened ex. LIVE_UPDATE_SETTING_SHOWN, SELECTED etc.
   optional int32 event_id = 1;
 
@@ -212,10 +212,10 @@ message WearLiveUpdateSettingEventReported{
   optional string package_name = 2;
 
   // Source from which Quick Setting was entered
-  optional android.app.wearsysui.LiveUpdateSettingEntrySource entry_source = 3;
+  optional android.app.wearsysui.LiveEntrySettingEntrySource entry_source = 3;
 
    // Setting option selected by the user for this content provider
-  optional android.app.wearsysui.LiveUpdateSettingOption option_type = 4;
+  optional android.app.wearsysui.LiveEntrySettingOption option_type = 4;
 }
 
 // Atom logged when a tray animation is started.
