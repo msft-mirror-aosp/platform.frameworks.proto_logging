@@ -310,7 +310,7 @@ message DisplayOffloadSessionStats {
   optional int32 uid = 3 [(is_uid) = true];
   optional android.display.DisplayOffloadExperienceType experience_type = 4;
   optional android.display.DisplayOffloadRendererType renderer_type = 5;
-  optional android.display.DisplayOffloadSessionEligibility eligibility = 6;
+  optional bool is_selected = 6;
 
   // Fast memory usage
   optional int32 fast_memory_max_bytes = 7;
