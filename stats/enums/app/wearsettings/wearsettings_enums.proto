@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 558
+// Next ID: 559
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -351,6 +351,7 @@ enum ItemId {
   SYSTEM_PHONE_SWITCH = 407;
   SYSTEM_SYSTEM_UPDATE = 257;
   SYSTEM_TTS = 490;
+  TRUST_AGENTS = 558;
   VIBRATION_LEVEL = 268;
   VIBRATION_MUTE_WHEN_OFF_BODY = 318;
   VIBRATION_VIBRATE_FOR_CALLS = 267;
