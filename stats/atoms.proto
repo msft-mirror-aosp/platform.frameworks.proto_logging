@@ -2053,6 +2053,8 @@ message Atom {
     // reserved 1311
     extensions 1312; // AppUsageQueryEventStats app_usage_query_event_stats
     extensions 1313; // UsageEventReportedStats usage_event_reported_stats;
+    extensions 1314; // WifiContinuousRangingStartReported wifi_continuous_ranging_start_reported
+    extensions 1315; // WifiContinuousRangingStopReported wifi_continuous_ranging_stop_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
