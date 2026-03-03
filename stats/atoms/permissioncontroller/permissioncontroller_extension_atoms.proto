@@ -438,6 +438,8 @@ message LocationButtonRequestResultReported {
     PROMPT_GRANT = 6;
     // Permission denied by the user via the consent dialog.
     DENIED = 7;
+    // The dialog was ignored or canceled by the user.
+    CANCELED = 8;
   }
   optional Result result = 5;
 }

@@ -22,6 +22,7 @@ option java_multiple_files = true;
 option java_outer_classname = "WearNotificationProtoEnums";
 
 // Defines the specific point in the notification's journey in the watch
+// Next ID: 24
 enum NotificationEvent {
   EVENT_UNSPECIFIED = 0;
 
@@ -48,6 +49,10 @@ enum NotificationEvent {
   EVENT_FILTERED_IN_UI = 9;
   // Notification alerted to user
   EVENT_ALERTED_TO_USER = 10;
+  // Alert was processed, but no notification was found
+  EVENT_FOUND_NO_NOTIFICATION = 22;
+  // Glanceable animation shown
+  EVENT_GLANCEABLE_ANIMATION_SHOWN = 23;
   // Notification alerted and "Show Immediately" setting is enabled.
   EVENT_ALERTED_SHOW_IMMEDIATELY_SETTING_ENABLED = 21;
   // User gazed and notification was processed
