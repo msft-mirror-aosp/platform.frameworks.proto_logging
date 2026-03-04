@@ -125,4 +125,7 @@ enum VerificationResult {
     // A V3.0 or V3.1 signature block has a max SDK version stripping protection attribute for a
     // V3.2 hybrid block, but a corresponding min SDK version attribute is not present.
     VERIFICATION_V32_MAX_ATTR_WITHOUT_MIN_ATTR = 44;
+    // An update was attempted with a V3.2 hybrid signed APK, but the current signer of the version
+    // on the device was not found in the signing lineage of the update package.
+    VERIFICATION_V32_UPDATE_SIGNATURE_MISMATCH = 45;
 }
