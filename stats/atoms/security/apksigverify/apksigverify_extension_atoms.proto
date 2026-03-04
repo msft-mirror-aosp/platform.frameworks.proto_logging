@@ -54,4 +54,6 @@ message ApkSignatureVerificationReported {
     optional bool is_rotation = 6;
     // The result of the attempt to verify the APK's signature using the current signature block.
     optional android.security.apksigverify.VerificationResult verification_result = 7;
+    // The time in milliseconds to verify the asymmetric signature(s) in the signature block.
+    optional int32 verification_duration_millis = 8[(unit) = UNIT_MILLISECONDS];
 }
