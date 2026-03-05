@@ -22,7 +22,7 @@ option java_multiple_files = true;
 option java_outer_classname = "WearNotificationProtoEnums";
 
 // Defines the specific point in the notification's journey in the watch
-// Next ID: 24
+// Next ID: 26
 enum NotificationEvent {
   EVENT_UNSPECIFIED = 0;
 
@@ -45,10 +45,12 @@ enum NotificationEvent {
   // Events logged by SysUI
   // Notification received in UI
   EVENT_RECEIVED_IN_UI = 8;
-  // Notification filtered in UI
+  // Notification filtered in UI aka alerting skipped
   EVENT_FILTERED_IN_UI = 9;
   // Notification alerted to user
   EVENT_ALERTED_TO_USER = 10;
+  // Notification alerted to user, but display was explicitly skipped
+  EVENT_ALERTED_TO_USER_DISPLAY_SKIPPED = 24;
   // Alert was processed, but no notification was found
   EVENT_FOUND_NO_NOTIFICATION = 22;
   // Glanceable animation shown
@@ -69,6 +71,8 @@ enum NotificationEvent {
   EVENT_GLANCEABLE_SKIPPED_SHOWING_HUN = 18;
   // Glanceable notification full view shown
   EVENT_GLANCEABLE_FULLVIEW_SHOWN = 12;
+  // Heads Up Notification display skipped
+  EVENT_HUN_DISPLAY_SKIPPED = 25;
   // Heads Up Notification full view shown
   EVENT_HUN_FULLVIEW_SHOWN = 13;
   // Dismissed via Remote Action

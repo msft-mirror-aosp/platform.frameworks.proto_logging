@@ -40,6 +40,8 @@ extend Atom {
       [(module_name) = "profiling"];
   optional ProfilingGlobalListenerRegister profiling_global_listener_register =
       1126 [(module_name) = "profiling"];
+  optional ProfilingTriggerCallbackStatus profiling_trigger_callback_status =
+      1317 [(module_name) = "profiling"];
 }
 
 /*
@@ -142,4 +144,18 @@ message ProfilingBackgroundTraceState {
  */
 message ProfilingGlobalListenerRegister {
     optional int32 uid = 1 [(is_uid) = true];
+}
+
+/*
+ * Logs when ProfilingTriggerCallback is received or made to the onComplete from processTrigger.
+ *
+ * Logs from: packages/modules/Profiling/service/java/com/android/os/profiling/ProfilingService.java
+ *
+ * Estimated Logging Rate:
+ * Peak: 1/minute | Avg: <20/day
+ */
+message ProfilingTriggerCallbackStatus {
+    optional int32 uid = 1 [(is_uid) = true];
+    optional TriggerType trigger_type = 2;
+    optional CallbackStatus status = 3;
 }
