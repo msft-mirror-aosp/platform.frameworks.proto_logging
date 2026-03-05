@@ -21165,6 +21165,8 @@ message PackageInstallationSessionReported {
 
     // The process importance of the app being updated.
     optional int32 app_importance = 29;
+    // Whether the package's signature block is signed with a Post Quantum Crypto signing key.
+    optional bool is_pqc_signed = 30;
 }
 
 message PackageUninstallationReported {
