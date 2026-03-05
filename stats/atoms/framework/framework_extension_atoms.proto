@@ -1827,6 +1827,8 @@ message SatelliteBytesTransfer {
     optional int64 tx_bytes = 7;
 
     optional int64 tx_packets = 8;
+
+    optional string package_name = 9;
 }
 
 /**
