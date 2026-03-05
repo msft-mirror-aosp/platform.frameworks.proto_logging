@@ -18,7 +18,6 @@
 
 #include <stdio.h>
 
-#include <algorithm>
 #include <cctype>
 #include <map>
 #include <ranges>
