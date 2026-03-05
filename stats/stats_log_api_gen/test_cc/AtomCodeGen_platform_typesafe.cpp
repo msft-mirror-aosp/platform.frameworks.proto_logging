@@ -53,6 +53,12 @@ TEST(TypesafeCodeGenTest, AtomFieldNames) {
     ASSERT_GT(offsetof(BleScanStateChanged, is_opportunistic), 0U);
 }
 
+TEST(TypesafeCodeGenTest, AtomFieldCount) {
+    using namespace android::stats::typesafe;
+
+    ASSERT_EQ(BleScanStateChanged::kFieldsCount, 5);
+}
+
 TEST(TypesafeCodeGenTest, AtomFieldsDefaultValues) {
     using namespace android::stats::typesafe;
 

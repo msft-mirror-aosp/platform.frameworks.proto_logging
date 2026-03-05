@@ -92,6 +92,10 @@ TEST(ApiGenVendorAtomTypesafeTest, AtomFieldNames) {
     ASSERT_GT(offsetof(VendorAtom1, enum_field4), 0U);
 }
 
+TEST(ApiGenVendorAtomTypesafeTest, AtomFieldCount) {
+    ASSERT_EQ(VendorAtom1::kFieldsCount, 9);
+}
+
 TEST(ApiGenVendorAtomTypesafeTest, AtomWriteFunctions) {
     typedef VendorAtom (*WriteVendorAtom1Func)(const VendorAtom1&);
     WriteVendorAtom1Func writeVendorAtom1Func = &createVendorAtom;

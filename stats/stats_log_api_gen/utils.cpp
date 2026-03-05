@@ -744,6 +744,8 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
             }
         }
 
+        fprintf(out, "  constexpr static int kFieldsCount = %d;\n", (int)atomDecl->fields.size());
+
         fprintf(out, "};\n\n");
     }
     return 0;
