@@ -2058,6 +2058,7 @@ message Atom {
     extensions 1316; // MediaSessionCreationReported media_session_creation_reported
     extensions 1317; // ProfilingTriggerCallbackStatus profiling_trigger_callback_status
     extensions 1318; // MediaRouterSetBluetoothA2dpOnReported media_router_set_bluetooth_a2dp_on_reported
+    extensions 1319; // LocationButtonSessionReported location_button_session_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

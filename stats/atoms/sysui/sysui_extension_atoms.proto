@@ -46,6 +46,8 @@ extend Atom {
       [(module_name) = "sysui"];
   optional CommunalHubSnapshot communal_hub_snapshot = 10226
       [(module_name) = "sysui"];
+  optional LocationButtonSessionReported location_button_session_reported = 1319
+      [(module_name) = "sysui"];
 }
 
 /**
@@ -411,4 +413,62 @@ message OtpNotificationDisplayed {
     // (currently just "connected to a wifi network") of the device and the notification's
     // earliest message time (or "when" time if there are no messages)
     optional int32 last_trusted_location_time_diff = 6;
+}
+
+/**
+ * Logs location button session events to track and understand developer integration.
+ * Logged from: SystemUI (LocationButtonSession.kt)
+ */
+message LocationButtonSessionReported {
+    // UID of the package starting this session
+    optional int32 uid = 1 [(is_uid) = true];
+    // Identifies single location button session across SystemUI and PC process
+    optional int32 session_id = 2;
+    // Location button session operations
+    enum Action {
+        ACTION_UNKNOWN = 0;
+        OPEN_SESSION = 1;
+        CLOSE_SESSION = 2;
+        BUTTON_CLICKED = 3;
+        // Button customization operations
+        RESIZE = 4;
+        SET_PADDING = 5;
+        CHANGE_CONFIGURATION = 6;
+        SET_CORNER_RADIUS = 7;
+        SET_PRESSED_CORNER_RADIUS = 8;
+        SET_TEXT_COLOR = 9;
+        SET_BACKGROUND_COLOR = 10;
+        SET_ICON_TINT = 11;
+        SET_TEXT_TYPE = 12;
+        SET_STROKE_COLOR = 13;
+        SET_STROKE_WIDTH = 14;
+    }
+    optional Action action = 3;
+
+    // Location button click results
+    enum Result {
+        RESULT_UNKNOWN = 0;
+        SUCCESS_TRUSTED = 1;      // UI trusted; Event forwarded to Permissioncontroller
+        REJECTED_UNTRUSTED = 2;   // TPL blocked the input event
+        ALREADY_GRANTED = 3;      // App already had permission
+        PERMISSION_GRANTED = 4;   // Granted state received from PermissionController
+        PERMISSION_DENIED = 5;    // Denied state received from PermissionController
+    }
+    optional Result result = 4;
+
+    // Button text shown
+    optional int32 text_type = 5;
+
+    /**
+     * Bitmask of button validations:
+     * 0x01: TEXT_CONTRAST_ADJUSTED (Text contrast adjusted by system)
+     * 0x02: ICON_CONTRAST_ADJUSTED (Icon contrast adjusted by system)
+     * 0x04: WIDTH_CLAMPED (Width clamped to min 48dp)
+     * 0x08: HEIGHT_CLAMPED (Height clampted to either min 48dp or max 136dp)
+     * 0x10: PADDING_CLAMPED (Padding clamped to max 8dp)
+     * 0x20: STROKE_CLAMPED (Stroke width clamped to max 3dp)
+     * 0x40: INVALID_TEXT_TYPE (Invalid text type provided)
+     * 0x80: OPACITY_ADJUSTED (Background color opacity adjusted)
+     */
+    optional int32 validation_flags = 6;
 }
