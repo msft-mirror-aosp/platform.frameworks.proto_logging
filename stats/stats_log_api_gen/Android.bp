@@ -92,6 +92,9 @@ cc_binary_host {
         "-cert-err34-c",
         "-cert-msc30-c", // warning: rand() has limited randomness; use C++11 random library
         "-cert-msc50-cpp", // warning: rand() has limited randomness; use C++11 random library
+        "-misc-include-cleaner",
+        "-google-readability-casting",
+        "-misc-const-correctness",
     ],
 
     tidy_checks_as_errors: [
