@@ -118,6 +118,7 @@ message ProfilingTriggerSent {
     optional int32 uid = 1 [(is_uid) = true];
     optional TriggerType trigger_type = 2;
     optional TriggerStatus trigger_status = 3;
+    optional ProfilingTag tag = 4;
 }
 
 /*

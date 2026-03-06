@@ -36,6 +36,8 @@ extend Atom {
       [(module_name) = "framework"];
   optional InitAppScanReported init_app_scan_reported = 1171
       [(module_name) = "framework"];
+  optional PiaInstallStagesReported pia_install_stages_reported = 1320
+      [(module_name) = "packageinstaller"];
 }
 
 /**
@@ -575,3 +577,41 @@ message InitAppScanReported {
   // The name of the package being scanned.
   optional string package_name = 6;
 }
+
+
+/**
+ * Logs stats for each of the install stages during package installer.
+ *
+ * Logged from:
+ *   frameworks/base/packages/PackageInstaller/src/com/android/packageinstaller/v2/model/InstallRepository;
+ */
+message PiaInstallStagesReported {
+  // Enum for install stages
+  enum InstallStage {
+    STAGE_UNKNOWN = 0;
+    STAGE_STAGING = 1;
+    STAGE_READY = 2;
+    STAGE_USER_ACTION_REQUIRED = 3;
+    STAGE_INSTALLING = 4;
+    STAGE_SUCCESS = 5;
+    STAGE_FAILED = 6;
+    STAGE_VERIFICATION_CONFIRMATION_REQUIRED = 7;
+    STAGE_VERIFICATION_FAILURE = 8;
+  }
+
+
+
+  // A unique identifier for a single package installation session.
+  // This allows correlating multiple events related to the same installation attempt.
+  optional int64 session_id = 1;
+
+  // The total size of the APKs being installed, in bytes.
+  optional int64 apk_size_bytes = 2[(unit) = UNIT_BYTES];
+
+  // The current stage of the process.
+  optional InstallStage install_stage = 3;
+
+  // The time took for the current stage to be completed in milli second.
+  optional int32 current_install_stage_ms = 4[(unit) = UNIT_MILLISECONDS];
+}
+

@@ -2057,6 +2057,9 @@ message Atom {
     extensions 1315; // WifiContinuousRangingStopReported wifi_continuous_ranging_stop_reported
     extensions 1316; // MediaSessionCreationReported media_session_creation_reported
     extensions 1317; // ProfilingTriggerCallbackStatus profiling_trigger_callback_status
+    extensions 1318; // MediaRouterSetBluetoothA2dpOnReported media_router_set_bluetooth_a2dp_on_reported
+    extensions 1319; // LocationButtonSessionReported location_button_session_reported
+    extensions 1320; // PiaInstallStagesReported pia_install_stages_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -19576,7 +19579,8 @@ message KeystoreKeyEventReported {
  * interested in collecting. See the messages with names starting with
  * "Keystore2KeyCreation" for the others.
  *
- * Logged from: system/security/keystore2/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2KeyCreationWithGeneralInfo {
     // Algorithm associated with the key.
@@ -19643,7 +19647,8 @@ message Keystore2KeyCreationWithGeneralInfo {
  * interested in collecting. See the messages with names starting with
  * "Keystore2KeyCreation" for the others.
  *
- * Logged from: system/security/keystore2/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2KeyCreationWithAuthInfo {
     // Mirror of
@@ -19691,7 +19696,8 @@ message Keystore2KeyCreationWithAuthInfo {
  * interested in collecting. See the messages with names starting with
  * "Keystore2KeyCreation" for the others.
  *
- * Logged from: system/security/keystore2/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2KeyCreationWithPurposeAndModesInfo {
     // Algorithm associated with the key.
@@ -19733,7 +19739,8 @@ message Keystore2KeyCreationWithPurposeAndModesInfo {
  * system/security/keystore2/src/metrics_store.rs). This can happen if many
  * unexpected combinations of field values are emitted by devices in the field.
  *
- * Logged from: system/security/keystore2/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2AtomWithOverflow {
     // Atom ID as defined in
@@ -19754,7 +19761,8 @@ message Keystore2AtomWithOverflow {
  * interested in collecting. See the messages with names starting with
  * "Keystore2KeyOperation" for the others.
  *
- * Logged from: system/security/keystore2/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2KeyOperationWithPurposeAndModesInfo {
     // Mirror of
@@ -19807,7 +19815,8 @@ message Keystore2KeyOperationWithPurposeAndModesInfo {
  * interested in collecting. See the messages with names starting with
  * "Keystore2KeyOperation" for the others.
  *
- * Logged from: system/security/keystore2/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2KeyOperationWithGeneralInfo {
     enum Outcome {
@@ -19845,7 +19854,8 @@ message Keystore2KeyOperationWithGeneralInfo {
 /**
  * Logs Keystore2 storage statistics.
  *
- * Logged from: system/security/keystore2/src/metrics.rs
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2StorageStats {
     enum Storage {
@@ -19943,7 +19953,9 @@ message RkpPoolStats {
 
 /**
  * Logs: Number of keystore2 crashes per-boot cycle.
- * Logged from: system/security/keystore2
+ *
+ * Logged from: system/security/keystore2/src/metrics.rs via
+ * StatsPullAtomService using the IKeystoreMetrics service.
  */
 message Keystore2CrashStats {
     optional int32 count_of_crash_events = 1;

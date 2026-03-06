@@ -35,6 +35,9 @@ extend Atom {
   optional DeviceSuggestionsInteractionReported
       device_suggestions_interaction_reported = 1180
       [(module_name) = "mediarouter"];
+  optional MediaRouterSetBluetoothA2dpOnReported
+      media_router_set_bluetooth_a2dp_on_reported = 1318
+      [(module_name) = "mediarouter"];
 }
 
 /**
@@ -123,4 +126,19 @@ message RoutingChangeReported {
   optional int64 update_call_count = 3;
   // The count of the calls made in the lifecycle of the media router to request device suggestions.
   optional int64 request_call_count = 4;
+}
+
+/**
+ * Pushed atom. Logs when an app calls the legacy setBluetoothA2dpOn API.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/media/MediaRouterService.java
+ * Estimated Logging Rate:
+ *   Avg: 10 per device per day
+ */
+message MediaRouterSetBluetoothA2dpOnReported {
+  // The uid of the calling app.
+  optional int32 calling_package_uid = 1 [(is_uid) = true];
+  // Whether Bluetooth A2DP was requested to be turned on (true) or off (false).
+  optional bool on = 2;
 }
