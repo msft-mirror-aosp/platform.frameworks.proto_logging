@@ -22,7 +22,6 @@
 
 #include <algorithm>
 #include <cctype>
-#include <cstdint>
 #include <cstdlib>
 #include <filesystem>
 #include <string>

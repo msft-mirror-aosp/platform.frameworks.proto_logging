@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cstdint>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -28,6 +29,7 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "Collation.h"
@@ -438,7 +440,6 @@ string to_cpp_typesafe_name(const AtomField& field) {
         case JAVA_TYPE_STRING:
             return "std::string";
         case JAVA_TYPE_BYTE_ARRAY:
-            return "std::vector<uint8_t>";
         case JAVA_TYPE_BOOLEAN_ARRAY:
             return "std::vector<uint8_t>";
         case JAVA_TYPE_INT_ARRAY:
@@ -734,7 +735,7 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
                                 get<AtomField::EnumValueConst>(field.defaultValue).name.c_str());
                     } else {
                         fprintf(stderr, "[WARN] Unsupported default value type (%d)\n",
-                                (int)field.defaultValue.index());
+                                static_cast<int>(field.defaultValue.index()));
                         return 1;
                     }
                 } else {
@@ -744,7 +745,8 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
             }
         }
 
-        fprintf(out, "  constexpr static int kFieldsCount = %d;\n", (int)atomDecl->fields.size());
+        fprintf(out, "  constexpr static int kFieldsCount = %d;\n",
+                static_cast<int>(atomDecl->fields.size()));
 
         fprintf(out, "};\n\n");
     }
@@ -823,7 +825,7 @@ void write_native_method_header(FILE* out, const string& methodName,
                                 const SignatureInfoMap& signatureInfoMap,
                                 const AtomDecl& attributionDecl, bool isVendorAtomLogging) {
     for (const auto& [signature, _] : signatureInfoMap) {
-        string closer =
+        const string closer =
                 contains_repeated_field(signature) ? "\n__INTRODUCED_IN(__ANDROID_API_T__);" : ";";
         write_native_method_signature(out, methodName, signature, attributionDecl, closer,
                                       isVendorAtomLogging);
