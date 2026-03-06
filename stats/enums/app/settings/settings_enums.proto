@@ -6349,6 +6349,14 @@ enum PageId {
     // ACTION: Settings > Sound & vibration > Assistant Volume
     // CATEGORY: SETTINGS
     ACTION_ASSISTANT_VOLUME = 2198;
+
+    // OPEN: Settings > Network & Internet > Internet
+    // CATEGORY: SETTINGS
+    TROUBLESHOOTING_WIFI_SELECTION = 2200;
+
+    // OPEN: Settings > Network & Internet > Internet
+    // CATEGORY: SETTINGS
+    TROUBLESHOOTING_WIFI_AUTO_CONNECTION= 2201;
 }
 
 // Battery Saver schedule types.
