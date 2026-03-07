@@ -179,6 +179,7 @@ enum InteractionType {
     DESKTOP_MODE_TASKBAR_MULTI_INSTANCE_MENU_OPEN = 163;
     TASKBAR_ICON_APPEAR = 164;
     APP_UPDATE = 165;
+    LAUNCHER_RECENTS_TO_HOME = 166;
 
     reserved 2;
     reserved 73 to 78; // For b/281564325.

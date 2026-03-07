@@ -627,6 +627,8 @@ enum BroadcastType {
     BROADCAST_TYPE_PUSH_MESSAGE_OVER_QUOTA        = 0x0200; // 1 << 9
     BROADCAST_TYPE_STICKY                         = 0x0400; // 1 << 10
     BROADCAST_TYPE_INITIAL_STICKY                 = 0x0800; // 1 << 11
+    BROADCAST_TYPE_REGISTERED_RECEIVER_ONLY       = 0x1000; // 1 << 12
+    BROADCAST_TYPE_MANIFEST_RECEIVER              = 0x2000; // 1 << 13
 }
 
 /**
