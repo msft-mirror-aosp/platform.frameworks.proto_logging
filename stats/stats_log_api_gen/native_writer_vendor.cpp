@@ -18,7 +18,6 @@
 
 #include <stdio.h>
 
-#include <set>
 #include <string>
 #include <vector>
 
@@ -308,7 +307,8 @@ static int write_native_vendor_method_body_typesafe(FILE* out, const AtomDecl& a
     fprintf(out, "    result.reverseDomainName = atom.reverse_domain_name;\n");
 
     // Exclude first field - which is reverseDomainName
-    fprintf(out, "    vector<VendorAtomValue> values(%d);\n", (int)atomDecl.fields.size() - 1);
+    fprintf(out, "    vector<VendorAtomValue> values(%d);\n",
+            static_cast<int>(atomDecl.fields.size()) - 1);
 
     bool atomHasFieldsAnnotation = false;
     // looping over atomDecl->fields due to we need to have access to field names
@@ -456,7 +456,7 @@ static int write_native_vendor_method_body_typesafe(FILE* out, const AtomDecl& a
 static int write_native_create_vendor_atom_methods_typesafe(FILE* out, const Atoms& atoms) {
     for (auto& atomDecl : atoms.decls) {
         if (atomDecl->atomType == ATOM_TYPE_PUSHED) {
-            int ret = write_native_vendor_method_body_typesafe(out, *atomDecl);
+            const int ret = write_native_vendor_method_body_typesafe(out, *atomDecl);
             if (ret != 0) {
                 return ret;
             }
@@ -501,8 +501,8 @@ int write_stats_log_header_vendor(FILE* out, const Atoms& atoms, const AtomDecl&
     fprintf(out, "// Atom definitions including enums\n");
     fprintf(out, "//\n");
 
-    if (write_native_atom_types(
-                out, atoms, /*pushedApiName*/ nullptr, /*includeFields*/ false) != 0) {
+    if (write_native_atom_types(out, atoms, /*pushedApiName*/ nullptr, /*includeFields*/ false) !=
+        0) {
         return 1;
     };
 
