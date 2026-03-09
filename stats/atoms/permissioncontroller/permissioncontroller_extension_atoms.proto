@@ -71,6 +71,14 @@ extend Atom {
       [(module_name) = "permissioncontroller"];
   optional LocationButtonRequestResultReported location_button_request_result_reported = 1303
       [(module_name) = "permissioncontroller"];
+  optional PrivacyDashboardAgentActivityViewed privacy_dashboard_agent_activity_viewed = 1321
+      [(module_name) = "permissioncontroller"];
+  optional PrivacyDashboardAgentTimelineViewed privacy_dashboard_agent_timeline_viewed = 1322
+      [(module_name) = "permissioncontroller"];
+  optional PrivacyDashboardAgentTimelineInteractionReported privacy_dashboard_agent_timeline_interaction_reported = 1323
+      [(module_name) = "permissioncontroller"];
+  optional PrivacyDashboardAgentTimelineOptionInteractionReported privacy_dashboard_agent_timeline_option_interaction_reported = 1324
+      [(module_name) = "permissioncontroller"];
 }
 
 /**
@@ -442,4 +450,84 @@ message LocationButtonRequestResultReported {
     CANCELED = 8;
   }
   optional Result result = 5;
+}
+
+/**
+ * Information about a user viewing the agent activity in privacy dashboard.
+ * Logged from:
+ *   Logged from packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/v31/PermissionUsageFragment.java
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message PrivacyDashboardAgentActivityViewed {
+    // id which identifies single session of user interacting with permission controller
+    optional int64 session_id = 1;
+
+    // True if the 7 days view is toggled. False if the 24 hours view is toggled.
+    optional bool show_7_days = 2;
+}
+
+/**
+ * Information about a user viewing the agent timeline in privacy dashboard.
+ * Logged from:
+ *   Logged from packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/appfunctions/ui/handheld/v37/AgentUsageDetailsFragment.kt
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message PrivacyDashboardAgentTimelineViewed {
+    // id which identifies single session of user interacting with permission controller
+    optional int64 session_id = 1;
+
+    // UID of the agent package
+    optional int32 agent_uid = 2 [(is_uid) = true];
+
+    // The agent package name
+    optional string agent_package_name = 3;
+
+    // True if the 7 days view is toggled. False if the 24 hours view is toggled.
+    optional bool show_7_days = 4;
+}
+
+/**
+ * Information about the interaction performed by a user on privacy dashboard agent timeline view button.
+ * Logged from:
+ *   Logged from packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/appfunctions/ui/handheld/v37/AgentUsageDetailsFragment.kt
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message PrivacyDashboardAgentTimelineInteractionReported {
+    // id which identifies single session of user interacting with permission controller
+    optional int64 session_id = 1;
+
+    // UID of the agent package
+    optional int32 agent_uid = 2 [(is_uid) = true];
+
+    // The agent package name
+    optional string agent_package_name = 3;
+
+    // The target package name
+    optional string target_package_name = 4;
+
+    enum Action {
+        UNKNOWN = 0;
+        // User views the app interaction
+        VIEW = 1;
+    }
+    // Action taken on the agent timeline
+    optional Action action = 5;
+}
+
+/**
+ * Information about the interaction performed by a user in privacy dashboard agent timeline option menu.
+ * Logged from:
+ *   Logged from packages/modules/Permission/PermissionController/src/com/android/permissioncontroller/appfunctions/ui/handheld/v37/AgentUsageDetailsFragment.kt
+ * Estimated Logging Rate:
+ *   Peak: few times per device per week | Avg: Between 0 and 1 times per device per day
+ */
+message PrivacyDashboardAgentTimelineOptionInteractionReported {
+    // id which identifies single session of user interacting with permission controller
+    optional int64 session_id = 1;
+
+    // True if show 7 days is clicked. False if show 24 hours is clicked.
+    optional bool show_7_days = 2;
 }
