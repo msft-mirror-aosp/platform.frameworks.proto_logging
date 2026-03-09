@@ -17475,6 +17475,15 @@ message DeviceTelephonyProperties {
     optional bool has_managed_profile_dedicated_sub = 4;
     // Number of SIM slots with support for Multiple Enabled Profiles on the device
     optional int32 mep_supported_slot_count = 5;
+    // Value of the ro.vendor.api_level system property
+    optional int32 ro_vendor_api_level = 6;
+    // Value of the ro.board_api_level system property
+    optional int32 ro_board_api_level = 7;
+
+    // Bitmask of available telephony features.
+    // Bits are defined by DeviceTelephonyFeatures in
+    // frameworks/proto_logging/stats/enums/telephony/enums.proto
+    optional int64 telephony_features = 8;
 }
 
 /**
