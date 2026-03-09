@@ -20,6 +20,11 @@ package android.system.security.keystore2;
 
 // Logging constants re-used by multiple atoms related to keystore2
 
+// Mirror of
+// hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/SecurityLevel.aidl
+// with some exceptions. See the metrics-specific variant of that AIDL enum in
+// system/security/keystore2/aidl/android/security/metrics/SecurityLevel.aidl for
+// details.
 enum SecurityLevelEnum {
     // Unspecified takes 0. Other values are incremented by 1 compared to keymint spec.
     SECURITY_LEVEL_UNSPECIFIED = 0;
@@ -29,6 +34,11 @@ enum SecurityLevelEnum {
     SECURITY_LEVEL_KEYSTORE = 4;
 }
 
+// Mirror of
+// hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/Algorithm.aidl
+// with some exceptions. See the metrics-specific variant of that AIDL enum in
+// system/security/keystore2/aidl/android/security/metrics/Algorithm.aidl for
+// details.
 enum Algorithm {
     // ALGORITHM is prepended because UNSPECIFIED exists in other enums as well.
     ALGORITHM_UNSPECIFIED = 0;
@@ -36,9 +46,27 @@ enum Algorithm {
     RSA = 1;
     // 2 removed, do not reuse.
     EC = 3;
+    // 4 removed, do not reuse.
+    ML_DSA_65 = 5;
+    ML_DSA_87 = 6;
     // Block cipher algorithms
     AES = 32;
     TRIPLE_DES = 33;
     // MAC algorithms
     HMAC = 128;
 };
+
+// Mirror of
+// hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/HardwareAuthenticatorType.aidl
+// with some exceptions. See the metrics-specific variant of that AIDL enum in
+// system/security/keystore2/aidl/android/security/metrics/HardwareAuthenticatorType.aidl for
+// details.
+enum HardwareAuthenticatorType {
+    AUTH_TYPE_UNSPECIFIED = 0;
+    NONE = 1;
+    PASSWORD = 2;
+    FINGERPRINT = 3;
+    PASSWORD_OR_FINGERPRINT = 4;
+    ANY = 5;
+    NO_AUTH_TYPE = 6;
+}
