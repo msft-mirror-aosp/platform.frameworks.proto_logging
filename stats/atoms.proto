@@ -16101,6 +16101,10 @@ message CameraActionEvent {
     }
 
     optional MultiResolutionImageReaderType mrir_type = 33;
+
+    // Reprocessing format
+    optional bool has_input_stream = 34;
+    optional int32 reprocess_format = 35;
 }
 
 /**
