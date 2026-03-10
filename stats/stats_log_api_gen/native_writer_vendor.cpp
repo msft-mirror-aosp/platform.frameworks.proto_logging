@@ -303,7 +303,7 @@ static int write_native_vendor_method_body_typesafe(FILE* out, const AtomDecl& a
     fprintf(out, "    VendorAtom result;\n");
 
     // Write method body.
-    fprintf(out, "    result.atomId = %d;\n", atomDecl.code);
+    fprintf(out, "    result.atomId = %s::kAtomId;\n", atomDecl.message.c_str());
     fprintf(out, "    result.reverseDomainName = atom.reverse_domain_name;\n");
 
     // Exclude first field - which is reverseDomainName

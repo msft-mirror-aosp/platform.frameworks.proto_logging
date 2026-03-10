@@ -201,7 +201,7 @@ static int write_native_method_body_typesafe(FILE* out, const AtomDecl& atomDecl
                                              const int minApiLevel) {
     const string constantPrefix = minApiLevel > API_R ? "ASTATSLOG_" : "";
 
-    fprintf(out, "    AStatsEvent_setAtomId(event, %d);\n", atomDecl.code);
+    fprintf(out, "    AStatsEvent_setAtomId(event, %s::kAtomId);\n", atomDecl.message.c_str());
 
     auto atomAnnotations = atomDecl.fieldNumberToAnnotations.find(ATOM_ID_FIELD_NUMBER);
     if (atomAnnotations != atomDecl.fieldNumberToAnnotations.end()) {

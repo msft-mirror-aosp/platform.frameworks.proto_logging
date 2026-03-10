@@ -745,6 +745,9 @@ int write_native_atom_types(FILE* out, const Atoms& atoms, const char* pushedApi
             }
         }
 
+        fprintf(out, "  constexpr static int kAtomId = %d;\n",
+                static_cast<int>(atomDecl->code));
+
         fprintf(out, "  constexpr static int kFieldsCount = %d;\n",
                 static_cast<int>(atomDecl->fields.size()));
 

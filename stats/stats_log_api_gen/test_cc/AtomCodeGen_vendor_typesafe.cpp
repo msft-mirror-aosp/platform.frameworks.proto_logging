@@ -171,7 +171,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildVendorAtom1ApiTest) {
                          .enum_field4 = VendorAtom1::EnumType2::ANOTHER_TYPE_3};
 
     VendorAtom atom = func(atomData);
-
+    EXPECT_EQ(atom.atomId, VendorAtom1::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kVendorAtom1FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(8));
@@ -199,6 +199,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildVendorAtom3ApiTest) {
     VendorAtom3 atomData{.reverse_domain_name = kTestStringValue, .int_field = kTestIntValue};
 
     VendorAtom atom = func(atomData);
+    EXPECT_EQ(atom.atomId, VendorAtom3::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kVendorAtom3FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(1));
@@ -231,7 +232,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildVendorAtom4ApiTest) {
     const vector<bool> kRepeatedBool{atomData.bool_repeated.begin(), atomData.bool_repeated.end()};
 
     VendorAtom atom = func(atomData);
-
+    EXPECT_EQ(atom.atomId, VendorAtom4::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kVendorAtom4FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(11));
@@ -280,6 +281,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildVendorAtom5ApiTest) {
 
     VendorAtom atom = func(atomData);
 
+    EXPECT_EQ(atom.atomId, VendorAtom5::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kVendorAtom5FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(4));
@@ -327,6 +329,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithTruncateTimestampTest) {
             .state = VendorAtomWithTruncateTimestamp::TestState::TEST_STATE_1};
 
     VendorAtom atom1 = func(atom1Data);
+    EXPECT_EQ(atom1.atomId, VendorAtomWithTruncateTimestamp::kAtomId);
     EXPECT_EQ(atom1.atomId, stats_log_api_gen::Atom::kTruncateTimestampAtom1FieldNumber);
     EXPECT_EQ(atom1.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom1.values.size(), static_cast<size_t>(1));
@@ -342,6 +345,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithTruncateTimestampTest) {
                                                .int_value = kTestIntValue};
 
     VendorAtom atom2 = func2(atom2Data);
+    EXPECT_EQ(atom2.atomId, VendorAtomWithTruncateTimestamp2::kAtomId);
     EXPECT_EQ(atom2.atomId, stats_log_api_gen::Atom::kTruncateTimestampAtom2FieldNumber);
     EXPECT_EQ(atom2.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom2.values.size(), static_cast<size_t>(1));
@@ -363,6 +367,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithExclusiveStateAnnotationTest) {
                                   .state = VendorAtomWithState3::TestState::TEST_STATE_3};
 
     VendorAtom atom = func(atomData);
+    EXPECT_EQ(atom.atomId, VendorAtomWithState3::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kStateAtom3FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(1));
@@ -394,6 +399,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithExclusiveStateAndTwoPrimaryField
                                   .state = VendorAtomWithState2::TestState::TEST_STATE_2};
 
     VendorAtom atom = func(atomData);
+    EXPECT_EQ(atom.atomId, VendorAtomWithState2::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kStateAtom2FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(3));
@@ -442,6 +448,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithMultipleAnnotationsPerValueTest)
                                   .some_flag = kTestBoolValue};
 
     VendorAtom atom = func(atomData);
+    EXPECT_EQ(atom.atomId, VendorAtomWithState4::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kStateAtom4FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(2));
@@ -484,6 +491,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithTriggerResetAnnotationTest) {
     const int kDefaultStateValue = static_cast<int>(VendorAtomWithState4::State::OFF);
 
     VendorAtom atom = func(atomData);
+    EXPECT_EQ(atom.atomId, VendorAtomWithState4::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kStateAtom4FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(2));
@@ -530,6 +538,7 @@ TEST(ApiGenVendorAtomTypesafeTest, buildAtomWithExclusiveStateAndPrimaryFieldAnn
                                  .state = VendorAtomWithState::TestState::TEST_STATE_1};
 
     VendorAtom atom = func(atomData);
+    EXPECT_EQ(atom.atomId, VendorAtomWithState::kAtomId);
     EXPECT_EQ(atom.atomId, stats_log_api_gen::Atom::kStateAtom1FieldNumber);
     EXPECT_EQ(atom.reverseDomainName, kTestStringValue);
     ASSERT_EQ(atom.values.size(), static_cast<size_t>(2));
