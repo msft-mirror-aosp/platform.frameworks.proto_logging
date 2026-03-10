@@ -8545,6 +8545,9 @@ message BootTimeEventDuration {
         // Init's total time spent for completing the 1st stage.
         // Logged from bootstat.
         ANDROID_INIT_STAGE_1 = 19;
+        // Bootloader's splash screen show duration.
+        // Logged from bootstat.
+        BOOTLOADER_SPLASH = 20;
     }
 
     // Type of the event.
