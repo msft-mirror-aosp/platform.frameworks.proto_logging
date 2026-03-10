@@ -89,6 +89,8 @@ message ProfilingResultCallbackSent {
     optional ProfilingType profiling_type = 2;
     optional TriggerType trigger_type = 3;
     optional ResultErrorCode error_code = 4;
+    // Time from initial profiling request until this callback was sent.
+    optional int64 request_latency_ms = 5 [(unit) = UNIT_MILLISECONDS];
 }
 
 /*
