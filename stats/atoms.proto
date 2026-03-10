@@ -25386,6 +25386,18 @@ message DisplayBrightnessChanged {
 
     // Direction of a display brightness adjustment, determined by comparing current and initial brightness in nits.
     optional android.display.BrightnessDirectionEnum brightness_direction = 27;
+
+    // Ambient color temperature, in Kelvin.
+    optional float ambient_color_temperature = 28;
+
+    // Thermal throttling status.
+    optional android.display.ThermalStatusEnum thermal_status = 29;
+
+    // Display state reason.
+    optional android.display.DisplayStateReasonEnum display_state_reason = 30;
+
+    // Display policy.
+    optional android.display.DisplayPolicyEnum display_policy = 31;
 }
 
 // Logs daily ambient brightness stats.

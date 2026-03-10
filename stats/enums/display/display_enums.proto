@@ -223,3 +223,41 @@ enum EventSource {
     EVENT_SOURCE_WINDOW_MANAGER = 3;
     EVENT_SOURCE_OTHER = 4;
 }
+
+/**
+ * Thermal status enum. Logged in DisplayBrightnessChanged atom.
+ */
+ enum ThermalStatusEnum {
+    THERMAL_STATUS_UNKNOWN = 0;
+    THERMAL_STATUS_LIGHT = 1;
+    THERMAL_STATUS_MODERATE = 2;
+    THERMAL_STATUS_SEVERE = 3;
+    THERMAL_STATUS_CRITICAL = 4;
+    THERMAL_STATUS_EMERGENCY = 5;
+    THERMAL_STATUS_SHUTDOWN = 6;
+}
+
+/**
+ * Display state reason. Logged in DisplayBrightnessChanged atom.
+ */
+enum DisplayStateReasonEnum {
+    STATE_REASON_UNKNOWN = 0;
+    STATE_REASON_DEFAULT_POLICY = 1;
+    STATE_REASON_DRAW_WAKE_LOCK = 2;
+    STATE_REASON_OFFLOAD = 3;
+    STATE_REASON_TILT = 4;
+    STATE_REASON_DREAM_MANAGER = 5;
+    STATE_REASON_KEY = 6;
+    STATE_REASON_MOTION = 7;
+}
+
+/**
+ * Display policy. Logged in DisplayBrightnessChanged atom.
+ */
+enum DisplayPolicyEnum {
+    DISPLAY_POLICY_UNKNOWN = 0;
+    DISPLAY_POLICY_OFF = 1;
+    DISPLAY_POLICY_DOZE = 2;
+    DISPLAY_POLICY_DIM = 3;
+    DISPLAY_POLICY_BRIGHT = 4;
+}
