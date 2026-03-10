@@ -2064,6 +2064,7 @@ message Atom {
     extensions 1322; // PrivacyDashboardAgentTimelineViewed privacy_dashboard_agent_timeline_viewed
     extensions 1323; // PrivacyDashboardAgentTimelineInteractionReported privacy_dashboard_agent_timeline_interaction_reported
     extensions 1324; // PrivacyDashboardAgentTimelineOptionInteractionReported privacy_dashboard_agent_timeline_option_interaction_reported
+    extensions 1325; // WifiContinuousRangingDistanceReported wifi_continuous_ranging_distance_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
