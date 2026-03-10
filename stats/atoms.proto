@@ -12589,6 +12589,16 @@ message ProcessStartTime {
 
     // Whether the content provider is stable.
     optional bool is_stable = 16;
+
+    enum HostingZygote {
+        HOSTING_ZYGOTE_UNKNOWN = 0;
+        HOSTING_ZYGOTE_REGULAR = 1;
+        HOSTING_ZYGOTE_WEBVIEW = 2;
+        HOSTING_ZYGOTE_APP = 3;
+    }
+
+    // The zygote from which the process was spawned.
+    optional HostingZygote hosting_zygote = 17;
 }
 
 /**
