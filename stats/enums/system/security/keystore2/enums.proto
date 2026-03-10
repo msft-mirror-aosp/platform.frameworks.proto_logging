@@ -43,17 +43,17 @@ enum Algorithm {
     // ALGORITHM is prepended because UNSPECIFIED exists in other enums as well.
     ALGORITHM_UNSPECIFIED = 0;
     // Asymmetric algorithms.
-    RSA = 1;
+    ALGORITHM_RSA = 1;
     // 2 removed, do not reuse.
-    EC = 3;
+    ALGORITHM_EC = 3;
     // 4 removed, do not reuse.
-    ML_DSA_65 = 5;
-    ML_DSA_87 = 6;
+    ALGORITHM_ML_DSA65 = 5;
+    ALGORITHM_ML_DSA87 = 6;
     // Block cipher algorithms
-    AES = 32;
-    TRIPLE_DES = 33;
+    ALGORITHM_AES = 32;
+    ALGORITHM_TRIPLE_DES = 33;
     // MAC algorithms
-    HMAC = 128;
+    ALGORITHM_HMAC = 128;
 };
 
 // Mirror of
@@ -63,10 +63,10 @@ enum Algorithm {
 // details.
 enum HardwareAuthenticatorType {
     AUTH_TYPE_UNSPECIFIED = 0;
-    NONE = 1;
-    PASSWORD = 2;
-    FINGERPRINT = 3;
-    PASSWORD_OR_FINGERPRINT = 4;
-    ANY = 5;
-    NO_AUTH_TYPE = 6;
+    AUTH_NONE = 1;
+    AUTH_PASSWORD = 2;
+    AUTH_FINGERPRINT = 3;
+    AUTH_PASSWORD_OR_FINGERPRINT = 4;
+    AUTH_ANY = 5;
+    AUTH_NO_TYPE = 6;
 }
