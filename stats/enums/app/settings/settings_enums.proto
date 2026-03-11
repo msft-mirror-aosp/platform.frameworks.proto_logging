@@ -6361,7 +6361,7 @@ enum PageId {
 
     // OPEN: Settings > Network & Internet > Internet
     // CATEGORY: SETTINGS
-    TROUBLESHOOTING_WIFI_AUTO_CONNECTION= 2201;
+    TROUBLESHOOTING_WIFI_AUTO_CONNECTION = 2201;
 }
 
 // Battery Saver schedule types.
