@@ -2087,7 +2087,7 @@ message Atom {
     // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
-    // Next: 10269
+    // Next: 10270
     oneof pulled {
       WifiBytesTransfer wifi_bytes_transfer = 10000
           [(module_name) = "framework"];
@@ -2487,6 +2487,7 @@ message Atom {
     extensions 10266; // Keystore2PostProcessorInfo keystore2_post_processor_info
     extensions 10267; // Keystore2KeyCreationPerUid keystore2_key_creation_per_uid
     extensions 10268; // Keystore2KeyOperationPerUid keystore2_key_operation_per_uid
+    extensions 10269; // WebViewPinQuota webview_pin_quota
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
