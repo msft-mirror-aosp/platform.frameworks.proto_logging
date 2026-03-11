@@ -2066,6 +2066,7 @@ message Atom {
     extensions 1324; // PrivacyDashboardAgentTimelineOptionInteractionReported privacy_dashboard_agent_timeline_option_interaction_reported
     extensions 1325; // WifiContinuousRangingDistanceReported wifi_continuous_ranging_distance_reported
     extensions 1326; // CertificateValidationFailureReported certificate_validation_failure_reported
+    extensions 1327; // TlsEncryptedClientHelloHandshakeReported tls_encrypted_client_hello_handshake_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

@@ -21,6 +21,9 @@ extend Atom {
       certificate_blocklist_block_reported = 1143 [(module_name) = "conscrypt"];
   optional CertificateValidationFailureReported
       certificate_validation_failure_reported = 1326 [(module_name) = "conscrypt"];
+  optional TlsEncryptedClientHelloHandshakeReported
+      tls_encrypted_client_hello_handshake_reported = 1327
+      [(module_name) = "conscrypt"];
 }
 
 /*
@@ -153,4 +156,26 @@ message CertificateValidationFailureReported {
 
     // App UID that failed the verification.
     optional int32 uid = 3 [(is_uid) = true];
+}
+
+/*
+ * Pushed atom on a report that a TLS handshake was attempted with Encrypted Client Hello.
+ *
+ * Pushed from:
+ *   external/conscrypt/common/src/main/java/org/conscrypt/metrics/StatsLogImpl.java
+ */
+message TlsEncryptedClientHelloHandshakeReported {
+  // Result of the TLS ECH handshake.
+  optional EchResult result = 1;
+  // Reason why the ECH handshake was attempted.
+  optional EchUsageReason usage_reason = 2;
+  // Only set if result is ECH_RESULT_SKIPPED.
+  optional EchSkipReason skip_reason = 3;
+  // Only set if result is ECH_RESULT_FAILURE.
+  optional EchFailureReason failure_reason = 4;
+  // Duration of the ECH handshake in milliseconds.
+  // Included here to avoid needing to join with the TlsHandshakeReported atom.
+  optional int32 handshake_duration_millis = 5 [(unit) = UNIT_MILLISECONDS];
+  // App UID that attempted the ECH handshake.
+  optional int32 uid = 6 [(is_uid) = true];
 }
