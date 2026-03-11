@@ -108,6 +108,9 @@ message CallStats {
 
     // Radio network type on call ended
     optional android.telecom.NetworkTypeEnum rat_on_end = 12;
+
+    // Call durations
+    repeated int32 repeated_int_durations = 13;
 }
 
 /**
