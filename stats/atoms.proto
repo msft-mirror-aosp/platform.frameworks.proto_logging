@@ -2094,6 +2094,7 @@ message Atom {
     extensions 1351; // MessagingDbOperationStats messaging_db_operation_stats
     extensions 1352; // MessagingDbLockContentionStats messaging_db_lock_contention_stats
     extensions 1353; // AudioDiscouragedApiUsageReported audio_discouraged_api_usage_reported
+    extensions 1354; // SettingsLskfOnboarding settings_lskf_onboarding
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
