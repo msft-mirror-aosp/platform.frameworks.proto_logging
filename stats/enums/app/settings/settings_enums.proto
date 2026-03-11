@@ -2779,7 +2779,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2203
+// Next ID: 2204
 enum PageId {
     reserved 2123 to 2130, 2185;
 
@@ -2932,6 +2932,11 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: C
     DATE_TIME_TIME_FORMAT = 2202;
+
+    // OPEN: Settings > Date & time > Notifications
+    // CATEGORY: SETTINGS
+    // OS: C
+    DATE_TIME_NOTIFICATIONS = 2203;
 
     // OPEN: Settings > Developer options
     // CATEGORY: SETTINGS
