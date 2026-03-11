@@ -88,6 +88,8 @@ extend Atom {
     optional WifiContinuousRangingStopReported
         wifi_continuous_ranging_stop_reported = 1315
         [(module_name) = "wifi"];
+    optional WifiContinuousRangingDistanceReported wifi_continuous_ranging_distance_reported = 1325
+        [(module_name) = "wifi"];
 
     // Pull metrics
     optional WifiAwareCapabilities wifi_aware_capabilities = 10190
@@ -1364,14 +1366,8 @@ message WifiContinuousRangingStartReported {
     // Preamble type
     repeated PreambleType preamble = 8;
 
-    // RTT burst size per measurement
-    optional int32 rtt_burst_size = 9;
-
-    // Security mode used for ranging
-    optional int32 security_mode = 10;
-
     // Is the responder discovered by Out-of-bound techonology
-    optional bool is_discovered_by_oob = 11;
+    repeated bool is_discovered_by_oob = 9;
 }
 
 /**
@@ -1393,4 +1389,20 @@ message WifiContinuousRangingStopReported {
 
     // Reason of stopping a continuous ranging session
     optional Reason reason = 1;
+}
+
+/**
+ * Logged when Wifi continuous ranging reports distance result
+ *
+ * Logged From: packages/modules/Wifi/service/java/com/android/server/wifi/rtt/RttServiceImpl.java
+ * Estimated Logging Rate:
+ *  Peak: 10 times per device per day.
+ *  Avg: 1 times per device per day.
+ */
+message WifiContinuousRangingDistanceReported {
+    // Distance standard deviation in mm
+    optional int32 distance_sd_mm = 1;
+
+    // Distance average in mm
+    optional int32 distance_avg_mm = 2;
 }
