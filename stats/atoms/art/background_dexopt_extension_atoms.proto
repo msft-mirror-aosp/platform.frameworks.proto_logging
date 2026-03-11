@@ -152,6 +152,10 @@ message PreRebootDexoptJobEnded {
         // Package counts may or may not be available, depending on whether the
         // job was interrupted before or after the package scanning.
         STATUS_STARTED = 5;
+        // In the hybrid mode, the synchronous part of the job is finished, but the asynchronous
+        // part was scheduled and was never run before the reboot.
+        // Package counts are available.
+        STATUS_PARTIALLY_FINISHED = 9;
         // The job failed in an unexpected way.
         // Package counts may or may not be available, depending on whether the
         // job failed before or after the package scanning.

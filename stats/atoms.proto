@@ -2065,6 +2065,7 @@ message Atom {
     extensions 1323; // PrivacyDashboardAgentTimelineInteractionReported privacy_dashboard_agent_timeline_interaction_reported
     extensions 1324; // PrivacyDashboardAgentTimelineOptionInteractionReported privacy_dashboard_agent_timeline_option_interaction_reported
     extensions 1325; // WifiContinuousRangingDistanceReported wifi_continuous_ranging_distance_reported
+    extensions 1326; // CertificateValidationFailureReported certificate_validation_failure_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2087,7 +2088,7 @@ message Atom {
     // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
-    // Next: 10269
+    // Next: 10270
     oneof pulled {
       WifiBytesTransfer wifi_bytes_transfer = 10000
           [(module_name) = "framework"];
@@ -2487,6 +2488,7 @@ message Atom {
     extensions 10266; // Keystore2PostProcessorInfo keystore2_post_processor_info
     extensions 10267; // Keystore2KeyCreationPerUid keystore2_key_creation_per_uid
     extensions 10268; // Keystore2KeyOperationPerUid keystore2_key_operation_per_uid
+    extensions 10269; // WebViewPinQuota webview_pin_quota
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
@@ -16143,6 +16145,10 @@ message CameraActionEvent {
     }
 
     optional MultiResolutionImageReaderType mrir_type = 33;
+
+    // Reprocessing format
+    optional bool has_input_stream = 34;
+    optional int32 reprocess_format = 35;
 }
 
 /**
@@ -25386,6 +25392,18 @@ message DisplayBrightnessChanged {
 
     // Direction of a display brightness adjustment, determined by comparing current and initial brightness in nits.
     optional android.display.BrightnessDirectionEnum brightness_direction = 27;
+
+    // Ambient color temperature, in Kelvin.
+    optional float ambient_color_temperature = 28;
+
+    // Thermal throttling status.
+    optional android.display.ThermalStatusEnum thermal_status = 29;
+
+    // Display state reason.
+    optional android.display.DisplayStateReasonEnum display_state_reason = 30;
+
+    // Display policy.
+    optional android.display.DisplayPolicyEnum display_policy = 31;
 }
 
 // Logs daily ambient brightness stats.

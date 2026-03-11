@@ -19,6 +19,8 @@ extend Atom {
       [(module_name) = "conscrypt"];
   optional CertificateBlocklistBlockReported
       certificate_blocklist_block_reported = 1143 [(module_name) = "conscrypt"];
+  optional CertificateValidationFailureReported
+      certificate_validation_failure_reported = 1326 [(module_name) = "conscrypt"];
 }
 
 /*
@@ -134,5 +136,21 @@ message CertificateBlocklistBlockReported {
     optional int32 index = 2;
 
     // App UID that hit the blocklist.
+    optional int32 uid = 3 [(is_uid) = true];
+}
+
+/*
+ * Pushed atom on a report when a certification validation failed.
+ * Estimated Logging Rate:
+ *   Peak: 1 time in 1 min | Avg: 1 time per device per day.
+ */
+message CertificateValidationFailureReported {
+    // The reason for the failure.
+    optional CertificateValidationFailureReason reason = 1;
+
+    // The number of certificates that were in the chain for validation.
+    optional int32 chain_length = 2;
+
+    // App UID that failed the verification.
     optional int32 uid = 3 [(is_uid) = true];
 }

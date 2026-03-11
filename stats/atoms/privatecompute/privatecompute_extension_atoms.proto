@@ -257,7 +257,7 @@ message PccWriteToAuditLog {
 message PccPermissionCheckResult {
     enum Result {
         RESULT_UNKNOWN = 0;
-        PCC_PERMISSION_CHECK_ATTEMPTED = 1;
+        PERMISSION_INHERITED_FROM_MAIN_APP = 1;
         PERMISSION_DENIED_NOT_IN_PCC_ALLOWLIST = 2;
     }
     optional Result result = 1;
