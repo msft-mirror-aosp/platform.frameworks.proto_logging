@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 570
+// Next ID: 571
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -118,6 +118,7 @@ enum ItemId {
   BLUETOOTH_SCAN = 137;
   BRIGHTNESS_AUTOMATIC_BRIGHTNESS = 357;
   BRIGHTNESS_AUTOMATIC_BRIGHTNESS_SLIDER = 379;
+  BRIGHTNESS_BRIGHTNESS_SLIDER = 570;
   CELLULAR_ACCESS_POINT_NAMES = 111;
   CELLULAR_ACCOUNTS = 112;
   CELLULAR_ADVANCED_ENHANCED_4G_LTE = 335;
