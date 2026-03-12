@@ -7193,6 +7193,12 @@ message LmkKillOccurred {
 
     // How many processes hosting foreground services
     optional int32 procs_with_foreground_services = 17;
+
+    // Anon RSS
+    optional int64 anon_rss_in_bytes = 18[(unit) = UNIT_BYTES];
+
+    // DMABUF RSS
+    optional int64 dmabuf_rss_in_bytes = 19[(unit) = UNIT_BYTES];
 }
 
 /*
