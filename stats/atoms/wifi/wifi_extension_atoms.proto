@@ -1389,6 +1389,12 @@ message WifiContinuousRangingStopReported {
 
     // Reason of stopping a continuous ranging session
     optional Reason reason = 1;
+
+    // Duration of the continuous ranging session in milliseconds
+    optional int32 duration_ms = 2[(unit) = UNIT_MILLISECONDS];
+
+    // Interval between two ranging opertations in milliseconds
+    optional int32 interval_ms = 3[(unit) = UNIT_MILLISECONDS];
 }
 
 /**
