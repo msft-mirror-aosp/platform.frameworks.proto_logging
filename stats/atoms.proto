@@ -2078,6 +2078,7 @@ message Atom {
     extensions 1336; // SignatureSettingsLaunched signature_settings_launched
     extensions 1337; // SignatureDeleted signature_deleted
     extensions 1338; // SignatureDeleteDuration signature_delete_duration",
+    extensions 1339; // WsNotificationErrorDbExceptionCaught ws_notification_error_db_exception_caught
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
