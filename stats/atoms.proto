@@ -2067,6 +2067,17 @@ message Atom {
     extensions 1325; // WifiContinuousRangingDistanceReported wifi_continuous_ranging_distance_reported
     extensions 1326; // CertificateValidationFailureReported certificate_validation_failure_reported
     extensions 1327; // TlsEncryptedClientHelloHandshakeReported tls_encrypted_client_hello_handshake_reported
+    extensions 1328; // SignaturePickerLaunched signature_picker_launched
+    extensions 1329; // SignatureSelected signature_selected
+    extensions 1330; // SignatureCreateLaunched signature_create_launched
+    extensions 1331; // SignatureCreated signature_created
+    extensions 1332; // SignaturesLoadDuration signatures_load_duration
+    extensions 1333; // SignatureSaveDuration signature_save_duration
+    extensions 1334; // SignatureProviderOpenDuration signature_provider_open_duration
+    extensions 1335; // SignatureAppError signature_app_error
+    extensions 1336; // SignatureSettingsLaunched signature_settings_launched
+    extensions 1337; // SignatureDeleted signature_deleted
+    extensions 1338; // SignatureDeleteDuration signature_delete_duration",
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
