@@ -181,6 +181,7 @@ message PccDataMigrationStateChanged {
         STATE_UNKNOWN = 0;
         NON_PCC_DATA_MIGRATION_SERVICE_STARTED = 1;
         DATA_MIGRATION_COMPLETE = 2;
+        DATA_MIGRATION_FAILED = 3;
     }
     optional MigrationState migration_state = 1;
 
