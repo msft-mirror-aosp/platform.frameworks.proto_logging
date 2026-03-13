@@ -203,6 +203,8 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_INVALID_SERVICE_TYPE_FROM_NSD_PICKER = 11;
   // Counts the number of times an app accessed the local network.
   CRITICAL_COUNTS_EVENT_TYPE_LOCAL_NETWORK_ACCESS = 12;
+  // Counts the number of times the notification for private DNS broken is shown.
+  CRITICAL_COUNTS_EVENT_TYPE_PRIVATE_DNS_BROKEN_NOTIFICATION = 13;
 }
 
 // Type of critical duration event.
