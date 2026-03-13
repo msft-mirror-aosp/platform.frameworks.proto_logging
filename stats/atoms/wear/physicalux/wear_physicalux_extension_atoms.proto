@@ -84,6 +84,12 @@ message WearGestureReported {
     repeated int32 local_background_uids = 7 [(is_uid) = true];
     // The UIDs of remote background subscribers who received the event.
     repeated int32 remote_background_uids = 8 [(is_uid) = true];
+    // The calculated display state that was used when dispatching the event.
+    // Sometimes, this value is different from the real display state.
+    // For example: if the MCU reports a gesture with a flag telling the framework that the screen
+    // was ON when the gesture happened (i.e. screen rendered by the MCU), the real display state
+    // will be OFF/AOD, but the effective display state used during dispatch is ON.
+    optional android.view.DisplayStateEnum effective_display_state = 9;
 }
 
 /**
@@ -103,6 +109,10 @@ message WearGestureExperienceEventReported {
     optional com.google.android.clockwork.physicalux.GestureExperienceEvent event = 3;
     // The gesture action associated with the event.
     optional com.google.android.clockwork.physicalux.GestureAction action = 4;
+    // Whether there was a remote subscription present at the time of the event.
+    optional bool is_remote_subscription_present = 5;
+    // The display state at the time of the event.
+    optional android.view.DisplayStateEnum display_state = 6;
 }
 
 /**
