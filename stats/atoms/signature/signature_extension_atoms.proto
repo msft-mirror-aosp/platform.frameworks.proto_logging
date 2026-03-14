@@ -1,0 +1,201 @@
+syntax = "proto2";
+
+package android.os.statsd.signature;
+
+import "frameworks/proto_logging/stats/atoms.proto";
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/signature/enums.proto";
+
+option java_multiple_files = true;
+option java_package = "com.android.os.signature";
+
+extend Atom {
+  optional SignaturePickerLaunched signature_picker_launched = 1328
+      [(module_name) = "mediaprovider"];
+  optional SignatureSelected signature_selected = 1329
+      [(module_name) = "mediaprovider"];
+  optional SignatureCreateLaunched signature_create_launched = 1330
+      [(module_name) = "mediaprovider"];
+  optional SignatureCreated signature_created = 1331
+      [(module_name) = "mediaprovider"];
+  optional SignaturesLoadDuration signatures_load_duration = 1332
+      [(module_name) = "mediaprovider"];
+  optional SignatureSaveDuration signature_save_duration = 1333
+      [(module_name) = "mediaprovider"];
+  optional SignatureProviderOpenDuration signature_provider_open_duration = 1334
+      [(module_name) = "mediaprovider"];
+  optional SignatureAppError signature_app_error = 1335
+      [(module_name) = "mediaprovider"];
+  optional SignatureSettingsLaunched signature_settings_launched = 1336
+      [(module_name) = "mediaprovider"];
+  optional SignatureDeleted signature_deleted = 1337
+      [(module_name) = "mediaprovider"];
+  optional SignatureDeleteDuration signature_delete_duration = 1338
+      [(module_name) = "mediaprovider"];
+}
+
+/**
+ * Logged when SignaturePickerActivity starts.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignaturePickerLaunched {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+}
+
+/**
+ * Logged when a user selects an existing signature.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureSelected {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // The type of the selected signature.
+  optional android.signature.SignatureType signature_type = 2;
+}
+
+/**
+ * Logged when CreateSignatureActivity starts.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureCreateLaunched {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+}
+
+/**
+ * Logged when a new signature is saved.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureCreated {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // The type of the created signature.
+  optional android.signature.SignatureType signature_type = 2;
+
+  // The size of the created signature data in bytes.
+  optional int32 data_size_bytes = 3[(unit) = UNIT_BYTES];
+}
+
+/**
+ * Time taken to load signatures in the picker.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignaturesLoadDuration {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // Time taken in milliseconds.
+  optional int64 duration_millis = 2[(unit) = UNIT_MILLISECONDS];
+
+  // The number of signatures loaded.
+  optional int32 signature_count = 3;
+
+  // The screen where signatures were loaded.
+  optional android.signature.SignatureScreen screen = 4;
+}
+
+/**
+ * Time taken to save a new signature.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureSaveDuration {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // Time taken in milliseconds.
+  optional int64 duration_millis = 2[(unit) = UNIT_MILLISECONDS];
+
+  // The type of the signature being saved.
+  optional android.signature.SignatureType signature_type = 3;
+}
+
+/**
+ * Time taken for ContentProvider to provide the file descriptor.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureProviderOpenDuration {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // Time taken in milliseconds.
+  optional int64 duration_millis = 2[(unit) = UNIT_MILLISECONDS];
+}
+
+/**
+ * Logged for application-level errors in Signature Picker.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureAppError {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // The specific error type.
+  optional android.signature.SignatureAppErrorType error_type = 2;
+
+  // The type of the signature involved in the error (if applicable).
+  optional android.signature.SignatureType signature_type = 3;
+}
+
+/**
+ * Logged when SignatureSettingsActivity starts.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureSettingsLaunched {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+}
+
+/**
+ * Logged when a user confirms deletion of a signature.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureDeleted {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // The type of the deleted signature.
+  optional android.signature.SignatureType signature_type = 2;
+
+  // The screen where the deletion was performed.
+  optional android.signature.SignatureScreen screen = 3;
+}
+
+/**
+ * Time taken to delete a signature.
+ * Logged from:
+ *  packages/providers/MediaProvider/signature.....
+ */
+message SignatureDeleteDuration {
+  // The UID of the app logging the atom.
+  optional int32 uid = 1
+      [(is_uid) = true];
+
+  // Time taken in milliseconds.
+  optional int64 duration_millis = 2[(unit) = UNIT_MILLISECONDS];
+
+  // The screen where the deletion was performed.
+  optional android.signature.SignatureScreen screen = 3;
+}

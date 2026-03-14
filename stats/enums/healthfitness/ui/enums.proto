@@ -496,8 +496,9 @@ enum ElementId {
     MATCHMAKING_SCREEN_HEADER_ICON_VIEW = 341;
     MATCHMAKING_SCREEN_FOOTER = 342;
     MATCHMAKING_SCREEN_FOOTER_LINK = 343;
+    MATCHMAKING_DEVICE_PREFERENCE = 344;
 
-    // Next available: 344;
+    // Next available: 345;
 }
 
 enum PageId {

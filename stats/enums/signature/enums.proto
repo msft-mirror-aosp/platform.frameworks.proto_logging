@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+package android.signature;
+
+option java_outer_classname = "SignatureEnums";
+option java_multiple_files = true;
+
+// The type of the signature.
+enum SignatureType {
+  SIGNATURE_TYPE_UNKNOWN = 0;
+  SIGNATURE_TYPE_DRAW = 1;
+  SIGNATURE_TYPE_TYPE = 2;
+  SIGNATURE_TYPE_UPLOAD = 3;
+}
+
+// The type of error encountered by the Signature Picker app.
+enum SignatureAppErrorType {
+  ERROR_UNKNOWN = 0;
+  DB_READ_FAILED = 1;
+  DB_WRITE_FAILED = 2;
+  PROVIDER_UUID_NOT_FOUND = 3;
+  DB_DELETE_FAILED = 4;
+  UPLOAD_FAILED = 5;
+}
+
+// The screen where a signature action occurred.
+enum SignatureScreen {
+  SCREEN_UNKNOWN = 0;
+  PICKER = 1;
+  SETTINGS = 2;
+}
