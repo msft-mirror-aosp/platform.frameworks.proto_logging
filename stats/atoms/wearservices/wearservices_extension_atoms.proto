@@ -85,6 +85,9 @@ extend Atom {
       ws_blocking_app_update_notification_shown_status_reported = 1228
       [(module_name) = "wearservices"];
 
+  optional WsNotificationErrorDbExceptionCaught ws_notification_error_db_exception_caught = 1339
+      [(module_name) = "wearservices"];
+
   // Pulled Atom
   optional WsStandaloneModeSnapshot ws_standalone_mode_snapshot = 10197
       [(module_name) = "wearservices"];
@@ -600,4 +603,20 @@ message WsNotificationSubscriptionLatencyReported {
 
   // The latency in milliseconds for the subscription flow.
   optional int64 duration_millis = 2;
+}
+
+/**
+ * Logged when an exception is caught when performing notification DB operations or queries.
+ *
+ * Logged from package :
+ * vendor/google_clockwork_partners/packages/WearServices/src/com/google/wear/services/notification/manager/impl/StreamManagerImpl.java
+ *
+ * - Estimated Logging Rate: Rarely happen, Peak: <1 per device per day.
+ */
+message WsNotificationErrorDbExceptionCaught {
+  // The operation or query being executed.
+  optional android.app.wearservices.NotificationDbOperation operation = 1;
+
+  // The type of exception that was caught.
+  optional android.app.wearservices.ExceptionType exception_type = 2;
 }

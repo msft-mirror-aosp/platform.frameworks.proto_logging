@@ -342,6 +342,19 @@ message PackageInstallerSessionReported {
 
     // Total size of the APKs for which fs verity was enabled. 0 if fs verity was not enabled for any APKs.
     optional int64 fs_verity_enabled_apks_size_bytes = 58;
+
+    // --- Permission status session ---
+
+    // Whether installer has INSTALL_PACKAGES permission.
+    optional bool has_install_packages_permission = 59;
+    // Whether installer has REQUEST_INSTALL_PACKAGES permission.
+    optional bool has_request_install_packages_permission = 60;
+    // Whether installer has INSTALL_PACKAGE_UPDATES permission.
+    optional bool has_install_package_updates_permission = 61;
+    // Whether installer has INSTALL_SELF_UPDATES permission.
+    optional bool has_install_self_updates_permission = 62;
+    // Whether installer has UPDATE_PACKAGES_WITHOUT_USER_ACTION permission.
+    optional bool has_update_packages_without_user_action_permission = 63;
 }
 
 /**
