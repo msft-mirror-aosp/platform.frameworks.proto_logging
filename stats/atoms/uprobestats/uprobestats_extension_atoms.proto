@@ -20,6 +20,7 @@ package android.os.statsd.uprobestats;
 
 import "frameworks/proto_logging/stats/atoms.proto";
 import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/enums/os/enums.proto";
 
 option java_package = "com.android.uprobestats";
 option java_multiple_files = true;
@@ -57,6 +58,9 @@ extend Atom {
   optional UprobeStatsBpfAttached uprobe_stats_bpf_attached = 1276
       [(module_name) = "uprobestats"];
   optional UprobeStatsBpfMapPolled uprobe_stats_bpf_map_polled = 1277
+      [(module_name) = "uprobestats"];
+  optional SuspiciousWakelockBehaviorReported
+      suspicious_wakelock_behavior_reported = 1340
       [(module_name) = "uprobestats"];
 }
 
@@ -405,4 +409,30 @@ message UprobeStatsBpfMapPolled {
   optional int64 events_count = 3;
   // ID of the task that polled this map.
   optional int64 task_id = 4;
+}
+
+/**
+ * Logged by UprobeStats when suspicious wakelock behavior is detected.
+ *
+ * Logged from:
+ * packages/modules/UprobeStats
+ *
+ * Estimated Logging Rate:
+ * Peak: 10 times in 1 min | Avg: O(tens) per device per day
+ */
+message SuspiciousWakelockBehaviorReported {
+  enum BehaviorType {
+    BEHAVIOR_TYPE_UNSPECIFIED = 0;
+    BEHAVIOR_TYPE_HIGH_FREQUENCY_ACQUISITION = 1;
+    BEHAVIOR_TYPE_MULTIPLE_SIMULTANEOUS_LOCKS = 2;
+    BEHAVIOR_TYPE_LONG_HELD_LOCK = 3;
+    BEHAVIOR_TYPE_CYCLING_WAKELOCKS = 4;
+  }
+  optional BehaviorType behavior_type = 1;
+  // UID of the app performing the suspicious behavior.
+  optional int32 uid = 2 [(is_uid) = true];
+  // Wakelock flags.
+  optional android.os.WakeLockLevelEnum flags = 3;
+  // Wakelock tag.
+  optional string tag = 4;
 }
