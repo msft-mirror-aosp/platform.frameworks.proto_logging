@@ -464,7 +464,7 @@ message PrivacyDashboardAgentActivityViewed {
     optional int64 session_id = 1;
 
     // True if the 7 days view is toggled. False if the 24 hours view is toggled.
-    optional bool show_7_days = 2;
+    optional bool show_seven_days = 2;
 }
 
 /**
@@ -485,7 +485,7 @@ message PrivacyDashboardAgentTimelineViewed {
     optional string agent_package_name = 3;
 
     // True if the 7 days view is toggled. False if the 24 hours view is toggled.
-    optional bool show_7_days = 4;
+    optional bool show_seven_days = 4;
 }
 
 /**
@@ -528,6 +528,13 @@ message PrivacyDashboardAgentTimelineOptionInteractionReported {
     // id which identifies single session of user interacting with permission controller
     optional int64 session_id = 1;
 
-    // True if show 7 days is clicked. False if show 24 hours is clicked.
-    optional bool show_7_days = 2;
+    enum Action {
+        UNKNOWN = 0;
+        // User clicks to view the 7 days data
+        SHOW_SEVEN_DAYS_CLICKED = 1;
+        // User clicks to view the 24 hours data
+        SHOW_TWENTY_FOUR_HOURS_CLICKED = 2;
+    }
+    // Action taken on the agent timeline option menu
+    optional Action action = 2;
 }
