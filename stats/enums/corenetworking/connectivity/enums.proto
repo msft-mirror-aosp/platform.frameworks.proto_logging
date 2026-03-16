@@ -214,6 +214,11 @@ enum CriticalDurationEventType {
   CRITICAL_DURATION_EVENT_TYPE_BPF_TOTAL_OBJECTS_LOAD_TIME_MILLISECONDS = 1;
   // Total duration in milliseconds that a OTT call app was active for slicing.
   CRITICAL_DURATION_EVENT_TYPE_OTT_SESSION_DURATION_MS = 2;
+  // Total duration of the ConnectivityService#systemReady.
+  CRITICAL_DURATION_EVENT_TYPE_CONNECTIVITY_SYSTEM_READY_TOTAL_MS = 3;
+  // Duration ConnectivityService#systemReady was blocked waiting for
+  // handler processing (e.g., PermissionMonitor initialization).
+  CRITICAL_DURATION_EVENT_TYPE_CONNECTIVITY_SYSTEM_READY_BLOCKED_MS = 4;
 }
 
 // Type of NetworkRequest. See android.net.NetworkRequest.
