@@ -114,7 +114,10 @@ enum CallbackStatus {
 }
 
 enum ProfilingTag {
+    // LINT.IfChange(profiling_tags)
     PROFILING_TAG_UNSPECIFIED = 0;
     PROFILING_TAG_USER_SPECIFIED = 1;
     PROFILING_TAG_ANOMALY_MEMORY_LIMIT = 2;
+    PROFILING_TAG_ANOMALY_BINDER_SPAM = 3;
+    // LINT.ThenChange(/modules/Profiling/service/java/com/android/os/profiling/LoggingHelper.java:profiling_tags)
 }
