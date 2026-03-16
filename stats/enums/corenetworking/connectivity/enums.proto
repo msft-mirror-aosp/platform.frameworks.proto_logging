@@ -203,6 +203,8 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_INVALID_SERVICE_TYPE_FROM_NSD_PICKER = 11;
   // Counts the number of times an app accessed the local network.
   CRITICAL_COUNTS_EVENT_TYPE_LOCAL_NETWORK_ACCESS = 12;
+  // Counts the number of times the notification for private DNS broken is shown.
+  CRITICAL_COUNTS_EVENT_TYPE_PRIVATE_DNS_BROKEN_NOTIFICATION = 13;
 }
 
 // Type of critical duration event.
@@ -212,6 +214,11 @@ enum CriticalDurationEventType {
   CRITICAL_DURATION_EVENT_TYPE_BPF_TOTAL_OBJECTS_LOAD_TIME_MILLISECONDS = 1;
   // Total duration in milliseconds that a OTT call app was active for slicing.
   CRITICAL_DURATION_EVENT_TYPE_OTT_SESSION_DURATION_MS = 2;
+  // Total duration of the ConnectivityService#systemReady.
+  CRITICAL_DURATION_EVENT_TYPE_CONNECTIVITY_SYSTEM_READY_TOTAL_MS = 3;
+  // Duration ConnectivityService#systemReady was blocked waiting for
+  // handler processing (e.g., PermissionMonitor initialization).
+  CRITICAL_DURATION_EVENT_TYPE_CONNECTIVITY_SYSTEM_READY_BLOCKED_MS = 4;
 }
 
 // Type of NetworkRequest. See android.net.NetworkRequest.
@@ -230,4 +237,33 @@ enum LoopbackAccessResult {
     LOOPBACK_ACCESS_RESULT_UNSPECIFIED = 0;
     LOOPBACK_ACCESS_RESULT_ALLOWED = 1;
     LOOPBACK_ACCESS_RESULT_BLOCKED = 2;
+}
+
+// Result of an HTTPS endpoint query.
+enum HttpsEndpointResult {
+  HTTPS_ENDPOINT_RESULT_UNKNOWN = 0;
+  // A/AAAA/HTTPS records all successfully returned with no errors
+  HTTPS_ENDPOINT_RESULT_SUCCESS = 1;
+  HTTPS_ENDPOINT_RESULT_FAILURE = 2;
+  // Only A/AAAA records were returned, no valid HTTPS records returned
+  HTTPS_ENDPOINT_RESULT_ONLY_ADDRESS_RECORDS = 3;
+}
+
+// Failure reason of an HTTPS endpoint query.
+enum HttpsEndpointFailureReason {
+  HTTPS_ENDPOINT_FAILURE_REASON_UNKNOWN = 0;
+  HTTPS_ENDPOINT_FAILURE_REASON_PARSE_EXCEPTION = 1;
+  HTTPS_ENDPOINT_FAILURE_REASON_UNKNOWN_HOST = 2;
+  HTTPS_ENDPOINT_FAILURE_REASON_UNEXPECTED_ANSWER_TYPE = 3;
+  // If the target query count reached, even if not all address info was received.
+  HTTPS_ENDPOINT_FAILURE_REASON_NOT_ENOUGH_ADDRESS_INFO = 4;
+  // User cancellation signal was triggered.
+  HTTPS_ENDPOINT_FAILURE_REASON_USER_CANCELLATION = 5;
+  // DnsResolver itself timed out with ETIMEDOUT.
+  HTTPS_ENDPOINT_FAILURE_REASON_HTTPS_RECORD_TIMEOUT = 6;
+  HTTPS_ENDPOINT_FAILURE_REASON_MISSING_MANDATORY_KEYS = 7;
+  // Multi-CDN case where HTTPS RR domains don't match A/AAAA domains.
+  HTTPS_ENDPOINT_FAILURE_REASON_MISMATCHED_DOMAIN = 8;
+  // onError() was called.
+  HTTPS_ENDPOINT_FAILURE_REASON_FATAL_ERROR = 9;
 }

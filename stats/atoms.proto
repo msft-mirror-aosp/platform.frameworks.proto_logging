@@ -2080,6 +2080,7 @@ message Atom {
     extensions 1338; // SignatureDeleteDuration signature_delete_duration",
     extensions 1339; // WsNotificationErrorDbExceptionCaught ws_notification_error_db_exception_caught
     extensions 1340; // SuspiciousWakelockBehaviorReported suspicious_wakelock_behavior_reported
+    extensions 1341; // DnsHttpsEndpointEventReported dns_https_endpoint_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -17535,6 +17536,15 @@ message DeviceTelephonyProperties {
     optional bool has_managed_profile_dedicated_sub = 4;
     // Number of SIM slots with support for Multiple Enabled Profiles on the device
     optional int32 mep_supported_slot_count = 5;
+    // Value of the ro.vendor.api_level system property
+    optional int32 ro_vendor_api_level = 6;
+    // Value of the ro.board_api_level system property
+    optional int32 ro_board_api_level = 7;
+
+    // Bitmask of available telephony features.
+    // Bits are defined by DeviceTelephonyFeatures in
+    // frameworks/proto_logging/stats/enums/telephony/enums.proto
+    optional int64 telephony_features = 8;
 }
 
 /**
