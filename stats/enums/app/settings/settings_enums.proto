@@ -2779,9 +2779,9 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2204
+// Next ID: 2206
 enum PageId {
-    reserved 2123 to 2130, 2185;
+    reserved 2123 to 2130, 2185, 2205;
 
     // Unknown page. Should not be used in production code.
     PAGE_UNKNOWN = 0;
@@ -6367,6 +6367,11 @@ enum PageId {
     // OPEN: Settings > Network & Internet > Internet
     // CATEGORY: SETTINGS
     TROUBLESHOOTING_WIFI_AUTO_CONNECTION = 2201;
+
+    // OPEN: Settings > Connected devices > USB > (click on the USB device in the connected devices list)
+    // CATEGORY: SETTINGS
+    // OS: C
+    USB_DEVICE_DETAILS_PAGE = 2204;
 }
 
 // Battery Saver schedule types.
