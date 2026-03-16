@@ -188,13 +188,16 @@ message PreRebootDexoptJobEnded {
     // Total number of packages scanned.
     optional int32 total_package_count = 5;
 
-    // Duration of the job run (delta between when then job is started and when
-    // the job is finished or failed), in milliseconds, in wall time.
+    // The cumulative time spent executing all runs within this job (sum of each run's duration), in
+    // milliseconds, in wall time.
     optional int64 job_duration_millis = 6;
-    // Latency of the job run (delta between when the job is scheduled and when
-    // the job is started the first time), in milliseconds.
+    // The latency of the asynchronous part of the job (the time elapsed between scheduling of the
+    // asynchronous part and the start of the first asynchronous run), in milliseconds.
     optional int64 job_latency_millis = 7;
-    // The number of times the job is run due to retries.
+    // The number of runs for this job, including the initial run and any subsequent retries (due to
+    // cancellations).
+    // For a hybrid job, this represents the initial synchronous run plus any additional
+    // asynchronous runs.
     optional int32 job_run_count = 10;
 
     // Number of packages that have Pre-reboot Dexopt artifacts before the
@@ -268,4 +271,21 @@ message PreRebootDexoptJobEnded {
     // the job was started the first time) and when this atom was reported (typically when the
     // artifacts were committed or cleaned up), or 0 if not applicable.
     optional int64 artifacts_age_millis = 15;
+
+    // The synchronicity of the job.
+    enum JobSynchronicity {
+        // Should not be used, not even in unexpected cases.
+        JOB_SYNCHRONICITY_UNSPECIFIED = 0;
+        // The job was run synchronously. The call was blocked until the entire job was done.
+        JOB_SYNCHRONICITY_SYNC = 1;
+        // The job was run asynchronously, when the device was idle and charging and the battery was
+        // not low. The call was non-blocking.
+        JOB_SYNCHRONICITY_ASYNC = 2;
+        // The job was run synchronously for a period of time, and finished the rest of the work
+        // asynchronously, when the device was idle and charging and the battery was not low. The
+        // call was blocked until the synchronous phase was done.
+        JOB_SYNCHRONICITY_HYBRID = 3;
+    }
+
+    optional JobSynchronicity job_synchronicity = 16;
 }
