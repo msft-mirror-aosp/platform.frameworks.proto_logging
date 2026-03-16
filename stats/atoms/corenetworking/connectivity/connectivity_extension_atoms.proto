@@ -39,6 +39,8 @@ extend Atom {
       [(module_name) = "connectivity_sdk30"];
   optional SatisfiedByLocalNetworkRequests satisfied_by_local_network_requests =
       10247 [(module_name) = "connectivity"];
+  optional DnsHttpsEndpointEventReported dns_https_endpoint_event_reported = 1341
+      [(module_name) = "connectivity"];
 }
 
 /**
@@ -210,4 +212,34 @@ message LoopbackUsageReported {
     optional android.corenetworking.connectivity.LoopbackAccessResult result = 3;
 }
 
+/**
+ * Logs when a DNS HTTPS endpoint event is reported.
+ *
+ * Logged from: packages/modules/Connectivity/framework/src/android/net/util/
+ *              HttpsEndpointAccumulator.java
+ * Estimated Logging Rate:
+ *   Peak: 10s per minute | Avg: low, 10s per day
+ * Dependent on new API usage, so initially very low.
+ */
+message DnsHttpsEndpointEventReported {
+    optional android.corenetworking.connectivity.HttpsEndpointResult result = 1;
+    optional android.corenetworking.connectivity.HttpsEndpointFailureReason failure_reason = 2;
 
+    optional bool has_mandatory = 3;
+    optional bool has_alpn = 4;
+    optional bool has_ip_hints = 5;
+    optional bool has_ech = 6;
+
+    // If additional DNS query events were needed, e.g. in case of mismatched domains
+    optional bool additional_lookup_needed = 7;
+    // What the API caller passed in as the additional HTTPS timeout duration
+    optional int32 user_https_timeout_duration_millis = 8 [(unit) = UNIT_MILLISECONDS];
+    // Microseconds from initialization to both A & AAAA RRs received.
+    // Used to determine if address or HTTPS records arrived first.
+    optional int32 address_record_latency_micros = 9 [(unit) = UNIT_MICROSECONDS];
+    // Microseconds from initialization to HTTPS RR received
+    optional int32 https_record_latency_micros = 10 [(unit) = UNIT_MICROSECONDS];
+    // Microseconds from the first received answer to user callback
+    optional int32 first_record_until_callback_micros = 11 [(unit) = UNIT_MICROSECONDS];
+    optional int32 uid = 12 [(is_uid) = true];
+}
