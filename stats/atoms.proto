@@ -2080,6 +2080,7 @@ message Atom {
     extensions 1338; // SignatureDeleteDuration signature_delete_duration",
     extensions 1339; // WsNotificationErrorDbExceptionCaught ws_notification_error_db_exception_caught
     extensions 1340; // SuspiciousWakelockBehaviorReported suspicious_wakelock_behavior_reported
+    extensions 1341; // DnsHttpsEndpointEventReported dns_https_endpoint_event_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
