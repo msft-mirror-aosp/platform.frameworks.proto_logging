@@ -36,7 +36,7 @@ enum Action {
 }
 
 // IDs for settings UI elements.
-// Next ID: 571
+// Next ID: 572
 enum ItemId {
   // An unknown settings item. This may be set if no preference key is mapped to an enum value or as
   // a catch-all for values not yet added to this proto file.
@@ -80,6 +80,7 @@ enum ItemId {
   APPS_SHOW_NEW_NOTIFICATIONS = 559;
   APP_APP_FILTER_LIST = 560;
   APP_APP_INFO = 561;
+  APP_APP_INFO_DETAILS_ABOUT = 571;
   APP_UNUSED_APPS = 562;
   APPS_APP_STORAGE = 367;
   APPS_ASSISTANT = 366;
