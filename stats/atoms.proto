@@ -25103,6 +25103,9 @@ message IncomingMms {
 
     // PLMN
     optional string plmn = 16;
+
+    // HTTP status code
+    optional int32 http_status_code = 17;
 }
 
 /**
@@ -25175,6 +25178,9 @@ message OutgoingMms {
 
     // PLMN
     optional string plmn = 19;
+
+    // HTTP status code
+    optional int32 http_status_code = 20;
 }
 
 message PrivacySignalNotificationInteraction {
