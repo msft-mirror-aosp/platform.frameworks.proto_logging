@@ -1,0 +1,71 @@
+/*
+ * Copyright (C) 2026 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto2";
+
+package android.os.statsd.virtualgamepad;
+
+import "frameworks/proto_logging/stats/atom_field_options.proto";
+import "frameworks/proto_logging/stats/atoms.proto";
+
+
+
+option java_package = "com.android.virtualgamepad";
+option java_multiple_files = true;
+
+extend Atom {
+  optional VirtualGamepadStateChanged virtual_gamepad_state_changed = 1343
+      [(module_name) = "virtualgamepad"];
+}
+
+/**
+ * Reported when the Virtual Gamepad is started or stopped
+ *
+ * Logged (or Pulled) from:
+ * packages/apps/VirtualGamepad/src/com/...
+ *
+ * Anticipated Devices to log this at all: 1 in 1000
+ * Estimated Logging Rate:
+ * Peak: 2 times in 1 minute | Avg: 3 per device per day
+ */
+message VirtualGamepadStateChanged {
+  // Type of the event
+  enum EventType {
+    UNKNOWN = 0;
+    SESSION_START = 1;
+    SESSION_END = 2;
+    ERROR = 3;
+  }
+  optional EventType event_type = 1;
+
+  // uid for the foreground app that started gamepad
+  optional int32 uid = 2 [
+    (is_uid) = true
+  ];
+
+  // Reason for session end, only used with SESSION_END
+  enum EndReason {
+    END_REASON_UNKNOWN = 0;
+    DEVICE_FOLDED = 1;
+    GAME_EXITED = 2;
+    USER_DISABLED = 3;
+    INTERNAL_ERROR = 4;
+  }
+  optional EndReason end_reason = 3;
+
+  // Latency in milliseconds for SESSION_START
+  optional int64 activation_latency_ms = 4 [(unit) = UNIT_MILLISECONDS];
+}
