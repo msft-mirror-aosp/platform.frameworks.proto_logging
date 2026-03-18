@@ -2779,7 +2779,7 @@ enum Action {
 /**
  * Id for Settings pages. Each page must have its own unique Id.
  */
-// Next ID: 2206
+// Next ID: 2207
 enum PageId {
     reserved 2123 to 2130, 2185, 2205;
 
@@ -6372,6 +6372,10 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: C
     USB_DEVICE_DETAILS_PAGE = 2204;
+
+    // OPEN: Settings > Developer options > Bluetooth
+    // CATEGORY: SETTINGS
+    DEVELOPMENT_BLUETOOTH = 2206;
 }
 
 // Battery Saver schedule types.
