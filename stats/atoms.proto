@@ -2084,6 +2084,8 @@ message Atom {
     extensions 1342; // AconfigErrorOccurred aconfig_error_occurred
     extensions 1343; // VirtualGamepadStateChanged virtual_gamepad_state_changed
     extensions 1344; // AnrWarningApiReported anr_warning_api_reported
+    extensions 1345; // MessageUpgradeResolved message_upgrade_resolved
+    extensions 1346; // MessageUpgradeIntentCached message_upgrade_intent_cached
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.

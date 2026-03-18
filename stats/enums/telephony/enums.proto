@@ -738,3 +738,26 @@ enum DeviceTelephonyFeatures {
     DEVICE_TELEPHONY_FEATURES_EUICC_MEP = 9;
     DEVICE_TELEPHONY_FEATURES_SATELLITE = 10;
 }
+
+/**
+ * Entity that initiated the Message Upgrade attempt
+ */
+enum SourceType {
+    SOURCE_TYPE_UNKNOWN = 0;
+    // Initiated via a Bluetooth device connection
+    SOURCE_TYPE_BLUETOOTH = 1;
+    // Initiated via an API call from a third party app
+    SOURCE_TYPE_THIRD_PARTY_APP = 2;
+    // Initiated via an API call from the default messaging app
+    SOURCE_TYPE_DEFAULT_APP = 3;
+}
+
+/**
+ * The original protocol/type of the message before a promotion attempt.
+ */
+enum OriginalMessageType {
+    ORIGINAL_MESSAGE_TYPE_UNKNOWN = 0;
+    ORIGINAL_MESSAGE_TYPE_SMS = 1;
+    ORIGINAL_MESSAGE_TYPE_SMS_MULTIPART = 2;
+    ORIGINAL_MESSAGE_TYPE_MMS = 3;
+}
