@@ -70,3 +70,17 @@ enum HardwareAuthenticatorType {
     AUTH_ANY = 5;
     AUTH_NO_TYPE = 6;
 }
+
+// Mirror of
+// hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/EcCurve.aidl
+// with some exceptions. See the metrics-specific variant of that AIDL enum in
+// system/security/keystore2/aidl/android/security/metrics/EcCurve.aidl for
+// details.
+enum EcCurve {
+    EC_CURVE_UNSPECIFIED = 0;
+    EC_CURVE_P_224 = 1;
+    EC_CURVE_P_256 = 2;
+    EC_CURVE_P_384 = 3;
+    EC_CURVE_P_521 = 4;
+    EC_CURVE_25519 = 5;
+}

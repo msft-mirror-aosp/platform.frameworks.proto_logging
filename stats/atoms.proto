@@ -2098,6 +2098,7 @@ message Atom {
     extensions 300004; // MicroXrMcuBootTimeReported micro_xr_mcu_boot_time_reported
     extensions 300005; // MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported
     extensions 300006; // MicroXrApWakeupReported micro_xr_ap_wakeup_reported
+    extensions 300007; // RaiseTriggerAudioDetected raise_trigger_audio_detected
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 
@@ -2105,7 +2106,7 @@ message Atom {
     // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
-    // Next: 10270
+    // Next: 10271
     oneof pulled {
       WifiBytesTransfer wifi_bytes_transfer = 10000
           [(module_name) = "framework"];
@@ -2506,6 +2507,7 @@ message Atom {
     extensions 10267; // Keystore2KeyCreationPerUid keystore2_key_creation_per_uid
     extensions 10268; // Keystore2KeyOperationPerUid keystore2_key_operation_per_uid
     extensions 10269; // WebViewPinQuota webview_pin_quota
+    extensions 10270; // Keystore2OperationLatency keystore2_operation_latency
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
@@ -19661,21 +19663,9 @@ message Keystore2KeyCreationWithGeneralInfo {
     // Size of the key in bits. Set to -1 if algorithm=EC.
     optional int32 key_size = 2;
 
-    // Mirror of
-    // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/EcCurve.aidl
-    // except that an unspecified value with enum tag number 0 is added and the
-    // enum tag numbers of all other values are incremented by 1.
-    enum EcCurve {
-        EC_CURVE_UNSPECIFIED = 0;
-        P_224 = 1;
-        P_256 = 2;
-        P_384 = 3;
-        P_521 = 4;
-        CURVE_25519 = 5;
-    };
     // Elliptic curve (EC) used, if algorithm=EC. Otherwise, this is set to
     // EC_CURVE_UNSPECIFIED.
-    optional EcCurve ec_curve = 3;
+    optional android.system.security.keystore2.EcCurve ec_curve = 3;
 
     // Mirror of
     // hardware/interfaces/security/keymint/aidl/android/hardware/security/keymint/KeyOrigin.aidl
