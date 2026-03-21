@@ -15007,7 +15007,7 @@ message AppSearchInitializeStatsReported {
 /**
  * Logs detailed stats for querying in AppSearch
  *
- * Next tag: 70
+ * Next tag: 78
  */
 message AppSearchQueryStatsReported {
     // The sampling interval for this specific type of stats
@@ -15238,6 +15238,30 @@ message AppSearchQueryStatsReported {
 
     // The number of times that we called icing.
     optional int32 num_icing_calls = 69;
+
+    // Number of unquantized embeddings scored for the parent query.
+    optional int32 parent_num_unquantized_embeddings_scored = 70;
+
+    // Number of quantized embeddings scored for the parent query.
+    optional int32 parent_num_quantized_embeddings_scored = 71;
+
+    // Number of shards read from the embedding index for the parent query.
+    optional int32 parent_num_embedding_shards_read = 72;
+
+    // Number of raw embedding bytes read from the embedding index for the parent query.
+    optional int64 parent_num_embedding_bytes_read = 73;
+
+    // Number of unquantized embeddings scored for the child query.
+    optional int32 child_num_unquantized_embeddings_scored = 74;
+
+    // Number of quantized embeddings scored for the child query.
+    optional int32 child_num_quantized_embeddings_scored = 75;
+
+    // Number of shards read from the embedding index for the child query.
+    optional int32 child_num_embedding_shards_read = 76;
+
+    // Number of raw embedding bytes read from the embedding index for the child query.
+    optional int64 child_num_embedding_bytes_read = 77;
 }
 
 /**
