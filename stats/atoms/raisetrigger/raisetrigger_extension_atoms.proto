@@ -24,7 +24,7 @@ message RaiseTriggerAudioDetected {
   optional int32 second_stage_vad_version = 4;
   optional int32 second_stage_vad_canceled_count = 5;
   optional int32 second_stage_vad_failed_count = 6;
-  optional int32 second_stage_vad_threshold = 7;
+  optional float second_stage_vad_threshold = 7;
   optional int32 second_stage_vad_trigger_elapsed_duration_ms = 8[(unit) = UNIT_MILLISECONDS];
   optional int32 second_stage_vad_canceled_elapsed_duration_ms = 9[(unit) = UNIT_MILLISECONDS];
   optional float second_stage_vad_max_volume = 10;
