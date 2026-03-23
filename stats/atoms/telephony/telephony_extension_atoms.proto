@@ -50,6 +50,8 @@ extend Atom {
     [(module_name) = "telephony"];
   optional MessagingReadRestrictionReported messaging_read_restriction_reported
        = 1348 [(module_name) = "telephony"];
+  optional StoredMessageSendRequested stored_message_send_requested = 1350
+    [(module_name) = "telephony"];
   // 10208 is reserved due to removing the old atom.
 }
 
@@ -369,4 +371,21 @@ message MessagingReadRestrictionReported {
     // The number of events that were reported in the last 24 hours for the
     // combination of caller_uid, message_type, and event_type.
     optional int32 count = 5;
+}
+
+/**
+ *
+ * Logged from
+ * base/telephony/java/android/telephony/SmsManager.java
+ * When one of sendStoredTextMessage or sendStoredMultipartTextMessage is called.
+ *
+ * Estimated Logging Rate:
+ * Peak: 1 time per SMS message.
+ */
+message StoredMessageSendRequested {
+    // The UID of the caller
+    optional int32 calling_uid = 1 [(is_uid) = true];
+
+    // The type of the message being sent (SMS or SMS_MULTIPART)
+    optional android.telephony.OriginalMessageType message_type = 2;
 }
