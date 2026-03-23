@@ -242,4 +242,7 @@ message DnsHttpsEndpointEventReported {
     // Microseconds from the first received answer to user callback
     optional int32 first_record_until_callback_micros = 11 [(unit) = UNIT_MICROSECONDS];
     optional int32 uid = 12 [(is_uid) = true];
+    // Bitmask of HttpsEndpointResponseFlag to indicate special non-fatal response conditions.
+    // i.e. if the server response has errors that still allows for a successful user callback.
+    optional int32 response_flags = 13 [default = 0];
 }
