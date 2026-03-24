@@ -236,3 +236,17 @@ enum EmergencyNumberSource {
   // Emergency number source is the redirection number provided by carrier
   EMERGENCY_NUMBER_SOURCE_CARRIER_REDIRECTION = 2;
 }
+
+enum SatelliteMessageTrigger {
+  // Trigger is unknown
+  SATELLITE_MESSAGE_TRIGGER_UNKNOWN = 0;
+  // User explicitly opened the messaging application to send satellite messages
+  SATELLITE_MESSAGE_TRIGGER_DIRECT_MESSAGES_UI = 1;
+  // User attempted non-emergency call and opted to use satellite messaging
+  SATELLITE_MESSAGE_TRIGGER_NON_EMERGENCY_DIALER_DIALOG = 2;
+  // User attempted emergency call and transistioned to satellite messaging by
+  // clicking user satellite messaging button in Dialer.
+  SATELLITE_MESSAGE_TRIGGER_EMERGENCY_DIALER_BUTTON = 3;
+  // User accessed satellite messaging by using satellite system notification
+  SATELLITE_MESSAGE_TRIGGER_SYSTEM_NOTIFICATION = 4;
+}

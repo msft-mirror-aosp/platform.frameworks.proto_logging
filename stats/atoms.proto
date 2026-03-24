@@ -104,6 +104,7 @@ import "frameworks/proto_logging/stats/enums/stats/wm/enums.proto";
 import "frameworks/proto_logging/stats/enums/system/security/keystore2/enums.proto";
 import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
+import "frameworks/proto_logging/stats/enums/telephony/satellite/enums.proto";
 import "frameworks/proto_logging/stats/enums/transparency/enums.proto";
 import "frameworks/proto_logging/stats/enums/uwb/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
@@ -17814,6 +17815,9 @@ message OutgoingSms {
 
     // PLMN
     optional string plmn = 26;
+
+    // Trigger for the satellite message.
+    optional android.telephony.SatelliteMessageTrigger satellite_message_trigger = 27;
 }
 
 /**
