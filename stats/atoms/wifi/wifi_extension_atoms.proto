@@ -534,6 +534,12 @@ message WifiSettingInfo {
         MOBILITY_STATE_AVAILABLE = 12;
         // Whether the wificond migration enabled overlay is set
         WIFICOND_MIGRATION_ENABLED = 13;
+        // Whether the 802.11az supported overlay is set
+        WIFI_80211AZ_SUPPORTED = 14;
+        // Whether USD publisher is supported
+        WIFI_USD_PUBLISHER_SUPPORTED = 15;
+        // Whether USD subscriber is supported
+        WIFI_USD_SUBSCRIBER_SUPPORTED = 16;
     }
 
     // Name of the Wifi setting
