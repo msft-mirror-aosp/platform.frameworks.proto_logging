@@ -19957,6 +19957,9 @@ message Keystore2KeyOperationWithGeneralInfo {
     // Number of occurrences of a particular combination of all the other
     // fields in this proto message.
     optional int32 count = 5;
+
+    // Indicates whether the key used in the operation is attested.
+    optional bool is_attested = 6;
 }
 
 /**
