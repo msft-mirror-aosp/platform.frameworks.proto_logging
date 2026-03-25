@@ -1918,6 +1918,9 @@ message ZramWritebackEvent {
     FAILED_DEVICE_FULL = 11;
     FAILED_UNSUPPORTED = 12;
     FAILED_OTHER = 13;
+    PREFETCHED = 14;
+    SKIPPED_GPU_MEMORY_TOO_HIGH = 15;
+    SKIPPED_DMA_BUF_TOO_HIGH = 16;
   }
   optional EventType event_type = 1;
 
@@ -1936,6 +1939,10 @@ message ZramWritebackEvent {
   optional bool has_dma_buf = 7;
 
   optional bool has_gpu_memory = 8;
+
+  optional int64 dma_buf_size_kb = 9 [(unit) = UNIT_KILOBYTES];
+
+  optional int64 gpu_memory_size_kb = 10 [(unit) = UNIT_KILOBYTES];
 }
 
 /**
