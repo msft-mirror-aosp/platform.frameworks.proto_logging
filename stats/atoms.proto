@@ -2091,6 +2091,8 @@ message Atom {
     extensions 1348; // MessagingReadRestrictionReported messaging_read_restriction_reported
     extensions 1349; // LocationMlsViolationObserved location_mls_violation_observed
     extensions 1350; // StoredMessageSendRequested stored_message_send_requested
+    extensions 1351; // MessagingDbOperationStats messaging_db_operation_stats
+    extensions 1352; // MessagingDbLockContentionStats messaging_db_lock_contention_stats
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
