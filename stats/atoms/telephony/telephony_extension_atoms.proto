@@ -44,6 +44,10 @@ extend Atom {
   optional CarrierServiceConfigOverridesReported
       carrier_service_config_overrides_reported = 1270
       [(module_name) = "telephony"];
+    optional MessageUpgradeResolved message_upgrade_resolved = 1345
+    [(module_name) = "telephony"];
+    optional MessageUpgradeIntentCached message_upgrade_intent_cached = 1346
+    [(module_name) = "telephony"];
   // 10208 is reserved due to removing the old atom.
 }
 
@@ -255,4 +259,87 @@ message SmsOtpEvaluation {
     optional android.telephony.SmsOtpRedactionAlgorithm redaction_algorithm = 3;
     // The place where redaction took place
     optional android.telephony.SmsOtpRedactionLocation redaction_location = 4;
+}
+
+/**
+ *
+ * Logged from
+ * opt/telephony/src/java/com/android/internal/telephony/SMSDispatcher.java and
+ * services/Mms/src/com/android/mms/service/MmsService.java
+ * When SMS/MMS are evaluated to see if an upgrade should be performed and either succeeds,
+ * fails, or skips the operation.
+ *
+ * Estimated Logging Rate:
+ * Peak: 1 time per SMS/MMS message per device
+ */
+message MessageUpgradeResolved {
+
+    // The entity that initiated the upgrade request
+    optional android.telephony.SourceType source_type = 1;
+
+    // The type of the original message attempting the upgrade
+    optional android.telephony.OriginalMessageType original_message_type = 2;
+
+    enum Status {
+        STATUS_UNKNOWN = 0;
+        // Feature not available or supported for this request
+        STATUS_NOT_SUPPORTED = 1;
+        // Upgrade was successful, and the intent was sent
+        STATUS_SUCCEEDED = 2;
+        // Upgrade was attempted but failed for some reason
+        STATUS_FAILED = 3;
+    }
+    // The outcome of the upgrade attempt
+    optional Status status = 3;
+
+    // Latency from the start of the upgrade check to this resolution event, in milliseconds.
+    optional int32 upgrade_latency_ms = 4 [(unit) = UNIT_MILLISECONDS];
+
+    // UID of the app package that is currently set as the default SMS role holder.
+    optional int32 default_sms_app_uid = 5 [(is_uid) = true];
+}
+
+/**
+ *
+ * Logged from
+ * base/telephony/java/android/telephony/MessageUpgradeWorker.java
+ * When a PendingIntent for a message upgrade request is added to the local cache,
+ * and subsequently when it is removed (either because it was successfully dispatched or
+ * evicted due to the cache reaching its size limit.
+ *
+ * Estimated Logging Rate:
+ * Peak: 2 times per SMS/MMS message per device (once on addition, once on removal).
+ */
+message MessageUpgradeIntentCached {
+    // The entity that initiated the upgrade request
+    optional android.telephony.SourceType source_type = 1;
+    // The type of the original message to upgrade
+    optional android.telephony.OriginalMessageType upgrade_type = 2;
+
+    enum CacheEvent {
+        CACHE_EVENT_UNKNOWN = 0;
+        // Intent was added to the cache
+        CACHE_EVENT_ADDED = 1;
+        // Intent was removed because it was successfully dispatched
+        CACHE_EVENT_REMOVED_DISPATCHED = 2;
+        // Intent was removed because the upgrade request was rejected or failed
+        CACHE_EVENT_REMOVED_REJECTED = 3;
+        // Intent was removed because the cache reached its size limit
+        CACHE_EVENT_REMOVED_EVICTED = 4;
+    }
+    // The lifecycle event being reported
+    optional CacheEvent cache_event = 3;
+
+    enum IntentType {
+        UPGRADE_INTENT_UNKNOWN = 0;
+        UPGRADE_INTENT_SENT = 1;
+        UPGRADE_INTENT_DELIVERY = 2;
+    }
+
+    // The type of the intent being reported
+    optional IntentType intent_type = 4;
+
+    // Time this intent spent in the cache, in milliseconds.
+    // Only populated if cache_event is a REMOVED state (DISPATCHED or EVICTED).
+    optional int32 time_in_cache_ms = 5 [(unit) = UNIT_MILLISECONDS];
 }
