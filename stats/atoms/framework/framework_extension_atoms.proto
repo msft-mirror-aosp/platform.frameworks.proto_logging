@@ -2162,12 +2162,20 @@ message MemoryLimiterOverLimitEvent {
   enum Type {
     // A placeholder for unknown values.
     UNKNOWN = 0;
-    // The memory.high limit.
+    // The memory.high limit.  Deprecated.
     HIGH = 1;
+    // The memory.high limit, with a new name.
+    LIMIT_TYPE_HIGH = 2;
+    // The memory.swap.max limit.
+    LIMIT_TYPE_SWAP = 3;
+    // The anon+rss limit.
+    LIMIT_TYPE_ANON_SWAP = 4;
   }
   optional Type type = 2;
   // The memory limit as a percentage of available memory.
   optional int32 limit_percent = 3 [(unit) = UNIT_PERCENTAGE];
+  // The absolute limit, int bytes.
+  optional int64 limit_absolute = 4;
 }
 
 /**
