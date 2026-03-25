@@ -74,7 +74,6 @@ enum ContactsPickerSessionResult {
 }
 
 // Errors for the contact picker session.
-// TODO(b/441482576): add errors for more exception types when error handling is implemented.
 enum ContactsPickerErrorType {
   ERROR_UNSPECIFIED = 0;
   // The received intent action is not supported by the picker.
@@ -85,4 +84,12 @@ enum ContactsPickerErrorType {
   ERROR_UNSUPPORTED_SELECTION_LIMIT = 3;
   // The initial contacts loading was cancelled.
   ERROR_CANCELLATION_EXCEPTION_LOADING_INITIAL_CONTACTS = 4;
+  // The intent was missing the required data fields extra completely.
+  ERROR_MISSING_REQUESTED_MIME_TYPE = 5;
+  // A runtime exception occurred while querying the contacts repository for the initial list.
+  ERROR_LOADING_CONTACTS_FAILED = 6;
+  // The session completed, but resolving the selected IDs returned a null/empty Intent.
+  ERROR_CREATING_RESULT_INTENT_NULL = 7;
+  // A runtime exception occurred during the final database query or ContentProvider IPC call.
+  ERROR_CREATING_RESULT_EXCEPTION = 8;
 }
