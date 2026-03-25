@@ -251,19 +251,26 @@ enum HttpsEndpointResult {
 
 // Failure reason of an HTTPS endpoint query.
 enum HttpsEndpointFailureReason {
-  HTTPS_ENDPOINT_FAILURE_REASON_UNKNOWN = 0;
+  HTTPS_ENDPOINT_FAILURE_REASON_UNSPECIFIED = 0;
   HTTPS_ENDPOINT_FAILURE_REASON_PARSE_EXCEPTION = 1;
   HTTPS_ENDPOINT_FAILURE_REASON_UNKNOWN_HOST = 2;
   HTTPS_ENDPOINT_FAILURE_REASON_UNEXPECTED_ANSWER_TYPE = 3;
-  // If the target query count reached, even if not all address info was received.
-  HTTPS_ENDPOINT_FAILURE_REASON_NOT_ENOUGH_ADDRESS_INFO = 4;
   // User cancellation signal was triggered.
-  HTTPS_ENDPOINT_FAILURE_REASON_USER_CANCELLATION = 5;
+  HTTPS_ENDPOINT_FAILURE_REASON_USER_CANCELLATION = 4;
   // DnsResolver itself timed out with ETIMEDOUT.
-  HTTPS_ENDPOINT_FAILURE_REASON_HTTPS_RECORD_TIMEOUT = 6;
-  HTTPS_ENDPOINT_FAILURE_REASON_MISSING_MANDATORY_KEYS = 7;
+  HTTPS_ENDPOINT_FAILURE_REASON_RECORD_TIMEOUT = 5;
   // Multi-CDN case where HTTPS RR domains don't match A/AAAA domains.
-  HTTPS_ENDPOINT_FAILURE_REASON_MISMATCHED_DOMAIN = 8;
+  HTTPS_ENDPOINT_FAILURE_REASON_MISMATCHED_DOMAIN = 6;
   // onError() was called.
-  HTTPS_ENDPOINT_FAILURE_REASON_FATAL_ERROR = 9;
+  HTTPS_ENDPOINT_FAILURE_REASON_FATAL_ERROR = 7;
+}
+
+// Special non-fatal response conditions from an HTTPS endpoint query.
+// i.e. if the server response has errors that still allows for a successful user callback.
+enum HttpsEndpointResponseFlag {
+  HTTPS_ENDPOINT_RESPONSE_FLAG_UNSPECIFIED = 0;
+  // If the target query count reached, even if not all address info was received.
+  HTTPS_ENDPOINT_RESPONSE_FLAG_NOT_ENOUGH_ADDRESS_INFO = 1;        // 1 << 0
+  // If the HTTPS record was missing mandatory keys and was filtered out.
+  HTTPS_ENDPOINT_RESPONSE_FLAG_MISSING_MANDATORY_KEYS = 2;         // 1 << 1
 }

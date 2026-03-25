@@ -178,6 +178,8 @@ extend Atom {
       [(module_name) = "framework"];
   optional UsageEventReportedStats usage_event_reported_stats = 1313
       [(module_name) = "framework"];
+  optional AnrWarningApiReported anr_warning_api_reported = 1344
+      [(module_name) = "framework"];
 }
 
 /**
@@ -2149,4 +2151,47 @@ message MemoryLimiterOverLimitEvent {
   optional Type type = 2;
   // The memory limit as a percentage of available memory.
   optional int32 limit_percent = 3 [(unit) = UNIT_PERCENTAGE];
+}
+
+/**
+ * Logs when an app registers or unregisters for an ANR warning callback and when
+ * the System invokes the callback.
+ *
+ * Logged from:
+ * frameworks/base/services/core/java/com/android/server/am/AnrWarningController.java
+ *
+ * Estimated Logging rate:
+ * Register/Unregister: 2 events per app session X 15 unique app sessions X 10 app switching multiplier
+ * ~300 events per day but expect less in practice.
+ * Notify: 2 warnings per session X 15 app sessions ~30 events per day
+ *
+ * Total: ~330 events logged per day.
+ */
+
+message AnrWarningApiReported {
+  enum Action {
+      UNKNOWN = 0;
+      REGISTER = 1;
+      UNREGISTER = 2;
+      NOTIFY = 3;
+  }
+  optional Action action = 1;
+  optional int32 uid = 2 [(is_uid) = true];
+
+  // How many listeners this UID has registered
+  optional int32 callback_count = 3;
+  // For NOTIFY, how long did the binder call take
+  // Set to 0 for REGISTER/UNREGISTER
+  optional int32 latency_ms = 4[(unit) = UNIT_MILLISECONDS];
+
+  enum NotifyResult {
+    NOTIFY_UNKNOWN = 0;
+    NOTIFY_SUCCESS = 1;
+    NOTIFY_FAILURE = 2;
+  }
+  // Outcome of the notification attempt.
+  // For Register/Unregister defaults to UNKNOWN.
+  optional NotifyResult notify_result = 5;
+  // System generated anr id
+  optional int32 anr_id = 6;
 }
