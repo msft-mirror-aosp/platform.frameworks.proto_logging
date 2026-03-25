@@ -616,15 +616,15 @@ message PiaInstallStagesReported {
 
   // A unique identifier for a single package installation session.
   // This allows correlating multiple events related to the same installation attempt.
-  optional int64 session_id = 1;
+  optional int32 session_id = 1;
 
   // The total size of the APKs being installed, in bytes.
-  optional int64 apk_size_bytes = 2[(unit) = UNIT_BYTES];
+  optional int32 apk_size_bytes = 2[(unit) = UNIT_BYTES];
 
   // The current stage of the process.
-  optional InstallStage install_stage = 3;
+  repeated InstallStage install_stages = 3;
 
   // The time took for the current stage to be completed in milli second.
-  optional int32 current_install_stage_ms = 4[(unit) = UNIT_MILLISECONDS];
+  repeated int32 install_stages_latency_ms = 4[(unit) = UNIT_MILLISECONDS];
 }
 
