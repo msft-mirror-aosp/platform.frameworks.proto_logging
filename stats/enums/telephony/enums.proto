@@ -761,3 +761,37 @@ enum OriginalMessageType {
     ORIGINAL_MESSAGE_TYPE_SMS_MULTIPART = 2;
     ORIGINAL_MESSAGE_TYPE_MMS = 3;
 }
+
+/**
+ * The mode for of an app op given for the caller's uid.
+ */
+enum AppOpMode {
+    APP_OP_MODE_UNKNOWN = 0;
+    APP_OP_MODE_ALLOWED = 1;
+    APP_OP_MODE_IGNORED = 2;
+}
+
+/**
+ * Content provider that reported the event.
+ */
+enum ContentProvider {
+    CONTENT_PROVIDER_UNKNOWN = 0;
+    CONTENT_PROVIDER_SMS_PROVIDER = 1;
+    CONTENT_PROVIDER_MMS_PROVIDER = 2;
+}
+
+/**
+ * The event type for messaging read restriction.
+ */
+enum MessagingReadRestrictionEventType {
+    MESSAGING_READ_RESTRICTION_EVENT_TYPE_UNKNOWN = 0;
+    // Caller inserted a message with a restricted state.
+    RESTRICTED_MESSAGE_INSERTED = 1;
+    // Caller inserted a message with an un-restricted state.
+    UNRESTRICTED_MESSAGE_INSERTED = 2;
+    // Caller updated a message to an un-restricted state.
+    UPDATED_MESSAGE_TO_UNRESTRICTED = 3;
+    // Caller queried an uri that would access restricted messages, e.g.
+    // content://mms/inbox
+    QUERY_RESTRICTED_MESSAGES = 4;
+}

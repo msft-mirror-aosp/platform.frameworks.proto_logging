@@ -44,10 +44,12 @@ extend Atom {
   optional CarrierServiceConfigOverridesReported
       carrier_service_config_overrides_reported = 1270
       [(module_name) = "telephony"];
-    optional MessageUpgradeResolved message_upgrade_resolved = 1345
+  optional MessageUpgradeResolved message_upgrade_resolved = 1345
     [(module_name) = "telephony"];
-    optional MessageUpgradeIntentCached message_upgrade_intent_cached = 1346
+  optional MessageUpgradeIntentCached message_upgrade_intent_cached = 1346
     [(module_name) = "telephony"];
+  optional MessagingReadRestrictionReported messaging_read_restriction_reported
+       = 1348 [(module_name) = "telephony"];
   // 10208 is reserved due to removing the old atom.
 }
 
@@ -342,4 +344,29 @@ message MessageUpgradeIntentCached {
     // Time this intent spent in the cache, in milliseconds.
     // Only populated if cache_event is a REMOVED state (DISPATCHED or EVICTED).
     optional int32 time_in_cache_ms = 5 [(unit) = UNIT_MILLISECONDS];
+}
+
+/**
+ *
+ * Logged from
+ * packages/providers/TelephonyProvider/src/com/android/providers/telephony/SmsProvider.java
+ * packages/providers/TelephonyProvider/src/com/android/providers/telephony/MmsService.java
+ * The event count is aggregated for the combination of caller_uid, app_op_mode,
+ * message_type, and event_type over 24 hours.
+ *
+ * Estimated Logging Rate:
+ * Peak: 8 (2 message types * 4 event types) events per day per uid per device.
+ */
+message MessagingReadRestrictionReported {
+    // The UID of the app package that is querying the database.
+    optional int32 caller_uid = 1 [(is_uid) = true];
+    // The content provider that reported the event.
+    optional android.telephony.ContentProvider content_provider = 2;
+    // The AppOp mode of the caller for READ_RESTRICTED_MESSAGES.
+    optional android.telephony.AppOpMode read_restricted_messages_app_op_mode = 3;
+    // The event type of the message being inserted or updated.
+    optional android.telephony.MessagingReadRestrictionEventType event_type = 4;
+    // The number of events that were reported in the last 24 hours for the
+    // combination of caller_uid, message_type, and event_type.
+    optional int32 count = 5;
 }
