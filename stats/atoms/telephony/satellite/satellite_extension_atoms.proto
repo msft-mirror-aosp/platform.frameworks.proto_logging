@@ -423,7 +423,7 @@ message CarrierRoamingSatelliteSession {
   // if PROPERTY_SATELLITE_DATA_OPTIMIZED meta data is set in application
   // manifest file.
   // (Ref: frameworks/base/telephony/java/android/telephony/satellite/SatelliteManager.java)
-  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
+  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session
   // to be captured
   repeated string satellite_supported_apps = 32;
   // Active Satellite constrained network Applications uid at Satellite session.
@@ -431,12 +431,12 @@ message CarrierRoamingSatelliteSession {
   // if PROPERTY_SATELLITE_DATA_OPTIMIZED meta data is set in application
   // manifest file.
   // (Ref: frameworks/base/telephony/java/android/telephony/satellite/SatelliteManager.java)
-  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
+  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session
   // to be captured
   repeated int32 satellite_supported_uids = 33 [(is_uid) = true];
   // Satellite Data Consumed in Bytes by satellite network Applications
   // (Ex: Pixel Weather, Accuweather etc) for the satellite session
-  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session 
+  // Note: Maximum of Top 5 satellite apps with most data consumed at satellite session
   // to be captured
   repeated int64 per_app_satellite_data_consumed_bytes = 34;
   // Global connect type of the subscription
@@ -475,6 +475,12 @@ message CarrierRoamingSatelliteSession {
   optional android.telephony.SatelliteEligibilitySource eligibility_source = 46;
   // Whether wifi was connected during the session
   optional bool is_wifi_connected = 47;
+  // Number of times the non-emergency dialer dialog was displayed.
+  optional int32 count_of_non_emergency_dialer_dialog_displayed = 48;
+  // Number of times the emergency dialer button was displayed.
+  optional int32 count_of_emergency_dialer_button_displayed = 49;
+  // Number of times the satellite notification was displayed.
+  optional int32 count_of_satellite_notification_displayed = 50;
 }
 
 /**
