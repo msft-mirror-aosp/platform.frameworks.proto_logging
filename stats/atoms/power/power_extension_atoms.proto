@@ -35,6 +35,8 @@ extend Atom {
       [(module_name) = "framework"];
   optional AdaptiveSuspendStats adaptive_suspend_stats = 10259
       [(module_name) = "framework"];
+  optional PowerStatsEnergyConsumedReported power_stats_energy_consumed_reported = 1355
+      [(module_name) = "framework"];
 }
 
 /**
@@ -274,4 +276,29 @@ message AdaptiveSuspendStats {
     * a good suspend before the backoff threshold was reached.
     */
    optional int32 early_recovery_bad_suspends = 16;
+}
+
+/**
+ * Logs whether the EnergyConsumed ODPM API returned expectedly or anomalously.
+ * Contains details of anomalies.
+ *
+ * Logged from:
+ *   frameworks/base/services/core/java/com/android/server/power/stats/PowerStatsCollector.java
+ */
+message PowerStatsEnergyConsumedReported {
+  enum ResultsType {
+    UNKNOWN = 0;
+    // Results returned were null, possibly due to an exception.
+    NULL = 1;
+    // Results returned were as expected in terms of size and order.
+    SUCCESS = 2;
+    // Results returned were missing entries as compared to the input.
+    MISSING = 3;
+    // Results returned were out of order as compared to the input.
+    OUT_OF_ORDER = 4;
+  }
+  optional ResultsType resultsType = 1;
+  optional int32 energy_consumer_type = 2;
+  repeated int64 energy_consumer_ids = 3;
+  repeated int64 energy_consumer_result_ids = 4;
 }
