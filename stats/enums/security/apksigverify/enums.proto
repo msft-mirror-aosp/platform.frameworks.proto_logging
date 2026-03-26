@@ -128,4 +128,13 @@ enum VerificationResult {
     // An update was attempted with a V3.2 hybrid signed APK, but the current signer of the version
     // on the device was not found in the signing lineage of the update package.
     VERIFICATION_V32_UPDATE_SIGNATURE_MISMATCH = 45;
+    // When checking if the SigningDetails are an exact match, only one of the instances was a
+    // hybrid signature.
+    VERIFICATION_V32_SIGNATURE_SCHEME_MISMATCH = 46;
+    // The PQC signatures did not match when checking if the two hybrid SigningDetails were an exact
+    // match.
+    VERIFICATION_V32_PQC_KEY_MISMATCH = 47;
+    // The classical signatures did not match when checking if the two hybrid SigningDetails were an
+    // exact match.
+    VERIFICATION_V32_CLASSICAL_KEY_MISMATCH = 48;
 }
