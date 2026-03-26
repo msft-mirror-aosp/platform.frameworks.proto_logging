@@ -36,7 +36,10 @@ extend Atom {
       [(module_name) = "vcn"];
   optional VcnNetworkValidationStatusReported
       vcn_network_validation_status_reported = 1234 [(module_name) = "vcn"];
-  optional IpSecPacketLossDetectorReported ip_sec_packet_loss_detector_reported = 1310 [(module_name) = "vcn"];
+  optional IpSecPacketLossDetectorReported ip_sec_packet_loss_detector_reported =
+      1310 [(module_name) = "vcn"];
+  optional VcnDataStallIkeUpdated
+      vcn_data_stall_ike_updated = 1347 [(module_name) = "vcn"];
 }
 
 /**
@@ -108,7 +111,7 @@ message VcnUnderlyingNetworksStateChanged {
 }
 
 /**
- * Log for state changes of underlying networks tracked by a particular VcnGatewayConnection.
+ * Log for selected underlying network changed on a particular VcnGatewayConnection.
  *
  * Logged from:
  *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/VcnGatewayConnection.java
@@ -122,6 +125,24 @@ message VcnUnderlyingNetworkSwitched {
   optional android.stats.vcn.TransportMask old_network = 2;
   // Transports of the network we switched to.
   optional android.stats.vcn.TransportMask new_network = 3;
+  // Handoff latency in milliseconds.
+  optional int32 handoff_latency_ms = 4 [(unit) = UNIT_MILLISECONDS];
+}
+
+/**
+ * Log for Ike mobility updates triggered by data stall recovery on a particular VcnGatewayConnection.
+ *
+ * Logged from:
+ *   packages/modules/Connectivity/Vcn/service-b/src/com/android/server/vcn/VcnGatewayConnection.java
+ * Estimated Logging Rate: <10 per device per day
+ */
+message VcnDataStallIkeUpdated {
+  // gw_id associated with the relevant VcnGatewayConnection.
+  optional int32 gw_id = 1;
+  // Transports of the underlying network reported for data stall.
+  optional android.stats.vcn.TransportMask underlying_network = 2;
+  // Handoff latency in milliseconds.
+  optional int32 handoff_latency_ms = 3 [(unit) = UNIT_MILLISECONDS];
 }
 
 /**

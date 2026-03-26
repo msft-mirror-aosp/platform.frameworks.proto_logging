@@ -104,6 +104,7 @@ import "frameworks/proto_logging/stats/enums/stats/wm/enums.proto";
 import "frameworks/proto_logging/stats/enums/system/security/keystore2/enums.proto";
 import "frameworks/proto_logging/stats/enums/telecomm/enums.proto";
 import "frameworks/proto_logging/stats/enums/telephony/enums.proto";
+import "frameworks/proto_logging/stats/enums/telephony/satellite/enums.proto";
 import "frameworks/proto_logging/stats/enums/transparency/enums.proto";
 import "frameworks/proto_logging/stats/enums/uwb/enums.proto";
 import "frameworks/proto_logging/stats/enums/view/enums.proto";
@@ -2086,6 +2087,12 @@ message Atom {
     extensions 1344; // AnrWarningApiReported anr_warning_api_reported
     extensions 1345; // MessageUpgradeResolved message_upgrade_resolved
     extensions 1346; // MessageUpgradeIntentCached message_upgrade_intent_cached
+    extensions 1347; // VcnDataStallIkeUpdated vcn_data_stall_ike_updated
+    extensions 1348; // MessagingReadRestrictionReported messaging_read_restriction_reported
+    extensions 1349; // LocationMlsViolationObserved location_mls_violation_observed
+    extensions 1350; // StoredMessageSendRequested stored_message_send_requested
+    extensions 1351; // MessagingDbOperationStats messaging_db_operation_stats
+    extensions 1352; // MessagingDbLockContentionStats messaging_db_lock_contention_stats
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
@@ -2109,7 +2116,7 @@ message Atom {
     // ID Range: 300,000 - 349,999
 
     // Pulled events will start at field 10000.
-    // Next: 10271
+    // Next: 10272
     oneof pulled {
       WifiBytesTransfer wifi_bytes_transfer = 10000
           [(module_name) = "framework"];
@@ -2511,6 +2518,7 @@ message Atom {
     extensions 10268; // Keystore2KeyOperationPerUid keystore2_key_operation_per_uid
     extensions 10269; // WebViewPinQuota webview_pin_quota
     extensions 10270; // Keystore2OperationLatency keystore2_operation_latency
+    extensions 10271; // Keystore2KeyOperationStreamingStats keystore2_key_operation_streaming_stats
     extensions 99999; // Atom99999 atom_99999
 
     // }}} End pulled Android platform extension atoms.
@@ -17816,6 +17824,9 @@ message OutgoingSms {
 
     // PLMN
     optional string plmn = 26;
+
+    // Trigger for the satellite message.
+    optional android.telephony.SatelliteMessageTrigger satellite_message_trigger = 27;
 }
 
 /**
@@ -24182,8 +24193,8 @@ message AppBackgroundRestrictionsInfo {
         REASON_ACTIVITY_STARTER = 52;
         REASON_START_ACTIVITY_FLAG = 53;
         REASON_FGS_BINDING = 54;
-        REASON_DEVICE_OWNER = 55;
-        REASON_PROFILE_OWNER = 56;
+        REASON_DEVICE_DPC = 55;
+        REASON_USER_DPC = 56;
         REASON_COMPANION_DEVICE_MANAGER = 57;
         REASON_BACKGROUND_ACTIVITY_PERMISSION = 58;
         REASON_BACKGROUND_FGS_PERMISSION = 59;

@@ -43,6 +43,9 @@ extend Atom {
   optional DensityBasedCoarseLocationsProviderQueryReported
       density_based_coarse_locations_provider_query_reported = 1004
       [(module_name) = "framework"];
+
+  optional LocationMlsViolationObserved location_mls_violation_observed = 1349
+      [(module_name) = "framework"];
 }
 
 /**
@@ -124,4 +127,60 @@ message DensityBasedCoarseLocationsUsageReported {
 
   // Is true if querying the provider returned any error.
   optional bool is_error = 2;
+}
+
+/**
+ * Logs when a location is delivered with MLS disabled.
+ * Logged from:
+ *    frameworks/base/services/core/java/com/android/server/location/injector/
+ *    LocationUsageLogger.java
+ * Estimated Logging Rate:
+ *    Peak: 1 time in 100000 min (not rate-limited, but should be very rare)
+ *    Avg: ~0.01 per device per day
+ */
+message LocationMlsViolationObserved {
+  // The specific app operation code that was noted (e.g.,
+  // AppOpsManager.OP_FINE_LOCATION).
+  optional string op_code = 1;
+  // The package name of the app that received the location.
+  optional string package_name = 2;
+  // An optional string provided by the application to further specify the
+  // source of the operation within its package.
+  optional string attribution_tag = 3;
+  // Flags from AppOpsManager.OnNotedCallback. This is a bitmask of OP_FLAG_*
+  // constants defined in AppOpsManager.OpFlags, indicating whether the
+  // operation is on behalf of the app itself (OP_FLAG_SELF), or proxied by a
+  // trusted (OP_FLAG_TRUSTED_PROXY) or untrusted (OP_FLAG_UNTRUSTED_PROXY) app,
+  // or blamed on the app by a trusted (OP_FLAG_TRUSTED_PROXIED) or untrusted
+  // (OP_FLAG_UNTRUSTED_PROXIED) app. See {@link
+  // android.app.AppOpsManager.OpFlags} for more details.
+  optional int32 app_ops_flags = 4;
+  // Result from AppOpsManager.OnNotedCallback. This is one of the MODE_*
+  // constants defined in AppOpsManager.Mode, indicating the result of the
+  // operation. Possible values include MODE_ALLOWED, MODE_IGNORED (silently
+  // fail), MODE_ERRORED (fatal error), MODE_DEFAULT (use default security
+  // check), and MODE_FOREGROUND (allow only when app is in foreground). See
+  // {@link android.app.AppOpsManager.Mode} for more details.
+  optional int32 app_ops_result = 5;
+  // Whether the app was in the foreground when the location was delivered.
+  optional bool is_foreground = 6;
+  // The process state of the app that received the location.
+  optional int32 app_process_state = 7;
+  // The location permission level of the app that received the location.
+  optional int32 location_permission_level = 8;
+  // Whether the app has the ACCESS_FINE_LOCATION permission.
+  optional bool has_fine_permission = 9;
+  // Whether the app has the ACCESS_COARSE_LOCATION permission.
+  optional bool has_coarse_permission = 10;
+  // Whether the app has the ACCESS_BACKGROUND_LOCATION permission.
+  optional bool has_background_permission = 11;
+  // Whether the app has the LOCATION_BYPASS permission.
+  optional bool has_location_bypass_permission = 12;
+  // The grace period in milliseconds that extends before and after a location
+  // app op is delivered. A violation is only logged if MLS remains disabled
+  // during this entire window, which accounts for race conditions where the
+  // MLS or Emergency state is toggled just before or after the delivery.
+  optional int32 grace_period_millis = 13[(unit) = UNIT_MILLISECONDS];
+  // Whether the location app op was noted during a grace window
+  optional bool in_grace_period = 14;
 }
