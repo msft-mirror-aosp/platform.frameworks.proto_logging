@@ -6326,6 +6326,9 @@ message ANROccurred {
 
     // Total duration of delayed reads in milliseconds
     optional int64 total_delayed_reads_duration_millis = 22;
+
+    // The id for the ANR event.
+    optional int32 anr_id = 23;
 }
 
 /**
