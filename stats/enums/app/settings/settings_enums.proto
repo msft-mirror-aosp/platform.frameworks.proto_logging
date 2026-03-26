@@ -6376,6 +6376,10 @@ enum PageId {
     // OPEN: Settings > Developer options > Bluetooth
     // CATEGORY: SETTINGS
     DEVELOPMENT_BLUETOOTH = 2206;
+
+    // OPEN: Settings > Notifications > Notification intelligence
+    // CATEGORY: SETTINGS
+    NOTIFICATION_INTELLIGENCE = 2207;
 }
 
 // Battery Saver schedule types.
