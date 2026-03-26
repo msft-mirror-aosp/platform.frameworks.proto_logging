@@ -2087,6 +2087,7 @@ message Atom {
     extensions 1345; // MessageUpgradeResolved message_upgrade_resolved
     extensions 1346; // MessageUpgradeIntentCached message_upgrade_intent_cached
     extensions 1347; // VcnDataStallIkeUpdated vcn_data_stall_ike_updated
+    extensions 1348; // MessagingReadRestrictionReported messaging_read_restriction_reported
     extensions 9999; // Atom9999 atom_9999
     // StatsdStats tracks platform atoms with ids up to 1500.
     // Update StatsdStats::kMaxPushedAtomId when atom ids here approach that value.
