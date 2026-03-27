@@ -295,6 +295,36 @@ message AccessibilityRuntimePermissionGrantReported {
     repeated int64 preceding_accessibility_service_connection_timestamps_millis = 5;
 }
 
+enum UprobeStatsBpfProgram {
+    UPROBE_STATS_BPF_PROGRAM_UNSPECIFIED = 0;
+    PROG_ACCESSIBILITY_UPROBE_ACCESSIBILITY_SERVICE_CONNECTION = 1;
+    PROG_ACCESSIBILITY_UPROBE_GRANT_RUNTIME_PERMISSION = 2;
+    PROG_BINDER_UPROBE_EXEC_TRANSACT_INTERNAL = 3;
+    PROG_BITMAP_ALLOCATION_OUTPUT = 4;
+    PROG_BITMAP_ALLOCATION_UPROBE_ACTIVITY_PERFORM_START = 5;
+    PROG_BITMAP_ALLOCATION_UPROBE_APPLY_FREE_FUNCTION = 6;
+    PROG_BITMAP_ALLOCATION_UPROBE_BITMAP_CREATION_FOR_SNAPSHOT = 7;
+    PROG_BITMAP_ALLOCATION_UPROBE_CREATE_SCALED_BITMAP = 8;
+    PROG_DISRUPTIVE_APP_UPROBE_BIND_SERVICE_LOCKED = 9;
+    PROG_DISRUPTIVE_APP_UPROBE_SET_COMPONENT_ENABLED_SETTING = 10;
+    PROG_GENERIC_INSTRUMENTATION_UPROBE_CALL_DETAIL = 11;
+    PROG_GENERIC_INSTRUMENTATION_UPROBE_CALL_TIMESTAMP = 12;
+    PROG_KEEPALIVE_UPROBE_ACQUIRE_WAKE_LOCK_INTERNAL = 13;
+    PROG_KEEPALIVE_UPROBE_RELEASE_WAKE_LOCK_INTERNAL = 14;
+}
+
+enum UprobeStatsBpfMapPath {
+    UPROBE_STATS_BPF_MAP_PATH_UNSPECIFIED = 0;
+    BPF_MAP_PATH_ACCESSIBILITY_OUTPUT_BUF = 1;
+    BPF_MAP_PATH_BINDER_OUTPUT_BUF = 2;
+    BPF_MAP_PATH_BITMAP_ALLOCATION_OUTPUT = 3;
+    BPF_MAP_PATH_DISRUPTIVE_APP_BIND_SERVICE_LOCKED_OUTPUT_BUF = 4;
+    BPF_MAP_PATH_DISRUPTIVE_APP_COMPONENT_ENABLED_SETTING_OUTPUT_BUF = 5;
+    BPF_MAP_PATH_GENERIC_INSTRUMENTATION_CALL_DETAIL_BUF = 6;
+    BPF_MAP_PATH_GENERIC_INSTRUMENTATION_CALL_TIMESTAMP_BUF = 7;
+    BPF_MAP_PATH_KEEPALIVE_OUTPUT_BUF = 8;
+}
+
 /**
  * Logged by UprobeStats to report various internal errors.
  *
@@ -313,9 +343,25 @@ message UprobeStatsInternalError {
     ERROR_TYPE_TASK_EXECUTION_FAILED = 4;
     ERROR_TYPE_BINDER_FILTER_SETUP_FAILED = 5;
     ERROR_TYPE_BINDER_FILTER_CLEANUP_FAILED = 6;
+    // Failed to attach a BPF probe to a target process.
+    ERROR_TYPE_BPF_PROGRAM_ATTACH_FAILED = 7;
+    // Failed to create a BPF ring buffer for polling.
+    ERROR_TYPE_BPF_RING_BUFFER_CREATE_FAILED = 8;
+    // An error occurred during the polling of a BPF ring buffer.
+    ERROR_TYPE_BPF_RING_BUFFER_POLL_FAILED = 9;
+    // The BPF program itself reported an error state via its output data.
+    ERROR_TYPE_BPF_PROGRAM_ERROR = 10;
+    // The userspace daemon received data from the BPF program, but it was malformed
+    // or logically invalid (e.g. an unexpected empty string).
+    ERROR_TYPE_BPF_RING_BUFFER_DATA_INVALID = 11;
   }
   optional ErrorType error_type = 1;
   optional int64 task_id = 2;
+  optional UprobeStatsBpfProgram bpf_program = 3;
+  optional UprobeStatsBpfMapPath map_path = 4;
+  // An int discriminating where in a program/buffer the failure occurred,
+  // if detectible.
+  optional int64 failure_point = 5;
 }
 
 /**
@@ -346,25 +392,8 @@ message UprobeStatsInvocation {
  * Peak: 10 times in 1 min | Avg: O(tens) per device per day
  */
 message UprobeStatsBpfAttached {
-  enum BpfProgram {
-    BPF_PROGRAM_UNSPECIFIED = 0;
-    PROG_ACCESSIBILITY_UPROBE_ACCESSIBILITY_SERVICE_CONNECTION = 1;
-    PROG_ACCESSIBILITY_UPROBE_GRANT_RUNTIME_PERMISSION = 2;
-    PROG_BINDER_UPROBE_EXEC_TRANSACT_INTERNAL = 3;
-    PROG_BITMAP_ALLOCATION_OUTPUT = 4;
-    PROG_BITMAP_ALLOCATION_UPROBE_ACTIVITY_PERFORM_START = 5;
-    PROG_BITMAP_ALLOCATION_UPROBE_APPLY_FREE_FUNCTION = 6;
-    PROG_BITMAP_ALLOCATION_UPROBE_BITMAP_CREATION_FOR_SNAPSHOT = 7;
-    PROG_BITMAP_ALLOCATION_UPROBE_CREATE_SCALED_BITMAP = 8;
-    PROG_DISRUPTIVE_APP_UPROBE_BIND_SERVICE_LOCKED = 9;
-    PROG_DISRUPTIVE_APP_UPROBE_SET_COMPONENT_ENABLED_SETTING = 10;
-    PROG_GENERIC_INSTRUMENTATION_UPROBE_CALL_DETAIL = 11;
-    PROG_GENERIC_INSTRUMENTATION_UPROBE_CALL_TIMESTAMP = 12;
-    PROG_KEEPALIVE_UPROBE_ACQUIRE_WAKE_LOCK_INTERNAL = 13;
-    PROG_KEEPALIVE_UPROBE_RELEASE_WAKE_LOCK_INTERNAL = 14;
-  }
   // Name of the BPF program that was attached.
-  optional BpfProgram bpf_program = 1;
+  optional UprobeStatsBpfProgram bpf_program = 1;
   // Fully qualified class name of the method being targeted.
   // This is hard coded in the config pushed from Google.
   // Example: "android.graphics.Bitmap"
@@ -394,18 +423,7 @@ message UprobeStatsBpfMapPolled {
   // The path is determined by the BPF map definition and does not contain
   // unique identifiers (like a hash) per session.
   // Example: "/sys/fs/bpf/uprobestats/map_BitmapAllocation_active_bitmaps"
-  enum BpfMapPath {
-    BPF_MAP_PATH_UNSPECIFIED = 0;
-    BPF_MAP_PATH_ACCESSIBILITY_OUTPUT_BUF = 1;
-    BPF_MAP_PATH_BINDER_OUTPUT_BUF = 2;
-    BPF_MAP_PATH_BITMAP_ALLOCATION_OUTPUT = 3;
-    BPF_MAP_PATH_DISRUPTIVE_APP_BIND_SERVICE_LOCKED_OUTPUT_BUF = 4;
-    BPF_MAP_PATH_DISRUPTIVE_APP_COMPONENT_ENABLED_SETTING_OUTPUT_BUF = 5;
-    BPF_MAP_PATH_GENERIC_INSTRUMENTATION_CALL_DETAIL_BUF = 6;
-    BPF_MAP_PATH_GENERIC_INSTRUMENTATION_CALL_TIMESTAMP_BUF = 7;
-    BPF_MAP_PATH_KEEPALIVE_OUTPUT_BUF = 8;
-  }
-  optional BpfMapPath map_path = 1;
+  optional UprobeStatsBpfMapPath map_path = 1;
   // Duration that we polled that map path in milliseconds.
   optional int64 poll_duration_millis = 2;
   // Total # of events that were emitted over that duration.
