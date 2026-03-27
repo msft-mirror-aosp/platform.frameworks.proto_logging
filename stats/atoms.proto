@@ -2111,6 +2111,7 @@ message Atom {
     extensions 300005; // MicroXrMcuMemorySnapshotReported micro_xr_mcu_memory_snapshot_reported
     extensions 300006; // MicroXrApWakeupReported micro_xr_ap_wakeup_reported
     extensions 300007; // RaiseTriggerAudioDetected raise_trigger_audio_detected
+    extensions 300008; // MicroXrMcuPowerRequestedSleepInfoReported micro_xr_mcu_power_requested_sleep_info_reported
 
     extensions 349999; // TestGenericVendorAtomReported test_generic_vendor_atom_reported
 
