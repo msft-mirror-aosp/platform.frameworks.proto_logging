@@ -481,6 +481,16 @@ message CarrierRoamingSatelliteSession {
   optional int32 count_of_emergency_dialer_button_displayed = 49;
   // Number of times the satellite notification was displayed.
   optional int32 count_of_satellite_notification_displayed = 50;
+  // Total RX data consumed per satellite session
+  optional int64 total_rx_data_bytes = 51 [(unit) = UNIT_BYTES];
+  // Total TX data consumed per satellite session
+  optional int64 total_tx_data_bytes = 52 [(unit) = UNIT_BYTES];
+  // RX data consumed by top 5 satellite network applications.
+  // Note: Mapping to the top 5 satellite apps with most data consumed (fields 32-34)
+  repeated int64 per_app_rx_data_bytes = 53 [(unit) = UNIT_BYTES];
+  // TX data consumed by top 5 satellite network applications.
+  // Note: Mapping to the top 5 satellite apps with most data consumed (fields 32-34)
+  repeated int64 per_app_tx_data_bytes = 54 [(unit) = UNIT_BYTES];
 }
 
 /**
