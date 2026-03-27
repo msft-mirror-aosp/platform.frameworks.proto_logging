@@ -59,3 +59,9 @@ enum IpSecPacketLossResultType {
     IPSEC_PACKET_LOSS_RESULT_TYPE_UNEXPECTED_ERROR = 4;
     IPSEC_PACKET_LOSS_RESULT_TYPE_PACKETS_TOO_OLD = 5;
 }
+
+// Represents the reason VCN recovery is triggered.
+enum VcnRecoveryReason {
+    VCN_RECOVERY_REASON_UNSPECIFIED = 0;
+    VCN_RECOVERY_REASON_DATA_STALL = 1;
+}

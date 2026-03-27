@@ -2087,7 +2087,7 @@ message Atom {
     extensions 1344; // AnrWarningApiReported anr_warning_api_reported
     extensions 1345; // MessageUpgradeResolved message_upgrade_resolved
     extensions 1346; // MessageUpgradeIntentCached message_upgrade_intent_cached
-    extensions 1347; // VcnDataStallIkeUpdated vcn_data_stall_ike_updated
+    extensions 1347; // VcnRecoveryIkeMobilityUpdated vcn_recovery_ike_mobility_updated
     extensions 1348; // MessagingReadRestrictionReported messaging_read_restriction_reported
     extensions 1349; // LocationMlsViolationObserved location_mls_violation_observed
     extensions 1350; // StoredMessageSendRequested stored_message_send_requested
