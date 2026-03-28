@@ -36,6 +36,8 @@ extend Atom {
       1184 [(module_name) = "settings"];
   optional SettingsAppFunctionEvent settings_app_function_event = 1214
       [(module_name) = "settings"];
+  optional SettingsLskfOnboarding settings_lskf_onboarding = 1354
+      [(module_name) = "settings"];
 }
 
 /**
@@ -199,4 +201,45 @@ message ExternalDisplaySettingsChanged {
     optional int32 display_rotation = 4;
     // The size of the display in percentage.
     optional float display_size = 5;
+}
+
+/**
+ * Logs when a lskf onboarding flow happens.
+ *
+ * Logged from:
+ *   packages/apps/Settings/
+ *
+ */
+message SettingsLskfOnboarding {
+  // The type of lock screen knowledge factor that the user has
+  enum CredentialType {
+    UNKNOWN_TYPE = 0;
+    PATTERN = 1;
+    PASSWORD = 2;
+    PIN = 3;
+    NONE = 4;
+    SWIPE = 5;
+    MANAGED = 6;
+  }
+
+  // The initial credential type before the onboarding process.
+  optional CredentialType init_credential_type = 1;
+
+  // The new credential type after the onboarding process.
+  optional CredentialType new_credential_type = 2;
+
+  // From SUW/Settings/SafetyCenter...
+  optional android.app.settings.FromSource from_source = 3;
+
+  // The associated user. Eg: 0 for owners, 10+ for others.
+  optional int32 user = 4;
+
+  // Duration of the onboarding flow in millis.
+  optional int64 duration_millis = 5 [(unit) = UNIT_MILLISECONDS];
+
+  // The result code of the onboarding flow
+  optional android.app.settings.OnboardingResult result_code = 6;
+
+  // All screen infos that a user navigates through the onboarding flow.
+  optional RepeatedOnboardingScreenInfo onboarding_screen_info_list = 7 [(log_mode) = MODE_BYTES];
 }

@@ -53,6 +53,8 @@ extend Atom {
       [(module_name) = "microxr-vendor"];
   optional MicroXrApWakeupReported micro_xr_ap_wakeup_reported = 300006
       [(module_name) = "microxr-vendor"];
+  optional MicroXrMcuPowerRequestedSleepInfoReported micro_xr_mcu_power_requested_sleep_info_reported =
+      300008 [(module_name) = "microxr-vendor"];
 }
 
 /**
@@ -514,4 +516,45 @@ message MicroXrOtaReported {
 
   // The update reason of current OTA event.
   optional android.os.statsd.microxr.UpdateReason update_reason = 5;
+}
+
+/**
+ * Logged with certain frequency.
+ *
+ * Estimated Logging Rate:
+ *   Average on the order of tens or hundreds per day at most
+ * Refer to power/public/power/deep_sleep.h for more details.
+ */
+message MicroXrMcuPowerRequestedSleepInfoReported {
+  // Atoms logged from Vendor require a reverse domain name field.
+  // The expected value is "";
+  optional string reverse_domain_name = 1;
+
+  // The histogram for the expected sleep time requested by the IDLE task in OS ticks.
+  // Note: Explicit bins are used and shifted by +1 (e.g., 3, 5, 9 instead of 2, 4, 8)
+  // to perfectly align with the inclusive upper-bound (<= x) behavior of pw_metric
+  // on the device side. Using exponential_bins would cause an off-by-one mismatch
+  // where a boundary value (like 4) falls into different buckets in C++ vs StatsD.
+  repeated int32 ticks_histogram_counts = 2
+      [(histogram_bin_option).explicit_bins = {
+        bin: 2
+        bin: 3
+        bin: 5
+        bin: 9
+        bin: 17
+        bin: 33
+        bin: 65
+        bin: 129
+        bin: 257
+        bin: 513
+        bin: 1025
+        bin: 2049
+        bin: 4097
+        bin: 8193
+        bin: 16385
+        bin: 32769
+      }];
+
+  // The max requested sleep time by the IDLE task in OS ticks.
+  optional int64 max_requested_ticks = 3;
 }

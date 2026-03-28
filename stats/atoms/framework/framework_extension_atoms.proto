@@ -1556,6 +1556,11 @@ message ClipboardGetEventReported {
      * reading the clip.
     */
     optional bool is_user_initiated = 7;
+
+    /**
+     * Whether the access notification was shown for this reading of the clip.
+    */
+    optional bool was_access_notification_shown = 8;
 }
 
 /**
