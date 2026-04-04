@@ -18030,6 +18030,9 @@ message DataCallSession {
 
     // PLMN
     optional string plmn = 29;
+
+    // Determine the Connection Capability of data network
+    optional int32 connection_capability = 30;
 }
 
 /**
