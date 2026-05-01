@@ -205,6 +205,30 @@ enum CriticalCountsEventType {
   CRITICAL_COUNTS_EVENT_TYPE_LOCAL_NETWORK_ACCESS = 12;
   // Counts the number of times the notification for private DNS broken is shown.
   CRITICAL_COUNTS_EVENT_TYPE_PRIVATE_DNS_BROKEN_NOTIFICATION = 13;
+  // Persisted network stats history contains negative values.
+  CRITICAL_COUNTS_EVENT_TYPE_NETWORK_STATS_NEGATIVE_HISTORY_ERROR = 14;
+  // NetworkMonitor entered EvaluatingBandwidthState.
+  CRITICAL_COUNTS_EVENT_TYPE_NETWORK_MONITOR_ENTER_EVALUATING_BANDWIDTH = 15;
+  // DHCPv4 client quit early.
+  CRITICAL_COUNTS_EVENT_TYPE_DHCP_CLIENT_EARLY_QUIT = 16;
+  // DHCPv6 client quit early.
+  CRITICAL_COUNTS_EVENT_TYPE_DHCP6_CLIENT_EARLY_QUIT = 17;
+  // BPF map update failed with ENOMEM for LNP net trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_NET_ENOMEM = 18;
+  // BPF map update failed with ENOSPC for LNP net trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_NET_ENOSPC = 19;
+  // BPF map update failed with ENOSPC for LNP host trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_HOST_ENOSPC = 20;
+  // BPF map update failed with an error other than ENOMEM or ENOSPC for LNP net trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_NET_ERROR = 21;
+  // BPF map update failed with an error other than ENOMEM or ENOSPC for LNP host trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_HOST_ERROR = 22;
+  // BPF map update failed with ENOMEM for LNP host trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_HOST_ENOMEM = 23;
+  // BPF map update succeeded for LNP net trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_NET_OK = 24;
+  // BPF map update succeeded for LNP host trie map
+  CRITICAL_COUNTS_EVENT_TYPE_LNP_TRIE_HOST_OK = 25;
 }
 
 // Type of critical duration event.
